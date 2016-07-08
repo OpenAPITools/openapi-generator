@@ -57,7 +57,7 @@ sub new {
     },
 {{/allParams}}
     };
-    __PACKAGE__->method_documentation->{ {{operationId}} } = { 
+    __PACKAGE__->method_documentation->{ '{{operationId}}' } = { 
     	summary => '{{summary}}',
         params => $params,
         returns => {{#returnType}}'{{{returnType}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},

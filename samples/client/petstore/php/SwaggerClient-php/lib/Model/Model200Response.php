@@ -46,8 +46,9 @@ use \ArrayAccess;
 /**
  * Model200Response Class Doc Comment
  *
- * @category    Class
- * @description Model for testing model name starting with number
+ * @category    Class */
+ // @description Model for testing model name starting with number
+/** 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -66,7 +67,8 @@ class Model200Response implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        'name' => 'int'
+        'name' => 'int',
+        'class' => 'string'
     );
 
     public static function swaggerTypes()
@@ -79,7 +81,8 @@ class Model200Response implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        'name' => 'name'
+        'name' => 'name',
+        'class' => 'class'
     );
 
     public static function attributeMap()
@@ -92,7 +95,8 @@ class Model200Response implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        'name' => 'setName'
+        'name' => 'setName',
+        'class' => 'setClass'
     );
 
     public static function setters()
@@ -105,7 +109,8 @@ class Model200Response implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        'name' => 'getName'
+        'name' => 'getName',
+        'class' => 'getClass'
     );
 
     public static function getters()
@@ -130,6 +135,7 @@ class Model200Response implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
+        $this->container['class'] = isset($data['class']) ? $data['class'] : null;
     }
 
     /**
@@ -172,6 +178,27 @@ class Model200Response implements ArrayAccess
     public function setName($name)
     {
         $this->container['name'] = $name;
+
+        return $this;
+    }
+
+    /**
+     * Gets class
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->container['class'];
+    }
+
+    /**
+     * Sets class
+     * @param string $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->container['class'] = $class;
 
         return $this;
     }
@@ -233,3 +260,5 @@ class Model200Response implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
+

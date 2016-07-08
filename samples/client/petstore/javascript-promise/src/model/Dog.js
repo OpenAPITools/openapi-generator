@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -53,7 +53,7 @@
    * @alias module:model/Dog
    * @class
    * @extends module:model/Animal
-   * @param className
+   * @param className {String} 
    */
   var exports = function(className) {
     var _this = this;
@@ -86,7 +86,6 @@
    * @member {String} breed
    */
   exports.prototype['breed'] = undefined;
-
 
 
 

@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
@@ -9,29 +10,48 @@ import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Objects;
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:43:02.966+02:00")
-public class Pet  {
+
+
+
+public class Pet   {
   
   private Long id = null;
   private Category category = null;
   private String name = null;
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
+
+
   public enum StatusEnum {
-     available,  pending,  sold, 
-  };
-  
+    AVAILABLE("available"),
+    PENDING("pending"),
+    SOLD("sold");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return value;
+    }
+  }
+
   private StatusEnum status = null;
 
   /**
    **/
+  public Pet id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -43,6 +63,12 @@ public class Pet  {
 
   /**
    **/
+  public Pet category(Category category) {
+    this.category = category;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
@@ -54,7 +80,13 @@ public class Pet  {
 
   /**
    **/
-  @ApiModelProperty(required = true, value = "")
+  public Pet name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -65,6 +97,12 @@ public class Pet  {
 
   /**
    **/
+  public Pet photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
@@ -76,6 +114,12 @@ public class Pet  {
 
   /**
    **/
+  public Pet tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
@@ -88,6 +132,12 @@ public class Pet  {
   /**
    * pet status in the store
    **/
+  public Pet status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -121,17 +171,29 @@ public class Pet  {
   }
 
   @Override
-  public String toString()  {
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
     
-    sb.append("  id: ").append(id).append("\n");
-    sb.append("  category: ").append(category).append("\n");
-    sb.append("  name: ").append(name).append("\n");
-    sb.append("  photoUrls: ").append(photoUrls).append("\n");
-    sb.append("  tags: ").append(tags).append("\n");
-    sb.append("  status: ").append(status).append("\n");
-    sb.append("}\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("}");
     return sb.toString();
   }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

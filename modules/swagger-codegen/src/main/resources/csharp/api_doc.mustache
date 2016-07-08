@@ -1,7 +1,7 @@
 # {{packageName}}.Api.{{classname}}{{#description}}
 {{description}}{{/description}}
 
-All URIs are relative to *{{basePath}}*
+All URIs are relative to *{{{basePath}}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -10,6 +10,7 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
+<a name="{{{operationIdLowerCase}}}"></a>
 # **{{{operationId}}}**
 > {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 

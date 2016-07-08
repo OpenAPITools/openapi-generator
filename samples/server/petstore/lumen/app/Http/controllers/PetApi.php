@@ -2,7 +2,7 @@
 
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -63,15 +63,14 @@ class PetApi extends Controller
         return response('How about implementing addPet as a POST method ?');
     }
     /**
-     * Operation deletePet
+     * Operation updatePet
      *
-     * Deletes a pet.
+     * Update an existing pet.
      *
-     * @param Long $petId Pet id to delete (required)
      *
      * @return Http response
      */
-    public function deletePet($petId)
+    public function updatePet()
     {
         $input = Request::all();
 
@@ -79,8 +78,13 @@ class PetApi extends Controller
 
 
         //not path params validation
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePet');
+        }
+        $body = $input['body'];
 
-        return response('How about implementing deletePet as a DELETE method ?');
+
+        return response('How about implementing updatePet as a PUT method ?');
     }
     /**
      * Operation findPetsByStatus
@@ -131,6 +135,26 @@ class PetApi extends Controller
         return response('How about implementing findPetsByTags as a GET method ?');
     }
     /**
+     * Operation deletePet
+     *
+     * Deletes a pet.
+     *
+     * @param Long $petId Pet id to delete (required)
+     *
+     * @return Http response
+     */
+    public function deletePet($petId)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing deletePet as a DELETE method ?');
+    }
+    /**
      * Operation getPetById
      *
      * Find pet by ID.
@@ -149,30 +173,6 @@ class PetApi extends Controller
         //not path params validation
 
         return response('How about implementing getPetById as a GET method ?');
-    }
-    /**
-     * Operation updatePet
-     *
-     * Update an existing pet.
-     *
-     *
-     * @return Http response
-     */
-    public function updatePet()
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePet');
-        }
-        $body = $input['body'];
-
-
-        return response('How about implementing updatePet as a PUT method ?');
     }
     /**
      * Operation updatePetWithForm

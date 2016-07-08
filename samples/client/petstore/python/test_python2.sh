@@ -6,6 +6,9 @@ SETUP_OUT=*.egg-info
 VENV=.venv
 DEACTIVE=false
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 ### set virtualenv
 if [ -z "$VIRTUAL_ENV" ]; then
 		virtualenv $VENV --no-site-packages --always-copy

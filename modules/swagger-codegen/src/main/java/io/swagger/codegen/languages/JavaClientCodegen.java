@@ -32,18 +32,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
 
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
 
-        supportedLibraries.put(DEFAULT_LIBRARY, "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0");
+        supportedLibraries.put("jersey1", "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0");
         supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.16.0. JSON processing: Jackson 2.7.0");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.22.2. JSON processing: Jackson 2.7.0");
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.6.2");
-        supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)");
+        supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.2.0. JSON processing: Gson 2.6.1 (Retrofit 2.0.2). Enable the RxJava adapter using '-DuseRxJava=true'. (RxJava 1.1.3)");
 
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
-        library.setEnum(supportedLibraries);
-        library.setDefault(DEFAULT_LIBRARY);
-        cliOptions.add(library);
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        libraryOption.setDefault("okhttp-gson");
+        cliOptions.add(libraryOption);
+
+        setLibrary("okhttp-gson");
 
     }
 
@@ -77,6 +78,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         writeOptional(outputFolder, new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        writeOptional(outputFolder, new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         writeOptional(outputFolder, new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         writeOptional(outputFolder, new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
@@ -96,11 +98,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        if (!StringUtils.isEmpty(getLibrary())) {
-            //TODO: add sbt support to default client
-            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        }
-
         //TODO: add doc to retrofit1 and feign
         if ( "feign".equals(getLibrary()) || "retrofit".equals(getLibrary()) ){
             modelDocTemplateFiles.remove("model_doc.mustache");
@@ -116,18 +113,26 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
 
         if ("feign".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FormAwareEncoder.mustache", invokerFolder, "FormAwareEncoder.java"));
-        } else if ("okhttp-gson".equals(getLibrary())) {
+            additionalProperties.put("jackson", "true");
+        } else if ("okhttp-gson".equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
+            additionalProperties.put("gson", "true");
         } else if (usesAnyRetrofitLibrary()) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
+            additionalProperties.put("gson", "true");
         } else if("jersey2".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            additionalProperties.put("jackson", "true");
+        } else if("jersey1".equals(getLibrary())) {
+            additionalProperties.put("jackson", "true");
+        } else {
+            LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
     }
 
@@ -170,14 +175,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         if(!BooleanUtils.toBoolean(model.isEnum)) {
-            final String lib = getLibrary();
+            //final String lib = getLibrary();
             //Needed imports for Jackson based libraries
-            if(StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+            if(additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonProperty");
-
-                if(BooleanUtils.toBoolean(model.hasEnums)) {
-                    model.imports.add("JsonValue");
-                }
+            }
+            if(additionalProperties.containsKey("gson")) {
+                model.imports.add("SerializedName");
             }
         }
     }
@@ -185,9 +189,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
     @Override
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
-        String lib = getLibrary();
-        //Needed imports for Jackson based libraries
-        if (StringUtils.isEmpty(lib) || "feign".equals(lib) || "jersey2".equals(lib)) {
+        //Needed import for Gson based libraries
+        if (additionalProperties.containsKey("gson")) {
             List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
             List<Object> models = (List<Object>) objs.get("models");
             for (Object _mo : models) {
@@ -195,9 +198,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 // for enum model
                 if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
-                    cm.imports.add(importMapping.get("JsonValue"));
+                    cm.imports.add(importMapping.get("SerializedName"));
                     Map<String, String> item = new HashMap<String, String>();
-                    item.put("import", importMapping.get("JsonValue"));
+                    item.put("import", importMapping.get("SerializedName"));
                     imports.add(item);
                 }
             }
@@ -208,4 +211,5 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
     public void setUseRxJava(boolean useRxJava) {
         this.useRxJava = useRxJava;
     }
+
 }

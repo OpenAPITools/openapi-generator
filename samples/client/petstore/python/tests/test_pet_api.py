@@ -155,6 +155,7 @@ class PetApiTests(unittest.TestCase):
             list(map(lambda x: getattr(x, 'id'), self.pet_api.find_pets_by_status(status=[self.pet.status])))
         )
 
+    @unittest.skip("skipping the test as the method sometimes invalid Petstore object with incorrect status")
     def test_find_pets_by_tags(self):
         self.pet_api.add_pet(body=self.pet)
 

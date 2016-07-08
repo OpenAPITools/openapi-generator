@@ -29,7 +29,7 @@
     </developers>
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/swagger-api/swagger-core/issues</url>
+        <url>https://github.com/swagger-api/swagger-codegen/issues</url>
     </issueManagement>
     <mailingLists>
         <mailingList>
@@ -283,7 +283,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client</id>
+            <id>java-client-jersey1</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -291,7 +291,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey1</module>
             </modules>
         </profile>
         <profile>
@@ -423,7 +423,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/jaxrs-resteasy</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-resteasy-server-joda</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
             </modules>
         </profile>
         <profile>
@@ -559,6 +571,30 @@
             </modules>
         </profile>
         <profile>
+            <id>springboot</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/springboot</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>spring-cloud</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/spring-cloud</module>
+            </modules>
+        </profile>
+        <profile>
             <id>samples</id>
             <activation>
                 <property>
@@ -569,8 +605,8 @@
             <modules>
                 <!-- run ruby test first which has a random delay script to
                      avoid issues with running 2 CI jobs in parallel.       -->
-                <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
@@ -579,7 +615,7 @@
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/android/volley</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
@@ -589,9 +625,12 @@
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/springboot</module>
+                <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs-resteasy</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default</module>
+                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
             </modules>

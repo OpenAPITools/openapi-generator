@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**PlaceOrder**](StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
 
 
+<a name="deleteorder"></a>
 # **DeleteOrder**
 > void DeleteOrder (string orderId)
 
@@ -70,6 +71,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="getinventory"></a>
 # **GetInventory**
 > Dictionary<string, int?> GetInventory ()
 
@@ -132,6 +134,7 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="getorderbyid"></a>
 # **GetOrderById**
 > Order GetOrderById (long? orderId)
 
@@ -193,6 +196,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="placeorder"></a>
 # **PlaceOrder**
 > Order PlaceOrder (Order body)
 

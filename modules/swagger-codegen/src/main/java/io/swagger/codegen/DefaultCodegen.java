@@ -2,32 +2,6 @@ package io.swagger.codegen;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nullable;
-
 import io.swagger.codegen.examples.ExampleGenerator;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.ComposedModel;
@@ -71,7 +45,29 @@ import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import io.swagger.models.properties.UUIDProperty;
 import io.swagger.util.Json;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DefaultCodegen {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -227,58 +223,12 @@ public class DefaultCodegen {
                 cm.allowableValues.put("enumVars", enumVars);
             }
 
-            // for enum model's properties
+            // update codegen property enum with proper naming convention
+            // and handling of numbers, special characters
             for (CodegenProperty var : cm.vars) {
-                Map<String, Object> allowableValues = var.allowableValues;
-
-                // handle ArrayProperty
-                if (var.items != null) {
-                    allowableValues = var.items.allowableValues;
-                }
-
-                if (allowableValues == null) {
-                    continue;
-                }
-                //List<String> values = (List<String>) allowableValues.get("values");
-                List<Object> values = (List<Object>) allowableValues.get("values");
-                if (values == null) {
-                    continue;
-                }
-
-                // put "enumVars" map into `allowableValues", including `name` and `value`
-                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
-                String commonPrefix = findCommonPrefixOfVars(values);
-                int truncateIdx = commonPrefix.length();
-                for (Object value : values) {
-                    Map<String, String> enumVar = new HashMap<String, String>();
-                    String enumName;
-                    if (truncateIdx == 0) {
-                        enumName = value.toString();
-                    } else {
-                        enumName = value.toString().substring(truncateIdx);
-                        if ("".equals(enumName)) {
-                            enumName = value.toString();
-                        }
-                    }
-                    enumVar.put("name", toEnumVarName(enumName, var.datatype));
-                    enumVar.put("value", toEnumValue(value.toString(), var.datatype));
-                    enumVars.add(enumVar);
-                }
-                allowableValues.put("enumVars", enumVars);
-                // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
-                if (var.defaultValue != null) {
-                    String enumName = null;
-                    for (Map<String, String> enumVar : enumVars) {
-                        if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
-                            enumName = enumVar.get("name");
-                            break;
-                        }
-                    }
-                    if (enumName != null) {
-                        var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
-                    }
-                }
+                updateCodegenPropertyEnum(var);
             }
+
         }
         return objs;
     }
@@ -380,14 +330,41 @@ public class DefaultCodegen {
     // override with any special text escaping logic
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
-        if (input != null) {
-            // remove \t, \n, \r
-            // repalce \ with \\
-            // repalce " with \"
-            // outter unescape to retain the original multi-byte characters
-            return StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\"");
+        if (input == null) {
+            return input;
         }
+
+        // remove \t, \n, \r
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(StringEscapeUtils.unescapeJava(StringEscapeUtils.escapeJava(input).replace("\\/", "/")).replaceAll("[\\t\\n\\r]"," ").replace("\\", "\\\\").replace("\"", "\\\""));
+    }
+
+    /**
+     * override with any special text escaping logic to handle unsafe
+     * characters so as to avoid code injection
+     * @param input String to be cleaned up
+     * @return string with unsafe characters removed or escaped
+     */
+    public String escapeUnsafeCharacters(String input) {
+        LOGGER.warn("escapeUnsafeCharacters should be overriden in the code generator with proper logic to escape unsafe characters");
+        // doing nothing by default and code generator should implement
+        // the logic to prevent code injection
+        // later we'll make this method abstract to make sure
+        // code generator implements this method
         return input;
+    }
+
+    /**
+     * Escape single and/or double quote to avoid code injection 
+     * @param input String to be cleaned up
+     * @return string with quotation mark removed or escaped
+     */
+    public String escapeQuotationMark(String input) {
+        LOGGER.warn("escapeQuotationMark should be overriden in the code generator with proper logic to escape single/double quote");
+        return input.replace("\"", "\\\"");
     }
 
     public Set<String> defaultIncludes() {
@@ -1346,6 +1323,7 @@ public class DefaultCodegen {
 
         property.name = toVarName(name);
         property.baseName = name;
+        property.nameInCamelCase = camelize(name, false);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
         property.getter = "get" + getterAndSetterCapitalize(name);
@@ -1565,6 +1543,7 @@ public class DefaultCodegen {
             }
         }
         property.datatype = getTypeDeclaration(p);
+        property.dataFormat = p.getFormat();
 
         // this can cause issues for clients which don't support enums
         if (property.isEnum) {
@@ -1576,46 +1555,133 @@ public class DefaultCodegen {
         property.baseType = getSwaggerType(p);
 
       	if (p instanceof ArrayProperty) {
-        		property.isContainer = true;
-        		property.isListContainer = true;
-        		property.containerType = "array";
-        		ArrayProperty ap = (ArrayProperty) p;
-        		CodegenProperty cp = fromProperty(property.name, ap.getItems());
-        		if (cp == null) {
-        			LOGGER.warn("skipping invalid property " + Json.pretty(p));
-        		} else {
-          			property.baseType = getSwaggerType(p);
-          			if (!languageSpecificPrimitives.contains(cp.baseType)) {
-          				  property.complexType = cp.baseType;
-          			} else {
-          				  property.isPrimitiveType = true;
-          			}
-          			property.items = cp;
-          			if (property.items.isEnum) {
-          				  property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.baseType,
-          						property.items.datatypeWithEnum);
-                            if(property.defaultValue != null)
-          				        property.defaultValue = property.defaultValue.replace(property.items.baseType, property.items.datatypeWithEnum);
-          			}
-        		}
+            property.isContainer = true;
+            property.isListContainer = true;
+            property.containerType = "array";
+            property.baseType = getSwaggerType(p);
+            // handle inner property
+            ArrayProperty ap = (ArrayProperty) p;
+            CodegenProperty cp = fromProperty(property.name, ap.getItems());
+            updatePropertyForArray(property, cp);
       	} else if (p instanceof MapProperty) {
             property.isContainer = true;
             property.isMapContainer = true;
             property.containerType = "map";
+            property.baseType = getSwaggerType(p);
+            // handle inner property
             MapProperty ap = (MapProperty) p;
             CodegenProperty cp = fromProperty("inner", ap.getAdditionalProperties());
-            property.items = cp;
-
-            property.baseType = getSwaggerType(p);
-            if (!languageSpecificPrimitives.contains(cp.baseType)) {
-                property.complexType = cp.baseType;
-            } else {
-                property.isPrimitiveType = true;
-            }
+            updatePropertyForMap(property, cp);
         } else {
             setNonArrayMapProperty(property, type);
         }
         return property;
+    }
+
+    /**
+     * Update property for array(list) container
+     * @param property Codegen property
+     * @param innerProperty Codegen inner property of map or list
+     */
+    protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
+        if (innerProperty == null) {
+            LOGGER.warn("skipping invalid array property " + Json.pretty(property));
+        } else {
+            if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+                property.complexType = innerProperty.baseType;
+            } else {
+                property.isPrimitiveType = true;
+            }
+            property.items = innerProperty;
+            // inner item is Enum
+            if (isPropertyInnerMostEnum(property)) {
+                property.isEnum = true;
+                // update datatypeWithEnum and default value for array
+                // e.g. List<string> => List<StatusEnum>
+                updateDataTypeWithEnumForArray(property);
+
+            }
+        }
+    }
+
+    /**
+     * Update property for map container
+     * @param property Codegen property
+     * @param innerProperty Codegen inner property of map or list
+     */
+    protected void updatePropertyForMap(CodegenProperty property, CodegenProperty innerProperty) {
+        if (innerProperty == null) {
+            LOGGER.warn("skipping invalid map property " + Json.pretty(property));
+            return;
+        } else {
+            if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+                property.complexType = innerProperty.baseType;
+            } else {
+                property.isPrimitiveType = true;
+            }
+            property.items = innerProperty;
+            // inner item is Enum
+            if (isPropertyInnerMostEnum(property)) {
+                property.isEnum = true;
+                // update datatypeWithEnum and default value for map
+                // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
+                updateDataTypeWithEnumForMap(property);
+            }
+        }
+
+    }
+
+    /**
+     * Update property for map container
+     * @param property Codegen property
+     * @return True if the inner most type is enum
+     */
+    protected Boolean isPropertyInnerMostEnum(CodegenProperty property) {
+        CodegenProperty currentProperty = property;
+        while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
+                    || Boolean.TRUE.equals(currentProperty.isListContainer))) {
+            currentProperty = currentProperty.items;
+        }
+
+        return currentProperty.isEnum;
+    }
+
+    /**
+     * Update datatypeWithEnum for array container
+     * @param property Codegen property
+     */
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
+                    || Boolean.TRUE.equals(baseItem.isListContainer))) {
+            baseItem = baseItem.items;
+        }
+        // set both datatype and datetypeWithEnum as only the inner type is enum
+        property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, toEnumName(baseItem));
+
+        // set default value for variable with inner enum
+        if (property.defaultValue != null) {
+            property.defaultValue = property.defaultValue.replace(property.items.baseType, toEnumName(property.items));
+        }
+    }
+
+    /**
+     * Update datatypeWithEnum for map container
+     * @param property Codegen property
+     */
+    protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMapContainer)
+                    || Boolean.TRUE.equals(baseItem.isListContainer))) {
+            baseItem = baseItem.items;
+        }
+        // set both datatype and datetypeWithEnum as only the inner type is enum
+        property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
+
+        // set default value for variable with inner enum
+        if (property.defaultValue != null) {
+            property.defaultValue = property.defaultValue.replace(", " + property.items.baseType, ", " + toEnumName(property.items));
+        }
     }
 
     protected void setNonArrayMapProperty(CodegenProperty property, String type) {
@@ -1707,7 +1773,8 @@ public class DefaultCodegen {
             int count = 0;
             for (String key : consumes) {
                 Map<String, String> mediaType = new HashMap<String, String>();
-                mediaType.put("mediaType", key);
+                // escape quotation to avoid code injection
+                mediaType.put("mediaType", escapeQuotationMark(key));
                 count += 1;
                 if (count < consumes.size()) {
                     mediaType.put("hasMore", "true");
@@ -1740,7 +1807,8 @@ public class DefaultCodegen {
             int count = 0;
             for (String key : produces) {
                 Map<String, String> mediaType = new HashMap<String, String>();
-                mediaType.put("mediaType", key);
+                // escape quotation to avoid code injection
+                mediaType.put("mediaType", escapeQuotationMark(key));
                 count += 1;
                 if (count < produces.size()) {
                     mediaType.put("hasMore", "true");
@@ -2068,22 +2136,29 @@ public class DefaultCodegen {
                 LOGGER.warn("warning!  Property type \"" + type + "\" not found for parameter \"" + param.getName() + "\", using String");
                 property = new StringProperty().description("//TODO automatically added by swagger-codegen.  Type was " + type + " but not supported");
             }
+
             property.setRequired(param.getRequired());
-            CodegenProperty model = fromProperty(qp.getName(), property);
+            CodegenProperty cp = fromProperty(qp.getName(), property);
 
             // set boolean flag (e.g. isString)
-            setParameterBooleanFlagWithCodegenProperty(p, model);
+            setParameterBooleanFlagWithCodegenProperty(p, cp);
 
-            p.dataType = model.datatype;
-            if(model.isEnum) {
-                p.datatypeWithEnum = model.datatypeWithEnum;
+            p.dataType = cp.datatype;
+            p.dataFormat = cp.dataFormat;
+            if(cp.isEnum) {
+                p.datatypeWithEnum = cp.datatypeWithEnum;
             }
-            p.isEnum = model.isEnum;
-            p._enum = model._enum;
-            p.allowableValues = model.allowableValues;
-            if(model.items != null && model.items.isEnum) {
-                p.datatypeWithEnum = model.datatypeWithEnum;
-                p.items = model.items;
+
+            // enum
+            updateCodegenPropertyEnum(cp);
+            p.isEnum = cp.isEnum;
+            p._enum = cp._enum;
+            p.allowableValues = cp.allowableValues;
+
+
+            if (cp.items != null && cp.items.isEnum) {
+                p.datatypeWithEnum = cp.datatypeWithEnum;
+                p.items = cp.items;
             }
             p.collectionFormat = collectionFormat;
             if(collectionFormat != null && collectionFormat.equals("multi")) {
@@ -2091,10 +2166,12 @@ public class DefaultCodegen {
             }
             p.paramName = toParamName(qp.getName());
 
-            if (model.complexType != null) {
-                imports.add(model.complexType);
+            // import
+            if (cp.complexType != null) {
+                imports.add(cp.complexType);
             }
 
+            // validation
             p.maximum = qp.getMaximum();
             p.exclusiveMaximum = qp.isExclusiveMaximum();
             p.minimum = qp.getMinimum();
@@ -2274,6 +2351,7 @@ public class DefaultCodegen {
             CodegenSecurity sec = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
             sec.name = entry.getKey();
             sec.type = schemeDefinition.getType();
+            sec.isCode = sec.isPassword = sec.isApplication = sec.isImplicit = false;
 
             if (schemeDefinition instanceof ApiKeyAuthDefinition) {
                 final ApiKeyAuthDefinition apiKeyDefinition = (ApiKeyAuthDefinition) schemeDefinition;
@@ -2290,6 +2368,22 @@ public class DefaultCodegen {
             	sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
                 sec.isOAuth = true;
                 sec.flow = oauth2Definition.getFlow();
+                switch(sec.flow) {
+                    case "accessCode":
+                        sec.isCode = true;
+                        break;
+                    case "password":
+                        sec.isPassword = true;
+                        break;
+                    case "application":
+                        sec.isApplication = true;
+                        break;
+                    case "implicit":
+                        sec.isImplicit = true;
+                        break;
+                    default:
+                        throw new RuntimeException("unknown oauth flow: " + sec.flow);
+                }
                 sec.authorizationUrl = oauth2Definition.getAuthorizationUrl();
                 sec.tokenUrl = oauth2Definition.getTokenUrl();
                 if (oauth2Definition.getScopes() != null) {
@@ -2596,6 +2690,11 @@ public class DefaultCodegen {
                     m.hasEnums = true;
                 }
 
+                // set model's hasOnlyReadOnly to false if the property is read-only
+                if (!Boolean.TRUE.equals(cp.isReadOnly)) {
+                    m.hasOnlyReadOnly = false;
+                }
+
                 if (i+1 != totalCount) {
                     cp.hasMore = true;
                     // check the next entry to see if it's read only
@@ -2609,7 +2708,11 @@ public class DefaultCodegen {
                 }
 
                 addImport(m, cp.baseType);
-                addImport(m, cp.complexType);
+                CodegenProperty innerCp = cp;
+                while(innerCp != null) {
+                    addImport(m, innerCp.complexType);
+                    innerCp = innerCp.items;
+                }
                 vars.add(cp);
 
                 // if required, add to the list "requiredVars"
@@ -2931,7 +3034,12 @@ public class DefaultCodegen {
         return name.replaceAll("[^a-zA-Z0-9_]", "");
     }
 
-    @SuppressWarnings("static-method")
+    /**
+     * Sanitize tag
+     *
+     * @param tag Tag
+     * @return Sanitized tag
+     */
     public String sanitizeTag(String tag) {
         // remove spaces and make strong case
         String[] parts = tag.split(" ");
@@ -3019,6 +3127,65 @@ public class DefaultCodegen {
             parameter.isPrimitiveType = true;
         } else {
             LOGGER.debug("Property type is not primitive: " + property.datatype);
+        }
+    }
+
+
+    /**
+     * Update codegen property's enum by adding "enumVars" (with name and value)
+     * 
+     * @param var list of CodegenProperty
+     */
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        Map<String, Object> allowableValues = var.allowableValues;
+
+        // handle ArrayProperty
+        if (var.items != null) {
+            allowableValues = var.items.allowableValues;
+        }
+
+        if (allowableValues == null) {
+            return;
+        }
+
+        List<Object> values = (List<Object>) allowableValues.get("values");
+        if (values == null) {
+            return;
+        }
+
+        // put "enumVars" map into `allowableValues", including `name` and `value`
+        List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+        String commonPrefix = findCommonPrefixOfVars(values);
+        int truncateIdx = commonPrefix.length();
+        for (Object value : values) {
+            Map<String, String> enumVar = new HashMap<String, String>();
+            String enumName;
+            if (truncateIdx == 0) {
+                enumName = value.toString();
+            } else {
+                enumName = value.toString().substring(truncateIdx);
+                if ("".equals(enumName)) {
+                    enumName = value.toString();
+                }
+            }
+            enumVar.put("name", toEnumVarName(enumName, var.datatype));
+            enumVar.put("value", toEnumValue(value.toString(), var.datatype));
+            enumVars.add(enumVar);
+        }
+        allowableValues.put("enumVars", enumVars);
+
+        // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
+        if (var.defaultValue != null) {
+            String enumName = null;
+            for (Map<String, String> enumVar : enumVars) {
+                if (toEnumValue(var.defaultValue, var.datatype).equals(enumVar.get("value"))) {
+                    enumName = enumVar.get("name");
+                    break;
+                }
+            }
+            if (enumName != null) {
+                var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -26,99 +26,98 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import com.google.gson.annotations.SerializedName;
 
 
 /**
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
+
 public class Model200Response   {
-    @SerializedName("name")
-    private Integer name = null;
-    @SerializedName("class")
-    private String PropertyClass = null;
+  @SerializedName("name")
+  private Integer name = null;
 
-    /**
-     * Get name
-     * @return name
-     **/
-    @ApiModelProperty(value = "")
-    public Integer getName() {
-        return name;
+  @SerializedName("class")
+  private String PropertyClass = null;
+
+  public Model200Response name(Integer name) {
+    this.name = name;
+    return this;
+  }
+
+   /**
+   * Get name
+   * @return name
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public Integer getName() {
+    return name;
+  }
+
+  public void setName(Integer name) {
+    this.name = name;
+  }
+
+  public Model200Response PropertyClass(String PropertyClass) {
+    this.PropertyClass = PropertyClass;
+    return this;
+  }
+
+   /**
+   * Get PropertyClass
+   * @return PropertyClass
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getPropertyClass() {
+    return PropertyClass;
+  }
+
+  public void setPropertyClass(String PropertyClass) {
+    this.PropertyClass = PropertyClass;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Set name
-     *
-     * @param name name
-     */
-    public void setName(Integer name) {
-        this.name = name;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
-
-    /**
-     * Get PropertyClass
-     * @return PropertyClass
-     **/
-    @ApiModelProperty(value = "")
-    public String getPropertyClass() {
-        return PropertyClass;
-    }
-
-    /**
-     * Set PropertyClass
-     *
-     * @param PropertyClass PropertyClass
-     */
-    public void setPropertyClass(String PropertyClass) {
-        this.PropertyClass = PropertyClass;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Model200Response _200Response = (Model200Response) o;
-        return Objects.equals(this.name, _200Response.name) &&
+    Model200Response _200Response = (Model200Response) o;
+    return Objects.equals(this.name, _200Response.name) &&
         Objects.equals(this.PropertyClass, _200Response.PropertyClass);
-    }
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, PropertyClass);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, PropertyClass);
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class Model200Response {\n");
-        
-        sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    PropertyClass: ").append(toIndentedString(PropertyClass)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class Model200Response {\n");
+    
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    PropertyClass: ").append(toIndentedString(PropertyClass)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     *
-     * @param o Object to be converted to indented string
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
 

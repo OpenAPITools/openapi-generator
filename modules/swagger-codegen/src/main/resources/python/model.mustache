@@ -64,10 +64,10 @@ class {{classname}}(object):
         """
 {{#isEnum}}
         allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-        if {{name}} not in allowed_values:
+        if {{{name}}} not in allowed_values:
             raise ValueError(
-                "Invalid value for `{{name}}`, must be one of {0}"
-                .format(allowed_values)
+                "Invalid value for `{{{name}}}` ({0}), must be one of {1}"
+                .format({{{name}}}, allowed_values)
             )
 {{/isEnum}}
 {{^isEnum}}

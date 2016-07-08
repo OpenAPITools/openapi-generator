@@ -658,8 +658,22 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+            // for API test method name
+            // e.g. public function test{{vendorExtensions.x-testOperationId}}()
             op.vendorExtensions.put("x-testOperationId", camelize(op.operationId));
         }
         return objs;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }

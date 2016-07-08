@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** fake | To test enum query parameters
 
 
 <a name="testEndpointParameters"></a>
@@ -73,4 +74,51 @@ No authorization required
 
  - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
  - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+
+<a name="testEnumQueryParameters"></a>
+# **testEnumQueryParameters**
+> Void testEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble)
+
+To test enum query parameters
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+String enumQueryString = "-efg"; // String | Query parameter enum test (string)
+BigDecimal enumQueryInteger = new BigDecimal(); // BigDecimal | Query parameter enum test (double)
+Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
+try {
+    Void result = apiInstance.testEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#testEnumQueryParameters");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
+ **enumQueryInteger** | **BigDecimal**| Query parameter enum test (double) | [optional]
+ **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional]
+
+### Return type
+
+[**Void**](.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 

@@ -2,7 +2,7 @@
 
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -77,7 +77,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ create_user } = { 
+    __PACKAGE__->method_documentation->{ 'create_user' } = { 
     	summary => 'Create user',
         params => $params,
         returns => undef,
@@ -139,7 +139,7 @@ sub create_user {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ create_users_with_array_input } = { 
+    __PACKAGE__->method_documentation->{ 'create_users_with_array_input' } = { 
     	summary => 'Creates list of users with given input array',
         params => $params,
         returns => undef,
@@ -201,7 +201,7 @@ sub create_users_with_array_input {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ create_users_with_list_input } = { 
+    __PACKAGE__->method_documentation->{ 'create_users_with_list_input' } = { 
     	summary => 'Creates list of users with given input array',
         params => $params,
         returns => undef,
@@ -263,7 +263,7 @@ sub create_users_with_list_input {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ delete_user } = { 
+    __PACKAGE__->method_documentation->{ 'delete_user' } = { 
     	summary => 'Delete user',
         params => $params,
         returns => undef,
@@ -327,7 +327,7 @@ sub delete_user {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ get_user_by_name } = { 
+    __PACKAGE__->method_documentation->{ 'get_user_by_name' } = { 
     	summary => 'Get user by user name',
         params => $params,
         returns => 'User',
@@ -401,7 +401,7 @@ sub get_user_by_name {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ login_user } = { 
+    __PACKAGE__->method_documentation->{ 'login_user' } = { 
     	summary => 'Logs user into the system',
         params => $params,
         returns => 'string',
@@ -471,7 +471,7 @@ sub login_user {
 {
     my $params = {
     };
-    __PACKAGE__->method_documentation->{ logout_user } = { 
+    __PACKAGE__->method_documentation->{ 'logout_user' } = { 
     	summary => 'Logs out current logged in user session',
         params => $params,
         returns => undef,
@@ -529,7 +529,7 @@ sub logout_user {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ update_user } = { 
+    __PACKAGE__->method_documentation->{ 'update_user' } = { 
     	summary => 'Updated user',
         params => $params,
         returns => undef,

@@ -2,10 +2,11 @@ package io.swagger.codegen;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-public class CodegenProperty {
+public class CodegenProperty implements Cloneable {
     public String baseName, complexType, getter, setter, description, datatype, datatypeWithEnum,
-            name, min, max, defaultValue, defaultValueWithParam, baseType, containerType;
+            dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType, containerType;
 
     public String unescapedDescription;
 
@@ -43,6 +44,8 @@ public class CodegenProperty {
     public CodegenProperty items;
     public Map<String, Object> vendorExtensions;
     public Boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
+    public Boolean isInherited;
+    public String nameInCamelCase; // property name in camel case
 
     @Override
     public String toString() {
@@ -63,6 +66,7 @@ public class CodegenProperty {
         result = prime * result + ((containerType == null) ? 0 : containerType.hashCode());
         result = prime * result + ((datatype == null) ? 0 : datatype.hashCode());
         result = prime * result + ((datatypeWithEnum == null) ? 0 : datatypeWithEnum.hashCode());
+        result = prime * result + ((dataFormat == null) ? 0 : dataFormat.hashCode());
         result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
         result = prime * result + ((defaultValueWithParam == null) ? 0 : defaultValueWithParam.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
@@ -105,6 +109,8 @@ public class CodegenProperty {
         result = prime * result + ((isDateTime == null) ? 0 : isDateTime.hashCode());
         result = prime * result + ((isMapContainer == null) ? 0 : isMapContainer.hashCode());
         result = prime * result + ((isListContainer == null) ? 0 : isListContainer.hashCode());
+        result = prime * result + Objects.hashCode(isInherited);
+        result = prime * result + Objects.hashCode(nameInCamelCase);
         return result;
     }
 
@@ -136,6 +142,9 @@ public class CodegenProperty {
             return false;
         }
         if ((this.datatypeWithEnum == null) ? (other.datatypeWithEnum != null) : !this.datatypeWithEnum.equals(other.datatypeWithEnum)) {
+            return false;
+        }
+        if ((this.dataFormat == null) ? (other.dataFormat != null) : !this.dataFormat.equals(other.dataFormat)) {
             return false;
         }
         if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
@@ -256,6 +265,21 @@ public class CodegenProperty {
         if (this.isMapContainer != other.isMapContainer && (this.isMapContainer == null || !this.isMapContainer.equals(other.isMapContainer))) {
             return false;
         }
+        if (!Objects.equals(this.isInherited, other.isInherited)) {
+            return false;
+        }
+        if (!Objects.equals(this.nameInCamelCase, other.nameInCamelCase)) {
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public CodegenProperty clone() {
+        try {
+            return (CodegenProperty) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

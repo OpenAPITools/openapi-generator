@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -55,6 +55,47 @@
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
 
+
+    /**
+     * Callback function to receive the result of the testCodeInjectEnd operation.
+     * @callback module:api/FakeApi~testCodeInjectEndCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * To test code injection  &#x3D;end
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.testCodeInjectEnd To test code injection  &#x3D;end
+     * @param {module:api/FakeApi~testCodeInjectEndCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.testCodeInjectEnd = function(opts, callback) {
+      opts = opts || {};
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+        'test code inject */ &#x3D;end': opts['testCodeInjectEnd']
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json', '*/ =end));(phpinfo('];
+      var accepts = ['application/json', '*/ end'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
 
     /**
      * Callback function to receive the result of the testEndpointParameters operation.
@@ -135,6 +176,51 @@
 
       return this.apiClient.callApi(
         '/fake', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the testEnumQueryParameters operation.
+     * @callback module:api/FakeApi~testEnumQueryParametersCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * To test enum query parameters
+     * @param {Object} opts Optional parameters
+     * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
+     * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
+     * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
+     * @param {module:api/FakeApi~testEnumQueryParametersCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.testEnumQueryParameters = function(opts, callback) {
+      opts = opts || {};
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+        'enum_query_integer': opts['enumQueryInteger']
+      };
+      var headerParams = {
+      };
+      var formParams = {
+        'enum_query_string': opts['enumQueryString'],
+        'enum_query_double': opts['enumQueryDouble']
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json'];
+      var accepts = ['application/json'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );

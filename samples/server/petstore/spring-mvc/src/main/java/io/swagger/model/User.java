@@ -1,18 +1,16 @@
 package io.swagger.model;
 
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import io.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Objects;
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-05-03T13:43:02.966+02:00")
-public class User  {
+
+
+
+public class User   {
   
   private Long id = null;
   private String username = null;
@@ -25,6 +23,12 @@ public class User  {
 
   /**
    **/
+  public User id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -36,6 +40,12 @@ public class User  {
 
   /**
    **/
+  public User username(String username) {
+    this.username = username;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
@@ -47,6 +57,12 @@ public class User  {
 
   /**
    **/
+  public User firstName(String firstName) {
+    this.firstName = firstName;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -58,6 +74,12 @@ public class User  {
 
   /**
    **/
+  public User lastName(String lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
@@ -69,6 +91,12 @@ public class User  {
 
   /**
    **/
+  public User email(String email) {
+    this.email = email;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
@@ -80,6 +108,12 @@ public class User  {
 
   /**
    **/
+  public User password(String password) {
+    this.password = password;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
@@ -91,6 +125,12 @@ public class User  {
 
   /**
    **/
+  public User phone(String phone) {
+    this.phone = phone;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
@@ -103,6 +143,12 @@ public class User  {
   /**
    * User Status
    **/
+  public User userStatus(Integer userStatus) {
+    this.userStatus = userStatus;
+    return this;
+  }
+
+  
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
@@ -138,19 +184,31 @@ public class User  {
   }
 
   @Override
-  public String toString()  {
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
     
-    sb.append("  id: ").append(id).append("\n");
-    sb.append("  username: ").append(username).append("\n");
-    sb.append("  firstName: ").append(firstName).append("\n");
-    sb.append("  lastName: ").append(lastName).append("\n");
-    sb.append("  email: ").append(email).append("\n");
-    sb.append("  password: ").append(password).append("\n");
-    sb.append("  phone: ").append(phone).append("\n");
-    sb.append("  userStatus: ").append(userStatus).append("\n");
-    sb.append("}\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    username: ").append(toIndentedString(username)).append("\n");
+    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
+    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+    sb.append("    email: ").append(toIndentedString(email)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
+    sb.append("}");
     return sb.toString();
   }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }
+

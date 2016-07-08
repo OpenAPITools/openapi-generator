@@ -2,7 +2,7 @@
 
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -39,6 +39,49 @@ class StoreApi extends Controller
     }
 
     /**
+     * Operation getInventory
+     *
+     * Returns pet inventories by status.
+     *
+     *
+     * @return Http response
+     */
+    public function getInventory()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing getInventory as a GET method ?');
+    }
+    /**
+     * Operation placeOrder
+     *
+     * Place an order for a pet.
+     *
+     *
+     * @return Http response
+     */
+    public function placeOrder()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling placeOrder');
+        }
+        $body = $input['body'];
+
+
+        return response('How about implementing placeOrder as a POST method ?');
+    }
+    /**
      * Operation deleteOrder
      *
      * Delete purchase order by ID.
@@ -60,25 +103,6 @@ class StoreApi extends Controller
         //not path params validation
 
         return response('How about implementing deleteOrder as a DELETE method ?');
-    }
-    /**
-     * Operation getInventory
-     *
-     * Returns pet inventories by status.
-     *
-     *
-     * @return Http response
-     */
-    public function getInventory()
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-
-        return response('How about implementing getInventory as a GET method ?');
     }
     /**
      * Operation getOrderById
@@ -105,29 +129,5 @@ class StoreApi extends Controller
         //not path params validation
 
         return response('How about implementing getOrderById as a GET method ?');
-    }
-    /**
-     * Operation placeOrder
-     *
-     * Place an order for a pet.
-     *
-     *
-     * @return Http response
-     */
-    public function placeOrder()
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling placeOrder');
-        }
-        $body = $input['body'];
-
-
-        return response('How about implementing placeOrder as a POST method ?');
     }
 }

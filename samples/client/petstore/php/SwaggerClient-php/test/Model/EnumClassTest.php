@@ -67,8 +67,8 @@ class EnumClassTest extends \PHPUnit_Framework_TestCase
      */
     public function testEnumClass()
     {
-        $this->assertSame(Swagger\Client\Model\EnumClass::ABC, "_abc");
-        $this->assertSame(Swagger\Client\Model\EnumClass::EFG, "-efg");
-        $this->assertSame(Swagger\Client\Model\EnumClass::XYZ, "(xyz)");
+        $this->assertSame(EnumClass::ABC, "_abc");
+        $this->assertSame(EnumClass::EFG, "-efg");
+        $this->assertSame(EnumClass::XYZ, "(xyz)");
     }
 }

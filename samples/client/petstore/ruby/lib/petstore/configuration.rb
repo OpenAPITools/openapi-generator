@@ -1,7 +1,7 @@
 =begin
-Swagger Petstore
+#Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -87,7 +87,7 @@ module Petstore
     # Default to 0 (never times out).
     attr_accessor :timeout
 
-    ### TLS/SSL
+    ### TLS/SSL setting
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
     #
@@ -96,6 +96,16 @@ module Petstore
     # @return [true, false]
     attr_accessor :verify_ssl
 
+    ### TLS/SSL setting
+    # Set this to false to skip verifying SSL host name
+    # Default to true.
+    #
+    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
+    #
+    # @return [true, false]
+    attr_accessor :verify_ssl_host
+
+    ### TLS/SSL setting
     # Set this to customize the certificate file to verify the peer.
     #
     # @return [String] the path to the certificate file
@@ -104,11 +114,20 @@ module Petstore
     # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
     attr_accessor :ssl_ca_cert
 
+    ### TLS/SSL setting
     # Client certificate file (for client certificate)
     attr_accessor :cert_file
 
+    ### TLS/SSL setting
     # Client private key file (for client certificate)
     attr_accessor :key_file
+
+    # Set this to customize parameters encoding of array parameter with multi collectionFormat.
+    # Default to nil.
+    #
+    # @see The params_encoding option of Ethon. Related source code:
+    # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
+    attr_accessor :params_encoding
 
     attr_accessor :inject_format
 
@@ -122,6 +141,8 @@ module Petstore
       @api_key_prefix = {}
       @timeout = 0
       @verify_ssl = true
+      @verify_ssl_host = true
+      @params_encoding = nil
       @cert_file = nil
       @key_file = nil
       @debugging = false

@@ -2,7 +2,7 @@
 
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -62,6 +62,63 @@ sub new {
 
 }
 
+
+#
+# test_code_inject__end
+#
+# To test code injection */ 
+# 
+# @param string $test code inject */ &#x3D;end To test code injection */  (optional)
+{
+    my $params = {
+    'test code inject */ &#x3D;end' => {
+        data_type => 'string',
+        description => 'To test code injection */ ',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_code_inject__end' } = { 
+    	summary => 'To test code injection */ ',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_code_inject__end {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'PUT';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json', '*/ end');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', '*/ =end));(phpinfo(');
+
+    # form params
+    if ( exists $args{'test code inject */ &#x3D;end'} ) {
+                $form_params->{'test code inject */ &#x3D;end'} = $self->{api_client}->to_form_value($args{'test code inject */ &#x3D;end'});
+    }
+    
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
 
 #
 # test_endpoint_parameters
@@ -143,7 +200,7 @@ sub new {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ test_endpoint_parameters } = { 
+    __PACKAGE__->method_documentation->{ 'test_endpoint_parameters' } = { 
     	summary => 'Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ',
         params => $params,
         returns => undef,
@@ -248,6 +305,85 @@ sub test_endpoint_parameters {
     # form params
     if ( exists $args{'password'} ) {
                 $form_params->{'password'} = $self->{api_client}->to_form_value($args{'password'});
+    }
+    
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
+# test_enum_query_parameters
+#
+# To test enum query parameters
+# 
+# @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
+# @param Number $enum_query_integer Query parameter enum test (double) (optional)
+# @param double $enum_query_double Query parameter enum test (double) (optional)
+{
+    my $params = {
+    'enum_query_string' => {
+        data_type => 'string',
+        description => 'Query parameter enum test (string)',
+        required => '0',
+    },
+    'enum_query_integer' => {
+        data_type => 'Number',
+        description => 'Query parameter enum test (double)',
+        required => '0',
+    },
+    'enum_query_double' => {
+        data_type => 'double',
+        description => 'Query parameter enum test (double)',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_enum_query_parameters' } = { 
+    	summary => 'To test enum query parameters',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_enum_query_parameters {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake';
+    $_resource_path =~ s/{format}/json/; # default format to json
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    # query params
+    if ( exists $args{'enum_query_integer'}) {
+        $query_params->{'enum_query_integer'} = $self->{api_client}->to_query_value($args{'enum_query_integer'});
+    }
+
+    # form params
+    if ( exists $args{'enum_query_string'} ) {
+                $form_params->{'enum_query_string'} = $self->{api_client}->to_form_value($args{'enum_query_string'});
+    }
+    
+    # form params
+    if ( exists $args{'enum_query_double'} ) {
+                $form_params->{'enum_query_double'} = $self->{api_client}->to_form_value($args{'enum_query_double'});
     }
     
     my $_body_data;

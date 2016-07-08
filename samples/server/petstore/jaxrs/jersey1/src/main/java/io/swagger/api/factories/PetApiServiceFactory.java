@@ -5,11 +5,9 @@ import io.swagger.api.impl.PetApiServiceImpl;
 
 
 public class PetApiServiceFactory {
+    private final static PetApiService service = new PetApiServiceImpl();
 
-   private final static PetApiService service = new PetApiServiceImpl();
-
-   public static PetApiService getPetApi()
-   {
-      return service;
-   }
+    public static PetApiService getPetApi() {
+        return service;
+    }
 }

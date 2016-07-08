@@ -5,23 +5,16 @@ import io.swagger.models.properties.*;
 
 import java.util.*;
 import java.io.File;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     // source folder where to write the files
     protected String sourceFolder = "";
-
-    public static final String SRC_BASE_PATH = "srcBasePath";
-    public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
-    public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
-    protected String invokerPackage = "Swagger\\Client";
-    protected String composerVendorName = null;
-    protected String composerProjectName = null;
-    protected String packagePath = "SwaggerClient-php";
-    protected String artifactVersion = null;
-    protected String srcBasePath = "lib";
     protected String apiVersion = "1.0.0";
-    protected String apiDirName = "Api";
         
     /**
      * Configures the type of generator.
@@ -95,12 +88,12 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
         /**
          * Api Package.  Optional, if needed, this can be used in templates
          */
-        apiPackage = "io.swagger.client.api";
+        apiPackage = "app.Http.Controllers";
 
         /**
          * Model Package.  Optional, if needed, this can be used in templates
          */
-        modelPackage = "io.swagger.client.model";
+        modelPackage = "models";
 
         /**
          * Reserved words.  Override this with reserved words specific to your language
@@ -161,7 +154,7 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
      * instantiated
      */
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
 
     /**
@@ -170,10 +163,28 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/app/Http/controllers";
-        // return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);//"/app/Http/controllers";
     }
 
+    // override with any special post-processing
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+        @SuppressWarnings("unchecked")
+        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        
+        // sort the endpoints in ascending to avoid the route priority issure. 
+        // https://github.com/swagger-api/swagger-codegen/issues/2643
+        Collections.sort(operations, new Comparator<CodegenOperation>() {
+            @Override
+            public int compare(CodegenOperation lhs, CodegenOperation rhs) {
+                return lhs.path.compareTo(rhs.path);
+            }
+        });
+
+        return objs;
+    }
     /**
      * Optional - type declaration.  This is a String which is used by the templates to instantiate your
      * types.  There is typically special handling for different property types
@@ -215,4 +226,16 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
             type = swaggerType;
         return toModelName(type);
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }

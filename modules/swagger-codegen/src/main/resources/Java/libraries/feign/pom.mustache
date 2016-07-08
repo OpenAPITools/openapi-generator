@@ -95,15 +95,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -148,10 +139,9 @@
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-joda</artifactId>
+      <artifactId>jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}</artifactId>
       <version>${jackson-version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.oltu.oauth2</groupId>
       <artifactId>org.apache.oltu.oauth2.client</artifactId>
@@ -167,10 +157,12 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-core-version>1.5.8</swagger-core-version>
-    <feign-version>8.16.0</feign-version>
-    <jackson-version>2.7.0</jackson-version>
-    <jodatime-version>2.9.3</jodatime-version>
+    <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <swagger-core-version>1.5.9</swagger-core-version>
+    <feign-version>8.17.0</feign-version>
+    <jackson-version>2.7.5</jackson-version>
     <junit-version>4.12</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <oltu-version>1.0.1</oltu-version>

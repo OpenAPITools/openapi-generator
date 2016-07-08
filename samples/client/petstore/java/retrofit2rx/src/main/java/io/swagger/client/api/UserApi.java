@@ -20,7 +20,7 @@ public interface UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @POST("user")
@@ -32,7 +32,7 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @POST("user/createWithArray")
@@ -44,7 +44,7 @@ public interface UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @POST("user/createWithList")
@@ -56,7 +56,7 @@ public interface UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @DELETE("user/{username}")
@@ -68,7 +68,7 @@ public interface UserApi {
    * Get user by user name
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.  (required)
-   * @return Call<User>
+   * @return Call&lt;User&gt;
    */
   
   @GET("user/{username}")
@@ -81,7 +81,7 @@ public interface UserApi {
    * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
-   * @return Call<String>
+   * @return Call&lt;String&gt;
    */
   
   @GET("user/login")
@@ -92,7 +92,7 @@ public interface UserApi {
   /**
    * Logs out current logged in user session
    * 
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @GET("user/logout")
@@ -104,7 +104,7 @@ public interface UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @PUT("user/{username}")
