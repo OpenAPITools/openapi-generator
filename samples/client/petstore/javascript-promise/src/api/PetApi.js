@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -137,7 +137,7 @@
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
-     * @param {Array.<String>} status Status values that need to be considered for filter
+     * @param {Array.<module:model/String>} status Status values that need to be considered for filter
      * data is of type: {Array.<module:model/Pet>}
      */
     this.findPetsByStatus = function(status) {

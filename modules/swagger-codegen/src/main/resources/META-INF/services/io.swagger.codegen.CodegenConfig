@@ -12,11 +12,13 @@ io.swagger.codegen.languages.JavaClientCodegen
 io.swagger.codegen.languages.JavaJerseyServerCodegen
 io.swagger.codegen.languages.JavaCXFServerCodegen
 io.swagger.codegen.languages.JavaResteasyServerCodegen
+io.swagger.codegen.languages.JavaJAXRSSpecServerCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
 io.swagger.codegen.languages.JavascriptClientCodegen
 io.swagger.codegen.languages.JavascriptClosureAngularClientCodegen
 io.swagger.codegen.languages.JavaJerseyServerCodegen
 io.swagger.codegen.languages.JMeterCodegen
+io.swagger.codegen.languages.NancyFXServerCodegen
 io.swagger.codegen.languages.NodeJSServerCodegen
 io.swagger.codegen.languages.ObjcClientCodegen
 io.swagger.codegen.languages.PerlClientCodegen
@@ -30,8 +32,7 @@ io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SinatraServerCodegen
 io.swagger.codegen.languages.Rails5ServerCodegen
 io.swagger.codegen.languages.SlimFrameworkServerCodegen
-io.swagger.codegen.languages.SpringBootServerCodegen
-io.swagger.codegen.languages.SpringMVCServerCodegen
+io.swagger.codegen.languages.SpringCodegen
 io.swagger.codegen.languages.StaticDocCodegen
 io.swagger.codegen.languages.StaticHtmlGenerator
 io.swagger.codegen.languages.SwaggerGenerator

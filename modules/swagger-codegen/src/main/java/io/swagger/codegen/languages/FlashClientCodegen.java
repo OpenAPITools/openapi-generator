@@ -373,4 +373,15 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
 }

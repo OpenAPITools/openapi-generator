@@ -1,5 +1,6 @@
 package io.swagger.codegen.java;
 
+import com.google.common.collect.Sets;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
@@ -12,13 +13,12 @@ import io.swagger.models.parameters.QueryParameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.ByteArrayProperty;
 import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DecimalProperty;
 import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
-
-import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -456,6 +456,21 @@ public class JavaModelTest {
         final CodegenParameter cm = codegen.fromParameter(parameter, null);
 
         Assert.assertNull(cm.allowableValues);
+    }
+
+    @Test(description = "types used by inner properties should be imported")
+    public void mapWithAnListOfBigDecimalTest() {
+        final CodegenModel cm1 = new JavaClientCodegen().fromModel("sample", new ModelImpl()
+                .description("model with Map<String, List<BigDecimal>>")
+                .property("map", new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty()))));
+        Assert.assertEquals(cm1.vars.get(0).datatype, "Map<String, List<BigDecimal>>");
+        Assert.assertTrue(cm1.imports.contains("BigDecimal"));
+
+        final CodegenModel cm2 = new JavaClientCodegen().fromModel("sample", new ModelImpl()
+                .description("model with Map<String, Map<String, List<BigDecimal>>>")
+                .property("map", new MapProperty().additionalProperties(new MapProperty().additionalProperties(new ArrayProperty(new DecimalProperty())))));
+        Assert.assertEquals(cm2.vars.get(0).datatype, "Map<String, Map<String, List<BigDecimal>>>");
+        Assert.assertTrue(cm2.imports.contains("BigDecimal"));
     }
 
     @DataProvider(name = "modelNames")

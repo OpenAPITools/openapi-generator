@@ -1,7 +1,7 @@
 =begin
-Swagger Petstore
+#Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -29,6 +29,7 @@ module Petstore
     attr_accessor :bar
 
     attr_accessor :baz
+
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
@@ -74,6 +75,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return true
     end
 
     # Checks equality by comparing each attribute.

@@ -22,7 +22,7 @@ public interface PetApi {
    * Add a new pet to the store
    * 
    * @param body Pet object that needs to be added to the store (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @POST("pet")
@@ -35,7 +35,7 @@ public interface PetApi {
    * 
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @DELETE("pet/{petId}")
@@ -47,7 +47,7 @@ public interface PetApi {
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)
-   * @return Call<List<Pet>>
+   * @return Call&lt;List<Pet>&gt;
    */
   
   @GET("pet/findByStatus")
@@ -59,7 +59,7 @@ public interface PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return Call<List<Pet>>
+   * @return Call&lt;List<Pet>&gt;
    */
   
   @GET("pet/findByTags")
@@ -71,7 +71,7 @@ public interface PetApi {
    * Find pet by ID
    * Returns a single pet
    * @param petId ID of pet to return (required)
-   * @return Call<Pet>
+   * @return Call&lt;Pet&gt;
    */
   
   @GET("pet/{petId}")
@@ -83,7 +83,7 @@ public interface PetApi {
    * Update an existing pet
    * 
    * @param body Pet object that needs to be added to the store (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @PUT("pet")
@@ -97,7 +97,7 @@ public interface PetApi {
    * @param petId ID of pet that needs to be updated (required)
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
   
   @FormUrlEncoded
@@ -112,7 +112,7 @@ public interface PetApi {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return Call<ModelApiResponse>
+   * @return Call&lt;ModelApiResponse&gt;
    */
   
   @Multipart

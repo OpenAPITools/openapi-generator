@@ -41,7 +41,7 @@ samples/server-generator/scalatra/target
 samples/server-generator/scalatra/output/.history
 
 # nodejs
-**/node_modules/
+**/node_modules
 samples/server-generator/node/output/node_modules
 samples/server/petstore/nodejs/node_modules
 samples/server/petstore/nodejs-server/node_modules
@@ -54,7 +54,7 @@ samples/client/petstore/qt5cpp/PetStore/PetStore
 samples/client/petstore/qt5cpp/PetStore/Makefile
 
 #Java/Android
-**/.gradle/
+**/.gradle
 samples/client/petstore/java/hello.txt
 samples/client/petstore/android/default/hello.txt
 samples/client/petstore/android/volley/.gradle/
@@ -75,6 +75,8 @@ samples/client/petstore/php/SwaggerClient-php/composer.lock
 samples/client/petstore/php/SwaggerClient-php/vendor/
 samples/client/petstore/silex/SwaggerServer/composer.lock
 samples/client/petstore/silex/SwaggerServer/venodr/
+**/vendor/
+**/composer.lock
 
 # Perl
 samples/client/petstore/perl/deep_module_test/
@@ -97,6 +99,7 @@ samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserd
 samples/client/petstore/swift/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
 samples/client/petstore/swift/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
 samples/client/petstore/swift/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
+samples/client/petstore/swift/**/SwaggerClientTests/Podfile.lock 
 
 # C#
 *.csproj.user

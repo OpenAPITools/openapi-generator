@@ -1,0 +1,43 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+
+import io.swagger.annotations.*;
+
+import java.util.List;
+
+@Path("/{{baseName}}")
+
+@Api(description = "the {{baseName}} API")
+{{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+{{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+{{>generatedAnnotation}}
+
+public class {{classname}}  {
+{{#operations}}
+{{#operation}}
+
+    @{{httpMethod}}
+    {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
+    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+    {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+            {{/hasMore}}{{/scopes}}
+        }{{/isOAuth}}){{#hasMore}},
+        {{/hasMore}}{{/authMethods}}
+    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
+    @ApiResponses(value = { {{#responses}}
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},{{/hasMore}}{{/responses}} })
+    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+    	return Response.ok().entity("magic!").build();
+    }
+{{/operation}}
+}
+{{/operations}}
+

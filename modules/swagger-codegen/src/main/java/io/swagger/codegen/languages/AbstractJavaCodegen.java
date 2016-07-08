@@ -96,7 +96,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants
                 .SERIALIZE_BIG_DECIMAL_AS_STRING_DESC));
-        cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util"));
+        cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util. This option only works for Java API client"));
         cliOptions.add(new CliOption("hideGenerationTimestamp", "hides the timestamp when files were generated"));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
@@ -210,6 +210,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
+        importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
         importMapping.put("Objects", "java.util.Objects");
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
 
@@ -722,6 +723,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+
+        op.path = sanitizePath(op.path);
+        
+        return op;
+    }
+    
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
@@ -811,6 +821,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.serializableModel = serializableModel;
     }
 
+    private String sanitizePath(String p) {
+        //prefer replace a ", instead of a fuLL URL encode for readability
+        return p.replaceAll("\"", "%22");
+    }
+
     public void setFullJavaUtil(boolean fullJavaUtil) {
         this.fullJavaUtil = fullJavaUtil;
     }
@@ -818,4 +833,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }

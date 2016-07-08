@@ -325,9 +325,17 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenProperty fromProperty(String name, Property p) {
         CodegenProperty codegenProperty = super.fromProperty(name, p);
+        // TODO skip array/map of enum for the time being,
+        // we need to add logic here to handle array/map of enum for any
+        // dimensions
+        if (Boolean.TRUE.equals(codegenProperty.isContainer)) {
+            return codegenProperty;
+        }
+
         if (codegenProperty.isEnum) {
             List<Map<String, String>> swiftEnums = new ArrayList<Map<String, String>>();
             List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
+            
             for (String value : values) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("enum", toSwiftyEnumName(value));
@@ -540,6 +548,17 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

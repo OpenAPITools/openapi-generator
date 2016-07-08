@@ -263,4 +263,16 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         // e.g. PetApi.go => pet_api.go
         return underscore(name);
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }

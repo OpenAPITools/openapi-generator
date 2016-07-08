@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -103,6 +103,7 @@ public class JSON {
      * @param returnType The type to deserialize inot
      * @return The deserialized Java object
      */
+    @SuppressWarnings("unchecked")
     public <T> T deserialize(String body, Type returnType) {
         try {
             if (apiClient.isLenientOnJson()) {
@@ -234,4 +235,3 @@ class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
         }
     }
 }
-            

@@ -2,7 +2,7 @@
 
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -128,5 +128,30 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testEndpointParameters as a POST method ?');
+    }
+    /**
+     * Operation testEnumQueryParameters
+     *
+     * To test enum query parameters.
+     *
+     *
+     * @return Http response
+     */
+    public function testEnumQueryParameters()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $enumQueryString = $input['enumQueryString'];
+
+        $enumQueryInteger = $input['enumQueryInteger'];
+
+        $enumQueryDouble = $input['enumQueryDouble'];
+
+
+        return response('How about implementing testEnumQueryParameters as a GET method ?');
     }
 }

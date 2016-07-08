@@ -78,8 +78,8 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven'
     
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_{{^java8}}1_7{{/java8}}{{#java8}}1_8{{/java8}}
+    targetCompatibility = JavaVersion.VERSION_{{^java8}}1_7{{/java8}}{{#java8}}1_8{{/java8}}
     
     install {
         repositories.mavenInstaller {
@@ -94,10 +94,9 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.8"
-    jackson_version = "2.7.0"
-    feign_version = "8.16.0"
-    jodatime_version = "2.9.3"
+    swagger_annotations_version = "1.5.9"
+    jackson_version = "2.7.5"
+    feign_version = "8.17.0"
     junit_version = "4.12"
     oltu_version = "1.0.1"
 }
@@ -110,8 +109,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.1.5"
-    compile "joda-time:joda-time:$jodatime_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"

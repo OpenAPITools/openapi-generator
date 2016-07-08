@@ -2,7 +2,7 @@
 
 Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -77,7 +77,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ delete_order } = { 
+    __PACKAGE__->method_documentation->{ 'delete_order' } = { 
     	summary => 'Delete purchase order by ID',
         params => $params,
         returns => undef,
@@ -135,7 +135,7 @@ sub delete_order {
 {
     my $params = {
     };
-    __PACKAGE__->method_documentation->{ get_inventory } = { 
+    __PACKAGE__->method_documentation->{ 'get_inventory' } = { 
     	summary => 'Returns pet inventories by status',
         params => $params,
         returns => 'HASH[string,int]',
@@ -191,7 +191,7 @@ sub get_inventory {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ get_order_by_id } = { 
+    __PACKAGE__->method_documentation->{ 'get_order_by_id' } = { 
     	summary => 'Find purchase order by ID',
         params => $params,
         returns => 'Order',
@@ -259,7 +259,7 @@ sub get_order_by_id {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ place_order } = { 
+    __PACKAGE__->method_documentation->{ 'place_order' } = { 
     	summary => 'Place an order for a pet',
         params => $params,
         returns => 'Order',

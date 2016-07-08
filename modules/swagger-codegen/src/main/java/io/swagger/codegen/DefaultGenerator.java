@@ -144,10 +144,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
             if (info.getTitle() != null) {
-                config.additionalProperties().put("appName", info.getTitle());
+                config.additionalProperties().put("appName", config.escapeText(info.getTitle()));
             }
             if (info.getVersion() != null) {
-                config.additionalProperties().put("appVersion", info.getVersion());
+                config.additionalProperties().put("appVersion", config.escapeText(info.getVersion()));
             }
             if (info.getDescription() != null) {
                 config.additionalProperties().put("appDescription",
@@ -155,28 +155,28 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
             if (info.getContact() != null) {
                 Contact contact = info.getContact();
-                config.additionalProperties().put("infoUrl", contact.getUrl());
+                config.additionalProperties().put("infoUrl", config.escapeText(contact.getUrl()));
                 if (contact.getEmail() != null) {
-                    config.additionalProperties().put("infoEmail", contact.getEmail());
+                    config.additionalProperties().put("infoEmail", config.escapeText(contact.getEmail()));
                 }
             }
             if (info.getLicense() != null) {
                 License license = info.getLicense();
                 if (license.getName() != null) {
-                    config.additionalProperties().put("licenseInfo", license.getName());
+                    config.additionalProperties().put("licenseInfo", config.escapeText(license.getName()));
                 }
                 if (license.getUrl() != null) {
-                    config.additionalProperties().put("licenseUrl", license.getUrl());
+                    config.additionalProperties().put("licenseUrl", config.escapeText(license.getUrl()));
                 }
             }
             if (info.getVersion() != null) {
-                config.additionalProperties().put("version", info.getVersion());
+                config.additionalProperties().put("version", config.escapeText(info.getVersion()));
             }
             if (info.getTermsOfService() != null) {
-                config.additionalProperties().put("termsOfService", info.getTermsOfService());
+                config.additionalProperties().put("termsOfService", config.escapeText(info.getTermsOfService()));
             }
         }
-        
+
         if(swagger.getVendorExtensions() != null) {
         	config.vendorExtensions().putAll(swagger.getVendorExtensions());
         }
@@ -184,10 +184,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         StringBuilder hostBuilder = new StringBuilder();
         String scheme;
         if (swagger.getSchemes() != null && swagger.getSchemes().size() > 0) {
-            scheme = swagger.getSchemes().get(0).toValue();
+            scheme = config.escapeText(swagger.getSchemes().get(0).toValue());
         } else {
             scheme = "https";
         }
+        scheme = config.escapeText(scheme);
         hostBuilder.append(scheme);
         hostBuilder.append("://");
         if (swagger.getHost() != null) {
@@ -198,9 +199,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (swagger.getBasePath() != null) {
             hostBuilder.append(swagger.getBasePath());
         }
-        String contextPath = swagger.getBasePath() == null ? "" : swagger.getBasePath();
-        String basePath = hostBuilder.toString();
-        String basePathWithoutHost = swagger.getBasePath();
+        String contextPath = config.escapeText(swagger.getBasePath() == null ? "" : swagger.getBasePath());
+        String basePath = config.escapeText(hostBuilder.toString());
+        String basePathWithoutHost = config.escapeText(swagger.getBasePath());
 
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
@@ -279,21 +280,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         Map<String, Object> models = processModels(config, modelMap, definitions);
                         models.put("classname", config.toModelName(name));
                         models.putAll(config.additionalProperties());
-                        
+
                         allProcessedModels.put(name, models);
 
                     } catch (Exception e) {
-                        throw new RuntimeException("Could not process model '" + name + "'", e);
+                        throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
                     }
                 }
-                
+
                 // post process all processed models
                 allProcessedModels = config.postProcessAllModels(allProcessedModels);
-                
+
                 // generate files based on processed models
                 for (String name: allProcessedModels.keySet()) {
                 	Map<String, Object> models = (Map<String, Object>)allProcessedModels.get(name);
-                
+
                 	try {
                         //don't generate models that have an import mapping
                         if(config.importMapping().containsKey(name)) {
@@ -393,7 +394,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("classname", config.toApiName(tag));
                     operation.put("classVarName", config.toApiVarName(tag));
                     operation.put("importPath", config.toApiImport(tag));
-                    
+
                     if(!config.vendorExtensions().isEmpty()) {
                     	operation.put("vendorExtensions", config.vendorExtensions());
                     }
@@ -704,7 +705,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 tags = new ArrayList<String>();
                 tags.add("default");
             }
-            
+
             /*
              build up a set of parameter "ids" defined at the operation level
              per the swagger 2.0 spec "A unique parameter is defined by a combination of a name and location"

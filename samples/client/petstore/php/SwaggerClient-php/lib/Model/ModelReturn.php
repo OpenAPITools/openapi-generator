@@ -46,8 +46,9 @@ use \ArrayAccess;
 /**
  * ModelReturn Class Doc Comment
  *
- * @category    Class
- * @description Model for testing reserved words
+ * @category    Class */
+ // @description Model for testing reserved words
+/** 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -233,3 +234,5 @@ class ModelReturn implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
+

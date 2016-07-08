@@ -13,7 +13,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 
@@ -42,7 +41,7 @@ import io.swagger.client.auth.OAuthFlow;
 public class ApiClient {
 
     private Map<String, Interceptor> apiAuthorizations;
-    private OkHttpClient okClient;
+    private OkHttpClient.Builder okBuilder;
     private Retrofit.Builder adapterBuilder;
 
     public ApiClient() {
@@ -67,7 +66,7 @@ public class ApiClient {
 
     /**
      * Basic constructor for single auth name
-     * @param authName
+     * @param authName Authentication name
      */
     public ApiClient(String authName) {
         this(new String[]{authName});
@@ -75,8 +74,8 @@ public class ApiClient {
 
     /**
      * Helper constructor for single api key
-     * @param authName
-     * @param apiKey
+     * @param authName Authentication name
+     * @param apiKey API key
      */
     public ApiClient(String authName, String apiKey) {
         this(authName);
@@ -85,9 +84,9 @@ public class ApiClient {
 
     /**
      * Helper constructor for single basic auth or password oauth2
-     * @param authName
-     * @param username
-     * @param password
+     * @param authName Authentication name
+     * @param username Username
+     * @param password Password
      */
     public ApiClient(String authName, String username, String password) {
         this(authName);
@@ -96,11 +95,11 @@ public class ApiClient {
 
     /**
      * Helper constructor for single password oauth2
-     * @param authName
-     * @param clientId
-     * @param secret
-     * @param username
-     * @param password
+     * @param authName Authentication name
+     * @param clientId Client ID
+     * @param secret Client Secret
+     * @param username Username
+     * @param password Password
      */
     public ApiClient(String authName, String clientId, String secret, String username, String password) {
         this(authName);
@@ -111,14 +110,14 @@ public class ApiClient {
                 .setPassword(password);
     }
 
-   public void createDefaultAdapter() {
+    public void createDefaultAdapter() {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                 .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
 
-        okClient = new OkHttpClient();
+        okBuilder = new OkHttpClient.Builder();
 
         String baseUrl = "http://petstore.swagger.io/v2";
         if(!baseUrl.endsWith("/"))
@@ -127,20 +126,22 @@ public class ApiClient {
         adapterBuilder = new Retrofit
                 .Builder()
                 .baseUrl(baseUrl)
-                .client(okClient)
                 
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
 
     public <S> S createService(Class<S> serviceClass) {
-        return adapterBuilder.build().create(serviceClass);
+        return adapterBuilder
+            .client(okBuilder.build())
+            .build()
+            .create(serviceClass);
 
     }
 
     /**
      * Helper method to configure the first api key found
-     * @param apiKey
+     * @param apiKey API key
      */
     private void setApiKey(String apiKey) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -154,8 +155,8 @@ public class ApiClient {
 
     /**
      * Helper method to configure the username/password for basic auth or password oauth
-     * @param username
-     * @param password
+     * @param username Username
+     * @param password Password
      */
     private void setCredentials(String username, String password) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -174,7 +175,7 @@ public class ApiClient {
 
     /**
      * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-     * @return
+     * @return Token request builder
      */
     public TokenRequestBuilder getTokenEndPoint() {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -188,7 +189,7 @@ public class ApiClient {
 
     /**
      * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-     * @return
+     * @return Authentication request builder
      */
     public AuthenticationRequestBuilder getAuthorizationEndPoint() {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -202,7 +203,7 @@ public class ApiClient {
 
     /**
      * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
-     * @param accessToken
+     * @param accessToken Access token
      */
     public void setAccessToken(String accessToken) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -216,9 +217,9 @@ public class ApiClient {
 
     /**
      * Helper method to configure the oauth accessCode/implicit flow parameters
-     * @param clientId
-     * @param clientSecret
-     * @param redirectURI
+     * @param clientId Client ID
+     * @param clientSecret Client secret
+     * @param redirectURI Redirect URI
      */
     public void configureAuthorizationFlow(String clientId, String clientSecret, String redirectURI) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -238,7 +239,7 @@ public class ApiClient {
 
     /**
      * Configures a listener which is notified when a new access token is received.
-     * @param accessTokenListener
+     * @param accessTokenListener Access token listener
      */
     public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -252,15 +253,15 @@ public class ApiClient {
 
     /**
      * Adds an authorization to be used by the client
-     * @param authName
-     * @param authorization
+     * @param authName Authentication name
+     * @param authorization Authorization interceptor
      */
     public void addAuthorization(String authName, Interceptor authorization) {
         if (apiAuthorizations.containsKey(authName)) {
             throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
         }
         apiAuthorizations.put(authName, authorization);
-        okClient.interceptors().add(authorization);
+        okBuilder.addInterceptor(authorization);
     }
 
     public Map<String, Interceptor> getApiAuthorizations() {
@@ -279,24 +280,24 @@ public class ApiClient {
         this.adapterBuilder = adapterBuilder;
     }
 
-    public OkHttpClient getOkClient() {
-        return okClient;
+    public OkHttpClient.Builder getOkBuilder() {
+        return okBuilder;
     }
 
-    public void addAuthsToOkClient(OkHttpClient okClient) {
+    public void addAuthsToOkBuilder(OkHttpClient.Builder okBuilder) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
-            okClient.interceptors().add(apiAuthorization);
+            okBuilder.addInterceptor(apiAuthorization);
         }
     }
 
     /**
-     * Clones the okClient given in parameter, adds the auth interceptors and uses it to configure the Retrofit
-     * @param okClient
+     * Clones the okBuilder given in parameter, adds the auth interceptors and uses it to configure the Retrofit
+     * @param okClient An instance of OK HTTP client
      */
     public void configureFromOkclient(OkHttpClient okClient) {
-        OkHttpClient clone = okClient.newBuilder().build();
-        addAuthsToOkClient(clone);
-        adapterBuilder.client(clone);
+        this.okBuilder = okClient.newBuilder();
+        addAuthsToOkBuilder(this.okBuilder);
+
     }
 }
 
@@ -354,7 +355,6 @@ class GsonCustomConverterFactory extends Converter.Factory
     }
 }
 
-
 /**
  * Gson TypeAdapter for Joda DateTime type
  */
@@ -384,6 +384,9 @@ class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
     }
 }
 
+/**
+ * Gson TypeAdapter for Joda LocalDate type
+ */
 class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
     private final DateTimeFormatter formatter = ISODateTimeFormat.date();

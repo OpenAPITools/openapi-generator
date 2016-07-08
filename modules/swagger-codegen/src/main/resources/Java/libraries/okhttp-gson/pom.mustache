@@ -96,15 +96,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -128,11 +119,13 @@
       <artifactId>gson</artifactId>
       <version>${gson-version}</version>
     </dependency>
+    {{^java8}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
-  </dependency>
+    </dependency>
+    {{/java8}}
 
     <!-- test dependencies -->
     <dependency>
@@ -143,6 +136,9 @@
     </dependency>
   </dependencies>
   <properties>
+    <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.9</swagger-core-version>
     <okhttp-version>2.7.5</okhttp-version>
     <gson-version>2.6.2</gson-version>

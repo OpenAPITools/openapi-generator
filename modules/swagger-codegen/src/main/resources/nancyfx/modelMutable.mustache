@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Sharpility.Extensions;
+using NodaTime;
+{{#imports}}using {{import}};
+{{/imports}}
+
+{{#models}}
+{{#model}}
+namespace {{packageName}}.{{packageContext}}.Models
+{    {{#vars}}{{#isEnum}}{{^parent}}
+    {{>innerModelEnum}}{{/parent}}{{/isEnum}}{{#items.isEnum}}
+    {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}
+
+/// <summary>
+    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// </summary>
+    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    { {{#vars}}{{^isInherited}}
+        /// <summary>
+        /// {{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// </summary>
+        public {{>nullableDataType}} {{name}} { get; set; }
+{{/isInherited}}{{/vars}}
+
+        public override string ToString()
+        {
+            return this.PropertiesToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.EqualsByProperties(obj);
+        }
+
+        public bool Equals({{classname}} other)
+        {
+            return Equals((object) other);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.PropertiesHash();
+        }
+
+        /// <summary>
+        /// Implementation of == operator for ({{classname}}.
+        /// </summary>
+        /// <param name="left">Compared ({{classname}}</param>
+        /// <param name="right">Compared ({{classname}}</param>
+        /// <returns>true if compared items are equals, false otherwise</returns>
+        public static bool operator == ({{classname}} left, {{classname}} right)
+        {
+            return Equals(left, right);
+        }
+
+        /// <summary>
+        /// Implementation of != operator for ({{classname}}.
+        /// </summary>
+        /// <param name="left">Compared ({{classname}}</param>
+        /// <param name="right">Compared ({{classname}}</param>
+        /// <returns>true if compared items are not equals, false otherwise</returns>
+        public static bool operator != ({{classname}} left, {{classname}} right)
+        {
+            return !Equals(left, right);
+        }
+    }
+{{/model}}
+{{/models}}
+}

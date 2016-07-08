@@ -9,8 +9,6 @@ import io.swagger.client.model.*;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.*;
 
 import retrofit2.Response;
@@ -39,7 +37,7 @@ public class StoreApiTest {
         assertEquals(order.getId(), fetched.getId());
         assertEquals(order.getPetId(), fetched.getPetId());
         assertEquals(order.getQuantity(), fetched.getQuantity());
-        assertEquals(order.getShipDate().withZone(DateTimeZone.UTC), fetched.getShipDate().withZone(DateTimeZone.UTC));
+        assertEquals(order.getShipDate().toInstant(), fetched.getShipDate().toInstant());
     }
 
     @Test
@@ -60,7 +58,7 @@ public class StoreApiTest {
         Order order = new Order();
         order.setPetId(new Long(200));
         order.setQuantity(new Integer(13));
-        order.setShipDate(DateTime.now());
+        order.setShipDate(org.joda.time.DateTime.now());
         order.setStatus(Order.StatusEnum.PLACED);
         order.setComplete(true);
 

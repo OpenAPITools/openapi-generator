@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -52,10 +52,10 @@
    * Constructs a new <code>FormatTest</code>.
    * @alias module:model/FormatTest
    * @class
-   * @param _number
-   * @param _byte
-   * @param _date
-   * @param password
+   * @param _number {Number} 
+   * @param _byte {String} 
+   * @param _date {Date} 
+   * @param password {String} 
    */
   var exports = function(_number, _byte, _date, password) {
     var _this = this;
@@ -181,7 +181,6 @@
    * @member {String} password
    */
   exports.prototype['password'] = undefined;
-
 
 
 

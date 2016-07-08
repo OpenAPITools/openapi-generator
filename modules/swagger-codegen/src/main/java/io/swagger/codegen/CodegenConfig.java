@@ -57,7 +57,11 @@ public interface CodegenConfig {
 
     String escapeText(String text);
 
+    String escapeUnsafeCharacters(String input);
+
     String escapeReservedWord(String name);
+
+    String escapeQuotationMark(String input);
 
     String getTypeDeclaration(Property p);
 

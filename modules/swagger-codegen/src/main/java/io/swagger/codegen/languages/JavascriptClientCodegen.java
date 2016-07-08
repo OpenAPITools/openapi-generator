@@ -240,21 +240,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Info info = swagger.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = dashize(info.getTitle());
+                projectName = sanitizeName(dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(projectVersion)) {
                 // when projectVersion is not specified, use info.version
-                projectVersion = info.getVersion();
+                projectVersion = escapeUnsafeCharacters(escapeQuotationMark(info.getVersion()));
             }
             if (projectDescription == null) {
                 // when projectDescription is not specified, use info.description
-                projectDescription = info.getDescription();
+                projectDescription = sanitizeName(info.getDescription());
             }
             if (additionalProperties.get(PROJECT_LICENSE_NAME) == null) {
                 // when projectLicense is not specified, use info.license
                 if (info.getLicense() != null) {
                     License license = info.getLicense();
-                    additionalProperties.put(PROJECT_LICENSE_NAME, license.getName());
+                    additionalProperties.put(PROJECT_LICENSE_NAME, sanitizeName(license.getName()));
                 }
             }
         }
@@ -684,6 +684,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         op.returnType = normalizeType(op.returnType);
       }
 
+      //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'    
+      op.path = sanitizePath(op.path);
+
       // Set vendor-extension to be used in template:
       //     x-codegen-hasMoreRequired
       //     x-codegen-hasMoreOptional
@@ -738,6 +741,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
+    private String sanitizePath(String p) {
+        //prefer replace a ', instead of a fuLL URL encode for readability
+        return p.replaceAll("'", "%27");
+    }
+    
     private String trimBrackets(String s) {
         if (s != null) {
             int beginIdx = s.charAt(0) == '[' ? 1 : 0;
@@ -874,8 +882,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             // Collect each model's required property names in *document order*.
             // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts names
             // alphabetically and in any case the document order of 'required' and 'properties' can differ.
-            List<String> required = new ArrayList<String>();
-            List<String> allRequired = supportsInheritance ? new ArrayList<String>() : required;
+            List<CodegenProperty> required = new ArrayList<>();
+            List<CodegenProperty> allRequired = supportsInheritance ? new ArrayList<CodegenProperty>() : required;
             cm.vendorExtensions.put("x-required", required);
             cm.vendorExtensions.put("x-all-required", allRequired);
 
@@ -885,14 +893,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 var.vendorExtensions.put("x-jsdoc-type", jsDocType);
 
                 if (Boolean.TRUE.equals(var.required)) {
-                    required.add(var.name);
+                    required.add(var);
                 }
             }
 
             if (supportsInheritance) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.required)) {
-                        allRequired.add(var.name);
+                        allRequired.add(var);
                     }
                 }
             }
@@ -1022,6 +1030,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         } else {
             return "\"" + escapeText(value) + "\"";
         }
+    }
+
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ', " to avoid code injection
+        return input.replace("\"", "").replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

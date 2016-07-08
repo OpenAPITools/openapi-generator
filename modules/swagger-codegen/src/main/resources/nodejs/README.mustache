@@ -8,11 +8,10 @@ This example uses the [expressjs](http://expressjs.com/) framework.  To see how 
 [README](https://github.com/swagger-api/swagger-codegen/blob/master/README.md)
 
 ### Running the server
-To run the server, follow these simple steps:
+To run the server, run:
 
 ```
-npm install
-node .
+npm start
 ```
 
 To view the Swagger UI interface:

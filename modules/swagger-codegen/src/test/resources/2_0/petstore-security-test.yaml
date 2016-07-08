@@ -1,0 +1,68 @@
+swagger: '2.0'
+info:
+  description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end"
+  version: 1.0.0 */ ' " =end
+  title: Swagger Petstore */ ' " =end
+  termsOfService: http://swagger.io/terms/ */ ' " =end
+  contact:
+    email: apiteam@swagger.io */ ' " =end
+  license:
+    name: Apache 2.0 */ ' " =end
+    url: http://www.apache.org/licenses/LICENSE-2.0.html */ ' " =end
+host: petstore.swagger.io */ ' " =end
+basePath: /v2 */ ' " =end
+tags:
+  - name: fake
+    description: Everything about your Pets */ ' " =end
+    externalDocs:
+      description: Find out more */ ' " = end
+      url: 'http://swagger.io'
+schemes:
+  - http */ end ' "
+paths:
+  /fake:
+    put:
+      tags:
+        - fake
+      summary: To test code injection */ ' " =end
+      descriptions:  To test code injection */ ' " =end
+      operationId: testCodeInject */ ' " =end
+      consumes:
+        - application/json
+        - "*/ ' \" =end"
+      produces:
+        - application/json
+        - "*/ ' \" =end"
+      parameters:
+        - name: test code inject */ ' " =end
+          type: string
+          in: formData 
+          description: To test code injection */ ' " =end
+      responses:
+        '400':
+          description: To test code injection */ ' " =end
+securityDefinitions:
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+    flow: implicit
+    scopes:
+      'write:pets': modify pets in your account  */ ' " =end
+      'read:pets': read your pets  */ ' " =end
+  api_key:
+    type: apiKey
+    name: api_key  */ ' " =end
+    in: header
+definitions:
+  Return:
+    description: Model for testing reserved words  */ ' " =end
+    properties:
+      return:
+        description: property description  */ ' " =end
+        type: integer
+        format: int32
+    xml:
+      name: Return
+externalDocs:
+  description: Find out more about Swagger  */ ' " =end
+  url: 'http://swagger.io'

@@ -3,7 +3,7 @@
 """
     Swagger Petstore
 
-    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
     OpenAPI spec version: 1.0.0
     Contact: apiteam@swagger.io
@@ -30,6 +30,7 @@ import json
 import ssl
 import certifi
 import logging
+import re
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -141,7 +142,7 @@ class RESTClientObject(object):
             if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
                 if query_params:
                     url += '?' + urlencode(query_params)
-                if headers['Content-Type'] == 'application/json':
+                if re.search('json', headers['Content-Type'], re.IGNORECASE):
                     request_body = None
                     if body:
                         request_body = json.dumps(body)

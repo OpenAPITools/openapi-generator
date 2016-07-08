@@ -1,7 +1,7 @@
 =begin
-Swagger Petstore
+#Swagger Petstore
 
-This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
+#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -126,14 +126,14 @@ module Petstore
       # HTTP header 'Content-Type'
       local_header_content_type = []
       header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
-      header_params[:'api_key'] = opts[:'api_key'] if opts[:'api_key']
+      header_params[:'api_key'] = opts[:'api_key'] if !opts[:'api_key'].nil?
 
       # form parameters
       form_params = {}
 
       # http body (model)
       post_body = nil
-            auth_names = ['petstore_auth']
+      auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -190,7 +190,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-            auth_names = ['petstore_auth']
+      auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -248,7 +248,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-            auth_names = ['petstore_auth']
+      auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -305,7 +305,7 @@ module Petstore
 
       # http body (model)
       post_body = nil
-            auth_names = ['api_key']
+      auth_names = ['api_key']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -419,12 +419,12 @@ module Petstore
 
       # form parameters
       form_params = {}
-      form_params["name"] = opts[:'name'] if opts[:'name']
-      form_params["status"] = opts[:'status'] if opts[:'status']
+      form_params["name"] = opts[:'name'] if !opts[:'name'].nil?
+      form_params["status"] = opts[:'status'] if !opts[:'status'].nil?
 
       # http body (model)
       post_body = nil
-            auth_names = ['petstore_auth']
+      auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -481,12 +481,12 @@ module Petstore
 
       # form parameters
       form_params = {}
-      form_params["additionalMetadata"] = opts[:'additional_metadata'] if opts[:'additional_metadata']
-      form_params["file"] = opts[:'file'] if opts[:'file']
+      form_params["additionalMetadata"] = opts[:'additional_metadata'] if !opts[:'additional_metadata'].nil?
+      form_params["file"] = opts[:'file'] if !opts[:'file'].nil?
 
       # http body (model)
       post_body = nil
-            auth_names = ['petstore_auth']
+      auth_names = ['petstore_auth']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

@@ -1,16 +1,16 @@
 swagger: '2.0'
 info:
-  description: 'This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: " \ '
-  version: 1.0.0
-  title: Swagger Petstore
+  description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
+  version: 1.0.0 
+  title: Swagger Petstore 
   termsOfService: 'http://swagger.io/terms/'
   contact:
-    email: apiteam@swagger.io
+    email: apiteam@swagger.io 
   license:
-    name: Apache 2.0
+    name: Apache 2.0 
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: petstore.swagger.io
-basePath: /v2
+host: petstore.swagger.io 
+basePath: /v2 
 tags:
   - name: pet
     description: Everything about your Pets
@@ -561,6 +561,47 @@ paths:
           description: User not found
 
   /fake:
+    get:
+      tags:
+        - fake
+      summary: To test enum query parameters
+      descriptions: To test enum query parameters
+      operationId: testEnumQueryParameters
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: enum_query_string
+          type: string
+          default: '-efg'
+          enum:
+            - _abc
+            - '-efg'
+            - (xyz)
+          in: formData 
+          description: Query parameter enum test (string)
+        - name: enum_query_integer
+          type: number
+          format: int32 
+          enum:
+            - 1
+            - -2
+          in: query
+          description: Query parameter enum test (double)
+        - name: enum_query_double
+          type: number
+          format: double 
+          enum:
+            - 1.1
+            - -1.2
+          in: formData
+          description: Query parameter enum test (double)
+      responses:
+        '400':
+          description: Invalid request
+        '404':
+          description: Not found
     post:
       tags:
         - fake 
@@ -985,6 +1026,41 @@ definitions:
         readOnly: true
       baz:
         type: string
+  hasOnlyReadOnly:
+    type: object
+    properties:
+      bar:
+        type: string
+        readOnly: true
+      foo:
+        type: string
+        readOnly: true
+  MapTest:
+    type: object
+    properties:
+      map_map_of_string:
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: string  
+      # comment out the following (map of map of enum) as many language not yet support this
+      #map_map_of_enum:
+      #  type: object
+      #  additionalProperties:
+      #    type: object
+      #    additionalProperties:
+      #      type: string  
+      #      enum:
+      #        - UPPER
+      #        - lower
+      map_of_enum_string:
+        type: object
+        additionalProperties:
+          type: string
+          enum:
+            - UPPER
+            - lower
   ArrayTest:
     type: object
     properties:
@@ -1005,6 +1081,36 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/ReadOnlyFirst'
+      # commented out the below test case for array of enum for the time being
+      # as not all language can handle it
+      #array_of_enum:
+      #  type: array
+      #  items:
+      #    type: string
+      #    enum:
+      #      - UPPER
+      #      - lower
+  NumberOnly:
+    type: object
+    properties:
+      JustNumber:
+        type: number
+  ArrayOfNumberOnly:
+    type: object
+    properties:
+      ArrayNumber:
+        type: array
+        items:
+          type: number
+  ArrayOfArrayOfNumberOnly:
+    type: object
+    properties:
+      ArrayArrayNumber:
+        type: array
+        items:
+          type: array
+          items:
+            type: number
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

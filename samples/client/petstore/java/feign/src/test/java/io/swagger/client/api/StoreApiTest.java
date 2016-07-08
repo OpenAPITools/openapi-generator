@@ -1,77 +1,80 @@
 package io.swagger.client.api;
 
-import io.swagger.client.ApiClient;
-import io.swagger.client.model.Order;
-import org.junit.Before;
-import org.junit.Test;
+import feign.FeignException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import io.swagger.TestUtils;
+
+import io.swagger.client.ApiClient;
+import io.swagger.client.model.*;
+
+import java.lang.reflect.Field;
 import java.util.Map;
 
-/**
- * API tests for StoreApi
- */
-public class StoreApiTest {
+import org.junit.*;
+import static org.junit.Assert.*;
 
-    private StoreApi api;
+public class StoreApiTest {
+    ApiClient apiClient;
+    StoreApi api;
 
     @Before
     public void setup() {
-        api = new ApiClient().buildClient(StoreApi.class);
+        apiClient = new ApiClient();
+        api = apiClient.buildClient(StoreApi.class);
     }
 
-    
-    /**
-     * Delete purchase order by ID
-     *
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-     */
     @Test
-    public void deleteOrderTest() {
-        String orderId = null;
-        // api.deleteOrder(orderId);
-
-        // TODO: test validations
+    public void testGetInventory() throws Exception {
+        Map<String, Integer> inventory = api.getInventory();
+        assertTrue(inventory.keySet().size() > 0);
     }
-    
-    /**
-     * Returns pet inventories by status
-     *
-     * Returns a map of status codes to quantities
-     */
+
     @Test
-    public void getInventoryTest() {
-        // Map<String, Integer> response = api.getInventory();
+    public void testPlaceOrder() throws Exception {
+        Order order = createOrder();
+        api.placeOrder(order);
 
-        // TODO: test validations
+        Order fetched = api.getOrderById(order.getId());
+        assertEquals(order.getId(), fetched.getId());
+        assertEquals(order.getPetId(), fetched.getPetId());
+        assertEquals(order.getQuantity(), fetched.getQuantity());
+        assertEquals(order.getShipDate().toInstant(), fetched.getShipDate().toInstant());
     }
-    
-    /**
-     * Find purchase order by ID
-     *
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     */
+
     @Test
-    public void getOrderByIdTest() {
-        Long orderId = null;
-        // Order response = api.getOrderById(orderId);
+    public void testDeleteOrder() throws Exception {
+        Order order = createOrder();
+        api.placeOrder(order);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Place an order for a pet
-     *
-     * 
-     */
-    @Test
-    public void placeOrderTest() {
-        Order body = null;
-        // Order response = api.placeOrder(body);
+        Order fetched = api.getOrderById(order.getId());
+        assertEquals(fetched.getId(), order.getId());
 
-        // TODO: test validations
+        api.deleteOrder(order.getId().toString());
+
+        try {
+            api.getOrderById(order.getId());
+            fail("expected an error");
+        } catch (FeignException e) {
+            assertTrue(e.getMessage().startsWith("status 404 "));
+        }
     }
-    
+
+    private Order createOrder() {
+        Order order = new Order();
+        order.setPetId(new Long(200));
+        order.setQuantity(new Integer(13));
+        order.setShipDate(org.joda.time.DateTime.now());
+        order.setStatus(Order.StatusEnum.PLACED);
+        order.setComplete(true);
+
+        try {
+          Field idField = Order.class.getDeclaredField("id");
+          idField.setAccessible(true);
+          idField.set(order, TestUtils.nextId());
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+
+        return order;
+    }
 }

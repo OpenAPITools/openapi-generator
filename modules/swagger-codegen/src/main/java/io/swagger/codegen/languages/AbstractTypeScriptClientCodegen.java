@@ -311,4 +311,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public Boolean getSupportsES6() {
         return supportsES6;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ', " to avoid code injection
+        return input.replace("\"", "").replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
 }
