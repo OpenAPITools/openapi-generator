@@ -1,12 +1,24 @@
 part of api;
 
+class QueryParam {
+  String name;
+  String value;
+
+  QueryParam(this.name, this.value);
+}
+
 class ApiClient {
-  static ApiClient defaultApiClient = new ApiClient();
+
+  var client = new BrowserClient();
 
   Map<String, String> _defaultHeaderMap = {};
   Map<String, Authentication> _authentications = {};
-  static final dson = new Dartson.JSON();
+
+  final dson = new Dartson.JSON();
   final DateFormat _dateFormatter = new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+  final _RegList = new RegExp(r'^List<(.*)>$');
+  final _RegMap = new RegExp(r'^Map<String,(.*)>$');
 
   ApiClient() {
     // Setup authentications (key: authentication name, value: authentication).
@@ -36,49 +48,63 @@ class ApiClient {
     }
   }
 
-  static dynamic deserialize(String json, dynamic clazz) {
-    var result = json;
-
+  dynamic _deserialize(dynamic value, String targetType) {
     try {
-      var decodedJson = JSON.decode(json);
-
-      if(decodedJson is List) {
-        result = [];
-        for(var obj in decodedJson) {
-          result.add(_createEntity(obj, clazz));
-        }
-      } else {
-        result = _createEntity(json, clazz);
+      switch (targetType) {
+        case 'String':
+          return '$value';
+        case 'int':
+          return value is int ? value : int.parse('$value');
+        case 'bool':
+          return value is bool ? value : '$value'.toLowerCase() == 'true';
+        case 'double':
+          return value is double ? value : double.parse('$value');
+        case 'ApiResponse':
+          return dson.map(value, new ApiResponse());
+        case 'Category':
+          return dson.map(value, new Category());
+        case 'Order':
+          return dson.map(value, new Order());
+        case 'Pet':
+          return dson.map(value, new Pet());
+        case 'Tag':
+          return dson.map(value, new Tag());
+        case 'User':
+          return dson.map(value, new User());
+        default:
+          {
+            Match match;
+            if (value is List &&
+                (match = _RegList.firstMatch(targetType)) != null) {
+              var valueL = value as List;
+              var newTargetType = match[1];
+              return valueL.map((v) => _deserialize(v, newTargetType)).toList();
+            } else if (value is Map &&
+                (match = _RegMap.firstMatch(targetType)) != null) {
+              var valueM = value as Map;
+              var newTargetType = match[1];
+              return new Map.fromIterables(valueM.keys,
+                  valueM.values.map((v) => _deserialize(v, newTargetType)));
+            }
+          }
       }
-    } on FormatException {
-      // Just return the passed in value
+    } catch(e) {
+      // Just throw the ApiException below
     }
-
-    return result;
+    throw new ApiException(500, 'Could not find a suitable class for deserialization');
   }
 
-  static dynamic _createEntity(dynamic json, dynamic clazz) {
-    bool isMap = json is Map;
+  dynamic deserialize(String json, String targetType) {
+    // Remove all spaces.  Necessary for reg expressions as well.
+    targetType = targetType.replaceAll(' ', '');
 
-    switch(clazz) {
-      case ApiResponse:
-        return isMap ? dson.map(json, new ApiResponse()) : dson.decode(json, new ApiResponse());
-      case Category:
-        return isMap ? dson.map(json, new Category()) : dson.decode(json, new Category());
-      case Order:
-        return isMap ? dson.map(json, new Order()) : dson.decode(json, new Order());
-      case Pet:
-        return isMap ? dson.map(json, new Pet()) : dson.decode(json, new Pet());
-      case Tag:
-        return isMap ? dson.map(json, new Tag()) : dson.decode(json, new Tag());
-      case User:
-        return isMap ? dson.map(json, new User()) : dson.decode(json, new User());
-      default:
-        throw new ApiException(500, 'Could not find a suitable class for deserialization');
-    }
+    if (targetType == 'String') return json;
+
+    var decodedJson = JSON.decode(json);
+    return _deserialize(decodedJson, targetType);
   }
 
-  static String serialize(Object obj) {
+  String serialize(Object obj) {
     String serialized = '';
     if (obj == null) {
       serialized = '';
@@ -90,43 +116,29 @@ class ApiClient {
     return serialized;
   }
 
-  Future<Response> invokeAPI( String host, 
-                              String path,
-                              String method,
-                              Map<String, String> queryParams,
-                              Object body,
-                              Map<String, String> headerParams,
-                              Map<String, String> formParams,
-                              String contentType,
-                              List<String> authNames)  {
+  // We don't use a Map<String, String> for queryParams.
+  // If collectionFormat is 'multi' a key might appear multiple times.
+  Future<Response> invokeAPI(String host,
+                             String path,
+                             String method,
+                             List<QueryParam> queryParams,
+                             Object body,
+                             Map<String, String> headerParams,
+                             Map<String, String> formParams,
+                             String contentType,
+                             List<String> authNames) async {
 
-    updateParamsForAuth(authNames, queryParams, headerParams);
+    _updateParamsForAuth(authNames, queryParams, headerParams);
 
-    var client = new BrowserClient();
+    var ps = queryParams.where((p) => p.value != null).map((p) => '${p.name}=${p.value}');
+    String queryString = ps.isNotEmpty ?
+                         '?' + ps.join('&') :
+                         '';
 
-    StringBuffer sb = new StringBuffer();
-    
-    for(String key in queryParams.keys) {
-      String value = queryParams[key];
-      if (value != null){
-        if(sb.toString().length == 0) {
-          sb.write("?");
-        } else {
-          sb.write("&");
-        }
-        sb.write(key);
-        sb.write("=");
-        sb.write(value);
-      }
-    }
-    String querystring = sb.toString();
-
-    String url = host + path + querystring;
+    String url = host + path + queryString;
 
     headerParams.addAll(_defaultHeaderMap);
     headerParams['Content-Type'] = contentType;
-
-    var completer = new Completer();
 
     if(body is MultipartRequest) {
       var request = new MultipartRequest(method, Uri.parse(url));      
@@ -134,32 +146,30 @@ class ApiClient {
       request.files.addAll(body.files);
       request.headers.addAll(body.headers);
       request.headers.addAll(headerParams);
-      client.send(request).then((response) => completer.complete(Response.fromStream(response)));
+      var response = await client.send(request);
+      return Response.fromStream(response);
     } else {
       var msgBody = contentType == "application/x-www-form-urlencoded" ? formParams : serialize(body);
       switch(method) {
-        case "GET":
-          return client.get(url, headers: headerParams);
         case "POST":
           return client.post(url, headers: headerParams, body: msgBody);
         case "PUT":
           return client.put(url, headers: headerParams, body: msgBody);
         case "DELETE":
           return client.delete(url, headers: headerParams);
+        default:
+          return client.get(url, headers: headerParams);
       }
     }
-
-    return completer.future;
   }
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply  
-  void updateParamsForAuth(List<String> authNames, Map<String, String> queryParams, Map<String, String> headerParams) {
+  void _updateParamsForAuth(List<String> authNames, List<QueryParam> queryParams, Map<String, String> headerParams) {
     authNames.forEach((authName) {
       Authentication auth = _authentications[authName];
       if (auth == null) throw new ArgumentError("Authentication undefined: " + authName);
       auth.applyToParams(queryParams, headerParams);
     });
   }
-
 }
