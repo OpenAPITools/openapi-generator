@@ -230,7 +230,7 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         if(isNotEmpty(modelNameSuffix)) {
-            configurator.setModelNamePrefix(modelNameSuffix);
+            configurator.setModelNameSuffix(modelNameSuffix);
         }
 
         if (null != templateDirectory) {
