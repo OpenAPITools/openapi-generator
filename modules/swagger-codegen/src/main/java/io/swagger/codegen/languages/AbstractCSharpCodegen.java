@@ -57,6 +57,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        // set client as a reserved word to avoid conflicts with IO.Swagger.Client
+                        // this is a workaround and can be removed if c# api client is updated to use
+                        // fully qualified name
+                        "client",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams", 
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
