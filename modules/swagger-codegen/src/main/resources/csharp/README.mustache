@@ -128,10 +128,16 @@ No model defined in this package
 
 ## Documentation for Authorization
 
-<a name="{{#authMethods}}{{name}}"></a>
-{{^authMethods}} All endpoints do not require authorization.
-{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
-{{#authMethods}}### {{name}}
+{{^authMethods}}
+All endpoints do not require authorization.
+{{/authMethods}}
+{{#authMethods}}
+{{#last}}
+Authentication schemes defined for the API:
+{{/last}}
+{{/authMethods}}
+{{#authMethods}}
+### {{name}}
 
 {{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{keyParamName}}

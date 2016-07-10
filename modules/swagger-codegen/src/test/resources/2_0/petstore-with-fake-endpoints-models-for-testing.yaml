@@ -561,6 +561,28 @@ paths:
           description: User not found
 
   /fake:
+    patch:
+      tags:
+        - fake
+      summary: To test "client" model
+      descriptions: To test "client" model
+      operationId: testClientModel
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: client model
+          required: true
+          schema:
+            $ref: '#/definitions/Client'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Client'
     get:
       tags:
         - fake
@@ -1018,6 +1040,11 @@ definitions:
         type: object
         additionalProperties:
           $ref: '#/definitions/Animal'
+  Client:
+    type: object
+    properties:
+      client:
+        type: string
   ReadOnlyFirst:
     type: object
     properties:
