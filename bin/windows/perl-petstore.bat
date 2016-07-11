@@ -4,7 +4,7 @@ If Not Exist %executable% (
   mvn clean package
 )
 
-set JAVA_OPTS=%JAVA_OPTS% -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate -t modules\swagger-codegen\src\main\resources\perl -i modules\swagger-codegen\src\test\resources\2_0\petstore.json -l perl -o samples\client\petstore\perl
+REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
+set ags=generate -i modules\swagger-codegen\src\test\resources\2_0\petstore.json -l perl -o samples\client\petstore\perl
 
 java %JAVA_OPTS% -jar %executable% %ags%
