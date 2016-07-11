@@ -16,9 +16,9 @@ install:
   - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
 build_script:
-  - mvn clean package --batch-mode -DskipTest
-test_script:
   - mvn clean install --batch-mode
+test_script:
+  - .\bin\windows\run-all-petstore.cmd
 cache:
   - C:\maven\
   - C:\Users\appveyor\.m2
