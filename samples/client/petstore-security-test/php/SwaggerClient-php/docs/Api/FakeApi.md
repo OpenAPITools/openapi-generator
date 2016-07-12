@@ -1,16 +1,16 @@
 # Swagger\Client\FakeApi
 
-All URIs are relative to *https://petstore.swagger.io */ &#39; &quot; &#x3D;end/v2 */ &#39; &quot; &#x3D;end*
+All URIs are relative to *https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testCodeInjectEnd**](FakeApi.md#testCodeInjectEnd) | **PUT** /fake | To test code injection */ &#39; \&quot; &#x3D;end
+[**testCodeInjectEndRnNR**](FakeApi.md#testCodeInjectEndRnNR) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r
 
 
-# **testCodeInjectEnd**
-> testCodeInjectEnd($test_code_inject____end)
+# **testCodeInjectEndRnNR**
+> testCodeInjectEndRnNR($test_code_inject____end_rn_n_r)
 
-To test code injection */ ' \" =end
+To test code injection *_/ ' \" =end \\r\\n \\n \\r
 
 ### Example
 ```php
@@ -18,12 +18,12 @@ To test code injection */ ' \" =end
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\FakeApi();
-$test_code_inject____end = "test_code_inject____end_example"; // string | To test code injection */ ' \" =end
+$test_code_inject____end_rn_n_r = "test_code_inject____end_rn_n_r_example"; // string | To test code injection *_/ ' \" =end \\r\\n \\n \\r
 
 try {
-    $api_instance->testCodeInjectEnd($test_code_inject____end);
+    $api_instance->testCodeInjectEndRnNR($test_code_inject____end_rn_n_r);
 } catch (Exception $e) {
-    echo 'Exception when calling FakeApi->testCodeInjectEnd: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling FakeApi->testCodeInjectEndRnNR: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -32,7 +32,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **test_code_inject____end** | **string**| To test code injection */ &#39; \&quot; &#x3D;end | [optional]
+ **test_code_inject____end_rn_n_r** | **string**| To test code injection *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r | [optional]
 
 ### Return type
 
@@ -44,8 +44,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, */ ' " =end
- - **Accept**: application/json, */ ' " =end
+ - **Content-Type**: application/json, *_/  \" =end
+ - **Accept**: application/json, *_/  \" =end
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -25,7 +25,7 @@ type Configuration struct {
 
 func NewConfiguration() *Configuration {
 	return &Configuration{
-		BasePath:      "{{basePath}}",
+		BasePath:      "{{{basePath}}}",
 		UserName:      "",
 		debug:         false,
 		DefaultHeader: make(map[string]string),

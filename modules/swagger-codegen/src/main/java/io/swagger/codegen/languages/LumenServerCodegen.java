@@ -23,7 +23,7 @@ public class LumenServerCodegen extends DefaultCodegen implements CodegenConfig 
      * @see     io.swagger.codegen.CodegenType
      */
     public CodegenType getTag() {
-        return CodegenType.CLIENT;
+        return CodegenType.SERVER;
     }
 
     /**
