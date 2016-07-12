@@ -63,7 +63,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                         }
                         self.processRequest(uploadRequest, managerId, completion)
                     case .Failure(let encodingError):
-                        completion(response: nil, error: encodingError)
+                        completion(response: nil, error: ErrorResponse.Error(415, nil, encodingError))
                     }
                 }
             )
@@ -96,7 +96,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if (dataResponse.result.isFailure) {
                     completion(
                         response: nil,
-                        error: dataResponse.result.error
+                        error: ErrorResponse.Error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.result.error!)
                     )
                     return
                 }
@@ -114,7 +114,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 cleanupRequest()
 
                 if response.result.isFailure {
-                    completion(response: nil, error: response.result.error)
+                    completion(response: nil, error: ErrorResponse.Error(response.response?.statusCode ?? 500, response.data, response.result.error!))
                     return
                 }
 
@@ -133,7 +133,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     return
                 }
 
-                completion(response: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"]))
+                completion(response: nil, error: ErrorResponse.Error(500, nil, NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"])))
             }
         }
     }

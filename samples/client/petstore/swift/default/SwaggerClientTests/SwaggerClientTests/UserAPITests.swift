@@ -30,14 +30,17 @@ class UserAPITests: XCTestCase {
         UserAPI.loginUser(username: "swiftTester", password: "swift") { (_, error) in
             // The server isn't returning JSON - and currently the alamofire implementation
             // always parses responses as JSON, so making an exception for this here
-            // Error Domain=NSCocoaErrorDomain Code=3840 "Invalid value around character 0."
-            // UserInfo={NSDebugDescription=Invalid value around character 0.}
-            guard let error = error where error._code == 3840 else {
+            guard let error = error else {
                 XCTFail("error logging in")
                 return
             }
-            
-            expectation.fulfill()
+
+            switch error {
+            case ErrorResponse.Error(200, _, _):
+                expectation.fulfill()
+            default:
+                XCTFail("error logging in")
+            }
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
@@ -49,15 +52,17 @@ class UserAPITests: XCTestCase {
         UserAPI.logoutUser { (error) in
             // The server gives us no data back so Alamofire parsing fails - at least
             // verify that is the error we get here
-            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-            // length.}
-            guard let error = error where error._code == -6006 else {
+            guard let error = error else {
                 XCTFail("error logging out")
                 return
             }
-            
-            expectation.fulfill()
+
+            switch error {
+            case ErrorResponse.Error(200, _, _):
+                expectation.fulfill()
+            default:
+                XCTFail("error logging out")
+            }
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
@@ -79,15 +84,17 @@ class UserAPITests: XCTestCase {
         UserAPI.createUser(body: newUser) { (error) in
             // The server gives us no data back so Alamofire parsing fails - at least
             // verify that is the error we get here
-            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-            // length.}
-            guard let error = error where error._code == -6006 else {
+            guard let error = error else {
                 XCTFail("error creating user")
                 return
             }
-            
-            expectation.fulfill()
+
+            switch error {
+            case ErrorResponse.Error(200, _, _):
+                expectation.fulfill()
+            default:
+                XCTFail("error creating user")
+            }
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
@@ -123,15 +130,17 @@ class UserAPITests: XCTestCase {
         UserAPI.deleteUser(username: "test@test.com") { (error) in
             // The server gives us no data back so Alamofire parsing fails - at least
             // verify that is the error we get here
-            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-            // length.}
-            guard let error = error where error._code == -6006 else {
+            guard let error = error else {
                 XCTFail("error deleting user")
                 return
             }
-            
-            expectation.fulfill()
+
+            switch error {
+            case ErrorResponse.Error(200, _, _):
+                expectation.fulfill()
+            default:
+                XCTFail("error deleting user")
+            }
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)

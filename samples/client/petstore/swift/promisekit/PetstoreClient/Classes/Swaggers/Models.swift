@@ -10,6 +10,10 @@ protocol JSONEncodable {
     func encodeToJSON() -> AnyObject
 }
 
+public enum ErrorResponse : ErrorType {
+    case Error(Int, NSData?, ErrorType)
+}
+
 public class Response<T> {
     public let statusCode: Int
     public let header: [String: String]

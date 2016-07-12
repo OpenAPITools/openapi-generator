@@ -68,13 +68,15 @@ class PetAPITests: XCTestCase {
             }.error { errorType -> Void in
                 // The server gives us no data back so alamofire parsing fails - at least
                 // verify that is the error we get here
-                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-                // length.}
-                let error = errorType as NSError
-                if error.code == -6006 {
+                guard let error = errorType as? ErrorResponse else {
+                    XCTFail("error logging out")
+                    return
+                }
+
+                switch error {
+                case ErrorResponse.Error(200, _, _):
                     expectation.fulfill()
-                } else {
+                default:
                     XCTFail("error logging out")
                 }
         }

@@ -76,15 +76,17 @@ class StoreAPITests: XCTestCase {
         StoreAPI.deleteOrder(orderId: "1000") { (error) in
             // The server gives us no data back so Alamofire parsing fails - at least
             // verify that is the error we get here
-            // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-            // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-            // length.}
-            guard let error = error where error._code == -6006 else {
+            guard let error = error else {
                 XCTFail("error deleting order")
                 return
             }
-            
-            expectation.fulfill()
+
+            switch error {
+            case ErrorResponse.Error(200, _, _):
+                expectation.fulfill()
+            default:
+                XCTFail("error deleting order")
+            }
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)

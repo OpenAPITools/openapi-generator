@@ -34,12 +34,15 @@ class UserAPITests: XCTestCase {
             }.error { errorType -> Void in
                 // The server isn't returning JSON - and currently the alamofire implementation
                 // always parses responses as JSON, so making an exception for this here
-                // Error Domain=NSCocoaErrorDomain Code=3840 "Invalid value around character 0." 
-                // UserInfo={NSDebugDescription=Invalid value around character 0.}
-                let error = errorType as NSError
-                if error.code == 3840 {
+                guard let error = errorType as? ErrorResponse else {
+                    XCTFail("error logging in")
+                    return
+                }
+
+                switch error {
+                case ErrorResponse.Error(200, _, _):
                     expectation.fulfill()
-                } else {
+                default:
                     XCTFail("error logging in")
                 }
         }
@@ -55,13 +58,15 @@ class UserAPITests: XCTestCase {
             }.error { errorType -> Void in
                 // The server gives us no data back so alamofire parsing fails - at least
                 // verify that is the error we get here
-                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero 
-                // length.}
-                let error = errorType as NSError
-                if error.code == -6006 {
+                guard let error = errorType as? ErrorResponse else {
+                    XCTFail("error logging out")
+                    return
+                }
+
+                switch error {
+                case ErrorResponse.Error(200, _, _):
                     expectation.fulfill()
-                } else {
+                default:
                     XCTFail("error logging out")
                 }
         }
@@ -86,13 +91,15 @@ class UserAPITests: XCTestCase {
             }.error { errorType -> Void in
                 // The server gives us no data back so alamofire parsing fails - at least
                 // verify that is the error we get here
-                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-                // length.}
-                let error = errorType as NSError
-                if error.code == -6006 {
+                guard let error = errorType as? ErrorResponse else {
+                    XCTFail("error creating user")
+                    return
+                }
+
+                switch error {
+                case ErrorResponse.Error(200, _, _):
                     expectation.fulfill()
-                } else {
+                default:
                     XCTFail("error creating user")
                 }
         }
@@ -126,14 +133,16 @@ class UserAPITests: XCTestCase {
             }.error { errorType -> Void in
                 // The server gives us no data back so alamofire parsing fails - at least
                 // verify that is the error we get here
-                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-                // length.}
-                let error = errorType as NSError
-                if error.code == -6006 {
+                guard let error = errorType as? ErrorResponse else {
+                    XCTFail("error deleting user")
+                    return
+                }
+
+                switch error {
+                case ErrorResponse.Error(200, _, _):
                     expectation.fulfill()
-                } else {
-                    XCTFail("error logging out")
+                default:
+                    XCTFail("error deleting user")
                 }
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
