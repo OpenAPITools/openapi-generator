@@ -9,6 +9,7 @@ class QueryParam {
 
 class ApiClient {
 
+  String basePath;
   var client = new {{#browserClient}}Browser{{/browserClient}}Client();
 
   Map<String, String> _defaultHeaderMap = {};
@@ -20,7 +21,7 @@ class ApiClient {
   final _RegList = new RegExp(r'^List<(.*)>$');
   final _RegMap = new RegExp(r'^Map<String,(.*)>$');
 
-  ApiClient() {
+  ApiClient({this.basePath: "{{{basePath}}}"}) {
     // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}
     _authentications['{{name}}'] = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
     _authentications['{{name}}'] = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
@@ -113,8 +114,7 @@ class ApiClient {
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi' a key might appear multiple times.
-  Future<Response> invokeAPI(String host,
-                             String path,
+  Future<Response> invokeAPI(String path,
                              String method,
                              List<QueryParam> queryParams,
                              Object body,
@@ -130,7 +130,7 @@ class ApiClient {
                          '?' + ps.join('&') :
                          '';
 
-    String url = host + path + queryString;
+    String url = basePath + path + queryString;
 
     headerParams.addAll(_defaultHeaderMap);
     headerParams['Content-Type'] = contentType;
