@@ -4,7 +4,6 @@ part of api;
 
 
 class {{classname}} {
-  String basePath = "{{basePath}}";
   final ApiClient apiClient;
 
   {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
@@ -73,8 +72,7 @@ class {{classname}} {
       {{/formParams}}
     }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              '{{httpMethod}}',
                                              queryParams,
                                              postBody,
