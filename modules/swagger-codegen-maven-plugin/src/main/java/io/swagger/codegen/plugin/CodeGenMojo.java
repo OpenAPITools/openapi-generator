@@ -21,8 +21,6 @@ import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.DefaultGenerator;
 import io.swagger.codegen.config.CodegenConfigurator;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -32,9 +30,7 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -136,6 +132,18 @@ public class CodeGenMojo extends AbstractMojo {
     private String library;
 
     /**
+     * Sets the prefix for model enums and classes
+     */
+    @Parameter(name = "modelNamePrefix", required = false)
+    private String modelNamePrefix;
+
+    /**
+     * Sets the suffix for model enums and classes
+     */
+    @Parameter(name = "modelNameSuffix", required = false)
+    private String modelNameSuffix;
+
+    /**
      * A map of language-specific parameters as passed with the -c option to the command line
      */
     @Parameter(name = "configOptions")
@@ -215,6 +223,14 @@ public class CodeGenMojo extends AbstractMojo {
 
         if(isNotEmpty(library)) {
             configurator.setLibrary(library);
+        }
+
+        if(isNotEmpty(modelNamePrefix)) {
+            configurator.setModelNamePrefix(modelNamePrefix);
+        }
+
+        if(isNotEmpty(modelNameSuffix)) {
+            configurator.setModelNameSuffix(modelNameSuffix);
         }
 
         if (null != templateDirectory) {
