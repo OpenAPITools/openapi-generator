@@ -47,16 +47,16 @@ namespace IO.Swagger.Model
         Abc,
         
         /// <summary>
-        /// Enum efg for "-efg"
+        /// Enum Efg for "-efg"
         /// </summary>
         [EnumMember(Value = "-efg")]
-        efg,
+        Efg,
         
         /// <summary>
-        /// Enum xyz for "(xyz)"
+        /// Enum Xyz for "(xyz)"
         /// </summary>
         [EnumMember(Value = "(xyz)")]
-        xyz
+        Xyz
     }
 
 }

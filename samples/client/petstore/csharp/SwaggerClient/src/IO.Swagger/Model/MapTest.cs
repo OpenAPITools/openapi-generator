@@ -48,10 +48,10 @@ namespace IO.Swagger.Model
         {
             
             /// <summary>
-            /// Enum Upper for "UPPER"
+            /// Enum UPPER for "UPPER"
             /// </summary>
             [EnumMember(Value = "UPPER")]
-            Upper,
+            UPPER,
             
             /// <summary>
             /// Enum Lower for "lower"

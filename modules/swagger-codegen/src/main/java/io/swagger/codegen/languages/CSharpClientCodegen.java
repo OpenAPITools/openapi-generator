@@ -414,9 +414,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         // string
         String var = value.replaceAll("_", " ");
-        var = WordUtils.capitalizeFully(var);
+        //var = WordUtils.capitalizeFully(var);
+        var = camelize(var);
         var = var.replaceAll("\\W+", "");
-
 
         if (var.matches("\\d.*")) {
             return "_" + var;
