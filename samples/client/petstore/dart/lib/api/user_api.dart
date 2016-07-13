@@ -1,265 +1,35 @@
 part of api;
 
 
+
 class UserApi {
   String basePath = "http://petstore.swagger.io/v2";
-  ApiClient apiClient = ApiClient.defaultApiClient;
+  final ApiClient apiClient;
 
-  UserApi([ApiClient apiClient]) {
-    if (apiClient != null) {
-      this.apiClient = apiClient;
-    }
-  }
+  UserApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   /// Create user
   ///
   /// This can only be done by the logged in user.
-  Future createUser(User body) {
+  Future createUser(User body,  {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
     Object postBody = body;
+
     // verify required params are set
-    if() {
-       throw new ApiException(400, "missing required params");
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
     String path = "/user".replaceAll("{format}","json");
 
     // query params
-    Map<String, String> queryParams = {};
+    List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-        
-    List<String> contentTypes = [];
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-    List<String> authNames = [];
-
-    if(contentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-          }
-
-    return apiClient.invokeAPI(basePath, path, 'POST', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    });
-  }
-  /// Creates list of users with given input array
-  ///
-  /// 
-  Future createUsersWithArrayInput(List<User> body) {
-    Object postBody = body;
-    // verify required params are set
-    if() {
-       throw new ApiException(400, "missing required params");
-    }
-
-    // create path and map variables
-    String path = "/user/createWithArray".replaceAll("{format}","json");
-
-    // query params
-    Map<String, String> queryParams = {};
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-        
-    List<String> contentTypes = [];
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-    List<String> authNames = [];
-
-    if(contentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-          }
-
-    return apiClient.invokeAPI(basePath, path, 'POST', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    });
-  }
-  /// Creates list of users with given input array
-  ///
-  /// 
-  Future createUsersWithListInput(List<User> body) {
-    Object postBody = body;
-    // verify required params are set
-    if() {
-       throw new ApiException(400, "missing required params");
-    }
-
-    // create path and map variables
-    String path = "/user/createWithList".replaceAll("{format}","json");
-
-    // query params
-    Map<String, String> queryParams = {};
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-        
-    List<String> contentTypes = [];
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-    List<String> authNames = [];
-
-    if(contentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-          }
-
-    return apiClient.invokeAPI(basePath, path, 'POST', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    });
-  }
-  /// Delete user
-  ///
-  /// This can only be done by the logged in user.
-  Future deleteUser(String username) {
-    Object postBody = null;
-    // verify required params are set
-    if() {
-       throw new ApiException(400, "missing required params");
-    }
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
-
-    // query params
-    Map<String, String> queryParams = {};
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-        
-    List<String> contentTypes = [];
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-    List<String> authNames = [];
-
-    if(contentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-          }
-
-    return apiClient.invokeAPI(basePath, path, 'DELETE', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    });
-  }
-  /// Get user by user name
-  ///
-  /// 
-  Future<User> getUserByName(String username) {
-    Object postBody = null;
-    // verify required params are set
-    if() {
-       throw new ApiException(400, "missing required params");
-    }
-
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
-
-    // query params
-    Map<String, String> queryParams = {};
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-        
-    List<String> contentTypes = [];
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-    List<String> authNames = [];
-
-    if(contentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = new MultipartRequest(null, null);
-      
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-          }
-
-    return apiClient.invokeAPI(basePath, path, 'GET', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ApiClient.deserialize(response.body, User);
-      }
-      else {
-        return null;
-      }
-    });
-  }
-  /// Logs user into the system
-  ///
-  /// 
-  Future<String> loginUser(String username, String password) {
-    Object postBody = null;
-    // verify required params are set
-    if(    // verify required params are set
-    if() {
-       throw new ApiException(400, "missing required params");
-    }) {
-       throw new ApiException(400, "missing required params");
-    }
-
-    // create path and map variables
-    String path = "/user/login".replaceAll("{format}","json");
-
-    // query params
-    Map<String, String> queryParams = {};
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-    if("null" != username)
-      queryParams["username"] = username is List ? username.join(',') : username;
-if("null" != password)
-      queryParams["password"] = password is List ? password.join(',') : password;
     
     List<String> contentTypes = [];
 
@@ -276,33 +46,47 @@ if("null" != password)
     else {
           }
 
-    return apiClient.invokeAPI(basePath, path, 'GET', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ApiClient.deserialize(response.body, String);
-      }
-      else {
-        return null;
-      }
-    });
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'POST',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return ;
+    } else {
+      return ;
+    }
   }
-  /// Logs out current logged in user session
+  /// Creates list of users with given input array
   ///
   /// 
-  Future logoutUser() {
-    Object postBody = null;
+  Future createUsersWithArrayInput(List<User> body,  {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
+    Object postBody = body;
 
+    // verify required params are set
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
+    }
 
     // create path and map variables
-    String path = "/user/logout".replaceAll("{format}","json");
+    String path = "/user/createWithArray".replaceAll("{format}","json");
 
     // query params
-    Map<String, String> queryParams = {};
+    List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-        
+    
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -318,39 +102,103 @@ if("null" != password)
     else {
           }
 
-    return apiClient.invokeAPI(basePath, path, 'GET', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    });
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'POST',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return ;
+    } else {
+      return ;
+    }
   }
-  /// Updated user
+  /// Creates list of users with given input array
+  ///
+  /// 
+  Future createUsersWithListInput(List<User> body,  {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
+    Object postBody = body;
+
+    // verify required params are set
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
+    }
+
+    // create path and map variables
+    String path = "/user/createWithList".replaceAll("{format}","json");
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    
+    List<String> contentTypes = [];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+          }
+
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'POST',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return ;
+    } else {
+      return ;
+    }
+  }
+  /// Delete user
   ///
   /// This can only be done by the logged in user.
-  Future updateUser(String username, User body) {
-    Object postBody = body;
+  Future deleteUser(String username,  {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
+    Object postBody = null;
+
     // verify required params are set
-    if(    // verify required params are set
-    if() {
-       throw new ApiException(400, "missing required params");
-    }) {
-       throw new ApiException(400, "missing required params");
+    if(username == null) {
+     throw new ApiException(400, "Missing required param: username");
     }
 
     // create path and map variables
     String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
 
     // query params
-    Map<String, String> queryParams = {};
+    List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-        
+    
     List<String> contentTypes = [];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -366,16 +214,255 @@ if("null" != password)
     else {
           }
 
-    return apiClient.invokeAPI(basePath, path, 'PUT', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return ;
-      }
-      else {
-        return ;
-      }
-    });
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'DELETE',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return ;
+    } else {
+      return ;
+    }
+  }
+  /// Get user by user name
+  ///
+  /// 
+  Future<User> getUserByName(String username,  {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
+    Object postBody = null;
+
+    // verify required params are set
+    if(username == null) {
+     throw new ApiException(400, "Missing required param: username");
+    }
+
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    
+    List<String> contentTypes = [];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+          }
+
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'GET',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return  apiClient.deserialize(response.body, 'User') ;
+    } else {
+      return null;
+    }
+  }
+  /// Logs user into the system
+  ///
+  /// 
+  Future<String> loginUser(String username, String password,  {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
+    Object postBody = null;
+
+    // verify required params are set
+    if(username == null) {
+     throw new ApiException(400, "Missing required param: username");
+    }
+    if(password == null) {
+     throw new ApiException(400, "Missing required param: password");
+    }
+
+    // create path and map variables
+    String path = "/user/login".replaceAll("{format}","json");
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    if("null" != username) {
+      queryParams.addAll(_convertParametersForCollectionFormat("", "username", username));
+    }
+    if("null" != password) {
+      queryParams.addAll(_convertParametersForCollectionFormat("", "password", password));
+    }
+    
+    List<String> contentTypes = [];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+          }
+
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'GET',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return  apiClient.deserialize(response.body, 'String') ;
+    } else {
+      return null;
+    }
+  }
+  /// Logs out current logged in user session
+  ///
+  /// 
+  Future logoutUser( {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
+    Object postBody = null;
+
+    // verify required params are set
+
+    // create path and map variables
+    String path = "/user/logout".replaceAll("{format}","json");
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    
+    List<String> contentTypes = [];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+          }
+
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'GET',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return ;
+    } else {
+      return ;
+    }
+  }
+  /// Updated user
+  ///
+  /// This can only be done by the logged in user.
+  Future updateUser(String username, User body,  {  bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
+    Object postBody = body;
+
+    // verify required params are set
+    if(username == null) {
+     throw new ApiException(400, "Missing required param: username");
+    }
+    if(body == null) {
+     throw new ApiException(400, "Missing required param: body");
+    }
+
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    
+    List<String> contentTypes = [];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+          }
+
+    var response = await apiClient.invokeAPI(basePath,
+                                             path,
+                                             'PUT',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return ;
+    } else {
+      return ;
+    }
   }
 }

@@ -1,4 +1,4 @@
-part of api;
+part of {{pubName}}.api;
 
 class ApiKeyAuth implements Authentication {
 
@@ -10,7 +10,7 @@ class ApiKeyAuth implements Authentication {
   ApiKeyAuth(this.location, this.paramName);
 
   @override
-  void applyToParams(Map<String, String> queryParams, Map<String, String> headerParams) {
+  void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
     String value;
     if (apiKeyPrefix != null) {
       value = '$apiKeyPrefix $apiKey';
@@ -19,10 +19,9 @@ class ApiKeyAuth implements Authentication {
     }
 
     if (location == 'query' && value != null) {
-      queryParams[paramName] = value;
+      queryParams.add(new QueryParam(paramName, value));
     } else if (location == 'header' && value != null) {
       headerParams[paramName] = value;
     }
   }
-
 }
