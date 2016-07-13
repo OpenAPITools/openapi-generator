@@ -98,7 +98,7 @@ export PATH=${JAVA_HOME}/bin:$PATH
 
 After cloning the project, you can build it from source with this command:
 ```
-mvn package
+mvn clean package
 ```
 
 ### Docker
