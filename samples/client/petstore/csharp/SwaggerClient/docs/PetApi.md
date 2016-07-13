@@ -38,7 +38,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
             var body = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -102,7 +102,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
             var petId = 789;  // long? | Pet id to delete
@@ -168,7 +168,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
             var status = new List<string>(); // List<string> | Status values that need to be considered for filter
@@ -233,7 +233,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
             var tags = new List<string>(); // List<string> | Tags to filter by
@@ -298,9 +298,9 @@ namespace Example
         {
             
             // Configure API key authorization: api_key
-            Configuration.Default.ApiKey.Add('api_key', 'YOUR_API_KEY');
+            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add('api_key', 'Bearer');
+            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new PetApi();
             var petId = 789;  // long? | ID of pet to return
@@ -365,7 +365,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
             var body = new Pet(); // Pet | Pet object that needs to be added to the store
@@ -429,7 +429,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
             var petId = 789;  // long? | ID of pet that needs to be updated
@@ -497,7 +497,7 @@ namespace Example
         {
             
             // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
             var petId = 789;  // long? | ID of pet to update
