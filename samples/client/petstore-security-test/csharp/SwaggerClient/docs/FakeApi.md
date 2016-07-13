@@ -1,16 +1,17 @@
 # IO.Swagger.Api.FakeApi
 
-All URIs are relative to *https://petstore.swagger.io  ' \" =end/v2  ' \" =end*
+All URIs are relative to *https://petstore.swagger.io *_/ ' \" =end - - \\r\\n \\n \\r/v2 *_/ ' \" =end - - \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TestCodeInjectEnd**](FakeApi.md#testcodeinjectend) | **PUT** /fake | To test code injection  &#39; \&quot; &#x3D;end
+[**TestCodeInjectEndRnNR**](FakeApi.md#testcodeinjectendrnnr) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end - - \\r\\n \\n \\r
 
 
-# **TestCodeInjectEnd**
-> void TestCodeInjectEnd (string testCodeInjectEnd = null)
+<a name="testcodeinjectendrnnr"></a>
+# **TestCodeInjectEndRnNR**
+> void TestCodeInjectEndRnNR (string testCodeInjectEndRnNR = null)
 
-To test code injection  ' \" =end
+To test code injection *_/ ' \" =end - - \\r\\n \\n \\r
 
 ### Example
 ```csharp
@@ -22,22 +23,22 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class TestCodeInjectEndExample
+    public class TestCodeInjectEndRnNRExample
     {
         public void main()
         {
             
             var apiInstance = new FakeApi();
-            var testCodeInjectEnd = testCodeInjectEnd_example;  // string | To test code injection  ' \" =end (optional) 
+            var testCodeInjectEndRnNR = testCodeInjectEndRnNR_example;  // string | To test code injection *_/ ' \" =end - - \\r\\n \\n \\r (optional) 
 
             try
             {
-                // To test code injection  ' \" =end
-                apiInstance.TestCodeInjectEnd(testCodeInjectEnd);
+                // To test code injection *_/ ' \" =end - - \\r\\n \\n \\r
+                apiInstance.TestCodeInjectEndRnNR(testCodeInjectEndRnNR);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling FakeApi.TestCodeInjectEnd: " + e.Message );
+                Debug.Print("Exception when calling FakeApi.TestCodeInjectEndRnNR: " + e.Message );
             }
         }
     }
@@ -48,7 +49,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testCodeInjectEnd** | **string**| To test code injection  &#39; \&quot; &#x3D;end | [optional] 
+ **testCodeInjectEndRnNR** | **string**| To test code injection *_/ &#39; \&quot; &#x3D;end - - \\r\\n \\n \\r | [optional] 
 
 ### Return type
 
@@ -60,8 +61,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, */ '  =end
- - **Accept**: application/json, */ '  =end
+ - **Content-Type**: application/json, *_/ '  =end - -       
+ - **Accept**: application/json, *_/ '  =end - -       
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

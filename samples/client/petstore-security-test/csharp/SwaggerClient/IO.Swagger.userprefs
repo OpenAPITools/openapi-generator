@@ -1,9 +1,9 @@
-﻿<Properties>
+﻿<Properties StartupItem="src/IO.Swagger/IO.Swagger.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="src/IO.Swagger/Client/Configuration.cs">
     <Files>
-      <File FileName="src/IO.Swagger/Client/ApiClient.cs" Line="72" Column="77" />
-      <File FileName="src/IO.Swagger/Client/Configuration.cs" Line="311" Column="58" />
+      <File FileName="src/IO.Swagger/Client/ApiClient.cs" Line="1" Column="1" />
+      <File FileName="src/IO.Swagger/Client/Configuration.cs" Line="22" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
