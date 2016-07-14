@@ -52,10 +52,10 @@ export class Order {
 }
 
 export namespace Order {
-    export enum StatusEnum { 
-        StatusEnum_placed = <any> 'placed',
-        StatusEnum_approved = <any> 'approved',
-        StatusEnum_delivered = <any> 'delivered'
+    export enum StatusEnum {
+        Placed = <any> 'placed',
+        Approved = <any> 'approved',
+        Delivered = <any> 'delivered'
     }
 }
 export class Pet {
@@ -71,10 +71,10 @@ export class Pet {
 }
 
 export namespace Pet {
-    export enum StatusEnum { 
-        StatusEnum_available = <any> 'available',
-        StatusEnum_pending = <any> 'pending',
-        StatusEnum_sold = <any> 'sold'
+    export enum StatusEnum {
+        Available = <any> 'available',
+        Pending = <any> 'pending',
+        Sold = <any> 'sold'
     }
 }
 export class Tag {

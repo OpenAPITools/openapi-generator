@@ -25,7 +25,7 @@ petApi.addPet(pet)
         var newPet = <api.Pet>res.body;
         petId = newPet.id;
         console.log(`Created pet with ID ${petId}`);
-        newPet.status = api.Pet.StatusEnum.StatusEnum_available;
+        newPet.status = api.Pet.StatusEnum.Available;
         return petApi.updatePet(newPet);
     })
     .then((res) => {
@@ -42,7 +42,7 @@ petApi.addPet(pet)
     })
     .then((res) => {
         console.log('Got pet by ID: ' + JSON.stringify(res.body));
-        if (res.body.status != api.Pet.StatusEnum.StatusEnum_pending) {
+        if (res.body.status != api.Pet.StatusEnum.Pending) {
             throw new Error("Unexpected pet status");
         }
     })
