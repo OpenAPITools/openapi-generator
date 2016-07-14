@@ -13,6 +13,7 @@ import io.swagger.generator.model.GeneratorInput;
 import io.swagger.generator.model.ResponseCode;
 import io.swagger.generator.online.Generator;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -91,17 +92,21 @@ public class SwaggerResource {
             @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
 
         String filename = Generator.generateClient(language, opts);
-        String scheme = request.getHeader("X-SSL");
-        String port = "";
-        if("1".equals(scheme)) {
-            scheme = "https";
-        }
-        else {
-            scheme = request.getScheme();
-            port = ":" + request.getServerPort();
+        String host = System.getenv("GENERATOR_HOST");
+
+        if(StringUtils.isBlank(host)) {
+            String scheme = request.getHeader("X-SSL");
+            String port = "";
+            if("1".equals(scheme)) {
+                scheme = "https";
+            }
+            else {
+                scheme = request.getScheme();
+                port = ":" + request.getServerPort();
+            }
+            host = scheme + "://" + request.getServerName() + port;
         }
 
-        String host = scheme + "://" + request.getServerName() + port;
         if (filename != null) {
             String code = String.valueOf(UUID.randomUUID().toString());
             Generated g = new Generated();
