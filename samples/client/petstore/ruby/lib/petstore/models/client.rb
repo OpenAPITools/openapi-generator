@@ -25,46 +25,21 @@ require 'date'
 
 module Petstore
 
-  class MapTest
-    attr_accessor :map_map_of_string
+  class Client
+    attr_accessor :client
 
-    attr_accessor :map_of_enum_string
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'map_map_of_string' => :'map_map_of_string',
-        :'map_of_enum_string' => :'map_of_enum_string'
+        :'client' => :'client'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'map_map_of_string' => :'Hash<String, Hash<String, String>>',
-        :'map_of_enum_string' => :'Hash<String, String>'
+        :'client' => :'String'
       }
     end
 
@@ -76,16 +51,8 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'map_map_of_string')
-        if (value = attributes[:'map_map_of_string']).is_a?(Array)
-          self.map_map_of_string = value
-        end
-      end
-
-      if attributes.has_key?(:'map_of_enum_string')
-        if (value = attributes[:'map_of_enum_string']).is_a?(Array)
-          self.map_of_enum_string = value
-        end
+      if attributes.has_key?(:'client')
+        self.client = attributes[:'client']
       end
 
     end
@@ -108,8 +75,7 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          map_map_of_string == o.map_map_of_string &&
-          map_of_enum_string == o.map_of_enum_string
+          client == o.client
     end
 
     # @see the `==` method
@@ -121,7 +87,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [map_map_of_string, map_of_enum_string].hash
+      [client].hash
     end
 
     # Builds the object from hash
