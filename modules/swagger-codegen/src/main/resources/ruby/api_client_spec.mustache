@@ -43,53 +43,6 @@ describe {{moduleName}}::ApiClient do
     end
   end
 
-  describe "#update_params_for_auth!" do
-    it "sets header api-key parameter with prefix" do
-      {{moduleName}}.configure do |c|
-        c.api_key_prefix['api_key'] = 'PREFIX'
-        c.api_key['api_key'] = 'special-key'
-      end
-
-      api_client = {{moduleName}}::ApiClient.new
-
-      config2 = {{moduleName}}::Configuration.new do |c|
-        c.api_key_prefix['api_key'] = 'PREFIX2'
-        c.api_key['api_key'] = 'special-key2'
-      end
-      api_client2 = {{moduleName}}::ApiClient.new(config2)
-
-      auth_names = ['api_key', 'unknown']
-
-      header_params = {}
-      query_params = {}
-      api_client.update_params_for_auth! header_params, query_params, auth_names
-      expect(header_params).to eq({'api_key' => 'PREFIX special-key'})
-      expect(query_params).to eq({})
-
-      header_params = {}
-      query_params = {}
-      api_client2.update_params_for_auth! header_params, query_params, auth_names
-      expect(header_params).to eq({'api_key' => 'PREFIX2 special-key2'})
-      expect(query_params).to eq({})
-    end
-
-    it "sets header api-key parameter without prefix" do
-      {{moduleName}}.configure do |c|
-        c.api_key_prefix['api_key'] = nil
-        c.api_key['api_key'] = 'special-key'
-      end
-
-      api_client = {{moduleName}}::ApiClient.new
-
-      header_params = {}
-      query_params = {}
-      auth_names = ['api_key', 'unknown']
-      api_client.update_params_for_auth! header_params, query_params, auth_names
-      expect(header_params).to eq({'api_key' => 'special-key'})
-      expect(query_params).to eq({})
-    end
-  end
-
   describe "params_encoding in #build_request" do
     let(:config) { {{moduleName}}::Configuration.new }
     let(:api_client) { {{moduleName}}::ApiClient.new(config) }
@@ -155,49 +108,18 @@ describe {{moduleName}}::ApiClient do
       expect(data).to be_instance_of(Hash)
       expect(data).to eq({:message => 'Hello'})
     end
-
-    it "handles Hash<String, Pet>" do
-      api_client = {{moduleName}}::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
-      response = double('response', headers: headers, body: '{"pet": {"id": 1}}')
-      data = api_client.deserialize(response, 'Hash<String, Pet>')
-      expect(data).to be_instance_of(Hash)
-      expect(data.keys).to eq([:pet])
-
-      pet = data[:pet]
-      expect(pet).to be_instance_of({{moduleName}}::Pet)
-      expect(pet.id).to eq(1)
-    end
-
-    it "handles Hash<String, Hash<String, Pet>>" do
-      api_client = {{moduleName}}::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
-      response = double('response', headers: headers, body: '{"data": {"pet": {"id": 1}}}')
-      result = api_client.deserialize(response, 'Hash<String, Hash<String, Pet>>')
-      expect(result).to be_instance_of(Hash)
-      expect(result.keys).to match_array([:data])
-
-      data = result[:data]
-      expect(data).to be_instance_of(Hash)
-      expect(data.keys).to match_array([:pet])
-
-      pet = data[:pet]
-      expect(pet).to be_instance_of({{moduleName}}::Pet)
-      expect(pet.id).to eq(1)
-    end
   end
 
   describe "#object_to_hash" do
     it "ignores nils and includes empty arrays" do
-      api_client = {{moduleName}}::ApiClient.new
-      pet = {{moduleName}}::Pet.new
-      pet.id = 1
-      pet.name = ''
-      pet.status = nil
-      pet.photo_urls = nil
-      pet.tags = []
-      expected = {id: 1, name: '', tags: []}
-      expect(api_client.object_to_hash(pet)).to eq(expected)
+      # uncomment below to test object_to_hash for model
+      #api_client = {{moduleName}}::ApiClient.new
+      #_model = {{moduleName}}::ModelName.new
+      # update the model attribute below
+      #_model.id = 1 
+      # update the expected value (hash) below
+      #expected = {id: 1, name: '', tags: []}
+      #expect(api_client.object_to_hash(_model)).to eq(expected)
     end
   end
 
