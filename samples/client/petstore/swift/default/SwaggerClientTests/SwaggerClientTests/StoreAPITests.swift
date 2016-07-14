@@ -90,6 +90,22 @@ class StoreAPITests: XCTestCase {
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
 
+    func testDownloadProgress() {
+        let responseExpectation = self.expectationWithDescription("obtain response")
+        let progressExpectation = self.expectationWithDescription("obtain progress")
+        let requestBuilder = StoreAPI.getOrderByIdWithRequestBuilder(orderId: "1000")
+
+        requestBuilder.onProgressReady = { (progress) in
+            progressExpectation.fulfill()
+        }
+
+        requestBuilder.execute { (response, error) in
+            responseExpectation.fulfill()
+        }
+
+        self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
+    }
+
 }
 
 private extension NSDate {
