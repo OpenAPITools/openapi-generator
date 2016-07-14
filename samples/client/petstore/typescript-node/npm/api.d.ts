@@ -15,9 +15,9 @@ export declare class Order {
 }
 export declare namespace Order {
     enum StatusEnum {
-        StatusEnum_placed,
-        StatusEnum_approved,
-        StatusEnum_delivered,
+        Placed,
+        Approved,
+        Delivered,
     }
 }
 export declare class Pet {
@@ -30,9 +30,9 @@ export declare class Pet {
 }
 export declare namespace Pet {
     enum StatusEnum {
-        StatusEnum_available,
-        StatusEnum_pending,
-        StatusEnum_sold,
+        Available,
+        Pending,
+        Sold,
     }
 }
 export declare class Tag {
