@@ -102,16 +102,18 @@ public class CodegenTest {
     public void enumQueryParameterTest() {
         final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");
         final DefaultCodegen codegen = new DefaultCodegen();
-        final String path = "/store/findByStatus";
+        final String path = "/pet/findByStatus";
         final Operation p = model.getPaths().get(path).getGet();
         final CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions());
 
         Assert.assertEquals(op.queryParams.size(), 1);
 
         final CodegenParameter statusParam = op.queryParams.get(0);
-        Assert.assertEquals(statusParam.datatypeWithEnum, "StatusEnum");
-        Assert.assertTrue(statusParam.isEnum);
-        Assert.assertEquals(statusParam._enum.size(), 3);
+        Assert.assertEquals(statusParam.datatypeWithEnum, "List");
+        Assert.assertEquals(statusParam.baseType, "String");
+        // currently there's no way to tell if the inner type of a list is a enum
+        //Assert.assertTrue(statusParam.isEnum);
+        //Assert.assertEquals(statusParam._enum.size(), 3);
     }
 
 

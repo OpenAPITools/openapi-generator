@@ -23,8 +23,7 @@ SamiTag::~SamiTag() {
 void
 SamiTag::init() {
     pId = null;
-    pName = null;
-    
+pName = null;
 }
 
 void
@@ -34,12 +33,11 @@ SamiTag::cleanup() {
         delete pId;
         pId = null;
     }
-    if(pName != null) {
+if(pName != null) {
         
         delete pName;
         pName = null;
     }
-    
 }
 
 
@@ -86,7 +84,7 @@ SamiTag::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pId, pIdVal, L"Long", L"Long");
         }
         delete pIdKey;
-        JsonString* pNameKey = new JsonString(L"name");
+JsonString* pNameKey = new JsonString(L"name");
         IJsonValue* pNameVal = null;
         pJsonObject->GetValue(pNameKey, pNameVal);
         if(pNameVal != null) {
@@ -95,7 +93,6 @@ SamiTag::fromJsonObject(IJsonValue* pJson) {
             jsonToValue(pName, pNameVal, L"String", L"String");
         }
         delete pNameKey;
-        
     }
 }
 
@@ -146,15 +143,12 @@ SamiTag::asJsonObject() {
     JsonObject *pJsonObject = new JsonObject();
     pJsonObject->Construct();
 
-    
     JsonString *pIdKey = new JsonString(L"id");
     pJsonObject->Add(pIdKey, toJson(getPId(), "Long", ""));
 
-    
     JsonString *pNameKey = new JsonString(L"name");
     pJsonObject->Add(pNameKey, toJson(getPName(), "String", ""));
 
-    
     return pJsonObject;
 }
 

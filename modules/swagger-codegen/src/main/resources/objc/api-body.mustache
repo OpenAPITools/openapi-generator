@@ -6,24 +6,29 @@
 {{newline}}
 
 @interface {{classname}} ()
-    @property (readwrite, nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
 @end
 
 @implementation {{classname}}
 
-static {{classname}}* singletonAPI = nil;
+NSString* k{{classname}}ErrorDomain = @"{{classname}}ErrorDomain";
+NSInteger k{{classname}}MissingParamErrorCode = 234513;
+
+@synthesize apiClient = _apiClient;
 
 #pragma mark - Initialize methods
 
-- (id) init {
+- (instancetype) init {
     self = [super init];
     if (self) {
         {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
         if (config.apiClient == nil) {
             config.apiClient = [[{{classPrefix}}ApiClient alloc] init];
         }
-        self.apiClient = config.apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -31,41 +36,36 @@ static {{classname}}* singletonAPI = nil;
 - (id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
     self = [super init];
     if (self) {
-        self.apiClient = apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+({{classname}}*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-
-    if (singletonAPI == nil) {
-        singletonAPI = [[{{classname}} alloc] init];
-        [singletonAPI addHeader:headerValue forKey:key];
-    }
-    return singletonAPI;
++ (instancetype)sharedAPI {
+    static {{classname}} *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
 }
 
-+({{classname}}*) sharedAPI {
-
-    if (singletonAPI == nil) {
-        singletonAPI = [[{{classname}} alloc] init];
-    }
-    return singletonAPI;
+-(NSString*) defaultHeaderForKey:(NSString*)key {
+    return self.defaultHeaders[key];
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
+}
+
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(void) setHeaderValue:(NSString*) value
-           forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
-}
-
--(unsigned long) requestQueueSize {
+-(NSUInteger) requestQueueSize {
     return [{{classPrefix}}ApiClient requestQueueSize];
 }
 
@@ -82,59 +82,60 @@ static {{classname}}* singletonAPI = nil;
 -(NSNumber*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
     {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
     {{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) handler {
-
-    {{#allParams}}{{#required}}
+    {{#allParams}}
+    {{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `{{paramName}}` when calling `{{nickname}}`"];
+        NSParameterAssert({{paramName}});
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"{{paramName}}"] };
+            NSError* error = [NSError errorWithDomain:k{{classname}}ErrorDomain code:k{{classname}}MissingParamErrorCode userInfo:userInfo];
+            handler({{#returnType}}nil, {{/returnType}}error);
+        }
+        return nil;
     }
-    {{/required}}{{/allParams}}
 
+    {{/required}}
+    {{/allParams}}
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"{{path}}"];
 
     // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    {{#pathParams}}if ({{paramName}} != nil) {
+    {{#pathParams}}
+    if ({{paramName}} != nil) {
         pathParams[@"{{baseName}}"] = {{paramName}};
     }
     {{/pathParams}}
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    {{#queryParams}}if ({{paramName}} != nil) {
+    {{#queryParams}}
+    if ({{paramName}} != nil) {
         {{#collectionFormat}}
-        queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{baseName}} format: @"{{collectionFormat}}"];
+        queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{paramName}} format: @"{{collectionFormat}}"];
         {{/collectionFormat}}
         {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
     }
     {{/queryParams}}
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    {{#headerParams}}if ({{paramName}} != nil) {
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    {{#headerParams}}
+    if ({{paramName}} != nil) {
         headerParams[@"{{baseName}}"] = {{paramName}};
     }
     {{/headerParams}}
-
     // HTTP header `Accept`
-    headerParams[@"Accept"] = [{{classPrefix}}ApiClient selectHeaderAccept:@[{{#produces}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[{{#produces}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
     }
 
     // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [{{classPrefix}}ApiClient selectHeaderContentType:@[{{#consumes}}@"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[{{#consumes}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     // Authentication setting
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
@@ -144,25 +145,20 @@ static {{classname}}* singletonAPI = nil;
     NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     {{#bodyParam}}
     bodyParam = {{paramName}};
-    {{/bodyParam}}{{^bodyParam}}
+    {{/bodyParam}}
+    {{^bodyParam}}
     {{#formParams}}
     {{#notFile}}
     if ({{paramName}}) {
         formParams[@"{{baseName}}"] = {{paramName}};
     }
-    {{/notFile}}{{#isFile}}
+    {{/notFile}}
+    {{#isFile}}
     localVarFiles[@"{{paramName}}"] = {{paramName}};
     {{/isFile}}
     {{/formParams}}
     {{/bodyParam}}
 
-    {{#requiredParamCount}}
-    {{#requiredParams}}
-    if ({{paramName}} == nil) {
-        // error
-    }
-    {{/requiredParams}}
-    {{/requiredParamCount}}
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"{{httpMethod}}"
                                 pathParams: pathParams
@@ -176,7 +172,9 @@ static {{classname}}* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
                            completionBlock: ^(id data, NSError *error) {
-                               handler({{#returnType}}({{{ returnType }}})data, {{/returnType}}error);
+                                if(handler) {
+                                    handler({{#returnType}}({{{ returnType }}})data, {{/returnType}}error);
+                                }
                            }
           ];
 }

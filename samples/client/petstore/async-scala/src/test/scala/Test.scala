@@ -1,8 +1,18 @@
+import io.swagger.client._
+import io.swagger.client.api._
+import io.swagger.client.model._
+
 import java.net.URI
 
 import scala.concurrent._
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
+import org.scalatest._
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
+import org.scalatest.FunSuite
+import com.wordnik.swagger._
+com.wordnik.swagger.client
 
 @RunWith(classOf[JUnitRunner])
 class SimpleTest extends FlatSpec with Matchers {

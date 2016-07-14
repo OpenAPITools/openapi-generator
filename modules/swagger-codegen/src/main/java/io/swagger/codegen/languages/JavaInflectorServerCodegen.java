@@ -4,16 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 import io.swagger.util.Yaml;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class JavaInflectorServerCodegen extends JavaClientCodegen {
+public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
 
@@ -23,32 +22,23 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen {
         super();
 
         sourceFolder = "src/gen/java";
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
+        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "io.swagger.handler";
         artifactId = "swagger-inflector-server";
+        dateLibrary = "legacy"; //TODO: add joda support
+
+        // clear model and api doc template as this codegen
+        // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
+
 
         apiPackage = System.getProperty("swagger.codegen.inflector.apipackage", "io.swagger.handler");
         modelPackage = System.getProperty("swagger.codegen.inflector.modelpackage", "io.swagger.model");
 
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         additionalProperties.put("title", title);
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "byte[]",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float")
-        );
     }
 
     @Override
@@ -70,7 +60,6 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen {
     public void processOpts() {
         super.processOpts();
 
-        supportingFiles.clear();
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
@@ -143,6 +132,42 @@ public class JavaInflectorServerCodegen extends JavaClientCodegen {
                 }
             }
         }
+        return objs;
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        //Add imports for Jackson
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
+            model.imports.add("JsonProperty");
+
+            if(BooleanUtils.toBoolean(model.hasEnums)) {
+                model.imports.add("JsonValue");
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        //Add imports for Jackson
+        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                cm.imports.add(importMapping.get("JsonValue"));
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("import", importMapping.get("JsonValue"));
+                imports.add(item);
+            }
+        }
+
         return objs;
     }
 

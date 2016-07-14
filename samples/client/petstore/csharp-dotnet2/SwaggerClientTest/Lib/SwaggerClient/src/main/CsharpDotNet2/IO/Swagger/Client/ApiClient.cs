@@ -257,17 +257,14 @@ namespace IO.Swagger.Client
                 // determine which one to use
                 switch(auth)
                 {
-                    
-                    case "api_key":
-                        headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
-                        
-                        break;
-                    
                     case "petstore_auth":
                         
                         //TODO support oauth
                         break;
-                    
+                    case "api_key":
+                        headerParams["api_key"] = GetApiKeyWithPrefix("api_key");
+                        
+                        break;
                     default:
                         //TODO show warning about security definition not found
                         break;

@@ -1,9 +1,9 @@
 {
   "name": "{{{projectName}}}",
   "version": "{{{projectVersion}}}",
-  "description": "{{{projectDescription}}}",{{#projectLicenseName}}
-  "license": "{{{projectLicenseName}}}",{{/projectLicenseName}}
-  "main": "{{sourceFolder}}/index.js",
+  "description": "{{{projectDescription}}}",
+  "license": "Apache-2.0",
+  "main": "{{sourceFolder}}{{#invokerPackage}}/{{invokerPackage}}{{/invokerPackage}}/index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive"
   },

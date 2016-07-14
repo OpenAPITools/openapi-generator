@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "dependencies": {
+    "chai": "^3.5.0"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "ts-loader": "^0.8.2",
+    "tsify": "^0.16.0",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4",
+    "webpack": "^1.13.0"
+  },
+  "scripts": {
+    "prepublish": "./scripts/prepublish.sh",
+    "pretest": "npm install mocha",
+    "test": "mocha"
+  },
+  "name": "typescript-fetch-test",
+  "version": "1.0.0",
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

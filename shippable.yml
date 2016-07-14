@@ -1,0 +1,13 @@
+language: java
+
+jdk:
+- openjdk7
+- openjdk8
+- oraclejdk7
+- oraclejdk8
+
+build:
+  ci:
+    - ./bin/run-all-petstore > run-all-petstore.log 2>&1
+  post_ci:
+    - tail run-all-petstore.log

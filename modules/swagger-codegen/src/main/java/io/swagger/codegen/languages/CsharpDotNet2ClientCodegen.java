@@ -60,7 +60,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
                         "Integer",
                         "Long",
                         "Float",
-                        "Stream", // not really a primitive, we include it to avoid model import
+                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
         instantiationTypes.put("array", "List");
@@ -76,7 +76,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         typeMapping.put("number", "double?");
         typeMapping.put("datetime", "DateTime?");
         typeMapping.put("date", "DateTime?");
-        typeMapping.put("file", "Stream");
+        typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
@@ -272,6 +272,17 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         }
 
         return camelize(operationId);
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

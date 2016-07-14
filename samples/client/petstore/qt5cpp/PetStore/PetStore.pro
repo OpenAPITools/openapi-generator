@@ -28,6 +28,7 @@ SOURCES += main.cpp \
     ../client/SWGTag.cpp \
     ../client/SWGUser.cpp \
     ../client/SWGUserApi.cpp \
+    ../client/SWGApiResponse.cpp \
     PetApiTests.cpp
 
 HEADERS += \
@@ -43,4 +44,5 @@ HEADERS += \
     ../client/SWGUser.h \
     ../client/SWGUserApi.h \
     PetApiTests.h \
+    ../client/SWGApiResponse.h \
     ../client/SWGModelFactory.h

@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\ 
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -33,86 +33,54 @@ describe 'User' do
 
   describe 'test an instance of User' do
     it 'should create an instact of User' do
-      @instance.should be_a(Petstore::User) 
+      expect(@instance).to be_instance_of(Petstore::User)
     end
   end
   describe 'test attribute "id"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "username"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "first_name"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "last_name"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "email"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "password"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "phone"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   describe 'test attribute "user_status"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 

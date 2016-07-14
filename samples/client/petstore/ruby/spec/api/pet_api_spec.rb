@@ -1,7 +1,7 @@
 =begin
 Swagger Petstore
 
-This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters
+This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose.
 
 OpenAPI spec version: 1.0.0
 Contact: apiteam@swagger.io
@@ -32,39 +32,19 @@ describe 'PetApi' do
 
   describe 'test an instance of PetApi' do
     it 'should create an instact of PetApi' do
-      @instance.should be_a(Petstore::PetApi)
+      expect(@instance).to be_instance_of(Petstore::PetApi)
     end
   end
 
   # unit tests for add_pet
   # Add a new pet to the store
   # 
+  # @param body Pet object that needs to be added to the store
   # @param [Hash] opts the optional parameters
-  # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return [nil]
   describe 'add_pet test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
-  # unit tests for add_pet_using_byte_array
-  # Fake endpoint to test byte array in body parameter for adding a new pet to the store
-  # 
-  # @param [Hash] opts the optional parameters
-  # @option opts [String] :body Pet object in the form of byte array
-  # @return [nil]
-  describe 'add_pet_using_byte_array test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -77,107 +57,55 @@ describe 'PetApi' do
   # @return [nil]
   describe 'delete_pet test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   # unit tests for find_pets_by_status
   # Finds Pets by status
   # Multiple status values can be provided with comma separated strings
+  # @param status Status values that need to be considered for filter
   # @param [Hash] opts the optional parameters
-  # @option opts [Array<String>] :status Status values that need to be considered for query
   # @return [Array<Pet>]
   describe 'find_pets_by_status test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   # unit tests for find_pets_by_tags
   # Finds Pets by tags
-  # Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+  # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  # @param tags Tags to filter by
   # @param [Hash] opts the optional parameters
-  # @option opts [Array<String>] :tags Tags to filter by
   # @return [Array<Pet>]
   describe 'find_pets_by_tags test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   # unit tests for get_pet_by_id
   # Find pet by ID
-  # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-  # @param pet_id ID of pet that needs to be fetched
+  # Returns a single pet
+  # @param pet_id ID of pet to return
   # @param [Hash] opts the optional parameters
   # @return [Pet]
   describe 'get_pet_by_id test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
-  # unit tests for get_pet_by_id_in_object
-  # Fake endpoint to test inline arbitrary object return by &#39;Find pet by ID&#39;
-  # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-  # @param pet_id ID of pet that needs to be fetched
-  # @param [Hash] opts the optional parameters
-  # @return [InlineResponse200]
-  describe 'get_pet_by_id_in_object test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
-    end
-  end
-
-  # unit tests for pet_pet_idtesting_byte_arraytrue_get
-  # Fake endpoint to test byte array return by &#39;Find pet by ID&#39;
-  # Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-  # @param pet_id ID of pet that needs to be fetched
-  # @param [Hash] opts the optional parameters
-  # @return [String]
-  describe 'pet_pet_idtesting_byte_arraytrue_get test' do
-    it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
   # unit tests for update_pet
   # Update an existing pet
   # 
+  # @param body Pet object that needs to be added to the store
   # @param [Hash] opts the optional parameters
-  # @option opts [Pet] :body Pet object that needs to be added to the store
   # @return [nil]
   describe 'update_pet test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -191,11 +119,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'update_pet_with_form test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
@@ -206,14 +130,10 @@ describe 'PetApi' do
   # @param [Hash] opts the optional parameters
   # @option opts [String] :additional_metadata Additional data to pass to server
   # @option opts [File] :file file to upload
-  # @return [nil]
+  # @return [ApiResponse]
   describe 'upload_file test' do
     it "should work" do
-      # assertion here
-      # should be_a()
-      # should be_nil
-      # should ==
-      # should_not ==
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 

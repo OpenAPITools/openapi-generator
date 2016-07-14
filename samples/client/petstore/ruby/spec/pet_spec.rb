@@ -1,16 +1,6 @@
 require 'spec_helper'
 require 'json'
 
-def serialize_json(o)
-  API_CLIENT.object_to_http_body(o)
-end
-
-def deserialize_json(s, type)
-  headers = {'Content-Type' => 'application/json'}
-  response = double('response', headers: headers, body: s)
-  API_CLIENT.deserialize(response, type)
-end
-
 describe "Pet" do
   before do
     @pet_api = Petstore::PetApi.new(API_CLIENT)
@@ -43,42 +33,42 @@ describe "Pet" do
       }
       pet = Petstore::Pet.new(pet_hash)
       # test new
-      pet.name.should == "RUBY UNIT TESTING"
-      pet.status.should == "pending"
-      pet.id.should == @pet_id
-      pet.tags[0].id.should == 1
-      pet.tags[1].name.should == 'tag2'
-      pet.category.name.should == 'category unknown'
+      expect(pet.name).to eq("RUBY UNIT TESTING")
+      expect(pet.status).to eq("pending")
+      expect(pet.id).to eq(@pet_id)
+      expect(pet.tags[0].id).to eq(1)
+      expect(pet.tags[1].name).to eq('tag2')
+      expect(pet.category.name).to eq('category unknown')
 
       # test build_from_hash
       pet2 = Petstore::Pet.new
       pet2.build_from_hash(pet.to_hash)
-      pet.to_hash.should == pet2.to_hash
+      expect(pet.to_hash).to eq(pet2.to_hash)
 
       # make sure sub-object has different object id
-      pet.tags[0].object_id.should_not == pet2.tags[0].object_id
-      pet.tags[1].object_id.should_not == pet2.tags[1].object_id
-      pet.category.object_id.should_not == pet2.category.object_id
+      expect(pet.tags[0].object_id).not_to eq(pet2.tags[0].object_id)
+      expect(pet.tags[1].object_id).not_to eq(pet2.tags[1].object_id)
+      expect(pet.category.object_id).not_to eq(pet2.category.object_id)
     end
 
     it "should fetch a pet object" do
       pet = @pet_api.get_pet_by_id(@pet_id)
-      pet.should be_a(Petstore::Pet)
-      pet.id.should == @pet_id
-      pet.name.should == "RUBY UNIT TESTING"
-      pet.tags[0].name.should == "tag test"
-      pet.category.name.should == "category test"
+      expect(pet).to be_a(Petstore::Pet)
+      expect(pet.id).to eq(@pet_id)
+      expect(pet.name).to eq("RUBY UNIT TESTING")
+      expect(pet.tags[0].name).to eq("tag test")
+      expect(pet.category.name).to eq("category test")
     end
 
     it "should fetch a pet object with http info" do
       pet, status_code, headers = @pet_api.get_pet_by_id_with_http_info(@pet_id)
-      status_code.should == 200
-      headers['Content-Type'].should == 'application/json'
-      pet.should be_a(Petstore::Pet)
-      pet.id.should == @pet_id
-      pet.name.should == "RUBY UNIT TESTING"
-      pet.tags[0].name.should == "tag test"
-      pet.category.name.should == "category test"
+      expect(status_code).to eq(200)
+      expect(headers['Content-Type']).to eq('application/json')
+      expect(pet).to be_a(Petstore::Pet)
+      expect(pet.id).to eq(@pet_id)
+      expect(pet.name).to eq("RUBY UNIT TESTING")
+      expect(pet.tags[0].name).to eq("tag test")
+      expect(pet.category.name).to eq("category test")
     end
 
     it "should not find a pet that does not exist" do
@@ -86,71 +76,75 @@ describe "Pet" do
         @pet_api.get_pet_by_id(-@pet_id)
         fail 'it should raise error'
       rescue Petstore::ApiError => e
-        e.code.should == 404
-        e.message.should == 'Not Found'
-        e.response_body.should == '{"code":1,"type":"error","message":"Pet not found"}'
-        e.response_headers.should be_a(Hash)
-        e.response_headers['Content-Type'].should == 'application/json'
+        expect(e.code).to eq(404)
+        expect(e.message).to eq('Not Found')
+        expect(e.response_body).to eq('{"code":1,"type":"error","message":"Pet not found"}')
+        expect(e.response_headers).to be_a(Hash)
+        expect(e.response_headers['Content-Type']).to eq('application/json')
       end
     end
 
-    it "should create and get pet with byte array (binary, string)" do
+    # skip the following as original petstore spec does not have endpoints for testing byte array
+    # we will re-enable this after updating the petstore server
+    xit "should create and get pet with byte array (binary, string)" do
       pet = @pet_api.get_pet_by_id(@pet_id)
       pet.id = @pet_id + 1
       str = serialize_json(pet)
       @pet_api.add_pet_using_byte_array(body: str)
 
       fetched_str = @pet_api.pet_pet_idtesting_byte_arraytrue_get(pet.id)
-      fetched_str.should be_a(String)
+      expect(fetched_str).to be_a(String)
       fetched = deserialize_json(fetched_str, 'Pet')
-      fetched.should be_a(Petstore::Pet)
-      fetched.id.should == pet.id
-      fetched.category.should be_a(Petstore::Category)
-      fetched.category.name.should == pet.category.name
+      expect(fetched).to be_a(Petstore::Pet)
+      expect(fetched.id).to eq(pet.id)
+      expect(fetched.category).to be_a(Petstore::Category)
+      expect(fetched.category.name).to eq(pet.category.name)
 
       @pet_api.delete_pet(pet.id)
     end
 
-    it "should get pet in bject" do
+    # skip the following as original petstore spec does not have endpoints for testing byte array
+    # we will re-enable this after updating the petstore server
+    xit "should get pet in object" do
       pet = @pet_api.get_pet_by_id_in_object(@pet_id)
-      pet.should be_a(Petstore::InlineResponse200)
-      pet.id.should == @pet_id
-      pet.name.should == "RUBY UNIT TESTING"
-      pet.category.should be_a(Hash)
-      pet.category[:id].should == 20002
-      pet.category[:name].should == 'category test'
+      expect(pet).to be_a(Petstore::InlineResponse200)
+      expect(pet.id).to eq(@pet_id)
+      expect(pet.name).to eq("RUBY UNIT TESTING")
+      expect(pet.category).to be_a(Hash)
+      expect(pet.category[:id]).to eq(20002)
+      expect(pet.category[:name]).to eq('category test')
     end
 
     it "should update a pet" do
       pet = @pet_api.get_pet_by_id(@pet_id)
-      pet.id.should == @pet_id
-      pet.name.should == "RUBY UNIT TESTING"
-      pet.status.should == 'pending'
+      expect(pet.id).to eq(@pet_id)
+      expect(pet.name).to eq("RUBY UNIT TESTING")
+      expect(pet.status).to eq('pending')
 
       @pet_api.update_pet_with_form(@pet_id, name: 'new name', status: 'sold')
 
       fetched = @pet_api.get_pet_by_id(@pet_id)
-      fetched.id.should == @pet_id
-      fetched.name.should == "new name"
-      fetched.status.should == 'sold'
+      expect(fetched.id).to eq(@pet_id)
+      expect(fetched.name).to eq("new name")
+      expect(fetched.status).to eq('sold')
     end
 
     it "should find pets by status" do
-      pets = @pet_api.find_pets_by_status(:status => 'available')
-      pets.length.should >= 3
+      pets = @pet_api.find_pets_by_status(['available'])
+      expect(pets.length).to be >= 3
       pets.each do |pet|
-        pet.should be_a(Petstore::Pet)
-        pet.status.should == 'available'
+        expect(pet).to be_a(Petstore::Pet)
+        expect(pet.status).to eq('available')
       end
     end
 
     it "should not find a pet with invalid status" do
-      pets = @pet_api.find_pets_by_status(:status => 'invalid-status')
-      pets.length.should == 0
+      pets = @pet_api.find_pets_by_status(['invalid-status'])
+      expect(pets.length).to eq(0)
     end
 
     it "should find a pet by status" do
-      pets = @pet_api.find_pets_by_status(:status => "available,sold")
+      pets = @pet_api.find_pets_by_status(["available", "sold"])
       pets.each do |pet|
         if pet.status != 'available' && pet.status != 'sold'
           raise "pet status wasn't right"
@@ -162,61 +156,62 @@ describe "Pet" do
       id = @pet_id + 1
 
       pet = Petstore::Pet.new('id' => id, 'name' => "RUBY UNIT TESTING")
-      result = @pet_api.add_pet(:body => pet)
+      result = @pet_api.add_pet(pet)
       # nothing is returned
-      result.should be_nil
+      expect(result).to be_nil
 
       pet = @pet_api.get_pet_by_id(id)
-      pet.id.should == id
-      pet.name.should == "RUBY UNIT TESTING"
+      expect(pet.id).to eq(id)
+      expect(pet.name).to eq("RUBY UNIT TESTING")
 
       @pet_api.delete_pet(id)
     end
 
     it "should upload a file to a pet" do
       result = @pet_api.upload_file(@pet_id, file: File.new('hello.txt'))
-      # nothing is returned
-      result.should be_nil
+      # ApiResponse is returned
+      expect(result).to be_a(Petstore::ApiResponse)
     end
 
     it "should upload a file with form parameter to a pet" do
       result = @pet_api.upload_file(@pet_id, file: File.new('hello.txt'), additional_metadata: 'metadata')
-      result.should be_nil
+      # ApiResponse is returned
+      expect(result).to be_a(Petstore::ApiResponse)
     end
 
     it "should implement eql? and hash" do
       pet1 = Petstore::Pet.new
       pet2 = Petstore::Pet.new
-      pet1.should == pet2
-      pet2.should == pet1
-      pet1.eql?(pet2).should == true
-      pet2.eql?(pet1).should == true
-      pet1.hash.should == pet2.hash
-      pet1.should == pet1
-      pet1.eql?(pet1).should == true
-      pet1.hash.should == pet1.hash
+      expect(pet1).to eq(pet2)
+      expect(pet2).to eq(pet1)
+      expect(pet1.eql?(pet2)).to eq(true)
+      expect(pet2.eql?(pet1)).to eq(true)
+      expect(pet1.hash).to eq(pet2.hash)
+      expect(pet1).to eq(pet1)
+      expect(pet1.eql?(pet1)).to eq(true)
+      expect(pet1.hash).to eq(pet1.hash)
 
       pet1.name = 'really-happy'
       pet1.photo_urls = ['http://foo.bar.com/1', 'http://foo.bar.com/2']
-      pet1.should_not == pet2
-      pet2.should_not == pet1
-      pet1.eql?(pet2).should == false
-      pet2.eql?(pet1).should == false
-      pet1.hash.should_not == pet2.hash
-      pet1.should == pet1
-      pet1.eql?(pet1).should == true
-      pet1.hash.should == pet1.hash
+      expect(pet1).not_to eq(pet2)
+      expect(pet2).not_to eq(pet1)
+      expect(pet1.eql?(pet2)).to eq(false)
+      expect(pet2.eql?(pet1)).to eq(false)
+      expect(pet1.hash).not_to eq(pet2.hash)
+      expect(pet1).to eq(pet1)
+      expect(pet1.eql?(pet1)).to eq(true)
+      expect(pet1.hash).to eq(pet1.hash)
 
       pet2.name = 'really-happy'
       pet2.photo_urls = ['http://foo.bar.com/1', 'http://foo.bar.com/2']
-      pet1.should == pet2
-      pet2.should == pet1
-      pet1.eql?(pet2).should == true
-      pet2.eql?(pet1).should == true
-      pet1.hash.should == pet2.hash
-      pet2.should == pet2
-      pet2.eql?(pet2).should == true
-      pet2.hash.should == pet2.hash
+      expect(pet1).to eq(pet2)
+      expect(pet2).to eq(pet1)
+      expect(pet1.eql?(pet2)).to eq(true)
+      expect(pet2.eql?(pet1)).to eq(true)
+      expect(pet1.hash).to eq(pet2.hash)
+      expect(pet2).to eq(pet2)
+      expect(pet2.eql?(pet2)).to eq(true)
+      expect(pet2.hash).to eq(pet2.hash)
     end
   end
 end

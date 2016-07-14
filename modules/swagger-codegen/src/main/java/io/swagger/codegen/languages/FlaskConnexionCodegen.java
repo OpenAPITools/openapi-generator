@@ -25,6 +25,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
+    public static final String SUPPORT_PYTHON2= "supportPython2";
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -105,11 +106,17 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                         "",
                         "README.md")
         );
+        supportingFiles.add(new SupportingFile("__init__.mustache",
+                        "",
+                        "__init__.py")
+        );
 
         cliOptions.add(new CliOption(CONTROLLER_PACKAGE, "controller package").
                 defaultValue("controllers"));
         cliOptions.add(new CliOption(DEFAULT_CONTROLLER, "default controller").
                 defaultValue("default_controller"));
+        cliOptions.add(new CliOption(SUPPORT_PYTHON2, "support python2").
+                defaultValue("false"));
     }
 
     @Override
@@ -124,6 +131,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             this.controllerPackage = "controllers";
             additionalProperties.put(CONTROLLER_PACKAGE, this.controllerPackage);
         }
+
         if (additionalProperties.containsKey(DEFAULT_CONTROLLER)) {
             this.defaultController = additionalProperties.get(DEFAULT_CONTROLLER).toString();
         }
@@ -132,10 +140,18 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             additionalProperties.put(DEFAULT_CONTROLLER, this.defaultController);
         }
 
+        if (Boolean.TRUE.equals(additionalProperties.get(SUPPORT_PYTHON2))) {
+            additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
+        }
+
         if(!new java.io.File(controllerPackage + File.separator + defaultController + ".py").exists()) {
             supportingFiles.add(new SupportingFile("controller.mustache",
                             controllerPackage,
                             defaultController + ".py")
+            );
+            supportingFiles.add(new SupportingFile("__init__.mustache",
+                            controllerPackage,
+                            "__init__.py")
             );
         }
     }
@@ -319,5 +335,17 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         // Need to underscore it since it has been processed via removeNonNameElementToCamelCase, e.g.
         //     addPet => add_pet
         return underscore(operationId);
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // remove multiline comment
+        return input.replace("'''", "'_'_'");
     }
 }

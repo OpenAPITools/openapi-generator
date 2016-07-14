@@ -1,14 +1,14 @@
 package io.swagger.client.model
 
 import org.joda.time.DateTime
+import java.util.UUID
 
 
 case class Order (
-  id: Long,
-  petId: Long,
-  quantity: Integer,
-  shipDate: DateTime,
-  status: String,  // Order Status
-  complete: Boolean
-  
+  id: Option[Long],
+petId: Option[Long],
+quantity: Option[Integer],
+shipDate: Option[DateTime],
+status: Option[String],  // Order Status
+complete: Option[Boolean]
 )

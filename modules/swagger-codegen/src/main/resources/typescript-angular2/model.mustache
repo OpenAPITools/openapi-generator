@@ -1,0 +1,37 @@
+{{>licenseInfo}}
+{{#models}}
+{{#model}}
+'use strict';
+import * as models from './models';
+
+{{#description}}
+/**
+ * {{{description}}}
+ */
+{{/description}}
+export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}}{
+    {{#additionalPropertiesType}}[key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};{{/additionalPropertiesType}}
+{{#vars}}
+
+{{#description}}
+    /**
+     * {{{description}}}
+     */
+{{/description}}
+    {{name}}?: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+{{/vars}}
+}
+{{#hasEnums}}
+export namespace {{classname}} {
+{{#vars}}
+{{#isEnum}}
+
+    export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
+        {{.}} = <any> '{{.}}',{{/values}}{{/allowableValues}}
+    }
+{{/isEnum}}
+{{/vars}}
+}
+{{/hasEnums}}
+{{/model}}
+{{/models}}

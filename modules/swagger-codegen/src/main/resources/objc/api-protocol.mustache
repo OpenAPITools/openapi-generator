@@ -1,0 +1,20 @@
+#import <Foundation/Foundation.h>
+#import "{{classPrefix}}Object.h"
+#import "{{classPrefix}}ApiClient.h"
+
+{{>licenceInfo}}
+
+@protocol {{classPrefix}}Api <NSObject>
+
+@property(nonatomic, assign) {{classPrefix}}ApiClient *apiClient;
+
+-(id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient;
+
+-(void) addHeader:(NSString*)value forKey:(NSString*)key DEPRECATED_MSG_ATTRIBUTE("setDefaultHeaderValue:forKey:");
+
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key;
+-(NSString*) defaultHeaderForKey:(NSString*)key;
+
+-(NSUInteger) requestQueueSize;
+
+@end

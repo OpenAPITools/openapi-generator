@@ -1,2 +1,0 @@
-swagger_client
-tests

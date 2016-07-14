@@ -12,7 +12,6 @@ namespace IO.Swagger.Model {
   /// </summary>
   [DataContract]
   public class User {
-    
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
@@ -20,7 +19,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "id")]
     public long? Id { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets Username
     /// </summary>
@@ -28,7 +26,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "username")]
     public string Username { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets FirstName
     /// </summary>
@@ -36,7 +33,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "firstName")]
     public string FirstName { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets LastName
     /// </summary>
@@ -44,7 +40,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "lastName")]
     public string LastName { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets Email
     /// </summary>
@@ -52,7 +47,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "email")]
     public string Email { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets Password
     /// </summary>
@@ -60,7 +54,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "password")]
     public string Password { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets Phone
     /// </summary>
@@ -68,7 +61,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "phone")]
     public string Phone { get; set; }
 
-    
     /// <summary>
     /// User Status
     /// </summary>
@@ -77,7 +69,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "userStatus")]
     public int? UserStatus { get; set; }
 
-    
 
     /// <summary>
     /// Get the string presentation of the object
@@ -86,23 +77,14 @@ namespace IO.Swagger.Model {
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class User {\n");
-      
       sb.Append("  Id: ").Append(Id).Append("\n");
-      
       sb.Append("  Username: ").Append(Username).Append("\n");
-      
       sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-      
       sb.Append("  LastName: ").Append(LastName).Append("\n");
-      
       sb.Append("  Email: ").Append(Email).Append("\n");
-      
       sb.Append("  Password: ").Append(Password).Append("\n");
-      
       sb.Append("  Phone: ").Append(Phone).Append("\n");
-      
       sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
-      
       sb.Append("}\n");
       return sb.ToString();
     }

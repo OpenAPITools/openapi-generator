@@ -3,49 +3,39 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 
-import java.io.File;
 import java.util.*;
+
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaJerseyServerCodegen() {
         super();
 
-        sourceFolder = "src/gen/java";
-        invokerPackage = "io.swagger.api";
-        artifactId = "swagger-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Jersey";
 
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
+        apiTestTemplateFiles.clear(); // TODO: add test template
 
-        additionalProperties.put("title", title);
+        // clear model and api doc template as this codegen
+        // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
 
-        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "jersey1_18";
-
-        for ( int i = 0; i < cliOptions.size(); i++ ) {
-            if ( CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt()) ) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
+        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME;
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
 
-        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-
-        supportedLibraries.put(DEFAULT_LIBRARY, "Jersey core 1.18.1");
-        supportedLibraries.put("jersey2", "Jersey core 2.x");
+        supportedLibraries.put("jersey1", "Jersey core 1.x");
+        supportedLibraries.put("jersey2", "Jersey core 2.x (default)");
         library.setEnum(supportedLibraries);
+        library.setDefault("jersey1");
 
         cliOptions.add(library);
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
-        cliOptions.add(new CliOption("title", "a title describing the application"));
+
     }
 
     @Override
@@ -66,17 +56,38 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if("null".equals(property.example)) {
             property.example = null;
         }
+
+        //Add imports for Jackson
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
+            model.imports.add("JsonProperty");
+
+            if(BooleanUtils.toBoolean(model.hasEnums)) {
+                model.imports.add("JsonValue");
+            }
+        }
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER) ) {
+        // set jersey2 as default
+        if (StringUtils.isEmpty(library)) {
+            setLibrary("jersey2");
+        }
+
+        if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
 
-        supportingFiles.clear();
+        if ("joda".equals(dateLibrary)) {
+            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
+        } else if ( dateLibrary.startsWith("java8") ) {
+            supportingFiles.add(new SupportingFile("OffsetDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "OffsetDateTimeProvider.java"));
+            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
+        }
+
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
@@ -85,40 +96,30 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.add(new SupportingFile("NotFoundException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
         supportingFiles.add(new SupportingFile("jacksonJsonProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JacksonJsonProvider.java"));
         writeOptional(outputFolder, new SupportingFile("bootstrap.mustache", (implFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java"));
-
         writeOptional(outputFolder, new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
+    }
 
-        if ( additionalProperties.containsKey("dateLibrary") ) {
-            setDateLibrary(additionalProperties.get("dateLibrary").toString());
-            additionalProperties.put(dateLibrary, "true");
-        }
-        if(DEFAULT_LIBRARY.equals(library) || library == null) {
-            if(templateDir.startsWith(JAXRS_TEMPLATE_DIRECTORY_NAME)) {
-                // set to the default location
-                templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "jersey1_18";
-            }
-            else {
-                templateDir += File.separator + "jersey1_18";
-            }
-        }
-        if("jersey2".equals(library)) {
-            if(templateDir.startsWith(JAXRS_TEMPLATE_DIRECTORY_NAME)) {
-                // set to the default location
-                templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "jersey2";
-            }
-            else {
-                templateDir += File.separator + "jersey2";
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        //Add imports for Jackson
+        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                cm.imports.add(importMapping.get("JsonValue"));
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("import", importMapping.get("JsonValue"));
+                imports.add(item);
             }
         }
 
-        if ( "joda".equals(dateLibrary) ) {
-            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
-        } else if ( "java8".equals(dateLibrary) ) {
-            supportingFiles.add(new SupportingFile("LocalDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
-        }
+        return objs;
     }
 
     @Override
@@ -149,7 +150,4 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         co.baseName = basePath;
     }
 
-    public void hideGenerationTimestamp(boolean hideGenerationTimestamp) {
-        this.hideGenerationTimestamp = hideGenerationTimestamp;
-    }
 }

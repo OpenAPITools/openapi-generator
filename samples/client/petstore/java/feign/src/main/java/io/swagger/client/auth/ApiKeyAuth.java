@@ -32,9 +32,9 @@ public class ApiKeyAuth implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
-        if (location == "query") {
+        if ("query".equals(location)) {
             template.query(paramName, apiKey);
-        } else if (location == "header") {
+        } else if ("header".equals(location)) {
             template.header(paramName, apiKey);
         }
     }

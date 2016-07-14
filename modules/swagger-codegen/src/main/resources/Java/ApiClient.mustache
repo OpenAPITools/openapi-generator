@@ -1,8 +1,14 @@
+{{>licenseInfo}}
 package {{invokerPackage}};
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+{{#java8}}
+import com.fasterxml.jackson.datatype.jsr310.*;
+{{/java8}}
+{{^java8}}
 import com.fasterxml.jackson.datatype.joda.*;
+{{/java8}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import com.sun.jersey.api.client.Client;
@@ -65,7 +71,12 @@ public class ApiClient {
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    {{#java8}}
+    objectMapper.registerModule(new JavaTimeModule());
+    {{/java8}}
+    {{^java8}}
     objectMapper.registerModule(new JodaModule());
+    {{/java8}}
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();

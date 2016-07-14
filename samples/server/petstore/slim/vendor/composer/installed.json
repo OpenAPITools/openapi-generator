@@ -1,0 +1,247 @@
+[
+    {
+        "name": "container-interop/container-interop",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/container-interop/container-interop.git",
+            "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/container-interop/container-interop/zipball/fc08354828f8fd3245f77a66b9e23a6bca48297e",
+            "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e",
+            "shasum": ""
+        },
+        "time": "2014-12-30 15:22:37",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Interop\\Container\\": "src/Interop/Container/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Promoting the interoperability of container objects (DIC, SL, etc.)"
+    },
+    {
+        "name": "nikic/fast-route",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/nikic/FastRoute.git",
+            "reference": "8ea928195fa9b907f0d6e48312d323c1a13cc2af"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/nikic/FastRoute/zipball/8ea928195fa9b907f0d6e48312d323c1a13cc2af",
+            "reference": "8ea928195fa9b907f0d6e48312d323c1a13cc2af",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "time": "2016-06-12 19:08:51",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "FastRoute\\": "src/"
+            },
+            "files": [
+                "src/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Nikita Popov",
+                "email": "nikic@php.net"
+            }
+        ],
+        "description": "Fast request router for PHP",
+        "keywords": [
+            "router",
+            "routing"
+        ]
+    },
+    {
+        "name": "psr/http-message",
+        "version": "1.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/http-message.git",
+            "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+            "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-05-04 20:22:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Http\\Message\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for HTTP messages",
+        "keywords": [
+            "http",
+            "http-message",
+            "psr",
+            "psr-7",
+            "request",
+            "response"
+        ]
+    },
+    {
+        "name": "pimple/pimple",
+        "version": "v3.0.2",
+        "version_normalized": "3.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/silexphp/Pimple.git",
+            "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/silexphp/Pimple/zipball/a30f7d6e57565a2e1a316e1baf2a483f788b258a",
+            "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-09-11 15:10:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Pimple": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Pimple, a simple Dependency Injection Container",
+        "homepage": "http://pimple.sensiolabs.org",
+        "keywords": [
+            "container",
+            "dependency injection"
+        ]
+    },
+    {
+        "name": "slim/slim",
+        "version": "3.4.2",
+        "version_normalized": "3.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/slimphp/Slim.git",
+            "reference": "a132385f736063d00632b52b3f8a389fe66fe4fa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/slimphp/Slim/zipball/a132385f736063d00632b52b3f8a389fe66fe4fa",
+            "reference": "a132385f736063d00632b52b3f8a389fe66fe4fa",
+            "shasum": ""
+        },
+        "require": {
+            "container-interop/container-interop": "^1.1",
+            "nikic/fast-route": "^1.0",
+            "php": ">=5.5.0",
+            "pimple/pimple": "^3.0",
+            "psr/http-message": "^1.0"
+        },
+        "provide": {
+            "psr/http-message-implementation": "1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.0",
+            "squizlabs/php_codesniffer": "^2.5"
+        },
+        "time": "2016-05-25 11:23:38",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Slim\\": "Slim"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Rob Allen",
+                "email": "rob@akrabat.com",
+                "homepage": "http://akrabat.com"
+            },
+            {
+                "name": "Josh Lockhart",
+                "email": "hello@joshlockhart.com",
+                "homepage": "https://joshlockhart.com"
+            },
+            {
+                "name": "Gabriel Manricks",
+                "email": "gmanricks@me.com",
+                "homepage": "http://gabrielmanricks.com"
+            },
+            {
+                "name": "Andrew Smith",
+                "email": "a.smith@silentworks.co.uk",
+                "homepage": "http://silentworks.co.uk"
+            }
+        ],
+        "description": "Slim is a PHP micro framework that helps you quickly write simple yet powerful web applications and APIs",
+        "homepage": "http://slimframework.com",
+        "keywords": [
+            "api",
+            "framework",
+            "micro",
+            "router"
+        ]
+    }
+]

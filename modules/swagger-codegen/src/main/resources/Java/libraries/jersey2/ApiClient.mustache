@@ -51,7 +51,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{>generatedAnnotation}}
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private String basePath = "{{basePath}}";
+  private String basePath = "{{{basePath}}}";
   private boolean debugging = false;
   private int connectionTimeout = 0;
 
@@ -96,6 +96,15 @@ public class ApiClient {
    */
   public JSON getJSON() {
     return json;
+  }
+
+  public Client getHttpClient() {
+    return httpClient;
+  }
+
+  public ApiClient setHttpClient(Client httpClient) {
+    this.httpClient = httpClient;
+    return this;
   }
 
   public String getBasePath() {

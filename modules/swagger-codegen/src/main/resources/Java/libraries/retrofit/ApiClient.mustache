@@ -9,6 +9,10 @@ import java.util.Map;
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -22,6 +26,9 @@ import retrofit.mime.TypedOutput;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -108,13 +115,15 @@ public class ApiClient {
    public void createDefaultAdapter() {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .create();
 
         okClient = new OkHttpClient();
 
         adapterBuilder = new RestAdapter
                 .Builder()
-                .setEndpoint("{{basePath}}")
+                .setEndpoint("{{{basePath}}}")
                 .setClient(new OkClient(okClient))
                 .setConverter(new GsonConverterWrapper(gson));
     }
@@ -337,5 +346,63 @@ class GsonConverterWrapper implements Converter {
             }
         }
 
+    }
+}
+
+/**
+ * Gson TypeAdapter for Joda DateTime type
+ */
+class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
+
+    private final DateTimeFormatter formatter = ISODateTimeFormat.dateTime();
+
+    @Override
+    public void write(JsonWriter out, DateTime date) throws IOException {
+        if (date == null) {
+            out.nullValue();
+        } else {
+            out.value(formatter.print(date));
+        }
+    }
+
+    @Override
+    public DateTime read(JsonReader in) throws IOException {
+        switch (in.peek()) {
+            case NULL:
+                in.nextNull();
+                return null;
+            default:
+                String date = in.nextString();
+                return formatter.parseDateTime(date);
+        }
+    }
+}
+
+/**
+ * Gson TypeAdapter for Joda DateTime type
+ */
+class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+
+    private final DateTimeFormatter formatter = ISODateTimeFormat.date();
+
+    @Override
+    public void write(JsonWriter out, LocalDate date) throws IOException {
+        if (date == null) {
+            out.nullValue();
+        } else {
+            out.value(formatter.print(date));
+        }
+    }
+
+    @Override
+    public LocalDate read(JsonReader in) throws IOException {
+        switch (in.peek()) {
+            case NULL:
+                in.nextNull();
+                return null;
+            default:
+                String date = in.nextString();
+                return formatter.parseLocalDate(date);
+        }
     }
 }

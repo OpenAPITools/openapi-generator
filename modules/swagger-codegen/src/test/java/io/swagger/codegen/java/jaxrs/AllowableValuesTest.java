@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 
 public class AllowableValuesTest {
 
-    private static final String TEMPLATE_FILE = "JavaJaxRS/jersey1_18/allowableValues.mustache";
+    private static final String TEMPLATE_FILE = "JavaJaxRS/allowableValues.mustache";
     private static final String PROVIDER_NAME = "operations";
 
     private static String loadClassResource(Class<?> cls, String name) throws IOException {

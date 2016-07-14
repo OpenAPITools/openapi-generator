@@ -1,23 +1,7 @@
 # coding: utf-8
 
-"""
-Copyright 2016 SmartBear Software
+{{>partial_header}}
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-Credit: this file (rest.py) is modified based on rest.py in Dropbox Python SDK:
-https://www.dropbox.com/developers/core/sdks/python
-"""
 from __future__ import absolute_import
 
 import sys
@@ -26,6 +10,7 @@ import json
 import ssl
 import certifi
 import logging
+import re
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -133,13 +118,16 @@ class RESTClientObject(object):
             headers['Content-Type'] = 'application/json'
 
         try:
-            # For `POST`, `PUT`, `PATCH`, `OPTIONS`
-            if method in ['POST', 'PUT', 'PATCH', 'OPTIONS']:
+            # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
+            if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
                 if query_params:
                     url += '?' + urlencode(query_params)
-                if headers['Content-Type'] == 'application/json':
+                if re.search('json', headers['Content-Type'], re.IGNORECASE):
+                    request_body = None
+                    if body:
+                        request_body = json.dumps(body)
                     r = self.pool_manager.request(method, url,
-                                                  body=json.dumps(body),
+                                                  body=request_body,
                                                   headers=headers)
                 if headers['Content-Type'] == 'application/x-www-form-urlencoded':
                     r = self.pool_manager.request(method, url,
@@ -154,7 +142,7 @@ class RESTClientObject(object):
                                                   fields=post_params,
                                                   encode_multipart=True,
                                                   headers=headers)
-            # For `GET`, `HEAD`, `DELETE`
+            # For `GET`, `HEAD`
             else:
                 r = self.pool_manager.request(method, url,
                                               fields=query_params,
@@ -195,10 +183,11 @@ class RESTClientObject(object):
                             post_params=post_params,
                             body=body)
 
-    def DELETE(self, url, headers=None, query_params=None):
+    def DELETE(self, url, headers=None, query_params=None, body=None):
         return self.request("DELETE", url,
                             headers=headers,
-                            query_params=query_params)
+                            query_params=query_params,
+                            body=body)
 
     def POST(self, url, headers=None, query_params=None, post_params=None, body=None):
         return self.request("POST", url,
