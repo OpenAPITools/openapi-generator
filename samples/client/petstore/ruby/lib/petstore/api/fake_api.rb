@@ -31,6 +31,63 @@ module Petstore
       @api_client = api_client
     end
 
+    # To test \"client\" model
+    # 
+    # @param body client model
+    # @param [Hash] opts the optional parameters
+    # @return [Client]
+    def test_client_model(body, opts = {})
+      data, _status_code, _headers = test_client_model_with_http_info(body, opts)
+      return data
+    end
+
+    # To test \&quot;client\&quot; model
+    # 
+    # @param body client model
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
+    def test_client_model_with_http_info(body, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: FakeApi.test_client_model ..."
+      end
+      # verify the required parameter 'body' is set
+      fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_client_model" if body.nil?
+      # resource path
+      local_var_path = "/fake".sub('{format}','json')
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # HTTP header 'Accept' (if needed)
+      local_header_accept = ['application/json']
+      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
+
+      # HTTP header 'Content-Type'
+      local_header_content_type = ['application/json']
+      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(body)
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'Client')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#test_client_model\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # @param number None

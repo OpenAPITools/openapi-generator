@@ -4,8 +4,54 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_query_parameters**](FakeApi.md#test_enum_query_parameters) | **GET** /fake | To test enum query parameters
+
+
+# **test_client_model**
+> Client test_client_model(body)
+
+To test \"client\" model
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+
+body = Petstore::Client.new # Client | client model
+
+
+begin
+  #To test \"client\" model
+  result = api_instance.test_client_model(body)
+  p result
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->test_client_model: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**Client**](Client.md)| client model | 
+
+### Return type
+
+[**Client**](Client.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
 
 
 # **test_endpoint_parameters**
