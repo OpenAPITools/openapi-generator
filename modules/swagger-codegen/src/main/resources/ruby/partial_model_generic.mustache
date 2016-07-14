@@ -124,8 +124,10 @@
       return false if @{{{name}}}.nil?
       {{/required}}
       {{#isEnum}}
+      {{^isContainer}}
       {{{name}}}_validator = EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
       return false unless {{{name}}}_validator.valid?(@{{{name}}})
+      {{/isContainer}}
       {{/isEnum}}
       {{#hasValidation}}
       {{#minLength}}
@@ -150,6 +152,7 @@
 
     {{#vars}}
     {{#isEnum}}
+    {{^isContainer}}
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
@@ -160,6 +163,7 @@
       @{{{name}}} = {{{name}}}
     end
 
+    {{/isContainer}}
     {{/isEnum}}
     {{^isEnum}}
     {{#hasValidation}}
