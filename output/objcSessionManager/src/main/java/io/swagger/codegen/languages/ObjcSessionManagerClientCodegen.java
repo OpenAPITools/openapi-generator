@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
-public class ObjcSessionManagerGenerator extends DefaultCodegen implements CodegenConfig {
+public class ObjcSessionManagerClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public static final String CLASS_PREFIX = "classPrefix";
   public static final String POD_NAME = "podName";
@@ -38,10 +38,10 @@ public class ObjcSessionManagerGenerator extends DefaultCodegen implements Codeg
 
 
 
-  public ObjcSessionManagerGenerator() {
+  public ObjcSessionManagerClientCodegen() {
       super();
       
-      outputFolder = "generated-code" + File.separator + "ObjcSessionManager";
+      outputFolder = "generated-code" + File.separator + "objcSessionManager";
 
       modelTemplateFiles.put("model-header.mustache", ".h");
       modelTemplateFiles.put("model-body.mustache", ".m");
@@ -49,7 +49,7 @@ public class ObjcSessionManagerGenerator extends DefaultCodegen implements Codeg
       apiTemplateFiles.put("api-header.mustache", ".h");
       apiTemplateFiles.put("api-body.mustache", ".m");
 
-      embeddedTemplateDir = templateDir = "ObjcSessionManager";
+      embeddedTemplateDir = templateDir = "objcSessionManager";
 
       defaultIncludes.clear();
       defaultIncludes.add("bool");
