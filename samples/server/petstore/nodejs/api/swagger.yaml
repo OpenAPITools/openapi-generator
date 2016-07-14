@@ -1,10 +1,10 @@
 ---
 swagger: "2.0"
 info:
-  description: "This is a sample server Petstore server.  You can find out more about\n\
-    Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\n\
-    For this sample, you can use the api key `special-key` to test the authorization\
-    \ filters.\n"
+  description: "This is a sample server Petstore server.  You can find out more about\
+    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
+    \  For this sample, you can use the api key `special-key` to test the authorization\
+    \ filters."
   version: "1.0.0"
   title: "Swagger Petstore"
   termsOfService: "http://swagger.io/terms/"
@@ -36,6 +36,7 @@ paths:
       tags:
       - "pet"
       summary: "Add a new pet to the store"
+      description: ""
       operationId: "addPet"
       consumes:
       - "application/json"
@@ -62,6 +63,7 @@ paths:
       tags:
       - "pet"
       summary: "Update an existing pet"
+      description: ""
       operationId: "updatePet"
       consumes:
       - "application/json"
@@ -111,7 +113,7 @@ paths:
           - "available"
           - "pending"
           - "sold"
-        collectionFormat: "multi"
+        collectionFormat: "csv"
       responses:
         200:
           description: "successful operation"
@@ -131,8 +133,8 @@ paths:
       tags:
       - "pet"
       summary: "Finds Pets by tags"
-      description: "Muliple tags can be provided with comma separated strings. Use\n\
-        tag1, tag2, tag3 for testing.\n"
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: "findPetsByTags"
       produces:
       - "application/xml"
@@ -145,7 +147,7 @@ paths:
         type: "array"
         items:
           type: "string"
-        collectionFormat: "multi"
+        collectionFormat: "csv"
       responses:
         200:
           description: "successful operation"
@@ -159,7 +161,6 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      deprecated: true
       x-swagger-router-controller: "Pet"
   /pet/{petId}:
     get:
@@ -194,7 +195,7 @@ paths:
       tags:
       - "pet"
       summary: "Updates a pet in the store with form data"
-      description: "null"
+      description: ""
       operationId: "updatePetWithForm"
       consumes:
       - "application/x-www-form-urlencoded"
@@ -230,6 +231,7 @@ paths:
       tags:
       - "pet"
       summary: "Deletes a pet"
+      description: ""
       operationId: "deletePet"
       produces:
       - "application/xml"
@@ -247,9 +249,7 @@ paths:
         format: "int64"
       responses:
         400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
+          description: "Invalid pet value"
       security:
       - petstore_auth:
         - "write:pets"
@@ -260,6 +260,7 @@ paths:
       tags:
       - "pet"
       summary: "uploads an image"
+      description: ""
       operationId: "uploadFile"
       consumes:
       - "multipart/form-data"
@@ -318,6 +319,7 @@ paths:
       tags:
       - "store"
       summary: "Place an order for a pet"
+      description: ""
       operationId: "placeOrder"
       produces:
       - "application/xml"
@@ -342,8 +344,8 @@ paths:
       tags:
       - "store"
       summary: "Find purchase order by ID"
-      description: "For valid response try integer IDs with value >= 1 and <= 10.\n\
-        Other values will generated exceptions\n"
+      description: "For valid response try integer IDs with value <= 5 or > 10. Other\
+        \ values will generated exceptions"
       operationId: "getOrderById"
       produces:
       - "application/xml"
@@ -354,7 +356,7 @@ paths:
         description: "ID of pet that needs to be fetched"
         required: true
         type: "integer"
-        maximum: 10
+        maximum: 5
         minimum: 1
         format: "int64"
       responses:
@@ -371,8 +373,8 @@ paths:
       tags:
       - "store"
       summary: "Delete purchase order by ID"
-      description: "For valid response try integer IDs with positive integer value.\\\
-        \ \\ Negative or non-integer values will generate API errors"
+      description: "For valid response try integer IDs with value < 1000. Anything\
+        \ above 1000 or nonintegers will generate API errors"
       operationId: "deleteOrder"
       produces:
       - "application/xml"
@@ -382,9 +384,8 @@ paths:
         in: "path"
         description: "ID of the order that needs to be deleted"
         required: true
-        type: "integer"
+        type: "string"
         minimum: 1
-        format: "int64"
       responses:
         400:
           description: "Invalid ID supplied"
@@ -417,6 +418,7 @@ paths:
       tags:
       - "user"
       summary: "Creates list of users with given input array"
+      description: ""
       operationId: "createUsersWithArrayInput"
       produces:
       - "application/xml"
@@ -439,6 +441,7 @@ paths:
       tags:
       - "user"
       summary: "Creates list of users with given input array"
+      description: ""
       operationId: "createUsersWithListInput"
       produces:
       - "application/xml"
@@ -461,6 +464,7 @@ paths:
       tags:
       - "user"
       summary: "Logs user into the system"
+      description: ""
       operationId: "loginUser"
       produces:
       - "application/xml"
@@ -489,7 +493,7 @@ paths:
             X-Expires-After:
               type: "string"
               format: "date-time"
-              description: "date in UTC when token expires"
+              description: "date in UTC when toekn expires"
         400:
           description: "Invalid username/password supplied"
       x-swagger-router-controller: "User"
@@ -498,7 +502,7 @@ paths:
       tags:
       - "user"
       summary: "Logs out current logged in user session"
-      description: "null"
+      description: ""
       operationId: "logoutUser"
       produces:
       - "application/xml"
@@ -513,6 +517,7 @@ paths:
       tags:
       - "user"
       summary: "Get user by user name"
+      description: ""
       operationId: "getUserByName"
       produces:
       - "application/xml"
@@ -520,7 +525,7 @@ paths:
       parameters:
       - name: "username"
         in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing."
+        description: "The name that needs to be fetched. Use user1 for testing. "
         required: true
         type: "string"
       responses:
@@ -545,7 +550,7 @@ paths:
       parameters:
       - name: "username"
         in: "path"
-        description: "name that need to be updated"
+        description: "name that need to be deleted"
         required: true
         type: "string"
       - in: "body"
@@ -588,7 +593,7 @@ securityDefinitions:
     in: "header"
   petstore_auth:
     type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
     flow: "implicit"
     scopes:
       write:pets: "modify pets in your account"
@@ -621,6 +626,16 @@ definitions:
         default: false
     xml:
       name: "Order"
+  Category:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    xml:
+      name: "Category"
   User:
     type: "object"
     properties:
@@ -645,16 +660,6 @@ definitions:
         description: "User Status"
     xml:
       name: "User"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Category"
   Tag:
     type: "object"
     properties:

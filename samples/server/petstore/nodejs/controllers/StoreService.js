@@ -3,11 +3,9 @@
 exports.deleteOrder = function(args, res, next) {
   /**
    * parameters expected in the args:
-  * orderId (Long)
+  * orderId (String)
   **/
   // no response value expected for this operation
-  
-  
   res.end();
 }
 
@@ -15,13 +13,10 @@ exports.getInventory = function(args, res, next) {
   /**
    * parameters expected in the args:
   **/
-  
-  
-  var examples = {};
+    var examples = {};
   examples['application/json'] = {
   "key" : 123
 };
-  
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -29,7 +24,6 @@ exports.getInventory = function(args, res, next) {
   else {
     res.end();
   }
-  
   
 }
 
@@ -38,9 +32,7 @@ exports.getOrderById = function(args, res, next) {
    * parameters expected in the args:
   * orderId (Long)
   **/
-  
-  
-  var examples = {};
+    var examples = {};
   examples['application/json'] = {
   "id" : 123456789,
   "petId" : 123456789,
@@ -49,7 +41,6 @@ exports.getOrderById = function(args, res, next) {
   "quantity" : 123,
   "shipDate" : "2000-01-23T04:56:07.000+0000"
 };
-  
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -57,7 +48,6 @@ exports.getOrderById = function(args, res, next) {
   else {
     res.end();
   }
-  
   
 }
 
@@ -66,9 +56,7 @@ exports.placeOrder = function(args, res, next) {
    * parameters expected in the args:
   * body (Order)
   **/
-  
-  
-  var examples = {};
+    var examples = {};
   examples['application/json'] = {
   "id" : 123456789,
   "petId" : 123456789,
@@ -77,7 +65,6 @@ exports.placeOrder = function(args, res, next) {
   "quantity" : 123,
   "shipDate" : "2000-01-23T04:56:07.000+0000"
 };
-  
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
@@ -85,7 +72,6 @@ exports.placeOrder = function(args, res, next) {
   else {
     res.end();
   }
-  
   
 }
 

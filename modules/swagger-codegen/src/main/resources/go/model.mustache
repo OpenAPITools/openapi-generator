@@ -1,15 +1,15 @@
+{{>partial_header}}
 package {{packageName}}
-
-{{#models}}
-import (
-{{#imports}}    "{{import}}"
-{{/imports}}
+{{#models}}{{#imports}}
+import ({{/imports}}{{#imports}}
+	"{{import}}"{{/imports}}{{#imports}}
 )
-
-{{#model}}
+{{/imports}}{{#model}}{{#description}}
+// {{{description}}}{{/description}}
 type {{classname}} struct {
-    {{#vars}}{{name}}  {{{datatype}}}  `json:"{{baseName}},omitempty"`
-    {{/vars}}
+{{#vars}}{{#description}}
+	// {{{description}}}{{/description}}
+	{{name}} {{{datatype}}} `json:"{{baseName}},omitempty"`
+{{/vars}}
 }
-{{/model}}
-{{/models}}
+{{/model}}{{/models}}

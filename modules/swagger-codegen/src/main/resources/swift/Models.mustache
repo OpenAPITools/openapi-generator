@@ -34,32 +34,38 @@ public class Response<T> {
 private var once = dispatch_once_t()
 class Decoders {
     static private var decoders = Dictionary<String, ((AnyObject) -> AnyObject)>()
-    
+
     static func addDecoder<T>(clazz clazz: T.Type, decoder: ((AnyObject) -> T)) {
         let key = "\(T.self)"
         decoders[key] = { decoder($0) as! AnyObject }
     }
-    
+
     static func decode<T>(clazz clazz: [T].Type, source: AnyObject) -> [T] {
         let array = source as! [AnyObject]
         return array.map { Decoders.decode(clazz: T.self, source: $0) }
     }
-    
+
     static func decode<T, Key: Hashable>(clazz clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
-        let sourceDictinoary = source as! [Key: AnyObject]
+        let sourceDictionary = source as! [Key: AnyObject]
         var dictionary = [Key:T]()
-        for (key, value) in sourceDictinoary {
+        for (key, value) in sourceDictionary {
             dictionary[key] = Decoders.decode(clazz: T.self, source: value)
         }
         return dictionary
     }
-    
+
     static func decode<T>(clazz clazz: T.Type, source: AnyObject) -> T {
         initialize()
+        if T.self is Int32.Type && source is NSNumber {
+            return source.intValue as! T;
+        }
+        if T.self is Int64.Type && source is NSNumber {
+            return source.longLongValue as! T;
+        }
         if source is T {
             return source as! T
         }
-        
+
         let key = "\(T.self)"
         if let decoder = decoders[key] {
            return decoder(source) as! T
@@ -94,14 +100,15 @@ class Decoders {
             Decoders.decode(clazz: clazz, source: someSource)
         }
     }
-	
+
     static private func initialize() {
         dispatch_once(&once) {
             let formatters = [
                 "yyyy-MM-dd",
                 "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
                 "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
-                "yyyy-MM-dd'T'HH:mm:ss'Z'"
+                "yyyy-MM-dd'T'HH:mm:ss'Z'",
+                "yyyy-MM-dd'T'HH:mm:ss.SSS"
             ].map { (format: String) -> NSDateFormatter in
                 let formatter = NSDateFormatter()
                 formatter.dateFormat = format
@@ -115,7 +122,7 @@ class Decoders {
                             return date
                         }
                     }
-                
+
                 }
                 if let sourceInt = source as? Int {
                     // treat as a java date
@@ -124,16 +131,29 @@ class Decoders {
                 fatalError("formatter failed to parse \(source)")
             } {{#models}}{{#model}}
 
-			// Decoder for [{{{classname}}}]
+            // Decoder for [{{{classname}}}]
             Decoders.addDecoder(clazz: [{{{classname}}}].self) { (source: AnyObject) -> [{{{classname}}}] in
                 return Decoders.decode(clazz: [{{{classname}}}].self, source: source)
             }
-			// Decoder for {{{classname}}}
+            // Decoder for {{{classname}}}
             Decoders.addDecoder(clazz: {{{classname}}}.self) { (source: AnyObject) -> {{{classname}}} in
                 let sourceDictionary = source as! [NSObject:AnyObject]
+                {{#unwrapRequired}}
+                let instance = {{classname}}({{#requiredVars}}{{^-first}}, {{/-first}}{{#isEnum}}{{name}}: {{classname}}.{{datatypeWithEnum}}(rawValue: (sourceDictionary["{{baseName}}"] as? String) ?? "")! {{/isEnum}}{{^isEnum}}{{name}}: Decoders.decode(clazz: {{{baseType}}}.self, source: sourceDictionary["{{baseName}}"]!){{/isEnum}}{{/requiredVars}})
+                {{#optionalVars}}
+                {{#isEnum}}
+                instance.{{name}} = {{classname}}.{{datatypeWithEnum}}(rawValue: (sourceDictionary["{{baseName}}"] as? String) ?? "")
+                {{/isEnum}}
+                {{^isEnum}}
+                instance.{{name}} = Decoders.decodeOptional(clazz: {{{baseType}}}.self, source: sourceDictionary["{{baseName}}"])
+                {{/isEnum}}
+                {{/optionalVars}}
+                {{/unwrapRequired}}
+                {{^unwrapRequired}}
                 let instance = {{classname}}(){{#vars}}{{#isEnum}}
-                instance.{{name}} = {{classname}}.{{datatypeWithEnum}}(rawValue: (sourceDictionary["{{baseName}}"] as? String) ?? ""){{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}} {{/isEnum}}{{^isEnum}}
-                instance.{{name}} = Decoders.decode{{^unwrapRequired}}Optional{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}Optional{{/required}}{{/unwrapRequired}}(clazz: {{{baseType}}}.self, source: sourceDictionary["{{baseName}}"]{{#unwrapRequired}}{{#required}}!{{/required}}{{/unwrapRequired}}){{/isEnum}}{{/vars}}
+                instance.{{name}} = {{classname}}.{{datatypeWithEnum}}(rawValue: (sourceDictionary["{{baseName}}"] as? String) ?? "") {{/isEnum}}{{^isEnum}}
+                instance.{{name}} = Decoders.decodeOptional(clazz: {{{baseType}}}.self, source: sourceDictionary["{{baseName}}"]){{/isEnum}}{{/vars}}
+                {{/unwrapRequired}}
                 return instance
             }{{/model}}
 			{{/models}}

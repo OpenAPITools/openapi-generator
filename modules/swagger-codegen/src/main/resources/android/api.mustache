@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 package {{package}};
 
 import {{invokerPackage}}.ApiException;
@@ -73,7 +74,7 @@ public class {{classname}} {
     {{/headerParams}}
 
     String[] localVarContentTypes = {
-      {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
+      {{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
     };
     String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
 

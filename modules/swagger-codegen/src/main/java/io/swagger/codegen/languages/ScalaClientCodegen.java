@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "io.swagger.client";
@@ -35,6 +35,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/scala";
     protected String authScheme = "";
+    protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean authPreemptive;
     protected boolean asyncHttpClient = !authScheme.isEmpty();
 
@@ -74,6 +75,19 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.scala"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        // gradle settings
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
+        // gradleWrapper files
+        supportingFiles.add(new SupportingFile( "gradlew.mustache", "", "gradlew") );
+        supportingFiles.add(new SupportingFile( "gradlew.bat.mustache", "", "gradlew.bat") );
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.properties.mustache",
+                gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.properties") );
+        supportingFiles.add(new SupportingFile( "gradle-wrapper.jar",
+                gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
+
+        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
 
         importMapping.remove("List");
         importMapping.remove("Set");
@@ -101,6 +115,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
+        typeMapping.put("ByteArray", "String");
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
@@ -319,6 +334,17 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

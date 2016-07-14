@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected static String PREFIX = "Sami";
@@ -281,4 +281,14 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         return camelize(operationId, true);
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
 }

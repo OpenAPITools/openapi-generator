@@ -1,9 +1,0 @@
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/SwaggerClientTest.swagger-logo.png
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/SwaggerClientTest.dll.mdb
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/SwaggerClientTest.dll
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/SwaggerClientTest.dll
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/SwaggerClientTest.dll.mdb
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/Newtonsoft.Json.dll
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/nunit.framework.dll
-/Users/williamcheng/Code/swagger-codegen/samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/RestSharp.dll

@@ -21,17 +21,22 @@ require 'date'
 
   describe 'test an instance of {{classname}}' do
     it 'should create an instact of {{classname}}' do
-      @instance.should be_a({{moduleName}}::{{classname}}) 
+      expect(@instance).to be_instance_of({{moduleName}}::{{classname}})
     end
   end
 {{#vars}}
   describe 'test attribute "{{{name}}}"' do
     it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
+       {{#isEnum}}
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+       #validator = Petstore::EnumTest::EnumAttributeValidator.new('{{{datatype}}}', [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+       #validator.allowable_values.each do |value|
+       #  expect { @instance.{{name}} = value }.not_to raise_error
+       #end
+       {{/isEnum}}
+       {{^isEnum}}
+       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+       {{/isEnum}}
     end
   end
 

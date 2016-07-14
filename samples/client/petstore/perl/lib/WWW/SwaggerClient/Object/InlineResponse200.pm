@@ -145,7 +145,6 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-    
 });
 
 __PACKAGE__->swagger_types( {

@@ -2,7 +2,12 @@ package {{invokerPackage}};
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+{{#java8}}
+import com.fasterxml.jackson.datatype.jsr310.*;
+{{/java8}}
+{{^java8}}
 import com.fasterxml.jackson.datatype.joda.*;
+{{/java8}}
 
 import java.text.DateFormat;
 
@@ -19,7 +24,12 @@ public class JSON implements ContextResolver<ObjectMapper> {
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    {{#java8}}
+    mapper.registerModule(new JavaTimeModule());
+    {{/java8}}
+    {{^java8}}
     mapper.registerModule(new JodaModule());
+    {{/java8}}
   }
 
   /**

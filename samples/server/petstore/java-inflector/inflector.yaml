@@ -2,12 +2,15 @@ controllerPackage: io.swagger.handler
 modelPackage:  io.swagger.model
 swaggerUrl: ./src/main/swagger/swagger.yaml
 modelMappings:
-  User : io.swagger.model.User
-  Category : io.swagger.model.Category
-  Pet : io.swagger.model.Pet
-  Tag : io.swagger.model.Tag
-  Order : io.swagger.model.Order
-  
+  # to enable explicit mappings, use this syntax:
+  DefinitionFromSwaggerSpecification: fully.qualified.path.to.Model
+  ApiResponse : io.swagger.model.ApiResponse
+Category : io.swagger.model.Category
+Order : io.swagger.model.Order
+Pet : io.swagger.model.Pet
+Tag : io.swagger.model.Tag
+User : io.swagger.model.User
+
 entityProcessors:
   - json
   - xml

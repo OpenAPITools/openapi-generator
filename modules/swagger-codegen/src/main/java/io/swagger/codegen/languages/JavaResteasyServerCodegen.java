@@ -2,72 +2,35 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.*;
 
-public class JavaResteasyServerCodegen extends JavaClientCodegen implements CodegenConfig {
-
-    protected String dateLibrary = "default";
-    protected String title = "Swagger Server";
-    protected String implFolder = "src/main/java";
-
-    public static final String DATE_LIBRARY = "dateLibrary";
+public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public JavaResteasyServerCodegen() {
 
         super();
 
-        sourceFolder = "src/gen/java";
-        invokerPackage = "io.swagger.api";
         artifactId = "swagger-jaxrs-resteasy-server";
 
         outputFolder = "generated-code/javaJaxRS";
-        modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
-        apiPackage = "io.swagger.api";
-        modelPackage = "io.swagger.model";
+        apiTestTemplateFiles.clear(); // TODO: add test template
 
-        additionalProperties.put("title", title);
+        // clear model and api doc template as AbstractJavaJAXRSServerCodegen
+        // does not support auto-generated markdown doc at the moment
+        //TODO: add doc templates
+        modelDocTemplateFiles.remove("model_doc.mustache");
+        apiDocTemplateFiles.remove("api_doc.mustache");
+
+        dateLibrary = "legacy";// TODO: change to joda
 
         embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy";
-
-        for (int i = 0; i < cliOptions.size(); i++) {
-            if (CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
-
-        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
-        Map<String, String> dateOptions = new HashMap<String, String>();
-        dateOptions.put("java8", "Java 8 native");
-        dateOptions.put("joda", "Joda");
-        dateLibrary.setEnum(dateOptions);
-
-        cliOptions.add(dateLibrary);
-
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
-
-        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-
-        supportedLibraries.put(DEFAULT_LIBRARY, "Resteasy core 3.0.11");
-        library.setEnum(supportedLibraries);
-
-        cliOptions.add(library);
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
-    }
-
-    @Override
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
     }
 
     @Override
@@ -84,11 +47,6 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
-
-        supportingFiles.clear();
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         writeOptional(outputFolder, new SupportingFile("gradle.mustache", "", "build.gradle"));
         writeOptional(outputFolder, new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
@@ -110,35 +68,16 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
 
-        if (additionalProperties.containsKey("dateLibrary")) {
-            setDateLibrary(additionalProperties.get("dateLibrary").toString());
-            additionalProperties.put(dateLibrary, "true");
-        }
-
         if ("joda".equals(dateLibrary)) {
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "DateTime");
-
-            importMapping.put("LocalDate", "org.joda.time.LocalDate");
-            importMapping.put("DateTime", "org.joda.time.DateTime");
-
             supportingFiles.add(new SupportingFile("JacksonConfig.mustache",
                     (sourceFolder + '/' + invokerPackage).replace(".", "/"), "JacksonConfig.java"));
-
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
-        } else if ("java8".equals(dateLibrary)) {
-            additionalProperties.put("java8", "true");
-            additionalProperties.put("javaVersion", "1.8");
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("DateTime", "LocalDateTime");
-            importMapping.put("LocalDate", "java.time.LocalDate");
-            importMapping.put("LocalDateTime", "java.time.LocalDateTime");
-
-            supportingFiles.add(new SupportingFile("LocalDateTimeProvider.mustache",
-                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateTimeProvider.java"));
+        } else if (dateLibrary.startsWith("java8")) {
+            supportingFiles.add(new SupportingFile("OffsetDateTimeProvider.mustache",
+                    (sourceFolder + '/' + apiPackage).replace(".", "/"), "OffsetDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("LocalDateProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
         }
@@ -171,51 +110,6 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
         opList.add(co);
         co.baseName = basePath;
     }
-
-
-    @Override
-    public void preprocessSwagger(Swagger swagger) {
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
-        }
-
-        String host = swagger.getHost();
-        String port = "8080";
-        if (host != null) {
-            String[] parts = host.split(":");
-            if (parts.length > 1) {
-                port = parts[1];
-            }
-        }
-        this.additionalProperties.put("serverPort", port);
-        if (swagger != null && swagger.getPaths() != null) {
-            for (String pathname : swagger.getPaths().keySet()) {
-                Path path = swagger.getPath(pathname);
-                if (path.getOperations() != null) {
-                    for (Operation operation : path.getOperations()) {
-                        if (operation.getTags() != null) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-                            for (String tag : operation.getTags()) {
-                                Map<String, String> value = new HashMap<String, String>();
-                                value.put("tag", tag);
-                                value.put("hasMore", "true");
-                                tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
-                            }
-                            if (operation.getTags().size() > 0) {
-                                String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
-                            }
-                            operation.setVendorExtension("x-tags", tags);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
@@ -270,76 +164,36 @@ public class JavaResteasyServerCodegen extends JavaClientCodegen implements Code
     }
 
     @Override
-    public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        name = sanitizeName(name);
-        return camelize(name) + "Api";
-    }
-
-
-    @Override
-    public String apiFilename(String templateName, String tag) {
-
-        String result = super.apiFilename(templateName, tag);
-
-        if (templateName.endsWith("Impl.mustache")) {
-            int ix = result.lastIndexOf('/');
-            result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
-
-            result = result.replace(apiFileFolder(), implFileFolder(implFolder));
-        } else if (templateName.endsWith("Factory.mustache")) {
-            int ix = result.lastIndexOf('/');
-            result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
-
-            result = result.replace(apiFileFolder(), implFileFolder(implFolder));
-        } else if (templateName.endsWith("Service.mustache")) {
-            int ix = result.lastIndexOf('.');
-            result = result.substring(0, ix) + "Service.java";
-        }
-
-        return result;
-    }
-
-
-    private String implFileFolder(String output) {
-        return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
-    }
-
-    @Override
-    public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
-    }
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        if(serializeBigDecimalAsString) {
-            if (property.baseType.equals("BigDecimal")) {
-                // we serialize BigDecimal as `string` to avoid precision loss
-                property.vendorExtensions.put("extraAnnotation", "@JsonSerialize(using = ToStringSerializer.class)");
+        //Add imports for Jackson
+        if(!BooleanUtils.toBoolean(model.isEnum)) {
+            model.imports.add("JsonProperty");
 
-                // this requires some more imports to be added for this model...
-                model.imports.add("ToStringSerializer");
-                model.imports.add("JsonSerialize");
+            if(BooleanUtils.toBoolean(model.hasEnums)) {
+                model.imports.add("JsonValue");
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        //Add imports for Jackson
+        List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                cm.imports.add(importMapping.get("JsonValue"));
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("import", importMapping.get("JsonValue"));
+                imports.add(item);
             }
         }
 
-        if(model.isEnum == null || model.isEnum) {
-
-            final String lib = getLibrary();
-            if(StringUtils.isEmpty(lib)) {
-                model.imports.add("JsonProperty");
-
-                if(model.hasEnums != null || model.hasEnums == true) {
-                    model.imports.add("JsonValue");
-                }
-            }
-        }
-        return;
+        return objs;
     }
 }

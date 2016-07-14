@@ -4,11 +4,12 @@ part of api;
 @Entity()
 class Category {
   
+  @Property(name: 'id')
   int id = null;
   
-  
+
+  @Property(name: 'name')
   String name = null;
-  
   
   Category();
 

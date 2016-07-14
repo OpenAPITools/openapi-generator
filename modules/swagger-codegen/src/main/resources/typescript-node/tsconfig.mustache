@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "target": "{{#supportsES6}}ES6{{/supportsES6}}{{^supportsES6}}ES5{{/supportsES6}}",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "sourceMap": true,
+        "noLib": false,
+        "declaration": true
+    },
+    "exclude": [
+        "node_modules",
+        "typings/browser",
+        "typings/browser.d.ts"
+    ]
+}
+

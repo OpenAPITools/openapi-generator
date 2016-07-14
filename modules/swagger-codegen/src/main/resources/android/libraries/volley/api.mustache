@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 package {{package}};
 
 import {{invokerPackage}}.ApiInvoker;
@@ -81,7 +82,7 @@ public class {{classname}} {
   {{/headerParams}}
 
       String[] contentTypes = {
-  {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
+  {{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
       };
       String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -121,7 +122,10 @@ public class {{classname}} {
          throw ex;
       } catch (ExecutionException ex) {
          if(ex.getCause() instanceof VolleyError) {
-            throw new ApiException(((VolleyError) ex.getCause()).networkResponse.statusCode, ((VolleyError) ex.getCause()).getMessage());
+	    VolleyError volleyError = (VolleyError)ex.getCause();
+	    if (volleyError.networkResponse != null) {
+	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+	    }
          }
          throw ex;
       } catch (TimeoutException ex) {
@@ -164,7 +168,7 @@ public class {{classname}} {
     {{/headerParams}}
 
     String[] contentTypes = {
-      {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
+      {{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 

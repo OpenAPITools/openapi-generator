@@ -1,26 +1,12 @@
 # coding: utf-8
 
-"""
-{{classname}}.py
-Copyright 2016 SmartBear Software
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-"""
+{{>partial_header}}
 
 from __future__ import absolute_import
 
 import sys
 import os
+import re
 
 # python 2 and python 3 compatibility library
 from six import iteritems
@@ -47,7 +33,7 @@ class {{classname}}(object):
             self.api_client = config.api_client
 {{#operation}}
 
-    def {{nickname}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):
+    def {{operationId}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):
         """
         {{{summary}}}
         {{{notes}}}
@@ -59,10 +45,44 @@ class {{classname}}(object):
         >>>     pprint(response)
         >>>
 {{#sortParamsByRequiredFlag}}
-        >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
+        >>> thread = api.{{operationId}}({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
 {{/sortParamsByRequiredFlag}}
 {{^sortParamsByRequiredFlag}}
-        >>> thread = api.{{nickname}}({{#allParams}}{{#required}}{{paramName}}={{paramName}}_value, {{/required}}{{/allParams}}callback=callback_function)
+        >>> thread = api.{{operationId}}({{#allParams}}{{#required}}{{paramName}}={{paramName}}_value, {{/required}}{{/allParams}}callback=callback_function)
+{{/sortParamsByRequiredFlag}}
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+{{#allParams}}
+        :param {{dataType}} {{paramName}}: {{{description}}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+{{/allParams}}
+        :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.{{operationId}}_with_http_info({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs)
+        else:
+            (data) = self.{{operationId}}_with_http_info({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs)
+            return data
+
+    def {{operationId}}_with_http_info(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):
+        """
+        {{{summary}}}
+        {{{notes}}}
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+{{#sortParamsByRequiredFlag}}
+        >>> thread = api.{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}callback=callback_function)
+{{/sortParamsByRequiredFlag}}
+{{^sortParamsByRequiredFlag}}
+        >>> thread = api.{{operationId}}_with_http_info({{#allParams}}{{#required}}{{paramName}}={{paramName}}_value, {{/required}}{{/allParams}}callback=callback_function)
 {{/sortParamsByRequiredFlag}}
 
         :param callback function: The callback function
@@ -77,25 +97,49 @@ class {{classname}}(object):
 
         all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]
         all_params.append('callback')
+        all_params.append('_return_http_data_only')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method {{nickname}}" % key
+                    " to method {{operationId}}" % key
                 )
             params[key] = val
         del params['kwargs']
-
 {{#allParams}}
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
         if ('{{paramName}}' not in params) or (params['{{paramName}}'] is None):
-            raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{nickname}}`")
+            raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")
 {{/required}}
 {{/allParams}}
 
+{{#allParams}}
+{{#hasValidation}}
+    {{#maxLength}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) > {{maxLength}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be less than or equal to `{{maxLength}}`")
+    {{/maxLength}}
+    {{#minLength}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) < {{minLength}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than or equal to `{{minLength}}`")
+    {{/minLength}}
+    {{#maximum}}
+        if '{{paramName}}' in params and params['{{paramName}}'] > {{maximum}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than or equal to  `{{maximum}}`")
+    {{/maximum}}
+    {{#minimum}}
+        if '{{paramName}}' in params and params['{{paramName}}'] < {{minimum}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than or equal to `{{minimum}}`")
+    {{/minimum}}
+    {{#pattern}}
+        if '{{paramName}}' in params and not re.search('{{vendorExtensions.x-regex}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{pattern}}`")
+    {{/pattern}}
+{{/hasValidation}}
+{{/allParams}}
         resource_path = '{{path}}'.replace('{format}', 'json')
         path_params = {}
 {{#pathParams}}
@@ -130,18 +174,18 @@ class {{classname}}(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept([{{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
+            select_header_accept([{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
         if not header_params['Accept']:
             del header_params['Accept']
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
-            select_header_content_type([{{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
+            select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
 
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
 
-        response = self.api_client.call_api(resource_path, '{{httpMethod}}',
+        return self.api_client.call_api(resource_path, '{{httpMethod}}',
                                             path_params,
                                             query_params,
                                             header_params,
@@ -150,7 +194,7 @@ class {{classname}}(object):
                                             files=local_var_files,
                                             response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},
                                             auth_settings=auth_settings,
-                                            callback=params.get('callback'))
-        return response
+                                            callback=params.get('callback'),
+                                            _return_http_data_only=params.get('_return_http_data_only'))
 {{/operation}}
 {{/operations}}

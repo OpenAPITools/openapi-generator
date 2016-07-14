@@ -12,9 +12,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
 
 @XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "", propOrder =
+ @XmlType(name = "Pet", propOrder =
 	{ "id", "category", "name", "photoUrls", "tags", "status"
 })
 
@@ -22,36 +23,46 @@ import javax.xml.bind.annotation.XmlType;
 public class Pet  {
   
 
+  @XmlElement(name="id")
   private Long id = null;
 
+  @XmlElement(name="category")
   private Category category = null;
 
+  @XmlElement(name="name")
   private String name = null;
 
+  @XmlElement(name="photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
 
+  @XmlElement(name="tags")
   private List<Tag> tags = new ArrayList<Tag>();
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
-
-@XmlType(name="Pet")
+@XmlType(name="StatusEnum")
 @XmlEnum
-public enum Pet {
-    {values=[available, pending, sold], enumVars=[{name=AVAILABLE, value=available}, {name=PENDING, value=pending}, {name=SOLD, value=sold}]}, 
-    
-    public String value() {
-        return name();
+public enum StatusEnum {
+
+    AVAILABLE(String.valueOf("&quot;available&quot;")), PENDING(String.valueOf("&quot;pending&quot;")), SOLD(String.valueOf("&quot;sold&quot;"));
+
+
+    private String value;
+
+    StatusEnum (String v) {
+        value = v;
     }
 
-    public static Pet fromValue(String v) {
+    public String value() {
+        return value;
+    }
+
+    public static StatusEnum fromValue(String v) {
         return valueOf(v);
     }
 }
 
+  @XmlElement(name="status")
   private StatusEnum status = null;
 
-  
   /**
    **/
   
@@ -61,7 +72,6 @@ public enum Pet {
   public void setId(Long id) {
     this.id = id;
   }
-  
   /**
    **/
   
@@ -71,7 +81,6 @@ public enum Pet {
   public void setCategory(Category category) {
     this.category = category;
   }
-  
   /**
    **/
   
@@ -81,7 +90,6 @@ public enum Pet {
   public void setName(String name) {
     this.name = name;
   }
-  
   /**
    **/
   
@@ -91,7 +99,6 @@ public enum Pet {
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
-  
   /**
    **/
   
@@ -101,7 +108,6 @@ public enum Pet {
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-  
   /**
    * pet status in the store
    **/
@@ -112,7 +118,6 @@ public enum Pet {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-  
 
   @Override
   public String toString() {

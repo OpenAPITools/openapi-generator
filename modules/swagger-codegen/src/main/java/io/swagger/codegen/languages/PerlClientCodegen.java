@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String MODULE_NAME = "moduleName";
@@ -95,6 +95,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "string");
+        typeMapping.put("ByteArray", "string");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase or Long::Module).").defaultValue("SwaggerClient"));
@@ -372,7 +373,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             return underscore("call_" + operationId);
         }
 
-        return underscore(operationId);
+        //return underscore(operationId).replaceAll("[^A-Za-z0-9_]", "");
+        return underscore(sanitizeName(operationId));
     }
 
     public void setModuleName(String moduleName) {
@@ -401,5 +403,16 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             p.example = "DateTime->from_epoch(epoch => str2time('" + p.example + "'))";
         }
 
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // remove =end, =cut to avoid code injection
+        return input.replace("=begin", "=_begin").replace("=end", "=_end").replace("=cut", "=_cut").replace("=pod", "=_pod");
     }
 }

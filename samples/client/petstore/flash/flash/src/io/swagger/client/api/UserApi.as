@@ -26,11 +26,11 @@ public class UserApi extends SwaggerApi {
         public static const event_create_user: String = "create_user";
         public static const event_create_users_with_array_input: String = "create_users_with_array_input";
         public static const event_create_users_with_list_input: String = "create_users_with_list_input";
+        public static const event_delete_user: String = "delete_user";
+        public static const event_get_user_by_name: String = "get_user_by_name";
         public static const event_login_user: String = "login_user";
         public static const event_logout_user: String = "logout_user";
-        public static const event_get_user_by_name: String = "get_user_by_name";
         public static const event_update_user: String = "update_user";
-        public static const event_delete_user: String = "delete_user";
 
 
     /*
@@ -44,12 +44,13 @@ public class UserApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
@@ -61,7 +62,7 @@ public class UserApi extends SwaggerApi {
         return requestId;
 
     }
-    
+
     /*
      * Returns void 
      */
@@ -73,12 +74,13 @@ public class UserApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
@@ -90,7 +92,7 @@ public class UserApi extends SwaggerApi {
         return requestId;
 
     }
-    
+
     /*
      * Returns void 
      */
@@ -102,12 +104,13 @@ public class UserApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
@@ -119,127 +122,7 @@ public class UserApi extends SwaggerApi {
         return requestId;
 
     }
-    
-    /*
-     * Returns String 
-     */
-    public function login_user (username: String, password: String): String {
-        // create path and map variables
-        var path: String = "/user/login".replace(/{format}/g,"xml");
 
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        if("null" != String(username))
-            queryParams["username"] = toPathValue(username);
-        if("null" != String(password))
-            queryParams["password"] = toPathValue(password);
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "login_user";
-
-        token.returnType = String;
-        return requestId;
-
-    }
-    
-    /*
-     * Returns void 
-     */
-    public function logout_user (): String {
-        // create path and map variables
-        var path: String = "/user/logout".replace(/{format}/g,"xml");
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "logout_user";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    
-    /*
-     * Returns User 
-     */
-    public function get_user_by_name (username: String): String {
-        // create path and map variables
-        var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "get_user_by_name";
-
-        token.returnType = User;
-        return requestId;
-
-    }
-    
-    /*
-     * Returns void 
-     */
-    public function update_user (username: String, body: User): String {
-        // create path and map variables
-        var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
-
-        // query params
-        var queryParams: Dictionary = new Dictionary();
-        var headerParams: Dictionary = new Dictionary();
-
-        
-
-        
-
-        
-
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
-
-        var requestId: String = getUniqueId();
-
-        token.requestId = requestId;
-        token.completionEventType = "update_user";
-
-        token.returnType = null ;
-        return requestId;
-
-    }
-    
     /*
      * Returns void 
      */
@@ -251,12 +134,13 @@ public class UserApi extends SwaggerApi {
         var queryParams: Dictionary = new Dictionary();
         var headerParams: Dictionary = new Dictionary();
 
-        
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
 
         
-
         
-
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "DELETE", queryParams, null, headerParams);
 
         var requestId: String = getUniqueId();
@@ -268,7 +152,133 @@ public class UserApi extends SwaggerApi {
         return requestId;
 
     }
-    
-}
+
+    /*
+     * Returns User 
+     */
+    public function get_user_by_name (username: String): String {
+        // create path and map variables
+        var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+
         
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "get_user_by_name";
+
+        token.returnType = User;
+        return requestId;
+
+    }
+
+    /*
+     * Returns String 
+     */
+    public function login_user (username: String, password: String): String {
+        // create path and map variables
+        var path: String = "/user/login".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if(        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+) {
+            throw new ApiError(400, "missing required params");
+        }
+
+        if("null" != String(username))
+            queryParams["username"] = toPathValue(username);
+if("null" != String(password))
+            queryParams["password"] = toPathValue(password);
+
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "login_user";
+
+        token.returnType = String;
+        return requestId;
+
+    }
+
+    /*
+     * Returns void 
+     */
+    public function logout_user (): String {
+        // create path and map variables
+        var path: String = "/user/logout".replace(/{format}/g,"xml");
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "GET", queryParams, null, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "logout_user";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+
+    /*
+     * Returns void 
+     */
+    public function update_user (username: String, body: User): String {
+        // create path and map variables
+        var path: String = "/user/{username}".replace(/{format}/g,"xml").replace("{" + "username" + "}", getApiInvoker().escapeString(username));
+
+        // query params
+        var queryParams: Dictionary = new Dictionary();
+        var headerParams: Dictionary = new Dictionary();
+
+        // verify required params are set
+        if(        // verify required params are set
+        if() {
+            throw new ApiError(400, "missing required params");
+        }
+) {
+            throw new ApiError(400, "missing required params");
+        }
+
+        
+        
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "PUT", queryParams, body, headerParams);
+
+        var requestId: String = getUniqueId();
+
+        token.requestId = requestId;
+        token.completionEventType = "update_user";
+
+        token.returnType = null ;
+        return requestId;
+
+    }
+}
 }

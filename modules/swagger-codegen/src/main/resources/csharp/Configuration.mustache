@@ -1,3 +1,4 @@
+{{>partial_header}}
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -80,6 +81,17 @@ namespace {{packageName}}.Client
         public static Configuration Default = new Configuration();
 
         /// <summary>
+        /// Default creation of exceptions for a given method name and response object
+        /// </summary>
+        public static readonly ExceptionFactory DefaultExceptionFactory = (methodName, response) =>
+        {
+            int status = (int) response.StatusCode;
+            if (status >= 400) return new ApiException(status, String.Format("Error calling {0}: {1}", methodName, response.Content), response.Content);
+            if (status == 0) return new ApiException(status, String.Format("Error calling {0}: {1}", methodName, response.ErrorMessage), response.ErrorMessage);
+            return null;
+        };
+
+        /// <summary>
         /// Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
         /// </summary>
         /// <value>Timeout.</value>
@@ -87,7 +99,7 @@ namespace {{packageName}}.Client
         {
             get { return ApiClient.RestClient.Timeout; }
 
-            set 
+            set
             {
                 if (ApiClient != null)
                     ApiClient.RestClient.Timeout = value;
@@ -220,7 +232,7 @@ namespace {{packageName}}.Client
                 }
 
                 // create the directory if it does not exist
-                if (!Directory.Exists(value)) 
+                if (!Directory.Exists(value))
                     Directory.CreateDirectory(value);
 
                 // check if the path contains directory separator at the end
@@ -269,14 +281,16 @@ namespace {{packageName}}.Client
         /// </summary>
         public static String ToDebugReport()
         {
-            String report = "C# SDK ({{packageName}}) Debug Report:\n";
+            String report = "C# SDK ({{{packageName}}}) Debug Report:\n";
+            {{^supportsUWP}}
             report += "    OS: " + Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + Assembly
                      .GetExecutingAssembly()
                      .GetReferencedAssemblies()
                      .Where(x => x.Name == "System.Core").First().Version.ToString()  + "\n";
-            report += "    Version of the API: {{version}}\n";
-            report += "    SDK Package Version: {{packageVersion}}\n";
+            {{/supportsUWP}}
+            report += "    Version of the API: {{{version}}}\n";
+            report += "    SDK Package Version: {{{packageVersion}}}\n";
 
             return report;
         }

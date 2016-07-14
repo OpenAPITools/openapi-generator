@@ -13,7 +13,7 @@ import io.swagger.model.*;
 import java.util.Map;
 import io.swagger.model.Order;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-01-19T23:33:17.124+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-04-15T17:48:04.458+08:00")
 public class StoreController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
@@ -22,25 +22,25 @@ public class StoreController  {
    **/
 
   /*
+    public ResponseContext deleteOrder(RequestContext request , String orderId) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
     public ResponseContext getInventory(RequestContext request ) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
+    public ResponseContext getOrderById(RequestContext request , Long orderId) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
     public ResponseContext placeOrder(RequestContext request , Order body) {
-        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
-    }
-  */
-
-  /*
-    public ResponseContext getOrderById(RequestContext request , String orderId) {
-        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
-    }
-  */
-
-  /*
-    public ResponseContext deleteOrder(RequestContext request , String orderId) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

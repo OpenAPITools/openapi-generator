@@ -1,17 +1,16 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenParameter;
-import io.swagger.codegen.CodegenResponse;
-import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
-public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
-{
+public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen {
     /**
      * Name of the sub-directory in "src/main/resource" where to find the
      * Mustache template for the JAX-RS Codegen.
@@ -19,21 +18,27 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
     protected String implFolder = "src/main/java";
     protected String title = "Swagger Server";
+    static Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
     public AbstractJavaJAXRSServerCodegen()
     {
         super();
+
+        sourceFolder = "src/gen/java";
+        invokerPackage = "io.swagger.api";
+        artifactId = "swagger-jaxrs-server";
+        dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
+
+        apiPackage = "io.swagger.api";
+        modelPackage = "io.swagger.model";
+
+        additionalProperties.put("title", title);
+
+        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
+        cliOptions.add(new CliOption("title", "a title describing the application"));
+
     }
 
-    // ================
-    // ABSTRACT METHODS
-    // ================
-
-    @Override
-    public abstract String getHelp();
-
-    @Override
-    public abstract String getName();
 
     // ===============
     // COMMONS METHODS
@@ -43,6 +48,15 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     public CodegenType getTag()
     {
         return CodegenType.SERVER;
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
+            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
+        }
     }
 
     @Override
@@ -189,4 +203,5 @@ public abstract class AbstractJavaJAXRSServerCodegen extends JavaClientCodegen
     public boolean shouldOverwrite(String filename) {
         return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
     }
+
 }

@@ -26,7 +26,7 @@ import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.StringProperty;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,7 +168,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library base on Akka/Spray.";
+        return "Generates a Scala client library (beta) base on Akka/Spray.";
     }
 
     @Override
@@ -414,4 +414,14 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         }
     }
 
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
 }

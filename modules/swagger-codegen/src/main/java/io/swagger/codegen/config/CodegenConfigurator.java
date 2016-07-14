@@ -60,8 +60,8 @@ public class CodegenConfigurator {
     private Map<String, String> additionalProperties = new HashMap<String, String>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
-    private String gitUserId="YOUR_GIT_USR_ID";
-    private String gitRepoId="YOUR_GIT_REPO_ID";
+    private String gitUserId="GIT_USER_ID";
+    private String gitRepoId="GIT_REPO_ID";
     private String releaseNote="Minor update";
     private String httpUserAgent;
 
@@ -148,7 +148,14 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setTemplateDir(String templateDir) {
-        this.templateDir = new File(templateDir).getAbsolutePath();
+        File f = new File(templateDir);
+
+        // check to see if the folder exists
+        if (!(f != null && f.exists() && f.isDirectory())) {
+            throw new IllegalArgumentException("Template directory " + templateDir + " does not exist."); 
+        }
+
+        this.templateDir = f.getAbsolutePath();
         return this;
     }
 

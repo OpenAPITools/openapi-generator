@@ -40,7 +40,7 @@ public class ApiKeyAuth implements Interceptor {
         String paramValue;
         Request request = chain.request();
 
-        if (location == "query") {
+        if ("query".equals(location)) {
             String newQuery = request.url().uri().getQuery();
             paramValue = paramName + "=" + apiKey;
             if (newQuery == null) {
@@ -58,7 +58,7 @@ public class ApiKeyAuth implements Interceptor {
             }
 
             request = request.newBuilder().url(newUri.toURL()).build();
-        } else if (location == "header") {
+        } else if ("header".equals(location)) {
             request = request.newBuilder()
                     .addHeader(paramName, apiKey)
                     .build();

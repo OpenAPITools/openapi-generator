@@ -52,11 +52,11 @@ public class OnlineGeneratorOptionsTest {
                 {new RubyClientOptionsProvider()}, {new ScalaClientOptionsProvider()},
                 {new ScalatraServerOptionsProvider()}, {new SilexServerOptionsProvider()},
                 {new SinatraServerOptionsProvider()}, {new SlimFrameworkServerOptionsProvider()},
-                {new SpringMVCServerOptionsProvider()}, {new StaticDocOptionsProvider()},
+                {new SpringOptionsProvider()}, {new StaticDocOptionsProvider()},
                 {new StaticHtmlOptionsProvider()}, {new SwaggerOptionsProvider()},
                 {new SwaggerYamlOptionsProvider()}, {new SwiftOptionsProvider()},
                 {new TizenClientOptionsProvider()}, {new TypeScriptAngularClientOptionsProvider()},
-                {new TypeScriptNodeClientOptionsProvider()}
+                {new TypeScriptNodeClientOptionsProvider()}, {new LumenServerOptionsProvider()}
         };
     }
 

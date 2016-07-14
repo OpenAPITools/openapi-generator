@@ -10,34 +10,34 @@ describe Petstore::ApiClient do
       context 'host' do
         it 'removes http from host' do
           Petstore.configure { |c| c.host = 'http://example.com' }
-          Petstore::Configuration.default.host.should == 'example.com'
+          expect(Petstore::Configuration.default.host).to eq('example.com')
         end
 
         it 'removes https from host' do
           Petstore.configure { |c| c.host = 'https://wookiee.com' }
-          Petstore::ApiClient.default.config.host.should == 'wookiee.com'
+          expect(Petstore::ApiClient.default.config.host).to eq('wookiee.com')
         end
 
         it 'removes trailing path from host' do
           Petstore.configure { |c| c.host = 'hobo.com/v4' }
-          Petstore::Configuration.default.host.should == 'hobo.com'
+          expect(Petstore::Configuration.default.host).to eq('hobo.com')
         end
       end
 
       context 'base_path' do
         it "prepends a slash to base_path" do
           Petstore.configure { |c| c.base_path = 'v4/dog' }
-          Petstore::Configuration.default.base_path.should == '/v4/dog'
+          expect(Petstore::Configuration.default.base_path).to eq('/v4/dog')
         end
 
         it "doesn't prepend a slash if one is already there" do
           Petstore.configure { |c| c.base_path = '/v4/dog' }
-          Petstore::Configuration.default.base_path.should == '/v4/dog'
+          expect(Petstore::Configuration.default.base_path).to eq('/v4/dog')
         end
 
         it "ends up as a blank string if nil" do
           Petstore.configure { |c| c.base_path = nil }
-          Petstore::Configuration.default.base_path.should == ''
+          expect(Petstore::Configuration.default.base_path).to eq('')
         end
       end
 
@@ -65,14 +65,14 @@ describe Petstore::ApiClient do
       header_params = {}
       query_params = {}
       api_client.update_params_for_auth! header_params, query_params, auth_names
-      header_params.should == {'api_key' => 'PREFIX special-key'}
-      query_params.should == {}
+      expect(header_params).to eq({'api_key' => 'PREFIX special-key'})
+      expect(query_params).to eq({})
 
       header_params = {}
       query_params = {}
       api_client2.update_params_for_auth! header_params, query_params, auth_names
-      header_params.should == {'api_key' => 'PREFIX2 special-key2'}
-      query_params.should == {}
+      expect(header_params).to eq({'api_key' => 'PREFIX2 special-key2'})
+      expect(query_params).to eq({})
     end
 
     it "sets header api-key parameter without prefix" do
@@ -87,8 +87,8 @@ describe Petstore::ApiClient do
       query_params = {}
       auth_names = ['api_key', 'unknown']
       api_client.update_params_for_auth! header_params, query_params, auth_names
-      header_params.should == {'api_key' => 'special-key'}
-      query_params.should == {}
+      expect(header_params).to eq({'api_key' => 'special-key'})
+      expect(query_params).to eq({})
     end
   end
 
@@ -97,17 +97,17 @@ describe Petstore::ApiClient do
     let(:api_client) { Petstore::ApiClient.new(config) }
 
     it "defaults to 0" do
-      Petstore::Configuration.default.timeout.should == 0
-      config.timeout.should == 0
+      expect(Petstore::Configuration.default.timeout).to eq(0)
+      expect(config.timeout).to eq(0)
 
       request = api_client.build_request(:get, '/test')
-      request.options[:timeout].should == 0
+      expect(request.options[:timeout]).to eq(0)
     end
 
     it "can be customized" do
       config.timeout = 100
       request = api_client.build_request(:get, '/test')
-      request.options[:timeout].should == 100
+      expect(request.options[:timeout]).to eq(100)
     end
   end
 
@@ -117,8 +117,8 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '[12, 34]')
       data = api_client.deserialize(response, 'Array<Integer>')
-      data.should be_a(Array)
-      data.should == [12, 34]
+      expect(data).to be_a(Array)
+      expect(data).to eq([12, 34])
     end
 
     it "handles Array<Array<Integer>>" do
@@ -126,8 +126,8 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '[[12, 34], [56]]')
       data = api_client.deserialize(response, 'Array<Array<Integer>>')
-      data.should be_a(Array)
-      data.should == [[12, 34], [56]]
+      expect(data).to be_a(Array)
+      expect(data).to eq([[12, 34], [56]])
     end
 
     it "handles Hash<String, String>" do
@@ -135,8 +135,8 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '{"message": "Hello"}')
       data = api_client.deserialize(response, 'Hash<String, String>')
-      data.should be_a(Hash)
-      data.should == {:message => 'Hello'}
+      expect(data).to be_a(Hash)
+      expect(data).to eq({:message => 'Hello'})
     end
 
     it "handles Hash<String, Pet>" do
@@ -144,11 +144,11 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '{"pet": {"id": 1}}')
       data = api_client.deserialize(response, 'Hash<String, Pet>')
-      data.should be_a(Hash)
-      data.keys.should == [:pet]
+      expect(data).to be_a(Hash)
+      expect(data.keys).to eq([:pet])
       pet = data[:pet]
-      pet.should be_a(Petstore::Pet)
-      pet.id.should == 1
+      expect(pet).to be_a(Petstore::Pet)
+      expect(pet.id).to eq(1)
     end
 
     it "handles Hash<String, Hash<String, Pet>>" do
@@ -156,14 +156,14 @@ describe Petstore::ApiClient do
       headers = {'Content-Type' => 'application/json'}
       response = double('response', headers: headers, body: '{"data": {"pet": {"id": 1}}}')
       result = api_client.deserialize(response, 'Hash<String, Hash<String, Pet>>')
-      result.should be_a(Hash)
-      result.keys.should == [:data]
+      expect(result).to be_a(Hash)
+      expect(result.keys).to eq([:data])
       data = result[:data]
-      data.should be_a(Hash)
-      data.keys.should == [:pet]
+      expect(data).to be_a(Hash)
+      expect(data.keys).to eq([:pet])
       pet = data[:pet]
-      pet.should be_a(Petstore::Pet)
-      pet.id.should == 1
+      expect(pet).to be_a(Petstore::Pet)
+      expect(pet.id).to eq(1)
     end
   end
 
@@ -177,7 +177,7 @@ describe Petstore::ApiClient do
       pet.photo_urls = nil
       pet.tags = []
       expected = {id: 1, name: '', tags: []}
-      api_client.object_to_hash(pet).should == expected
+      expect(api_client.object_to_hash(pet)).to eq(expected)
     end
   end
 
@@ -186,27 +186,27 @@ describe Petstore::ApiClient do
     let(:api_client) { Petstore::ApiClient.new }
 
     it "works for csv" do
-      api_client.build_collection_param(param, :csv).should == 'aa,bb,cc'
+      expect(api_client.build_collection_param(param, :csv)).to eq('aa,bb,cc')
     end
 
     it "works for ssv" do
-      api_client.build_collection_param(param, :ssv).should == 'aa bb cc'
+      expect(api_client.build_collection_param(param, :ssv)).to eq('aa bb cc')
     end
 
     it "works for tsv" do
-      api_client.build_collection_param(param, :tsv).should == "aa\tbb\tcc"
+      expect(api_client.build_collection_param(param, :tsv)).to eq("aa\tbb\tcc")
     end
 
     it "works for pipes" do
-      api_client.build_collection_param(param, :pipes).should == 'aa|bb|cc'
+      expect(api_client.build_collection_param(param, :pipes)).to eq('aa|bb|cc')
     end
 
     it "works for multi" do
-      api_client.build_collection_param(param, :multi).should == ['aa', 'bb', 'cc']
+      expect(api_client.build_collection_param(param, :multi)).to eq(['aa', 'bb', 'cc'])
     end
 
     it "fails for invalid collection format" do
-      proc { api_client.build_collection_param(param, :INVALID) }.should raise_error
+      expect { api_client.build_collection_param(param, :INVALID) }.to raise_error(RuntimeError, 'unknown collection format: :INVALID')
     end
   end
 
@@ -214,16 +214,16 @@ describe Petstore::ApiClient do
     let(:api_client) { Petstore::ApiClient.new }
 
     it "works" do
-      api_client.json_mime?(nil).should == false
-      api_client.json_mime?('').should == false
+      expect(api_client.json_mime?(nil)).to eq(false)
+      expect(api_client.json_mime?('')).to eq(false)
 
-      api_client.json_mime?('application/json').should == true
-      api_client.json_mime?('application/json; charset=UTF8').should == true
-      api_client.json_mime?('APPLICATION/JSON').should == true
+      expect(api_client.json_mime?('application/json')).to eq(true)
+      expect(api_client.json_mime?('application/json; charset=UTF8')).to eq(true)
+      expect(api_client.json_mime?('APPLICATION/JSON')).to eq(true)
 
-      api_client.json_mime?('application/xml').should == false
-      api_client.json_mime?('text/plain').should == false
-      api_client.json_mime?('application/jsonp').should == false
+      expect(api_client.json_mime?('application/xml')).to eq(false)
+      expect(api_client.json_mime?('text/plain')).to eq(false)
+      expect(api_client.json_mime?('application/jsonp')).to eq(false)
     end
   end
 
@@ -231,15 +231,15 @@ describe Petstore::ApiClient do
     let(:api_client) { Petstore::ApiClient.new }
 
     it "works" do
-      api_client.select_header_accept(nil).should == nil
-      api_client.select_header_accept([]).should == nil
+      expect(api_client.select_header_accept(nil)).to eq(nil)
+      expect(api_client.select_header_accept([])).to eq(nil)
 
-      api_client.select_header_accept(['application/json']).should == 'application/json'
-      api_client.select_header_accept(['application/xml', 'application/json; charset=UTF8']).should == 'application/json; charset=UTF8'
-      api_client.select_header_accept(['APPLICATION/JSON', 'text/html']).should == 'APPLICATION/JSON'
+      expect(api_client.select_header_accept(['application/json'])).to eq('application/json')
+      expect(api_client.select_header_accept(['application/xml', 'application/json; charset=UTF8'])).to eq('application/json; charset=UTF8')
+      expect(api_client.select_header_accept(['APPLICATION/JSON', 'text/html'])).to eq('APPLICATION/JSON')
 
-      api_client.select_header_accept(['application/xml']).should == 'application/xml'
-      api_client.select_header_accept(['text/html', 'application/xml']).should == 'text/html,application/xml'
+      expect(api_client.select_header_accept(['application/xml'])).to eq('application/xml')
+      expect(api_client.select_header_accept(['text/html', 'application/xml'])).to eq('text/html,application/xml')
     end
   end
 
@@ -247,14 +247,14 @@ describe Petstore::ApiClient do
     let(:api_client) { Petstore::ApiClient.new }
 
     it "works" do
-      api_client.select_header_content_type(nil).should == 'application/json'
-      api_client.select_header_content_type([]).should == 'application/json'
+      expect(api_client.select_header_content_type(nil)).to eq('application/json')
+      expect(api_client.select_header_content_type([])).to eq('application/json')
 
-      api_client.select_header_content_type(['application/json']).should == 'application/json'
-      api_client.select_header_content_type(['application/xml', 'application/json; charset=UTF8']).should == 'application/json; charset=UTF8'
-      api_client.select_header_content_type(['APPLICATION/JSON', 'text/html']).should == 'APPLICATION/JSON'
-      api_client.select_header_content_type(['application/xml']).should == 'application/xml'
-      api_client.select_header_content_type(['text/plain', 'application/xml']).should == 'text/plain'
+      expect(api_client.select_header_content_type(['application/json'])).to eq('application/json')
+      expect(api_client.select_header_content_type(['application/xml', 'application/json; charset=UTF8'])).to eq('application/json; charset=UTF8')
+      expect(api_client.select_header_content_type(['APPLICATION/JSON', 'text/html'])).to eq('APPLICATION/JSON')
+      expect(api_client.select_header_content_type(['application/xml'])).to eq('application/xml')
+      expect(api_client.select_header_content_type(['text/plain', 'application/xml'])).to eq('text/plain')
     end
   end
 
@@ -262,15 +262,15 @@ describe Petstore::ApiClient do
     let(:api_client) { Petstore::ApiClient.new }
 
     it "works" do
-      api_client.sanitize_filename('sun').should == 'sun'
-      api_client.sanitize_filename('sun.gif').should == 'sun.gif'
-      api_client.sanitize_filename('../sun.gif').should == 'sun.gif'
-      api_client.sanitize_filename('/var/tmp/sun.gif').should == 'sun.gif'
-      api_client.sanitize_filename('./sun.gif').should == 'sun.gif'
-      api_client.sanitize_filename('..\sun.gif').should == 'sun.gif'
-      api_client.sanitize_filename('\var\tmp\sun.gif').should == 'sun.gif'
-      api_client.sanitize_filename('c:\var\tmp\sun.gif').should == 'sun.gif'
-      api_client.sanitize_filename('.\sun.gif').should == 'sun.gif'
+      expect(api_client.sanitize_filename('sun')).to eq('sun')
+      expect(api_client.sanitize_filename('sun.gif')).to eq('sun.gif')
+      expect(api_client.sanitize_filename('../sun.gif')).to eq('sun.gif')
+      expect(api_client.sanitize_filename('/var/tmp/sun.gif')).to eq('sun.gif')
+      expect(api_client.sanitize_filename('./sun.gif')).to eq('sun.gif')
+      expect(api_client.sanitize_filename('..\sun.gif')).to eq('sun.gif')
+      expect(api_client.sanitize_filename('\var\tmp\sun.gif')).to eq('sun.gif')
+      expect(api_client.sanitize_filename('c:\var\tmp\sun.gif')).to eq('sun.gif')
+      expect(api_client.sanitize_filename('.\sun.gif')).to eq('sun.gif')
     end
   end
 

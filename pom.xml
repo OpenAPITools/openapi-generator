@@ -10,7 +10,7 @@
     <artifactId>swagger-codegen-project</artifactId>
     <packaging>pom</packaging>
     <name>swagger-codegen-project</name>
-    <version>2.1.6</version>
+    <version>2.2.0-SNAPSHOT</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <scm>
         <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
@@ -29,7 +29,7 @@
     </developers>
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/swagger-api/swagger-core/issues</url>
+        <url>https://github.com/swagger-api/swagger-codegen/issues</url>
     </issueManagement>
     <mailingLists>
         <mailingList>
@@ -267,7 +267,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/android/default</module>
+                <module>samples/client/petstore/android/volley</module>
             </modules>
         </profile>
         <profile>
@@ -283,7 +283,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client</id>
+            <id>java-client-jersey1</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -291,7 +291,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey1</module>
             </modules>
         </profile>
         <profile>
@@ -399,7 +399,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/objc/SwaggerClientTests</module>
+                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
             </modules>
         </profile>
         <profile>
@@ -411,7 +411,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/swift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
             </modules>
         </profile>
         <profile>
@@ -423,7 +423,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/jaxrs-resteasy</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-resteasy-server-joda</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
             </modules>
         </profile>
         <profile>
@@ -435,7 +447,103 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/jaxrs</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-server-jersey1</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs/jersey1</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-fetch-client-tests-default</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-fetch/tests/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-fetch-client-builds-default</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-fetch/builds/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-fetch-client-builds-es6-target</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-fetch-client-builds-with-npm-version</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-angular-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-angular/npm</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-node-npm-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/typescript-node/npm</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>python-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/python</module>
             </modules>
         </profile>
         <profile>
@@ -463,6 +571,30 @@
             </modules>
         </profile>
         <profile>
+            <id>springboot</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/springboot</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>spring-cloud</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/spring-cloud</module>
+            </modules>
+        </profile>
+        <profile>
             <id>samples</id>
             <activation>
                 <property>
@@ -471,9 +603,19 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/android/default</module>
+                <!-- run ruby test first which has a random delay script to
+                     avoid issues with running 2 CI jobs in parallel.       -->
+                <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/typescript-fetch/tests/default</module>
+                <module>samples/client/petstore/typescript-fetch/builds/default</module>
+                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
+                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-angular</module>
+                <module>samples/client/petstore/typescript-node/npm</module>
+                <module>samples/client/petstore/android/volley</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/default</module>
+                <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
@@ -483,9 +625,12 @@
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/server/petstore/jaxrs</module>
-                <module>samples/server/petstore/jaxrs-resteasy</module>
+                <module>samples/server/petstore/springboot</module>
+                <module>samples/client/petstore/spring-cloud</module>
+                <module>samples/server/petstore/jaxrs/jersey1</module>
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default</module>
+                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
             </modules>
@@ -562,15 +707,15 @@
         <swagger-parser-version>1.0.19</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
-        <swagger-core-version>1.5.8</swagger-core-version>
+        <swagger-core-version>1.5.9</swagger-core-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <commons-lang-version>2.4</commons-lang-version>
+        <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
-        <jmustache-version>1.9</jmustache-version>
+        <jmustache-version>1.12</jmustache-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.18.1</surefire-version>
         <jmockit-version>1.19</jmockit-version>

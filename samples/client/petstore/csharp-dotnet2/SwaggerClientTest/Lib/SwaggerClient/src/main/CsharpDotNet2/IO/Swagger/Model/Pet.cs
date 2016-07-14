@@ -12,7 +12,6 @@ namespace IO.Swagger.Model {
   /// </summary>
   [DataContract]
   public class Pet {
-    
     /// <summary>
     /// Gets or Sets Id
     /// </summary>
@@ -20,7 +19,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "id")]
     public long? Id { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets Category
     /// </summary>
@@ -28,7 +26,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "category")]
     public Category Category { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets Name
     /// </summary>
@@ -36,7 +33,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "name")]
     public string Name { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets PhotoUrls
     /// </summary>
@@ -44,7 +40,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "photoUrls")]
     public List<string> PhotoUrls { get; set; }
 
-    
     /// <summary>
     /// Gets or Sets Tags
     /// </summary>
@@ -52,7 +47,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "tags")]
     public List<Tag> Tags { get; set; }
 
-    
     /// <summary>
     /// pet status in the store
     /// </summary>
@@ -61,7 +55,6 @@ namespace IO.Swagger.Model {
     [JsonProperty(PropertyName = "status")]
     public string Status { get; set; }
 
-    
 
     /// <summary>
     /// Get the string presentation of the object
@@ -70,19 +63,12 @@ namespace IO.Swagger.Model {
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class Pet {\n");
-      
       sb.Append("  Id: ").Append(Id).Append("\n");
-      
       sb.Append("  Category: ").Append(Category).Append("\n");
-      
       sb.Append("  Name: ").Append(Name).Append("\n");
-      
       sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-      
       sb.Append("  Tags: ").Append(Tags).Append("\n");
-      
       sb.Append("  Status: ").Append(Status).Append("\n");
-      
       sb.Append("}\n");
       return sb.ToString();
     }

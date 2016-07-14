@@ -54,6 +54,18 @@ public class CodegenConstants {
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
+    
+    public static final String PACKAGE_TITLE = "packageTitle";
+    public static final String PACKAGE_TITLE_DESC = "Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_PRODUCTNAME = "packageProductName";
+    public static final String PACKAGE_PRODUCTNAME_DESC = "Specifies an AssemblyProduct for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_DESCRIPTION = "packageDescription";
+    public static final String PACKAGE_DESCRIPTION_DESC = "Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_COMPANY = "packageCompany";
+    public static final String PACKAGE_COMPANY_DESC = "Specifies an AssemblyCompany for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_COPYRIGHT = "packageCopyright";
+    public static final String PACKAGE_COPYRIGHT_DESC = "Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    
     public static final String POD_VERSION = "podVersion";
 
     public static final String OPTIONAL_METHOD_ARGUMENT = "optionalMethodArgument";
@@ -89,7 +101,7 @@ public class CodegenConstants {
     public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names. Default is the empty string.";
 
     public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
-    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue, default false.";
+    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
 
     public static final String GIT_USER_ID = "gitUserId";
     public static final String GIT_USER_ID_DESC = "Git user ID, e.g. swagger-api.";
@@ -102,5 +114,17 @@ public class CodegenConstants {
 
     public static final String HTTP_USER_AGENT = "httpUserAgent";
     public static final String HTTP_USER_AGENT_DESC = "HTTP user agent, e.g. codegen_csharp_api_client, default to 'Swagger-Codegen/{packageVersion}}/{language}'";
+
+    public static final String SUPPORTS_ES6 = "supportsES6";
+    public static final String SUPPORTS_ES6_DESC = "Generate code that conforms to ES6.";
+
+    public static final String EXCLUDE_TESTS = "excludeTests";
+    public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
+
+    public static final String GENERATE_API_TESTS = "generateApiTests";
+    public static final String GENERATE_API_TESTS_DESC = "Specifies that api tests are to be generated.";
+
+    public static final String GENERATE_MODEL_TESTS = "generateModelTests";
+    public static final String GENERATE_MODEL_TESTS_DESC = "Specifies that model tests are to be generated.";
 
 }
