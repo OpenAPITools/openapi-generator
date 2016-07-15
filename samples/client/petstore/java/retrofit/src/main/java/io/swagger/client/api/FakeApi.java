@@ -6,6 +6,7 @@ import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
+import io.swagger.client.model.Client;
 import org.joda.time.LocalDate;
 import org.joda.time.DateTime;
 import java.math.BigDecimal;
@@ -16,6 +17,31 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * To test \&quot;client\&quot; model
+   * Sync method
+   * 
+   * @param body client model (required)
+   * @return Client
+   */
+  
+  @PATCH("/fake")
+  Client testClientModel(
+    @Body Client body
+  );
+
+  /**
+   * To test \&quot;client\&quot; model
+   * Async method
+   * @param body client model (required)
+   * @param cb callback method
+   * @return void
+   */
+  
+  @PATCH("/fake")
+  void testClientModel(
+    @Body Client body, Callback<Client> cb
+  );
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Sync method
