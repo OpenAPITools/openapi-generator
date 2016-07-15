@@ -35,7 +35,7 @@
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
         self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
-        self.mutableDefaultHeaders[@"User-Agent"] = {{#httpUserAgent}}@"{{httpUserAgent}}"{{/httpUserAgent}}{{^httpUserAgent}}[NSString stringWithFormat:@"Swagger-Codegen/{{version}}/objc (%@; iOS %@; Scale/%0.2f)",[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]]{{/httpUserAgent}};
+        {{#httpUserAgent}}self.mutableDefaultHeaders[@"User-Agent"] = @"{{httpUserAgent}}"{{/httpUserAgent}};
         self.logger = [{{classPrefix}}Logger sharedLogger];
     }
     return self;
