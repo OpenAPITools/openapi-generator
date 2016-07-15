@@ -61,9 +61,10 @@ extension Dictionary: JSONEncodable {
 
 
 private let dateFormatter: NSDateFormatter = {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    return dateFormatter
+    let fmt = NSDateFormatter()
+    fmt.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+    fmt.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    return fmt
 }()
 
 extension NSDate: JSONEncodable {
