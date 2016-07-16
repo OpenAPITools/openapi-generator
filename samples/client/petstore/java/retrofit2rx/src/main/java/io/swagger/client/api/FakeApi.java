@@ -8,6 +8,7 @@ import retrofit2.http.*;
 
 import okhttp3.RequestBody;
 
+import io.swagger.client.model.Client;
 import org.joda.time.LocalDate;
 import org.joda.time.DateTime;
 import java.math.BigDecimal;
@@ -18,6 +19,18 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * To test \&quot;client\&quot; model
+   * 
+   * @param body client model (required)
+   * @return Call&lt;Client&gt;
+   */
+  
+  @PATCH("fake")
+  Observable<Client> testClientModel(
+    @Body Client body
+  );
+
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
