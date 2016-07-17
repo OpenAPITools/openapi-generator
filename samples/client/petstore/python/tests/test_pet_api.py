@@ -8,14 +8,14 @@ $ nosetests -v
 """
 
 import os
-import time
 import unittest
 
 import petstore_api
 from petstore_api.rest import ApiException
 
-HOST = 'http://petstore.swagger.io/v2'
+from .util import id_gen
 
+HOST = 'http://petstore.swagger.io/v2'
 
 class PetApiTests(unittest.TestCase):
 
@@ -25,19 +25,15 @@ class PetApiTests(unittest.TestCase):
         self.setUpModels()
         self.setUpFiles()
 
-    def tearDown(self):
-        # sleep 1 sec between two every 2 tests
-        time.sleep(1)
-
     def setUpModels(self):
         self.category = petstore_api.Category()
-        self.category.id = int(time.time())
+        self.category.id = id_gen()
         self.category.name = "dog"
         self.tag = petstore_api.Tag()
-        self.tag.id = int(time.time())
+        self.tag.id = id_gen()
         self.tag.name = "swagger-codegen-python-pet-tag"
         self.pet = petstore_api.Pet()
-        self.pet.id = int(time.time())
+        self.pet.id = id_gen()
         self.pet.name = "hello kity"
         self.pet.photo_urls = ["http://foo.bar.com/1", "http://foo.bar.com/2"]
         self.pet.status = "sold"
