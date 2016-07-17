@@ -259,7 +259,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                     private Model getParent(Model model) {
                         if (model instanceof ComposedModel) {
-                            return definitions.get(((ComposedModel) model).getParent().getReference());
+                            Model parent = ((ComposedModel) model).getParent();
+                            if(parent != null) {
+                                return definitions.get(parent.getReference());
+                            }
                         }
 
                         return null;

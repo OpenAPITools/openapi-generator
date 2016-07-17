@@ -7,6 +7,7 @@ import io.swagger.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import io.swagger.client.model.Client;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.math.BigDecimal;
@@ -36,6 +37,47 @@ public class FakeApi {
     this.apiClient = apiClient;
   }
 
+  /**
+   * To test \&quot;client\&quot; model
+   * 
+   * @param body client model (required)
+   * @return Client
+   * @throws ApiException if fails to make API call
+   */
+  public Client testClientModel(Client body) throws ApiException {
+    Object localVarPostBody = body;
+    
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<Client> localVarReturnType = new GenericType<Client>() {};
+    return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
