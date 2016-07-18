@@ -9,8 +9,8 @@
     "git": "git@github.com:swagger-api/swagger-mustache.git",
     "tag": "v1.0.0"
   },
+  "authors": "",
   "license": "Apache License, Version 2.0",
-  "authors": "Apache License, Version 2.0",
   "homepage": "https://github.com/swagger-api/swagger-codegen",
   "summary": "PetstoreClient",
   "source_files": "PetstoreClient/Classes/Swaggers/**/*.swift",
