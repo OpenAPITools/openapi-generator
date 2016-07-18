@@ -42,7 +42,7 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                         "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
                         "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while")
+                        "native", "super", "while", "type")
         );
 
         defaultIncludes = new HashSet<String>(
