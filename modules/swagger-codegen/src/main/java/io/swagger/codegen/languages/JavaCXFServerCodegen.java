@@ -15,7 +15,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 	public JavaCXFServerCodegen()
 	{
         super();
-        supportsInheritance = true;
         sourceFolder = "gen" + File.separator + "java";
         outputFolder = "generated-code/JavaJaxRS-CXF";
         apiTestTemplateFiles.clear(); // TODO: add test template
