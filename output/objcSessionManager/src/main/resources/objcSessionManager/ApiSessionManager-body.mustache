@@ -344,7 +344,7 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
         }];
     }
     else {
-        [self taskWithCompletionBlock:request completionBlock:^(id data, NSError *error) {
+        task = [self taskWithCompletionBlock:request completionBlock:^(id data, NSError *error) {
             NSError * serializationError;
             id response = [self.responseDeserializer deserialize:data class:responseType error:&serializationError];
             if(!response && !error){
