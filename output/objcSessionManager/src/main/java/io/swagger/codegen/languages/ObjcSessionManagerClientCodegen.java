@@ -245,50 +245,35 @@ public class ObjcSessionManagerClientCodegen extends DefaultCodegen implements C
         supportingFiles.add(new SupportingFile("Object-body.mustache",  coreFileFolder(), classPrefix + "Object.m"));
         supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.h"));
         supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.m"));
-        supportingFiles.add(new SupportingFile("ApiSessionManager-header.mustache",  coreFileFolder(), classPrefix + "ApiSessionManager.h"));                           // !!
-        supportingFiles.add(new SupportingFile("ApiSessionManager-body.mustache",  coreFileFolder(), classPrefix + "ApiSessionManager.m"));                             // !!
+        supportingFiles.add(new SupportingFile("ApiSessionManager-header.mustache",  coreFileFolder(), classPrefix + "ApiSessionManager.h")); 
+        supportingFiles.add(new SupportingFile("ApiSessionManager-body.mustache",  coreFileFolder(), classPrefix + "ApiSessionManager.m")); 
         supportingFiles.add(new SupportingFile("JSONResponseSerializer-header.mustache",  coreFileFolder(), classPrefix + "JSONResponseSerializer.h"));
         supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache",  coreFileFolder(), classPrefix + "JSONResponseSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.h"));
-        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.m"));       // !!
-        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.h"));     // !!
-        supportingFiles.add(new SupportingFile("Sanitizer-body.mustache",  coreFileFolder(), classPrefix + "Sanitizer.m"));                             // !!
-        supportingFiles.add(new SupportingFile("Sanitizer-header.mustache",  coreFileFolder(), classPrefix + "Sanitizer.h"));                           // !!
-        supportingFiles.add(new SupportingFile("Logger-body.mustache",  coreFileFolder(), classPrefix + "Logger.m"));                                   // !!
-        supportingFiles.add(new SupportingFile("Logger-header.mustache",  coreFileFolder(), classPrefix + "Logger.h"));                                 // !!
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.m"));
+        supportingFiles.add(new SupportingFile("ResponseDeserializer-header.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.h"));
+        supportingFiles.add(new SupportingFile("Sanitizer-body.mustache",  coreFileFolder(), classPrefix + "Sanitizer.m"));
+        supportingFiles.add(new SupportingFile("Sanitizer-header.mustache",  coreFileFolder(), classPrefix + "Sanitizer.h"));
+        supportingFiles.add(new SupportingFile("Logger-body.mustache",  coreFileFolder(), classPrefix + "Logger.m"));
+        supportingFiles.add(new SupportingFile("Logger-header.mustache",  coreFileFolder(), classPrefix + "Logger.h"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-body.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-header.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.h"));
-        //supportingFiles.add(new SupportingFile("Configuration-body.mustache",  coreFileFolder(), classPrefix + "Configuration.m"));                     // !!
-        //supportingFiles.add(new SupportingFile("Configuration-header.mustache",  coreFileFolder(), classPrefix + "Configuration.h"));                   // !!
         supportingFiles.add(new SupportingFile("Configuration-protocol.mustache", coreFileFolder(), classPrefix + "Configuration.h"));
         supportingFiles.add(new SupportingFile("DefaultConfiguration-body.mustache", coreFileFolder(), classPrefix + "DefaultConfiguration.m"));
         supportingFiles.add(new SupportingFile("DefaultConfiguration-header.mustache", coreFileFolder(), classPrefix + "DefaultConfiguration.h"));
         supportingFiles.add(new SupportingFile("BasicAuthTokenProvider-header.mustache", coreFileFolder(), classPrefix + "BasicAuthTokenProvider.h"));
         supportingFiles.add(new SupportingFile("BasicAuthTokenProvider-body.mustache", coreFileFolder(), classPrefix + "BasicAuthTokenProvider.m"));
-        supportingFiles.add(new SupportingFile("api-protocol.mustache", coreFileFolder(), classPrefix + "Api.h"));                                      // !!
+        supportingFiles.add(new SupportingFile("api-protocol.mustache", coreFileFolder(), classPrefix + "Api.h"));
         supportingFiles.add(new SupportingFile("podspec.mustache", "", podName + ".podspec"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));                                                             // !!              
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));                                                                // !!
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
         if(generateCoreData) {
             supportingFiles.add(new SupportingFile("xccurrentversion.mustache", (modelPackage() + "/" + modelFilesPath + "/").replace("/", File.separator) + classPrefix + "Model.xcdatamodeld", ".xccurrentversion"));
             supportingFiles.add(new SupportingFile("Model.xcdatamodel.mustache",(modelPackage() + "/" + modelFilesPath + "/").replace("/", File.separator) + classPrefix + "Model.xcdatamodeld" + File.separator + classPrefix + "Model.xcdatamodel", "contents"));
         }
-
-        // is apiclient
-        //supportingFiles.add(new SupportingFile("ApiSessionManager-header.mustache", swaggerFolder, classPrefix + "ApiSessionManager.h"));
-        //supportingFiles.add(new SupportingFile("ApiSessionManager-body.mustache", swaggerFolder, classPrefix + "ApiSessionManager.m"));
-
-        // protocol!
-        //supportingFiles.add(new SupportingFile("Configuration-protocol.mustache", swaggerFolder, classPrefix + "Configuration.h"));
-        //supportingFiles.add(new SupportingFile("DefaultConfiguration-body.mustache", swaggerFolder, classPrefix + "DefaultConfiguration.m"));
-        //supportingFiles.add(new SupportingFile("DefaultConfiguration-header.mustache", swaggerFolder, classPrefix + "DefaultConfiguration.h"));
-
-        // missing!
-        //supportingFiles.add(new SupportingFile("BasicAuthTokenProvider-header.mustache", swaggerFolder, classPrefix + "BasicAuthTokenProvider.h"));
-        //supportingFiles.add(new SupportingFile("BasicAuthTokenProvider-body.mustache", swaggerFolder, classPrefix + "BasicAuthTokenProvider.m"));
   }
 
     @Override
