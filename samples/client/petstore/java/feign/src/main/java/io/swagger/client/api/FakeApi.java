@@ -2,6 +2,7 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
 
+import io.swagger.client.model.Client;
 import org.joda.time.LocalDate;
 import org.joda.time.DateTime;
 import java.math.BigDecimal;
@@ -15,6 +16,19 @@ import feign.*;
 
 public interface FakeApi extends ApiClient.Api {
 
+
+  /**
+   * To test \&quot;client\&quot; model
+   * 
+   * @param body client model (required)
+   * @return Client
+   */
+  @RequestLine("PATCH /fake")
+  @Headers({
+    "Content-type: application/json",
+    "Accept: application/json",
+  })
+  Client testClientModel(Client body);
 
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
