@@ -1,22 +1,15 @@
 #import <Foundation/Foundation.h>
-#import "{{classPrefix}}ApiClient.h"
-#import "{{classPrefix}}Logger.h"
+#import "{{classPrefix}}Configuration.h"
 
 {{>licenceInfo}}
 
-@class {{classPrefix}}ApiClient;
+@interface {{classPrefix}}DefaultConfiguration : NSObject <{{classPrefix}}Configuration>
 
-@interface {{classPrefix}}Configuration : NSObject
 
 /**
  * Default api logger
  */
 @property (nonatomic, strong) {{classPrefix}}Logger * logger;
-
-/**
- * Default api client
- */
-@property (nonatomic) {{classPrefix}}ApiClient *apiClient;
 
 /**
  * Default base url
