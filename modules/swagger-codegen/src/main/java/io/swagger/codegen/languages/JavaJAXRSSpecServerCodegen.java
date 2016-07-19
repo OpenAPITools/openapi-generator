@@ -25,7 +25,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
 	public JavaJAXRSSpecServerCodegen()
 	{
         super();
-        supportsInheritance = true;
         sourceFolder = "src/main/java";
         invokerPackage = "io.swagger.api";
         artifactId = "swagger-jaxrs-server";
