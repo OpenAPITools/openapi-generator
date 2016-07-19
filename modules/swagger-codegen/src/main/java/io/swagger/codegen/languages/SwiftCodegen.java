@@ -38,6 +38,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
+    public static final String DEFAULT_POD_AUTHORS = "Swagger Codegen";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
     protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT };
     protected String projectName = "SwaggerClient";
@@ -192,6 +193,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             swiftUseApiNamespace = Boolean.parseBoolean(String.valueOf(additionalProperties.get(SWIFT_USE_API_NAMESPACE)));
         }
         additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
+
+        if (!additionalProperties.containsKey(POD_AUTHORS)) {
+            additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
+        }
 
         supportingFiles.add(new SupportingFile("Podspec.mustache", "", projectName + ".podspec"));
         supportingFiles.add(new SupportingFile("Cartfile.mustache", "", "Cartfile"));
