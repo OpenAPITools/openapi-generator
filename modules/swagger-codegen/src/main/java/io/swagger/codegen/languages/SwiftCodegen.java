@@ -88,6 +88,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                     "NSDate",
                     "NSURL", // for file
+                    "NSUUID",
                     "Array",
                     "Dictionary",
                     "Set",
@@ -131,6 +132,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
+        typeMapping.put("UUID", "NSUUID");
 
         importMapping = new HashMap<String, String>();
 
