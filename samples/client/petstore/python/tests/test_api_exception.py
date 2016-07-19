@@ -9,12 +9,12 @@ $ nosetests -v
 
 import os
 import sys
-import time
 import unittest
 
 import petstore_api
 from petstore_api.rest import ApiException
 
+from .util import id_gen
 
 class ApiExceptionTests(unittest.TestCase):
 
@@ -25,21 +25,18 @@ class ApiExceptionTests(unittest.TestCase):
 
     def setUpModels(self):
         self.category = petstore_api.Category()
-        self.category.id = int(time.time())
+        self.category.id = id_gen()
         self.category.name = "dog"
         self.tag = petstore_api.Tag()
-        self.tag.id = int(time.time())
+        self.tag.id = id_gen()
         self.tag.name = "blank"
         self.pet = petstore_api.Pet()
-        self.pet.id = int(time.time())
+        self.pet.id = id_gen()
         self.pet.name = "hello kity"
         self.pet.photo_urls = ["http://foo.bar.com/1", "http://foo.bar.com/2"]
         self.pet.status = "sold"
         self.pet.category = self.category
         self.pet.tags = [self.tag]
-
-    def tearDown(self):
-        time.sleep(1)
 
     def test_404_error(self):
         self.pet_api.add_pet(body=self.pet)
