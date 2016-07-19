@@ -58,6 +58,11 @@ extension Dictionary: JSONEncodable {
     }
 }
 
+extension NSData: JSONEncodable {
+    func encodeToJSON() -> AnyObject {
+        return self.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+    }
+}
 
 private let dateFormatter: NSDateFormatter = {
     let fmt = NSDateFormatter()

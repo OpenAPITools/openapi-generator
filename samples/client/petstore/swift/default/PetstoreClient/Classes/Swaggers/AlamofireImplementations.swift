@@ -82,30 +82,59 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             request.authenticate(usingCredential: credential)
         }
 
-        request.validate().responseJSON(options: .AllowFragments) { response in
+        let cleanupRequest = {
             managerStore.removeValueForKey(managerId)
+        }
 
-            if response.result.isFailure {
-                completion(response: nil, error: response.result.error)
-                return
-            }
+        let validatedRequest = request.validate()
 
-            if () is T {
-                completion(response: Response(response: response.response!, body: () as! T), error: nil)
-                return
-            }
-            if let json: AnyObject = response.result.value {
-                let body = Decoders.decode(clazz: T.self, source: json)
-                completion(response: Response(response: response.response!, body: body), error: nil)
-                return
-            } else if "" is T {
-                // swagger-parser currently doesn't support void, which will be fixed in future swagger-parser release
-                // https://github.com/swagger-api/swagger-parser/pull/34
-                completion(response: Response(response: response.response!, body: "" as! T), error: nil)
-                return
-            }
+        switch T.self {
+        case is NSData.Type:
+            validatedRequest.responseData({ (dataResponse) in
+                cleanupRequest()
 
-            completion(response: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"]))
+                if (dataResponse.result.isFailure) {
+                    completion(
+                        response: nil,
+                        error: dataResponse.result.error
+                    )
+                    return
+                }
+
+                completion(
+                    response: Response(
+                        response: dataResponse.response!,
+                        body: dataResponse.data as! T
+                    ),
+                    error: nil
+                )
+            })
+        default:
+            validatedRequest.responseJSON(options: .AllowFragments) { response in
+                cleanupRequest()
+
+                if response.result.isFailure {
+                    completion(response: nil, error: response.result.error)
+                    return
+                }
+
+                if () is T {
+                    completion(response: Response(response: response.response!, body: () as! T), error: nil)
+                    return
+                }
+                if let json: AnyObject = response.result.value {
+                    let body = Decoders.decode(clazz: T.self, source: json)
+                    completion(response: Response(response: response.response!, body: body), error: nil)
+                    return
+                } else if "" is T {
+                    // swagger-parser currently doesn't support void, which will be fixed in future swagger-parser release
+                    // https://github.com/swagger-api/swagger-parser/pull/34
+                    completion(response: Response(response: response.response!, body: "" as! T), error: nil)
+                    return
+                }
+
+                completion(response: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"]))
+            }
         }
     }
 
