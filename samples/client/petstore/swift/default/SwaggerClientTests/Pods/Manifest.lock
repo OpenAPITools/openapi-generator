@@ -12,7 +12,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
-  PetstoreClient: 65dabd411c65d965d5b4c3d5decb909323d1363b
+  PetstoreClient: 575f4a5776e6a693e70f9d14bae0aabd8c467111
 
 PODFILE CHECKSUM: 84472aca2a88b7f7ed9fcd63e9f5fdb5ad4aab94
 

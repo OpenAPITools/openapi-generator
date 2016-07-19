@@ -42,4 +42,30 @@ public class SwiftCodegenTest {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("entry_name"), "EntryName");
     }
 
+    @Test
+    public void testDefaultPodAuthors() throws Exception {
+        // Given
+
+        // When
+        swiftCodegen.processOpts();
+
+        // Then
+        final String podAuthors = (String) swiftCodegen.additionalProperties().get(SwiftCodegen.POD_AUTHORS);
+        Assert.assertEquals(podAuthors, SwiftCodegen.DEFAULT_POD_AUTHORS);
+    }
+
+    @Test
+    public void testPodAuthors() throws Exception {
+        // Given
+        final String swaggerDevs = "Swagger Devs";
+        swiftCodegen.additionalProperties().put(SwiftCodegen.POD_AUTHORS, swaggerDevs);
+
+        // When
+        swiftCodegen.processOpts();
+
+        // Then
+        final String podAuthors = (String) swiftCodegen.additionalProperties().get(SwiftCodegen.POD_AUTHORS);
+        Assert.assertEquals(podAuthors, swaggerDevs);
+    }
+
 }
