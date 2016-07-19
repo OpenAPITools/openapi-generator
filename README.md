@@ -810,6 +810,7 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | Groovy     |  |  
 | Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
 | Java      | @cbornet (2016/05/01) @xhh (2016/05/01) @epaul (2016/06/04) |
+| Java (Spring Cloud) | @cbornet (2016/07/19) |
 | NodeJS/Javascript | @xhh (2016/05/01) | 
 | ObjC      | @mateuszmackowiak (2016/05/09) |
 | Perl      | @wing328 (2016/05/01) |
@@ -828,8 +829,8 @@ Swaagger Codegen core team members are contributors who have been making signfic
 | C# ASP.NET5 |  @jimschubert (2016/05/01) |
 | Go Server | @guohuang (2016/06/13) |
 | Haskell Servant |  |
-| Java Spring Boot |  |
-| Java SpringMVC | @kolyjjj (2016/05/01) |
+| Java Spring Boot | @cbornet (2016/07/19) |
+| Java Spring MVC | @kolyjjj (2016/05/01) @cbornet (2016/07/19) |
 | Java JAX-RS |  |
 | NancyFX |  |
 | NodeJS | @kolyjjj (2016/05/01) |  
