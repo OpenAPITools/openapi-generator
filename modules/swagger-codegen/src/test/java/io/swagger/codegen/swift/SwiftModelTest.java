@@ -18,6 +18,7 @@ public class SwiftModelTest {
                 .property("id", new LongProperty())
                 .property("name", new StringProperty())
                 .property("createdAt", new DateTimeProperty())
+                .property("uuid", new UUIDProperty())
                 .required("id")
                 .required("name")
                 .discriminator("test");
@@ -27,7 +28,7 @@ public class SwiftModelTest {
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.vars.size(), 4);
         Assert.assertEquals(cm.discriminator,"test");
 
         final CodegenProperty property1 = cm.vars.get(0);
@@ -58,9 +59,19 @@ public class SwiftModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
-        Assert.assertNull(property3.hasMore);
+        Assert.assertTrue(property3.hasMore);
         Assert.assertNull(property3.required);
         Assert.assertTrue(property3.isNotContainer);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "uuid");
+        Assert.assertEquals(property4.datatype, "NSUUID");
+        Assert.assertEquals(property4.name, "uuid");
+        Assert.assertNull(property4.defaultValue);
+        Assert.assertEquals(property4.baseType, "NSUUID");
+        Assert.assertNull(property4.hasMore);
+        Assert.assertNull(property4.required);
+        Assert.assertTrue(property4.isNotContainer);
     }
 
 }
