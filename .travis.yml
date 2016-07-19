@@ -11,11 +11,21 @@ cache:
 services:
   - docker
 
+addons:
+  hosts:
+    - petstore.swagger.io
+
 before_install:
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
   - npm install -g typescript
   - sudo pip install virtualenv
+  # to run petstore server locally via docker
+  - docker pull swaggerapi/petstore
+  - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  - docker ps -a
+  # show host table to confirm petstore.swagger.io is mapped to localhost
+  - cat /etc/hosts
 
 install:
 
