@@ -8,8 +8,8 @@ import io.swagger.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import io.swagger.client.model.Client;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
