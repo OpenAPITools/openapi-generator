@@ -58,7 +58,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```javascript
 var {{{moduleName}}} = require('{{{projectName}}}');
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}
-var defaultClient = {{{moduleName}}}.ApiClient.default;
+var defaultClient = {{{moduleName}}}.ApiClient.instance;
 {{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
