@@ -57,15 +57,22 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 encodingMemoryThreshold: Manager.MultipartFormDataEncodingMemoryThreshold,
                 encodingCompletion: { encodingResult in
                     switch encodingResult {
-                    case .Success(let upload, _, _):
-                        self.processRequest(upload, managerId, completion)
+                    case .Success(let uploadRequest, _, _):
+                        if let onProgressReady = self.onProgressReady {
+                            onProgressReady(uploadRequest.progress)
+                        }
+                        self.processRequest(uploadRequest, managerId, completion)
                     case .Failure(let encodingError):
                         completion(response: nil, error: encodingError)
                     }
                 }
             )
         } else {
-            processRequest(manager.request(xMethod!, URLString, parameters: parameters, encoding: encoding), managerId, completion)
+            let request = manager.request(xMethod!, URLString, parameters: parameters, encoding: encoding)
+            if let onProgressReady = self.onProgressReady {
+                onProgressReady(request.progress)
+            }
+            processRequest(request, managerId, completion)
         }
 
     }
