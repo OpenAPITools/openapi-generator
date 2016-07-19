@@ -24,9 +24,6 @@
 
 package com.wordnik.client.model
 
-
-
-case class Tag (
+case class Tag(
   id: Option[Long],
-name: Option[String]
-)
+  name: Option[String])
