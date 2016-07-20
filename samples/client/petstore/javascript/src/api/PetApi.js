@@ -162,7 +162,7 @@
      * Multiple status values can be provided with comma separated strings
      * @param {Array.<module:model/String>} status Status values that need to be considered for filter
      * @param {module:api/PetApi~findPetsByStatusCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {Array.<module:model/Pet>}
+     * data is of type: {@link Array.<module:model/Pet>}
      */
     this.findPetsByStatus = function(status, callback) {
       var postBody = null;
@@ -208,7 +208,7 @@
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param {Array.<String>} tags Tags to filter by
      * @param {module:api/PetApi~findPetsByTagsCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {Array.<module:model/Pet>}
+     * data is of type: {@link Array.<module:model/Pet>}
      */
     this.findPetsByTags = function(tags, callback) {
       var postBody = null;
@@ -254,7 +254,7 @@
      * Returns a single pet
      * @param {Integer} petId ID of pet to return
      * @param {module:api/PetApi~getPetByIdCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {module:model/Pet}
+     * data is of type: {@link module:model/Pet}
      */
     this.getPetById = function(petId, callback) {
       var postBody = null;
@@ -398,7 +398,7 @@
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @param {File} opts.file file to upload
      * @param {module:api/PetApi~uploadFileCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {module:model/ApiResponse}
+     * data is of type: {@link module:model/ApiResponse}
      */
     this.uploadFile = function(petId, opts, callback) {
       opts = opts || {};

@@ -154,7 +154,7 @@
   /**
    * Checks whether the given parameter value represents file-like content.
    * @param param The parameter to check.
-   * @returns {Boolean} <code>true</code> if <code>param</code> represents a file. 
+   * @returns {Boolean} <code>true</code> if <code>param</code> represents a file.
    */
   exports.prototype.isFileParam = function(param) {
     // fs.ReadStream in Node.js (but not in runtime like browserify)
@@ -206,7 +206,7 @@
 
   /**
    * Enumeration of collection format separator strategies.
-   * @enum {String} 
+   * @enum {String}
    * @readonly
    */
   exports.CollectionFormatEnum = {

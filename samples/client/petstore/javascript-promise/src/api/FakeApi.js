@@ -58,39 +58,6 @@
 
 
     /**
-     * To test code injection  &#x3D;end
-     * @param {Object} opts Optional parameters
-     * @param {String} opts.testCodeInjectEnd To test code injection  &#x3D;end
-     */
-    this.testCodeInjectEnd = function(opts) {
-      opts = opts || {};
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-        'test code inject */ &#x3D;end': opts['testCodeInjectEnd']
-      };
-
-      var authNames = [];
-      var contentTypes = ['application/json', '*/ =end));(phpinfo('];
-      var accepts = ['application/json', '*/ end'];
-      var returnType = null;
-
-      return this.apiClient.callApi(
-        '/fake', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
-    }
-
-
-    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param {Number} _number None
@@ -106,6 +73,7 @@
      * @param {Date} opts._date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.testEndpointParameters = function(_number, _double, _string, _byte, opts) {
       opts = opts || {};
@@ -172,6 +140,7 @@
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
      * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
      * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.testEnumQueryParameters = function(opts) {
       opts = opts || {};
