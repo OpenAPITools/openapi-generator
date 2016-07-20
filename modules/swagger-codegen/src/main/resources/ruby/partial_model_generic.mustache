@@ -130,12 +130,12 @@
       {{/isContainer}}
       {{/isEnum}}
       {{#hasValidation}}
-      {{#minLength}}
-      return false if @{{{name}}}.to_s.length > {{{maxLength}}}
-      {{/minLength}}
       {{#maxLength}}
-      return false if @{{{name}}}.to_s.length < {{{minLength}}}
+      return false if @{{{name}}}.to_s.length > {{{maxLength}}}
       {{/maxLength}}
+      {{#minLength}}
+      return false if @{{{name}}}.to_s.length < {{{minLength}}}
+      {{/minLength}}
       {{#maximum}}
       return false if @{{{name}}} > {{{maximum}}}
       {{/maximum}}
@@ -174,18 +174,18 @@
         fail ArgumentError, "{{{name}}} cannot be nil"
       end
 
-      {{#minLength}}
+      {{#maxLength}}
       if {{{name}}}.to_s.length > {{{maxLength}}}
         fail ArgumentError, "invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}."
       end
 
-      {{/minLength}}
-      {{#maxLength}}
+      {{/maxLength}}
+      {{#minLength}}
       if {{{name}}}.to_s.length < {{{minLength}}}
         fail ArgumentError, "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}."
       end
 
-      {{/maxLength}}
+      {{/minLength}}
       {{#maximum}}
       if {{{name}}} > {{{maximum}}}
         fail ArgumentError, "invalid value for '{{{name}}}', must be smaller than or equal to {{{maximum}}}."
