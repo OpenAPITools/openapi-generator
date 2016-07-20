@@ -19,7 +19,7 @@ $app->get('/', function () use ($app) {
  * Notes: {{notes}}
 {{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
  */
-$app->{{httpMethod}}('{{path}}', '{{classname}}@{{operationId}}');
+$app->{{httpMethod}}('{{basePathWithoutHost}}{{path}}', '{{classname}}@{{operationId}}');
 {{/operation}}
 {{/operations}}
 {{/apis}}

@@ -39,6 +39,30 @@ class FakeApi extends Controller
     }
 
     /**
+     * Operation testClientModel
+     *
+     * To test \"client\" model.
+     *
+     *
+     * @return Http response
+     */
+    public function testClientModel()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling testClientModel');
+        }
+        $body = $input['body'];
+
+
+        return response('How about implementing testClientModel as a PATCH method ?');
+    }
+    /**
      * Operation testEndpointParameters
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 .
