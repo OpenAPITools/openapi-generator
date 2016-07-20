@@ -15,7 +15,7 @@ $app = new Slim\App();
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/pet', function($request, $response, $args) {
+$app->POST('/v2/pet', function($request, $response, $args) {
             
             
             
@@ -31,7 +31,7 @@ $app->POST('/pet', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->DELETE('/pet/{petId}', function($request, $response, $args) {
+$app->DELETE('/v2/pet/{petId}', function($request, $response, $args) {
             $headers = $request->getHeaders();
             
             
@@ -47,7 +47,7 @@ $app->DELETE('/pet/{petId}', function($request, $response, $args) {
  * Notes: Multiple status values can be provided with comma separated strings
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/pet/findByStatus', function($request, $response, $args) {
+$app->GET('/v2/pet/findByStatus', function($request, $response, $args) {
             
             $queryParams = $request->getQueryParams();
             $status = $queryParams['status'];    
@@ -64,7 +64,7 @@ $app->GET('/pet/findByStatus', function($request, $response, $args) {
  * Notes: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/pet/findByTags', function($request, $response, $args) {
+$app->GET('/v2/pet/findByTags', function($request, $response, $args) {
             
             $queryParams = $request->getQueryParams();
             $tags = $queryParams['tags'];    
@@ -81,7 +81,7 @@ $app->GET('/pet/findByTags', function($request, $response, $args) {
  * Notes: Returns a single pet
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/pet/{petId}', function($request, $response, $args) {
+$app->GET('/v2/pet/{petId}', function($request, $response, $args) {
             
             
             
@@ -97,7 +97,7 @@ $app->GET('/pet/{petId}', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->PUT('/pet', function($request, $response, $args) {
+$app->PUT('/v2/pet', function($request, $response, $args) {
             
             
             
@@ -113,7 +113,7 @@ $app->PUT('/pet', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/pet/{petId}', function($request, $response, $args) {
+$app->POST('/v2/pet/{petId}', function($request, $response, $args) {
             
             
             $name = $args['name'];    $status = $args['status'];    
@@ -129,7 +129,7 @@ $app->POST('/pet/{petId}', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/json]
  */
-$app->POST('/pet/{petId}/uploadImage', function($request, $response, $args) {
+$app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
             
             
             $additionalMetadata = $args['additionalMetadata'];    $file = $args['file'];    
@@ -145,7 +145,7 @@ $app->POST('/pet/{petId}/uploadImage', function($request, $response, $args) {
  * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
  * Output-Formats: [application/xml, application/json]
  */
-$app->DELETE('/store/order/{orderId}', function($request, $response, $args) {
+$app->DELETE('/v2/store/order/{orderId}', function($request, $response, $args) {
             
             
             
@@ -161,7 +161,7 @@ $app->DELETE('/store/order/{orderId}', function($request, $response, $args) {
  * Notes: Returns a map of status codes to quantities
  * Output-Formats: [application/json]
  */
-$app->GET('/store/inventory', function($request, $response, $args) {
+$app->GET('/v2/store/inventory', function($request, $response, $args) {
             
             
             
@@ -177,7 +177,7 @@ $app->GET('/store/inventory', function($request, $response, $args) {
  * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/store/order/{orderId}', function($request, $response, $args) {
+$app->GET('/v2/store/order/{orderId}', function($request, $response, $args) {
             
             
             
@@ -193,7 +193,7 @@ $app->GET('/store/order/{orderId}', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/store/order', function($request, $response, $args) {
+$app->POST('/v2/store/order', function($request, $response, $args) {
             
             
             
@@ -209,7 +209,7 @@ $app->POST('/store/order', function($request, $response, $args) {
  * Notes: This can only be done by the logged in user.
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/user', function($request, $response, $args) {
+$app->POST('/v2/user', function($request, $response, $args) {
             
             
             
@@ -225,7 +225,7 @@ $app->POST('/user', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/user/createWithArray', function($request, $response, $args) {
+$app->POST('/v2/user/createWithArray', function($request, $response, $args) {
             
             
             
@@ -241,7 +241,7 @@ $app->POST('/user/createWithArray', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->POST('/user/createWithList', function($request, $response, $args) {
+$app->POST('/v2/user/createWithList', function($request, $response, $args) {
             
             
             
@@ -257,7 +257,7 @@ $app->POST('/user/createWithList', function($request, $response, $args) {
  * Notes: This can only be done by the logged in user.
  * Output-Formats: [application/xml, application/json]
  */
-$app->DELETE('/user/{username}', function($request, $response, $args) {
+$app->DELETE('/v2/user/{username}', function($request, $response, $args) {
             
             
             
@@ -273,7 +273,7 @@ $app->DELETE('/user/{username}', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/user/{username}', function($request, $response, $args) {
+$app->GET('/v2/user/{username}', function($request, $response, $args) {
             
             
             
@@ -289,7 +289,7 @@ $app->GET('/user/{username}', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/user/login', function($request, $response, $args) {
+$app->GET('/v2/user/login', function($request, $response, $args) {
             
             $queryParams = $request->getQueryParams();
             $username = $queryParams['username'];    $password = $queryParams['password'];    
@@ -306,7 +306,7 @@ $app->GET('/user/login', function($request, $response, $args) {
  * Notes: 
  * Output-Formats: [application/xml, application/json]
  */
-$app->GET('/user/logout', function($request, $response, $args) {
+$app->GET('/v2/user/logout', function($request, $response, $args) {
             
             
             
@@ -322,7 +322,7 @@ $app->GET('/user/logout', function($request, $response, $args) {
  * Notes: This can only be done by the logged in user.
  * Output-Formats: [application/xml, application/json]
  */
-$app->PUT('/user/{username}', function($request, $response, $args) {
+$app->PUT('/v2/user/{username}', function($request, $response, $args) {
             
             
             
