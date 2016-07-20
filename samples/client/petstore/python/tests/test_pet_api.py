@@ -196,7 +196,7 @@ class PetApiTests(unittest.TestCase):
 
         try:
             self.pet_api.get_pet_by_id(pet_id=self.pet.id)
-            raise "expected an error"
+            raise Exception("expected an error")
         except ApiException as e:
             self.assertEqual(404, e.status)
 
