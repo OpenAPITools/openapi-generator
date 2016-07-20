@@ -113,7 +113,7 @@
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @param {module:api/StoreApi~getInventoryCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {Object.<String, {'String': 'Integer'}>}
+     * data is of type: {@link Object.<String, {'String': 'Integer'}>}
      */
     this.getInventory = function(callback) {
       var postBody = null;
@@ -153,7 +153,7 @@
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param {Integer} orderId ID of pet that needs to be fetched
      * @param {module:api/StoreApi~getOrderByIdCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {module:model/Order}
+     * data is of type: {@link module:model/Order}
      */
     this.getOrderById = function(orderId, callback) {
       var postBody = null;
@@ -199,7 +199,7 @@
      * 
      * @param {module:model/Order} body order placed for purchasing the pet
      * @param {module:api/StoreApi~placeOrderCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {module:model/Order}
+     * data is of type: {@link module:model/Order}
      */
     this.placeOrder = function(body, callback) {
       var postBody = body;

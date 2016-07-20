@@ -57,47 +57,6 @@
 
 
     /**
-     * Callback function to receive the result of the testCodeInjectEnd operation.
-     * @callback module:api/FakeApi~testCodeInjectEndCallback
-     * @param {String} error Error message, if any.
-     * @param data This operation does not return a value.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * To test code injection  &#x3D;end
-     * @param {Object} opts Optional parameters
-     * @param {String} opts.testCodeInjectEnd To test code injection  &#x3D;end
-     * @param {module:api/FakeApi~testCodeInjectEndCallback} callback The callback function, accepting three arguments: error, data, response
-     */
-    this.testCodeInjectEnd = function(opts, callback) {
-      opts = opts || {};
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-        'test code inject */ &#x3D;end': opts['testCodeInjectEnd']
-      };
-
-      var authNames = [];
-      var contentTypes = ['application/json', '*/ =end));(phpinfo('];
-      var accepts = ['application/json', '*/ end'];
-      var returnType = null;
-
-      return this.apiClient.callApi(
-        '/fake', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the testEndpointParameters operation.
      * @callback module:api/FakeApi~testEndpointParametersCallback
      * @param {String} error Error message, if any.

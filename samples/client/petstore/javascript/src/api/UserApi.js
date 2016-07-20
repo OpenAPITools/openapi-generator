@@ -246,7 +246,7 @@
      * 
      * @param {String} username The name that needs to be fetched. Use user1 for testing. 
      * @param {module:api/UserApi~getUserByNameCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {module:model/User}
+     * data is of type: {@link module:model/User}
      */
     this.getUserByName = function(username, callback) {
       var postBody = null;
@@ -293,7 +293,7 @@
      * @param {String} username The user name for login
      * @param {String} password The password for login in clear text
      * @param {module:api/UserApi~loginUserCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {'String'}
+     * data is of type: {@link 'String'}
      */
     this.loginUser = function(username, password, callback) {
       var postBody = null;

@@ -61,6 +61,7 @@
      * Add a new pet to the store
      * 
      * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.addPet = function(body) {
       var postBody = body;
@@ -99,6 +100,7 @@
      * @param {Integer} petId Pet id to delete
      * @param {Object} opts Optional parameters
      * @param {String} opts.apiKey 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.deletePet = function(petId, opts) {
       opts = opts || {};
@@ -138,7 +140,7 @@
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param {Array.<module:model/String>} status Status values that need to be considered for filter
-     * data is of type: {Array.<module:model/Pet>}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
      */
     this.findPetsByStatus = function(status) {
       var postBody = null;
@@ -176,7 +178,7 @@
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param {Array.<String>} tags Tags to filter by
-     * data is of type: {Array.<module:model/Pet>}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
      */
     this.findPetsByTags = function(tags) {
       var postBody = null;
@@ -214,7 +216,7 @@
      * Find pet by ID
      * Returns a single pet
      * @param {Integer} petId ID of pet to return
-     * data is of type: {module:model/Pet}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Pet}
      */
     this.getPetById = function(petId) {
       var postBody = null;
@@ -252,6 +254,7 @@
      * Update an existing pet
      * 
      * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.updatePet = function(body) {
       var postBody = body;
@@ -291,6 +294,7 @@
      * @param {Object} opts Optional parameters
      * @param {String} opts.name Updated name of the pet
      * @param {String} opts.status Updated status of the pet
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.updatePetWithForm = function(petId, opts) {
       opts = opts || {};
@@ -334,7 +338,7 @@
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @param {File} opts.file file to upload
-     * data is of type: {module:model/ApiResponse}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/ApiResponse}
      */
     this.uploadFile = function(petId, opts) {
       opts = opts || {};
