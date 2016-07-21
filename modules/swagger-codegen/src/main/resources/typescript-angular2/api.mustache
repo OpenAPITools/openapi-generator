@@ -52,12 +52,12 @@ export class {{classname}} {
 {{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
-            queryParameters.set('{{baseName}}', {{paramName}});
+            queryParameters.set('{{baseName}}', String({{paramName}}));
         }
 
 {{/queryParams}}
 {{#headerParams}}
-            headerParams.set('{{baseName}}', {{paramName }});
+            headerParams.set('{{baseName}}', String({{paramName}}));
 
 {{/headerParams}}
 {{#hasFormParams}}

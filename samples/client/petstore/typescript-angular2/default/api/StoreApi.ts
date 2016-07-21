@@ -54,9 +54,9 @@ export class StoreApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        // verify required parameter 'orderId' is set
-        if (!orderId) {
-            throw new Error('Missing required parameter orderId when calling deleteOrder');
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId === null || orderId === undefined) {
+            throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
         let requestOptions: RequestOptionsArgs = {
             method: 'DELETE',
@@ -110,9 +110,9 @@ export class StoreApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        // verify required parameter 'orderId' is set
-        if (!orderId) {
-            throw new Error('Missing required parameter orderId when calling getOrderById');
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId === null || orderId === undefined) {
+            throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
