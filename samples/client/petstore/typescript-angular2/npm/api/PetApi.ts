@@ -82,11 +82,11 @@ export class PetApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling deletePet');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
-            headerParams.set('api_key', apiKey);
+            headerParams.set('api_key', String(apiKey));
 
         let requestOptions: RequestOptionsArgs = {
             method: 'DELETE',
@@ -115,7 +115,7 @@ export class PetApi {
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         if (status !== undefined) {
-            queryParameters.set('status', status);
+            queryParameters.set('status', String(status));
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -145,7 +145,7 @@ export class PetApi {
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         if (tags !== undefined) {
-            queryParameters.set('tags', tags);
+            queryParameters.set('tags', String(tags));
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -175,9 +175,9 @@ export class PetApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling getPetById');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -237,9 +237,9 @@ export class PetApi {
         let headerParams = this.defaultHeaders;
         let formParams = new URLSearchParams();
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling updatePetWithForm');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
         headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -279,9 +279,9 @@ export class PetApi {
         let headerParams = this.defaultHeaders;
         let formParams = new URLSearchParams();
 
-        // verify required parameter 'petId' is set
-        if (!petId) {
-            throw new Error('Missing required parameter petId when calling uploadFile');
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
         headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
 

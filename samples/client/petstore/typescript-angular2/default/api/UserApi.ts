@@ -135,9 +135,9 @@ export class UserApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        // verify required parameter 'username' is set
-        if (!username) {
-            throw new Error('Missing required parameter username when calling deleteUser');
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
         let requestOptions: RequestOptionsArgs = {
             method: 'DELETE',
@@ -166,9 +166,9 @@ export class UserApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        // verify required parameter 'username' is set
-        if (!username) {
-            throw new Error('Missing required parameter username when calling getUserByName');
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -198,11 +198,11 @@ export class UserApi {
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
         if (username !== undefined) {
-            queryParameters.set('username', username);
+            queryParameters.set('username', String(username));
         }
 
         if (password !== undefined) {
-            queryParameters.set('password', password);
+            queryParameters.set('password', String(password));
         }
 
         let requestOptions: RequestOptionsArgs = {
@@ -258,9 +258,9 @@ export class UserApi {
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
-        // verify required parameter 'username' is set
-        if (!username) {
-            throw new Error('Missing required parameter username when calling updateUser');
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
         let requestOptions: RequestOptionsArgs = {
             method: 'PUT',
