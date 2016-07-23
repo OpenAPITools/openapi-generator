@@ -1,4 +1,4 @@
-part of {{pubName}}.api;
+part of swagger.api;
 
 class ApiException implements Exception {
   int code = 0;

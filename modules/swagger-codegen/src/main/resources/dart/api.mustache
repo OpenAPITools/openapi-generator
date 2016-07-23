@@ -36,9 +36,13 @@ class {{classname}} {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
     {{#queryParams}}
-    if("null" != {{paramName}}) {
+    {{^required}}
+    if({{paramName}} != null) {
+    {{/required}}
       queryParams.addAll(_convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+    {{^required}}
     }
+    {{/required}}
     {{/queryParams}}
     {{#headerParams}}headerParams["{{baseName}}"] = {{paramName}};
     {{/headerParams}}
@@ -84,7 +88,7 @@ class {{classname}} {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return {{#returnType}} apiClient.deserialize(response.body, '{{{returnType}}}') {{/returnType}};
+      return {{#returnType}}apiClient.deserialize(response.body, '{{{returnType}}}') as {{{returnType}}} {{/returnType}};
     } else {
       return {{#returnType}}null{{/returnType}};
     }

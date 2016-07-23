@@ -1,9 +1,8 @@
-part of api;
+part of swagger.api;
 
 
 
 class StoreApi {
-  String basePath = "http://petstore.swagger.io/v2";
   final ApiClient apiClient;
 
   StoreApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
@@ -46,8 +45,7 @@ class StoreApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'DELETE',
                                              queryParams,
                                              postBody,
@@ -99,8 +97,7 @@ class StoreApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'GET',
                                              queryParams,
                                              postBody,
@@ -112,7 +109,7 @@ class StoreApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return  apiClient.deserialize(response.body, 'Map<String, int>') ;
+      return apiClient.deserialize(response.body, 'Map<String, int>') as Map<String, int> ;
     } else {
       return null;
     }
@@ -155,8 +152,7 @@ class StoreApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'GET',
                                              queryParams,
                                              postBody,
@@ -168,7 +164,7 @@ class StoreApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return  apiClient.deserialize(response.body, 'Order') ;
+      return apiClient.deserialize(response.body, 'Order') as Order ;
     } else {
       return null;
     }
@@ -211,8 +207,7 @@ class StoreApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'POST',
                                              queryParams,
                                              postBody,
@@ -224,7 +219,7 @@ class StoreApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return  apiClient.deserialize(response.body, 'Order') ;
+      return apiClient.deserialize(response.body, 'Order') as Order ;
     } else {
       return null;
     }

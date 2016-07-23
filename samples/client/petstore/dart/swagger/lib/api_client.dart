@@ -1,4 +1,4 @@
-part of api;
+part of swagger.api;
 
 class QueryParam {
   String name;
@@ -9,18 +9,20 @@ class QueryParam {
 
 class ApiClient {
 
+  String basePath;
   var client = new BrowserClient();
 
   Map<String, String> _defaultHeaderMap = {};
   Map<String, Authentication> _authentications = {};
 
-  final dson = new Dartson.JSON();
+  final dson = new Dartson.JSON()
+                   ..addTransformer(new DateTimeParser(), DateTime);
   final DateFormat _dateFormatter = new DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
   final _RegList = new RegExp(r'^List<(.*)>$');
   final _RegMap = new RegExp(r'^Map<String,(.*)>$');
 
-  ApiClient() {
+  ApiClient({this.basePath: "http://petstore.swagger.io/v2"}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications['petstore_auth'] = new OAuth();
     _authentications['api_key'] = new ApiKeyAuth("header", "api_key");
@@ -76,20 +78,18 @@ class ApiClient {
             Match match;
             if (value is List &&
                 (match = _RegList.firstMatch(targetType)) != null) {
-              var valueL = value as List;
               var newTargetType = match[1];
-              return valueL.map((v) => _deserialize(v, newTargetType)).toList();
+              return value.map((v) => _deserialize(v, newTargetType)).toList();
             } else if (value is Map &&
                 (match = _RegMap.firstMatch(targetType)) != null) {
-              var valueM = value as Map;
               var newTargetType = match[1];
-              return new Map.fromIterables(valueM.keys,
-                  valueM.values.map((v) => _deserialize(v, newTargetType)));
+              return new Map.fromIterables(value.keys,
+                  value.values.map((v) => _deserialize(v, newTargetType)));
             }
           }
       }
-    } catch(e) {
-      // Just throw the ApiException below
+    } catch (e, stack) {
+      throw new ApiException.withInner(500, 'Exception during deserialization.', e, stack);
     }
     throw new ApiException(500, 'Could not find a suitable class for deserialization');
   }
@@ -118,10 +118,9 @@ class ApiClient {
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi' a key might appear multiple times.
-  Future<Response> invokeAPI(String host,
-                             String path,
+  Future<Response> invokeAPI(String path,
                              String method,
-                             List<QueryParam> queryParams,
+                             Iterable<QueryParam> queryParams,
                              Object body,
                              Map<String, String> headerParams,
                              Map<String, String> formParams,
@@ -135,7 +134,7 @@ class ApiClient {
                          '?' + ps.join('&') :
                          '';
 
-    String url = host + path + queryString;
+    String url = basePath + path + queryString;
 
     headerParams.addAll(_defaultHeaderMap);
     headerParams['Content-Type'] = contentType;
@@ -157,6 +156,8 @@ class ApiClient {
           return client.put(url, headers: headerParams, body: msgBody);
         case "DELETE":
           return client.delete(url, headers: headerParams);
+        case "PATCH":
+          return client.patch(url, headers: headerParams, body: msgBody);
         default:
           return client.get(url, headers: headerParams);
       }

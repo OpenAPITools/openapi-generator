@@ -71,34 +71,6 @@ testPetApi() {
       });
     });
 
-    it('finds pets by tag', () async {
-      var snowyId = newId();
-      var grumpyId = newId();
-      var snowyTags = [
-        new Tag()
-          ..id = newId()
-          ..name = 'terrier'
-      ];
-      var grumpyTags = [
-        new Tag()
-          ..id = newId()
-          ..name = 'grumpy'
-      ];
-      await petApi.addPet(new Pet()
-        ..id = snowyId
-        ..name = 'Snowy'
-        ..tags = snowyTags);
-      await petApi.addPet(new Pet()
-        ..id = grumpyId
-        ..name = 'Grumpy Cat'
-        ..tags = grumpyTags);
-
-      var pets = await petApi.findPetsByTags(['grumpy']);
-      var petIds = pets.map((pet) => pet.id).toList();
-      expect(petIds).toContain(grumpyId);
-      expect(petIds).not.toContain(snowyId);
-    });
-
     it('uploads a pet image', () async {
       var id = newId();
       await petApi.addPet(new Pet()..id = id);
