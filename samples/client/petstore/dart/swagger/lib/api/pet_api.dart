@@ -1,9 +1,8 @@
-part of api;
+part of swagger.api;
 
 
 
 class PetApi {
-  String basePath = "http://petstore.swagger.io/v2";
   final ApiClient apiClient;
 
   PetApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
@@ -46,8 +45,7 @@ class PetApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'POST',
                                              queryParams,
                                              postBody,
@@ -103,8 +101,7 @@ class PetApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'DELETE',
                                              queryParams,
                                              postBody,
@@ -143,9 +140,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    if("null" != status) {
       queryParams.addAll(_convertParametersForCollectionFormat("csv", "status", status));
-    }
     
     List<String> contentTypes = [];
 
@@ -162,8 +157,7 @@ class PetApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'GET',
                                              queryParams,
                                              postBody,
@@ -175,7 +169,7 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return  apiClient.deserialize(response.body, 'List<Pet>') ;
+      return apiClient.deserialize(response.body, 'List<Pet>') as List<Pet> ;
     } else {
       return null;
     }
@@ -202,9 +196,7 @@ class PetApi {
     List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    if("null" != tags) {
       queryParams.addAll(_convertParametersForCollectionFormat("csv", "tags", tags));
-    }
     
     List<String> contentTypes = [];
 
@@ -221,8 +213,7 @@ class PetApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'GET',
                                              queryParams,
                                              postBody,
@@ -234,7 +225,7 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return  apiClient.deserialize(response.body, 'List<Pet>') ;
+      return apiClient.deserialize(response.body, 'List<Pet>') as List<Pet> ;
     } else {
       return null;
     }
@@ -277,8 +268,7 @@ class PetApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'GET',
                                              queryParams,
                                              postBody,
@@ -290,7 +280,7 @@ class PetApi {
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return  apiClient.deserialize(response.body, 'Pet') ;
+      return apiClient.deserialize(response.body, 'Pet') as Pet ;
     } else {
       return null;
     }
@@ -333,8 +323,7 @@ class PetApi {
     else {
           }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'PUT',
                                              queryParams,
                                              postBody,
@@ -403,8 +392,7 @@ if (status != null)
         formParams['status'] = apiClient.parameterToString(status);
     }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'POST',
                                              queryParams,
                                              postBody,
@@ -473,8 +461,7 @@ if (status != null)
 
     }
 
-    var response = await apiClient.invokeAPI(basePath,
-                                             path,
+    var response = await apiClient.invokeAPI(path,
                                              'POST',
                                              queryParams,
                                              postBody,
@@ -486,7 +473,7 @@ if (status != null)
     if(response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
     } else if(response.body != null) {
-      return  apiClient.deserialize(response.body, 'ApiResponse') ;
+      return apiClient.deserialize(response.body, 'ApiResponse') as ApiResponse ;
     } else {
       return null;
     }
