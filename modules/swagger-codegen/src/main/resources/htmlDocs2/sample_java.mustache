@@ -1,0 +1,41 @@
+import {{{invokerPackage}}}.*;
+import {{{invokerPackage}}}.auth.*;
+import {{{invokerPackage}}}.model.*;
+import {{{package}}}.{{{classname}}};
+
+import java.io.File;
+import java.util.*;
+
+public class {{{classname}}}Example {
+
+    public static void main(String[] args) {
+        {{#hasAuthMethods}}ApiClient defaultClient = Configuration.getDefaultApiClient();
+        {{#authMethods}}{{#isBasic}}
+        // Configure HTTP basic authorization: {{{name}}}
+        HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setUsername("YOUR USERNAME");
+        {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isApiKey}}
+        // Configure API key authorization: {{{name}}}
+        ApiKeyAuth {{{name}}} = (ApiKeyAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //{{{name}}}.setApiKeyPrefix("Token");{{/isApiKey}}{{#isOAuth}}
+        // Configure OAuth2 access token for authorization: {{{name}}}
+        OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
+        {{{name}}}.setAccessToken("YOUR ACCESS TOKEN");{{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+
+        {{{classname}}} apiInstance = new {{{classname}}}();
+        {{#allParams}}
+        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{/allParams}}
+        try {
+            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+            System.out.println(result);{{/returnType}}
+        } catch (ApiException e) {
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+            e.printStackTrace();
+        }
+    }
+}
