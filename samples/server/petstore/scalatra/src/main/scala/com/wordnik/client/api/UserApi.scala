@@ -44,7 +44,7 @@ class UserApi(implicit val swagger: Swagger) extends ScalatraServlet
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "UserApi"
-  override protected val applicationName: Option[String] = Some("User")
+  override protected val applicationName: Option[String] = Some("/v2/User")
 
   before() {
     contentType = formats("json")

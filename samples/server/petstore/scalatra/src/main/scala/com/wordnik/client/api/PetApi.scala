@@ -46,7 +46,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "PetApi"
-  override protected val applicationName: Option[String] = Some("Pet")
+  override protected val applicationName: Option[String] = Some("/v2/Pet")
 
   before() {
     contentType = formats("json")
@@ -89,7 +89,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   get("/pet/findByStatus", operation(findPetsByStatusOperation)) {
 
     val statusString = params.getAs[String]("status")
-    val status = if ("csv".equals("default")) {
+    val status = if ("multi".equals("default")) {
       statusString match {
         case Some(str) => str.split(",")
         case None => List()
@@ -108,7 +108,7 @@ class PetApi(implicit val swagger: Swagger) extends ScalatraServlet
   get("/pet/findByTags", operation(findPetsByTagsOperation)) {
 
     val tagsString = params.getAs[String]("tags")
-    val tags = if ("csv".equals("default")) {
+    val tags = if ("multi".equals("default")) {
       tagsString match {
         case Some(str) => str.split(",")
         case None => List()
