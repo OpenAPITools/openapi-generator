@@ -75,7 +75,6 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -129,11 +128,9 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (api_key) required
-
+	// authentication '(api_key)' required
 	// set key with prefix in header
 	headerParams["api_key"] = a.Configuration.GetAPIKeyWithPrefix("api_key")
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -192,7 +189,6 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -251,7 +247,6 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
