@@ -222,7 +222,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void postProcessParentModels(final Map<String, Object> models) {
-        log.info("Processing parents:  " + parentModels);
+        log.debug("Processing parents:  " + parentModels);
         for (final String parent : parentModels) {
             final CodegenModel parentModel = modelByName(parent, models);
             parentModel.hasChildren = true;
@@ -301,7 +301,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         } else {
             result = enumName;
         }
-        log.info(String.format("toEnumVarName('%s', %s) = '%s'", name, datatype, enumName));
+        log.debug(String.format("toEnumVarName('%s', %s) = '%s'", name, datatype, enumName));
         return result;
     }
 
@@ -313,7 +313,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         } else {
             apiName = capitalize(name);
         }
-        log.info(String.format("toApiName('%s') = '%s'", name, apiName));
+        log.debug(String.format("toApiName('%s') = '%s'", name, apiName));
         return apiName;
     }
 
@@ -334,7 +334,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         } else {
             result = null;
         }
-        log.info(String.format("toModelImport('%s') = '%s'", name, result));
+        log.debug(String.format("toModelImport('%s') = '%s'", name, result));
         return result;
     }
 

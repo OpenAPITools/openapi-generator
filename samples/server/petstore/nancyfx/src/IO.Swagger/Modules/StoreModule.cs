@@ -27,7 +27,7 @@ namespace IO.Swagger.v2.Modules
                 Preconditions.IsNotNull(orderId, "Required parameter: 'orderId' is missing at 'DeleteOrder'");
                 
                 service.DeleteOrder(Context, orderId);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Get["/store/inventory"] = parameters =>
@@ -38,7 +38,7 @@ namespace IO.Swagger.v2.Modules
 
             Get["/store/order/{orderId}"] = parameters =>
             {
-                var orderId = Parameters.ValueOf<string>(parameters, Context.Request, "orderId", ParameterType.Path);
+                var orderId = Parameters.ValueOf<long?>(parameters, Context.Request, "orderId", ParameterType.Path);
                 Preconditions.IsNotNull(orderId, "Required parameter: 'orderId' is missing at 'GetOrderById'");
                 
                 return service.GetOrderById(Context, orderId);
@@ -47,6 +47,8 @@ namespace IO.Swagger.v2.Modules
             Post["/store/order"] = parameters =>
             {
                 var body = this.Bind<Order>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'PlaceOrder'");
+                
                 return service.PlaceOrder(Context, body);
             };
         }
@@ -78,13 +80,13 @@ namespace IO.Swagger.v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        Order GetOrderById(NancyContext context, string orderId);
+        Order GetOrderById(NancyContext context, long? orderId);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">order placed for purchasing the pet (optional)</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
         Order PlaceOrder(NancyContext context, Order body);
     }
@@ -104,7 +106,7 @@ namespace IO.Swagger.v2.Modules
             return GetInventory();
         }
 
-        public virtual Order GetOrderById(NancyContext context, string orderId)
+        public virtual Order GetOrderById(NancyContext context, long? orderId)
         {
             return GetOrderById(orderId);
         }
@@ -118,7 +120,7 @@ namespace IO.Swagger.v2.Modules
 
         protected abstract Dictionary<string, int?> GetInventory();
 
-        protected abstract Order GetOrderById(string orderId);
+        protected abstract Order GetOrderById(long? orderId);
 
         protected abstract Order PlaceOrder(Order body);
     }
