@@ -41,6 +41,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public AbstractCSharpCodegen() {
         super();
 
+        // C# does not use import mapping
+        importMapping.clear();
+
         outputFolder = "generated-code" + File.separator + this.getName();
         embeddedTemplateDir = templateDir = this.getName();
 
