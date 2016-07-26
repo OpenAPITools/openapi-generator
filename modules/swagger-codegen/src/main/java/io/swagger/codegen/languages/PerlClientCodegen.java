@@ -42,6 +42,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public PerlClientCodegen() {
         super();
+
+        // clear import mapping (from default generator) as perl does not use it
+        // at the moment
+        importMapping.clear();
+
         modelPackage = File.separatorChar + "Object";
         outputFolder = "generated-code" + File.separatorChar + "perl";
         modelTemplateFiles.put("object.mustache", ".pm");

@@ -30,6 +30,10 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     public SlimFrameworkServerCodegen() {
         super();
 
+        // clear import mapping (from default generator) as slim does not use it
+        // at the moment
+        importMapping.clear();
+
         invokerPackage = camelize("SwaggerServer");
 
         //String packagePath = "SwaggerServer";

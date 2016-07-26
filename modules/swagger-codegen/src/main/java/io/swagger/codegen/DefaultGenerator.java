@@ -280,6 +280,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     try {
                         //don't generate models that have an import mapping
                         if(config.importMapping().containsKey(name)) {
+                            LOGGER.info("Model " + name + " not imported due to import mapping");
                             continue;
                         }
 

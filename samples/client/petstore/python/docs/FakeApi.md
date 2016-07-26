@@ -4,9 +4,55 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_query_parameters**](FakeApi.md#test_enum_query_parameters) | **GET** /fake | To test enum query parameters
 
+
+# **test_client_model**
+> Client test_client_model(body)
+
+To test \"client\" model
+
+### Example 
+```python
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = petstore_api.FakeApi()
+body = petstore_api.Client() # Client | client model
+
+try: 
+    # To test \"client\" model
+    api_response = api_instance.test_client_model(body)
+    pprint(api_response)
+except ApiException as e:
+    print "Exception when calling FakeApi->test_client_model: %s\n" % e
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**Client**](Client.md)| client model | 
+
+### Return type
+
+[**Client**](Client.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_parameters**
 > test_endpoint_parameters(number, double, string, byte, integer=integer, int32=int32, int64=int64, float=float, binary=binary, date=date, date_time=date_time, password=password)

@@ -18,6 +18,11 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
 
     public StaticDocCodegen() {
         super();
+
+        // clear import mapping (from default generator) as this generator does not use it
+        // at the moment
+        importMapping.clear();
+
         outputFolder = "docs";
         modelTemplateFiles.put("model.mustache", ".html");
         apiTemplateFiles.put("operation.mustache", ".html");
