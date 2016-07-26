@@ -58,22 +58,30 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	var fileName string
 	var fileBytes []byte
 {{#authMethods}}
-	// authentication ({{name}}) required
-{{#isApiKey}}{{#isKeyInHeader}}
+	// authentication '({{name}})' required
+{{#isApiKey}}
+{{#isKeyInHeader}}
 	// set key with prefix in header
 	headerParams["{{keyParamName}}"] = a.Configuration.GetAPIKeyWithPrefix("{{keyParamName}}")
-{{/isKeyInHeader}}{{#isKeyInQuery}}
-	// set key with prefix in querystring{{#hasKeyParamName}}
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+	// set key with prefix in query string
 	queryParams["{{keyParamName}}"] =  a.Configuration.GetAPIKeyWithPrefix("{{keyParamName}}")
-{{/hasKeyParamName}}{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasic}}
 	// http basic authentication required
 	if a.Configuration.Username != "" || a.Configuration.Password != ""{
 		headerParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
-	}{{/isBasic}}{{#isOAuth}}
+	}
+{{/isBasic}}
+{{#isOAuth}}
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
-	}{{/isOAuth}}{{/authMethods}}
+	}
+{{/isOAuth}}
+{{/authMethods}}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
