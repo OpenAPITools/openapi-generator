@@ -41,7 +41,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>go-get-sling</id>
+                        <id>go-get-resty</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -50,7 +50,7 @@
                             <executable>go</executable>
                             <arguments>
                                 <argument>get</argument>
-                                <argument>github.com/dghubble/sling</argument>
+                                <argument>github.com/go-resty/resty</argument>
                             </arguments>
                         </configuration>
                     </execution>

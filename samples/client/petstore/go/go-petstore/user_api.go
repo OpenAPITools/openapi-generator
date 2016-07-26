@@ -74,7 +74,6 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -136,7 +135,6 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -198,7 +196,6 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -261,7 +258,6 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -321,7 +317,6 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -385,7 +380,6 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -441,7 +435,6 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -506,7 +499,6 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]

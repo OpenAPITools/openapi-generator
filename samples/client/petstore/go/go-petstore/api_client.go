@@ -115,7 +115,7 @@ func (c *APIClient) ParameterToString(obj interface{},collectionFormat string) s
 		}
 	}
 
-	return obj.(string)
+	return fmt.Sprintf("%v", obj)
 }
 
 func prepareRequest(postBody interface{},

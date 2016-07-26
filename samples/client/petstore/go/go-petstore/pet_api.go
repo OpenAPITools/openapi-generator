@@ -76,8 +76,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
@@ -145,8 +144,7 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
@@ -213,8 +211,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
@@ -285,8 +282,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
@@ -358,11 +354,9 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (api_key) required
-
+	// authentication '(api_key)' required
 	// set key with prefix in header
 	headerParams["api_key"] = a.Configuration.GetAPIKeyWithPrefix("api_key")
-
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		headerParams[key] = a.Configuration.DefaultHeader[key]
@@ -421,8 +415,7 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
@@ -491,8 +484,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
@@ -561,8 +553,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	var postBody interface{}
 	var fileName string
 	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
 		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
