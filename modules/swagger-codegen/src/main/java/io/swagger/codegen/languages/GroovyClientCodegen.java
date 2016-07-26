@@ -12,6 +12,10 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     public GroovyClientCodegen() {
         super();
 
+        // clear import mapping (from default generator) as groovy does not use it
+        // at the moment
+        importMapping.clear();
+
         sourceFolder = projectFolder + File.separator + "groovy";
         outputFolder = "generated-code/groovy";
         modelTemplateFiles.put("model.mustache", ".groovy");

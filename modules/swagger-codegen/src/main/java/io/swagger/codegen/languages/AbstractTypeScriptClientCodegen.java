@@ -26,6 +26,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public AbstractTypeScriptClientCodegen() {
         super();
+
+        // clear import mapping (from default generator) as TS does not use it
+        // at the moment
+        importMapping.clear();
+
         supportsInheritance = true;
         setReservedWordsLowerCase(Arrays.asList(
                 // local variable names used in API methods (endpoints)
