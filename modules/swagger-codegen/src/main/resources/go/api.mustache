@@ -45,11 +45,7 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	// create path and map variables
 	path := a.Configuration.BasePath + "{{path}}"{{#pathParams}}
 	path = strings.Replace(path, "{"+"{{baseName}}"+"}", fmt.Sprintf("%v", {{paramName}}), -1){{/pathParams}}
-{{#allParams}}{{#required}}
-	// verify the required parameter '{{paramName}}' is set
-	if &{{paramName}} == nil {
-		return {{#returnType}}{{#isListContainer}}*{{/isListContainer}}new({{{returnType}}}), {{/returnType}}nil, errors.New("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
-	}{{/required}}{{/allParams}}
+
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
