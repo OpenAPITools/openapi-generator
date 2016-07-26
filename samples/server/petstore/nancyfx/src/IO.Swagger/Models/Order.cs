@@ -155,6 +155,7 @@ namespace IO.Swagger.v2.Models
 
             private void SetupDefaults()
             {
+                _Complete = false;
             }
 
             /// <summary>
