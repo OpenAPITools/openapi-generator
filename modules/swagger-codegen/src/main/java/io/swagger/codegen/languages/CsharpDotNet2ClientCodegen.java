@@ -24,6 +24,11 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     public CsharpDotNet2ClientCodegen() {
         super();
+
+        // clear import mapping (from default generator) as C# (2.0) does not use it
+        // at the moment
+        importMapping.clear();
+
         outputFolder = "generated-code" + File.separator + "CsharpDotNet2";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");

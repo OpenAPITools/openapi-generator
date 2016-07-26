@@ -1040,6 +1040,11 @@ definitions:
         type: object
         additionalProperties:
           $ref: '#/definitions/Animal'
+  List:
+    type: object
+    properties:
+      123-list:
+        type: string
   Client:
     type: object
     properties:

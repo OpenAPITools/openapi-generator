@@ -33,6 +33,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public PythonClientCodegen() {
         super();
 
+        // clear import mapping (from default generator) as python does not use it
+        // at the moment
+        importMapping.clear();
+
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separatorChar + "python";
