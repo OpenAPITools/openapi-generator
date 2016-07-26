@@ -44,7 +44,7 @@ class StoreApi(implicit val swagger: Swagger) extends ScalatraServlet
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "StoreApi"
-  override protected val applicationName: Option[String] = Some("Store")
+  override protected val applicationName: Option[String] = Some("/v2/Store")
 
   before() {
     contentType = formats("json")
@@ -53,7 +53,7 @@ class StoreApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   val deleteOrderOperation = (apiOperation[Unit]("deleteOrder")
     summary "Delete purchase order by ID"
-    parameters (pathParam[String]("orderId").description(""))
+    parameters (pathParam[Long]("orderId").description(""))
   )
 
   delete("/store/order/{orderId}", operation(deleteOrderOperation)) {
