@@ -25,7 +25,6 @@ package petstore
 import (
 	"strings"
 	"fmt"
-	"errors"
 	"net/url"
 	"os"
 "io/ioutil"
@@ -65,10 +64,6 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 	// create path and map variables
 	path := a.Configuration.BasePath + "/pet"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling PetApi->AddPet")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -133,10 +128,6 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	path := a.Configuration.BasePath + "/pet/{petId}"
 	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return nil, errors.New("Missing required parameter 'petId' when calling PetApi->DeletePet")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -200,10 +191,6 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	// create path and map variables
 	path := a.Configuration.BasePath + "/pet/findByStatus"
 
-	// verify the required parameter 'status' is set
-	if &status == nil {
-		return *new([]Pet), nil, errors.New("Missing required parameter 'status' when calling PetApi->FindPetsByStatus")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -271,10 +258,6 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	// create path and map variables
 	path := a.Configuration.BasePath + "/pet/findByTags"
 
-	// verify the required parameter 'tags' is set
-	if &tags == nil {
-		return *new([]Pet), nil, errors.New("Missing required parameter 'tags' when calling PetApi->FindPetsByTags")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -343,10 +326,6 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	path := a.Configuration.BasePath + "/pet/{petId}"
 	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return new(Pet), nil, errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -404,10 +383,6 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	// create path and map variables
 	path := a.Configuration.BasePath + "/pet"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling PetApi->UpdatePet")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -473,10 +448,6 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	path := a.Configuration.BasePath + "/pet/{petId}"
 	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return nil, errors.New("Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -542,10 +513,6 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	path := a.Configuration.BasePath + "/pet/{petId}/uploadImage"
 	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return new(ModelApiResponse), nil, errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}

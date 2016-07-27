@@ -25,7 +25,6 @@ package petstore
 import (
 	"strings"
 	"fmt"
-	"errors"
 	"net/url"
 	"encoding/json"
 )
@@ -63,10 +62,6 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 	// create path and map variables
 	path := a.Configuration.BasePath + "/user"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -124,10 +119,6 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 	// create path and map variables
 	path := a.Configuration.BasePath + "/user/createWithArray"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -185,10 +176,6 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 	// create path and map variables
 	path := a.Configuration.BasePath + "/user/createWithList"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -247,10 +234,6 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 	path := a.Configuration.BasePath + "/user/{username}"
 	path = strings.Replace(path, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return nil, errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -306,10 +289,6 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	path := a.Configuration.BasePath + "/user/{username}"
 	path = strings.Replace(path, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return new(User), nil, errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -365,14 +344,6 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	// create path and map variables
 	path := a.Configuration.BasePath + "/user/login"
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return new(string), nil, errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
-	}
-	// verify the required parameter 'password' is set
-	if &password == nil {
-		return new(string), nil, errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
@@ -484,14 +455,6 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 	path := a.Configuration.BasePath + "/user/{username}"
 	path = strings.Replace(path, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return nil, errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
-	}
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
-	}
 
 	headerParams := make(map[string]string)
 	queryParams := url.Values{}
