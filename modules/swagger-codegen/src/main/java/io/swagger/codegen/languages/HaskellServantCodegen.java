@@ -471,6 +471,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // Create newtypes for things with non-object types
         String dataOrNewtype = "data";
+        // check if it's a ModelImpl before casting 
+        if (!(mod instanceof ModelImpl)) {
+            return model;
+        }
+
         String modelType = ((ModelImpl)  mod).getType();
         if(modelType != "object" && typeMapping.containsKey(modelType)) {
             String newtype = typeMapping.get(modelType);
