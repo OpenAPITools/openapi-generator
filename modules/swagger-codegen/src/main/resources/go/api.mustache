@@ -88,14 +88,14 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
 	if collectionFormat == "multi" {
 		for _, value := range {{paramName}} {
-			queryParams.Add("{{paramName}}", value)
+			queryParams.Add("{{baseName}}", value)
 		}
 	} else {
-		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
+		queryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
 	}
 	{{/isListContainer}}
 	{{^isListContainer}}
-		queryParams.Add("{{paramName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
+		queryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
 	{{/isListContainer}}
 	{{/queryParams}}{{/hasQueryParams}}
 
