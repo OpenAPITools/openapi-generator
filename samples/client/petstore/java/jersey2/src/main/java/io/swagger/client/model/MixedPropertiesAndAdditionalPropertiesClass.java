@@ -91,6 +91,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return this;
   }
 
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
+    this.map.put(key, mapItem);
+    return this;
+  }
+
    /**
    * Get map
    * @return map
