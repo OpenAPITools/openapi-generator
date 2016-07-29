@@ -786,6 +786,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Revault Sàrl](http://revault.ch)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SCOOP Software GmbH](http://www.scoop-software.de)
+- [Skurt](http://www.skurt.com)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
