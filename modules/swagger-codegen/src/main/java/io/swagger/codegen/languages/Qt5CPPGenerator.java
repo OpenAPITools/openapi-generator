@@ -124,6 +124,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "QString");
+        typeMapping.put("ByteArray", "QByteArray");
 
         importMapping = new HashMap<String, String>();
 
@@ -138,6 +139,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         systemIncludes.add("QMap");
         systemIncludes.add("QDate");
         systemIncludes.add("QDateTime");
+        systemIncludes.add("QByteArray");
     }
 
     /**
