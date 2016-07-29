@@ -47,6 +47,11 @@ public class ArrayOfArrayOfNumberOnly   {
     return this;
   }
 
+  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
+    this.arrayArrayNumber.add(arrayArrayNumberItem);
+    return this;
+  }
+
    /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber

@@ -70,6 +70,11 @@ public class MapTest   {
     return this;
   }
 
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    this.mapMapOfString.put(key, mapMapOfStringItem);
+    return this;
+  }
+
    /**
    * Get mapMapOfString
    * @return mapMapOfString
@@ -85,6 +90,11 @@ public class MapTest   {
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
+    return this;
+  }
+
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
   }
 
