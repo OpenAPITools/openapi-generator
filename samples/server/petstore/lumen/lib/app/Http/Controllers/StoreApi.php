@@ -86,17 +86,17 @@ class StoreApi extends Controller
      *
      * Delete purchase order by ID.
      *
-     * @param String $orderId ID of the order that needs to be deleted (required)
+     * @param string $order_id ID of the order that needs to be deleted (required)
      *
      * @return Http response
      */
-    public function deleteOrder($orderId)
+    public function deleteOrder($order_id)
     {
         $input = Request::all();
 
         //path params validation
-        if ($orderId] < 1.0) {
-            throw new \InvalidArgumentException('invalid value for $orderId when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
+        if ($order_id] < 1.0) {
+            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
         }
 
 
@@ -109,20 +109,20 @@ class StoreApi extends Controller
      *
      * Find purchase order by ID.
      *
-     * @param Long $orderId ID of pet that needs to be fetched (required)
+     * @param int $order_id ID of pet that needs to be fetched (required)
      *
      * @return Http response
      */
-    public function getOrderById($orderId)
+    public function getOrderById($order_id)
     {
         $input = Request::all();
 
         //path params validation
-        if ($orderId] > 5.0) {
-            throw new \InvalidArgumentException('invalid value for $orderId when calling StoreApi.getOrderById, must be smaller than or equal to 5.0.');
+        if ($order_id] > 5.0) {
+            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.getOrderById, must be smaller than or equal to 5.0.');
         }
-        if ($orderId] < 1.0) {
-            throw new \InvalidArgumentException('invalid value for $orderId when calling StoreApi.getOrderById, must be bigger than or equal to 1.0.');
+        if ($order_id] < 1.0) {
+            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.getOrderById, must be bigger than or equal to 1.0.');
         }
 
 
