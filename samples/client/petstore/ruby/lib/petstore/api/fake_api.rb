@@ -157,31 +157,31 @@ module Petstore
 
       # verify the required parameter 'byte' is set
       fail ArgumentError, "Missing the required parameter 'byte' when calling FakeApi.test_endpoint_parameters" if byte.nil?
-      if opts[:'integer'] > 100.0
+      if !opts[:'integer'].nil? && opts[:'integer'] > 100.0
         fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.0.'
       end
 
-      if opts[:'integer'] < 10.0
+      if !opts[:'integer'].nil? && opts[:'integer'] < 10.0
         fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.0.'
       end
 
-      if opts[:'int32'] > 200.0
+      if !opts[:'int32'].nil? && opts[:'int32'] > 200.0
         fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.0.'
       end
 
-      if opts[:'int32'] < 20.0
+      if !opts[:'int32'].nil? && opts[:'int32'] < 20.0
         fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.0.'
       end
 
-      if opts[:'float'] > 987.6
+      if !opts[:'float'].nil? && opts[:'float'] > 987.6
         fail ArgumentError, 'invalid value for "opts[:"float"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 987.6.'
       end
 
-      if opts[:'password'].to_s.length > 64
+      if !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
         fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be smaller than or equal to 64.'
       end
 
-      if opts[:'password'].to_s.length < 10
+      if !opts[:'password'].nil? && opts[:'password'].to_s.length < 10
         fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be great than or equal to 10.'
       end
 
