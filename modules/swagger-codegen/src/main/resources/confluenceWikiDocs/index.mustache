@@ -1,0 +1,94 @@
+h1. {{{appName}}} {{{appDescription}}}
+
+{{#version}}*Version:* {{{version}}}{{/version}}
+
+----
+
+{toc:printable=true|style=square|minLevel=2|maxLevel=3|type=list|outline=false|include=.*}
+
+h2. Endpoints
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+    h3. {{nickname}}
+    {status:colour=Yellow|title={{httpMethod}}|subtle=false}
+    {code}
+    {{httpMethod}} {{path}}
+    {code}
+    *Summary:* {{summary}}
+    *Description:* {{notes}}
+
+
+    h4. Parameters
+    {{#hasPathParams}}
+        h5. Path Parameters
+        ||Name||Description||Required||Default||Pattern||
+        {{#pathParams}}{{>param}}
+        {{/pathParams}}
+    {{/hasPathParams}}
+
+    {{#hasBodyParam}}
+        h5. Body Parameter
+        ||Name||Description||Required||Default||Pattern||
+        {{#bodyParams}}{{>param}}
+        {{/bodyParams}}
+    {{/hasBodyParam}}
+
+    {{#hasHeaderParam}}
+        h5. Header Parameters
+        ||Name||Description||Required||Default||Pattern||
+        {{#headerParam}}{{>param}}
+        {{/headerParam}}
+    {{/hasHeaderParam}}
+
+    {{#hasQueryParams}}
+        h5. Query Parameters
+        ||Name||Description||Required||Default||Pattern||
+        {{#queryParams}}{{>param}}
+        {{/queryParams}}
+    {{/hasQueryParams}}
+
+
+
+
+    h4. Responses
+    {{#responses}}
+        *Status Code:* {{code}}
+        *Message:*     {{message}}
+        {code:title=Response Type}
+{{{dataType}}}
+        {code}
+        See [#models]
+
+        {{#hasExamples}}
+            {{#examples}}
+                {code:title=Example {{{contentType}}} |collapse=true }
+                {{{example}}}
+{code}
+            {{/examples}}
+        {{/hasExamples}}
+
+
+        {code:title=Response Schema |collapse=true}
+{{{jsonSchema}}}
+        {code}
+        {{#examples}}
+            {code:title=Example {{{contentType}}} |collapse=true }
+{{{example}}}
+            {code}
+        {{/examples}}
+    {{/responses}}
+    ----
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+h2. Models
+
+{{#models}}
+    {{#model}}
+        h3. {{classname}}
+        ||Field Name||Required||Type||Description||
+        {{#vars}} |{{name}} |{{#isNotRequired}}(x){{/isNotRequired}} |{{datatype}} |{{description}} |
+        {{/vars}}
+    {{/model}}
+{{/models}}
