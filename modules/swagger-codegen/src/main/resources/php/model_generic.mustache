@@ -128,27 +128,27 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
-        if (strlen($this->container['{{name}}']) > {{maxLength}}) {
+        if ({{^required}}!is_null(${{$this->container['{{name}}']}}) && {{/required}}(strlen($this->container['{{name}}']) > {{maxLength}})) {
             $invalid_properties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
         {{/maxLength}}
         {{#minLength}}
-        if (strlen($this->container['{{name}}']) < {{minLength}}) {
+        if ({{^required}}!is_null(${{$this->container['{{name}}']}}) && {{/required}}(strlen($this->container['{{name}}']) < {{minLength}})) {
             $invalid_properties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
         {{/minLength}}
         {{#maximum}}
-        if ($this->container['{{name}}'] > {{maximum}}) {
+        if ({{^required}}!is_null(${{$this->container['{{name}}']}}) && {{/required}}($this->container['{{name}}'] > {{maximum}})) {
             $invalid_properties[] = "invalid value for '{{name}}', must be smaller than or equal to {{maximum}}.";
         }
         {{/maximum}}
         {{#minimum}}
-        if ($this->container['{{name}}'] < {{minimum}}) {
+        if ({{^required}}!is_null(${{$this->container['{{name}}']}}) && {{/required}}($this->container['{{name}}'] < {{minimum}})) {
             $invalid_properties[] = "invalid value for '{{name}}', must be bigger than or equal to {{minimum}}.";
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
+        if ({{^required}}!is_null(${{$this->container['{{name}}']}}) && {{/required}}!preg_match("{{pattern}}", $this->container['{{name}}'])) {
             $invalid_properties[] = "invalid value for '{{name}}', must be conform to the pattern {{pattern}}.";
         }
         {{/pattern}}

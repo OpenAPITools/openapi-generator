@@ -236,10 +236,10 @@ class FakeApi
         if ($number === null) {
             throw new \InvalidArgumentException('Missing the required parameter $number when calling testEndpointParameters');
         }
-        if ($number > 543.2) {
+        if (($number > 543.2)) {
             throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 543.2.');
         }
-        if ($number < 32.1) {
+        if (($number < 32.1)) {
             throw new \InvalidArgumentException('invalid value for "$number" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 32.1.');
         }
 
@@ -247,10 +247,10 @@ class FakeApi
         if ($double === null) {
             throw new \InvalidArgumentException('Missing the required parameter $double when calling testEndpointParameters');
         }
-        if ($double > 123.4) {
+        if (($double > 123.4)) {
             throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 123.4.');
         }
-        if ($double < 67.8) {
+        if (($double < 67.8)) {
             throw new \InvalidArgumentException('invalid value for "$double" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 67.8.');
         }
 
@@ -266,28 +266,28 @@ class FakeApi
         if ($byte === null) {
             throw new \InvalidArgumentException('Missing the required parameter $byte when calling testEndpointParameters');
         }
-        if ($integer > 100.0) {
+        if (!is_null($integer) && ($integer > 100.0)) {
             throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.0.');
         }
-        if ($integer < 10.0) {
+        if (!is_null($integer) && ($integer < 10.0)) {
             throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.0.');
         }
 
-        if ($int32 > 200.0) {
+        if (!is_null($int32) && ($int32 > 200.0)) {
             throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.0.');
         }
-        if ($int32 < 20.0) {
+        if (!is_null($int32) && ($int32 < 20.0)) {
             throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.0.');
         }
 
-        if ($float > 987.6) {
+        if (!is_null($float) && ($float > 987.6)) {
             throw new \InvalidArgumentException('invalid value for "$float" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 987.6.');
         }
 
-        if (strlen($password) > 64) {
+        if (!is_null($password) && (strlen($password) > 64)) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
         }
-        if (strlen($password) < 10) {
+        if (!is_null($password) && (strlen($password) < 10)) {
             throw new \InvalidArgumentException('invalid length for "$password" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
 
