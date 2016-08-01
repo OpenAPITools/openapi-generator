@@ -129,27 +129,27 @@ use \{{invokerPackage}}\ObjectSerializer;
         {{/required}}
         {{#hasValidation}}
         {{#maxLength}}
-        if (strlen(${{paramName}}) > {{maxLength}}) {
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(strlen(${{paramName}}) > {{maxLength}})) {
             throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
         }
         {{/maxLength}}
         {{#minLength}}
-        if (strlen(${{paramName}}) < {{minLength}}) {
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(strlen(${{paramName}}) < {{minLength}})) {
             throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
         {{#maximum}}
-        if (${{paramName}} > {{maximum}}) {
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} > {{maximum}})) {
             throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
         }
         {{/maximum}}
         {{#minimum}}
-        if (${{paramName}} < {{minimum}}) {
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} < {{minimum}})) {
             throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", ${{paramName}})) {
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}!preg_match("{{pattern}}", ${{paramName}})) {
             throw new \InvalidArgumentException('invalid value for "{{paramName}}" when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
         }
         {{/pattern}}
