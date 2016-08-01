@@ -200,16 +200,16 @@ class FormatTest implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = array();
-        if (!is_null(${{$this->container['integer']}}) && ($this->container['integer'] > 100.0)) {
+        if (!is_null($this->container['integer']) && ($this->container['integer'] > 100.0)) {
             $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.0.";
         }
-        if (!is_null(${{$this->container['integer']}}) && ($this->container['integer'] < 10.0)) {
+        if (!is_null($this->container['integer']) && ($this->container['integer'] < 10.0)) {
             $invalid_properties[] = "invalid value for 'integer', must be bigger than or equal to 10.0.";
         }
-        if (!is_null(${{$this->container['int32']}}) && ($this->container['int32'] > 200.0)) {
+        if (!is_null($this->container['int32']) && ($this->container['int32'] > 200.0)) {
             $invalid_properties[] = "invalid value for 'int32', must be smaller than or equal to 200.0.";
         }
-        if (!is_null(${{$this->container['int32']}}) && ($this->container['int32'] < 20.0)) {
+        if (!is_null($this->container['int32']) && ($this->container['int32'] < 20.0)) {
             $invalid_properties[] = "invalid value for 'int32', must be bigger than or equal to 20.0.";
         }
         if ($this->container['number'] === null) {
@@ -221,19 +221,19 @@ class FormatTest implements ArrayAccess
         if (($this->container['number'] < 32.1)) {
             $invalid_properties[] = "invalid value for 'number', must be bigger than or equal to 32.1.";
         }
-        if (!is_null(${{$this->container['float']}}) && ($this->container['float'] > 987.6)) {
+        if (!is_null($this->container['float']) && ($this->container['float'] > 987.6)) {
             $invalid_properties[] = "invalid value for 'float', must be smaller than or equal to 987.6.";
         }
-        if (!is_null(${{$this->container['float']}}) && ($this->container['float'] < 54.3)) {
+        if (!is_null($this->container['float']) && ($this->container['float'] < 54.3)) {
             $invalid_properties[] = "invalid value for 'float', must be bigger than or equal to 54.3.";
         }
-        if (!is_null(${{$this->container['double']}}) && ($this->container['double'] > 123.4)) {
+        if (!is_null($this->container['double']) && ($this->container['double'] > 123.4)) {
             $invalid_properties[] = "invalid value for 'double', must be smaller than or equal to 123.4.";
         }
-        if (!is_null(${{$this->container['double']}}) && ($this->container['double'] < 67.8)) {
+        if (!is_null($this->container['double']) && ($this->container['double'] < 67.8)) {
             $invalid_properties[] = "invalid value for 'double', must be bigger than or equal to 67.8.";
         }
-        if (!is_null(${{$this->container['string']}}) && !preg_match("/[a-z]/i", $this->container['string'])) {
+        if (!is_null($this->container['string']) && !preg_match("/[a-z]/i", $this->container['string'])) {
             $invalid_properties[] = "invalid value for 'string', must be conform to the pattern /[a-z]/i.";
         }
         if ($this->container['byte'] === null) {
