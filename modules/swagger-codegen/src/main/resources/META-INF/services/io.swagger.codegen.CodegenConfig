@@ -35,6 +35,7 @@ io.swagger.codegen.languages.SlimFrameworkServerCodegen
 io.swagger.codegen.languages.SpringCodegen
 io.swagger.codegen.languages.StaticDocCodegen
 io.swagger.codegen.languages.StaticHtmlGenerator
+io.swagger.codegen.languages.StaticHtml2Generator
 io.swagger.codegen.languages.SwaggerGenerator
 io.swagger.codegen.languages.SwaggerYamlGenerator
 io.swagger.codegen.languages.SwiftCodegen
