@@ -1,0 +1,24 @@
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+// Configure HTTP basic authorization: {{{name}}}
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');{{/isBasic}}{{#isApiKey}}
+// Configure API key authorization: {{{name}}}
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'Bearer');{{/isApiKey}}{{#isOAuth}}
+// Configure OAuth2 access token for authorization: {{{name}}}
+{{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');{{/isOAuth}}{{/authMethods}}
+{{/hasAuthMethods}}
+
+$api_instance = new {{invokerPackage}}\Api\{{classname}}();
+{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+{{/allParams}}
+
+try {
+    {{#returnType}}$result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    print_r($result);{{/returnType}}
+} catch (Exception $e) {
+    echo 'Exception when calling {{classname}}->{{operationId}}: ', $e->getMessage(), PHP_EOL;
+}

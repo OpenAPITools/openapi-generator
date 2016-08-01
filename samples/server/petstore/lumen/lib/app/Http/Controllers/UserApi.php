@@ -29,7 +29,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
 
-class PetApi extends Controller
+class UserApi extends Controller
 {
     /**
      * Constructor
@@ -39,14 +39,14 @@ class PetApi extends Controller
     }
 
     /**
-     * Operation addPet
+     * Operation createUser
      *
-     * Add a new pet to the store.
+     * Create user.
      *
      *
      * @return Http response
      */
-    public function addPet()
+    public function createUser()
     {
         $input = Request::all();
 
@@ -55,22 +55,22 @@ class PetApi extends Controller
 
         //not path params validation
         if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling addPet');
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUser');
         }
         $body = $input['body'];
 
 
-        return response('How about implementing addPet as a POST method ?');
+        return response('How about implementing createUser as a POST method ?');
     }
     /**
-     * Operation updatePet
+     * Operation createUsersWithArrayInput
      *
-     * Update an existing pet.
+     * Creates list of users with given input array.
      *
      *
      * @return Http response
      */
-    public function updatePet()
+    public function createUsersWithArrayInput()
     {
         $input = Request::all();
 
@@ -79,22 +79,22 @@ class PetApi extends Controller
 
         //not path params validation
         if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePet');
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithArrayInput');
         }
         $body = $input['body'];
 
 
-        return response('How about implementing updatePet as a PUT method ?');
+        return response('How about implementing createUsersWithArrayInput as a POST method ?');
     }
     /**
-     * Operation findPetsByStatus
+     * Operation createUsersWithListInput
      *
-     * Finds Pets by status.
+     * Creates list of users with given input array.
      *
      *
      * @return Http response
      */
-    public function findPetsByStatus()
+    public function createUsersWithListInput()
     {
         $input = Request::all();
 
@@ -102,23 +102,23 @@ class PetApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['status'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $status when calling findPetsByStatus');
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithListInput');
         }
-        $status = $input['status'];
+        $body = $input['body'];
 
 
-        return response('How about implementing findPetsByStatus as a GET method ?');
+        return response('How about implementing createUsersWithListInput as a POST method ?');
     }
     /**
-     * Operation findPetsByTags
+     * Operation loginUser
      *
-     * Finds Pets by tags.
+     * Logs user into the system.
      *
      *
      * @return Http response
      */
-    public function findPetsByTags()
+    public function loginUser()
     {
         $input = Request::all();
 
@@ -126,24 +126,28 @@ class PetApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['tags'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $tags when calling findPetsByTags');
+        if (!isset($input['username'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $username when calling loginUser');
         }
-        $tags = $input['tags'];
+        $username = $input['username'];
+
+        if (!isset($input['password'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $password when calling loginUser');
+        }
+        $password = $input['password'];
 
 
-        return response('How about implementing findPetsByTags as a GET method ?');
+        return response('How about implementing loginUser as a GET method ?');
     }
     /**
-     * Operation deletePet
+     * Operation logoutUser
      *
-     * Deletes a pet.
+     * Logs out current logged in user session.
      *
-     * @param Long $petId Pet id to delete (required)
      *
      * @return Http response
      */
-    public function deletePet($petId)
+    public function logoutUser()
     {
         $input = Request::all();
 
@@ -152,18 +156,18 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing deletePet as a DELETE method ?');
+        return response('How about implementing logoutUser as a GET method ?');
     }
     /**
-     * Operation getPetById
+     * Operation deleteUser
      *
-     * Find pet by ID.
+     * Delete user.
      *
-     * @param Long $petId ID of pet to return (required)
+     * @param string $username The name that needs to be deleted (required)
      *
      * @return Http response
      */
-    public function getPetById($petId)
+    public function deleteUser($username)
     {
         $input = Request::all();
 
@@ -172,18 +176,18 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing getPetById as a GET method ?');
+        return response('How about implementing deleteUser as a DELETE method ?');
     }
     /**
-     * Operation updatePetWithForm
+     * Operation getUserByName
      *
-     * Updates a pet in the store with form data.
+     * Get user by user name.
      *
-     * @param Long $petId ID of pet that needs to be updated (required)
+     * @param string $username The name that needs to be fetched. Use user1 for testing.  (required)
      *
      * @return Http response
      */
-    public function updatePetWithForm($petId)
+    public function getUserByName($username)
     {
         $input = Request::all();
 
@@ -192,18 +196,18 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing updatePetWithForm as a POST method ?');
+        return response('How about implementing getUserByName as a GET method ?');
     }
     /**
-     * Operation uploadFile
+     * Operation updateUser
      *
-     * uploads an image.
+     * Updated user.
      *
-     * @param Long $petId ID of pet to update (required)
+     * @param string $username name that need to be deleted (required)
      *
      * @return Http response
      */
-    public function uploadFile($petId)
+    public function updateUser($username)
     {
         $input = Request::all();
 
@@ -212,6 +216,6 @@ class PetApi extends Controller
 
         //not path params validation
 
-        return response('How about implementing uploadFile as a POST method ?');
+        return response('How about implementing updateUser as a PUT method ?');
     }
 }
