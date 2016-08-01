@@ -879,6 +879,8 @@ Here is a list of template creators:
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
    * Ruby on Rails 5: @zlx 
+ * Documentation
+   * HTML Doc 2: @jhitchcock
 
 ## How to join the core team
 
