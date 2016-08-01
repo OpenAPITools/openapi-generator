@@ -881,6 +881,7 @@ Here is a list of template creators:
    * Ruby on Rails 5: @zlx 
  * Documentation
    * HTML Doc 2: @jhitchcock
+   * Confluence Wiki: @jhitchcock
 
 ## How to join the core team
 
