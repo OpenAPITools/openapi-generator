@@ -140,7 +140,7 @@ class FakeApi extends Controller
 
         $date = $input['date'];
 
-        $dateTime = $input['dateTime'];
+        $date_time = $input['date_time'];
 
         if (strlen($input['password']) > 64) {
             throw new \InvalidArgumentException('invalid length for $password when calling FakeApi.testEndpointParameters, must be smaller than or equal to 64.');
@@ -169,11 +169,11 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        $enumQueryString = $input['enumQueryString'];
+        $enum_query_string = $input['enum_query_string'];
 
-        $enumQueryInteger = $input['enumQueryInteger'];
+        $enum_query_integer = $input['enum_query_integer'];
 
-        $enumQueryDouble = $input['enumQueryDouble'];
+        $enum_query_double = $input['enum_query_double'];
 
 
         return response('How about implementing testEnumQueryParameters as a GET method ?');
