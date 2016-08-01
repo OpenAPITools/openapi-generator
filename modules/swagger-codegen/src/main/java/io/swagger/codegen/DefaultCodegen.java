@@ -2403,7 +2403,7 @@ public class DefaultCodegen {
                     for(Map.Entry<String, String> scopeEntry : oauth2Definition.getScopes().entrySet()) {
                         Map<String, Object> scope = new HashMap<String, Object>();
                         scope.put("scope", scopeEntry.getKey());
-                        scope.put("description", scopeEntry.getValue());
+                        scope.put("description", escapeText(scopeEntry.getValue()));
 
                         count += 1;
                         if (count < numScopes) {
