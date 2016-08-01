@@ -320,4 +320,14 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         return removeNonNameElementToCamelCase(name, "[-:;#]");
     }
 
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
 }
