@@ -1,5 +1,14 @@
 # swagger-petstore-spring-cloud
 
+Spring cloud (Feign) client can be generated using the below command :
+```shell
+swagger-codegen-cli generate \
+   -l spring \
+   -i http://petstore.swagger.io/v2/swagger.json \
+   -DhideGenerationTimestamp=true   
+```
+example is [here](https://github.com/swagger-api/swagger-codegen/blob/master/bin/spring-cloud-feign-petstore.sh)
+
 ## Requirements
 
 Building the API client library requires [Maven](https://maven.apache.org/) to be installed.

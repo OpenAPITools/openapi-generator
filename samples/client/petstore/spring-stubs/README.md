@@ -1,5 +1,14 @@
-
 # Swagger generated API stub
+
+Spring stub can be generated using the below command :
+```shell
+swagger-codegen-cli generate \
+   -l spring \
+   -i http://petstore.swagger.io/v2/swagger.json \
+   -DinterfaceOnly=true,singleContentTypes=true,hideGenerationTimestamp=true
+```
+example is [here](https://github.com/swagger-api/swagger-codegen/blob/master/bin/spring-stubs.sh)
+
 
 Spring Framework stub
 
