@@ -9,48 +9,30 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * Tag
+ * HasOnlyReadOnly
  */
 
-public class Tag   {
-  private Long id = null;
+public class HasOnlyReadOnly   {
+  private String bar = null;
 
-  private String name = null;
+  private String foo = null;
 
-  public Tag id(Long id) {
-    this.id = id;
-    return this;
+   /**
+   * Get bar
+   * @return bar
+  **/
+  @ApiModelProperty(value = "")
+  public String getBar() {
+    return bar;
   }
 
    /**
-   * Get id
-   * @return id
+   * Get foo
+   * @return foo
   **/
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Tag name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public String getFoo() {
+    return foo;
   }
 
 
@@ -62,23 +44,23 @@ public class Tag   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(this.id, tag.id) &&
-        Objects.equals(this.name, tag.name);
+    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(bar, foo);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class HasOnlyReadOnly {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -9,48 +9,28 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * Tag
+ * SpecialModelName
  */
 
-public class Tag   {
-  private Long id = null;
+public class SpecialModelName   {
+  private Long specialPropertyName = null;
 
-  private String name = null;
-
-  public Tag id(Long id) {
-    this.id = id;
+  public SpecialModelName specialPropertyName(Long specialPropertyName) {
+    this.specialPropertyName = specialPropertyName;
     return this;
   }
 
    /**
-   * Get id
-   * @return id
+   * Get specialPropertyName
+   * @return specialPropertyName
   **/
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public Long getSpecialPropertyName() {
+    return specialPropertyName;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Tag name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public void setSpecialPropertyName(Long specialPropertyName) {
+    this.specialPropertyName = specialPropertyName;
   }
 
 
@@ -62,23 +42,21 @@ public class Tag   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(this.id, tag.id) &&
-        Objects.equals(this.name, tag.name);
+    SpecialModelName specialModelName = (SpecialModelName) o;
+    return Objects.equals(this.specialPropertyName, specialModelName.specialPropertyName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(specialPropertyName);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class SpecialModelName {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    specialPropertyName: ").append(toIndentedString(specialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();
   }

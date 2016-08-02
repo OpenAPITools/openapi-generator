@@ -9,48 +9,39 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * Tag
+ * ReadOnlyFirst
  */
 
-public class Tag   {
-  private Long id = null;
+public class ReadOnlyFirst   {
+  private String bar = null;
 
-  private String name = null;
+  private String baz = null;
 
-  public Tag id(Long id) {
-    this.id = id;
+   /**
+   * Get bar
+   * @return bar
+  **/
+  @ApiModelProperty(value = "")
+  public String getBar() {
+    return bar;
+  }
+
+  public ReadOnlyFirst baz(String baz) {
+    this.baz = baz;
     return this;
   }
 
    /**
-   * Get id
-   * @return id
+   * Get baz
+   * @return baz
   **/
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public String getBaz() {
+    return baz;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Tag name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public void setBaz(String baz) {
+    this.baz = baz;
   }
 
 
@@ -62,23 +53,23 @@ public class Tag   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(this.id, tag.id) &&
-        Objects.equals(this.name, tag.name);
+    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
+    return Objects.equals(this.bar, readOnlyFirst.bar) &&
+        Objects.equals(this.baz, readOnlyFirst.baz);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(bar, baz);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class ReadOnlyFirst {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");
     return sb.toString();
   }
