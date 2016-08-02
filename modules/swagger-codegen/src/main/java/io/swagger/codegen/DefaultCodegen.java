@@ -1695,7 +1695,7 @@ public class DefaultCodegen {
 
         // set default value for variable with inner enum
         if (property.defaultValue != null) {
-            property.defaultValue = property.defaultValue.replace(property.items.baseType, toEnumName(property.items));
+            property.defaultValue = property.defaultValue.replace(baseItem.baseType, toEnumName(baseItem));
         }
     }
 

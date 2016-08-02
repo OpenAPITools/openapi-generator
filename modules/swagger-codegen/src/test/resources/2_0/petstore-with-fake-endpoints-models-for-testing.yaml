@@ -1158,15 +1158,16 @@ definitions:
           enum:
             - fish
             - crab
-      array_array_enum:
-        type: array
-        items:
-          type: array
-          items:
-            type: string
-            enum:
-              - Cat
-              - Dog
+      # comment out the following as 2d array of enum is not supported at the moment
+      #array_array_enum:
+      #  type: array
+      #  items:
+      #    type: array
+      #    items:
+      #      type: string
+      #      enum:
+      #        - Cat
+      #        - Dog
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
