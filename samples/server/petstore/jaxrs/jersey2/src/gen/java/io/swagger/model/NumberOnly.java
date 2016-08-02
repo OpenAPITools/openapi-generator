@@ -4,53 +4,34 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 
 
 
 
 /**
- * Tag
+ * NumberOnly
  */
 
-public class Tag   {
-  private Long id = null;
+public class NumberOnly   {
+  private BigDecimal justNumber = null;
 
-  private String name = null;
-
-  public Tag id(Long id) {
-    this.id = id;
+  public NumberOnly justNumber(BigDecimal justNumber) {
+    this.justNumber = justNumber;
     return this;
   }
 
    /**
-   * Get id
-   * @return id
+   * Get justNumber
+   * @return justNumber
   **/
   @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  public BigDecimal getJustNumber() {
+    return justNumber;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Tag name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public void setJustNumber(BigDecimal justNumber) {
+    this.justNumber = justNumber;
   }
 
 
@@ -62,23 +43,21 @@ public class Tag   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Tag tag = (Tag) o;
-    return Objects.equals(this.id, tag.id) &&
-        Objects.equals(this.name, tag.name);
+    NumberOnly numberOnly = (NumberOnly) o;
+    return Objects.equals(this.justNumber, numberOnly.justNumber);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(justNumber);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Tag {\n");
+    sb.append("class NumberOnly {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
     sb.append("}");
     return sb.toString();
   }
