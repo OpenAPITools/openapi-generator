@@ -1,7 +1,6 @@
-#import "{{classPrefix}}DefaultConfiguration.h"
-#import "{{classPrefix}}BasicAuthTokenProvider.h"
+#import "{{classPrefix}}Configuration.h"
 
-@interface {{classPrefix}}DefaultConfiguration ()
+@interface {{classPrefix}}Configuration ()
 
 @property (nonatomic, strong) NSMutableDictionary *mutableDefaultHeaders;
 @property (nonatomic, strong) NSMutableDictionary *mutableApiKey;
@@ -9,12 +8,12 @@
 
 @end
 
-@implementation {{classPrefix}}DefaultConfiguration
+@implementation {{classPrefix}}Configuration
 
 #pragma mark - Singleton Methods
 
 + (instancetype) sharedConfig {
-    static {{classPrefix}}DefaultConfiguration *shardConfig = nil;
+    static {{classPrefix}}Configuration *shardConfig = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shardConfig = [[self alloc] init];
@@ -27,16 +26,17 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        _host = @"{{basePath}}";
-        _username = @"";
-        _password = @"";
-        _accessToken= @"";
-        _verifySSL = YES;
-        _mutableApiKey = [NSMutableDictionary dictionary];
-        _mutableApiKeyPrefix = [NSMutableDictionary dictionary];
-        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
-        {{#httpUserAgent}}_mutableDefaultHeaders[@"User-Agent"] = @"{{httpUserAgent}}"{{/httpUserAgent}};
-        _logger = [{{classPrefix}}Logger sharedLogger];
+        self.apiClient = nil;
+        self.host = @"{{basePath}}";
+        self.username = @"";
+        self.password = @"";
+        self.accessToken= @"";
+        self.verifySSL = YES;
+        self.mutableApiKey = [NSMutableDictionary dictionary];
+        self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders[@"User-Agent"] = {{#httpUserAgent}}@"{{httpUserAgent}}"{{/httpUserAgent}}{{^httpUserAgent}}[NSString stringWithFormat:@"Swagger-Codegen/{{version}}/objc (%@; iOS %@; Scale/%0.2f)",[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]]{{/httpUserAgent}};
+        self.logger = [{{classPrefix}}Logger sharedLogger];
     }
     return self;
 }
@@ -58,9 +58,16 @@
 }
 
 - (NSString *) getBasicAuthToken {
+    // return empty string if username and password are empty
+    if (self.username.length == 0 && self.password.length == 0){
+        return  @"";
+    }
 
-    NSString *basicAuthToken = [{{classPrefix}}BasicAuthTokenProvider createBasicAuthTokenWithUsername:self.username password:self.password];
-    return basicAuthToken;
+    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", self.username, self.password];
+    NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
+    basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
+
+    return basicAuthCredentials;
 }
 
 - (NSString *) getAccessToken {
