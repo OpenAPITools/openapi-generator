@@ -1334,7 +1334,7 @@ public class DefaultCodegen {
 
         property.name = toVarName(name);
         property.baseName = name;
-        property.nameInCamelCase = camelize(name, false);
+        property.nameInCamelCase = camelize(property.name, false);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
         property.getter = "get" + getterAndSetterCapitalize(name);
@@ -1606,11 +1606,14 @@ public class DefaultCodegen {
             property.items = innerProperty;
             // inner item is Enum
             if (isPropertyInnerMostEnum(property)) {
+                // isEnum is set to true when the type is an enum
+                // or the inner type of an array/map is an enum
                 property.isEnum = true;
                 // update datatypeWithEnum and default value for array
                 // e.g. List<string> => List<StatusEnum>
                 updateDataTypeWithEnumForArray(property);
-
+                // set allowable values to enum values (including array/map of enum)
+                property.allowableValues = getInnerEnumAllowableValues(property);
             }
         }
     }
@@ -1633,10 +1636,14 @@ public class DefaultCodegen {
             property.items = innerProperty;
             // inner item is Enum
             if (isPropertyInnerMostEnum(property)) {
+                // isEnum is set to true when the type is an enum
+                // or the inner type of an array/map is an enum
                 property.isEnum = true;
                 // update datatypeWithEnum and default value for map
                 // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
                 updateDataTypeWithEnumForMap(property);
+                // set allowable values to enum values (including array/map of enum)
+                property.allowableValues = getInnerEnumAllowableValues(property);
             }
         }
 
@@ -1656,6 +1663,17 @@ public class DefaultCodegen {
 
         return currentProperty.isEnum;
     }
+
+    protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
+        CodegenProperty currentProperty = property;
+        while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
+                    || Boolean.TRUE.equals(currentProperty.isListContainer))) {
+            currentProperty = currentProperty.items;
+        }
+
+        return currentProperty.allowableValues;
+    }
+
 
     /**
      * Update datatypeWithEnum for array container

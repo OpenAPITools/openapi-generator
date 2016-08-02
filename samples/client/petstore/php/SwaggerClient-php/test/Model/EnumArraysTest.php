@@ -1,6 +1,6 @@
 <?php
 /**
- * ModelListTest
+ * EnumArraysTest
  *
  * PHP version 5
  *
@@ -42,17 +42,17 @@
 namespace Swagger\Client;
 
 /**
- * ModelListTest Class Doc Comment
+ * EnumArraysTest Class Doc Comment
  *
  * @category    Class */
-// * @description ModelList
+// * @description EnumArrays
 /**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class ModelListTest extends \PHPUnit_Framework_TestCase
+class EnumArraysTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -88,17 +88,25 @@ class ModelListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "ModelList"
+     * Test "EnumArrays"
      */
-    public function testModelList()
+    public function testEnumArrays()
     {
 
     }
 
     /**
-     * Test attribute "_123_list"
+     * Test attribute "array_enum"
      */
-    public function testProperty123List()
+    public function testPropertyArrayEnum()
+    {
+
+    }
+
+    /**
+     * Test attribute "array_array_enum"
+     */
+    public function testPropertyArrayArrayEnum()
     {
 
     }
