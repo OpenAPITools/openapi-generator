@@ -66,6 +66,7 @@ class EnumArrays implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
+        'just_enum' => 'string',
         'array_enum' => 'string[]',
         'array_array_enum' => 'string[][]'
     );
@@ -80,6 +81,7 @@ class EnumArrays implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
+        'just_enum' => 'just_enum',
         'array_enum' => 'array_enum',
         'array_array_enum' => 'array_array_enum'
     );
@@ -94,6 +96,7 @@ class EnumArrays implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
+        'just_enum' => 'setJustEnum',
         'array_enum' => 'setArrayEnum',
         'array_array_enum' => 'setArrayArrayEnum'
     );
@@ -108,6 +111,7 @@ class EnumArrays implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
+        'just_enum' => 'getJustEnum',
         'array_enum' => 'getArrayEnum',
         'array_array_enum' => 'getArrayArrayEnum'
     );
@@ -117,12 +121,26 @@ class EnumArrays implements ArrayAccess
         return self::$getters;
     }
 
-    const ARRAY_ENUM[]_FISH = 'fish';
-    const ARRAY_ENUM[]_CRAB = 'crab';
-    const ARRAY_ARRAY_ENUM[][]_CAT = 'Cat';
-    const ARRAY_ARRAY_ENUM[][]_DOG = 'Dog';
+    const JUST_ENUM_BIRD = 'bird';
+    const JUST_ENUM_EAGLE = 'eagle';
+    const ARRAY_ENUM_FISH = 'fish';
+    const ARRAY_ENUM_CRAB = 'crab';
+    const ARRAY_ARRAY_ENUM_CAT = 'Cat';
+    const ARRAY_ARRAY_ENUM_DOG = 'Dog';
     
 
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getJustEnumAllowableValues()
+    {
+        return [
+            self::JUST_ENUM_BIRD,
+            self::JUST_ENUM_EAGLE,
+        ];
+    }
     
     /**
      * Gets allowable values of the enum
@@ -131,8 +149,8 @@ class EnumArrays implements ArrayAccess
     public function getArrayEnumAllowableValues()
     {
         return [
-            self::ARRAY_ENUM[]_FISH,
-            self::ARRAY_ENUM[]_CRAB,
+            self::ARRAY_ENUM_FISH,
+            self::ARRAY_ENUM_CRAB,
         ];
     }
     
@@ -143,8 +161,8 @@ class EnumArrays implements ArrayAccess
     public function getArrayArrayEnumAllowableValues()
     {
         return [
-            self::ARRAY_ARRAY_ENUM[][]_CAT,
-            self::ARRAY_ARRAY_ENUM[][]_DOG,
+            self::ARRAY_ARRAY_ENUM_CAT,
+            self::ARRAY_ARRAY_ENUM_DOG,
         ];
     }
     
@@ -161,6 +179,7 @@ class EnumArrays implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['just_enum'] = isset($data['just_enum']) ? $data['just_enum'] : null;
         $this->container['array_enum'] = isset($data['array_enum']) ? $data['array_enum'] : null;
         $this->container['array_array_enum'] = isset($data['array_array_enum']) ? $data['array_array_enum'] : null;
     }
@@ -173,6 +192,11 @@ class EnumArrays implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = array();
+        $allowed_values = array("bird", "eagle");
+        if (!in_array($this->container['just_enum'], $allowed_values)) {
+            $invalid_properties[] = "invalid value for 'just_enum', must be one of #{allowed_values}.";
+        }
+
         return $invalid_properties;
     }
 
@@ -184,9 +208,38 @@ class EnumArrays implements ArrayAccess
      */
     public function valid()
     {
+        $allowed_values = array("bird", "eagle");
+        if (!in_array($this->container['just_enum'], $allowed_values)) {
+            return false;
+        }
         return true;
     }
 
+
+    /**
+     * Gets just_enum
+     * @return string
+     */
+    public function getJustEnum()
+    {
+        return $this->container['just_enum'];
+    }
+
+    /**
+     * Sets just_enum
+     * @param string $just_enum
+     * @return $this
+     */
+    public function setJustEnum($just_enum)
+    {
+        $allowed_values = array('bird', 'eagle');
+        if (!in_array($just_enum, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'just_enum', must be one of 'bird', 'eagle'");
+        }
+        $this->container['just_enum'] = $just_enum;
+
+        return $this;
+    }
 
     /**
      * Gets array_enum

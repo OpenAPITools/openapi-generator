@@ -117,8 +117,8 @@ class MapTest implements ArrayAccess
         return self::$getters;
     }
 
-    const map[string,string]_UPPER = 'UPPER';
-    const map[string,string]_LOWER = 'lower';
+    const MAP_OF_ENUM_STRING_UPPER = 'UPPER';
+    const MAP_OF_ENUM_STRING_LOWER = 'lower';
     
 
     
@@ -129,8 +129,8 @@ class MapTest implements ArrayAccess
     public function getMapOfEnumStringAllowableValues()
     {
         return [
-            self::map[string,string]_UPPER,
-            self::map[string,string]_LOWER,
+            self::MAP_OF_ENUM_STRING_UPPER,
+            self::MAP_OF_ENUM_STRING_LOWER,
         ];
     }
     

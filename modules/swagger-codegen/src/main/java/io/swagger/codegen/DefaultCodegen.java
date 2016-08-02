@@ -1559,6 +1559,7 @@ public class DefaultCodegen {
         // this can cause issues for clients which don't support enums
         if (property.isEnum) {
             property.datatypeWithEnum = toEnumName(property);
+            property.enumName = toEnumName(property);
         } else {
             property.datatypeWithEnum = property.datatype;
         }
@@ -1688,6 +1689,10 @@ public class DefaultCodegen {
         // set both datatype and datetypeWithEnum as only the inner type is enum
         property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, toEnumName(baseItem));
 
+        // naming the enum with respect to the language enum naming convention
+        // e.g. remove [], {} from array/map of enum
+        property.enumName = toEnumName(property);
+
         // set default value for variable with inner enum
         if (property.defaultValue != null) {
             property.defaultValue = property.defaultValue.replace(property.items.baseType, toEnumName(property.items));
@@ -1706,6 +1711,10 @@ public class DefaultCodegen {
         }
         // set both datatype and datetypeWithEnum as only the inner type is enum
         property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
+
+        // naming the enum with respect to the language enum naming convention
+        // e.g. remove [], {} from array/map of enum
+        property.enumName = toEnumName(property);
 
         // set default value for variable with inner enum
         if (property.defaultValue != null) {
