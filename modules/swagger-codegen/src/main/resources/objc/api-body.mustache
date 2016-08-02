@@ -7,7 +7,7 @@
 
 @interface {{classname}} ()
 
-@property (nonatomic, strong, readwrite) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -16,20 +16,42 @@
 NSString* k{{classname}}ErrorDomain = @"{{classname}}ErrorDomain";
 NSInteger k{{classname}}MissingParamErrorCode = 234513;
 
-@synthesize apiSessionManager = _apiSessionManager;
+@synthesize apiClient = _apiClient;
 
 #pragma mark - Initialize methods
 
--(instancetype) initWithApiSessionManager:({{classPrefix}}ApiSessionManager *)apiSessionManager {
+- (instancetype) init {
     self = [super init];
     if (self) {
-        _apiSessionManager = apiSessionManager;
+        {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
+        if (config.apiClient == nil) {
+            config.apiClient = [[{{classPrefix}}ApiClient alloc] init];
+        }
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+- (id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
+    self = [super init];
+    if (self) {
+        _apiClient = apiClient;
         _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
+
++ (instancetype)sharedAPI {
+    static {{classname}} *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
+}
 
 -(NSString*) defaultHeaderForKey:(NSString*)key {
     return self.defaultHeaders[key];
@@ -43,6 +65,10 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     [self.defaultHeaders setValue:value forKey:key];
 }
 
+-(NSUInteger) requestQueueSize {
+    return [{{classPrefix}}ApiClient requestQueueSize];
+}
+
 #pragma mark - Api Methods
 
 {{#operation}}
@@ -53,7 +79,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
 ///
 /// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 ///
--(NSURLSessionTask*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+-(NSNumber*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
     {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
     {{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) handler {
     {{#allParams}}
@@ -92,7 +118,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
         {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
     }
     {{/queryParams}}
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiSessionManager.configuration.defaultHeaders];
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     {{#headerParams}}
     if ({{paramName}} != nil) {
@@ -100,7 +126,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     }
     {{/headerParams}}
     // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiSessionManager.sanitizer selectHeaderAccept:@[{{#produces}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[{{#produces}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}]];
     if(acceptHeader.length > 0) {
         headerParams[@"Accept"] = acceptHeader;
     }
@@ -109,7 +135,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [self.apiSessionManager.sanitizer selectHeaderContentType:@[{{#consumes}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[{{#consumes}}@"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}]];
 
     // Authentication setting
     NSArray *authSettings = @[{{#authMethods}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
@@ -133,23 +159,24 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     {{/formParams}}
     {{/bodyParam}}
 
-    return [self.apiSessionManager requestWithPath: resourcePath
-                                            method: @"{{httpMethod}}"
-                                        pathParams: pathParams
-                                       queryParams: queryParams
-                                        formParams: formParams
-                                             files: localVarFiles
-                                              body: bodyParam
-                                      headerParams: headerParams
-                                      authSettings: authSettings
-                                requestContentType: requestContentType
-                               responseContentType: responseContentType
-                                      responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
-                                   completionBlock: ^(id data, NSError *error) {
-                                        if(handler) {
-                                            handler({{#returnType}}({{{ returnType }}})data, {{/returnType}}error);
-                                        }
-                                   }];
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"{{httpMethod}}"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: {{^returnType}}nil{{/returnType}}{{#returnType}}@"{{{ returnType }}}"{{/returnType}}
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler({{#returnType}}({{{ returnType }}})data, {{/returnType}}error);
+                                }
+                           }
+          ];
 }
 
 {{/operation}}

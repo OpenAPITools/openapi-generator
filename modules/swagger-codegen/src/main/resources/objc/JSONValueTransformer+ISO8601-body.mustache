@@ -1,4 +1,3 @@
-#import <ISO8601/NSDate+ISO8601.h>
 #import "JSONValueTransformer+ISO8601.h"
 
 @implementation JSONValueTransformer (ISO8601)
