@@ -1,6 +1,6 @@
 <?php
 /**
- * MapTest
+ * EnumArrays
  *
  * PHP version 5
  *
@@ -44,7 +44,7 @@ namespace Swagger\Client\Model;
 use \ArrayAccess;
 
 /**
- * MapTest Class Doc Comment
+ * EnumArrays Class Doc Comment
  *
  * @category    Class */
 /** 
@@ -53,21 +53,21 @@ use \ArrayAccess;
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class MapTest implements ArrayAccess
+class EnumArrays implements ArrayAccess
 {
     /**
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'MapTest';
+    protected static $swaggerModelName = 'EnumArrays';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        'map_map_of_string' => 'map[string,map[string,string]]',
-        'map_of_enum_string' => 'map[string,string]'
+        'array_enum' => 'string[]',
+        'array_array_enum' => 'string[][]'
     );
 
     public static function swaggerTypes()
@@ -80,8 +80,8 @@ class MapTest implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        'map_map_of_string' => 'map_map_of_string',
-        'map_of_enum_string' => 'map_of_enum_string'
+        'array_enum' => 'array_enum',
+        'array_array_enum' => 'array_array_enum'
     );
 
     public static function attributeMap()
@@ -94,8 +94,8 @@ class MapTest implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        'map_map_of_string' => 'setMapMapOfString',
-        'map_of_enum_string' => 'setMapOfEnumString'
+        'array_enum' => 'setArrayEnum',
+        'array_array_enum' => 'setArrayArrayEnum'
     );
 
     public static function setters()
@@ -108,8 +108,8 @@ class MapTest implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        'map_map_of_string' => 'getMapMapOfString',
-        'map_of_enum_string' => 'getMapOfEnumString'
+        'array_enum' => 'getArrayEnum',
+        'array_array_enum' => 'getArrayArrayEnum'
     );
 
     public static function getters()
@@ -117,8 +117,10 @@ class MapTest implements ArrayAccess
         return self::$getters;
     }
 
-    const map[string,string]_UPPER = 'UPPER';
-    const map[string,string]_LOWER = 'lower';
+    const ARRAY_ENUM[]_FISH = 'fish';
+    const ARRAY_ENUM[]_CRAB = 'crab';
+    const ARRAY_ARRAY_ENUM[][]_CAT = 'Cat';
+    const ARRAY_ARRAY_ENUM[][]_DOG = 'Dog';
     
 
     
@@ -126,11 +128,23 @@ class MapTest implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getMapOfEnumStringAllowableValues()
+    public function getArrayEnumAllowableValues()
     {
         return [
-            self::map[string,string]_UPPER,
-            self::map[string,string]_LOWER,
+            self::ARRAY_ENUM[]_FISH,
+            self::ARRAY_ENUM[]_CRAB,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public function getArrayArrayEnumAllowableValues()
+    {
+        return [
+            self::ARRAY_ARRAY_ENUM[][]_CAT,
+            self::ARRAY_ARRAY_ENUM[][]_DOG,
         ];
     }
     
@@ -147,8 +161,8 @@ class MapTest implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['map_map_of_string'] = isset($data['map_map_of_string']) ? $data['map_map_of_string'] : null;
-        $this->container['map_of_enum_string'] = isset($data['map_of_enum_string']) ? $data['map_of_enum_string'] : null;
+        $this->container['array_enum'] = isset($data['array_enum']) ? $data['array_enum'] : null;
+        $this->container['array_array_enum'] = isset($data['array_array_enum']) ? $data['array_array_enum'] : null;
     }
 
     /**
@@ -175,47 +189,51 @@ class MapTest implements ArrayAccess
 
 
     /**
-     * Gets map_map_of_string
-     * @return map[string,map[string,string]]
+     * Gets array_enum
+     * @return string[]
      */
-    public function getMapMapOfString()
+    public function getArrayEnum()
     {
-        return $this->container['map_map_of_string'];
+        return $this->container['array_enum'];
     }
 
     /**
-     * Sets map_map_of_string
-     * @param map[string,map[string,string]] $map_map_of_string
+     * Sets array_enum
+     * @param string[] $array_enum
      * @return $this
      */
-    public function setMapMapOfString($map_map_of_string)
+    public function setArrayEnum($array_enum)
     {
-        $this->container['map_map_of_string'] = $map_map_of_string;
+        $allowed_values = array('fish', 'crab');
+        if (!in_array($array_enum, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'array_enum', must be one of 'fish', 'crab'");
+        }
+        $this->container['array_enum'] = $array_enum;
 
         return $this;
     }
 
     /**
-     * Gets map_of_enum_string
-     * @return map[string,string]
+     * Gets array_array_enum
+     * @return string[][]
      */
-    public function getMapOfEnumString()
+    public function getArrayArrayEnum()
     {
-        return $this->container['map_of_enum_string'];
+        return $this->container['array_array_enum'];
     }
 
     /**
-     * Sets map_of_enum_string
-     * @param map[string,string] $map_of_enum_string
+     * Sets array_array_enum
+     * @param string[][] $array_array_enum
      * @return $this
      */
-    public function setMapOfEnumString($map_of_enum_string)
+    public function setArrayArrayEnum($array_array_enum)
     {
-        $allowed_values = array('UPPER', 'lower');
-        if (!in_array($map_of_enum_string, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'map_of_enum_string', must be one of 'UPPER', 'lower'");
+        $allowed_values = array('Cat', 'Dog');
+        if (!in_array($array_array_enum, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'array_array_enum', must be one of 'Cat', 'Dog'");
         }
-        $this->container['map_of_enum_string'] = $map_of_enum_string;
+        $this->container['array_array_enum'] = $array_array_enum;
 
         return $this;
     }

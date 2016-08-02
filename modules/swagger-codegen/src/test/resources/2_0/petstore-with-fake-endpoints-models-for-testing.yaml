@@ -1143,6 +1143,25 @@ definitions:
           type: array
           items:
             type: number
+  EnumArrays:
+    type: object
+    properties:
+      array_enum:
+        type: array
+        items:
+          type: string
+          enum:
+            - fish
+            - crab
+      array_array_enum:
+        type: array
+        items:
+          type: array
+          items:
+            type: string
+            enum:
+              - Cat
+              - Dog
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
