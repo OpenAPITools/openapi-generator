@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**just_enum** | **string** |  | [optional] 
 **array_enum** | **string[]** |  | [optional] 
 **array_array_enum** | [**string[][]**](array.md) |  | [optional] 
 
