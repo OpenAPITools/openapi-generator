@@ -22,6 +22,15 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 @EnableConfigurationProperties
 public class ClientConfiguration {
 
+  @Value("${ swaggerPetstore.security.apiKey.key:}")
+  private String apiKeyKey;
+
+  @Bean
+  @ConditionalOnProperty(name = "swaggerPetstore.security.apiKey.key")
+  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
+    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+  }
+
   @Bean
   @ConditionalOnProperty("swaggerPetstore.security.petstoreAuth.client-id")
   public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor() {
@@ -35,15 +44,6 @@ public class ClientConfiguration {
     ImplicitResourceDetails details = new ImplicitResourceDetails();
     details.setUserAuthorizationUri("http://petstore.swagger.io/api/oauth/dialog");
     return details;
-  }
-
-  @Value("${ swaggerPetstore.security.apiKey.key:}")
-  private String apiKeyKey;
-
-  @Bean
-  @ConditionalOnProperty(name = "swaggerPetstore.security.apiKey.key")
-  public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
-    return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
   }
 
 }

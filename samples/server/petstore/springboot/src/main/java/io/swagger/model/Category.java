@@ -8,50 +8,54 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-
+/**
+ * Category
+ */
 
 public class Category   {
-  
   private Long id = null;
+
   private String name = null;
 
-  /**
-   **/
   public Category id(Long id) {
     this.id = id;
     return this;
   }
 
-  
+   /**
+   * Get id
+   * @return id
+  **/
   @ApiModelProperty(value = "")
-  @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
 
-  /**
-   **/
   public Category name(String name) {
     this.name = name;
     return this;
   }
 
-  
+   /**
+   * Get name
+   * @return name
+  **/
   @ApiModelProperty(value = "")
-  @JsonProperty("name")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -59,8 +63,8 @@ public class Category   {
       return false;
     }
     Category category = (Category) o;
-    return Objects.equals(id, category.id) &&
-        Objects.equals(name, category.name);
+    return Objects.equals(this.id, category.id) &&
+        Objects.equals(this.name, category.name);
   }
 
   @Override
@@ -83,7 +87,7 @@ public class Category   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
