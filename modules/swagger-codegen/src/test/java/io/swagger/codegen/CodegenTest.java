@@ -111,9 +111,8 @@ public class CodegenTest {
         final CodegenParameter statusParam = op.queryParams.get(0);
         Assert.assertEquals(statusParam.datatypeWithEnum, "List");
         Assert.assertEquals(statusParam.baseType, "String");
-        // currently there's no way to tell if the inner type of a list is a enum
-        //Assert.assertTrue(statusParam.isEnum);
-        //Assert.assertEquals(statusParam._enum.size(), 3);
+        Assert.assertTrue(statusParam.isEnum);
+        Assert.assertEquals(((List)statusParam.allowableValues.get("values")).size(), 3);
     }
 
 

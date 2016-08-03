@@ -98,7 +98,7 @@ class ModelListTest extends \PHPUnit_Framework_TestCase
     /**
      * Test attribute "_123_list"
      */
-    public function testProperty123-list()
+    public function testProperty123List()
     {
 
     }

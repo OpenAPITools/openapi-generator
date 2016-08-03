@@ -196,14 +196,17 @@ class EnumTest implements ArrayAccess
         if (!in_array($this->container['enum_string'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'enum_string', must be one of #{allowed_values}.";
         }
+
         $allowed_values = array("1", "-1");
         if (!in_array($this->container['enum_integer'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'enum_integer', must be one of #{allowed_values}.";
         }
+
         $allowed_values = array("1.1", "-1.2");
         if (!in_array($this->container['enum_number'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'enum_number', must be one of #{allowed_values}.";
         }
+
         return $invalid_properties;
     }
 
