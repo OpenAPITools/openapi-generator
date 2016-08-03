@@ -1143,6 +1143,31 @@ definitions:
           type: array
           items:
             type: number
+  EnumArrays:
+    type: object
+    properties:
+      just_enum:
+        type: string
+        enum:
+          - bird
+          - eagle
+      array_enum:
+        type: array
+        items:
+          type: string
+          enum:
+            - fish
+            - crab
+      # comment out the following as 2d array of enum is not supported at the moment
+      #array_array_enum:
+      #  type: array
+      #  items:
+      #    type: array
+      #    items:
+      #      type: string
+      #      enum:
+      #        - Cat
+      #        - Dog
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

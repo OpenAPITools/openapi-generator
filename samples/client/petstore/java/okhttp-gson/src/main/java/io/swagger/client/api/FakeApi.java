@@ -40,8 +40,8 @@ import java.io.IOException;
 
 import io.swagger.client.model.Client;
 import org.joda.time.LocalDate;
-import java.math.BigDecimal;
 import org.joda.time.DateTime;
+import java.math.BigDecimal;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

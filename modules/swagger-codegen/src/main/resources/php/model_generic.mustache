@@ -62,7 +62,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
     }
 
-    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{datatypeWithEnum}}_{{{name}}} = {{{value}}};
+    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{enumName}}_{{{name}}} = {{{value}}};
     {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
 
     {{#vars}}{{#isEnum}}
@@ -73,7 +73,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     public function {{getter}}AllowableValues()
     {
         return [
-            {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
+            {{#allowableValues}}{{#enumVars}}self::{{enumName}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
         ];
     }
@@ -121,36 +121,44 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/required}}
         {{#isEnum}}
+        {{^isContainer}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
             $invalid_properties[] = "invalid value for '{{name}}', must be one of #{allowed_values}.";
         }
+
+        {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
         if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(strlen($this->container['{{name}}']) > {{maxLength}})) {
             $invalid_properties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
+
         {{/maxLength}}
         {{#minLength}}
         if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(strlen($this->container['{{name}}']) < {{minLength}})) {
             $invalid_properties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
+
         {{/minLength}}
         {{#maximum}}
         if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] > {{maximum}})) {
             $invalid_properties[] = "invalid value for '{{name}}', must be smaller than or equal to {{maximum}}.";
         }
+
         {{/maximum}}
         {{#minimum}}
         if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] < {{minimum}})) {
             $invalid_properties[] = "invalid value for '{{name}}', must be bigger than or equal to {{minimum}}.";
         }
+
         {{/minimum}}
         {{#pattern}}
         if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}!preg_match("{{pattern}}", $this->container['{{name}}'])) {
             $invalid_properties[] = "invalid value for '{{name}}', must be conform to the pattern {{pattern}}.";
         }
+
         {{/pattern}}
         {{/hasValidation}}
         {{/vars}}
@@ -172,10 +180,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/required}}
         {{#isEnum}}
+        {{^isContainer}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
             return false;
         }
+        {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
