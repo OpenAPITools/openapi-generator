@@ -729,6 +729,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        // for symbol, e.g. $, #
+        if (getSymbolName(value) != null) {
+            return getSymbolName(value).toUpperCase();
+        }
+
         // number
         if ("Integer".equals(datatype) || "Long".equals(datatype) ||
             "Float".equals(datatype) || "Double".equals(datatype)) {

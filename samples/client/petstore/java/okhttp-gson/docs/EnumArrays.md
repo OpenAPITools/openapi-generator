@@ -4,16 +4,16 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**justEnum** | [**JustEnumEnum**](#JustEnumEnum) |  |  [optional]
+**justSymbol** | [**JustSymbolEnum**](#JustSymbolEnum) |  |  [optional]
 **arrayEnum** | [**List&lt;ArrayEnumEnum&gt;**](#List&lt;ArrayEnumEnum&gt;) |  |  [optional]
 
 
-<a name="JustEnumEnum"></a>
-## Enum: JustEnumEnum
+<a name="JustSymbolEnum"></a>
+## Enum: JustSymbolEnum
 Name | Value
 ---- | -----
-BIRD | &quot;bird&quot;
-EAGLE | &quot;eagle&quot;
+GREATER_THAN_OR_EQUAL_TO | &quot;&gt;&#x3D;&quot;
+DOLLAR | &quot;$&quot;
 
 
 <a name="List<ArrayEnumEnum>"></a>

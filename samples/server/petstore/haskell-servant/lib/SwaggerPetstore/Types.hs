@@ -112,7 +112,7 @@ removeFieldLabelPrefix forParsing prefix =
     }
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
-    specialChars = [("#", "'Hash"), ("!", "'Exclamation"), ("&", "'Ampersand"), ("@", "'At"), ("$", "'Dollar"), ("%", "'Percent"), ("*", "'Star"), ("+", "'Plus"), ("-", "'Dash"), (":", "'Colon"), ("^", "'Caret"), ("|", "'Pipe"), (">", "'GreaterThan"), ("=", "'Equal"), ("<", "'LessThan")]
+    specialChars = [("#", "'Hash"), ("!", "'Exclamation"), ("&", "'Ampersand"), ("@", "'At"), ("$", "'Dollar"), ("%", "'Percent"), ("*", "'Star"), ("+", "'Plus"), (">=", "'Greater_Than_Or_Equal_To"), ("-", "'Dash"), ("<=", "'Less_Than_Or_Equal_To"), ("!=", "'Greater_Than_Or_Equal_To"), (":", "'Colon"), ("^", "'Caret"), ("|", "'Pipe"), (">", "'GreaterThan"), ("=", "'Equal"), ("<", "'LessThan")]
     mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
     replacer = if forParsing then flip T.replace else T.replace
 
