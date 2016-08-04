@@ -1146,11 +1146,11 @@ definitions:
   EnumArrays:
     type: object
     properties:
-      just_enum:
+      just_symbol:
         type: string
         enum:
-          - bird
-          - eagle
+          - ">="
+          - "$" 
       array_enum:
         type: array
         items:
