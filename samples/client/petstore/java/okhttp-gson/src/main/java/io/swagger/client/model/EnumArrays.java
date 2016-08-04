@@ -39,18 +39,18 @@ import java.util.List;
 
 public class EnumArrays   {
   /**
-   * Gets or Sets justEnum
+   * Gets or Sets justSymbol
    */
-  public enum JustEnumEnum {
-    @SerializedName("bird")
-    BIRD("bird"),
+  public enum JustSymbolEnum {
+    @SerializedName(">=")
+    GREATER_THAN_OR_EQUAL_TO(">="),
     
-    @SerializedName("eagle")
-    EAGLE("eagle");
+    @SerializedName("$")
+    DOLLAR("$");
 
     private String value;
 
-    JustEnumEnum(String value) {
+    JustSymbolEnum(String value) {
       this.value = value;
     }
 
@@ -60,8 +60,8 @@ public class EnumArrays   {
     }
   }
 
-  @SerializedName("just_enum")
-  private JustEnumEnum justEnum = null;
+  @SerializedName("just_symbol")
+  private JustSymbolEnum justSymbol = null;
 
   /**
    * Gets or Sets arrayEnum
@@ -88,22 +88,22 @@ public class EnumArrays   {
   @SerializedName("array_enum")
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
-  public EnumArrays justEnum(JustEnumEnum justEnum) {
-    this.justEnum = justEnum;
+  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = justSymbol;
     return this;
   }
 
    /**
-   * Get justEnum
-   * @return justEnum
+   * Get justSymbol
+   * @return justSymbol
   **/
   @ApiModelProperty(example = "null", value = "")
-  public JustEnumEnum getJustEnum() {
-    return justEnum;
+  public JustSymbolEnum getJustSymbol() {
+    return justSymbol;
   }
 
-  public void setJustEnum(JustEnumEnum justEnum) {
-    this.justEnum = justEnum;
+  public void setJustSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = justSymbol;
   }
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
@@ -139,13 +139,13 @@ public class EnumArrays   {
       return false;
     }
     EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(this.justEnum, enumArrays.justEnum) &&
+    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
         Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(justEnum, arrayEnum);
+    return Objects.hash(justSymbol, arrayEnum);
   }
 
   @Override
@@ -153,7 +153,7 @@ public class EnumArrays   {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumArrays {\n");
     
-    sb.append("    justEnum: ").append(toIndentedString(justEnum)).append("\n");
+    sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");
     return sb.toString();
