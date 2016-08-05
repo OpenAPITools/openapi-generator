@@ -347,10 +347,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             List<Map<String, String>> swiftEnums = new ArrayList<Map<String, String>>();
             List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
             
-            for (String value : values) {
+            for (Object value : values) {
                 Map<String, String> map = new HashMap<String, String>();
-                map.put("enum", toSwiftyEnumName(value));
-                map.put("raw", value);
+                map.put("enum", toSwiftyEnumName(String.valueOf(value)));
+                map.put("raw", String.valueOf(value));
                 swiftEnums.add(map);
             }
             codegenProperty.allowableValues.put("values", swiftEnums);

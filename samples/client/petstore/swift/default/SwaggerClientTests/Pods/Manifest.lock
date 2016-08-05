@@ -8,7 +8,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   PetstoreClient:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
@@ -16,4 +16,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 84472aca2a88b7f7ed9fcd63e9f5fdb5ad4aab94
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.0.0
