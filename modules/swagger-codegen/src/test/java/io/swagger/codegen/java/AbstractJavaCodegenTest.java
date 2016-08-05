@@ -27,7 +27,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void toEnumVarNameShouldNotShortenUnderScore() throws Exception {
-        Assert.assertEquals("_", fakeJavaCodegen.toEnumVarName("_", "String"));
+        Assert.assertEquals("UNDERSCORE", fakeJavaCodegen.toEnumVarName("_", "String"));
         Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("__", "String"));
         Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("_,.", "String"));
     }

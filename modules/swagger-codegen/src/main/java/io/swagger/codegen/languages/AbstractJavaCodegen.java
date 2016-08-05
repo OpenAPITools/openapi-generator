@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -244,10 +245,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
+        importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
         importMapping.put("Objects", "java.util.Objects");
         importMapping.put("StringUtil", invokerPackage + ".StringUtil");
+        // import JsonCreator if JsonProperty is imported
+        // used later in recursive import in postProcessingModels
+        importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
         if(additionalProperties.containsKey(DATE_LIBRARY)) {
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
@@ -638,6 +643,23 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // recursivly add import for mapping one type to multipe imports
+        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
+        if (recursiveImports == null)
+            return objs;
+
+        ListIterator<Map<String, String>> listIterator = recursiveImports.listIterator();
+        while (listIterator.hasNext()) {
+            String _import = listIterator.next().get("import");
+            // if the import package happens to be found in the importMapping (key)
+            // add the corresponding import package to the list
+            if (importMapping.containsKey(_import)) {
+                Map<String, String> newImportMap= new HashMap<String, String>();
+                newImportMap.put("import", importMapping.get(_import));
+                listIterator.add(newImportMap);
+            }
+        }
+
         return postProcessModelsEnum(objs);
     }
 

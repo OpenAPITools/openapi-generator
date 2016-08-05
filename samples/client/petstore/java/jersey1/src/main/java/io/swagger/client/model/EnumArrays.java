@@ -30,30 +30,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**
- * MapTest
+ * EnumArrays
  */
 
-public class MapTest   {
-  @JsonProperty("map_map_of_string")
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
-
+public class EnumArrays   {
   /**
-   * Gets or Sets inner
+   * Gets or Sets justSymbol
    */
-  public enum InnerEnum {
-    UPPER("UPPER"),
+  public enum JustSymbolEnum {
+    GREATER_THAN_OR_EQUAL_TO(">="),
     
-    LOWER("lower");
+    DOLLAR("$");
 
     private String value;
 
-    InnerEnum(String value) {
+    JustSymbolEnum(String value) {
       this.value = value;
     }
 
@@ -63,8 +59,8 @@ public class MapTest   {
     }
 
     @JsonCreator
-    public static InnerEnum fromValue(String text) {
-      for (InnerEnum b : InnerEnum.values()) {
+    public static JustSymbolEnum fromValue(String text) {
+      for (JustSymbolEnum b : JustSymbolEnum.values()) {
           if (String.valueOf(b.value).equals(text)) {
               return b;
           }
@@ -73,53 +69,81 @@ public class MapTest   {
     }
   }
 
-  @JsonProperty("map_of_enum_string")
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
+  @JsonProperty("just_symbol")
+  private JustSymbolEnum justSymbol = null;
 
-  public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    this.mapMapOfString = mapMapOfString;
-    return this;
+  /**
+   * Gets or Sets arrayEnum
+   */
+  public enum ArrayEnumEnum {
+    FISH("fish"),
+    
+    CRAB("crab");
+
+    private String value;
+
+    ArrayEnumEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ArrayEnumEnum fromValue(String text) {
+      for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
+          if (String.valueOf(b.value).equals(text)) {
+              return b;
+          }
+      }
+      return null;
+    }
   }
 
-  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
-    this.mapMapOfString.put(key, mapMapOfStringItem);
+  @JsonProperty("array_enum")
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+
+  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = justSymbol;
     return this;
   }
 
    /**
-   * Get mapMapOfString
-   * @return mapMapOfString
+   * Get justSymbol
+   * @return justSymbol
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Map<String, Map<String, String>> getMapMapOfString() {
-    return mapMapOfString;
+  public JustSymbolEnum getJustSymbol() {
+    return justSymbol;
   }
 
-  public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    this.mapMapOfString = mapMapOfString;
+  public void setJustSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = justSymbol;
   }
 
-  public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    this.mapOfEnumString = mapOfEnumString;
+  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+    this.arrayEnum = arrayEnum;
     return this;
   }
 
-  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
-    this.mapOfEnumString.put(key, mapOfEnumStringItem);
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    this.arrayEnum.add(arrayEnumItem);
     return this;
   }
 
    /**
-   * Get mapOfEnumString
-   * @return mapOfEnumString
+   * Get arrayEnum
+   * @return arrayEnum
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Map<String, InnerEnum> getMapOfEnumString() {
-    return mapOfEnumString;
+  public List<ArrayEnumEnum> getArrayEnum() {
+    return arrayEnum;
   }
 
-  public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    this.mapOfEnumString = mapOfEnumString;
+  public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
+    this.arrayEnum = arrayEnum;
   }
 
 
@@ -131,23 +155,23 @@ public class MapTest   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MapTest mapTest = (MapTest) o;
-    return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString);
+    EnumArrays enumArrays = (EnumArrays) o;
+    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapMapOfString, mapOfEnumString);
+    return Objects.hash(justSymbol, arrayEnum);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MapTest {\n");
+    sb.append("class EnumArrays {\n");
     
-    sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
-    sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
+    sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
+    sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");
     return sb.toString();
   }
