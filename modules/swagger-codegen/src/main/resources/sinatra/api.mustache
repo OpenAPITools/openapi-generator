@@ -18,7 +18,7 @@ MyApp.add_route('{{httpMethod}}', '{{basePathWithoutHost}}{{path}}', {
       "dataType" => "{{dataType}}",
       "paramType" => "query",
       {{#collectionFormat}}"collectionFormat" => "{{collectionFormat}}",{{/collectionFormat}}
-      "allowableValues" => "{{allowableValues}}",
+      "allowableValues" => "{{^isContainer}}{{{allowableValues.values}}}{{/isContainer}}",
       {{#defaultValue}}"defaultValue" => "{{{defaultValue}}}"{{/defaultValue}}
     },
     {{/queryParams}}
