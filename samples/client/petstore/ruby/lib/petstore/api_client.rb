@@ -39,7 +39,7 @@ module Petstore
     attr_accessor :default_headers
 
     # Initializes the ApiClient
-    # @option config [Configuration] Configuraiton for initializing the object, default to Configuration.default
+    # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
       @user_agent = "Swagger-Codegen/#{VERSION}/ruby"
