@@ -12,7 +12,13 @@ namespace IO.Swagger.v2.Modules
     /// <summary>
     /// Status values that need to be considered for filter
     /// </summary>
-    public enum FindPetsByStatusList&lt;StatusEnum&gt; {  };
+    public enum FindPetsByStatusStatusEnum
+    {
+        available, 
+        pending, 
+        sold
+    };
+
 
     /// <summary>
     /// Module processing requests of Pet domain.
@@ -46,7 +52,7 @@ namespace IO.Swagger.v2.Modules
 
             Get["/pet/findByStatus"] = parameters =>
             {
-                var status = Parameters.ValueOf<FindPetsByStatusList&lt;StatusEnum&gt;?>(parameters, Context.Request, "status", ParameterType.Query);
+                var status = Parameters.ValueOf<FindPetsByStatusStatusEnum?>(parameters, Context.Request, "status", ParameterType.Query);
                 Preconditions.IsNotNull(status, "Required parameter: 'status' is missing at 'FindPetsByStatus'");
                 
                 return service.FindPetsByStatus(Context, status);
@@ -128,7 +134,7 @@ namespace IO.Swagger.v2.Modules
         /// <param name="context">Context of request</param>
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns>List&lt;Pet&gt;</returns>
-        List<Pet> FindPetsByStatus(NancyContext context, FindPetsByStatusList&lt;StatusEnum&gt;? status);
+        List<Pet> FindPetsByStatus(NancyContext context, FindPetsByStatusStatusEnum? status);
 
         /// <summary>
         /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -190,7 +196,7 @@ namespace IO.Swagger.v2.Modules
             DeletePet(petId, apiKey);
         }
 
-        public virtual List<Pet> FindPetsByStatus(NancyContext context, FindPetsByStatusList&lt;StatusEnum&gt;? status)
+        public virtual List<Pet> FindPetsByStatus(NancyContext context, FindPetsByStatusStatusEnum? status)
         {
             return FindPetsByStatus(status);
         }
@@ -224,7 +230,7 @@ namespace IO.Swagger.v2.Modules
 
         protected abstract void DeletePet(long? petId, string apiKey);
 
-        protected abstract List<Pet> FindPetsByStatus(FindPetsByStatusList&lt;StatusEnum&gt;? status);
+        protected abstract List<Pet> FindPetsByStatus(FindPetsByStatusStatusEnum? status);
 
         protected abstract List<Pet> FindPetsByTags(List<string> tags);
 
