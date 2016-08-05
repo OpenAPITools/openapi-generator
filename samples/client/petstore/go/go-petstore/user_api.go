@@ -23,10 +23,11 @@
 package petstore
 
 import (
-	"strings"
-	"fmt"
+	"errors"
 	"net/url"
 	"encoding/json"
+	"fmt"
+	"strings"
 )
 
 type UserApi struct {

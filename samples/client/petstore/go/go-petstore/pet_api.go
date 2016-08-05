@@ -23,12 +23,13 @@
 package petstore
 
 import (
-	"strings"
-	"fmt"
+	"errors"
 	"net/url"
 	"os"
-"io/ioutil"
-"encoding/json"
+	"io/ioutil"
+	"encoding/json"
+	"fmt"
+	"strings"
 )
 
 type PetApi struct {
