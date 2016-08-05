@@ -804,10 +804,12 @@ public class DefaultCodegen {
         specialCharReplacements.put(":", "Colon");
         specialCharReplacements.put(">", "Greater_Than");
         specialCharReplacements.put("<", "Less_Than");
+        specialCharReplacements.put(".", "Period");
+        specialCharReplacements.put("_", "Underscore");
 
         specialCharReplacements.put("<=", "Less_Than_Or_Equal_To");
         specialCharReplacements.put(">=", "Greater_Than_Or_Equal_To");
-        specialCharReplacements.put("!=", "Greater_Than_Or_Equal_To");
+        specialCharReplacements.put("!=", "Not_Equal");
     }
 
     /**
