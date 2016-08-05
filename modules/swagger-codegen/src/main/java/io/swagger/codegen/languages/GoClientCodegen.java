@@ -382,12 +382,20 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         // if the return type is not primitive, import encoding/json
         for (CodegenOperation operation : operations) {
             if(operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
-                Map<String, String> customImport = new HashMap<String, String>();
-                customImport.put("import", "encoding/json");
-                imports.add(customImport);
+                imports.add(createMapping("import", "encoding/json"));
                 break; //just need to import once
             }
         }
+
+        // this will only import "strings" "fmt" if there are items in pathParams
+        for (CodegenOperation operation : operations) {
+            if(operation.pathParams != null && operation.pathParams.size() > 0) {
+                imports.add(createMapping("import", "fmt"));
+                imports.add(createMapping("import", "strings"));
+                break; //just need to import once
+            }
+        }
+
 
         // recursivly add import for mapping one type to multipe imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
@@ -400,9 +408,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             // if the import package happens to be found in the importMapping (key)
             // add the corresponding import package to the list
             if (importMapping.containsKey(_import)) {
-                Map<String, String> newImportMap= new HashMap<String, String>();
-                newImportMap.put("import", importMapping.get(_import));
-                listIterator.add(newImportMap);
+                listIterator.add(createMapping("import", importMapping.get(_import)));
             }
         }
 
@@ -432,9 +438,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             // if the import package happens to be found in the importMapping (key)
             // add the corresponding import package to the list
             if (importMapping.containsKey(_import)) {
-                Map<String, String> newImportMap= new HashMap<String, String>();
-                newImportMap.put("import", importMapping.get(_import));
-                listIterator.add(newImportMap);
+                listIterator.add(createMapping("import", importMapping.get(_import)));
             }
         }
 
@@ -464,5 +468,12 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    public Map<String, String> createMapping(String key, String value){
+        Map<String, String> customImport = new HashMap<String, String>();
+        customImport.put(key, value);
+
+        return customImport;
     }
 }

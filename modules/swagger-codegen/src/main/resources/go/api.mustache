@@ -3,10 +3,9 @@ package {{packageName}}
 
 {{#operations}}
 import (
-	"strings"
-	"fmt"
+	"errors"
 	"net/url"
-	{{#imports}}"{{import}}"
+{{#imports}}	"{{import}}"
 {{/imports}}
 )
 
