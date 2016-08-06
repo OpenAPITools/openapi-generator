@@ -1,32 +1,20 @@
 package io.swagger.codegen.languages;
 
-import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
-import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenParameter;
-import io.swagger.models.properties.*;
 import io.swagger.codegen.CliOption;
 import io.swagger.models.Model;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +36,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String targetFrameworkNuget = "net45";
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean supportsUWP = Boolean.FALSE;
+    protected boolean generatePropertyChanged = Boolean.FALSE;
 
 
     protected final Map<String, String> frameworks;
@@ -173,6 +162,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("supportsAsync", this.supportsAsync);
         }
 
+        if(additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
+            if(NET35.equals(targetFramework)) {
+                LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is only supported by generated code for .NET 4+.");
+            } else {
+                setGeneratePropertyChanged(Boolean.valueOf(additionalProperties.get(CodegenConstants.GENERATE_PROPERTY_CHANGED).toString()));
+            }
+        }
+
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
@@ -237,6 +234,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if(Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
+        }
+
+        if(Boolean.TRUE.equals(generatePropertyChanged)) {
+            supportingFiles.add(new SupportingFile("FodyWeavers.xml", "", "FodyWeavers.xml"));
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -444,6 +445,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsUWP(Boolean supportsUWP){
         this.supportsUWP = supportsUWP;
+    }
+
+    public void setGeneratePropertyChanged(final Boolean generatePropertyChanged){
+        this.generatePropertyChanged = generatePropertyChanged;
     }
 
     @Override

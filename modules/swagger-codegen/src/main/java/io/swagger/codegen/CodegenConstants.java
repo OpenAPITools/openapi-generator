@@ -127,4 +127,7 @@ public class CodegenConstants {
     public static final String GENERATE_MODEL_TESTS = "generateModelTests";
     public static final String GENERATE_MODEL_TESTS_DESC = "Specifies that model tests are to be generated.";
 
+    public static final String GENERATE_PROPERTY_CHANGED = "generatePropertyChanged";
+    public static final String GENERATE_PROPERTY_CHANGED_DESC = "Specifies that models support raising property changed events.";
+
 }
