@@ -23,7 +23,6 @@
 package petstore
 
 import (
-	"errors"
 	"net/url"
 	"encoding/json"
 	"fmt"
