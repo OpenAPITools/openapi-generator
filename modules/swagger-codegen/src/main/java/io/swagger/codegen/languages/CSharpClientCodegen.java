@@ -116,6 +116,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValue);
+
+        addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
+                CodegenConstants.PACKAGE_DESCRIPTION_DESC,
+                this.generatePropertyChanged);
     }
 
     @Override
