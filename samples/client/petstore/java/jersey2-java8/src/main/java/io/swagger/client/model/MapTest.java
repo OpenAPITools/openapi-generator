@@ -27,6 +27,7 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
@@ -59,6 +60,16 @@ public class MapTest   {
     @Override
     public String toString() {
       return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static InnerEnum fromValue(String text) {
+      for (InnerEnum b : InnerEnum.values()) {
+          if (String.valueOf(b.value).equals(text)) {
+              return b;
+          }
+      }
+      return null;
     }
   }
 

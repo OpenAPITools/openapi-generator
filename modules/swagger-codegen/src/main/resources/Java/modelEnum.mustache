@@ -28,6 +28,7 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
   public String toString() {
     return String.valueOf(value);
   }
+{{#jackson}}
 
   @JsonCreator
   public static {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue(String text) {
@@ -38,5 +39,5 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
     }
     return null;
   }
-
+{{/jackson}}
 }
