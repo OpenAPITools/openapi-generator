@@ -8,8 +8,8 @@ import io.swagger.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import io.swagger.client.model.Pet;
-import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.client.model.ModelApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;

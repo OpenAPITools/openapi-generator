@@ -3,8 +3,8 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Pet;
-import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.client.model.ModelApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Content-type: application/json",
     "Accept: application/json",
-    "apiKey: {apiKey}"
+    "api_key: {apiKey}"
   })
   void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
 
