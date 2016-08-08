@@ -11,6 +11,10 @@ Name | Type | Description | Notes
 ## Enum: {String: String}
 
 
+* `UPPER` (value: `"UPPER"`)
+
+* `lower` (value: `"lower"`)
+
 
 
 
