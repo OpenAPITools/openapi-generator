@@ -15,7 +15,7 @@ import static org.testng.AssertJUnit.*;
 @SuppressWarnings("static-method")
 public class InlineModelResolverTest {
     @Test
-    public void resolveInlineModelTest() throws Exception {
+    public void resolveInlineModelTestWithoutTitle() throws Exception {
         Swagger swagger = new Swagger();
 
         swagger.addDefinition("User", new ModelImpl()
@@ -23,7 +23,6 @@ public class InlineModelResolverTest {
                 .description("a common user")
                 .property("name", new StringProperty())
                 .property("address", new ObjectProperty()
-                        .title("title")
                         ._default("default")
                         .access("access")
                         .readOnly(false)
@@ -46,6 +45,143 @@ public class InlineModelResolverTest {
         assertNotNull(address.getProperties().get("street"));
     }
 
+    @Test
+    public void resolveInlineModelTestWithTitle() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.addDefinition("User", new ModelImpl()
+                .name("user")
+                .description("a common user")
+                .property("name", new StringProperty())
+                .property("address", new ObjectProperty()
+                        .title("UserAddressTitle")
+                        ._default("default")
+                        .access("access")
+                        .readOnly(false)
+                        .required(true)
+                        .description("description")
+                        .name("name")
+                        .property("street", new StringProperty())
+                        .property("city", new StringProperty())));
+
+        new InlineModelResolver().flatten(swagger);
+
+        ModelImpl user = (ModelImpl)swagger.getDefinitions().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof RefProperty);
+
+        ModelImpl address = (ModelImpl)swagger.getDefinitions().get("UserAddressTitle");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
+    }    
+    
+    @Test
+    public void resolveInlineModel2EqualInnerModels() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.addDefinition("User", new ModelImpl()
+                .name("user")
+                .description("a common user")
+                .property("name", new StringProperty())
+                .property("address", new ObjectProperty()
+                        .title("UserAddressTitle")
+                        ._default("default")
+                        .access("access")
+                        .readOnly(false)
+                        .required(true)
+                        .description("description")
+                        .name("name")
+                        .property("street", new StringProperty())
+                        .property("city", new StringProperty())));
+        
+        swagger.addDefinition("AnotherUser", new ModelImpl()
+                .name("user")
+                .description("a common user")
+                .property("name", new StringProperty())
+                .property("lastName", new StringProperty())
+                .property("address", new ObjectProperty()
+                        .title("UserAddressTitle")
+                        ._default("default")
+                        .access("access")
+                        .readOnly(false)
+                        .required(true)
+                        .description("description")
+                        .name("name")
+                        .property("street", new StringProperty())
+                        .property("city", new StringProperty())));        
+
+        new InlineModelResolver().flatten(swagger);
+
+        ModelImpl user = (ModelImpl)swagger.getDefinitions().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof RefProperty);
+
+        ModelImpl address = (ModelImpl)swagger.getDefinitions().get("UserAddressTitle");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
+        ModelImpl duplicateAddress = (ModelImpl)swagger.getDefinitions().get("UserAddressTitle_0");
+        assertNull(duplicateAddress);
+    }        
+
+    @Test
+    public void resolveInlineModel2DifferentInnerModelsWIthSameTitle() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.addDefinition("User", new ModelImpl()
+                .name("user")
+                .description("a common user")
+                .property("name", new StringProperty())
+                .property("address", new ObjectProperty()
+                        .title("UserAddressTitle")
+                        ._default("default")
+                        .access("access")
+                        .readOnly(false)
+                        .required(true)
+                        .description("description")
+                        .name("name")
+                        .property("street", new StringProperty())
+                        .property("city", new StringProperty())));
+        
+        swagger.addDefinition("AnotherUser", new ModelImpl()
+                .name("AnotherUser")
+                .description("a common user")
+                .property("name", new StringProperty())
+                .property("lastName", new StringProperty())
+                .property("address", new ObjectProperty()
+                        .title("UserAddressTitle")
+                        ._default("default")
+                        .access("access")
+                        .readOnly(false)
+                        .required(true)
+                        .description("description")
+                        .name("name")
+                        .property("street", new StringProperty())
+                        .property("city", new StringProperty())
+        		.property("apartment", new StringProperty())));
+
+        new InlineModelResolver().flatten(swagger);
+
+        ModelImpl user = (ModelImpl)swagger.getDefinitions().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof RefProperty);
+
+        ModelImpl address = (ModelImpl)swagger.getDefinitions().get("UserAddressTitle");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
+        ModelImpl duplicateAddress = (ModelImpl)swagger.getDefinitions().get("UserAddressTitle_1");
+        assertNotNull(duplicateAddress);
+        assertNotNull(duplicateAddress.getProperties().get("city"));
+        assertNotNull(duplicateAddress.getProperties().get("street"));
+        assertNotNull(duplicateAddress.getProperties().get("apartment"));
+    }        
+    
+    
     @Test
     public void testInlineResponseModel() throws Exception {
         Swagger swagger = new Swagger();
@@ -112,12 +248,37 @@ public class InlineModelResolverTest {
     
     
     @Test
-    public void resolveInlineArrayModel() throws Exception {
+    public void resolveInlineArrayModelWithTitle() throws Exception {
         Swagger swagger = new Swagger();
 
         swagger.addDefinition("User", new ArrayModel()
                 .items(new ObjectProperty()
-                        .title("title")
+                        .title("InnerUserTitle")
+                        ._default("default")
+                        .access("access")
+                        .readOnly(false)
+                        .required(true)
+                        .description("description")
+                        .name("name")
+                        .property("street", new StringProperty())
+                        .property("city", new StringProperty())));
+
+        new InlineModelResolver().flatten(swagger);
+
+        Model model = swagger.getDefinitions().get("User");
+        assertTrue(model instanceof ArrayModel);
+
+        Model user = swagger.getDefinitions().get("InnerUserTitle");
+        assertNotNull(user);
+        assertEquals("description", user.getDescription());
+    }
+    
+    @Test
+    public void resolveInlineArrayModelWithoutTitle() throws Exception {
+        Swagger swagger = new Swagger();
+
+        swagger.addDefinition("User", new ArrayModel()
+                .items(new ObjectProperty()
                         ._default("default")
                         .access("access")
                         .readOnly(false)
@@ -135,7 +296,10 @@ public class InlineModelResolverTest {
         Model user = swagger.getDefinitions().get("User_inner");
         assertNotNull(user);
         assertEquals("description", user.getDescription());
-    }
+    }    
+    
+    
+    
 
     @Test
     public void resolveInlineBodyParameter() throws Exception {
@@ -710,12 +874,11 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void testArbitraryObjectModelWithArrayInline() {
+    public void testArbitraryObjectModelWithArrayInlineWithoutTitle() {
         Swagger swagger = new Swagger();
 
         swagger.addDefinition("User", new ArrayModel()
                 .items(new ObjectProperty()
-                        .title("title")
                         ._default("default")
                         .access("access")
                         .readOnly(false)
@@ -739,4 +902,35 @@ public class InlineModelResolverTest {
         ObjectProperty op = (ObjectProperty) inlineProp;
         assertNull(op.getProperties());
     }
+    
+    @Test
+    public void testArbitraryObjectModelWithArrayInlineWithTitle() {
+        Swagger swagger = new Swagger();
+
+        swagger.addDefinition("User", new ArrayModel()
+                .items(new ObjectProperty()
+                        .title("InnerUserTitle")
+                        ._default("default")
+                        .access("access")
+                        .readOnly(false)
+                        .required(true)
+                        .description("description")
+                        .name("name")
+                        .property("arbitrary", new ObjectProperty())));
+
+        new InlineModelResolver().flatten(swagger);
+
+        Model model = swagger.getDefinitions().get("User");
+        assertTrue(model instanceof ArrayModel);
+        ArrayModel am = (ArrayModel) model;
+        Property inner = am.getItems();
+        assertTrue(inner instanceof RefProperty);
+
+        ModelImpl userInner = (ModelImpl)swagger.getDefinitions().get("InnerUserTitle");
+        assertNotNull(userInner);
+        Property inlineProp = userInner.getProperties().get("arbitrary");
+        assertTrue(inlineProp instanceof ObjectProperty);
+        ObjectProperty op = (ObjectProperty) inlineProp;
+        assertNull(op.getProperties());
+    }    
 }
