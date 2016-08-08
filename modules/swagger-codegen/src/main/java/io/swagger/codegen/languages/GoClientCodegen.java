@@ -115,7 +115,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void processOpts() {
-        //super.processOpts();
+        super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
