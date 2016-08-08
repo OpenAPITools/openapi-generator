@@ -66,7 +66,7 @@ class EnumArrays implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = array(
-        'just_enum' => 'string',
+        'just_symbol' => 'string',
         'array_enum' => 'string[]'
     );
 
@@ -80,7 +80,7 @@ class EnumArrays implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = array(
-        'just_enum' => 'just_enum',
+        'just_symbol' => 'just_symbol',
         'array_enum' => 'array_enum'
     );
 
@@ -94,7 +94,7 @@ class EnumArrays implements ArrayAccess
      * @var string[]
      */
     protected static $setters = array(
-        'just_enum' => 'setJustEnum',
+        'just_symbol' => 'setJustSymbol',
         'array_enum' => 'setArrayEnum'
     );
 
@@ -108,7 +108,7 @@ class EnumArrays implements ArrayAccess
      * @var string[]
      */
     protected static $getters = array(
-        'just_enum' => 'getJustEnum',
+        'just_symbol' => 'getJustSymbol',
         'array_enum' => 'getArrayEnum'
     );
 
@@ -117,8 +117,8 @@ class EnumArrays implements ArrayAccess
         return self::$getters;
     }
 
-    const JUST_ENUM_BIRD = 'bird';
-    const JUST_ENUM_EAGLE = 'eagle';
+    const JUST_SYMBOL_ = '>=';
+    const JUST_SYMBOL_ = '$';
     const ARRAY_ENUM_FISH = 'fish';
     const ARRAY_ENUM_CRAB = 'crab';
     
@@ -128,11 +128,11 @@ class EnumArrays implements ArrayAccess
      * Gets allowable values of the enum
      * @return string[]
      */
-    public function getJustEnumAllowableValues()
+    public function getJustSymbolAllowableValues()
     {
         return [
-            self::JUST_ENUM_BIRD,
-            self::JUST_ENUM_EAGLE,
+            self::JUST_SYMBOL_,
+            self::JUST_SYMBOL_,
         ];
     }
     
@@ -161,7 +161,7 @@ class EnumArrays implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['just_enum'] = isset($data['just_enum']) ? $data['just_enum'] : null;
+        $this->container['just_symbol'] = isset($data['just_symbol']) ? $data['just_symbol'] : null;
         $this->container['array_enum'] = isset($data['array_enum']) ? $data['array_enum'] : null;
     }
 
@@ -173,9 +173,9 @@ class EnumArrays implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = array();
-        $allowed_values = array("bird", "eagle");
-        if (!in_array($this->container['just_enum'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'just_enum', must be one of #{allowed_values}.";
+        $allowed_values = array(">=", "$");
+        if (!in_array($this->container['just_symbol'], $allowed_values)) {
+            $invalid_properties[] = "invalid value for 'just_symbol', must be one of #{allowed_values}.";
         }
 
         return $invalid_properties;
@@ -189,8 +189,8 @@ class EnumArrays implements ArrayAccess
      */
     public function valid()
     {
-        $allowed_values = array("bird", "eagle");
-        if (!in_array($this->container['just_enum'], $allowed_values)) {
+        $allowed_values = array(">=", "$");
+        if (!in_array($this->container['just_symbol'], $allowed_values)) {
             return false;
         }
         return true;
@@ -198,26 +198,26 @@ class EnumArrays implements ArrayAccess
 
 
     /**
-     * Gets just_enum
+     * Gets just_symbol
      * @return string
      */
-    public function getJustEnum()
+    public function getJustSymbol()
     {
-        return $this->container['just_enum'];
+        return $this->container['just_symbol'];
     }
 
     /**
-     * Sets just_enum
-     * @param string $just_enum
+     * Sets just_symbol
+     * @param string $just_symbol
      * @return $this
      */
-    public function setJustEnum($just_enum)
+    public function setJustSymbol($just_symbol)
     {
-        $allowed_values = array('bird', 'eagle');
-        if (!in_array($just_enum, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'just_enum', must be one of 'bird', 'eagle'");
+        $allowed_values = array('>=', '$');
+        if (!in_array($just_symbol, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'just_symbol', must be one of '>=', '$'");
         }
-        $this->container['just_enum'] = $just_enum;
+        $this->container['just_symbol'] = $just_symbol;
 
         return $this;
     }
@@ -239,7 +239,7 @@ class EnumArrays implements ArrayAccess
     public function setArrayEnum($array_enum)
     {
         $allowed_values = array('fish', 'crab');
-        if (!in_array($array_enum, $allowed_values)) {
+        if (array_diff($array_enum, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for 'array_enum', must be one of 'fish', 'crab'");
         }
         $this->container['array_enum'] = $array_enum;

@@ -238,9 +238,16 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     {
         {{#isEnum}}
         $allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        {{^isContainer}}
         if (!in_array(${{{name}}}, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
         }
+        {{/isContainer}}
+        {{#isContainer}}
+        if (array_diff(${{{name}}}, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
+        }
+        {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
