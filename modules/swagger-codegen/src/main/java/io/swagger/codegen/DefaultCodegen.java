@@ -806,6 +806,20 @@ public class DefaultCodegen {
         specialCharReplacements.put("<", "Less_Than");
         specialCharReplacements.put(".", "Period");
         specialCharReplacements.put("_", "Underscore");
+        specialCharReplacements.put("?", "Question_Mark");
+        specialCharReplacements.put(",", "Comma");
+        specialCharReplacements.put("'", "Quote");
+        specialCharReplacements.put("\"", "Double_Quote");
+        specialCharReplacements.put("/", "Slash");
+        specialCharReplacements.put("\\", "Back_Slash");
+        specialCharReplacements.put("(", "Left_Parenthesis");
+        specialCharReplacements.put(")", "Right_Parenthesis");
+        specialCharReplacements.put("{", "Left_Curly_Bracket");
+        specialCharReplacements.put("}", "Right_Curly_Bracket");
+        specialCharReplacements.put("[", "Left_Square_Bracket");
+        specialCharReplacements.put("]", "Right_Square_Bracket");
+        specialCharReplacements.put("~", "Tilde");
+        specialCharReplacements.put("`", "Backtick");
 
         specialCharReplacements.put("<=", "Less_Than_Or_Equal_To");
         specialCharReplacements.put(">=", "Greater_Than_Or_Equal_To");
