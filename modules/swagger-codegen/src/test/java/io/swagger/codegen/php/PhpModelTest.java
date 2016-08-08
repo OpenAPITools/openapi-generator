@@ -7,12 +7,20 @@ import io.swagger.codegen.languages.PhpClientCodegen;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.Property;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
+import io.swagger.models.Swagger;
+import io.swagger.parser.SwaggerParser;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.common.collect.Sets;
 import org.testng.Assert;
@@ -268,4 +276,65 @@ public class PhpModelTest {
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
     }
+
+    @Test(description = "test enum array model")
+    public void enumArrayMdoelTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new PhpClientCodegen();
+        final Model definition = model.getDefinitions().get("EnumArrays");
+
+        Property property =  definition.getProperties().get("array_enum");
+        CodegenProperty prope = codegen.fromProperty("array_enum", property);
+        codegen.updateCodegenPropertyEnum(prope);
+        Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
+        Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
+        Assert.assertTrue(prope.isEnum);
+        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+
+        HashMap<String, String> fish= new HashMap<String, String>();
+        fish.put("name", "FISH");
+        fish.put("value", "\'fish\'");
+        HashMap<String, String> crab= new HashMap<String, String>();
+        crab.put("name", "CRAB");
+        crab.put("value", "\'crab\'");
+        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+
+        // assert inner items
+        Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
+        Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
+        Assert.assertTrue(prope.items.isEnum);
+        Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+        Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+
+    }
+
+    @Test(description = "test enum model for values (numeric, string, etc)")
+    public void enumMdoelValueTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new PhpClientCodegen();
+        final Model definition = model.getDefinitions().get("Enum_Test");
+
+        Property property =  definition.getProperties().get("enum_integer");
+        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
+        codegen.updateCodegenPropertyEnum(prope);
+        Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
+        Assert.assertEquals(prope.enumName, "ENUM_INTEGER");
+        Assert.assertTrue(prope.isEnum);
+        Assert.assertNull(prope.isContainer);
+        Assert.assertNull(prope.items);
+        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
+
+        HashMap<String, String> one = new HashMap<String, String>();
+        one.put("name", "1");
+        one.put("value", "1");
+        HashMap<String, String> minusOne = new HashMap<String, String>();
+        minusOne.put("name", "MINUS_1");
+        minusOne.put("value", "-1");
+        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
+
+    }
+
+
+
+
 }
