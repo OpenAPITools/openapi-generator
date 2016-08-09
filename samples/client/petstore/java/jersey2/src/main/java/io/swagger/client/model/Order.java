@@ -74,9 +74,9 @@ public class Order   {
     @JsonCreator
     public static StatusEnum fromValue(String text) {
       for (StatusEnum b : StatusEnum.values()) {
-          if (String.valueOf(b.value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }
