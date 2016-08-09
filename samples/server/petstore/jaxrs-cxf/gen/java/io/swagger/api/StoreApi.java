@@ -12,27 +12,27 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
-@Path("/")
+@Path("/v2")
 public interface StoreApi  {
     @DELETE
     @Path("/store/order/{orderId}")
     
     @Produces({ "application/xml", "application/json" })
-    public Response deleteOrder(@PathParam("orderId") String orderId);
+    Response deleteOrder(@PathParam("orderId") String orderId);
     @GET
     @Path("/store/inventory")
     
     @Produces({ "application/json" })
-    public Response getInventory();
+    Response getInventory();
     @GET
     @Path("/store/order/{orderId}")
     
     @Produces({ "application/xml", "application/json" })
-    public Response getOrderById(@PathParam("orderId") Long orderId);
+    Response getOrderById(@PathParam("orderId") Long orderId);
     @POST
     @Path("/store/order")
     
     @Produces({ "application/xml", "application/json" })
-    public Response placeOrder(Order body);
+    Response placeOrder(Order body);
 }
 
