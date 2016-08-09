@@ -35,6 +35,7 @@ namespace IO.Swagger.Models
     /// <summary>
     /// 
     /// </summary>
+    [DataContract]
     public partial class Order :  IEquatable<Order>
     {
         /// <summary>
@@ -68,32 +69,38 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
+        [DataMember(Name="id")]
         public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
+        [DataMember(Name="petId")]
         public long? PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
+        [DataMember(Name="quantity")]
         public int? Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
+        [DataMember(Name="shipDate")]
         public DateTime? ShipDate { get; set; }
 
         /// <summary>
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
+        [DataMember(Name="status")]
         public string Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
+        [DataMember(Name="complete")]
         public bool? Complete { get; set; }
 
 
@@ -106,11 +113,11 @@ namespace IO.Swagger.Models
             var sb = new StringBuilder();
             sb.Append("class Order {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-sb.Append("  PetId: ").Append(PetId).Append("\n");
-sb.Append("  Quantity: ").Append(Quantity).Append("\n");
-sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
-sb.Append("  Status: ").Append(Status).Append("\n");
-sb.Append("  Complete: ").Append(Complete).Append("\n");
+            sb.Append("  PetId: ").Append(PetId).Append("\n");
+            sb.Append("  Quantity: ").Append(Quantity).Append("\n");
+            sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
