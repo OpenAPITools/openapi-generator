@@ -504,7 +504,7 @@ public class ApiClient {
             for( File file : files ) {
               mp.bodyPart( new FileDataBodyPart( param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE ) );
             }
-        } elseif (param.getValue() instanceof File) {
+        } else if (param.getValue() instanceof File) {
           File file = (File) param.getValue();
           mp.bodyPart(new FileDataBodyPart(param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
         } else {
