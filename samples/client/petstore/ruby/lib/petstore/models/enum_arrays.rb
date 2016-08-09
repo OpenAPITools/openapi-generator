@@ -26,7 +26,7 @@ require 'date'
 module Petstore
 
   class EnumArrays
-    attr_accessor :just_enum
+    attr_accessor :just_symbol
 
     attr_accessor :array_enum
 
@@ -55,7 +55,7 @@ module Petstore
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'just_enum' => :'just_enum',
+        :'just_symbol' => :'just_symbol',
         :'array_enum' => :'array_enum'
       }
     end
@@ -63,7 +63,7 @@ module Petstore
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'just_enum' => :'String',
+        :'just_symbol' => :'String',
         :'array_enum' => :'Array<String>'
       }
     end
@@ -76,8 +76,8 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'just_enum')
-        self.just_enum = attributes[:'just_enum']
+      if attributes.has_key?(:'just_symbol')
+        self.just_symbol = attributes[:'just_symbol']
       end
 
       if attributes.has_key?(:'array_enum')
@@ -98,19 +98,19 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      just_enum_validator = EnumAttributeValidator.new('String', ["bird", "eagle"])
-      return false unless just_enum_validator.valid?(@just_enum)
+      just_symbol_validator = EnumAttributeValidator.new('String', [">=", "$"])
+      return false unless just_symbol_validator.valid?(@just_symbol)
       return true
     end
 
     # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] just_enum Object to be assigned
-    def just_enum=(just_enum)
-      validator = EnumAttributeValidator.new('String', ["bird", "eagle"])
-      unless validator.valid?(just_enum)
-        fail ArgumentError, "invalid value for 'just_enum', must be one of #{validator.allowable_values}."
+    # @param [Object] just_symbol Object to be assigned
+    def just_symbol=(just_symbol)
+      validator = EnumAttributeValidator.new('String', [">=", "$"])
+      unless validator.valid?(just_symbol)
+        fail ArgumentError, "invalid value for 'just_symbol', must be one of #{validator.allowable_values}."
       end
-      @just_enum = just_enum
+      @just_symbol = just_symbol
     end
 
     # Checks equality by comparing each attribute.
@@ -118,7 +118,7 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          just_enum == o.just_enum &&
+          just_symbol == o.just_symbol &&
           array_enum == o.array_enum
     end
 
@@ -131,7 +131,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [just_enum, array_enum].hash
+      [just_symbol, array_enum].hash
     end
 
     # Builds the object from hash
