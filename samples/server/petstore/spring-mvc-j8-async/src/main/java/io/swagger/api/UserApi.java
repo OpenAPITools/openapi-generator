@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class)
+    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     @RequestMapping(value = "/user",
@@ -34,7 +34,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     @RequestMapping(value = "/user/createWithArray",
@@ -46,7 +46,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class)
+    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     @RequestMapping(value = "/user/createWithList",
@@ -58,7 +58,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class)
+    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
@@ -71,7 +71,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Get user by user name", notes = "", response = User.class)
+    @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
@@ -85,7 +85,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Logs user into the system", notes = "", response = String.class)
+    @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
@@ -98,7 +98,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class)
+    @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     @RequestMapping(value = "/user/logout",
@@ -110,7 +110,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class)
+    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
