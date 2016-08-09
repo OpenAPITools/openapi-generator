@@ -59,9 +59,9 @@ public class EnumTest   {
     @JsonCreator
     public static EnumStringEnum fromValue(String text) {
       for (EnumStringEnum b : EnumStringEnum.values()) {
-          if (String.valueOf(b.value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }
@@ -92,9 +92,9 @@ public class EnumTest   {
     @JsonCreator
     public static EnumIntegerEnum fromValue(String text) {
       for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-          if (String.valueOf(b.value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }
@@ -125,9 +125,9 @@ public class EnumTest   {
     @JsonCreator
     public static EnumNumberEnum fromValue(String text) {
       for (EnumNumberEnum b : EnumNumberEnum.values()) {
-          if (String.valueOf(b.value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }

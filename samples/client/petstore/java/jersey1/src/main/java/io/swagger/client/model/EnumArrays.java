@@ -61,9 +61,9 @@ public class EnumArrays   {
     @JsonCreator
     public static JustSymbolEnum fromValue(String text) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-          if (String.valueOf(b.value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }
@@ -94,9 +94,9 @@ public class EnumArrays   {
     @JsonCreator
     public static ArrayEnumEnum fromValue(String text) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-          if (String.valueOf(b.value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }
