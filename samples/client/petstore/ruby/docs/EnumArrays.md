@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**just_enum** | **String** |  | [optional] 
+**just_symbol** | **String** |  | [optional] 
 **array_enum** | **Array&lt;String&gt;** |  | [optional] 
 
 
