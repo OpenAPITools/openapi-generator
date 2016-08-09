@@ -55,9 +55,9 @@ public enum EnumClass {
   @JsonCreator
   public static EnumClass fromValue(String text) {
     for (EnumClass b : EnumClass.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-            return b;
-        }
+      if (String.valueOf(b.value).equals(text)) {
+        return b;
+      }
     }
     return null;
   }
