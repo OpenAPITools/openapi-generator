@@ -65,9 +65,9 @@ public class MapTest   {
     @JsonCreator
     public static InnerEnum fromValue(String text) {
       for (InnerEnum b : InnerEnum.values()) {
-          if (String.valueOf(b.value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }
