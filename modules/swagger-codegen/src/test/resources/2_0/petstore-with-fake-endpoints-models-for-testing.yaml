@@ -586,15 +586,25 @@ paths:
     get:
       tags:
         - fake
-      summary: To test enum query parameters
-      descriptions: To test enum query parameters
-      operationId: testEnumQueryParameters
+      summary: To test enum parameters
+      descriptions: To test enum parameters
+      operationId: testEnumParameters
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: enum_query_string
+        - name: enum_form_string_array
+          type: array
+          items:
+            tyep: string
+            default: '$'
+            enum:
+              - '>'
+              - '$'
+          in: formData
+          description: Form parameter enum test (string array)
+        - name: enum_form_string
           type: string
           default: '-efg'
           enum:
@@ -602,6 +612,44 @@ paths:
             - '-efg'
             - (xyz)
           in: formData 
+          description: Form parameter enum test (string)
+        - name: enum_header_string_array
+          type: array
+          items:
+            tyep: string
+            default: '$'
+            enum:
+              - '>'
+              - '$'
+          in: header 
+          description: Header parameter enum test (string array)
+        - name: enum_header_string
+          type: string
+          default: '-efg'
+          enum:
+            - _abc
+            - '-efg'
+            - (xyz)
+          in: header
+          description: Header parameter enum test (string)
+        - name: enum_query_string_array
+          type: array 
+          items:
+            type: string
+            default: '$'
+            enum:
+              - '>'
+              - '$'
+          in: query
+          description: Query parameter enum test (string array)
+        - name: enum_query_string
+          type: string
+          default: '-efg'
+          enum:
+            - _abc
+            - '-efg'
+            - (xyz)
+          in: query 
           description: Query parameter enum test (string)
         - name: enum_query_integer
           type: number
