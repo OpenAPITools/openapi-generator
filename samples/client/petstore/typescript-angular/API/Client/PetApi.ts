@@ -87,9 +87,9 @@ namespace API.Client {
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling deletePet');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling deletePet.');
             }
             headerParams['api_key'] = apiKey;
 
@@ -174,9 +174,9 @@ namespace API.Client {
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling getPetById');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling getPetById.');
             }
             let httpRequestParams: any = {
                 method: 'GET',
@@ -232,9 +232,9 @@ namespace API.Client {
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let formParams: any = {};
 
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling updatePetWithForm');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
             }
             headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -272,9 +272,9 @@ namespace API.Client {
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let formParams: any = {};
 
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling uploadFile');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
             }
             headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
 

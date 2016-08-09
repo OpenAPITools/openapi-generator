@@ -4,7 +4,7 @@
     <artifactId>TypeScriptAngularBuildWithNPMVersionPestoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>TS Angular Build With NPM Version Petstore Client</name>
+    <name>TS Fetch Petstore Client (with npm)</name>
     <build>
         <plugins>
             <plugin>

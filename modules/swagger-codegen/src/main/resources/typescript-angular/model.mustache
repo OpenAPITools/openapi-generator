@@ -13,13 +13,13 @@ namespace {{package}} {
 {{/description}}
     export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#vars}}
-
 {{#description}}
         /**
          * {{{description}}}
          */
 {{/description}}
-        "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{classname}}.{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+        "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+
 {{/vars}}
     }
 
@@ -27,9 +27,12 @@ namespace {{package}} {
     export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
-
-        export enum {{datatypeWithEnum}} { {{#allowableValues}}{{#values}}
-            {{.}} = <any> '{{.}}'{{^-last}},{{/-last}}{{/values}}{{/allowableValues}}
+        export enum {{enumName}} {
+        {{#allowableValues}}
+        {{#enumVars}}
+            {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
         }
 {{/isEnum}}
 {{/vars}}

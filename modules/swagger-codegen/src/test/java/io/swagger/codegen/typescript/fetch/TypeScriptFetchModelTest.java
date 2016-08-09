@@ -12,11 +12,17 @@ import io.swagger.codegen.languages.TypeScriptFetchClientCodegen;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.properties.Property;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
+import io.swagger.models.Swagger;
+import io.swagger.parser.SwaggerParser;
+
+import java.util.HashMap;
+import java.util.Arrays;
 
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
@@ -180,4 +186,69 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
+
+    @Test(description = "test enum array model")
+    public void enumArrayMdoelTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        final Model definition = model.getDefinitions().get("EnumArrays");
+
+        Property property =  definition.getProperties().get("array_enum");
+        CodegenProperty prope = codegen.fromProperty("array_enum", property);
+        codegen.updateCodegenPropertyEnum(prope);
+        Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
+        Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
+        Assert.assertTrue(prope.isEnum);
+        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+
+        HashMap<String, String> fish= new HashMap<String, String>();
+        fish.put("name", "Fish");
+        fish.put("value", "'fish'");
+        HashMap<String, String> crab= new HashMap<String, String>();
+        crab.put("name", "Crab");
+        crab.put("value", "'crab'");
+        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+
+        // assert inner items
+        Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
+        Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
+        Assert.assertTrue(prope.items.isEnum);
+        Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+        Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
+
+        //IMPORTANT: these are not final enum values, which may be further updated
+        //by postProcessModels
+
+    }
+
+    @Test(description = "test enum model for values (numeric, string, etc)")
+    public void enumMdoelValueTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        final Model definition = model.getDefinitions().get("Enum_Test");
+
+        Property property =  definition.getProperties().get("enum_integer");
+        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
+        codegen.updateCodegenPropertyEnum(prope);
+        Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
+        Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
+        Assert.assertTrue(prope.isEnum);
+        Assert.assertNull(prope.isContainer);
+        Assert.assertNull(prope.items);
+        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
+
+        HashMap<String, String> one = new HashMap<String, String>();
+        one.put("name", "NUMBER_1");
+        one.put("value", "1");
+        HashMap<String, String> minusOne = new HashMap<String, String>();
+        minusOne.put("name", "NUMBER_MINUS_1");
+        minusOne.put("value", "-1");
+        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
+
+       //IMPORTANT: these are not final enum values, which may be further updated
+       //by postProcessModels
+
+    }
+
+
 }

@@ -28,7 +28,6 @@ namespace API.Client {
     'use strict';
 
     export interface User {
-
         "id"?: number;
 
         "username"?: string;
@@ -47,6 +46,7 @@ namespace API.Client {
          * User Status
          */
         "userStatus"?: number;
+
     }
 
 }
