@@ -35,6 +35,7 @@ namespace IO.Swagger.Models
     /// <summary>
     /// 
     /// </summary>
+    [DataContract]
     public partial class ApiResponse :  IEquatable<ApiResponse>
     {
         /// <summary>
@@ -54,16 +55,19 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
+        [DataMember(Name="code")]
         public int? Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
+        [DataMember(Name="type")]
         public string Type { get; set; }
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
+        [DataMember(Name="message")]
         public string Message { get; set; }
 
 
@@ -76,8 +80,8 @@ namespace IO.Swagger.Models
             var sb = new StringBuilder();
             sb.Append("class ApiResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-sb.Append("  Type: ").Append(Type).Append("\n");
-sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
