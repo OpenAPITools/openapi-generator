@@ -115,13 +115,21 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	}{{#hasHeaderParams}}
 
 {{#headerParams}}	// header params "{{baseName}}"
-	localVarHeaderParams["{{baseName}}"] = {{paramName}}
-{{/headerParams}}{{/hasHeaderParams}}{{#hasFormParams}}
-{{#formParams}}{{#isFile}}
+	localVarHeaderParams["{{baseName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}}, "")
+{{/headerParams}}{{/hasHeaderParams}}
+{{#hasFormParams}}
+{{#formParams}}
+{{#isFile}}
 	fbs, _ := ioutil.ReadAll(file)
 	localVarFileBytes = fbs
-	localVarFileName = file.Name(){{/isFile}}
-{{^isFile}}	localVarFormParams["{{paramName}}"] = {{paramName}}{{/isFile}}{{/formParams}}{{/hasFormParams}}{{#hasBodyParam}}
+	localVarFileName = file.Name()
+{{/isFile}}
+{{^isFile}}
+	localVarFormParams["{{paramName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}}, "")
+{{/isFile}}
+{{/formParams}}
+{{/hasFormParams}}
+{{#hasBodyParam}}
 {{#bodyParams}}	// body params
 	localVarPostBody = &{{paramName}}
 {{/bodyParams}}{{/hasBodyParam}}

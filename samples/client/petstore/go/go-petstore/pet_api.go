@@ -1,7 +1,7 @@
 /* 
  * Swagger Petstore
  *
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -165,7 +165,8 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	}
 
 	// header params "api_key"
-	localVarHeaderParams["api_key"] = apiKey
+	localVarHeaderParams["api_key"] = a.Configuration.APIClient.ParameterToString(apiKey, "")
+
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
@@ -233,6 +234,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new([]Pet)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -299,6 +301,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new([]Pet)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -356,6 +359,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new(Pet)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -478,9 +482,9 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+	localVarFormParams["name"] = a.Configuration.APIClient.ParameterToString(name, "")
+	localVarFormParams["status"] = a.Configuration.APIClient.ParameterToString(status, "")
 
-	localVarFormParams["name"] = name
-	localVarFormParams["status"] = status
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -541,8 +545,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-
-	localVarFormParams["additionalMetadata"] = additionalMetadata
+	localVarFormParams["additionalMetadata"] = a.Configuration.APIClient.ParameterToString(additionalMetadata, "")
 	fbs, _ := ioutil.ReadAll(file)
 	localVarFileBytes = fbs
 	localVarFileName = file.Name()
