@@ -11,6 +11,7 @@ import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
 
+@SuppressWarnings("static-method")
 public class CodegenConfigLoaderTest {
 
     @DataProvider(name = "codegenConfig")

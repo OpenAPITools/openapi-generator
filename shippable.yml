@@ -1,0 +1,15 @@
+language: java
+
+jdk:
+- openjdk7
+- openjdk8
+
+build:
+  cache: true
+  cache_dir_list:
+    - $HOME/.m2
+  ci:
+    # generate all petstore sampless (client, servers, doc)
+    - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
+  post_ci:
+    - tail run-all-petstore.log

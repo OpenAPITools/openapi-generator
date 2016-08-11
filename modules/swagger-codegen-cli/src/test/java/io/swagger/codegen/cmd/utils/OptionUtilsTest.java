@@ -1,5 +1,6 @@
 package io.swagger.codegen.cmd.utils;
 
+import io.swagger.codegen.utils.OptionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+@SuppressWarnings("static-method")
 public class OptionUtilsTest {
 
     @Test
@@ -30,7 +32,7 @@ public class OptionUtilsTest {
         doTupleListTest(null, new ArrayList<Pair<String, String>>());
     }
 
-    private void doTupleListTest(String input, List<Pair<String, String>> expectedResults) {
+    private static void doTupleListTest(String input, List<Pair<String, String>> expectedResults) {
         final List<Pair<String, String>> result = OptionUtils.parseCommaSeparatedTuples(input);
         assertNotNull(result);
         assertEquals(result.size(), expectedResults.size());
@@ -41,7 +43,7 @@ public class OptionUtilsTest {
         }
     }
 
-    private void doCommaSeparatedListTest(String csvStr, List<String> expectedResults) {
+    private static void doCommaSeparatedListTest(String csvStr, List<String> expectedResults) {
         final List<String> result = OptionUtils.splitCommaSeparatedList(csvStr);
         assertNotNull(result);
         assertEquals(result.size(), expectedResults.size());

@@ -1,3 +1,7 @@
+=begin
+{{> api_info}}
+=end
+
 require 'date'
 require 'json'
 require 'logger'
@@ -15,9 +19,11 @@ module {{moduleName}}
     # @return [Hash]
     attr_accessor :default_headers
 
+    # Initializes the ApiClient
+    # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = "ruby-swagger-#{VERSION}"
+      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/#{VERSION}/ruby{{/httpUserAgent}}"
       @default_headers = {
         'Content-Type' => "application/json",
         'User-Agent' => @user_agent
@@ -55,6 +61,15 @@ module {{moduleName}}
       return data, response.code, response.headers
     end
 
+    # Builds the HTTP request
+    #
+    # @param [String] http_method HTTP method/verb (e.g. POST)
+    # @param [String] path URL path (e.g. /account/new)
+    # @option opts [Hash] :header_params Header parameters
+    # @option opts [Hash] :query_params Query parameters
+    # @option opts [Hash] :form_params Query parameters
+    # @option opts [Object] :body HTTP body (JSON/XML)
+    # @return [Typhoeus::Request] A Typhoeus Request
     def build_request(http_method, path, opts = {})
       url = build_request_url(path)
       http_method = http_method.to_sym.downcase
@@ -67,17 +82,24 @@ module {{moduleName}}
       update_params_for_auth! header_params, query_params, opts[:auth_names]
       {{/hasAuthMethods}}
 
+      # set ssl_verifyhosts option based on @config.verify_ssl_host (true/false)
+      _verify_ssl_host = @config.verify_ssl_host ? 2 : 0
+
       req_opts = {
         :method => http_method,
         :headers => header_params,
         :params => query_params,
+        :params_encoding => @config.params_encoding,
         :timeout => @config.timeout,
         :ssl_verifypeer => @config.verify_ssl,
+        :ssl_verifyhost => _verify_ssl_host,
         :sslcert => @config.cert_file,
         :sslkey => @config.key_file,
-        :cainfo => @config.ssl_ca_cert,
         :verbose => @config.debugging
       }
+
+      # set custom cert, if provided
+      req_opts[:cainfo] = @config.ssl_ca_cert if @config.ssl_ca_cert
 
       if [:post, :patch, :put, :delete].include?(http_method)
         req_body = build_request_body(header_params, form_params, opts[:body])
@@ -95,16 +117,22 @@ module {{moduleName}}
     #   application/json
     #   application/json; charset=UTF8
     #   APPLICATION/JSON
+    # @param [String] mime MIME
+    # @return [Boolean] True if the MIME is applicaton/json
     def json_mime?(mime)
-       !!(mime =~ /\Aapplication\/json(;.*)?\z/i)
+       !(mime =~ /\Aapplication\/json(;.*)?\z/i).nil?
     end
 
     # Deserialize the response to the given return type.
     #
+    # @param [Response] response HTTP response
     # @param [String] return_type some examples: "User", "Array[User]", "Hash[String,Integer]"
     def deserialize(response, return_type)
       body = response.body
       return nil if body.nil? || body.empty?
+
+      # return response body directly for String return type
+      return body if return_type == 'String'
 
       # handle file downloading - save response body into a tmp file and return the File instance
       return download_file(response) if return_type == 'File'
@@ -128,6 +156,9 @@ module {{moduleName}}
     end
 
     # Convert data to the given return type.
+    # @param [Object] data Data to be converted
+    # @param [String] return_type Return type
+    # @return [Mixed] Data in a particular type
     def convert_to_type(data, return_type)
       return nil if data.nil?
       case return_type
@@ -146,7 +177,7 @@ module {{moduleName}}
         # parse date time (expecting ISO 8601 format)
         Date.parse data
       when 'Object'
-        # generic object, return directly
+        # generic object (usually a Hash), return directly
         data
       when /\AArray<(.+)>\z/
         # e.g. Array<Pet>
@@ -170,23 +201,37 @@ module {{moduleName}}
     # from the "Content-Disposition" header if provided, otherwise a random filename.
     #
     # @see Configuration#temp_folder_path
-    # @return [File] the file downloaded
+    # @return [Tempfile] the file downloaded
     def download_file(response)
-      tmp_file = Tempfile.new '', @config.temp_folder_path
       content_disposition = response.headers['Content-Disposition']
-      if content_disposition
+      if content_disposition and content_disposition =~ /filename=/i
         filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-        path = File.join File.dirname(tmp_file), filename
+        prefix = sanitize_filename(filename)
       else
-        path = tmp_file.path
+        prefix = 'download-'
       end
-      # close and delete temp file
-      tmp_file.close!
+      prefix = prefix + '-' unless prefix.end_with?('-')
 
-      File.open(path, 'w') { |file| file.write(response.body) }
-      @config.logger.info "File written to #{path}. Please move the file to a proper folder "\
-                          "for further processing and delete the temp afterwards"
-      File.new(path)
+      tempfile = nil
+      encoding = response.body.encoding
+      Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding) do |file|
+        file.write(response.body)
+        tempfile = file
+      end
+      @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                          "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                          "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                          "explicitly with `tempfile.delete`"
+      tempfile
+    end
+
+    # Sanitize filename by removing path.
+    # e.g. ../../sun.gif becomes sun.gif
+    #
+    # @param [String] filename the filename to be sanitized
+    # @return [String] the sanitized filename
+    def sanitize_filename(filename)
+      filename.gsub(/.*[\/\\]/, '')
     end
 
     def build_request_url(path)
@@ -195,6 +240,12 @@ module {{moduleName}}
       URI.encode(@config.base_url + path)
     end
 
+    # Builds the HTTP request body
+    #
+    # @param [Hash] header_params Header parameters
+    # @param [Hash] form_params Query parameters
+    # @param [Object] body HTTP body (JSON/XML)
+    # @return [String] HTTP body data in the form of string
     def build_request_body(header_params, form_params, body)
       # http form
       if header_params['Content-Type'] == 'application/x-www-form-urlencoded' ||
@@ -218,6 +269,10 @@ module {{moduleName}}
     end
 
     # Update hearder and query params based on authentication settings.
+    #
+    # @param [Hash] header_params Header parameters
+    # @param [Hash] query_params Query parameters
+    # @param [String] auth_names Authentication scheme name
     def update_params_for_auth!(header_params, query_params, auth_names)
       Array(auth_names).each do |auth_name|
         auth_setting = @config.auth_settings[auth_name]
@@ -230,6 +285,9 @@ module {{moduleName}}
       end
     end
 
+    # Sets user agent in HTTP header
+    #
+    # @param [String] user_agent User agent (e.g. swagger-codegen/ruby/1.0.0)
     def user_agent=(user_agent)
       @user_agent = user_agent
       @default_headers['User-Agent'] = @user_agent
@@ -260,14 +318,14 @@ module {{moduleName}}
     # @param [Object] model object to be converted into JSON string
     # @return [String] JSON string representation of the object
     def object_to_http_body(model)
-      return if model.nil?
-      _body = nil
+      return model if model.nil? || model.is_a?(String)
+      local_body = nil
       if model.is_a?(Array)
-        _body = model.map{|m| object_to_hash(m) }
+        local_body = model.map{|m| object_to_hash(m) }
       else
-        _body = object_to_hash(model)
+        local_body = object_to_hash(model)
       end
-      _body.to_json
+      local_body.to_json
     end
 
     # Convert object(non-array) to hash.

@@ -1,0 +1,40 @@
+{{#models}}
+{{#model}}
+goog.provide('{{package}}.{{name}}');
+{{/model}}
+{{/models}}
+
+{{#models}}
+{{#model}}
+/**
+{{#description}}
+ * {{{description}}}
+{{/description}}
+ * @record
+ */
+{{package}}.{{classname}} = function() {}
+{{#vars}}
+
+/**
+{{#description}}
+ * {{{description}}}
+{{/description}}
+{{! Explicitly force types to be non-nullable using !. This is redundant but valid }}
+ * @type {!{{{datatype}}}}
+ * @export
+ */
+{{package}}.{{classname}}.prototype.{{name}};
+{{/vars}}
+
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+/** @enum {string} */
+{{package}}.{{classname}}.{{datatypeWithEnum}} = { {{#allowableValues}}{{#values}}
+  {{.}}: '{{.}}',{{/values}}{{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{/model}}
+{{/models}}

@@ -2,16 +2,15 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-import io.swagger.client._
-import scala.concurrent.{ Future, Await }
-import scala.concurrent.duration._
+import com.wordnik.swagger.client._
+import scala.concurrent.Future
 import collection.mutable
 
 {{#operations}}
 class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
   {{#operation}}
-  def {{nickname}}({{#allParams}}{{^required}}{{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{defaultValue}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}},{{/hasMore}}
+  def {{operationId}}({{#allParams}}{{^required}}{{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{defaultValue}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}},{{/hasMore}}
       {{/required}}{{#required}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}},
       {{/hasMore}}{{/required}}{{/allParams}})(implicit reader: ClientResponseReader[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{dataType}}]{{/bodyParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
     // create path and map variables
@@ -22,14 +21,28 @@ class {{classname}}(client: TransportClient, config: SwaggerConfig) extends ApiC
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    {{#requiredParamCount}}// verify required params are set
-    val paramCount = (Set[Any]({{/requiredParamCount}}{{#requiredParams}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) - null).size
-    if (paramCount != {{requiredParamCount}}) sys.error("missing required params"){{/requiredParamCount}}
+    {{#allParams}}
+    {{#required}}
+    {{^isPrimitiveType}}
+    if ({{paramName}} == null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
 
-    {{#queryParams}}{{^required}}if({{paramName}} != null) {{paramName}}.foreach { v => queryParams += "{{baseName}}" -> v.toString }{{/required}}{{#required}}
-    if({{paramName}} != null)   queryParams += "{{baseName}}" -> {{paramName}}.toString{{/required}}{{/queryParams}}
+    {{/isPrimitiveType}}
+    {{/required}}
+    {{/allParams}}
+    {{#queryParams}}
+    {{^required}}
+    if ({{paramName}} != null) {{paramName}}.foreach { v => queryParams += "{{baseName}}" -> v.toString }
 
-    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}.toString{{/headerParams}}
+    {{/required}}
+    {{#required}}
+    if ({{paramName}} != null) queryParams += "{{baseName}}" -> {{paramName}}.toString
+
+    {{/required}}
+    {{/queryParams}}
+
+    {{#headerParams}}
+    headerParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/headerParams}}
 
     val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}writer.write({{paramName}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
     resFuture flatMap { resp =>

@@ -1,0 +1,10 @@
+package {{package}};
+
+import org.springframework.cloud.netflix.feign.FeignClient;
+import {{configPackage}}.ClientConfiguration;
+
+{{=<% %>=}}
+@FeignClient(name="${<%title%>.name:<%title%>}", url="${<%title%>.url:<%basePath%>}", configuration = ClientConfiguration.class)
+<%={{ }}=%>
+public interface {{classname}}Client extends {{classname}} {
+}

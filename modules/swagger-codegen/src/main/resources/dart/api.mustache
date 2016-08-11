@@ -1,43 +1,53 @@
-part of api;
+part of {{pubName}}.api;
 
 {{#operations}}
 
-class {{classname}} {
-  String basePath = "{{basePath}}";
-  ApiClient apiClient = ApiClient.defaultApiClient;
 
-  {{classname}}([ApiClient apiClient]) {
-    if (apiClient != null) {
-      this.apiClient = apiClient;
-    }
-  }
+class {{classname}} {
+  final ApiClient apiClient;
+
+  {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   {{#operation}}
   /// {{summary}}
   ///
   /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}, {{/required}}{{/allParams}} { {{#allParams}}{{^required}} {{{dataType}}} {{paramName}}, {{/required}}{{/allParams}} bool justIgnoreThisFlag: true}) async {
+    if (!justIgnoreThisFlag) {
+      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
+      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
+    }
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-    {{#requiredParamCount}}
+
     // verify required params are set
-    if({{/requiredParamCount}}{{#requiredParams}} {{paramName}} == null {{#hasMore}}|| {{/hasMore}}{{/requiredParams}}{{#requiredParamCount}}) {
-       throw new ApiException(400, "missing required params");
-    }{{/requiredParamCount}}
+    {{#allParams}}
+      {{#required}}
+    if({{paramName}} == null) {
+     throw new ApiException(400, "Missing required param: {{paramName}}");
+    }
+      {{/required}}
+    {{/allParams}}
 
     // create path and map variables
     String path = "{{path}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{paramName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
 
     // query params
-    Map<String, String> queryParams = {};
+    List<QueryParam> queryParams = [];
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
-    {{#queryParams}}if("null" != {{paramName}})
-      queryParams["{{baseName}}"] = {{paramName}} is List ? {{paramName}}.join(',') : {{paramName}};
+    {{#queryParams}}
+    {{^required}}
+    if({{paramName}} != null) {
+    {{/required}}
+      queryParams.addAll(_convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+    {{^required}}
+    }
+    {{/required}}
     {{/queryParams}}
     {{#headerParams}}headerParams["{{baseName}}"] = {{paramName}};
     {{/headerParams}}
 
-    List<String> contentTypes = [{{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+    List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
     List<String> authNames = [{{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
@@ -66,17 +76,22 @@ class {{classname}} {
       {{/formParams}}
     }
 
-    return apiClient.invokeAPI(basePath, path, '{{httpMethod}}', queryParams, postBody, headerParams, formParams, contentType, authNames).then((response) {
-      if(response.statusCode >= 400) {
-        throw new ApiException(response.statusCode, response.body);
-      }
-      else if(response.body != null){
-        return {{#returnType}}ApiClient.deserialize(response.body, {{returnBaseType}}){{/returnType}};
-      }
-      else {
-        return {{#returnType}}null{{/returnType}};
-      }
-    });
+    var response = await apiClient.invokeAPI(path,
+                                             '{{httpMethod}}',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, response.body);
+    } else if(response.body != null) {
+      return {{#returnType}}apiClient.deserialize(response.body, '{{{returnType}}}') as {{{returnType}}} {{/returnType}};
+    } else {
+      return {{#returnType}}null{{/returnType}};
+    }
   }
   {{/operation}}
 }

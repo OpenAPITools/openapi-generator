@@ -24,6 +24,11 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     public CsharpDotNet2ClientCodegen() {
         super();
+
+        // clear import mapping (from default generator) as C# (2.0) does not use it
+        // at the moment
+        importMapping.clear();
+
         outputFolder = "generated-code" + File.separator + "CsharpDotNet2";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
@@ -31,9 +36,13 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         apiPackage = "IO.Swagger.Api";
         modelPackage = "IO.Swagger.Model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
-                        "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while")
+                    // local variable names in API methods (endpoints)
+                    "path", "queryParams", "headerParams", "formParams", "fileParams", "postBody",
+                    "authSettings", "response", "StatusCode",
+                    // C# reserved word
+                    "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue", "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float", "for", "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while")
         );
 
 
@@ -56,7 +65,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
                         "Integer",
                         "Long",
                         "Float",
-                        "Stream", // not really a primitive, we include it to avoid model import
+                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
         instantiationTypes.put("array", "List");
@@ -72,7 +81,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         typeMapping.put("number", "double?");
         typeMapping.put("datetime", "DateTime?");
         typeMapping.put("date", "DateTime?");
-        typeMapping.put("file", "Stream");
+        typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
@@ -110,7 +119,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         } else {
             additionalProperties.put(CLIENT_PACKAGE, clientPackage);
         }
-        
+
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
@@ -168,7 +177,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
     @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
+        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
@@ -180,7 +189,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         name = camelize(name);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -202,7 +211,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
-        if (reservedWords.contains(name) || name.matches("^\\d.*")) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
@@ -211,8 +220,10 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelName(String name) {
+        name = sanitizeName(name);
+
         // model name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
         }
 
@@ -261,11 +272,22 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
     @Override
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
-        if (reservedWords.contains(operationId)) {
+        if (isReservedWord(operationId)) {
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
         return camelize(operationId);
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

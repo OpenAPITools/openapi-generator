@@ -13,6 +13,7 @@ import io.swagger.generator.model.GeneratorInput;
 import io.swagger.generator.model.ResponseCode;
 import io.swagger.generator.online.Generator;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -24,10 +25,25 @@ import java.util.*;
 
 @Path("/gen")
 @Api(value = "/gen", description = "Resource for generating swagger components")
+@SuppressWarnings("static-method")
 public class SwaggerResource {
     static List<String> clients = new ArrayList<String>();
     static List<String> servers = new ArrayList<String>();
     private static Map<String, Generated> fileMap = new HashMap<String, Generated>();
+
+    static {
+        List<CodegenConfig> extensions = Codegen.getExtensions();
+        for (CodegenConfig config : extensions) {
+            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
+                clients.add(config.getName());
+            } else if (config.getTag().equals(CodegenType.SERVER)) {
+                servers.add(config.getName());
+            }
+        }
+
+        Collections.sort(clients, String.CASE_INSENSITIVE_ORDER);
+        Collections.sort(servers, String.CASE_INSENSITIVE_ORDER);
+    }
 
     @GET
     @Path("/download/{fileId}")
@@ -76,17 +92,21 @@ public class SwaggerResource {
             @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
 
         String filename = Generator.generateClient(language, opts);
-        String scheme = request.getHeader("X-SSL");
-        String port = "";
-        if("1".equals(scheme)) {
-            scheme = "https";
-        }
-        else {
-            scheme = request.getScheme();
-            port = ":" + request.getServerPort();
+        String host = System.getenv("GENERATOR_HOST");
+
+        if(StringUtils.isBlank(host)) {
+            String scheme = request.getHeader("X-SSL");
+            String port = "";
+            if("1".equals(scheme)) {
+                scheme = "https";
+            }
+            else {
+                scheme = request.getScheme();
+                port = ":" + request.getServerPort();
+            }
+            host = scheme + "://" + request.getServerName() + port;
         }
 
-        String host = scheme + "://" + request.getServerName() + port;
         if (filename != null) {
             String code = String.valueOf(UUID.randomUUID().toString());
             Generated g = new Generated();
@@ -110,7 +130,7 @@ public class SwaggerResource {
             responseContainer = "map",
             tags = "clients")
     public Response getClientOptions(
-            @Context HttpServletRequest request,
+            @SuppressWarnings("unused") @Context HttpServletRequest request,
             @ApiParam(value = "The target language for the client library", required = true)
             @PathParam("language") String language) throws Exception {
 
@@ -132,7 +152,7 @@ public class SwaggerResource {
             responseContainer = "map",
             tags = "servers")
     public Response getServerOptions(
-            @Context HttpServletRequest request,
+            @SuppressWarnings("unused") @Context HttpServletRequest request,
             @ApiParam(value = "The target language for the server framework", required = true)
             @PathParam("framework") String framework) throws Exception {
 
@@ -181,7 +201,7 @@ public class SwaggerResource {
             @ApiParam(value = "parameters", required = true) GeneratorInput opts)
             throws Exception {
         if (framework == null) {
-            throw new BadRequestException(400, "Framework is required");
+            throw new BadRequestException("Framework is required");
         }
         String filename = Generator.generateServer(framework, opts);
         System.out.println("generated name: " + filename);
@@ -199,17 +219,6 @@ public class SwaggerResource {
             return Response.ok().entity(new ResponseCode(code, link)).build();
         } else {
             return Response.status(500).build();
-        }
-    }
-
-    static {
-        List<CodegenConfig> extensions = Codegen.getExtensions();
-        for (CodegenConfig config : extensions) {
-            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
-                clients.add(config.getName());
-            } else if (config.getTag().equals(CodegenType.SERVER)) {
-                servers.add(config.getName());
-            }
         }
     }
 }

@@ -52,7 +52,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.2</version>
+        <version>2.6</version>
         <executions>
           <execution>
             <goals>
@@ -98,11 +98,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>2.5.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
       </plugin>
     </plugins>
   </build>
@@ -110,7 +115,7 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
-      <version>${swagger-annotations-version}</version>
+      <version>${swagger-core-version}</version>
     </dependency>
 
     <!-- HTTP client: jersey-client -->
@@ -127,9 +132,9 @@
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-json-jackson</artifactId>
-      <version>2.22.1</version>
+      <version>${jersey-version}</version>
     </dependency>
-    
+
     <!-- JSON processing: jackson -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -149,7 +154,7 @@
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-joda</artifactId>
-      <version>2.1.5</version>
+      <version>${jackson-version}</version>
     </dependency>
     <dependency>
       <groupId>joda-time</groupId>
@@ -173,11 +178,11 @@
     </dependency>
   </dependencies>
   <properties>
-    <swagger-annotations-version>1.5.0</swagger-annotations-version>
-    <jersey-version>2.12</jersey-version>
-    <jackson-version>2.4.2</jackson-version>
-    <jodatime-version>2.3</jodatime-version>
+    <swagger-core-version>1.5.9</swagger-core-version>
+    <jersey-version>2.22.2</jersey-version>
+    <jackson-version>2.7.5</jackson-version>
+    <jodatime-version>2.9.4</jodatime-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
-    <junit-version>4.8.1</junit-version>
+    <junit-version>4.12</junit-version>
   </properties>
 </project>

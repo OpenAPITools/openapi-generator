@@ -1,0 +1,108 @@
+<?php
+
+{{>licenseInfo}}
+
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Request;
+
+{{#operations}}class {{classname}} extends Controller
+{
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
+
+    {{#operation}}
+    /**
+     * Operation {{{operationId}}}
+     *
+     * {{{summary}}}.
+     *
+  {{#pathParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+  {{/pathParams}}   *
+     * @return Http response
+     */
+    public function {{operationId}}({{#pathParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+    {
+        $input = Request::all();
+
+        //path params validation
+        {{#pathParams}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen(${{paramName}}]) > {{maxLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
+        }
+        {{/maxLength}}
+        {{#minLength}}
+        if (strlen(${{paramName}}]) < {{minLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if (${{paramName}}] > {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if (${{paramName}}] < {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", ${{paramName}}])) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        }
+        {{/pattern}}
+        {{/hasValidation}}
+        {{/pathParams}}
+
+
+        //not path params validation
+        {{#allParams}}
+        {{^pathParams}}
+        {{#required}}
+        if (!isset($input['{{paramName}}'])) {
+            throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{operationId}}');
+        }
+        {{/required}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if (strlen($input['{{paramName}}']) > {{maxLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
+        }
+        {{/maxLength}}
+        {{#minLength}}
+        if (strlen($input['{{paramName}}']) < {{minLength}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
+        }
+        {{/minLength}}
+        {{#maximum}}
+        if ($input['{{paramName}}'] > {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        }
+        {{/maximum}}
+        {{#minimum}}
+        if ($input['{{paramName}}'] < {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        }
+        {{/minimum}}
+        {{#pattern}}
+        if (!preg_match("{{pattern}}", $input['{{paramName}}'])) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        }
+        {{/pattern}}
+        {{/hasValidation}}
+        ${{paramName}} = $input['{{paramName}}'];
+
+        {{/pathParams}}
+        {{/allParams}}
+
+        return response('How about implementing {{nickname}} as a {{httpMethod}} method ?');
+    }
+    {{/operation}}
+}
+{{/operations}}

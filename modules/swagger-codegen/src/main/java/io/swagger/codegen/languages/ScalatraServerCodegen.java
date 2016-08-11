@@ -34,7 +34,7 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         apiPackage = "com.wordnik.client.api";
         modelPackage = "com.wordnik.client.model";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "abstract", "continue", "for", "new", "switch", "assert",
                         "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
@@ -42,7 +42,7 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                         "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
                         "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while")
+                        "native", "super", "while", "type")
         );
 
         defaultIncludes = new HashSet<String>(
@@ -67,6 +67,9 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
 
         typeMapping.put("integer", "Int");
         typeMapping.put("long", "Long");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "String");
 
         additionalProperties.put("appName", "Swagger Sample");
         additionalProperties.put("appName", "Swagger Sample");
@@ -83,7 +86,7 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("web.xml", "/src/main/webapp/WEB-INF", "web.xml"));
-        supportingFiles.add(new SupportingFile("JettyMain.scala", sourceFolder, "JettyMain.scala"));
+        supportingFiles.add(new SupportingFile("JettyMain.mustache", sourceFolder, "JettyMain.scala"));
         supportingFiles.add(new SupportingFile("Bootstrap.mustache", sourceFolder, "ScalatraBootstrap.scala"));
         supportingFiles.add(new SupportingFile("ServletApp.mustache", sourceFolder, "ServletApp.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties", "project", "build.properties"));
@@ -193,4 +196,16 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         }
         return toModelName(type);
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }

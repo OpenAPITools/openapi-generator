@@ -1,0 +1,74 @@
+using System;
+using Nancy;
+using Nancy.ModelBinding;
+using System.Collections.Generic;
+using Sharpility.Base;
+using {{packageName}}.{{packageContext}}.Models;
+using {{packageName}}.{{packageContext}}.Utils;
+using NodaTime;
+{{#imports}}using {{import}};
+{{/imports}}
+
+namespace {{packageName}}.{{packageContext}}.Modules
+{ {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}
+    {{>innerApiEnum}}{{/isEnum}}{{/allParams}}{{/operation}}
+
+    /// <summary>
+    /// Module processing requests of {{classname}} domain.
+    /// </summary>
+    public sealed class {{classname}}Module : NancyModule
+    {
+        /// <summary>
+        /// Sets up HTTP methods mappings.
+        /// </summary>
+        /// <param name="service">Service handling requests</param>
+        public {{classname}}Module({{classname}}Service service) : base("{{baseContext}}")
+        { {{#operation}}
+            {{httpMethod}}["{{path}}"] = parameters =>
+            {
+                {{#allParams}}{{#isBodyParam}}var {{paramName}} = this.Bind<{{&dataType}}>();{{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}var {{paramName}} = Parameters.ValueOf<{{>innerApiEnumName}}?>({{>innerParameterValueOfArgs}});{{/isEnum}}{{^isEnum}}var {{paramName}} = Parameters.ValueOf<{{&dataType}}>({{>innerParameterValueOfArgs}});{{/isEnum}}{{#hasMore}}
+                {{/hasMore}}{{/isBodyParam}}{{/allParams}}{{#allParams}}{{#required}}
+                Preconditions.IsNotNull({{paramName}}, "Required parameter: '{{paramName}}' is missing at '{{operationId}}'");
+                {{/required}}{{/allParams}}
+                {{#returnType}}return {{/returnType}}service.{{operationId}}(Context{{#allParams.0}}, {{/allParams.0}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{^returnType}}
+                return new Response { ContentType = "{{produces.0.mediaType}}"};{{/returnType}}
+            };
+{{/operation}}
+        }
+    }
+
+    /// <summary>
+    /// Service handling {{classname}} requests.
+    /// </summary>
+    public interface {{classname}}Service
+    {
+        {{#operation}}/// <summary>
+        /// {{notes}}
+        /// </summary>
+        /// <param name="context">Context of request</param>
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
+        {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}});{{#hasMore}}
+
+        {{/hasMore}}{{/operation}}
+    }
+
+    /// <summary>
+    /// Abstraction of {{classname}}Service.
+    /// </summary>
+    public abstract class Abstract{{classname}}Service: {{classname}}Service
+    {
+        {{#operation}}public virtual {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
+        {
+            {{#returnType}}return {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        }{{#hasMore}}
+
+        {{/hasMore}}{{/operation}}
+
+        {{#operation}}protected abstract {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{>paramsList}});{{#hasMore}}
+
+        {{/hasMore}}{{/operation}}
+    }
+
+{{/operations}}
+}

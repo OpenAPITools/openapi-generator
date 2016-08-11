@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
   <head>
     <title>{{{appName}}}</title>
     <style type="text/css">
@@ -14,10 +12,17 @@
     {{#infoUrl}}<div class="app-desc">More information: <a href="{{{infoUrl}}}">{{{infoUrl}}}</a></div>{{/infoUrl}}
     {{#infoEmail}}<div class="app-desc">Contact Info: <a href="{{{infoEmail}}}">{{{infoEmail}}}</a></div>{{/infoEmail}}
     {{#version}}<div class="app-desc">Version: {{{version}}}</div>{{/version}}
+    {{#basePathWithoutHost}}<div class="app-desc">BasePath:{{basePathWithoutHost}}</div>{{/basePathWithoutHost}}
     <div class="license-info">{{{licenseInfo}}}</div>
     <div class="license-url">{{{licenseUrl}}}</div>
   <h2>Access</h2>
-  {{access}}
+  {{#hasAuthMethods}}
+    <ol>
+    {{#authMethods}}
+      <li>{{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}</li>
+    {{/authMethods}}
+    </ol>
+  {{/hasAuthMethods}}
 
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
@@ -61,7 +66,7 @@
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
     {{#consumes}}
-      <li><code>{{mediaType}}</code></li>
+      <li><code>{{{mediaType}}}</code></li>
     {{/consumes}}
     </ul>
     {{/hasConsumes}}
@@ -118,7 +123,7 @@
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
     {{#produces}}
-      <li><code>{{mediaType}}</code></li>
+      <li><code>{{{mediaType}}}</code></li>
     {{/produces}}
     </ul>
     {{/hasProduces}}
@@ -127,6 +132,7 @@
     {{#responses}}
     <h4 class="field-label">{{code}}</h4>
     {{message}}
+        {{#simpleType}}<a href="#{{dataType}}">{{dataType}}</a>{{/simpleType}}
     {{#examples}}
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: {{{contentType}}}</div>
@@ -148,7 +154,7 @@
   <ol>
   {{#models}}
   {{#model}}
-    <li><a href="#{{classname}}"><code>{{classname}}</code></a></li>
+    <li><a href="#{{name}}"><code>{{name}}</code></a></li>
   {{/model}}
   {{/models}}
   </ol>
@@ -156,9 +162,9 @@
   {{#models}}
   {{#model}}
   <div class="model">
-    <h3 class="field-label"><a name="{{classname}}">{{classname}}</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="{{name}}">{{name}}</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      {{#vars}}<div class="param">{{name}} {{#isNotRequired}}(optional){{/isNotRequired}}</div><div class="param-desc"><span class="param-type">{{datatype}}</span> {{description}}</div>
+      {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{datatype}}</a>{{/isPrimitiveType}}</span> {{description}} {{#dataFormat}}format: {{{dataFormat}}}{{/dataFormat}}</div>
       {{#isEnum}}
         <div class="param-enum-header">Enum:</div>
         {{#_enum}}<div class="param-enum">{{this}}</div>{{/_enum}}

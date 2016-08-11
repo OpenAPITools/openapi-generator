@@ -1,74 +1,9 @@
+=begin
+{{> api_info}}
+=end
+
 require 'date'
 
-module {{moduleName}}{{#models}}{{#model}}{{#description}}
-  # {{{description}}}{{/description}}
-  class {{classname}}{{#vars}}{{#description}}
-    # {{{description}}}{{/description}}
-    attr_accessor :{{{name}}}
-{{/vars}}
-
-    # Attribute mapping from ruby-style variable name to JSON key.
-    def self.attribute_map
-      {
-        {{#vars}}
-        :'{{{name}}}' => :'{{{baseName}}}'{{#hasMore}},{{/hasMore}}
-        {{/vars}}
-      }
-    end
-
-    # Attribute type mapping.
-    def self.swagger_types
-      {
-        {{#vars}}:'{{{name}}}' => :'{{{datatype}}}'{{#hasMore}},{{/hasMore}}
-        {{/vars}}
-      }
-    end
-
-    def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
-
-      # convert string to symbol for hash key
-      attributes = attributes.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
-
-      {{#vars}}
-      if attributes[:'{{{baseName}}}']
-        {{#isContainer}}if (value = attributes[:'{{{baseName}}}']).is_a?(Array)
-          self.{{{name}}} = value
-        end{{/isContainer}}{{^isContainer}}self.{{{name}}} = attributes[:'{{{baseName}}}']{{/isContainer}}{{#defaultValue}}
-      else
-        self.{{{name}}} = {{{defaultValue}}}{{/defaultValue}}
-      end
-      {{/vars}}
-    end
-{{#vars}}{{#isEnum}}
-    # Custom attribute writer method checking allowed values (enum).
-    def {{{name}}}=({{{name}}})
-      allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
-      if {{{name}}} && !allowed_values.include?({{{name}}})
-        fail "invalid value for '{{{name}}}', must be one of #{allowed_values}"
-      end
-      @{{{name}}} = {{{name}}}
-    end
-{{/isEnum}}{{/vars}}
-    # Check equality by comparing each attribute.
-    def ==(o)
-      return true if self.equal?(o)
-      self.class == o.class{{#vars}} &&
-          {{name}} == o.{{name}}{{/vars}}
-    end
-
-    # @see the `==` method
-    def eql?(o)
-      self == o
-    end
-
-    # Calculate hash code according to all attributes.
-    def hash
-      [{{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}].hash
-    end
-
-{{> base_object}}
-  end
-{{/model}}
-{{/models}}
+module {{moduleName}}
+{{#models}}{{#model}}{{#isEnum}}{{>partial_model_enum_class}}{{/isEnum}}{{^isEnum}}{{>partial_model_generic}}{{/isEnum}}{{/model}}{{/models}}
 end

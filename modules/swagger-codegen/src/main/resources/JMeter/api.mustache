@@ -103,7 +103,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">{{vendorExtensions.x-path}}</stringProp>
+          <stringProp name="HTTPSampler.path">{{basePathWithoutHost}}{{vendorExtensions.x-path}}</stringProp>
           <stringProp name="HTTPSampler.method">{{httpMethod}}</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

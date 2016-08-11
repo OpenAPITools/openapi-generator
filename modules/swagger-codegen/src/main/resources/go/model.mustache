@@ -1,0 +1,15 @@
+{{>partial_header}}
+package {{packageName}}
+{{#models}}{{#imports}}
+import ({{/imports}}{{#imports}}
+	"{{import}}"{{/imports}}{{#imports}}
+)
+{{/imports}}{{#model}}{{#description}}
+// {{{description}}}{{/description}}
+type {{classname}} struct {
+{{#vars}}{{#description}}
+	// {{{description}}}{{/description}}
+	{{name}} {{{datatype}}} `json:"{{baseName}},omitempty"`
+{{/vars}}
+}
+{{/model}}{{/models}}

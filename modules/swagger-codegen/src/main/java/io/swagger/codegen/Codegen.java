@@ -1,22 +1,24 @@
 package io.swagger.codegen;
 
-import config.Config;
-import config.ConfigParser;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
+
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import config.Config;
+import config.ConfigParser;
+import io.swagger.models.Swagger;
+import io.swagger.parser.SwaggerParser;
 
 /**
  * @deprecated use instead {@link io.swagger.codegen.DefaultGenerator}
@@ -24,6 +26,9 @@ import java.util.ServiceLoader;
  */
 @Deprecated
 public class Codegen extends DefaultGenerator {
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(Codegen.class);
+	
     static Map<String, CodegenConfig> configs = new HashMap<String, CodegenConfig>();
     static String configString;
     static String debugInfoOptions = "\nThe following additional debug options are available for all codegen targets:" +
@@ -32,9 +37,8 @@ public class Codegen extends DefaultGenerator {
             "\n -DdebugOperations prints operations passed to the template engine" +
             "\n -DdebugSupportingFiles prints additional data passed to the template engine";
 
+    @SuppressWarnings("deprecation")
     public static void main(String[] args) {
-
-        StringBuilder sb = new StringBuilder();
 
         Options options = new Options();
         options.addOption("h", "help", false, "shows this message");
@@ -113,7 +117,7 @@ public class Codegen extends DefaultGenerator {
                     .swagger(swagger);
             new Codegen().opts(clientOptInput).generate();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -138,9 +142,9 @@ public class Codegen extends DefaultGenerator {
         } else {
             // see if it's a class
             try {
-                System.out.println("loading class " + name);
-                Class customClass = Class.forName(name);
-                System.out.println("loaded");
+                LOGGER.debug("loading class " + name);
+                Class<?> customClass = Class.forName(name);
+                LOGGER.debug("loaded");
                 return (CodegenConfig) customClass.newInstance();
             } catch (Exception e) {
                 throw new RuntimeException("can't load class " + name);

@@ -17,13 +17,21 @@ use DateTime;
 
 $WWW::SwaggerClient::Configuration::http_user_agent = 'Perl-Swagger-Test';
 $WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'ZZZZZZZZZZZZZZ';
-$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = 'BEARER';
+$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = 'Bearer';
 
 $WWW::SwaggerClient::Configuration::username = 'username';
 $WWW::SwaggerClient::Configuration::password = 'password';
 
 
 my $api = WWW::SwaggerClient::PetApi->new();
+
+# exception handling
+#eval {
+#    print "\nget_pet_by_id:".Dumper $api->get_pet_by_id(pet_id => 9999);
+#};
+#if ($@) {
+#    print "Exception when calling: $@\n";
+#}
 
 my $pet_id = 10008;
 

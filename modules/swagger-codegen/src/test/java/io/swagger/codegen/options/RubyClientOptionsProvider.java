@@ -13,6 +13,12 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String GEM_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
+    public static final String GEM_LICENSE_VALUE = "MIT";
+    public static final String GEM_HOMEPAGE_VALUE = "homepage";
+    public static final String GEM_SUMMARY_VALUE = "summary";
+    public static final String GEM_DESCRIPTION_VALUE = "description";
+    public static final String GEM_AUTHOR_VALUE =  "foo";
+    public static final String GEM_AUTHOR_EMAIL_VALUE = "foo";
 
     @Override
     public String getLanguage() {
@@ -25,6 +31,12 @@ public class RubyClientOptionsProvider implements OptionsProvider {
         return builder.put(RubyClientCodegen.GEM_NAME, GEM_NAME_VALUE)
                 .put(RubyClientCodegen.MODULE_NAME, MODULE_NAME_VALUE)
                 .put(RubyClientCodegen.GEM_VERSION, GEM_VERSION_VALUE)
+                .put(RubyClientCodegen.GEM_LICENSE, GEM_LICENSE_VALUE)
+                .put(RubyClientCodegen.GEM_DESCRIPTION, GEM_DESCRIPTION_VALUE)
+                .put(RubyClientCodegen.GEM_HOMEPAGE, GEM_HOMEPAGE_VALUE)
+                .put(RubyClientCodegen.GEM_SUMMARY, GEM_SUMMARY_VALUE)
+                .put(RubyClientCodegen.GEM_AUTHOR, GEM_AUTHOR_VALUE)
+                .put(RubyClientCodegen.GEM_AUTHOR_EMAIL, GEM_AUTHOR_EMAIL_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .build();

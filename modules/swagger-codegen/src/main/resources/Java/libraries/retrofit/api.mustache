@@ -10,7 +10,10 @@ import retrofit.mime.*;
 {{/imports}}
 
 {{^fullJavaUtil}}
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 {{/fullJavaUtil}}
 
 {{#operations}}
@@ -20,7 +23,7 @@ public interface {{classname}} {
    * {{summary}}
    * Sync method
    * {{notes}}
-{{#allParams}}   * @param {{paramName}} {{description}}
+{{#allParams}}   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
   {{#formParams}}{{#-first}}
@@ -33,7 +36,7 @@ public interface {{classname}} {
   /**
    * {{summary}}
    * Async method
-{{#allParams}}   * @param {{paramName}} {{description}}
+{{#allParams}}   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}   * @param cb callback method
    * @return void
    */

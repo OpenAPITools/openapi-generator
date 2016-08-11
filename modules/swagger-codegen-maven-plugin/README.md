@@ -11,7 +11,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen-maven-plugin</artifactId>
-    <version>${project.version}</version>
+    <version>2.1.5-SNAPSHOT</version>
     <executions>
         <execution>
             <goals>
@@ -37,7 +37,7 @@ mvn clean compile
 
 ### General Configuration parameters
 
-- `inputSpec` - swagger spec file path
+- `inputSpec` - OpenAPI Spec file path
 - `language` - target generation language
 - `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`)
 - `templateDirectory` - directory with mustache templates
@@ -45,11 +45,48 @@ mvn clean compile
 - `modelPackage` - the package to use for generated model objects/classes
 - `apiPackage` - the package to use for generated api objects/classes
 - `invokerPackage` - the package to use for the generated invoker objects
+- `modelNamePrefix` and `modelNameSuffix` - Sets the pre- or suffix for model classes and enums.
 - `configOptions` - a map of language-specific parameters (see below)
+- `configHelp` - dumps the configuration help for the specified library (generates no sources)
 
-### Java-specific parameters (under configOptions)
+### Custom Generator
 
-- `sourceFolder` - the folder to use for generated sources under the output folder
-- `groupId` - groupId in generated pom.xml
-- `artifactId` - artifactId in generated pom.xml
-- `artifactVersion` - artifact version in generated pom.xml
+Specifying a custom generator is a bit different. It doesn't support the classpath:/ syntax, but it does support the fully qualified name of the package. You can also specify your custom templates, which also get pulled in. Notice the dependency on a project, in the plugin scope. That would be your generator/template jar.
+
+```xml
+<plugin>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-codegen-maven-plugin</artifactId>
+    <version>${swagger-codegen-maven-plugin-version}</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+            <configuration>
+                <inputSpec>src/main/resources/yaml/yamlfilename.yaml</inputSpec>
+                <!-- language file, like e.g. JavaJaxRSCodegen shipped with swagger -->
+                <language>com.my.package.for.GeneratorLanguage</language>
+                <templateDirectory>myTemplateDir</templateDirectory>
+
+                <output>${project.build.directory}/generated-sources</output>
+                <apiPackage>${default.package}.handler</apiPackage>
+                <modelPackage>${default.package}.model</modelPackage>
+                <invokerPackage>${default.package}.handler</invokerPackage>
+            </configuration>
+        </execution>
+    </executions>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.my.generator</groupId>
+            <artifactId>customgenerator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</plugin>
+```
+
+### Sample configuration
+
+- Please see [an example configuration](examples) for using the plugin

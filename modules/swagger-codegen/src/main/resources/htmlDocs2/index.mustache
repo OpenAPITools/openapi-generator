@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>{{{appName}}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8" />
+
+
+{{>js_jquery}}
+
+{{>js_prettify}}
+{{>js_bootstrap}}
+
+<script>
+
+$( document ).ready(function() {
+
+var textFile = null;
+
+/// Function to be used to download a text json schema
+function makeTextFile(text) {
+
+  var data = new Blob([text], {type: 'text/plain'});
+
+  // If we are replacing a previously generated file we need to
+  // manually revoke the object URL to avoid memory leaks.
+  if (textFile !== null) {
+    window.URL.revokeObjectURL(textFile);
+  }
+
+  textFile = window.URL.createObjectURL(data);
+
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+
+   a.href = textFile;
+   a.download = 'schema.txt';
+      a.click();
+
+  return textFile;
+};
+
+/// TODO: Implement resizing for expanding within iframe
+function callResize() {
+window.parent.postMessage('resize', "*");
+
+}
+
+
+// load google web fonts
+loadGoogleFontCss();
+
+
+// Bootstrap Scrollspy
+$(this).scrollspy({ target: '#scrollingNav', offset: 18 });
+
+// Content-Scroll on Navigation click.
+$('.sidenav').find('a').on('click', function(e) {
+    e.preventDefault();
+    var id = $(this).attr('href');
+    if ($(id).length > 0)
+        $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 400);
+    window.location.hash = $(this).attr('href');
+});
+
+// Quickjump on Pageload to hash position.
+if(window.location.hash) {
+    var id = window.location.hash;
+    if ($(id).length > 0)
+        $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 0);
+}
+
+
+function initDynamic() {
+
+    // tabs
+    $('.nav-tabs-examples a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+
+$('.nav-tabs-examples').find('a:first').tab('show');
+
+    // call scrollspy refresh method
+    $(window).scrollspy('refresh');
+
+}
+initDynamic();
+
+// Pre- / Code-Format
+prettyPrint();
+
+
+/**
+ * Load google fonts.
+ */
+function loadGoogleFontCss() {
+    WebFont.load({
+        active: function() {
+            // Update scrollspy
+            $(window).scrollspy('refresh')
+        },
+        google: {
+            families: ['Source Code Pro', 'Source Sans Pro:n4,n6,n7']
+        }
+    });
+}
+});
+
+
+</script>
+
+<style type="text/css">
+{{>css_bootstrap}}
+{{>css_prettify}}
+
+{{>styles}}
+
+</style>
+
+
+</head>
+<body>
+  <script>
+
+  // Script section to load models into a JS Var
+
+  var defs = {}
+
+  {{#models}}
+  {{#model}}
+  defs.{{name}} = {{{modelJson}}};
+  {{/model}}
+  {{/models}}
+  </script>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div id="sidenav" class="span2">
+            <nav id="scrollingNav">
+                <ul class="sidenav nav nav-list">
+
+
+                    <!-- Logo Area -->
+                    <!--<div style="width: 80%; background-color: #4c8eca; color: white; padding: 20px; text-align: center; margin-bottom: 20px; ">
+
+                    API Docs 2
+
+                    </div>
+                    -->
+                    <li class="nav-fixed nav-header active" data-group="_"><a href="#api-_">API Summary</a></li>
+
+                    {{#apiInfo}}
+
+                        {{#apis}}
+                            {{#operations}}
+                                <li class="nav-header" data-group="{{baseName}}"><a href="#api-{{baseName}}">API Methods - {{baseName}}</a></li>
+                                {{#operation}}
+                                    <li data-group="{{baseName}}" data-name="{{nickname}}" class="">
+                                        <a href="#api-{{baseName}}-{{nickname}}">{{nickname}}</a>
+                                    </li>
+                                {{/operation}}
+                            {{/operations}}
+                        {{/apis}}
+
+                    {{/apiInfo}}
+
+
+
+                </ul>
+            </nav>
+        </div>
+        <div id="content">
+            <div id="project">
+                <div class="pull-left">
+                    <h1>{{{appName}}}</h1>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="header">
+                <div id="api-_">
+                    <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
+
+                    {{#version}}
+                        <div class="app-desc">Version: {{{version}}}</div>
+                    {{/version}}
+
+
+                    <hr>
+
+                    <p>{{{appDescription}}}</p>
+                </div>
+            </div>
+            <div id="sections">
+
+                {{#apiInfo}}
+
+                    {{#apis}}
+                        {{#operations}}
+                            <section id="api-{{baseName}}">
+                                <h1>{{baseName}}</h1>
+                                {{#operation}}
+
+
+
+
+
+
+
+                                    <div id="api-{{baseName}}-{{nickname}}">
+
+                                        <article id="api-{{baseName}}-{{nickname}}-0" data-group="User" data-name="{{nickname}}" data-version="0">
+                                            <div class="pull-left">
+                                                <h1>{{nickname}}</h1>
+                                            </div>
+                                            <div class="pull-right">
+
+                                            </div>
+                                            <div class="clearfix"></div>
+
+                                            <p></p>
+                                            <p>{{notes}}</p>
+                                            <p></p>
+                                            <br />
+
+                                            <pre class="prettyprint language-html prettyprinted" data-type="{{httpMethod}}"><code><span class="pln">{{path}}</span></code></pre>
+
+                                            <p>
+                                                <h3>Usage and SDK Samples</h3>
+                                            </p>
+
+                                            <ul class="nav nav-tabs nav-tabs-examples">
+                                                <li class="active">
+                                                    <a href="#examples-{{baseName}}-{{nickname}}-0-curl">Curl</a>
+                                                </li>
+                                                <li class="">
+              <a href="#examples-{{baseName}}-{{nickname}}-0-java">Java</a>
+            </li>
+            <li class="">
+              <a href="#examples-{{baseName}}-{{nickname}}-0-android">Android</a>
+            </li>
+            <!--<li class="">
+              <a href="#examples-{{baseName}}-{{nickname}}-0-groovy">Groovy</a>
+            </li>-->
+                                                <li class="">
+                                                    <a href="#examples-{{baseName}}-{{nickname}}-0-objc">Obj-C</a>
+                                                </li>
+                                                <li class="">
+                                                    <a href="#examples-{{baseName}}-{{nickname}}-0-javascript">JavaScript</a>
+                                                </li>
+                                                <!--<li class="">
+              <a href="#examples-{{baseName}}-{{nickname}}-0-angular">Angular</a>
+            </li>-->
+                                                <li class="">
+                                                    <a href="#examples-{{baseName}}-{{nickname}}-0-csharp">C#</a>
+                                                </li>
+                                                <li class="">
+              <a href="#examples-{{baseName}}-{{nickname}}-0-php">PHP</a>
+            </li>
+                                            </ul>
+
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-0-curl">
+                                                    <pre class="prettyprint"><code class="language-bsh">
+curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#isApiKey}} -H "apiKey: [[apiKey]]" -H "apiSecret: [[apiSecret]]"{{/isApiKey}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{paramName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"
+
+
+</code></pre>
+                                                </div>
+
+                                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-java">
+                                                  <pre class="prettyprint"><code class="language-java">
+{{>sample_java}}
+                                                  </code></pre>
+          </div>
+
+
+                                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-android">
+                                                  <pre class="prettyprint"><code class="language-java">
+{{>sample_android}}
+                                                  </code></pre>
+          </div>
+
+          <!--
+          <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-groovy">
+            <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+          </div> -->
+
+
+                                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-objc">
+                                                    <pre class="prettyprint"><code class="language-cpp">
+{{>sample_objc}}
+                                                    </code></pre>
+                                                </div>
+                                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-javascript">
+                                                    <pre class="prettyprint"><code class="language-js">
+{{>sample_js}}
+                                                    </code></pre>
+                                                </div>
+
+                                                <!--<div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-angular">
+            <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+          </div>-->
+
+                                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-csharp">
+                                                    <pre class="prettyprint"><code class="language-cs">
+{{>sample_csharp}}
+                                                    </code></pre>
+                                                </div>
+
+
+                                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-php">
+                                                  <pre class="prettyprint"><code class="language-php">
+{{>sample_php}}
+                                                  </code></pre>
+          </div>
+
+                                            </div>
+
+
+
+
+
+                                            <h2>Parameters</h2>
+
+
+
+                                            {{#hasPathParams}}
+                                                <div class="methodsubtabletitle">Path parameters</div>
+                                                <table id="methodsubtable">
+                                                    <tr>
+                                                        <th width="150px">Name</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    <!---->
+                                                    {{#pathParams}}
+                                                        {{>param}}
+                                                    {{/pathParams}}
+                                                </table>
+                                            {{/hasPathParams}}
+
+                                            {{#hasHeaderParams}}
+                                                <div class="methodsubtabletitle">Header parameters</div>
+                                                <table id="methodsubtable">
+                                                    <tr>
+                                                        <th width="150px">Name</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    <!---->
+                                                    {{#headerParams}}
+                                                        {{>param}}
+                                                    {{/headerParams}}
+
+                                                </table>
+                                            {{/hasHeaderParams}}
+
+
+                                            {{#hasBodyParam}}
+                                                <div class="methodsubtabletitle">Body parameters</div>
+                                                <table id="methodsubtable">
+                                                    <tr>
+                                                        <th width="150px">Name</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    <!---->
+                                                    {{#bodyParams}}
+                                                        {{>paramB}}
+                                                    {{/bodyParams}}
+
+                                                </table>
+                                            {{/hasBodyParam}}
+
+                                            {{#hasQueryParams}}
+                                                <div class="methodsubtabletitle">Query parameters</div>
+                                                <table id="methodsubtable">
+                                                    <tr>
+                                                        <th width="150px">Name</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    <!---->
+                                                    {{#queryParams}}
+                                                        {{>param}}
+                                                    {{/queryParams}}
+                                                </table>
+                                            {{/hasQueryParams}}
+
+                                            <h2>Responses</h2>
+                                            {{#responses}}
+
+                                                <h3> Status: {{code}} - {{message}} </h3>
+
+                                                <ul class="nav nav-tabs nav-tabs-examples" >
+
+                                                    <li class="active">
+                                                        <a href="#examples-{{baseName}}-{{nickname}}-schema">Schema</a>
+                                                    </li>
+
+                                                    {{#examples}}
+                                                        <li class="">
+                                                            <a href="#examples-{{baseName}}-{{nickname}}-example">Response Example</a>
+                                                        </li>
+                                                    {{/examples}}
+
+                                                </ul>
+
+
+
+
+
+
+
+                                                <div class="tab-content" style='margin-bottom: 10px;'>
+
+
+
+                                                    <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-schema">
+
+
+
+
+                                                        <div id='examples-{{baseName}}-{{nickname}}-schema-{{code}}' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+
+                                                            <script>
+                                                                $(document).ready(function() {
+                                                                    var schemaWrapper = {{{jsonSchema}}};
+                                                                    var schema = schemaWrapper.schema;
+                                                                    schemaWrapper.definitions = defs;
+                                                                    //console.log(JSON.stringify(schema))
+                                                                    JsonRefs.resolveRefs(schemaWrapper, {
+                                                                        "depth": 3,
+                                                                        "resolveRemoteRefs": false,
+                                                                        "resolveFileRefs": false
+                                                                    }, function(err, resolved, metadata) {
+
+                                                                        //console.log(JSON.stringify(resolved));
+
+
+
+                                                                        var view = new JSONSchemaView(resolved.schema, 3);
+                                                                        $('#examples-{{baseName}}-{{nickname}}-schema-data').val(JSON.stringify(resolved.schema));
+                                                                        var result = $('#examples-{{baseName}}-{{nickname}}-schema-{{code}}');
+                                                                        result.empty();
+                                                                        result.append(view.render());
+                                                                    });
+
+
+
+
+                                                                });
+                                                            </script>
+                                                        </div>
+                                                        <input id='examples-{{baseName}}-{{nickname}}-schema-data' type='hidden' value=''></input>
+
+
+
+
+
+
+                                                    </div>
+
+
+                                                    {{#examples}}
+                                                        <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-example">
+                                                            <pre class="prettyprint"><code class="json">{{example}}</code></pre>
+                                                        </div>
+                                                    {{/examples}}
+
+
+                                                </div>
+
+
+
+                                            {{/responses}}
+
+
+
+
+
+
+                                        </article>
+
+                                    </div>
+
+                                    <hr>
+
+                                {{/operation}}
+                            </section>
+
+                        {{/operations}}
+                    {{/apis}}
+
+                {{/apiInfo}}
+
+
+
+
+            </div>
+
+
+
+
+
+
+            <div id="footer">
+                <div id="api-_footer">
+                    <p>Suggestions, contact, support and error reporting;
+                        {{#infoUrl}}
+                            <div class="app-desc">Information URL: <a href="{{{infoUrl}}}">{{{infoUrl}}}</a></div>
+                        {{/infoUrl}}
+                        {{#infoEmail}}
+                            <div class="app-desc">Contact Info: <a href="{{{infoEmail}}}">{{{infoEmail}}}</a></div>
+                        {{/infoEmail}}
+                    </p>
+                    {{#licenseInfo}}
+                        <div class="license-info">{{{licenseInfo}}}</div>
+                    {{/licenseInfo}}
+                    {{#licenseUrl}}
+                        <div class="license-url">{{{licenseUrl}}}</div>
+                    {{/licenseUrl}}
+                </div>
+            </div>
+            <div id="generator">
+                <div class="content">
+                    Generated {{generatedDate}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{{>js_jsonschemaview}}
+{{>js_jsonref}}
+{{>js_webfontloader}}
+
+
+
+
+<script>
+$(document).ready(function () {
+$('.nav-tabs-examples').find('a:first').tab('show');
+$(this).scrollspy({ target: '#scrollingNav', offset: 18 });
+});
+</script>
+</body>
+
+</html>

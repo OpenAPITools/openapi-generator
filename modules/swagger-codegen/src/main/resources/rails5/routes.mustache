@@ -1,0 +1,20 @@
+=begin
+{{> info}}
+=end
+Rails.application.routes.draw do
+
+  def add_swagger_route http_method, path, opts = {}
+    full_path = path.gsub(/{(.*?)}/, ':\1')
+    match full_path, to: "#{opts.fetch(:controller_name)}##{opts[:action_name]}", via: http_method
+  end
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+  add_swagger_route '{{httpMethod}}', '{{basePathWithoutHost}}{{path}}', controller_name: '{{classVarName}}', action_name: {{#isRestfulIndex}}'index'{{/isRestfulIndex}}{{#isRestfulCreate}}'create'{{/isRestfulCreate}}{{#isRestfulUpdate}}'update'{{/isRestfulUpdate}}{{#isRestfulShow}}'show'{{/isRestfulShow}}{{#isRestfulDestroy}}'destroy'{{/isRestfulDestroy}}{{^isRestful}}'{{nickname}}'{{/isRestful}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+end

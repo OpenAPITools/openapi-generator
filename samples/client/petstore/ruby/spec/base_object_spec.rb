@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class ArrayMapObject < Petstore::Category
-  attr_accessor :int_arr, :pet_arr, :int_map, :pet_map, :int_arr_map, :pet_arr_map
+  attr_accessor :int_arr, :pet_arr, :int_map, :pet_map, :int_arr_map, :pet_arr_map, :boolean_true_arr, :boolean_false_arr
 
   def self.attribute_map
     {
@@ -10,7 +10,9 @@ class ArrayMapObject < Petstore::Category
       :int_map => :int_map,
       :pet_map => :pet_map,
       :int_arr_map => :int_arr_map,
-      :pet_arr_map => :pet_arr_map
+      :pet_arr_map => :pet_arr_map,
+      :boolean_true_arr  => :boolean_true_arr,
+      :boolean_false_arr => :boolean_false_arr,
     }
   end
 
@@ -21,13 +23,23 @@ class ArrayMapObject < Petstore::Category
       :int_map => :'Hash<String, Integer>',
       :pet_map => :'Hash<String, Pet>',
       :int_arr_map => :'Hash<String, Array<Integer>>',
-      :pet_arr_map => :'Hash<String, Array<Pet>>'
+      :pet_arr_map => :'Hash<String, Array<Pet>>',
+      :boolean_true_arr  => :'Array<BOOLEAN>',
+      :boolean_false_arr => :'Array<BOOLEAN>',
     }
   end
 end
 
-
 describe 'BaseObject' do
+  describe 'boolean values' do
+    let(:obj) { Petstore::Cat.new({declawed: false}) }
+
+    it 'should have values set' do
+      expect(obj.declawed).not_to be_nil
+      expect(obj.declawed).to eq(false)
+    end
+  end
+
   describe 'array and map properties' do
     let(:obj) { ArrayMapObject.new }
 
@@ -37,45 +49,61 @@ describe 'BaseObject' do
        int_map: {'int' => 123},
        pet_map: {'pet' => {name: 'Kitty'}},
        int_arr_map: {'int_arr' => [123, 456]},
-       pet_arr_map: {'pet_arr' => [{name: 'Kitty'}]}
+       pet_arr_map: {'pet_arr' => [{name: 'Kitty'}]},
+       boolean_true_arr:  [true, "true", "TruE", 1, "y", "yes", "1", "t", "T"],
+       boolean_false_arr: [false, "", 0, "0", "f", nil, "null"],
       }
     end
 
     it 'works for #build_from_hash' do
       obj.build_from_hash(data)
 
-      obj.int_arr.should == [123, 456]
+      expect(obj.int_arr).to match_array([123, 456])
 
-      obj.pet_arr.should be_a(Array)
-      obj.pet_arr.size.should == 1
+      expect(obj.pet_arr).to be_instance_of(Array)
+      expect(obj.pet_arr.size).to eq(1)
+
       pet = obj.pet_arr.first
-      pet.should be_a(Petstore::Pet)
-      pet.name.should == 'Kitty'
+      expect(pet).to be_instance_of(Petstore::Pet)
+      expect(pet.name).to eq('Kitty')
 
-      obj.int_map.should be_a(Hash)
-      obj.int_map.should == {'int' => 123}
+      expect(obj.int_map).to be_instance_of(Hash)
+      expect(obj.int_map).to eq({'int' => 123})
 
-      obj.pet_map.should be_a(Hash)
+      expect(obj.pet_map).to be_instance_of(Hash)
       pet = obj.pet_map['pet']
-      pet.should be_a(Petstore::Pet)
-      pet.name.should == 'Kitty'
+      expect(pet).to be_instance_of(Petstore::Pet)
+      expect(pet.name).to eq('Kitty')
 
-      obj.int_arr_map.should be_a(Hash)
+      expect(obj.int_arr_map).to be_instance_of(Hash)
       arr = obj.int_arr_map['int_arr']
-      arr.should == [123, 456]
+      expect(arr).to match_array([123, 456])
 
-      obj.pet_arr_map.should be_a(Hash)
+      expect(obj.pet_arr_map).to be_instance_of(Hash)
       arr = obj.pet_arr_map['pet_arr']
-      arr.should be_a(Array)
-      arr.size.should == 1
+      expect(arr).to be_instance_of(Array)
+      expect(arr.size).to eq(1)
       pet = arr.first
-      pet.should be_a(Petstore::Pet)
-      pet.name.should == 'Kitty'
+      expect(pet).to be_instance_of(Petstore::Pet)
+      expect(pet.name).to eq('Kitty')
+
+      expect(obj.boolean_true_arr).to be_instance_of(Array)
+      obj.boolean_true_arr.each do |b|
+        expect(b).to eq(true)
+      end
+
+      expect(obj.boolean_false_arr).to be_instance_of(Array)
+      obj.boolean_false_arr.each do |b|
+        expect(b).to eq(false)
+      end
     end
 
     it 'works for #to_hash' do
       obj.build_from_hash(data)
-      obj.to_hash.should == data
+      expect_data = data.dup
+      expect_data[:boolean_true_arr].map! {true}
+      expect_data[:boolean_false_arr].map! {false}
+      expect(obj.to_hash).to eq(expect_data)
     end
   end
 end

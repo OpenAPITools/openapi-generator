@@ -182,7 +182,7 @@ font-style: italic;
   </head>
   <body>
   <h1>Swagger Petstore</h1>
-    <div class="app-desc">This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters</div>
+    <div class="app-desc">This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.</div>
     
     <div class="app-desc">Contact Info: <a href="apiteam@swagger.io">apiteam@swagger.io</a></div>
     <div class="app-desc">Version: 1.0.0</div>
@@ -194,450 +194,309 @@ font-style: italic;
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
 
-  
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
-  
   <ol>
-  
-  
-  
-  <li><a href="#updatePet"><code><span class="http-method">put</span> /pet</code></a></li>
-  
   <li><a href="#addPet"><code><span class="http-method">post</span> /pet</code></a></li>
-  
-  <li><a href="#findPetsByStatus"><code><span class="http-method">get</span> /pet/findByStatus</code></a></li>
-  
-  <li><a href="#findPetsByTags"><code><span class="http-method">get</span> /pet/findByTags</code></a></li>
-  
-  <li><a href="#getPetById"><code><span class="http-method">get</span> /pet/{petId}</code></a></li>
-  
-  <li><a href="#updatePetWithForm"><code><span class="http-method">post</span> /pet/{petId}</code></a></li>
-  
   <li><a href="#deletePet"><code><span class="http-method">delete</span> /pet/{petId}</code></a></li>
-  
+  <li><a href="#findPetsByStatus"><code><span class="http-method">get</span> /pet/findByStatus</code></a></li>
+  <li><a href="#findPetsByTags"><code><span class="http-method">get</span> /pet/findByTags</code></a></li>
+  <li><a href="#getPetById"><code><span class="http-method">get</span> /pet/{petId}</code></a></li>
+  <li><a href="#updatePet"><code><span class="http-method">put</span> /pet</code></a></li>
+  <li><a href="#updatePetWithForm"><code><span class="http-method">post</span> /pet/{petId}</code></a></li>
   <li><a href="#uploadFile"><code><span class="http-method">post</span> /pet/{petId}/uploadImage</code></a></li>
-  
-  <li><a href="#getInventory"><code><span class="http-method">get</span> /store/inventory</code></a></li>
-  
-  <li><a href="#placeOrder"><code><span class="http-method">post</span> /store/order</code></a></li>
-  
-  <li><a href="#getOrderById"><code><span class="http-method">get</span> /store/order/{orderId}</code></a></li>
-  
   <li><a href="#deleteOrder"><code><span class="http-method">delete</span> /store/order/{orderId}</code></a></li>
-  
+  <li><a href="#getInventory"><code><span class="http-method">get</span> /store/inventory</code></a></li>
+  <li><a href="#getOrderById"><code><span class="http-method">get</span> /store/order/{orderId}</code></a></li>
+  <li><a href="#placeOrder"><code><span class="http-method">post</span> /store/order</code></a></li>
   <li><a href="#createUser"><code><span class="http-method">post</span> /user</code></a></li>
-  
   <li><a href="#createUsersWithArrayInput"><code><span class="http-method">post</span> /user/createWithArray</code></a></li>
-  
   <li><a href="#createUsersWithListInput"><code><span class="http-method">post</span> /user/createWithList</code></a></li>
-  
-  <li><a href="#loginUser"><code><span class="http-method">get</span> /user/login</code></a></li>
-  
-  <li><a href="#logoutUser"><code><span class="http-method">get</span> /user/logout</code></a></li>
-  
-  <li><a href="#getUserByName"><code><span class="http-method">get</span> /user/{username}</code></a></li>
-  
-  <li><a href="#updateUser"><code><span class="http-method">put</span> /user/{username}</code></a></li>
-  
   <li><a href="#deleteUser"><code><span class="http-method">delete</span> /user/{username}</code></a></li>
-  
-  
-  
+  <li><a href="#getUserByName"><code><span class="http-method">get</span> /user/{username}</code></a></li>
+  <li><a href="#loginUser"><code><span class="http-method">get</span> /user/login</code></a></li>
+  <li><a href="#logoutUser"><code><span class="http-method">get</span> /user/logout</code></a></li>
+  <li><a href="#updateUser"><code><span class="http-method">put</span> /user/{username}</code></a></li>
   </ol>
-  
 
-  
-  
-  
-  
-  <div class="method"><a name="updatePet"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /pet</code></pre></div>
-    <div class="method-summary">Update an existing pet (<span class="nickname">updatePet</span>)</div>
-    
-    <div class="method-notes"></div>
-
-    
-
-    
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added to the store </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">400</h4>
-    Invalid ID supplied
-    
-    
-    <h4 class="field-label">404</h4>
-    Pet not found
-    
-    
-    <h4 class="field-label">405</h4>
-    Validation exception
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
   <div class="method"><a name="addPet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /pet</code></pre></div>
     <div class="method-summary">Add a new pet to the store (<span class="nickname">addPet</span>)</div>
-    
     <div class="method-notes"></div>
 
-    
 
-    
     <h3 class="field-label">Consumes</h3>
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
-    
       <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
     </ul>
-    
 
-    
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (optional)</div>
+      <div class="param">body (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added to the store </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
 
-    
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
 
-    
-
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">405</h4>
     Invalid input
-    
-    
   </div> <!-- method -->
   <hr/>
-  
+  <div class="method"><a name="deletePet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /pet/{petId}</code></pre></div>
+    <div class="method-summary">Deletes a pet (<span class="nickname">deletePet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">petId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Pet id to delete </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">400</h4>
+    Invalid pet value
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="findPetsByStatus"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /pet/findByStatus</code></pre></div>
     <div class="method-summary">Finds Pets by status (<span class="nickname">findPetsByStatus</span>)</div>
-    
-    <div class="method-notes">Multiple status values can be provided with comma seperated strings</div>
+    <div class="method-notes">Multiple status values can be provided with comma separated strings</div>
 
-    
 
-    
 
-    
 
-    
 
-    
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">status (optional)</div>
+      <div class="param">status (required)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be considered for filter default: available</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Status values that need to be considered for filter </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
     <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#array">array[Pet]</a></div>
-    
+    <div class="return-type">
+      array[<a href="#Pet">Pet</a>]
+      
+    </div>
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    
 
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">200</h4>
     successful operation
-    
-    
     <h4 class="field-label">400</h4>
     Invalid status value
-    
-    
   </div> <!-- method -->
   <hr/>
-  
   <div class="method"><a name="findPetsByTags"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /pet/findByTags</code></pre></div>
     <div class="method-summary">Finds Pets by tags (<span class="nickname">findPetsByTags</span>)</div>
-    
-    <div class="method-notes">Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.</div>
+    <div class="method-notes">Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.</div>
 
-    
 
-    
 
-    
 
-    
 
-    
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">tags (optional)</div>
+      <div class="param">tags (required)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Tags to filter by </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
     <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#array">array[Pet]</a></div>
-    
+    <div class="return-type">
+      array[<a href="#Pet">Pet</a>]
+      
+    </div>
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    
 
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">200</h4>
     successful operation
-    
-    
     <h4 class="field-label">400</h4>
     Invalid tag value
-    
-    
   </div> <!-- method -->
   <hr/>
-  
   <div class="method"><a name="getPetById"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /pet/{petId}</code></pre></div>
     <div class="method-summary">Find pet by ID (<span class="nickname">getPetById</span>)</div>
-    
-    <div class="method-notes">Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions</div>
+    <div class="method-notes">Returns a single pet</div>
 
-    
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
       <div class="param">petId (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be fetched </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to return </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
     <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#">Pet</a></div>
-    
+    <div class="return-type">
+      <a href="#Pet">Pet</a>
+      
+    </div>
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    
 
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">200</h4>
     successful operation
-    
-    
     <h4 class="field-label">400</h4>
     Invalid ID supplied
-    
-    
     <h4 class="field-label">404</h4>
     Pet not found
-    
-    
   </div> <!-- method -->
   <hr/>
-  
+  <div class="method"><a name="updatePet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /pet</code></pre></div>
+    <div class="method-summary">Update an existing pet (<span class="nickname">updatePet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+      <li><code>application/xml</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added to the store </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">400</h4>
+    Invalid ID supplied
+    <h4 class="field-label">404</h4>
+    Pet not found
+    <h4 class="field-label">405</h4>
+    Validation exception
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="updatePetWithForm"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /pet/{petId}</code></pre></div>
     <div class="method-summary">Updates a pet in the store with form data (<span class="nickname">updatePetWithForm</span>)</div>
-    
     <div class="method-notes"></div>
 
-    
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
       <div class="param">petId (required)</div>
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be updated </div>
     </div>  <!-- field-items -->
-    
 
-    
     <h3 class="field-label">Consumes</h3>
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
-    
       <li><code>application/x-www-form-urlencoded</code></li>
-    
     </ul>
-    
 
-    
 
-    
 
-    
 
-    
     <h3 class="field-label">Form parameters</h3>
     <div class="field-items">
       <div class="param">name (optional)</div>
@@ -646,135 +505,47 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; Updated status of the pet </div>
     </div>  <!-- field-items -->
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
 
-    
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
 
-    
-
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">405</h4>
     Invalid input
-    
-    
   </div> <!-- method -->
   <hr/>
-  
-  <div class="method"><a name="deletePet"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /pet/{petId}</code></pre></div>
-    <div class="method-summary">Deletes a pet (<span class="nickname">deletePet</span>)</div>
-    
-    <div class="method-notes"></div>
-
-    
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">petId (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Pet id to delete </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">400</h4>
-    Invalid pet value
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
   <div class="method"><a name="uploadFile"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /pet/{petId}/uploadImage</code></pre></div>
     <div class="method-summary">uploads an image (<span class="nickname">uploadFile</span>)</div>
-    
     <div class="method-notes"></div>
 
-    
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
       <div class="param">petId (required)</div>
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to update </div>
     </div>  <!-- field-items -->
-    
 
-    
     <h3 class="field-label">Consumes</h3>
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
     <ul>
-    
       <li><code>multipart/form-data</code></li>
-    
     </ul>
-    
 
-    
 
-    
 
-    
 
-    
     <h3 class="field-label">Form parameters</h3>
     <div class="field-items">
       <div class="param">additionalMetadata (optional)</div>
@@ -783,814 +554,498 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash; file to upload </div>
     </div>  <!-- field-items -->
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">0</h4>
-    successful operation
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
-  <div class="method"><a name="getInventory"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /store/inventory</code></pre></div>
-    <div class="method-summary">Returns pet inventories by status (<span class="nickname">getInventory</span>)</div>
-    
-    <div class="method-notes">Returns a map of status codes to quantities</div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
     <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#map">map[String, Integer]</a></div>
-    
+    <div class="return-type">
+      <a href="#ApiResponse">ApiResponse</a>
+      
+    </div>
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    
 
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
       <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">200</h4>
     successful operation
-    
-    
   </div> <!-- method -->
   <hr/>
-  
-  <div class="method"><a name="placeOrder"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /store/order</code></pre></div>
-    <div class="method-summary">Place an order for a pet (<span class="nickname">placeOrder</span>)</div>
-    
-    <div class="method-notes"></div>
-
-    
-
-    
-
-    
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; order placed for purchasing the pet </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#">Order</a></div>
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">200</h4>
-    successful operation
-    
-    
-    <h4 class="field-label">400</h4>
-    Invalid Order
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
-  <div class="method"><a name="getOrderById"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /store/order/{orderId}</code></pre></div>
-    <div class="method-summary">Find purchase order by ID (<span class="nickname">getOrderById</span>)</div>
-    
-    <div class="method-notes">For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions</div>
-
-    
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">orderId (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be fetched </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#">Order</a></div>
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">200</h4>
-    successful operation
-    
-    
-    <h4 class="field-label">400</h4>
-    Invalid ID supplied
-    
-    
-    <h4 class="field-label">404</h4>
-    Order not found
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
   <div class="method"><a name="deleteOrder"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="delete"><code class="huge"><span class="http-method">delete</span> /store/order/{orderId}</code></pre></div>
     <div class="method-summary">Delete purchase order by ID (<span class="nickname">deleteOrder</span>)</div>
-    
     <div class="method-notes">For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors</div>
 
-    
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
       <div class="param">orderId (required)</div>
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of the order that needs to be deleted </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
 
-    
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
 
-    
-
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">400</h4>
     Invalid ID supplied
-    
-    
     <h4 class="field-label">404</h4>
     Order not found
-    
-    
   </div> <!-- method -->
   <hr/>
-  
+  <div class="method"><a name="getInventory"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /store/inventory</code></pre></div>
+    <div class="method-summary">Returns pet inventories by status (<span class="nickname">getInventory</span>)</div>
+    <div class="method-notes">Returns a map of status codes to quantities</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      map[String, Integer]
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getOrderById"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /store/order/{orderId}</code></pre></div>
+    <div class="method-summary">Find purchase order by ID (<span class="nickname">getOrderById</span>)</div>
+    <div class="method-notes">For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">orderId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be fetched </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Order">Order</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+    <h4 class="field-label">400</h4>
+    Invalid ID supplied
+    <h4 class="field-label">404</h4>
+    Order not found
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="placeOrder"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /store/order</code></pre></div>
+    <div class="method-summary">Place an order for a pet (<span class="nickname">placeOrder</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; order placed for purchasing the pet </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Order">Order</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+    <h4 class="field-label">400</h4>
+    Invalid Order
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="createUser"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /user</code></pre></div>
     <div class="method-summary">Create user (<span class="nickname">createUser</span>)</div>
-    
     <div class="method-notes">This can only be done by the logged in user.</div>
 
-    
 
-    
 
-    
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (optional)</div>
+      <div class="param">body (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Created user object </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
 
-    
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
 
-    
-
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">0</h4>
     successful operation
-    
-    
   </div> <!-- method -->
   <hr/>
-  
   <div class="method"><a name="createUsersWithArrayInput"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /user/createWithArray</code></pre></div>
     <div class="method-summary">Creates list of users with given input array (<span class="nickname">createUsersWithArrayInput</span>)</div>
-    
     <div class="method-notes"></div>
 
-    
 
-    
 
-    
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (optional)</div>
+      <div class="param">body (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
 
-    
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
 
-    
-
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">0</h4>
     successful operation
-    
-    
   </div> <!-- method -->
   <hr/>
-  
   <div class="method"><a name="createUsersWithListInput"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="post"><code class="huge"><span class="http-method">post</span> /user/createWithList</code></pre></div>
     <div class="method-summary">Creates list of users with given input array (<span class="nickname">createUsersWithListInput</span>)</div>
-    
     <div class="method-notes"></div>
 
-    
 
-    
 
-    
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (optional)</div>
+      <div class="param">body (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
 
-    
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
 
-    
-
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">0</h4>
     successful operation
-    
-    
   </div> <!-- method -->
   <hr/>
-  
-  <div class="method"><a name="loginUser"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/login</code></pre></div>
-    <div class="method-summary">Logs user into the system (<span class="nickname">loginUser</span>)</div>
-    
-    <div class="method-notes"></div>
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">username (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The user name for login </div><div class="param">password (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The password for login in clear text </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#">String</a></div>
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">200</h4>
-    successful operation
-    
-    
-    <h4 class="field-label">400</h4>
-    Invalid username/password supplied
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
-  <div class="method"><a name="logoutUser"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/logout</code></pre></div>
-    <div class="method-summary">Logs out current logged in user session (<span class="nickname">logoutUser</span>)</div>
-    
-    <div class="method-notes"></div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">0</h4>
-    successful operation
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
-  <div class="method"><a name="getUserByName"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/{username}</code></pre></div>
-    <div class="method-summary">Get user by user name (<span class="nickname">getUserByName</span>)</div>
-    
-    <div class="method-notes"></div>
-
-    
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">username (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing. </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type"><a href="#">User</a></div>
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">200</h4>
-    successful operation
-    
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{id=1, username=johnp, firstName=John, lastName=Public, email=johnp@swagger.io, password=-secret-, phone=0123456789, userStatus=0}</code></pre>
-    
-    
-    <h4 class="field-label">400</h4>
-    Invalid username supplied
-    
-    
-    <h4 class="field-label">404</h4>
-    User not found
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
-  <div class="method"><a name="updateUser"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /user/{username}</code></pre></div>
-    <div class="method-summary">Updated user (<span class="nickname">updateUser</span>)</div>
-    
-    <div class="method-notes">This can only be done by the logged in user.</div>
-
-    
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">username (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be deleted </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Updated user object </div>
-    </div>  <!-- field-items -->
-    
-
-    
-
-    
-
-    
-
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
-
-    
-
-    Todo: process Response Object and its headers, schema, examples
-    -->
-
-    
-
-    
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-    
-      <li><code>application/json</code></li>
-    
-      <li><code>application/xml</code></li>
-    
-    </ul>
-    
-
-    <h3 class="field-label">Responses</h3>
-    
-    <h4 class="field-label">400</h4>
-    Invalid user supplied
-    
-    
-    <h4 class="field-label">404</h4>
-    User not found
-    
-    
-  </div> <!-- method -->
-  <hr/>
-  
   <div class="method"><a name="deleteUser"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="delete"><code class="huge"><span class="http-method">delete</span> /user/{username}</code></pre></div>
     <div class="method-summary">Delete user (<span class="nickname">deleteUser</span>)</div>
-    
     <div class="method-notes">This can only be done by the logged in user.</div>
 
-    
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
       <div class="param">username (required)</div>
 
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be deleted </div>
     </div>  <!-- field-items -->
-    
 
-    
 
-    
 
-    
 
-    
 
-    
 
-    <!-- Remove Return type... unclear where this comes from;
-         for our swagger.json files, it is always empty and there is no boolean guard or hasReturnType
-         do we end up with a heading but not content
 
-    
+    <!--Todo: process Response Object and its headers, schema, examples -->
 
-    Todo: process Response Object and its headers, schema, examples
-    -->
 
-    
-
-    
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
     the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
     <ul>
-    
-      <li><code>application/json</code></li>
-    
       <li><code>application/xml</code></li>
-    
+      <li><code>application/json</code></li>
     </ul>
-    
 
     <h3 class="field-label">Responses</h3>
-    
     <h4 class="field-label">400</h4>
     Invalid username supplied
-    
-    
     <h4 class="field-label">404</h4>
     User not found
-    
-    
   </div> <!-- method -->
   <hr/>
-  
-  
-  
-  
+  <div class="method"><a name="getUserByName"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/{username}</code></pre></div>
+    <div class="method-summary">Get user by user name (<span class="nickname">getUserByName</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">username (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing.  </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#User">User</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+    <h4 class="field-label">400</h4>
+    Invalid username supplied
+    <h4 class="field-label">404</h4>
+    User not found
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="loginUser"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/login</code></pre></div>
+    <div class="method-summary">Logs user into the system (<span class="nickname">loginUser</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">username (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The user name for login </div><div class="param">password (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The password for login in clear text </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+    <h4 class="field-label">400</h4>
+    Invalid username/password supplied
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="logoutUser"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /user/logout</code></pre></div>
+    <div class="method-summary">Logs out current logged in user session (<span class="nickname">logoutUser</span>)</div>
+    <div class="method-notes"></div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">0</h4>
+    successful operation
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateUser"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /user/{username}</code></pre></div>
+    <div class="method-summary">Updated user (<span class="nickname">updateUser</span>)</div>
+    <div class="method-notes">This can only be done by the logged in user.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">username (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be deleted </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Updated user object </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">400</h4>
+    Invalid user supplied
+    <h4 class="field-label">404</h4>
+    User not found
+  </div> <!-- method -->
+  <hr/>
 
   <div class="up"><a href="#__Models">Up</a></div>
   <h2><a name="__Models">Models</a></h2>
@@ -1598,128 +1053,74 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-  
-  
-    <li><a href="#User"><code>User</code></a></li>
-  
-  
-  
+    <li><a href="#ApiResponse"><code>ApiResponse</code></a></li>
     <li><a href="#Category"><code>Category</code></a></li>
-  
-  
-  
-    <li><a href="#Pet"><code>Pet</code></a></li>
-  
-  
-  
-    <li><a href="#Tag"><code>Tag</code></a></li>
-  
-  
-  
     <li><a href="#Order"><code>Order</code></a></li>
-  
-  
+    <li><a href="#Pet"><code>Pet</code></a></li>
+    <li><a href="#Tag"><code>Tag</code></a></li>
+    <li><a href="#User"><code>User</code></a></li>
   </ol>
 
-  
-  
   <div class="model">
-    <h3 class="field-label"><a name="User">User</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ApiResponse">ApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id </div><div class="param-desc"><span class="param-type">Long</span> </div>
-      
-      <div class="param">username </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      <div class="param">firstName </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      <div class="param">lastName </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      <div class="param">email </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      <div class="param">password </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      <div class="param">phone </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      <div class="param">userStatus </div><div class="param-desc"><span class="param-type">Integer</span> User Status</div>
-      
-      
+      <div class="param">code (optional)</div><div class="param-desc"><span class="param-type">Integer</span> </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">message (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
     </div>  <!-- field-items -->
   </div>
-  
-  
-  
   <div class="model">
     <h3 class="field-label"><a name="Category">Category</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id </div><div class="param-desc"><span class="param-type">Long</span> </div>
-      
-      <div class="param">name </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
     </div>  <!-- field-items -->
   </div>
-  
-  
-  
-  <div class="model">
-    <h3 class="field-label"><a name="Pet">Pet</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">id </div><div class="param-desc"><span class="param-type">Long</span> </div>
-      
-      <div class="param">category </div><div class="param-desc"><span class="param-type">Category</span> </div>
-      
-      <div class="param">name </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      <div class="param">photoUrls </div><div class="param-desc"><span class="param-type">array[String]</span> </div>
-      
-      <div class="param">tags </div><div class="param-desc"><span class="param-type">array[Tag]</span> </div>
-      
-      <div class="param">status </div><div class="param-desc"><span class="param-type">String</span> pet status in the store</div>
-      
-        <div class="param-enum-header">Enum:</div>
-        <div class="param-enum">available</div><div class="param-enum">pending</div><div class="param-enum">sold</div>
-      
-      
-    </div>  <!-- field-items -->
-  </div>
-  
-  
-  
-  <div class="model">
-    <h3 class="field-label"><a name="Tag">Tag</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">id </div><div class="param-desc"><span class="param-type">Long</span> </div>
-      
-      <div class="param">name </div><div class="param-desc"><span class="param-type">String</span> </div>
-      
-      
-    </div>  <!-- field-items -->
-  </div>
-  
-  
-  
   <div class="model">
     <h3 class="field-label"><a name="Order">Order</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id </div><div class="param-desc"><span class="param-type">Long</span> </div>
-      
-      <div class="param">petId </div><div class="param-desc"><span class="param-type">Long</span> </div>
-      
-      <div class="param">quantity </div><div class="param-desc"><span class="param-type">Integer</span> </div>
-      
-      <div class="param">shipDate </div><div class="param-desc"><span class="param-type">Date</span> </div>
-      
-      <div class="param">status </div><div class="param-desc"><span class="param-type">String</span> Order Status</div>
-      
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
+<div class="param">petId (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
+<div class="param">quantity (optional)</div><div class="param-desc"><span class="param-type">Integer</span> </div>
+<div class="param">shipDate (optional)</div><div class="param-desc"><span class="param-type">Date</span> </div>
+<div class="param">status (optional)</div><div class="param-desc"><span class="param-type">String</span> Order Status</div>
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">placed</div><div class="param-enum">approved</div><div class="param-enum">delivered</div>
-      
-      <div class="param">complete </div><div class="param-desc"><span class="param-type">Boolean</span> </div>
-      
-      
+<div class="param">complete (optional)</div><div class="param-desc"><span class="param-type">Boolean</span> </div>
     </div>  <!-- field-items -->
   </div>
-  
-  
+  <div class="model">
+    <h3 class="field-label"><a name="Pet">Pet</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
+<div class="param">category (optional)</div><div class="param-desc"><span class="param-type">Category</span> </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">photoUrls </div><div class="param-desc"><span class="param-type">array[String]</span> </div>
+<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type">array[Tag]</span> </div>
+<div class="param">status (optional)</div><div class="param-desc"><span class="param-type">String</span> pet status in the store</div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">available</div><div class="param-enum">pending</div><div class="param-enum">sold</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Tag">Tag</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="User">User</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">firstName (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">lastName (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">email (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">phone (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+<div class="param">userStatus (optional)</div><div class="param-desc"><span class="param-type">Integer</span> User Status</div>
+    </div>  <!-- field-items -->
+  </div>
   </body>
 </html>

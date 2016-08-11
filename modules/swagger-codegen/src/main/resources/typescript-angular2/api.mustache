@@ -1,0 +1,95 @@
+{{>licenseInfo}}
+import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
+import {Injectable, Optional} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import * as models from '../model/models';
+import 'rxjs/Rx';
+
+/* tslint:disable:no-unused-variable member-ordering */
+
+{{#operations}}
+'use strict';
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+@Injectable()
+export class {{classname}} {
+    protected basePath = '{{basePath}}';
+    public defaultHeaders : Headers = new Headers();
+
+    constructor(protected http: Http, @Optional() basePath: string) {
+        if (basePath) {
+            this.basePath = basePath;
+        }
+    }
+
+{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+        const path = this.basePath + '{{path}}'{{#pathParams}}
+            .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
+
+        let queryParameters = new URLSearchParams();
+        let headerParams = this.defaultHeaders;
+{{#hasFormParams}}
+        let formParams = new URLSearchParams();
+
+{{/hasFormParams}}
+{{#allParams}}
+{{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+{{/required}}
+{{/allParams}}
+{{#queryParams}}
+        if ({{paramName}} !== undefined) {
+            queryParameters.set('{{baseName}}', String({{paramName}}));
+        }
+
+{{/queryParams}}
+{{#headerParams}}
+            headerParams.set('{{baseName}}', String({{paramName}}));
+
+{{/headerParams}}
+{{#hasFormParams}}
+        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
+
+{{/hasFormParams}}
+{{#formParams}}
+        formParams['{{baseName}}'] = {{paramName}};
+
+{{/formParams}}
+        let requestOptions: RequestOptionsArgs = {
+            method: '{{httpMethod}}',
+            headers: headerParams,
+            search: queryParameters
+        };
+        {{#bodyParam}}
+        requestOptions.body = JSON.stringify({{paramName}});
+        {{/bodyParam}}
+        {{#hasFormParams}}
+        requestOptions.body = formParams.toString();
+        {{/hasFormParams}}
+
+        return this.http.request(path, requestOptions)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+{{/operation}}
+}
+{{/operations}}

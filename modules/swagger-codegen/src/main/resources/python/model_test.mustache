@@ -1,0 +1,37 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from __future__ import absolute_import
+
+import os
+import sys
+import unittest
+
+{{#models}}
+{{#model}}
+import {{packageName}}
+from {{packageName}}.rest import ApiException
+from {{packageName}}.models.{{classFilename}} import {{classname}}
+
+
+class Test{{classname}}(unittest.TestCase):
+    """ {{classname}} unit test stubs """
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test{{classname}}(self):
+        """
+        Test {{classname}}
+        """
+        model = {{packageName}}.models.{{classFilename}}.{{classname}}()
+
+{{/model}}
+{{/models}}
+
+if __name__ == '__main__':
+    unittest.main()
