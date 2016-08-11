@@ -113,7 +113,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         );
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("String", "Boolean", "Integer", "Number", "Array", "Object", "Date", "File")
+                Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File")
         );
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
@@ -126,17 +126,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("List", "Array");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
-        typeMapping.put("int", "Integer"); // Huh? What is JS Integer?
+        typeMapping.put("int", "Number");
         typeMapping.put("float", "Number");
         typeMapping.put("number", "Number");
-        typeMapping.put("DateTime", "Date"); // Should this be dateTime?
-        typeMapping.put("date", "Date"); // Should this be date?
-        typeMapping.put("long", "Integer");
-        typeMapping.put("short", "Integer");
+        typeMapping.put("DateTime", "Date");
+        typeMapping.put("date", "Date");
+        typeMapping.put("long", "Number");
+        typeMapping.put("short", "Number");
         typeMapping.put("char", "String");
         typeMapping.put("double", "Number");
         typeMapping.put("object", "Object");
-        typeMapping.put("integer", "Integer");
+        typeMapping.put("integer", "Number");
         // binary not supported in JavaScript client right now, using String as a workaround
         typeMapping.put("ByteArray", "String"); // I don't see ByteArray defined in the Swagger docs.
         typeMapping.put("binary", "String");
