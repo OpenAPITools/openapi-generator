@@ -63,7 +63,7 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 {{/isApiKey}}
 {{#isBasic}}
 	// http basic authentication required
-	if a.Configuration.Username != "" || a.Configuration.Password != ""{
+	if a.Configuration.UserName != "" || a.Configuration.Password != ""{
 		localVarHeaderParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
 	}
 {{/isBasic}}
