@@ -1,4 +1,4 @@
-part of api;
+part of {{pubName}}.api;
 
 class HttpBasicAuth implements Authentication {
 
@@ -6,9 +6,9 @@ class HttpBasicAuth implements Authentication {
   String password;
 
   @override
-  void applyToParams(Map<String, String> queryParams, Map<String, String> headerParams) {
+  void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
     String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
-    headerParams["Authorization"] = "Basic " + CryptoUtils.bytesToBase64(UTF8.encode(str));
+    headerParams["Authorization"] = "Basic " + BASE64.encode(UTF8.encode(str));
   }
 
 }

@@ -1,18 +1,20 @@
 require 'json'
 
 
-MyApp.add_route('GET', '/v2/store/inventory', {
+MyApp.add_route('DELETE', '/v2/store/order/{orderId}', {
   "resourcePath" => "/Store",
-  "summary" => "Returns pet inventories by status",
-  "nickname" => "get_inventory", 
-  "responseClass" => "map[string,int]", 
-  "endpoint" => "/store/inventory", 
-  "notes" => "Returns a map of status codes to quantities",
+  "summary" => "Delete purchase order by ID",
+  "nickname" => "delete_order", 
+  "responseClass" => "void", 
+  "endpoint" => "/store/order/{orderId}", 
+  "notes" => "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
   "parameters" => [
-    
-    
-    
-    
+    {
+      "name" => "order_id",
+      "description" => "ID of the order that needs to be deleted",
+      "dataType" => "string",
+      "paramType" => "path",
+    },
     ]}) do
   cross_origin
   # the guts live here
@@ -21,25 +23,14 @@ MyApp.add_route('GET', '/v2/store/inventory', {
 end
 
 
-MyApp.add_route('POST', '/v2/store/order', {
+MyApp.add_route('GET', '/v2/store/inventory', {
   "resourcePath" => "/Store",
-  "summary" => "Place an order for a pet",
-  "nickname" => "place_order", 
-  "responseClass" => "Order", 
-  "endpoint" => "/store/order", 
-  "notes" => "",
+  "summary" => "Returns pet inventories by status",
+  "nickname" => "get_inventory", 
+  "responseClass" => "map[string,int]", 
+  "endpoint" => "/store/inventory", 
+  "notes" => "Returns a map of status codes to quantities",
   "parameters" => [
-    
-    
-    
-    
-    {
-      "name" => "body",
-      "description" => "order placed for purchasing the pet",
-      "dataType" => "Order",
-      "paramType" => "body",
-    }
-    
     ]}) do
   cross_origin
   # the guts live here
@@ -56,17 +47,12 @@ MyApp.add_route('GET', '/v2/store/order/{orderId}', {
   "endpoint" => "/store/order/{orderId}", 
   "notes" => "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
   "parameters" => [
-    
-    
     {
       "name" => "order_id",
       "description" => "ID of pet that needs to be fetched",
-      "dataType" => "string",
+      "dataType" => "int",
       "paramType" => "path",
     },
-    
-    
-    
     ]}) do
   cross_origin
   # the guts live here
@@ -75,25 +61,20 @@ MyApp.add_route('GET', '/v2/store/order/{orderId}', {
 end
 
 
-MyApp.add_route('DELETE', '/v2/store/order/{orderId}', {
+MyApp.add_route('POST', '/v2/store/order', {
   "resourcePath" => "/Store",
-  "summary" => "Delete purchase order by ID",
-  "nickname" => "delete_order", 
-  "responseClass" => "void", 
-  "endpoint" => "/store/order/{orderId}", 
-  "notes" => "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+  "summary" => "Place an order for a pet",
+  "nickname" => "place_order", 
+  "responseClass" => "Order", 
+  "endpoint" => "/store/order", 
+  "notes" => "",
   "parameters" => [
-    
-    
     {
-      "name" => "order_id",
-      "description" => "ID of the order that needs to be deleted",
-      "dataType" => "string",
-      "paramType" => "path",
-    },
-    
-    
-    
+      "name" => "body",
+      "description" => "order placed for purchasing the pet",
+      "dataType" => "Order",
+      "paramType" => "body",
+    }
     ]}) do
   cross_origin
   # the guts live here

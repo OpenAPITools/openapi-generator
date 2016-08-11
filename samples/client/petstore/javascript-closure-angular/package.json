@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "angular": "^1.4.9",
+    "angular-mocks": "^1.4.9",
+    "karma": "~0.13",
+    "karma-closure": "~0.1.1"
+  }
+}

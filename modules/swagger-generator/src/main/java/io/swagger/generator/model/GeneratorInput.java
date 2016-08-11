@@ -2,6 +2,7 @@ package io.swagger.generator.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.AuthorizationValue;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 
 import java.util.Map;
@@ -11,6 +12,15 @@ public class GeneratorInput {
     private Map<String, String> options;
     private String swaggerUrl;
     private SecuritySchemeDefinition auth;
+    private AuthorizationValue authorizationValue;
+
+    public AuthorizationValue getAuthorizationValue() {
+        return authorizationValue;
+    }
+
+    public void setAuthorizationValue(AuthorizationValue authorizationValue) {
+        this.authorizationValue = authorizationValue;
+    }
 
     @ApiModelProperty(dataType = "Object")
     public JsonNode getSpec() {
@@ -38,10 +48,12 @@ public class GeneratorInput {
         this.swaggerUrl = url;
     }
 
+    @Deprecated
     public SecuritySchemeDefinition getSecurityDefinition() {
         return auth;
     }
 
+    @Deprecated
     public void setSecurityDefinition(SecuritySchemeDefinition auth) {
         this.auth = auth;
     }

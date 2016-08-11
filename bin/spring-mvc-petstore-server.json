@@ -1,0 +1,4 @@
+{
+    "library": "spring-mvc",
+    "artifactId": "swagger-spring-mvc-server"
+}

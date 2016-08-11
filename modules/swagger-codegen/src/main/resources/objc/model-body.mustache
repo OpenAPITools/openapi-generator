@@ -6,22 +6,40 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     {{#vars}}{{#defaultValue}}self.{{name}} = {{{defaultValue}}};
     {{/defaultValue}}{{/vars}}
   }
-
   return self;
 }
+{{#vars}}{{^vendorExtensions.x-unique-id-key}}{{/vendorExtensions.x-unique-id-key}}{{#vendorExtensions.x-unique-id-key}}
+-(NSString*)indexPropertyName {
+    return @"{{name}}";
+}
+{{/vendorExtensions.x-unique-id-key}}{{/vars}}
+{{#discriminator}}
+/**
+ * Maps "discriminator" value to the sub-class name, so that inheritance is supported.
+ */
+- (id)initWithDictionary:(NSDictionary *)dict error:(NSError *__autoreleasing *)err {
+    NSString * discriminatedClassName = [dict valueForKey:@"{{discriminator}}"];
+    if(discriminatedClassName == nil ){
+         return [super initWithDictionary:dict error:err];
+    }
+    Class class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:discriminatedClassName]);
+    if([self class ] == class) {
+        return [super initWithDictionary:dict error:err];
+    }
+    return [[class alloc] initWithDictionary:dict error: err];
+}
+{{/discriminator}}
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
++ (JSONKeyMapper *)keyMapper {
   return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
 }
 
@@ -30,24 +48,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+
   NSArray *optionalProperties = @[{{#vars}}{{^required}}@"{{name}}"{{#hasMore}}, {{/hasMore}}{{/required}}{{/vars}}];
-
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  return [optionalProperties containsObject:propertyName];
 }
 
 {{/model}}

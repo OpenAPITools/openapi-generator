@@ -31,7 +31,7 @@ public class AllowableValuesTest {
     }
 
     @DataProvider(name = PROVIDER_NAME)
-    private Object[][] resource() {
+    private static Object[][] resource() {
         final CodegenParameter param1 = new CodegenParameter();
         final CodegenParameter param2 = new CodegenParameter() {{
             allowableValues = ImmutableMap.<String, Object>of("values", ImmutableList.of("item1", "item2", "item3"));

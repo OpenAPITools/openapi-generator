@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 #include "SWGHelpers.h"
 #include "SWGModelFactory.h"
 #include "SWGObject.h"
@@ -41,6 +42,67 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 // create a new value and return
                 delete *val;
                 *val = new QString(obj.toString());
+                return;
+            }
+            else {
+                // set target to NULL
+                delete *val;
+                *val = NULL;
+            }
+        }
+        else {
+            qDebug() << "Can't set value because the target pointer is NULL";
+        }
+    }
+    else if (QStringLiteral("QDateTime").compare(type) == 0) {
+        QDateTime **val = static_cast<QDateTime**>(value);
+
+        if(val != NULL) {
+            if(!obj.isNull()) {
+                // create a new value and return
+                delete *val;
+                *val = new QDateTime(QDateTime::fromString(obj.toString(), Qt::ISODate));
+                return;
+            }
+            else {
+                // set target to NULL
+                delete *val;
+                *val = NULL;
+            }
+        }
+        else {
+            qDebug() << "Can't set value because the target pointer is NULL";
+        }
+    }
+    else if (QStringLiteral("QDate").compare(type) == 0) {
+        QDate **val = static_cast<QDate**>(value);
+
+        if(val != NULL) {
+            if(!obj.isNull()) {
+                // create a new value and return
+                delete *val;
+                *val = new QDate(QDate::fromString(obj.toString(), Qt::ISODate));
+                return;
+            }
+            else {
+                // set target to NULL
+                delete *val;
+                *val = NULL;
+            }
+        }
+        else {
+            qDebug() << "Can't set value because the target pointer is NULL";
+        }
+    }
+    else if (QStringLiteral("QByteArray").compare(type) == 0) {
+        QByteArray **val = static_cast<QByteArray**>(value);
+
+        if(val != NULL) {
+            if(!obj.isNull()) {
+                // create a new value and return
+                delete *val;
+
+                *val = new QByteArray(QByteArray::fromBase64(QByteArray::fromStdString(obj.toString().toStdString())));
                 return;
             }
             else {
@@ -104,6 +166,21 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                     setValue(&val, jval, QStringLiteral("double"), QStringLiteral(""));
                     output->append((void*)&val);
                 }
+                else if(QStringLiteral("QString").compare(complexType) == 0) {
+                    QString val;
+                    setValue(&val, jval, QStringLiteral("QString"), QStringLiteral(""));
+                    output->append((void*)&val);
+                }
+                else if(QStringLiteral("QDate").compare(complexType) == 0) {
+                    QDate val;
+                    setValue(&val, jval, QStringLiteral("QDate"), QStringLiteral(""));
+                    output->append((void*)&val);
+                }
+                else if(QStringLiteral("QDateTime").compare(complexType) == 0) {
+                    QDateTime val;
+                    setValue(&val, jval, QStringLiteral("QDateTime"), QStringLiteral(""));
+                    output->append((void*)&val);
+                }
             }
         }
         QList<void*> **val = static_cast<QList<void*>**>(value);
@@ -139,23 +216,35 @@ toJsonValue(QString name, void* value, QJsonObject* output, QString type) {
     }
     else if(QStringLiteral("qint32").compare(type) == 0) {
         qint32* str = static_cast<qint32*>(value);
-        output->insert(name, QJsonValue(*str));    
+        output->insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("qint64").compare(type) == 0) {
         qint64* str = static_cast<qint64*>(value);
-        output->insert(name, QJsonValue(*str));    
+        output->insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("bool").compare(type) == 0) {
         bool* str = static_cast<bool*>(value);
-        output->insert(name, QJsonValue(*str));    
+        output->insert(name, QJsonValue(*str));
     }
     else if(QStringLiteral("float").compare(type) == 0) {
         float* str = static_cast<float*>(value);
-        output->insert(name, QJsonValue((double)*str));    
+        output->insert(name, QJsonValue((double)*str));
     }
     else if(QStringLiteral("double").compare(type) == 0) {
         double* str = static_cast<double*>(value);
-        output->insert(name, QJsonValue(*str));    
+        output->insert(name, QJsonValue(*str));
+    }
+    else if(QStringLiteral("QDate").compare(type) == 0) {
+        QDate* date = static_cast<QDate*>(value);
+        output->insert(name, QJsonValue(date->toString(Qt::ISODate)));
+    }
+    else if(QStringLiteral("QDateTime").compare(type) == 0) {
+        QDateTime* datetime = static_cast<QDateTime*>(value);
+        output->insert(name, QJsonValue(datetime->toString(Qt::ISODate)));
+    }
+    else if(QStringLiteral("QByteArray").compare(type) == 0) {
+        QByteArray* byteArray = static_cast<QByteArray*>(value);
+        output->insert(name, QJsonValue(QString(byteArray->toBase64())));
     }
 }
 

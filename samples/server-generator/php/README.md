@@ -20,7 +20,7 @@ You first need to build the `swagger-codegen` project--this is done by running t
 mvn package
 ```
 
-You can now generate a server from any valid[**](https://github.com/swagger-api/swagger-codegen/blob/master/README.md#validating-your-swagger-spec) swagger spec:
+You can now generate a server from any valid[**](https://github.com/swagger-api/swagger-codegen/blob/master/README.md#validating-your-swagger-spec) OpenAPI Spec:
 
 ```
 ./bin/runscala.sh samples/server-generator/php/PHPServerFromSpec.scala http://petstore.swagger.wordnik.com/api/api-docs special-key

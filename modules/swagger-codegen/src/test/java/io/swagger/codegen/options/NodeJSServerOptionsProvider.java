@@ -12,7 +12,7 @@ public class NodeJSServerOptionsProvider implements OptionsProvider {
 
     @Override
     public String getLanguage() {
-        return "nodejs";
+        return "nodejs-server";
     }
 
     @Override

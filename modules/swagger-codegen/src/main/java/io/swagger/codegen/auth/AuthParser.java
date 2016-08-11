@@ -7,9 +7,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import config.ConfigParser;
+
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class AuthParser {
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthParser.class);
 
     public static List<AuthorizationValue> parse(String urlEncodedAuthStr) {
         List<AuthorizationValue> auths = new ArrayList<AuthorizationValue>();
@@ -18,7 +25,7 @@ public class AuthParser {
             for (String part : parts) {
                 String[] kvPair = part.split(":");
                 if (kvPair.length == 2) {
-                    auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0]), URLDecoder.decode(kvPair[1]), "header"));
+                    auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0]), URLDecoder.decode(kvPair[1]), "header")); // FIXME replace the deprecated method by decode(string, encoding). Which encoding is used ? Default UTF-8 ?
                 }
             }
         }
@@ -38,7 +45,7 @@ public class AuthParser {
                             .append(URLEncoder.encode(v.getValue(), "UTF-8"));
                 } catch (Exception e) {
                     // continue
-                    e.printStackTrace();
+                    LOGGER.error(e.getMessage(), e);
                 }
             }
             return b.toString();

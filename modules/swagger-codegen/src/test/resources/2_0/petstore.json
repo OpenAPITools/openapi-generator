@@ -1,12 +1,13 @@
+
 {
   "swagger": "2.0",
   "info": {
     "description": "This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters",
     "version": "1.0.0",
     "title": "Swagger Petstore",
-    "termsOfService": "http://swagger.io/terms/",
+    "termsOfService": "http://helloreverb.com/terms/",
     "contact": {
-      "email": "apiteam@swagger.io"
+      "email": "apiteam@wordnik.com"
     },
     "license": {
       "name": "Apache 2.0",
@@ -127,7 +128,8 @@
             "required": false,
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "enum": ["available", "pending", "sold"]
             },
             "collectionFormat": "multi",
             "default": "available"
@@ -140,6 +142,15 @@
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Pet"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "name": "Puma",
+                "type": "Dog",
+                "color": "Black",
+                "gender": "Female",
+                "breed": "Mixed"
               }
             }
           },
@@ -720,18 +731,6 @@
             "description": "successful operation",
             "schema": {
               "$ref": "#/definitions/User"
-            },
-            "examples": {
-              "application/json": {
-                "id": 1,
-                "username": "johnp",
-                "firstName": "John",
-                "lastName": "Public",
-                "email": "johnp@swagger.io",
-                "password": "-secret-",
-                "phone": "0123456789",
-                "userStatus": 0
-              }
             }
           },
           "400": {

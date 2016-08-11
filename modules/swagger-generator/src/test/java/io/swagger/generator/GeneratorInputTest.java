@@ -4,6 +4,7 @@ import io.swagger.generator.model.GeneratorInput;
 
 import org.testng.annotations.Test;
 
+@SuppressWarnings("static-method")
 public class GeneratorInputTest {
 
     @Test(description = "write an object")

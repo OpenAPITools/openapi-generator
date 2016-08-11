@@ -1,0 +1,145 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#operations}}
+import (
+	"net/url"
+{{#imports}}	"{{import}}"
+{{/imports}}
+)
+
+type {{classname}} struct {
+	Configuration Configuration
+}
+
+func New{{classname}}() *{{classname}} {
+	configuration := NewConfiguration()
+	return &{{classname}}{
+		Configuration: *configuration,
+	}
+}
+
+func New{{classname}}WithBasePath(basePath string) *{{classname}} {
+	configuration := NewConfiguration()
+	configuration.BasePath = basePath
+
+	return &{{classname}}{
+		Configuration: *configuration,
+	}
+}
+{{#operation}}
+
+/**
+ * {{summary}}{{#notes}}
+ * {{notes}}{{/notes}}
+ *
+{{#allParams}} * @param {{paramName}} {{description}}
+{{/allParams}} * @return {{#returnType}}{{^isListContainer}}*{{/isListContainer}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+ */
+func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{^isListContainer}}*{{/isListContainer}}{{{returnType}}}, {{/returnType}}*APIResponse, error) {
+
+	var localVarHttpMethod = "{{httpMethod}}"
+	// create path and map variables
+	localVarPath := a.Configuration.BasePath + "{{path}}"{{#pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", fmt.Sprintf("%v", {{paramName}}), -1){{/pathParams}}
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+{{#authMethods}}
+	// authentication '({{name}})' required
+{{#isApiKey}}
+{{#isKeyInHeader}}
+	// set key with prefix in header
+	localVarHeaderParams["{{keyParamName}}"] = a.Configuration.GetAPIKeyWithPrefix("{{keyParamName}}")
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+	// set key with prefix in query string
+	localVarQueryParams["{{keyParamName}}"] =  a.Configuration.GetAPIKeyWithPrefix("{{keyParamName}}")
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasic}}
+	// http basic authentication required
+	if a.Configuration.UserName != "" || a.Configuration.Password != ""{
+		localVarHeaderParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
+	}
+{{/isBasic}}
+{{#isOAuth}}
+	// oauth required
+	if a.Configuration.AccessToken != ""{
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+	}
+{{/isOAuth}}
+{{/authMethods}}
+	// add default headers if any
+	for key := range a.Configuration.DefaultHeader {
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
+	}
+	{{#hasQueryParams}}
+	{{#queryParams}}
+	{{#isListContainer}}
+	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
+	if collectionFormat == "multi" {
+		for _, value := range {{paramName}} {
+			localVarQueryParams.Add("{{baseName}}", value)
+		}
+	} else {
+		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
+	}
+	{{/isListContainer}}
+	{{^isListContainer}}
+		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
+	{{/isListContainer}}
+	{{/queryParams}}{{/hasQueryParams}}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{ {{#consumes}}"{{{mediaType}}}", {{/consumes}} }
+
+	// set Content-Type header
+	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{
+		{{#produces}}"{{{mediaType}}}",
+{{/produces}}	}
+
+	// set Accept header
+	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}{{#hasHeaderParams}}
+
+{{#headerParams}}	// header params "{{baseName}}"
+	localVarHeaderParams["{{baseName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}}, "")
+{{/headerParams}}{{/hasHeaderParams}}
+{{#hasFormParams}}
+{{#formParams}}
+{{#isFile}}
+	fbs, _ := ioutil.ReadAll(file)
+	localVarFileBytes = fbs
+	localVarFileName = file.Name()
+{{/isFile}}
+{{^isFile}}
+	localVarFormParams["{{paramName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}}, "")
+{{/isFile}}
+{{/formParams}}
+{{/hasFormParams}}
+{{#hasBodyParam}}
+{{#bodyParams}}	// body params
+	localVarPostBody = &{{paramName}}
+{{/bodyParams}}{{/hasBodyParam}}
+{{#returnType}}	var successPayload = new({{returnType}}){{/returnType}}
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return {{#returnType}}{{#isListContainer}}*{{/isListContainer}}successPayload, {{/returnType}}NewAPIResponse(localVarHttpResponse.RawResponse), err
+	}
+{{#returnType}}
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload){{/returnType}}
+	return {{#returnType}}{{#isListContainer}}*{{/isListContainer}}successPayload, {{/returnType}}NewAPIResponse(localVarHttpResponse.RawResponse), err
+}
+{{/operation}}{{/operations}}

@@ -14,23 +14,32 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.regex.Matcher;
 
 public class SlimFrameworkServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
+    protected String srcBasePath = "lib";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-server";
     protected String artifactVersion = "1.0.0";
+    protected String packagePath = ""; // empty packagePath (top folder)
+
+
     private String variableNamingConvention = "camelCase";
 
     public SlimFrameworkServerCodegen() {
         super();
 
+        // clear import mapping (from default generator) as slim does not use it
+        // at the moment
+        importMapping.clear();
+
         invokerPackage = camelize("SwaggerServer");
 
-        String packagePath = "SwaggerServer";
+        //String packagePath = "SwaggerServer";
 
-        modelPackage = packagePath + "\\lib\\Models";
-        apiPackage = packagePath + "\\lib";
+        modelPackage = packagePath + "\\Models";
+        apiPackage = packagePath;
         outputFolder = "generated-code" + File.separator + "slim";
         modelTemplateFiles.put("model.mustache", ".php");
 
@@ -39,7 +48,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
         embeddedTemplateDir = templateDir = "slim";
 
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
@@ -67,7 +76,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
 
-        // ref: https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#data-types
+        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
@@ -83,6 +92,9 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "string");
 
         supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
         supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
@@ -112,12 +124,12 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + apiPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/" + modelPackage()).replace('/', File.separatorChar);
+        return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
     }
 
     @Override
@@ -177,8 +189,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style
@@ -208,7 +219,7 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword
-        if (reservedWords.contains(name)) {
+        if (isReservedWord(name)) {
             escapeReservedWord(name); // e.g. return => _return
         }
 
@@ -221,6 +232,50 @@ public class SlimFrameworkServerCodegen extends DefaultCodegen implements Codege
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
+    }
+
+    public String toPackagePath(String packageName, String basePath) {
+        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        if (basePath != null && basePath.length() > 0) {
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        }
+
+        String regFirstPathSeparator;
+        if ("/".equals(File.separator)) { // for mac, linux
+            regFirstPathSeparator = "^/";
+        } else { // for windows
+            regFirstPathSeparator = "^\\\\";
+        }
+
+        String regLastPathSeparator;
+        if ("/".equals(File.separator)) { // for mac, linux
+            regLastPathSeparator = "/$";
+        } else { // for windows
+            regLastPathSeparator = "\\\\$";
+        }
+
+        return (getPackagePath() + File.separatorChar + basePath
+                    // Replace period, backslash, forward slash with file separator in package name
+                    + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
+                    // Trim prefix file separators from package path
+                    .replaceAll(regFirstPathSeparator, ""))
+                    // Trim trailing file separators from the overall path
+                    .replaceAll(regLastPathSeparator+ "$", "");
+    }
+
+    public String getPackagePath() {
+        return packagePath;
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "");
     }
 
 }

@@ -1,0 +1,187 @@
+{{>licenseInfo}}
+import * as querystring from "querystring";
+import * as url from "url";
+
+import * as isomorphicFetch from "isomorphic-fetch";
+{{^supportsES6}}
+import * as assign from "core-js/library/fn/object/assign";
+{{/supportsES6}}
+
+interface Dictionary<T> { [index: string]: T; }
+export interface FetchAPI { (url: string, init?: any): Promise<any>; }
+
+const BASE_PATH = "{{basePath}}";
+
+export interface FetchArgs {
+    url: string;
+    options: any; 
+}
+
+export class BaseAPI {
+    basePath: string;
+    fetch: FetchAPI;
+
+    constructor(fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) {
+        this.basePath = basePath;
+        this.fetch = fetch;
+    }
+}
+
+{{#models}}
+{{#model}}
+{{#description}}
+/**
+ * {{{description}}}
+ */
+{{/description}}
+export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{#vars}}
+{{#description}}
+    /**
+     * {{{description}}}
+     */
+{{/description}}
+    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+{{/vars}}
+}
+
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+export type {{{enumName}}} = {{#allowableValues}}{{#values}}"{{{.}}}"{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{/model}}
+{{/models}}
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+
+/**
+ * {{classname}} - fetch parameter creator{{#description}}
+ * {{&description}}{{/description}}
+ */
+export const {{classname}}FetchParamCreactor = {
+{{#operation}}
+    /** {{#summary}}
+     * {{summary}}{{/summary}}{{#notes}}
+     * {{notes}}{{/notes}}{{#allParams}}
+     * @param {{paramName}} {{description}}{{/allParams}}
+     */
+    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}): FetchArgs {
+{{#allParams}}
+{{#required}}
+        // verify required parameter "{{paramName}}" is set
+        if (params["{{paramName}}"] == null) {
+            throw new Error("Missing required parameter {{paramName}} when calling {{nickname}}");
+        }
+{{/required}}
+{{/allParams}}
+        const baseUrl = `{{path}}`{{#pathParams}}
+            .replace(`{${"{{baseName}}"}}`, `${ params.{{paramName}} }`){{/pathParams}};
+        let urlObj = url.parse(baseUrl, true);
+{{#hasQueryParams}}
+        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, { {{#queryParams}}
+            "{{baseName}}": params.{{paramName}},{{/queryParams}}
+        });
+{{/hasQueryParams}}
+        let fetchOptions: RequestInit = { method: "{{httpMethod}}" };
+
+        let contentTypeHeader: Dictionary<string>;
+{{#hasFormParams}}
+        contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
+        fetchOptions.body = querystring.stringify({ {{#formParams}}
+            "{{baseName}}": params.{{paramName}},{{/formParams}}
+        });
+{{/hasFormParams}}
+{{#hasBodyParam}}
+        contentTypeHeader = { "Content-Type": "application/json" };{{#bodyParam}}
+        if (params["{{paramName}}"]) {
+            fetchOptions.body = JSON.stringify(params["{{paramName}}"] || {});
+        }{{/bodyParam}}
+{{/hasBodyParam}}
+{{#hasHeaderParam}}
+        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({ {{#headerParams}}
+            "{{baseName}}": params.{{paramName}},{{/headerParams}}
+        }, contentTypeHeader);
+{{/hasHeaderParam}}
+{{^hasHeaderParam}}
+        if (contentTypeHeader) {
+            fetchOptions.headers = contentTypeHeader;
+        }
+{{/hasHeaderParam}}
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+{{/operation}}
+}
+
+/**
+ * {{classname}} - functional programming interface{{#description}}
+ * {{&description}}{{/description}}
+ */
+export const {{classname}}Fp = {
+{{#operation}}
+    /** {{#summary}}
+     * {{summary}}{{/summary}}{{#notes}}
+     * {{notes}}{{/notes}}{{#allParams}}
+     * @param {{paramName}} {{description}}{{/allParams}}
+     */
+    {{nickname}}({{#hasParams}}params: { {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }{{/hasParams}}): (fetch: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+        const fetchArgs = {{classname}}FetchParamCreactor.{{nickname}}({{#hasParams}}params{{/hasParams}});
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response{{#returnType}}.json(){{/returnType}};
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+{{/operation}}
+};
+
+/**
+ * {{classname}} - object-oriented interface{{#description}}
+ * {{&description}}{{/description}}
+ */
+export class {{classname}} extends BaseAPI {
+{{#operation}}
+    /** {{#summary}}
+     * {{summary}}{{/summary}}{{#notes}}
+     * {{notes}}{{/notes}}{{#allParams}}
+     * @param {{paramName}} {{description}}{{/allParams}}
+     */
+    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}) {
+        return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}})(this.fetch, this.basePath);
+    }
+{{/operation}}
+};
+
+/**
+ * {{classname}} - factory interface{{#description}}
+ * {{&description}}{{/description}}
+ */
+export const {{classname}}Factory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+{{#operation}}
+        /** {{#summary}}
+         * {{summary}}{{/summary}}{{#notes}}
+         * {{notes}}{{/notes}}{{#allParams}}
+         * @param {{paramName}} {{description}}{{/allParams}}
+         */
+        {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}) {
+            return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}})(fetch, basePath);
+        },
+{{/operation}}
+    }
+};
+
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

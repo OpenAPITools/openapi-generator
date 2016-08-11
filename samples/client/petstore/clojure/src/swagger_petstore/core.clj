@@ -8,8 +8,12 @@
            (java.text SimpleDateFormat)))
 
 (def auth-definitions
-  {"petstore_auth" {:type :oauth2}
-   "api_key" {:type :api-key :in :header :param-name "api_key"}})
+  {"test_api_key_header" {:type :api-key :in :header :param-name "test_api_key_header"}
+   "api_key" {:type :api-key :in :header :param-name "api_key"}
+   "test_api_client_secret" {:type :api-key :in :header :param-name "x-test_api_client_secret"}
+   "test_api_client_id" {:type :api-key :in :header :param-name "x-test_api_client_id"}
+   "test_api_key_query" {:type :api-key :in :query :param-name "test_api_key_query"}
+   "petstore_auth" {:type :oauth2}})
 
 (def default-api-context
   "Default API context."
@@ -17,8 +21,12 @@
    :date-format     "yyyy-MM-dd"
    :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
    :debug           false
-   :auths           {"petstore_auth" nil
-                     "api_key" nil}})
+   :auths           {"test_api_key_header" nil
+                     "api_key" nil
+                     "test_api_client_secret" nil
+                     "test_api_client_id" nil
+                     "test_api_key_query" nil
+                     "petstore_auth" nil}})
 
 (def ^:dynamic *api-context*
   "Dynamic API context to be applied in API calls."

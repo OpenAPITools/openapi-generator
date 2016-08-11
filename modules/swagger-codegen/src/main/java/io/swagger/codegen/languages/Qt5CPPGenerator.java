@@ -76,7 +76,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         /**
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<String>(
+        setReservedWordsLowerCase(
                 Arrays.asList(
                         "sample1",  // replace with static values
                         "sample2")
@@ -104,14 +104,14 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("HttpRequest.h", sourceFolder, PREFIX + "HttpRequest.h"));
-        supportingFiles.add(new SupportingFile("HttpRequest.cpp", sourceFolder, PREFIX + "HttpRequest.cpp"));
+        supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
+        supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
         supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder, PREFIX + "ModelFactory.h"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
 
         super.typeMapping = new HashMap<String, String>();
 
-        typeMapping.put("Date", "QDate");
+        typeMapping.put("date", "QDate");
         typeMapping.put("DateTime", "QDateTime");
         typeMapping.put("string", "QString");
         typeMapping.put("integer", "qint32");
@@ -121,6 +121,10 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "QMap");
         typeMapping.put("file", "SWGHttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
+        //TODO binary should be mapped to byte array
+        // mapped to String as a workaround
+        typeMapping.put("binary", "QString");
+        typeMapping.put("ByteArray", "QByteArray");
 
         importMapping = new HashMap<String, String>();
 
@@ -132,6 +136,10 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
 
         systemIncludes.add("QString");
         systemIncludes.add("QList");
+        systemIncludes.add("QMap");
+        systemIncludes.add("QDate");
+        systemIncludes.add("QDateTime");
+        systemIncludes.add("QByteArray");
     }
 
     /**
@@ -326,5 +334,16 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiName(String type) {
         return PREFIX + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 }

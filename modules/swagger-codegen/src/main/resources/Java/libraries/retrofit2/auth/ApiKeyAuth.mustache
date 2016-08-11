@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ApiKeyAuth implements Interceptor {
     private final String location;
@@ -40,25 +40,25 @@ public class ApiKeyAuth implements Interceptor {
         String paramValue;
         Request request = chain.request();
 
-        if (location == "query") {
-            String newQuery = request.uri().getQuery();
+        if ("query".equals(location)) {
+            String newQuery = request.url().uri().getQuery();
             paramValue = paramName + "=" + apiKey;
             if (newQuery == null) {
                 newQuery = paramValue;
             } else {
-                newQuery += "&" + paramValue;  
+                newQuery += "&" + paramValue;
             }
 
             URI newUri;
             try {
-                newUri = new URI(request.uri().getScheme(), request.uri().getAuthority(),
-                        request.uri().getPath(), newQuery, request.uri().getFragment());
+                newUri = new URI(request.url().uri().getScheme(), request.url().uri().getAuthority(),
+                    request.url().uri().getPath(), newQuery, request.url().uri().getFragment());
             } catch (URISyntaxException e) {
                 throw new IOException(e);
             }
 
             request = request.newBuilder().url(newUri.toURL()).build();
-        } else if (location == "header") {
+        } else if ("header".equals(location)) {
             request = request.newBuilder()
                     .addHeader(paramName, apiKey)
                     .build();

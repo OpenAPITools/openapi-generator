@@ -1,3 +1,4 @@
+{{>licenseInfo}}
 #include "{{classname}}.h"
 #include "{{prefix}}Helpers.h"
 #include "{{prefix}}ModelFactory.h"
@@ -29,7 +30,7 @@ void
 
     {{#queryParams}}
     {{^collectionFormat}}
-    if(fullPath.indexOf("?") > 0) 
+    if (fullPath.indexOf("?") > 0) 
       fullPath.append("&");
     else 
       fullPath.append("?");
@@ -40,10 +41,10 @@ void
 
     {{#collectionFormat}}
 
-    if({{{paramName}}}->size() > 0) {
-      if(QString("{{collectionFormat}}").indexOf("multi") == 0) {
+    if ({{{paramName}}}->size() > 0) {
+      if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
         foreach({{{baseType}}} t, *{{paramName}}) {
-          if(fullPath.indexOf("?") > 0)
+          if (fullPath.indexOf("?") > 0)
             fullPath.append("&");
           else 
             fullPath.append("?");
@@ -51,28 +52,28 @@ void
         }
       }
       else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
-        if(fullPath.indexOf("?") > 0)
+        if (fullPath.indexOf("?") > 0)
           fullPath.append("&");
         else 
           fullPath.append("?");
         fullPath.append("{{paramName}}=");
         qint32 count = 0;
         foreach({{{baseType}}} t, *{{paramName}}) {
-          if(count > 0) {
+          if (count > 0) {
             fullPath.append(" ");
           }
           fullPath.append(stringValue(t));
         }
       }
       else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
-        if(fullPath.indexOf("?") > 0)
+        if (fullPath.indexOf("?") > 0)
           fullPath.append("&");
         else 
           fullPath.append("?");
         fullPath.append("{{paramName}}=");
         qint32 count = 0;
         foreach({{{baseType}}} t, *{{paramName}}) {
-          if(count > 0) {
+          if (count > 0) {
             fullPath.append("\t");
           }
           fullPath.append(stringValue(t));
@@ -86,11 +87,10 @@ void
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "{{httpMethod}}");
 
-    {{#formParams}}{{^isFile}}
-    if({{paramName}} != NULL) {
-        input.add_var("{{paramName}}", *{{paramName}});
+    {{#formParams}}if ({{paramName}} != NULL) {
+        {{^isFile}}input.add_var("{{paramName}}", *{{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{paramName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
     }
-    {{/isFile}}{{/formParams}}
+    {{/formParams}}
 
     {{#bodyParams}}
     {{#isContainer}}

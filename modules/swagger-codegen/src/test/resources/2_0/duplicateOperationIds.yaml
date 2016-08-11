@@ -1,0 +1,21 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.1"
+  title: "fun!"
+basePath: "/v1"
+paths:
+  /one:
+    get:
+      operationId: "duplicate"
+      parameters: []
+      responses:
+        200:
+          description: "success"
+  /two:
+    get:
+      operationId: "duplicate"
+      parameters: []
+      responses:
+        200:
+          description: "success"

@@ -1,5 +1,41 @@
-sudo: false
+sudo: required
 language: java
-script: mvn verify -Psamples
 jdk:
   - oraclejdk7
+  - oraclejdk8
+
+cache:
+  directories:
+  - $HOME/.m2
+
+services:
+  - docker
+
+addons:
+  hosts:
+    - petstore.swagger.io
+
+before_install:
+  # required when sudo: required for the Ruby petstore tests
+  - gem install bundler
+  - npm install -g typescript
+  - sudo pip install virtualenv
+  # to run petstore server locally via docker
+  - docker pull swaggerapi/petstore
+  - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  - docker ps -a
+  # show host table to confirm petstore.swagger.io is mapped to localhost
+  - cat /etc/hosts
+
+install:
+  # Add Godeps dependencies to GOPATH and PATH
+   - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
+   - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
+   - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
+
+script:
+  - mvn verify -Psamples
+  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi && docker push $DOCKER_IMAGE_NAME; fi
+
+env:
+  - DOCKER_IMAGE_NAME=swaggerapi/swagger-generator

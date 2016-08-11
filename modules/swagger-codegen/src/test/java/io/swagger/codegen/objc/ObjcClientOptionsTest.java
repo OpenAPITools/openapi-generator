@@ -22,6 +22,7 @@ public class ObjcClientOptionsTest extends AbstractOptionsTest {
         return clientCodegen;
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
@@ -36,8 +37,6 @@ public class ObjcClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setAuthorEmail(ObjcClientOptionsProvider.AUTHOR_EMAIL_VALUE);
             times = 1;
             clientCodegen.setGitRepoURL(ObjcClientOptionsProvider.GIT_REPO_URL_VALUE);
-            times = 1;
-            clientCodegen.setLicense(ObjcClientOptionsProvider.LICENSE_VALUE);
             times = 1;
         }};
     }

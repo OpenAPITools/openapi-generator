@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
+@SuppressWarnings("static-method")
 public class OnlineJavaClientOptionsTest {
 
     @Test
@@ -21,6 +22,6 @@ public class OnlineJavaClientOptionsTest {
         assertNotNull(options);
         final CliOption opt = options.get(CodegenConstants.LIBRARY);
         assertNotNull(opt);
-        assertEquals(opt.getDefault(), JavaClientCodegen.DEFAULT_LIBRARY);
+        assertEquals(opt.getDefault(), "okhttp-gson");
     }
 }

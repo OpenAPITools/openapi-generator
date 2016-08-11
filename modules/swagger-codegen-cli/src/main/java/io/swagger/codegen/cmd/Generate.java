@@ -5,18 +5,11 @@ import io.airlift.airline.Option;
 import io.swagger.codegen.ClientOptInput;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.DefaultGenerator;
-import io.swagger.codegen.cmd.utils.OptionUtils;
 import io.swagger.codegen.config.CodegenConfigurator;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
@@ -73,6 +66,12 @@ public class Generate implements Runnable {
     @Option(name = {"--model-package"}, title = "model package", description = CodegenConstants.MODEL_PACKAGE_DESC)
     private String modelPackage;
 
+    @Option(name = {"--model-name-prefix"}, title = "model name prefix", description = CodegenConstants.MODEL_NAME_PREFIX_DESC)
+    private String modelNamePrefix;
+
+    @Option(name = {"--model-name-suffix"}, title = "model name suffix", description = CodegenConstants.MODEL_NAME_SUFFIX_DESC)
+    private String modelNameSuffix;
+
     @Option(name = {"--instantiation-types"}, title = "instantiation types", description = "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType." +
             "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code.")
     private String instantiationTypes;
@@ -106,6 +105,18 @@ public class Generate implements Runnable {
 
     @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
     private String library;
+    
+    @Option(name = {"--git-user-id"}, title = "git user id", description = CodegenConstants.GIT_USER_ID_DESC)
+    private String gitUserId;
+
+    @Option(name = {"--git-repo-id"}, title = "git repo id", description = CodegenConstants.GIT_REPO_ID_DESC)
+    private String gitRepoId;
+
+    @Option(name = {"--release-note"}, title = "release note", description = CodegenConstants.RELEASE_NOTE_DESC)
+    private String releaseNote;
+
+    @Option(name = {"--http-user-agent"}, title = "http user agent", description = CodegenConstants.HTTP_USER_AGENT_DESC)
+    private String httpUserAgent;
 
     @Override
     public void run() {
@@ -156,6 +167,14 @@ public class Generate implements Runnable {
             configurator.setModelPackage(modelPackage);
         }
 
+        if(isNotEmpty(modelNamePrefix)){
+            configurator.setModelNamePrefix(modelNamePrefix);
+        }
+
+        if(isNotEmpty(modelNameSuffix)){
+            configurator.setModelNameSuffix(modelNameSuffix);
+        }
+
         if(isNotEmpty(invokerPackage)) {
             configurator.setInvokerPackage(invokerPackage);
         }
@@ -176,74 +195,31 @@ public class Generate implements Runnable {
             configurator.setLibrary(library);
         }
 
-        setSystemProperties(configurator);
-        setInstantiationTypes(configurator);
-        setImportMappings(configurator);
-        setTypeMappings(configurator);
-        setAdditionalProperties(configurator);
-        setLanguageSpecificPrimitives(configurator);
+        if (isNotEmpty(gitUserId)) {
+            configurator.setGitUserId(gitUserId);
+        }
+
+        if (isNotEmpty(gitRepoId)) {
+            configurator.setGitRepoId(gitRepoId);
+        }
+
+        if (isNotEmpty(releaseNote)) {
+            configurator.setReleaseNote(releaseNote);
+        }
+
+        if (isNotEmpty(httpUserAgent)) {
+            configurator.setHttpUserAgent(httpUserAgent);
+        }
+
+        applySystemPropertiesKvp(systemProperties, configurator);
+        applyInstantiationTypesKvp(instantiationTypes, configurator);
+        applyImportMappingsKvp(importMappings, configurator);
+        applyTypeMappingsKvp(typeMappings, configurator);
+        applyAdditionalPropertiesKvp(additionalProperties, configurator);
+        applyLanguageSpecificPrimitivesCsv(languageSpecificPrimitives, configurator);
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
         new DefaultGenerator().opts(clientOptInput).generate();
-    }
-
-    private void setSystemProperties(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(systemProperties);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addSystemProperty(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setInstantiationTypes(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(instantiationTypes);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addInstantiationType(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setImportMappings(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(importMappings);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addImportMapping(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setTypeMappings(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(typeMappings);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addTypeMapping(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setAdditionalProperties(CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(additionalProperties);
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addAdditionalProperty(entry.getKey(), entry.getValue());
-        }
-    }
-
-    private void setLanguageSpecificPrimitives(CodegenConfigurator configurator) {
-        final Set<String> set = createSetFromCsvList(languageSpecificPrimitives);
-        for (String item : set) {
-            configurator.addLanguageSpecificPrimitive(item);
-        }
-    }
-
-    private Set<String> createSetFromCsvList(String csvProperty) {
-        final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
-        return new HashSet<String>(values);
-    }
-
-    private Map createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
-        final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
-
-        Map result = new HashMap();
-
-        for (Pair<String, String> pair : pairs) {
-            result.put(pair.getLeft(), pair.getRight());
-        }
-
-        return result;
     }
 }

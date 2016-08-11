@@ -1,3 +1,5 @@
+{{>licenseInfo}}
+
 package {{package}}
 
 {{#imports}}import {{import}}
@@ -14,14 +16,14 @@ import org.scalatra.servlet.{FileUploadSupport, MultipartConfig, SizeConstraintE
 
 import scala.collection.JavaConverters._
 
-class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet 
+class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
     with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "{{classname}}"
-  override protected val applicationName: Option[String] = Some("{{baseName}}")
+  override protected val applicationName: Option[String] = Some("{{basePathWithoutHost}}/{{baseName}}")
 
   before() {
     contentType = formats("json")
@@ -33,8 +35,7 @@ class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
 
   val {{nickname}}Operation = (apiOperation[{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]("{{nickname}}")
       summary "{{{summary}}}"
-      parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}})
+      parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
   )
 
   {{httpMethod}}("{{path}}",operation({{nickname}}Operation)) {
@@ -42,7 +43,7 @@ class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
     {{#isFile}}val {{paramName}} = fileParams("{{paramName}}"){{/isFile}}
     {{^isFile}}{{#isPathParam}}
       val {{paramName}} = params.getOrElse("{{paramName}}", halt(400)){{/isPathParam}}
-    {{>queryParamOperation}}{{>headerParamOperation}}{{>formParamMustache}}{{>bodyParam}}
+    {{>queryParamOperation}}{{>headerParamOperation}}{{>formParamMustache}}{{>bodyParamOperation}}
     {{/isFile}}
     println("{{paramName}}: " + {{paramName}})
   {{/allParams}}

@@ -14,8 +14,8 @@
   <#hasOptionalParams> </hasOptionalParams>           :query-params  {<#queryParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </queryParams>}
   <#hasOptionalParams> </hasOptionalParams>           :form-params   {<#formParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </formParams>}<#bodyParam>
   <#hasOptionalParams> </hasOptionalParams>           :body-param    <paramName></bodyParam>
-  <#hasOptionalParams> </hasOptionalParams>           :content-types [<#consumes>"<mediaType>"<#hasMore> </hasMore></consumes>]
-  <#hasOptionalParams> </hasOptionalParams>           :accepts       [<#produces>"<mediaType>"<#hasMore> </hasMore></produces>]
+  <#hasOptionalParams> </hasOptionalParams>           :content-types [<#consumes>"<& mediaType>"<#hasMore> </hasMore></consumes>]
+  <#hasOptionalParams> </hasOptionalParams>           :accepts       [<#produces>"<& mediaType>"<#hasMore> </hasMore></produces>]
   <#hasOptionalParams> </hasOptionalParams>           :auth-names    [<#authMethods>"<&name>"<#hasMore> </hasMore></authMethods>]})<#hasOptionalParams>)</hasOptionalParams>)
 
 (defn <operationId>

@@ -1,0 +1,25 @@
+{{#models}}{{#model}}{{#isEnum}}# {{moduleName}}.{{classname}}
+
+## Enum
+
+{{#allowableValues}}{{#enumVars}}
+* `{{name}}` (value: `{{{value}}}`)
+{{/enumVars}}{{/allowableValues}}
+{{/isEnum}}{{^isEnum}}# {{moduleName}}.{{classname}}
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{datatype}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{datatype}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#readOnly}}[readonly] {{/readOnly}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{/vars}}
+{{#vars}}{{#isEnum}}
+
+<a name="{{{datatypeWithEnum}}}"></a>
+## Enum: {{datatypeWithEnum}}
+
+{{#allowableValues}}{{#enumVars}}
+* `{{name}}` (value: `{{{value}}}`)
+{{/enumVars}}{{/allowableValues}}
+
+{{/isEnum}}{{/vars}}
+{{/isEnum}}{{/model}}{{/models}}

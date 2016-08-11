@@ -30,7 +30,7 @@ samples/client/petstore/qt5cpp/build-*
 samples/client/petstore/qt5cpp/PetStore/PetStore
 samples/client/petstore/qt5cpp/PetStore/Makefile
 samples/client/petstore/java/hello.txt
-samples/client/petstore/android-java/hello.txt
+samples/client/petstore/android/default/hello.txt
 samples/client/petstore/objc/Build
 samples/client/petstore/objc/Pods
 samples/server/petstore/nodejs/node_modules

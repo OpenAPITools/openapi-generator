@@ -39,7 +39,7 @@ class Swaggering < Sinatra::Base
   
   def self.add_route(method, path, swag={}, opts={}, &block)
     #fullPath = swag["resourcePath"].to_s + @@configuration.format_specifier + path
-    fullPath = path.gsub(/{(.*)}/, ':\1')
+    fullPath = path.gsub(/{(.*?)}/, ':\1')
     
     accepted = case method.to_s.downcase
       when 'get'

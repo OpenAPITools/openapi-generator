@@ -1,7 +1,11 @@
+# coding: utf-8
+
+{{>partial_header}}
+
 from __future__ import absolute_import
 
 # import models into sdk package
-{{#models}}{{#model}}from .models.{{classVarName}} import {{classname}}
+{{#models}}{{#model}}from .models.{{classFilename}} import {{classname}}
 {{/model}}{{/models}}
 # import apis into sdk package
 {{#apiInfo}}{{#apis}}from .apis.{{classVarName}} import {{classname}}

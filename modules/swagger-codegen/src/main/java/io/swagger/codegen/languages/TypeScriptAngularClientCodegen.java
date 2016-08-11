@@ -1,7 +1,8 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.SupportingFile;
 import java.io.File;
+
+import io.swagger.codegen.SupportingFile;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -15,14 +16,22 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 		return "Generates a TypeScript AngularJS client library.";
 	}
 
+	@Override
+	public void processOpts() {
+		super.processOpts();
+		supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage().replace('.', File.separatorChar), "api.d.ts"));
+		supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+		supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+
+	}
+	
 	public TypeScriptAngularClientCodegen() {
 	    super();
 	    outputFolder = "generated-code/typescript-angular";
 	    modelTemplateFiles.put("model.mustache", ".ts");
 	    apiTemplateFiles.put("api.mustache", ".ts");
-	    embeddedTemplateDir = templateDir = "TypeScript-Angular";
+	    embeddedTemplateDir = templateDir = "typescript-angular";
 	    apiPackage = "API.Client";
 	    modelPackage = "API.Client";
-	    supportingFiles.add(new SupportingFile("api.d.mustache", apiPackage().replace('.', File.separatorChar), "api.d.ts"));
 	}
 }

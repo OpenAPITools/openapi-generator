@@ -1,3 +1,6 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
 group = '{{groupId}}'
 version = '{{artifactVersion}}'
 
@@ -6,8 +9,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.2'
-        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+        classpath 'com.android.tools.build:gradle:1.5.+'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
@@ -22,15 +25,21 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'com.github.dcendents.android-maven'
     
     android {
-        compileSdkVersion 22
-        buildToolsVersion '22.0.0'
+        compileSdkVersion 23
+        buildToolsVersion '23.0.2'
         defaultConfig {
             minSdkVersion 14
-            targetSdkVersion 22
+            targetSdkVersion 23
         }
         compileOptions {
+            {{#java8}}
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+            {{/java8}}
+            {{^java8}}
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
+            {{/java8}}
         }
     
         // Rename the aar correctly
@@ -74,9 +83,15 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    
+
+    {{#java8}}
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    {{/java8}}
+    {{^java8}}
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
+    {{/java8}}
     
     install {
         repositories.mavenInstaller {
@@ -91,11 +106,11 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.0"
-    jackson_version = "2.4.2"
-    jersey_version = "1.18"
-    jodatime_version = "2.3"
-    junit_version = "4.8.1"
+    swagger_annotations_version = "1.5.8"
+    jackson_version = "2.7.5"
+    jersey_version = "1.19.1"
+    jodatime_version = "2.9.4"
+    junit_version = "4.12"
 }
 
 dependencies {
@@ -105,7 +120,14 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.1.5"
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    {{#java8}}
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/java8}}
+    {{^java8}}
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
+    {{/java8}}
+    compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"
 }
