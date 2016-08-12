@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**TestEnumQueryParameters**](FakeApi.md#testenumqueryparameters) | **GET** /fake | To test enum query parameters
+[**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 
 
 <a name="testclientmodel"></a>
@@ -92,6 +92,10 @@ namespace Example
         public void main()
         {
             
+            // Configure HTTP basic authorization: http_basic_test
+            Configuration.Default.Username = "YOUR_USERNAME";
+            Configuration.Default.Password = "YOUR_PASSWORD";
+
             var apiInstance = new FakeApi();
             var number = 3.4;  // decimal? | None
             var _double = 1.2;  // double? | None
@@ -143,7 +147,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[http_basic_test](../README.md#http_basic_test)
 
 ### HTTP request headers
 
@@ -152,11 +156,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testenumqueryparameters"></a>
-# **TestEnumQueryParameters**
-> void TestEnumQueryParameters (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+<a name="testenumparameters"></a>
+# **TestEnumParameters**
+> void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
 
-To test enum query parameters
+To test enum parameters
 
 ### Example
 ```csharp
@@ -168,24 +172,29 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class TestEnumQueryParametersExample
+    public class TestEnumParametersExample
     {
         public void main()
         {
             
             var apiInstance = new FakeApi();
+            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional) 
+            var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
+            var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
+            var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
+            var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 3.4;  // decimal? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
 
             try
             {
-                // To test enum query parameters
-                apiInstance.TestEnumQueryParameters(enumQueryString, enumQueryInteger, enumQueryDouble);
+                // To test enum parameters
+                apiInstance.TestEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling FakeApi.TestEnumQueryParameters: " + e.Message );
+                Debug.Print("Exception when calling FakeApi.TestEnumParameters: " + e.Message );
             }
         }
     }
@@ -196,6 +205,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **enumFormStringArray** | [**List<string>**](string.md)| Form parameter enum test (string array) | [optional] 
+ **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
+ **enumHeaderStringArray** | [**List<string>**](string.md)| Header parameter enum test (string array) | [optional] 
+ **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
+ **enumQueryStringArray** | [**List<string>**](string.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **decimal?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
