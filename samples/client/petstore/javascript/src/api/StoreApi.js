@@ -105,7 +105,7 @@
      * Callback function to receive the result of the getInventory operation.
      * @callback module:api/StoreApi~getInventoryCallback
      * @param {String} error Error message, if any.
-     * @param {Object.<String, {'String': 'Integer'}>} data The data returned by the service call.
+     * @param {Object.<String, {'String': 'Number'}>} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
@@ -113,7 +113,7 @@
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @param {module:api/StoreApi~getInventoryCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Object.<String, {'String': 'Integer'}>}
+     * data is of type: {@link Object.<String, {'String': 'Number'}>}
      */
     this.getInventory = function(callback) {
       var postBody = null;
@@ -131,7 +131,7 @@
       var authNames = ['api_key'];
       var contentTypes = [];
       var accepts = ['application/json'];
-      var returnType = {'String': 'Integer'};
+      var returnType = {'String': 'Number'};
 
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
@@ -151,7 +151,7 @@
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     * @param {Integer} orderId ID of pet that needs to be fetched
+     * @param {Number} orderId ID of pet that needs to be fetched
      * @param {module:api/StoreApi~getOrderByIdCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Order}
      */

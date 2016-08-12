@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enumString** | **String** |  | [optional] 
-**enumInteger** | **Integer** |  | [optional] 
+**enumInteger** | **Number** |  | [optional] 
 **enumNumber** | **Number** |  | [optional] 
 
 

@@ -72,14 +72,14 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('return')) {
-        obj['return'] = ApiClient.convertToType(data['return'], 'Integer');
+        obj['return'] = ApiClient.convertToType(data['return'], 'Number');
       }
     }
     return obj;
   }
 
   /**
-   * @member {Integer} return
+   * @member {Number} return
    */
   exports.prototype['return'] = undefined;
 
