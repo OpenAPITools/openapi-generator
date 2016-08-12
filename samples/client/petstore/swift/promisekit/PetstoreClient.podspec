@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/Swaggers/**/*.swift'
   s.dependency 'PromiseKit', '~> 3.1.1'
-  s.dependency 'Alamofire', '~> 3.1.5'
+  s.dependency 'Alamofire', '~> 3.4.1'
 end
