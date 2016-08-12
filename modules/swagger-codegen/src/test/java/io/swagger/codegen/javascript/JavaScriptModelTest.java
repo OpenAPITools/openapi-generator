@@ -52,10 +52,10 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.getter, "getId");
         Assert.assertEquals(property1.setter, "setId");
-        Assert.assertEquals(property1.datatype, "Integer");
+        Assert.assertEquals(property1.datatype, "Number");
         Assert.assertEquals(property1.name, "id");
         Assert.assertEquals(property1.defaultValue, null);
-        Assert.assertEquals(property1.baseType, "Integer");
+        Assert.assertEquals(property1.baseType, "Number");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isNotContainer);

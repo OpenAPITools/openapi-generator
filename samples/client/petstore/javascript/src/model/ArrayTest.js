@@ -76,7 +76,7 @@
         obj['array_of_string'] = ApiClient.convertToType(data['array_of_string'], ['String']);
       }
       if (data.hasOwnProperty('array_array_of_integer')) {
-        obj['array_array_of_integer'] = ApiClient.convertToType(data['array_array_of_integer'], [['Integer']]);
+        obj['array_array_of_integer'] = ApiClient.convertToType(data['array_array_of_integer'], [['Number']]);
       }
       if (data.hasOwnProperty('array_array_of_model')) {
         obj['array_array_of_model'] = ApiClient.convertToType(data['array_array_of_model'], [[ReadOnlyFirst]]);
@@ -90,7 +90,7 @@
    */
   exports.prototype['array_of_string'] = undefined;
   /**
-   * @member {Array.<Array.<Integer>>} array_array_of_integer
+   * @member {Array.<Array.<Number>>} array_array_of_integer
    */
   exports.prototype['array_array_of_integer'] = undefined;
   /**
