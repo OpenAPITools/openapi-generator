@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumQueryParameters**](FakeApi.md#testEnumQueryParameters) | **GET** /fake | To test enum query parameters
+[**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 
 
 <a name="testClientModel"></a>
@@ -64,6 +64,12 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.default;
+
+// Configure HTTP basic authorization: http_basic_test
+var http_basic_test = defaultClient.authentications['http_basic_test'];
+http_basic_test.username = 'YOUR USERNAME';
+http_basic_test.password = 'YOUR PASSWORD';
 
 var apiInstance = new SwaggerPetstore.FakeApi();
 
@@ -76,9 +82,9 @@ var _string = "_string_example"; // String | None
 var _byte = "B"; // String | None
 
 var opts = { 
-  'integer': 56, // Integer | None
-  'int32': 56, // Integer | None
-  'int64': 789, // Integer | None
+  'integer': 56, // Number | None
+  'int32': 56, // Number | None
+  'int64': 789, // Number | None
   '_float': 3.4, // Number | None
   'binary': "B", // String | None
   '_date': new Date("2013-10-20"), // Date | None
@@ -104,9 +110,9 @@ Name | Type | Description  | Notes
  **_double** | **Number**| None | 
  **_string** | **String**| None | 
  **_byte** | **String**| None | 
- **integer** | **Integer**| None | [optional] 
- **int32** | **Integer**| None | [optional] 
- **int64** | **Integer**| None | [optional] 
+ **integer** | **Number**| None | [optional] 
+ **int32** | **Number**| None | [optional] 
+ **int64** | **Number**| None | [optional] 
  **_float** | **Number**| None | [optional] 
  **binary** | **String**| None | [optional] 
  **_date** | **Date**| None | [optional] 
@@ -119,18 +125,18 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[http_basic_test](../README.md#http_basic_test)
 
 ### HTTP request headers
 
  - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
  - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
 
-<a name="testEnumQueryParameters"></a>
-# **testEnumQueryParameters**
-> testEnumQueryParameters(opts)
+<a name="testEnumParameters"></a>
+# **testEnumParameters**
+> testEnumParameters(opts)
 
-To test enum query parameters
+To test enum parameters
 
 ### Example
 ```javascript
@@ -139,6 +145,11 @@ var SwaggerPetstore = require('swagger_petstore');
 var apiInstance = new SwaggerPetstore.FakeApi();
 
 var opts = { 
+  'enumFormStringArray': ["enumFormStringArray_example"], // [String] | Form parameter enum test (string array)
+  'enumFormString': "-efg", // String | Form parameter enum test (string)
+  'enumHeaderStringArray': ["enumHeaderStringArray_example"], // [String] | Header parameter enum test (string array)
+  'enumHeaderString': "-efg", // String | Header parameter enum test (string)
+  'enumQueryStringArray': ["enumQueryStringArray_example"], // [String] | Query parameter enum test (string array)
   'enumQueryString': "-efg", // String | Query parameter enum test (string)
   'enumQueryInteger': 3.4, // Number | Query parameter enum test (double)
   'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
@@ -151,13 +162,18 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.testEnumQueryParameters(opts, callback);
+apiInstance.testEnumParameters(opts, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] 
+ **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg]
+ **enumHeaderStringArray** | [**[String]**](String.md)| Header parameter enum test (string array) | [optional] 
+ **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg]
+ **enumQueryStringArray** | [**[String]**](String.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **Number**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Number**| Query parameter enum test (double) | [optional] 

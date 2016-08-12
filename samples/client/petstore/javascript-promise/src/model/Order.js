@@ -76,13 +76,13 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('id')) {
-        obj['id'] = ApiClient.convertToType(data['id'], 'Integer');
+        obj['id'] = ApiClient.convertToType(data['id'], 'Number');
       }
       if (data.hasOwnProperty('petId')) {
-        obj['petId'] = ApiClient.convertToType(data['petId'], 'Integer');
+        obj['petId'] = ApiClient.convertToType(data['petId'], 'Number');
       }
       if (data.hasOwnProperty('quantity')) {
-        obj['quantity'] = ApiClient.convertToType(data['quantity'], 'Integer');
+        obj['quantity'] = ApiClient.convertToType(data['quantity'], 'Number');
       }
       if (data.hasOwnProperty('shipDate')) {
         obj['shipDate'] = ApiClient.convertToType(data['shipDate'], 'Date');
@@ -98,15 +98,15 @@
   }
 
   /**
-   * @member {Integer} id
+   * @member {Number} id
    */
   exports.prototype['id'] = undefined;
   /**
-   * @member {Integer} petId
+   * @member {Number} petId
    */
   exports.prototype['petId'] = undefined;
   /**
-   * @member {Integer} quantity
+   * @member {Number} quantity
    */
   exports.prototype['quantity'] = undefined;
   /**

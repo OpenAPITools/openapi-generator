@@ -73,7 +73,7 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('name')) {
-        obj['name'] = ApiClient.convertToType(data['name'], 'Integer');
+        obj['name'] = ApiClient.convertToType(data['name'], 'Number');
       }
       if (data.hasOwnProperty('class')) {
         obj['class'] = ApiClient.convertToType(data['class'], 'String');
@@ -83,7 +83,7 @@
   }
 
   /**
-   * @member {Integer} name
+   * @member {Number} name
    */
   exports.prototype['name'] = undefined;
   /**

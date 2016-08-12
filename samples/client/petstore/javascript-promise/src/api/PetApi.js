@@ -97,7 +97,7 @@
     /**
      * Deletes a pet
      * 
-     * @param {Integer} petId Pet id to delete
+     * @param {Number} petId Pet id to delete
      * @param {Object} opts Optional parameters
      * @param {String} opts.apiKey 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
@@ -215,7 +215,7 @@
     /**
      * Find pet by ID
      * Returns a single pet
-     * @param {Integer} petId ID of pet to return
+     * @param {Number} petId ID of pet to return
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Pet}
      */
     this.getPetById = function(petId) {
@@ -290,7 +290,7 @@
     /**
      * Updates a pet in the store with form data
      * 
-     * @param {Integer} petId ID of pet that needs to be updated
+     * @param {Number} petId ID of pet that needs to be updated
      * @param {Object} opts Optional parameters
      * @param {String} opts.name Updated name of the pet
      * @param {String} opts.status Updated status of the pet
@@ -334,7 +334,7 @@
     /**
      * uploads an image
      * 
-     * @param {Integer} petId ID of pet to update
+     * @param {Number} petId ID of pet to update
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @param {File} opts.file file to upload
