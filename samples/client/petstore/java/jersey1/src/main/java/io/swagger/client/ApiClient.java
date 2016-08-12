@@ -510,12 +510,12 @@ public class ApiClient {
       FormDataMultiPart mp = new FormDataMultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
         if( param.getValue() instanceof List && !( ( List ) param.getValue() ).isEmpty()
-          && ( ( List ) param.getValue() ).get( 0 ) instanceof File ) {
-          @SuppressWarnings( "unchecked" )
-          List<File> files = ( List<File> ) param.getValue();
-          for( File file : files ) {
-            mp.bodyPart( new FileDataBodyPart( param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE ) );
-          }
+                  && ( ( List ) param.getValue() ).get( 0 ) instanceof File ) {
+            @SuppressWarnings( "unchecked" )
+            List<File> files = ( List<File> ) param.getValue();
+            for( File file : files ) {
+              mp.bodyPart( new FileDataBodyPart( param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE ) );
+            }
         } else if (param.getValue() instanceof File) {
           File file = (File) param.getValue();
           mp.bodyPart(new FileDataBodyPart(param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
