@@ -116,9 +116,9 @@
      * @param {String} _string None
      * @param {String} _byte None
      * @param {Object} opts Optional parameters
-     * @param {Integer} opts.integer None
-     * @param {Integer} opts.int32 None
-     * @param {Integer} opts.int64 None
+     * @param {Number} opts.integer None
+     * @param {Number} opts.int32 None
+     * @param {Number} opts.int64 None
      * @param {Number} opts._float None
      * @param {String} opts.binary None
      * @param {Date} opts._date None
@@ -172,7 +172,7 @@
         'password': opts['password']
       };
 
-      var authNames = [];
+      var authNames = ['http_basic_test'];
       var contentTypes = ['application/xml; charset=utf-8', 'application/json; charset=utf-8'];
       var accepts = ['application/xml; charset=utf-8', 'application/json; charset=utf-8'];
       var returnType = null;
@@ -185,22 +185,27 @@
     }
 
     /**
-     * Callback function to receive the result of the testEnumQueryParameters operation.
-     * @callback module:api/FakeApi~testEnumQueryParametersCallback
+     * Callback function to receive the result of the testEnumParameters operation.
+     * @callback module:api/FakeApi~testEnumParametersCallback
      * @param {String} error Error message, if any.
      * @param data This operation does not return a value.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * To test enum query parameters
+     * To test enum parameters
      * @param {Object} opts Optional parameters
+     * @param {Array.<String>} opts.enumFormStringArray Form parameter enum test (string array)
+     * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to -efg)
+     * @param {Array.<String>} opts.enumHeaderStringArray Header parameter enum test (string array)
+     * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to -efg)
+     * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
      * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
      * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
-     * @param {module:api/FakeApi~testEnumQueryParametersCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/FakeApi~testEnumParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.testEnumQueryParameters = function(opts, callback) {
+    this.testEnumParameters = function(opts, callback) {
       opts = opts || {};
       var postBody = null;
 
@@ -208,12 +213,17 @@
       var pathParams = {
       };
       var queryParams = {
+        'enum_query_string_array': this.apiClient.buildCollectionParam(opts['enumQueryStringArray'], 'csv'),
+        'enum_query_string': opts['enumQueryString'],
         'enum_query_integer': opts['enumQueryInteger']
       };
       var headerParams = {
+        'enum_header_string_array': opts['enumHeaderStringArray'],
+        'enum_header_string': opts['enumHeaderString']
       };
       var formParams = {
-        'enum_query_string': opts['enumQueryString'],
+        'enum_form_string_array': this.apiClient.buildCollectionParam(opts['enumFormStringArray'], 'csv'),
+        'enum_form_string': opts['enumFormString'],
         'enum_query_double': opts['enumQueryDouble']
       };
 

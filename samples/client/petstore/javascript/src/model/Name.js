@@ -53,7 +53,7 @@
    * Model for testing model name same as property name
    * @alias module:model/Name
    * @class
-   * @param name {Integer} 
+   * @param name {Number} 
    */
   var exports = function(name) {
     var _this = this;
@@ -76,27 +76,27 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('name')) {
-        obj['name'] = ApiClient.convertToType(data['name'], 'Integer');
+        obj['name'] = ApiClient.convertToType(data['name'], 'Number');
       }
       if (data.hasOwnProperty('snake_case')) {
-        obj['snake_case'] = ApiClient.convertToType(data['snake_case'], 'Integer');
+        obj['snake_case'] = ApiClient.convertToType(data['snake_case'], 'Number');
       }
       if (data.hasOwnProperty('property')) {
         obj['property'] = ApiClient.convertToType(data['property'], 'String');
       }
       if (data.hasOwnProperty('123Number')) {
-        obj['123Number'] = ApiClient.convertToType(data['123Number'], 'Integer');
+        obj['123Number'] = ApiClient.convertToType(data['123Number'], 'Number');
       }
     }
     return obj;
   }
 
   /**
-   * @member {Integer} name
+   * @member {Number} name
    */
   exports.prototype['name'] = undefined;
   /**
-   * @member {Integer} snake_case
+   * @member {Number} snake_case
    */
   exports.prototype['snake_case'] = undefined;
   /**
@@ -104,7 +104,7 @@
    */
   exports.prototype['property'] = undefined;
   /**
-   * @member {Integer} 123Number
+   * @member {Number} 123Number
    */
   exports.prototype['123Number'] = undefined;
 
