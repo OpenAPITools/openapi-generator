@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+{{#generatePropertyChanged}}using PropertyChanged;
+using System.ComponentModel;{{/generatePropertyChanged}}
 
 {{#models}}
 {{#model}}
