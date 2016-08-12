@@ -1,24 +1,26 @@
-// Request.swift
 //
-// Copyright (c) 2014–2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Request.swift
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+//
 
 import Foundation
 
@@ -48,6 +50,9 @@ public class Request {
     /// The progress of the request lifecycle.
     public var progress: NSProgress { return delegate.progress }
 
+    var startTime: CFAbsoluteTime?
+    var endTime: CFAbsoluteTime?
+
     // MARK: - Lifecycle
 
     init(session: NSURLSession, task: NSURLSessionTask) {
@@ -55,14 +60,16 @@ public class Request {
 
         switch task {
         case is NSURLSessionUploadTask:
-            self.delegate = UploadTaskDelegate(task: task)
+            delegate = UploadTaskDelegate(task: task)
         case is NSURLSessionDataTask:
-            self.delegate = DataTaskDelegate(task: task)
+            delegate = DataTaskDelegate(task: task)
         case is NSURLSessionDownloadTask:
-            self.delegate = DownloadTaskDelegate(task: task)
+            delegate = DownloadTaskDelegate(task: task)
         default:
-            self.delegate = TaskDelegate(task: task)
+            delegate = TaskDelegate(task: task)
         }
+
+        delegate.queue.addOperationWithBlock { self.endTime = CFAbsoluteTimeGetCurrent() }
     }
 
     // MARK: - Authentication
@@ -98,6 +105,22 @@ public class Request {
         delegate.credential = credential
 
         return self
+    }
+
+    /**
+        Returns a base64 encoded basic authentication credential as an authorization header dictionary.
+
+        - parameter user:     The user.
+        - parameter password: The password.
+
+        - returns: A dictionary with Authorization key and credential value or empty dictionary if encoding fails.
+    */
+    public static func authorizationHeader(user user: String, password: String) -> [String: String] {
+        guard let data = "\(user):\(password)".dataUsingEncoding(NSUTF8StringEncoding) else { return [:] }
+
+        let credential = data.base64EncodedStringWithOptions([])
+
+        return ["Authorization": "Basic \(credential)"]
     }
 
     // MARK: - Progress
@@ -149,17 +172,21 @@ public class Request {
     // MARK: - State
 
     /**
+        Resumes the request.
+    */
+    public func resume() {
+        if startTime == nil { startTime = CFAbsoluteTimeGetCurrent() }
+
+        task.resume()
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.Task.DidResume, object: task)
+    }
+
+    /**
         Suspends the request.
     */
     public func suspend() {
         task.suspend()
-    }
-
-    /**
-        Resumes the request.
-    */
-    public func resume() {
-        task.resume()
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.Task.DidSuspend, object: task)
     }
 
     /**
@@ -176,6 +203,8 @@ public class Request {
         } else {
             task.cancel()
         }
+
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.Task.DidCancel, object: task)
     }
 
     // MARK: - TaskDelegate
@@ -195,6 +224,7 @@ public class Request {
         var data: NSData? { return nil }
         var error: NSError?
 
+        var initialResponseTime: CFAbsoluteTime?
         var credential: NSURLCredential?
 
         init(task: NSURLSessionTask) {
@@ -272,7 +302,7 @@ public class Request {
                 }
             } else {
                 if challenge.previousFailureCount > 0 {
-                    disposition = .CancelAuthenticationChallenge
+                    disposition = .RejectProtectionSpace
                 } else {
                     credential = self.credential ?? session.configuration.URLCredentialStorage?.defaultCredentialForProtectionSpace(challenge.protectionSpace)
 
@@ -381,6 +411,8 @@ public class Request {
         }
 
         func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+            if initialResponseTime == nil { initialResponseTime = CFAbsoluteTimeGetCurrent() }
+
             if let dataTaskDidReceiveData = dataTaskDidReceiveData {
                 dataTaskDidReceiveData(session, dataTask, data)
             } else {
@@ -470,7 +502,7 @@ extension Request: CustomDebugStringConvertible {
             let protectionSpace = NSURLProtectionSpace(
                 host: host,
                 port: URL.port?.integerValue ?? 0,
-                `protocol`: URL.scheme,
+                protocol: URL.scheme,
                 realm: host,
                 authenticationMethod: NSURLAuthenticationMethodHTTPBasic
             )
@@ -496,33 +528,31 @@ extension Request: CustomDebugStringConvertible {
             }
         }
 
-        if let headerFields = request.allHTTPHeaderFields {
-            for (field, value) in headerFields {
-                switch field {
-                case "Cookie":
-                    continue
-                default:
-                    components.append("-H \"\(field): \(value)\"")
-                }
+        var headers: [NSObject: AnyObject] = [:]
+
+        if let additionalHeaders = session.configuration.HTTPAdditionalHeaders {
+            for (field, value) in additionalHeaders where field != "Cookie" {
+                headers[field] = value
             }
         }
 
-        if let additionalHeaders = session.configuration.HTTPAdditionalHeaders {
-            for (field, value) in additionalHeaders {
-                switch field {
-                case "Cookie":
-                    continue
-                default:
-                    components.append("-H \"\(field): \(value)\"")
-                }
+        if let headerFields = request.allHTTPHeaderFields {
+            for (field, value) in headerFields where field != "Cookie" {
+                headers[field] = value
             }
+        }
+
+        for (field, value) in headers {
+            components.append("-H \"\(field): \(value)\"")
         }
 
         if let
             HTTPBodyData = request.HTTPBody,
             HTTPBody = String(data: HTTPBodyData, encoding: NSUTF8StringEncoding)
         {
-            let escapedBody = HTTPBody.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+            var escapedBody = HTTPBody.stringByReplacingOccurrencesOfString("\\\"", withString: "\\\\\"")
+            escapedBody = escapedBody.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+
             components.append("-d \"\(escapedBody)\"")
         }
 
