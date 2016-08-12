@@ -90,7 +90,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         switch T.self {
         case is NSData.Type:
-            validatedRequest.responseData({ (dataResponse) in
+            validatedRequest.responseData(completionHandler: { (dataResponse) in
                 cleanupRequest()
 
                 if (dataResponse.result.isFailure) {
