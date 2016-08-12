@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.samskivert.mustache.Mustache.Compiler;
+
 public interface CodegenConfig {
     CodegenType getTag();
 
@@ -116,6 +118,8 @@ public interface CodegenConfig {
     void preprocessSwagger(Swagger swagger);
 
     void processSwagger(Swagger swagger);
+
+    Compiler processCompiler(Compiler compiler);
 
     String sanitizeTag(String tag);
 
