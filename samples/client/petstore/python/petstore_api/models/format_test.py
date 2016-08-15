@@ -87,6 +87,7 @@ class FormatTest(object):
         self._uuid = uuid
         self._password = password
 
+
     @property
     def integer(self):
         """

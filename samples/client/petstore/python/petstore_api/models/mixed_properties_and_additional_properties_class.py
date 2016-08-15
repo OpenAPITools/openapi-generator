@@ -57,6 +57,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         self._date_time = date_time
         self._map = map
 
+
     @property
     def uuid(self):
         """

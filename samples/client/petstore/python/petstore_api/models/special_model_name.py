@@ -51,6 +51,7 @@ class SpecialModelName(object):
 
         self._special_property_name = special_property_name
 
+
     @property
     def special_property_name(self):
         """

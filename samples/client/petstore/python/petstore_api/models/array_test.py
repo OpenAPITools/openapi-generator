@@ -57,6 +57,7 @@ class ArrayTest(object):
         self._array_array_of_integer = array_array_of_integer
         self._array_array_of_model = array_array_of_model
 
+
     @property
     def array_of_string(self):
         """

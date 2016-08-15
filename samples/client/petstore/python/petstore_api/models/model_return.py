@@ -51,6 +51,7 @@ class ModelReturn(object):
 
         self.__return = _return
 
+
     @property
     def _return(self):
         """
