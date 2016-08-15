@@ -12,19 +12,16 @@ public class OffsetDateTimeProvider implements ParamConverterProvider {
 
     public static class OffsetDateTimeConverter implements ParamConverter<OffsetDateTime> {
 
-        @Override
         public OffsetDateTime fromString(String string) {
-            OffsetDateTime OffsetDateTime = OffsetDateTime.parse(string);
-            return OffsetDateTime;
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse(string);
+            return offsetDateTime;
         }
 
-        @Override
         public String toString(OffsetDateTime t) {
             return t.toString();
         }
     }
 
-    @Override
     public <T> ParamConverter<T> getConverter(Class<T> type, Type type1, Annotation[] antns) {
         if (OffsetDateTime.class.equals(type)) {
             return (ParamConverter<T>) new OffsetDateTimeConverter();
