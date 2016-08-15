@@ -15,7 +15,6 @@ public class JodaLocalDateProvider implements ParamConverterProvider {
 
     public static class JodaLocalDateConverter implements ParamConverter<LocalDate> {
 
-        @Override
         public LocalDate fromString(String string) {
             try {
                 LocalDate localDate = LocalDate.parse(string);
@@ -26,13 +25,11 @@ public class JodaLocalDateProvider implements ParamConverterProvider {
             }
     }
 
-        @Override
         public String toString(LocalDate t) {
             return t.toString();
         }
     }
 
-    @Override
     public <T> ParamConverter<T> getConverter(Class<T> type, Type type1, Annotation[] antns) {
         if (LocalDate.class.equals(type)) {
             return (ParamConverter<T>) new JodaLocalDateConverter();

@@ -15,7 +15,6 @@ public class JodaDateTimeProvider implements ParamConverterProvider {
 
     public static class JodaDateTimeConverter implements ParamConverter<DateTime> {
 
-        @Override
         public DateTime fromString(String string) {
             try {
                 DateTime dateTime = DateTime.parse(string);
@@ -26,13 +25,11 @@ public class JodaDateTimeProvider implements ParamConverterProvider {
             }
         }
 
-        @Override
         public String toString(DateTime t) {
             return t.toString();
         }
     }
 
-    @Override
     public <T> ParamConverter<T> getConverter(Class<T> type, Type type1, Annotation[] antns) {
         if (DateTime.class.equals(type)) {
             return (ParamConverter<T>) new JodaDateTimeConverter();

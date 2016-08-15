@@ -15,7 +15,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaResteasyServerCodegen", date = "2016-07-01T21:32:16.906+08:00")
+
 public class StoreApiServiceImpl extends StoreApiService {
       @Override
       public Response deleteOrder(String orderId,SecurityContext securityContext)
