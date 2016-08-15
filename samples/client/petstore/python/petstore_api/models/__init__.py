@@ -36,6 +36,7 @@ from .cat import Cat
 from .category import Category
 from .client import Client
 from .dog import Dog
+from .enum_arrays import EnumArrays
 from .enum_class import EnumClass
 from .enum_test import EnumTest
 from .format_test import FormatTest

@@ -57,6 +57,7 @@ class ApiResponse(object):
         self._type = type
         self._message = message
 
+
     @property
     def code(self):
         """

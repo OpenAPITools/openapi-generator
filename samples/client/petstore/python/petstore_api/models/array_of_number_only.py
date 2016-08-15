@@ -51,6 +51,7 @@ class ArrayOfNumberOnly(object):
 
         self._array_number = array_number
 
+
     @property
     def array_number(self):
         """
