@@ -7,7 +7,7 @@
 
 @interface {{classname}} ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -21,19 +21,11 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        {{classPrefix}}Configuration *config = [{{classPrefix}}Configuration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[{{classPrefix}}ApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[{{classPrefix}}ApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:({{classPrefix}}ApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
@@ -43,15 +35,6 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
 }
 
 #pragma mark -
-
-+ (instancetype)sharedAPI {
-    static {{classname}} *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
 
 -(NSString*) defaultHeaderForKey:(NSString*)key {
     return self.defaultHeaders[key];
@@ -65,10 +48,6 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [{{classPrefix}}ApiClient requestQueueSize];
-}
-
 #pragma mark - Api Methods
 
 {{#operation}}
@@ -79,7 +58,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
 ///
 /// {{/allParams}} @returns {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
 ///
--(NSNumber*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+-(NSURLSessionTask*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
     {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
     {{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) handler {
     {{#allParams}}
@@ -175,8 +154,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler({{#returnType}}({{{ returnType }}})data, {{/returnType}}error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 {{/operation}}

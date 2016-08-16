@@ -5,7 +5,7 @@
 
 @interface SWGStoreApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -19,19 +19,11 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        SWGConfiguration *config = [SWGConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[SWGApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[SWGApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(SWGApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
@@ -41,15 +33,6 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 }
 
 #pragma mark -
-
-+ (instancetype)sharedAPI {
-    static SWGStoreApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
 
 -(NSString*) defaultHeaderForKey:(NSString*)key {
     return self.defaultHeaders[key];
@@ -63,10 +46,6 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [SWGApiClient requestQueueSize];
-}
-
 #pragma mark - Api Methods
 
 ///
@@ -76,7 +55,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+-(NSURLSessionTask*) deleteOrderWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
@@ -137,8 +116,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -146,7 +124,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 /// Returns a map of status codes to quantities
 ///  @returns NSDictionary<NSString*, NSNumber*>*
 ///
--(NSNumber*) getInventoryWithCompletionHandler: 
+-(NSURLSessionTask*) getInventoryWithCompletionHandler: 
     (void (^)(NSDictionary<NSString*, NSNumber*>* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/inventory"];
 
@@ -193,8 +171,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((NSDictionary<NSString*, NSNumber*>*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -204,7 +181,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 ///  @returns SWGOrder*
 ///
--(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
+-(NSURLSessionTask*) getOrderByIdWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
@@ -265,8 +242,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((SWGOrder*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -276,7 +252,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 ///  @returns SWGOrder*
 ///
--(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+-(NSURLSessionTask*) placeOrderWithBody: (SWGOrder*) body
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order"];
 
@@ -324,8 +300,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((SWGOrder*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

@@ -1,10 +1,16 @@
+#import <ISO8601/NSDate+ISO8601.h>
+
 #import "SWGApiClient.h"
+#import "SWGJSONRequestSerializer.h"
+#import "SWGJSONResponseSerializer.h"
+#import "SWGQueryParamCollection.h"
+#import "SWGDefaultConfiguration.h"
+
+
 
 NSString *const SWGResponseObjectErrorKey = @"SWGResponseObject";
 
-static NSUInteger requestId = 0;
 static bool offlineState = false;
-static NSMutableSet * queuedRequests = nil;
 static bool cacheEnabled = false;
 static AFNetworkReachabilityStatus reachabilityStatus = AFNetworkReachabilityStatusNotReachable;
 static void (^reachabilityChangeBlock)(int);
@@ -36,38 +42,61 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
 @interface SWGApiClient ()
 
-@property (nonatomic, strong) NSDictionary* HTTPResponseHeaders;
+@property (nonatomic, strong, readwrite) id<SWGConfiguration> configuration;
 
 @end
 
 @implementation SWGApiClient
 
+#pragma mark - Singleton Methods
+
++ (instancetype) sharedClient {
+    static SWGApiClient *sharedClient = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedClient = [[self alloc] init];
+    });
+    return sharedClient;
+}
+
+#pragma mark - Initialize Methods
+
 - (instancetype)init {
-    NSString *baseUrl = [[SWGConfiguration sharedConfig] host];
-    return [self initWithBaseURL:[NSURL URLWithString:baseUrl]];
+
+    return [self initWithConfiguration:[SWGDefaultConfiguration sharedConfig]];
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url {
+
+    return [self initWithBaseURL:url
+                   configuration:[SWGDefaultConfiguration sharedConfig]];
+    
+}
+
+- (instancetype)initWithConfiguration:(id<SWGConfiguration>)configuration {
+
+    return [self initWithBaseURL:[NSURL URLWithString:configuration.host] configuration:configuration];
+}
+
+- (instancetype)initWithBaseURL:(NSURL *)url
+                  configuration:(id<SWGConfiguration>)configuration {
+
     self = [super initWithBaseURL:url];
     if (self) {
-        self.timeoutInterval = 60;
+        _configuration = configuration;
+        _timeoutInterval = 60;
+        _responseDeserializer = [[SWGResponseDeserializer alloc] init];
+        _sanitizer = [[SWGSanitizer alloc] init];
+
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.securityPolicy = [self customSecurityPolicy];
-        self.responseDeserializer = [[SWGResponseDeserializer alloc] init];
-        self.sanitizer = [[SWGSanitizer alloc] init];
+
         // configure reachability
         [self configureCacheReachibility];
     }
-    return self;
-}
 
-+ (void)initialize {
-    if (self == [SWGApiClient class]) {
-        queuedRequests = [[NSMutableSet alloc] init];
-        // initialize URL cache
-        [self configureCacheWithMemoryAndDiskCapacity:4*1024*1024 diskSize:32*1024*1024];
-    }
+    return self;
 }
 
 #pragma mark - Setter Methods
@@ -113,43 +142,6 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     [NSURLCache setSharedURLCache:cache];
 }
 
-#pragma mark - Request Methods
-
-+(NSUInteger)requestQueueSize {
-    return [queuedRequests count];
-}
-
-+(NSNumber*) nextRequestId {
-    @synchronized(self) {
-        return @(++requestId);
-    }
-}
-
-+(NSNumber*) queueRequest {
-    NSNumber* requestId = [[self class] nextRequestId];
-    SWGDebugLog(@"added %@ to request queue", requestId);
-    [queuedRequests addObject:requestId];
-    return requestId;
-}
-
-+(void) cancelRequest:(NSNumber*)requestId {
-    [queuedRequests removeObject:requestId];
-}
-
--(Boolean) executeRequestWithId:(NSNumber*) requestId {
-    NSSet* matchingItems = [queuedRequests objectsPassingTest:^BOOL(id obj, BOOL *stop) {
-        return [obj intValue]  == [requestId intValue];
-    }];
-
-    if (matchingItems.count == 1) {
-        SWGDebugLog(@"removed request id %@", requestId);
-        [queuedRequests removeObject:requestId];
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
 #pragma mark - Reachability Methods
 
 +(AFNetworkReachabilityStatus) getReachabilityStatus {
@@ -179,23 +171,19 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     [self.reachabilityManager startMonitoring];
 }
 
-#pragma mark - Operation Methods
+#pragma mark - Task Methods
 
-- (void) operationWithCompletionBlock: (NSURLRequest *)request
-                            requestId: (NSNumber *) requestId
-                      completionBlock: (void (^)(id, NSError *))completionBlock {
-    __weak __typeof(self)weakSelf = self;
-    NSURLSessionDataTask* op = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        if (![strongSelf executeRequestWithId:requestId]) {
-            return;
-        }
+- (NSURLSessionDataTask*) taskWithCompletionBlock: (NSURLRequest *)request
+                                  completionBlock: (void (^)(id, NSError *))completionBlock {
+    
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         SWGDebugLogResponse(response, responseObject,request,error);
-        strongSelf.HTTPResponseHeaders = SWG__headerFieldsForResponse(response);
+        
         if(!error) {
             completionBlock(responseObject, nil);
             return;
         }
+
         NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
         if (responseObject) {
             // Add in the (parsed) response body.
@@ -204,20 +192,18 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
         NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
         completionBlock(nil, augmentedError);
     }];
-    [op resume];
+    
+    return task;
 }
 
-- (void) downloadOperationWithCompletionBlock: (NSURLRequest *)request
-                                    requestId: (NSNumber *) requestId
-                              completionBlock: (void (^)(id, NSError *))completionBlock {
-    __weak __typeof(self)weakSelf = self;
-    NSURLSessionDataTask* op = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        if (![strongSelf executeRequestWithId:requestId]) {
-            return;
-        }
-        strongSelf.HTTPResponseHeaders = SWG__headerFieldsForResponse(response);
+- (NSURLSessionDataTask*) downloadTaskWithCompletionBlock: (NSURLRequest *)request
+                                          completionBlock: (void (^)(id, NSError *))completionBlock {
+    
+    id<SWGConfiguration> config = self.configuration;
+
+    NSURLSessionDataTask* task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         SWGDebugLogResponse(response, responseObject,request,error);
+
         if(error) {
             NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
             if (responseObject) {
@@ -226,8 +212,9 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
             NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
             completionBlock(nil, augmentedError);
         }
-        NSString *directory = [self configuration].tempFolderPath ?: NSTemporaryDirectory();
-        NSString * filename = SWG__fileNameForResponse(response);
+
+        NSString *directory = config.tempFolderPath ?: NSTemporaryDirectory();
+        NSString *filename = SWG__fileNameForResponse(response);
 
         NSString *filepath = [directory stringByAppendingPathComponent:filename];
         NSURL *file = [NSURL fileURLWithPath:filepath];
@@ -236,24 +223,26 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
         completionBlock(file, nil);
     }];
-    [op resume];
+    
+    return task;
 }
 
-#pragma mark - Perform Request Methods
+#pragma mark - Perform Request Methods
 
--(NSNumber*) requestWithPath: (NSString*) path
-                      method: (NSString*) method
-                  pathParams: (NSDictionary *) pathParams
-                 queryParams: (NSDictionary*) queryParams
-                  formParams: (NSDictionary *) formParams
-                       files: (NSDictionary *) files
-                        body: (id) body
-                headerParams: (NSDictionary*) headerParams
-                authSettings: (NSArray *) authSettings
-          requestContentType: (NSString*) requestContentType
-         responseContentType: (NSString*) responseContentType
-                responseType: (NSString *) responseType
-             completionBlock: (void (^)(id, NSError *))completionBlock {
+- (NSURLSessionTask*) requestWithPath: (NSString*) path
+                               method: (NSString*) method
+                           pathParams: (NSDictionary *) pathParams
+                          queryParams: (NSDictionary*) queryParams
+                           formParams: (NSDictionary *) formParams
+                                files: (NSDictionary *) files
+                                 body: (id) body
+                         headerParams: (NSDictionary*) headerParams
+                         authSettings: (NSArray *) authSettings
+                   requestContentType: (NSString*) requestContentType
+                  responseContentType: (NSString*) responseContentType
+                         responseType: (NSString *) responseType
+                      completionBlock: (void (^)(id, NSError *))completionBlock {
+
     // setting request serializer
     if ([requestContentType isEqualToString:@"application/json"]) {
         self.requestSerializer = [SWGJSONRequestSerializer serializer];
@@ -359,14 +348,16 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
     [self postProcessRequest:request];
 
-    NSNumber* requestId = [SWGApiClient queueRequest];
+    
+    NSURLSessionTask *task = nil;
+
     if ([responseType isEqualToString:@"NSURL*"] || [responseType isEqualToString:@"NSURL"]) {
-        [self downloadOperationWithCompletionBlock:request requestId:requestId completionBlock:^(id data, NSError *error) {
+        task = [self downloadTaskWithCompletionBlock:request completionBlock:^(id data, NSError *error) {
             completionBlock(data, error);
         }];
     }
     else {
-        [self operationWithCompletionBlock:request requestId:requestId completionBlock:^(id data, NSError *error) {
+        task = [self taskWithCompletionBlock:request completionBlock:^(id data, NSError *error) {
             NSError * serializationError;
             id response = [self.responseDeserializer deserialize:data class:responseType error:&serializationError];
             if(!response && !error){
@@ -375,7 +366,10 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
             completionBlock(response, error);
         }];
     }
-    return requestId;
+    
+    [task resume];
+    
+    return task;
 }
 
 //Added for easier override to modify request
@@ -455,10 +449,11 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
     NSMutableDictionary *headersWithAuth = [NSMutableDictionary dictionaryWithDictionary:*headers];
     NSMutableDictionary *querysWithAuth = [NSMutableDictionary dictionaryWithDictionary:*querys];
-
-    NSDictionary* configurationAuthSettings = [[self configuration] authSettings];
+    
+    id<SWGConfiguration> config = self.configuration;
     for (NSString *auth in authSettings) {
-        NSDictionary *authSetting = configurationAuthSettings[auth];
+        NSDictionary *authSetting = config.authSettings[auth];
+
         if(!authSetting) { // auth setting is set only if the key is non-empty
             continue;
         }
@@ -479,11 +474,11 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 - (AFSecurityPolicy *) customSecurityPolicy {
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
 
-    SWGConfiguration *config = [self configuration];
+    id<SWGConfiguration> config = self.configuration;
 
     if (config.sslCaCert) {
         NSData *certData = [NSData dataWithContentsOfFile:config.sslCaCert];
-        [securityPolicy setPinnedCertificates:@[certData]];
+        [securityPolicy setPinnedCertificates:[NSSet setWithObject:certData]];
     }
 
     if (config.verifySSL) {
@@ -495,10 +490,6 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
     }
 
     return securityPolicy;
-}
-
-- (SWGConfiguration*) configuration {
-    return [SWGConfiguration sharedConfig];
 }
 
 @end
