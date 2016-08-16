@@ -66,6 +66,7 @@ class Pet(object):
         self._tags = tags
         self._status = status
 
+
     @property
     def id(self):
         """

@@ -51,6 +51,7 @@ class Client(object):
 
         self._client = client
 
+
     @property
     def client(self):
         """

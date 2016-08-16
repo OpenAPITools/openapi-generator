@@ -54,6 +54,7 @@ class AdditionalPropertiesClass(object):
         self._map_property = map_property
         self._map_of_map_property = map_of_map_property
 
+
     @property
     def map_property(self):
         """
