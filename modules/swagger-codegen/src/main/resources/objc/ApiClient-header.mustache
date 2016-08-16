@@ -1,21 +1,9 @@
-#import <Foundation/Foundation.h>
-#import <ISO8601/ISO8601.h>
 #import <AFNetworking/AFNetworking.h>
-#import "{{classPrefix}}JSONResponseSerializer.h"
-#import "{{classPrefix}}JSONRequestSerializer.h"
-#import "{{classPrefix}}QueryParamCollection.h"
 #import "{{classPrefix}}Configuration.h"
 #import "{{classPrefix}}ResponseDeserializer.h"
 #import "{{classPrefix}}Sanitizer.h"
-#import "{{classPrefix}}Logger.h"
 
 {{>licenceInfo}}
-
-{{#models}}{{#model}}#import "{{classname}}.h"
-{{/model}}{{/models}}
-{{^models}}#import "{{classPrefix}}Object.h"{{/models}}
-
-@class {{classPrefix}}Configuration;
 
 /**
  * A key for `NSError` user info dictionaries.
@@ -24,14 +12,14 @@
  */
 extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
 
+
 @interface {{classPrefix}}ApiClient : AFHTTPSessionManager
+
+@property (nonatomic, strong, readonly) id<{{classPrefix}}Configuration> configuration;
 
 @property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 @property(nonatomic, readonly) NSOperationQueue* queue;
-
-/// In order to ensure the HTTPResponseHeaders are correct, it is recommended to initialize one {{classPrefix}}ApiClient instance per thread.
-@property(nonatomic, readonly) NSDictionary* HTTPResponseHeaders;
 
 @property(nonatomic, strong) id<{{classPrefix}}ResponseDeserializer> responseDeserializer;
 
@@ -47,13 +35,6 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  * @param enabled If the cached is enable, must be `YES` or `NO`
  */
 +(void)setCacheEnabled:(BOOL) enabled;
-
-/**
- * Gets the request queue size
- *
- * @return The size of `queuedRequests` static variable.
- */
-+(NSUInteger)requestQueueSize;
 
 /**
  * Sets the client unreachable
@@ -84,32 +65,16 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
 +(AFNetworkReachabilityStatus) getReachabilityStatus;
 
 /**
- * Gets the next request id
- *
- * @return The next executed request id.
- */
-+(NSNumber*) nextRequestId;
-
-/**
- * Generates request id and add it to the queue
- *
- * @return The next executed request id.
- */
-+(NSNumber*) queueRequest;
-
-/**
- * Removes request id from the queue
- *
- * @param requestId The request which will be removed.
- */
-+(void) cancelRequest:(NSNumber*)requestId;
-
-/**
  * Customizes the behavior when the reachability changed
  *
  * @param changeBlock The block will be executed when the reachability changed.
  */
 +(void) setReachabilityChangeBlock:(void(^)(int))changeBlock;
+
+/**
+ * Gets client singleton instance
+ */
++ (instancetype) sharedClient;
 
 /**
  * Sets the api client reachability strategy
@@ -136,6 +101,14 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
                 queryParams:(NSDictionary **)querys
            WithAuthSettings:(NSArray *)authSettings;
 
+
+/**
+ * Initializes the session manager with a configuration.
+ *
+ * @param configuration The configuration implementation
+ */
+- (instancetype)initWithConfiguration:(id<{{classPrefix}}Configuration>)configuration;
+
 /**
  * Performs request
  *
@@ -150,21 +123,21 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  * @param responseContentType Response content-type.
  * @param completionBlock The block will be executed when the request completed.
  *
- * @return The request id.
+ * @return The created session task.
  */
--(NSNumber*) requestWithPath:(NSString*) path
-                      method:(NSString*) method
-                  pathParams:(NSDictionary *) pathParams
-                 queryParams:(NSDictionary*) queryParams
-                  formParams:(NSDictionary *) formParams
-                       files:(NSDictionary *) files
-                        body:(id) body
-                headerParams:(NSDictionary*) headerParams
-                authSettings:(NSArray *) authSettings
-          requestContentType:(NSString*) requestContentType
-         responseContentType:(NSString*) responseContentType
-                responseType:(NSString *) responseType
-             completionBlock:(void (^)(id, NSError *))completionBlock;
+- (NSURLSessionTask*) requestWithPath: (NSString*) path
+                               method: (NSString*) method
+                           pathParams: (NSDictionary *) pathParams
+                          queryParams: (NSDictionary*) queryParams
+                           formParams: (NSDictionary *) formParams
+                                files: (NSDictionary *) files
+                                 body: (id) body
+                         headerParams: (NSDictionary*) headerParams
+                         authSettings: (NSArray *) authSettings
+                   requestContentType: (NSString*) requestContentType
+                  responseContentType: (NSString*) responseContentType
+                         responseType: (NSString *) responseType
+                      completionBlock: (void (^)(id, NSError *))completionBlock;
 
 /**
  * Custom security policy
@@ -172,13 +145,5 @@ extern NSString *const {{classPrefix}}ResponseObjectErrorKey;
  * @return AFSecurityPolicy
  */
 - (AFSecurityPolicy *) customSecurityPolicy;
-
-/**
- * {{classPrefix}}Configuration return sharedConfig
- *
- * @return {{classPrefix}}Configuration
- */
-- ({{classPrefix}}Configuration*) configuration;
-
 
 @end

@@ -1,6 +1,7 @@
-#import "SWGConfiguration.h"
+#import "SWGDefaultConfiguration.h"
+#import "SWGBasicAuthTokenProvider.h"
 
-@interface SWGConfiguration ()
+@interface SWGDefaultConfiguration ()
 
 @property (nonatomic, strong) NSMutableDictionary *mutableDefaultHeaders;
 @property (nonatomic, strong) NSMutableDictionary *mutableApiKey;
@@ -8,12 +9,12 @@
 
 @end
 
-@implementation SWGConfiguration
+@implementation SWGDefaultConfiguration
 
 #pragma mark - Singleton Methods
 
 + (instancetype) sharedConfig {
-    static SWGConfiguration *shardConfig = nil;
+    static SWGDefaultConfiguration *shardConfig = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shardConfig = [[self alloc] init];
@@ -26,17 +27,16 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        self.apiClient = nil;
-        self.host = @"http://petstore.swagger.io/v2";
-        self.username = @"";
-        self.password = @"";
-        self.accessToken= @"";
-        self.verifySSL = YES;
-        self.mutableApiKey = [NSMutableDictionary dictionary];
-        self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
-        self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
-        self.mutableDefaultHeaders[@"User-Agent"] = [NSString stringWithFormat:@"Swagger-Codegen/1.0.0/objc (%@; iOS %@; Scale/%0.2f)",[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
-        self.logger = [SWGLogger sharedLogger];
+        _host = @"http://petstore.swagger.io/v2";
+        _username = @"";
+        _password = @"";
+        _accessToken= @"";
+        _verifySSL = YES;
+        _mutableApiKey = [NSMutableDictionary dictionary];
+        _mutableApiKeyPrefix = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        ;
+        _logger = [SWGLogger sharedLogger];
     }
     return self;
 }
@@ -58,16 +58,9 @@
 }
 
 - (NSString *) getBasicAuthToken {
-    // return empty string if username and password are empty
-    if (self.username.length == 0 && self.password.length == 0){
-        return  @"";
-    }
 
-    NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", self.username, self.password];
-    NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
-    basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
-
-    return basicAuthCredentials;
+    NSString *basicAuthToken = [SWGBasicAuthTokenProvider createBasicAuthTokenWithUsername:self.username password:self.password];
+    return basicAuthToken;
 }
 
 - (NSString *) getAccessToken {
@@ -110,19 +103,19 @@
 
 - (NSDictionary *) authSettings {
     return @{
-               @"api_key":
-                   @{
-                       @"type": @"api_key",
-                       @"in": @"header",
-                       @"key": @"api_key",
-                       @"value": [self getApiKeyWithPrefix:@"api_key"]
-                   },
                @"petstore_auth":
                    @{
                        @"type": @"oauth",
                        @"in": @"header",
                        @"key": @"Authorization",
                        @"value": [self getAccessToken]
+                   },
+               @"api_key":
+                   @{
+                       @"type": @"api_key",
+                       @"in": @"header",
+                       @"key": @"api_key",
+                       @"value": [self getApiKeyWithPrefix:@"api_key"]
                    },
                };
 }

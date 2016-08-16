@@ -28,15 +28,13 @@
 
 @protocol SWGApi <NSObject>
 
-@property(nonatomic, assign) SWGApiClient *apiClient;
+@property(readonly, nonatomic, strong) SWGApiClient *apiClient;
 
--(id) initWithApiClient:(SWGApiClient *)apiClient;
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient;
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key DEPRECATED_MSG_ATTRIBUTE("setDefaultHeaderValue:forKey:");
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key;
 -(NSString*) defaultHeaderForKey:(NSString*)key;
-
--(NSUInteger) requestQueueSize;
 
 @end

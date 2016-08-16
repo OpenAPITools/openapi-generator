@@ -5,7 +5,7 @@
 
 @interface SWGUserApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *defaultHeaders;
 
 @end
 
@@ -19,19 +19,11 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        SWGConfiguration *config = [SWGConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[SWGApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[SWGApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(SWGApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
@@ -41,15 +33,6 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 }
 
 #pragma mark -
-
-+ (instancetype)sharedAPI {
-    static SWGUserApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
 
 -(NSString*) defaultHeaderForKey:(NSString*)key {
     return self.defaultHeaders[key];
@@ -63,10 +46,6 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [SWGApiClient requestQueueSize];
-}
-
 #pragma mark - Api Methods
 
 ///
@@ -76,7 +55,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUserWithBody: (SWGUser*) body
+-(NSURLSessionTask*) createUserWithBody: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user"];
 
@@ -124,8 +103,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -135,7 +113,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithArray"];
 
@@ -183,8 +161,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -194,7 +171,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithList"];
 
@@ -242,8 +219,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -253,7 +229,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) deleteUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) deleteUserWithUsername: (NSString*) username
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
@@ -314,8 +290,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -325,7 +300,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns SWGUser*
 ///
--(NSNumber*) getUserByNameWithUsername: (NSString*) username
+-(NSURLSessionTask*) getUserByNameWithUsername: (NSString*) username
     completionHandler: (void (^)(SWGUser* output, NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
@@ -386,8 +361,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((SWGUser*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -399,7 +373,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns NSString*
 ///
--(NSNumber*) loginUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) loginUserWithUsername: (NSString*) username
     password: (NSString*) password
     completionHandler: (void (^)(NSString* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/login"];
@@ -453,8 +427,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((NSString*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -462,7 +435,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 /// 
 ///  @returns void
 ///
--(NSNumber*) logoutUserWithCompletionHandler: 
+-(NSURLSessionTask*) logoutUserWithCompletionHandler: 
     (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/logout"];
 
@@ -509,8 +482,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -522,7 +494,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) updateUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
     body: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
@@ -585,8 +557,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

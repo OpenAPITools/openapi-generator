@@ -1,13 +1,7 @@
-#import <Foundation/Foundation.h>
-#import <ISO8601/ISO8601.h>
 #import <AFNetworking/AFNetworking.h>
-#import "SWGJSONResponseSerializer.h"
-#import "SWGJSONRequestSerializer.h"
-#import "SWGQueryParamCollection.h"
 #import "SWGConfiguration.h"
 #import "SWGResponseDeserializer.h"
 #import "SWGSanitizer.h"
-#import "SWGLogger.h"
 
 /**
 * Swagger Petstore
@@ -33,16 +27,6 @@
 * limitations under the License.
 */
 
-#import "SWGCategory.h"
-#import "SWGOrder.h"
-#import "SWGPet.h"
-#import "SWGTag.h"
-#import "SWGUser.h"
-
-
-
-@class SWGConfiguration;
-
 /**
  * A key for `NSError` user info dictionaries.
  *
@@ -50,14 +34,14 @@
  */
 extern NSString *const SWGResponseObjectErrorKey;
 
+
 @interface SWGApiClient : AFHTTPSessionManager
+
+@property (nonatomic, strong, readonly) id<SWGConfiguration> configuration;
 
 @property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
 @property(nonatomic, readonly) NSOperationQueue* queue;
-
-/// In order to ensure the HTTPResponseHeaders are correct, it is recommended to initialize one SWGApiClient instance per thread.
-@property(nonatomic, readonly) NSDictionary* HTTPResponseHeaders;
 
 @property(nonatomic, strong) id<SWGResponseDeserializer> responseDeserializer;
 
@@ -73,13 +57,6 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @param enabled If the cached is enable, must be `YES` or `NO`
  */
 +(void)setCacheEnabled:(BOOL) enabled;
-
-/**
- * Gets the request queue size
- *
- * @return The size of `queuedRequests` static variable.
- */
-+(NSUInteger)requestQueueSize;
 
 /**
  * Sets the client unreachable
@@ -110,32 +87,16 @@ extern NSString *const SWGResponseObjectErrorKey;
 +(AFNetworkReachabilityStatus) getReachabilityStatus;
 
 /**
- * Gets the next request id
- *
- * @return The next executed request id.
- */
-+(NSNumber*) nextRequestId;
-
-/**
- * Generates request id and add it to the queue
- *
- * @return The next executed request id.
- */
-+(NSNumber*) queueRequest;
-
-/**
- * Removes request id from the queue
- *
- * @param requestId The request which will be removed.
- */
-+(void) cancelRequest:(NSNumber*)requestId;
-
-/**
  * Customizes the behavior when the reachability changed
  *
  * @param changeBlock The block will be executed when the reachability changed.
  */
 +(void) setReachabilityChangeBlock:(void(^)(int))changeBlock;
+
+/**
+ * Gets client singleton instance
+ */
++ (instancetype) sharedClient;
 
 /**
  * Sets the api client reachability strategy
@@ -162,6 +123,14 @@ extern NSString *const SWGResponseObjectErrorKey;
                 queryParams:(NSDictionary **)querys
            WithAuthSettings:(NSArray *)authSettings;
 
+
+/**
+ * Initializes the session manager with a configuration.
+ *
+ * @param configuration The configuration implementation
+ */
+- (instancetype)initWithConfiguration:(id<SWGConfiguration>)configuration;
+
 /**
  * Performs request
  *
@@ -176,21 +145,21 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @param responseContentType Response content-type.
  * @param completionBlock The block will be executed when the request completed.
  *
- * @return The request id.
+ * @return The created session task.
  */
--(NSNumber*) requestWithPath:(NSString*) path
-                      method:(NSString*) method
-                  pathParams:(NSDictionary *) pathParams
-                 queryParams:(NSDictionary*) queryParams
-                  formParams:(NSDictionary *) formParams
-                       files:(NSDictionary *) files
-                        body:(id) body
-                headerParams:(NSDictionary*) headerParams
-                authSettings:(NSArray *) authSettings
-          requestContentType:(NSString*) requestContentType
-         responseContentType:(NSString*) responseContentType
-                responseType:(NSString *) responseType
-             completionBlock:(void (^)(id, NSError *))completionBlock;
+- (NSURLSessionTask*) requestWithPath: (NSString*) path
+                               method: (NSString*) method
+                           pathParams: (NSDictionary *) pathParams
+                          queryParams: (NSDictionary*) queryParams
+                           formParams: (NSDictionary *) formParams
+                                files: (NSDictionary *) files
+                                 body: (id) body
+                         headerParams: (NSDictionary*) headerParams
+                         authSettings: (NSArray *) authSettings
+                   requestContentType: (NSString*) requestContentType
+                  responseContentType: (NSString*) responseContentType
+                         responseType: (NSString *) responseType
+                      completionBlock: (void (^)(id, NSError *))completionBlock;
 
 /**
  * Custom security policy
@@ -198,13 +167,5 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @return AFSecurityPolicy
  */
 - (AFSecurityPolicy *) customSecurityPolicy;
-
-/**
- * SWGConfiguration return sharedConfig
- *
- * @return SWGConfiguration
- */
-- (SWGConfiguration*) configuration;
-
 
 @end
