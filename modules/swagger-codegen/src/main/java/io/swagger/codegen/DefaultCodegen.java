@@ -2,6 +2,8 @@ package io.swagger.codegen;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.samskivert.mustache.Mustache.Compiler;
+
 import io.swagger.codegen.examples.ExampleGenerator;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.ComposedModel;
@@ -325,6 +327,12 @@ public class DefaultCodegen {
     // override with any special handling of the entire swagger spec
     @SuppressWarnings("unused")
     public void processSwagger(Swagger swagger) {
+    }
+    
+    // override with any special handling of the JMustache compiler
+    @SuppressWarnings("unused")
+    public Compiler processCompiler(Compiler compiler) {
+    	return compiler;
     }
 
     // override with any special text escaping logic

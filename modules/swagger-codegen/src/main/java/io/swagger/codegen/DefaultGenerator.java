@@ -560,7 +560,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         if(ignoreProcessor.allowsFile(new File(outputFilename))) {
                             if (templateFile.endsWith("mustache")) {
                                 String template = readTemplate(templateFile);
-                                Template tmpl = Mustache.compiler()
+                                Mustache.Compiler compiler = Mustache.compiler();
+                                compiler = config.processCompiler(compiler);                                
+                                Template tmpl = compiler
                                         .withLoader(new Mustache.TemplateLoader() {
                                             @Override
                                             public Reader getTemplate(String name) {
@@ -641,7 +643,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if(ignoreProcessor.allowsFile(new File(outputFilename.replaceAll("//", "/")))) {
             String templateFile = getFullTemplateFile(config, templateName);
             String template = readTemplate(templateFile);
-            Template tmpl = Mustache.compiler()
+            Mustache.Compiler compiler = Mustache.compiler();
+            compiler = config.processCompiler(compiler);                                
+            Template tmpl = compiler
                     .withLoader(new Mustache.TemplateLoader() {
                         @Override
                         public Reader getTemplate(String name) {
