@@ -36,6 +36,7 @@ from .models.cat import Cat
 from .models.category import Category
 from .models.client import Client
 from .models.dog import Dog
+from .models.enum_arrays import EnumArrays
 from .models.enum_class import EnumClass
 from .models.enum_test import EnumTest
 from .models.format_test import FormatTest

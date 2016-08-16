@@ -54,6 +54,7 @@ class Model200Response(object):
         self._name = name
         self.__class = _class
 
+
     @property
     def name(self):
         """

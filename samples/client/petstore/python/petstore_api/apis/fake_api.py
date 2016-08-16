@@ -322,7 +322,7 @@ class FakeApi(object):
             select_header_content_type(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['http_basic_test']
 
         return self.api_client.call_api(resource_path, 'POST',
                                             path_params,
@@ -336,9 +336,9 @@ class FakeApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'))
 
-    def test_enum_query_parameters(self, **kwargs):
+    def test_enum_parameters(self, **kwargs):
         """
-        To test enum query parameters
+        To test enum parameters
         
 
         This method makes a synchronous HTTP request by default. To make an
@@ -347,10 +347,15 @@ class FakeApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.test_enum_query_parameters(callback=callback_function)
+        >>> thread = api.test_enum_parameters(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
+        :param list[str] enum_form_string_array: Form parameter enum test (string array)
+        :param str enum_form_string: Form parameter enum test (string)
+        :param list[str] enum_header_string_array: Header parameter enum test (string array)
+        :param str enum_header_string: Header parameter enum test (string)
+        :param list[str] enum_query_string_array: Query parameter enum test (string array)
         :param str enum_query_string: Query parameter enum test (string)
         :param float enum_query_integer: Query parameter enum test (double)
         :param float enum_query_double: Query parameter enum test (double)
@@ -360,14 +365,14 @@ class FakeApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.test_enum_query_parameters_with_http_info(**kwargs)
+            return self.test_enum_parameters_with_http_info(**kwargs)
         else:
-            (data) = self.test_enum_query_parameters_with_http_info(**kwargs)
+            (data) = self.test_enum_parameters_with_http_info(**kwargs)
             return data
 
-    def test_enum_query_parameters_with_http_info(self, **kwargs):
+    def test_enum_parameters_with_http_info(self, **kwargs):
         """
-        To test enum query parameters
+        To test enum parameters
         
 
         This method makes a synchronous HTTP request by default. To make an
@@ -376,10 +381,15 @@ class FakeApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.test_enum_query_parameters_with_http_info(callback=callback_function)
+        >>> thread = api.test_enum_parameters_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
+        :param list[str] enum_form_string_array: Form parameter enum test (string array)
+        :param str enum_form_string: Form parameter enum test (string)
+        :param list[str] enum_header_string_array: Header parameter enum test (string array)
+        :param str enum_header_string: Header parameter enum test (string)
+        :param list[str] enum_query_string_array: Query parameter enum test (string array)
         :param str enum_query_string: Query parameter enum test (string)
         :param float enum_query_integer: Query parameter enum test (double)
         :param float enum_query_double: Query parameter enum test (double)
@@ -388,7 +398,7 @@ class FakeApi(object):
                  returns the request thread.
         """
 
-        all_params = ['enum_query_string', 'enum_query_integer', 'enum_query_double']
+        all_params = ['enum_form_string_array', 'enum_form_string', 'enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
 
@@ -397,7 +407,7 @@ class FakeApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_enum_query_parameters" % key
+                    " to method test_enum_parameters" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -406,15 +416,25 @@ class FakeApi(object):
         path_params = {}
 
         query_params = {}
+        if 'enum_query_string_array' in params:
+            query_params['enum_query_string_array'] = params['enum_query_string_array']
+        if 'enum_query_string' in params:
+            query_params['enum_query_string'] = params['enum_query_string']
         if 'enum_query_integer' in params:
             query_params['enum_query_integer'] = params['enum_query_integer']
 
         header_params = {}
+        if 'enum_header_string_array' in params:
+            header_params['enum_header_string_array'] = params['enum_header_string_array']
+        if 'enum_header_string' in params:
+            header_params['enum_header_string'] = params['enum_header_string']
 
         form_params = []
         local_var_files = {}
-        if 'enum_query_string' in params:
-            form_params.append(('enum_query_string', params['enum_query_string']))
+        if 'enum_form_string_array' in params:
+            form_params.append(('enum_form_string_array', params['enum_form_string_array']))
+        if 'enum_form_string' in params:
+            form_params.append(('enum_form_string', params['enum_form_string']))
         if 'enum_query_double' in params:
             form_params.append(('enum_query_double', params['enum_query_double']))
 

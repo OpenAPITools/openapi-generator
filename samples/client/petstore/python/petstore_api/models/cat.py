@@ -57,6 +57,7 @@ class Cat(object):
         self._color = color
         self._declawed = declawed
 
+
     @property
     def class_name(self):
         """
