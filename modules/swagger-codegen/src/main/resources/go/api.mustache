@@ -9,13 +9,13 @@ import (
 )
 
 type {{classname}} struct {
-	Configuration Configuration
+	Configuration *Configuration
 }
 
 func New{{classname}}() *{{classname}} {
 	configuration := NewConfiguration()
 	return &{{classname}}{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -24,7 +24,7 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}} {
 	configuration.BasePath = basePath
 
 	return &{{classname}}{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 {{#operation}}
