@@ -32,13 +32,13 @@ import (
 )
 
 type PetApi struct {
-	Configuration Configuration
+	Configuration *Configuration
 }
 
 func NewPetApi() *PetApi {
 	configuration := NewConfiguration()
 	return &PetApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -47,7 +47,7 @@ func NewPetApiWithBasePath(basePath string) *PetApi {
 	configuration.BasePath = basePath
 
 	return &PetApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
