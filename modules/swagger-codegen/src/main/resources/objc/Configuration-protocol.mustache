@@ -1,7 +1,10 @@
 #import <Foundation/Foundation.h>
-#import "{{classPrefix}}Logger.h"
+
+@class {{classPrefix}}Logger;
 
 {{>licenceInfo}}
+
+static NSString * const k{{classPrefix}}APIVersion = @"{{podVersion}}";
 
 @protocol {{classPrefix}}Configuration <NSObject>
 

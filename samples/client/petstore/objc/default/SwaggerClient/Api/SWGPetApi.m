@@ -1,11 +1,12 @@
 #import "SWGPetApi.h"
 #import "SWGQueryParamCollection.h"
+#import "SWGApiClient.h"
 #import "SWGPet.h"
 
 
 @interface SWGPetApi ()
 
-@property (nonatomic, strong, readwrite) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -27,7 +28,7 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -35,15 +36,15 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 #pragma mark -
 
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
+}
+
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
