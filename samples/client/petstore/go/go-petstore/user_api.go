@@ -30,13 +30,13 @@ import (
 )
 
 type UserApi struct {
-	Configuration Configuration
+	Configuration *Configuration
 }
 
 func NewUserApi() *UserApi {
 	configuration := NewConfiguration()
 	return &UserApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -45,7 +45,7 @@ func NewUserApiWithBasePath(basePath string) *UserApi {
 	configuration.BasePath = basePath
 
 	return &UserApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 

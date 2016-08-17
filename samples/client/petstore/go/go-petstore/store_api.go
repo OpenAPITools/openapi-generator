@@ -30,13 +30,13 @@ import (
 )
 
 type StoreApi struct {
-	Configuration Configuration
+	Configuration *Configuration
 }
 
 func NewStoreApi() *StoreApi {
 	configuration := NewConfiguration()
 	return &StoreApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -45,7 +45,7 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi {
 	configuration.BasePath = basePath
 
 	return &StoreApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
