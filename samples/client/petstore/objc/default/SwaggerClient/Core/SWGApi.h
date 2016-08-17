@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "SWGObject.h"
-#import "SWGApiClient.h"
+
+@class SWGApiClient;
 
 /**
 * Swagger Petstore
@@ -32,9 +32,9 @@
 
 -(instancetype) initWithApiClient:(SWGApiClient *)apiClient;
 
--(void) addHeader:(NSString*)value forKey:(NSString*)key DEPRECATED_MSG_ATTRIBUTE("setDefaultHeaderValue:forKey:");
-
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key;
 -(NSString*) defaultHeaderForKey:(NSString*)key;
+
+-(NSDictionary *)defaultHeaders;
 
 @end

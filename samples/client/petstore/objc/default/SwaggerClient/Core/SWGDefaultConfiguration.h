@@ -25,6 +25,8 @@
 * limitations under the License.
 */
 
+@class SWGApiClient;
+
 @interface SWGDefaultConfiguration : NSObject <SWGConfiguration>
 
 
