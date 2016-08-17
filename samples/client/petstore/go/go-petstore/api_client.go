@@ -33,6 +33,7 @@ import (
 )
 
 type APIClient struct {
+	config *Configuration
 }
 
 func (c *APIClient) SelectHeaderContentType(contentTypes []string) string {
@@ -57,9 +58,9 @@ func (c *APIClient) SelectHeaderAccept(accepts []string) string {
 	return strings.Join(accepts, ",")
 }
 
-func contains(source []string, containvalue string) bool {
-	for _, a := range source {
-		if strings.ToLower(a) == strings.ToLower(containvalue) {
+func contains(haystack []string, needle string) bool {
+	for _, a := range haystack {
+		if strings.ToLower(a) == strings.ToLower(needle) {
 			return true
 		}
 	}
@@ -74,11 +75,8 @@ func (c *APIClient) CallAPI(path string, method string,
 	fileName string,
 	fileBytes []byte) (*resty.Response, error) {
 
-	//set debug flag
-	configuration := NewConfiguration()
-	resty.SetDebug(configuration.GetDebug())
-
-	request := prepareRequest(postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	rClient := c.prepareClient()
+	request := c.prepareRequest(rClient, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 	switch strings.ToUpper(method) {
 	case "GET":
@@ -118,15 +116,38 @@ func (c *APIClient) ParameterToString(obj interface{},collectionFormat string) s
 	return fmt.Sprintf("%v", obj)
 }
 
-func prepareRequest(postBody interface{},
+func (c *APIClient) prepareClient() *resty.Client {
+
+	rClient := resty.New()
+
+	rClient.SetDebug(c.config.Debug)
+	if c.config.Transport != nil {
+		rClient.SetTransport(c.config.Transport)
+	}
+
+	if c.config.Timeout != nil {
+		rClient.SetTimeout(*c.config.Timeout)
+	}
+
+	return rClient
+}
+
+func (c *APIClient) prepareRequest(
+	rClient *resty.Client,
+	postBody interface{},
 	headerParams map[string]string,
 	queryParams url.Values,
 	formParams map[string]string,
 	fileName string,
 	fileBytes []byte) *resty.Request {
 
-	request := resty.R()
+
+	request := rClient.R()
 	request.SetBody(postBody)
+
+	if c.config.UserAgent != "" {
+		request.SetHeader("User-Agent", c.config.UserAgent)
+	}
 
 	// add header parameter, if any
 	if len(headerParams) > 0 {
