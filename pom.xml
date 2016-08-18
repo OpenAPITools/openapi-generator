@@ -605,6 +605,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-inflector</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/java-inflector</module>
+            </modules>
+        </profile>
+        <profile>
             <id>samples</id>
             <activation>
                 <property>
@@ -637,6 +649,7 @@
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <!-- servers -->
+                <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
