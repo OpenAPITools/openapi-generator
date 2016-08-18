@@ -11,7 +11,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen-maven-plugin</artifactId>
-    <version>2.1.5-SNAPSHOT</version>
+    <version>2.2.2-SNAPSHOT</version>
     <executions>
         <execution>
             <goals>
