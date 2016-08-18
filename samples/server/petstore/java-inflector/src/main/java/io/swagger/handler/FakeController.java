@@ -10,11 +10,12 @@ import java.util.List;
 
 import io.swagger.model.*;
 
-import java.util.Map;
-import io.swagger.model.Order;
+import io.swagger.model.Client;
+import java.util.Date;
+import java.math.BigDecimal;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-17T22:41:52.290+08:00")
-public class StoreController  {
+public class FakeController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
    * Direclty to operation calls from the routing logic.  Because the inflector
@@ -22,25 +23,19 @@ public class StoreController  {
    **/
 
   /*
-    public ResponseContext deleteOrder(RequestContext request , String orderId) {
+    public ResponseContext testClientModel(RequestContext request , Client body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext getInventory(RequestContext request ) {
+    public ResponseContext testEndpointParameters(RequestContext request , BigDecimal number, Double _double, String string, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, byte[] binary, Date date, Date dateTime, String password) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext getOrderById(RequestContext request , Long orderId) {
-        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
-    }
-  */
-
-  /*
-    public ResponseContext placeOrder(RequestContext request , Order body) {
+    public ResponseContext testEnumParameters(RequestContext request , List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, BigDecimal enumQueryInteger, Double enumQueryDouble) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
