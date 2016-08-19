@@ -47,7 +47,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
       return false;
     }
     {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
-    return {{#vars}}({{name}} == null ? {{classVarName}}.{{name}} == null : {{name}}.equals({{classVarName}}.{{name}})){{#hasMore}} &&
+    return {{#vars}}(this.{{name}} == null ? {{classVarName}}.{{name}} == null : this.{{name}}.equals({{classVarName}}.{{name}})){{#hasMore}} &&
         {{/hasMore}}{{^hasMore}};{{/hasMore}}{{/vars}}{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
   }
