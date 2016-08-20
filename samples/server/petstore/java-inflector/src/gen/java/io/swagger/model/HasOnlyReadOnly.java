@@ -10,10 +10,12 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-17T22:41:52.290+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
 public class HasOnlyReadOnly   {
+  @JsonProperty("bar")
   private String bar = null;
 
+  @JsonProperty("foo")
   private String foo = null;
 
   /**

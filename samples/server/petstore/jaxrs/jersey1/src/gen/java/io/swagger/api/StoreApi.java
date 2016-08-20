@@ -5,6 +5,7 @@ import io.swagger.api.StoreApiService;
 import io.swagger.api.factories.StoreApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
+import io.swagger.jaxrs.*;
 
 import com.sun.jersey.multipart.FormDataParam;
 

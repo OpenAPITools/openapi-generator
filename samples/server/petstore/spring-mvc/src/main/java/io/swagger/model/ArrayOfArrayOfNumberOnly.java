@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public class ArrayOfArrayOfNumberOnly   {
+  @JsonProperty("ArrayArrayNumber")
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {

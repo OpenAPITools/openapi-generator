@@ -15,6 +15,7 @@ import java.math.BigDecimal;
  */
 
 public class NumberOnly   {
+  @JsonProperty("JustNumber")
   private BigDecimal justNumber = null;
 
   public NumberOnly justNumber(BigDecimal justNumber) {

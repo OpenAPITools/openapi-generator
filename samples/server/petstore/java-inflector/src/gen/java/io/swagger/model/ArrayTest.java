@@ -13,12 +13,15 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-17T22:41:52.290+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
 public class ArrayTest   {
+  @JsonProperty("array_of_string")
   private List<String> arrayOfString = new ArrayList<String>();
 
+  @JsonProperty("array_array_of_integer")
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
 
+  @JsonProperty("array_array_of_model")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
   /**
