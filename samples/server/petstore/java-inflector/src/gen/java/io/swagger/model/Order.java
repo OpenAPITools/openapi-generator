@@ -12,14 +12,18 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-17T22:41:52.290+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
 public class Order   {
+  @JsonProperty("id")
   private Long id = null;
 
+  @JsonProperty("petId")
   private Long petId = null;
 
+  @JsonProperty("quantity")
   private Integer quantity = null;
 
+  @JsonProperty("shipDate")
   private Date shipDate = null;
 
   /**
@@ -39,13 +43,26 @@ public class Order   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("status")
   private StatusEnum status = null;
 
+  @JsonProperty("complete")
   private Boolean complete = false;
 
   /**

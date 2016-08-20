@@ -2,8 +2,8 @@ package io.swagger.api;
 
 import io.swagger.model.Client;
 import org.joda.time.LocalDate;
-import java.math.BigDecimal;
 import org.joda.time.DateTime;
+import java.math.BigDecimal;
 
 import io.swagger.annotations.*;
 

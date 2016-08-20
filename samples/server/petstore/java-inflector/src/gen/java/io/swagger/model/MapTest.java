@@ -14,8 +14,9 @@ import java.util.Map;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-17T22:41:52.290+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
 public class MapTest   {
+  @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
   /**
@@ -33,11 +34,23 @@ public class MapTest   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static InnerEnum fromValue(String text) {
+      for (InnerEnum b : InnerEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
 
   /**

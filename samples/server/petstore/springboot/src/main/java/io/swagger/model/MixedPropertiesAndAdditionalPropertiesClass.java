@@ -19,10 +19,13 @@ import org.joda.time.DateTime;
  */
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
+  @JsonProperty("uuid")
   private String uuid = null;
 
+  @JsonProperty("dateTime")
   private DateTime dateTime = null;
 
+  @JsonProperty("map")
   private Map<String, Animal> map = new HashMap<String, Animal>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(String uuid) {

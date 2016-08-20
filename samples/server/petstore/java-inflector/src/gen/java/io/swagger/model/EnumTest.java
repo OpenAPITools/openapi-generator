@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-17T22:41:52.290+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
 public class EnumTest   {
   /**
    * Gets or Sets enumString
@@ -28,11 +28,23 @@ public class EnumTest   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static EnumStringEnum fromValue(String text) {
+      for (EnumStringEnum b : EnumStringEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("enum_string")
   private EnumStringEnum enumString = null;
 
   /**
@@ -50,11 +62,23 @@ public class EnumTest   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static EnumIntegerEnum fromValue(String text) {
+      for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("enum_integer")
   private EnumIntegerEnum enumInteger = null;
 
   /**
@@ -72,11 +96,23 @@ public class EnumTest   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static EnumNumberEnum fromValue(String text) {
+      for (EnumNumberEnum b : EnumNumberEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber = null;
 
   /**

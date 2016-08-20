@@ -33,6 +33,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         modelPackage = "io.swagger.model";
 
         additionalProperties.put("title", title);
+        // java inflector uses the jackson lib
+        additionalProperties.put("jackson", "true");
 
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
         cliOptions.add(new CliOption("title", "a title describing the application"));

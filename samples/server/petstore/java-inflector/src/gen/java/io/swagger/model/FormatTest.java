@@ -12,32 +12,45 @@ import java.util.Date;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-17T22:41:52.290+08:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
 public class FormatTest   {
+  @JsonProperty("integer")
   private Integer integer = null;
 
+  @JsonProperty("int32")
   private Integer int32 = null;
 
+  @JsonProperty("int64")
   private Long int64 = null;
 
+  @JsonProperty("number")
   private BigDecimal number = null;
 
+  @JsonProperty("float")
   private Float _float = null;
 
+  @JsonProperty("double")
   private Double _double = null;
 
+  @JsonProperty("string")
   private String string = null;
 
+  @JsonProperty("byte")
   private byte[] _byte = null;
 
+  @JsonProperty("binary")
   private byte[] binary = null;
 
+  @JsonProperty("date")
   private Date date = null;
 
+  @JsonProperty("dateTime")
   private Date dateTime = null;
 
+  @JsonProperty("uuid")
   private String uuid = null;
 
+  @JsonProperty("password")
   private String password = null;
 
   /**

@@ -18,12 +18,16 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Model for testing model name same as property name")
 
 public class Name   {
+  @JsonProperty("name")
   private Integer name = null;
 
+  @JsonProperty("snake_case")
   private Integer snakeCase = null;
 
+  @JsonProperty("property")
   private String property = null;
 
+  @JsonProperty("123Number")
   private Integer _123Number = null;
 
   public Name name(Integer name) {
