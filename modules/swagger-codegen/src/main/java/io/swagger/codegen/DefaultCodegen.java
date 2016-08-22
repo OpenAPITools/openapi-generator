@@ -551,7 +551,7 @@ public class DefaultCodegen {
      * @return properly-escaped pattern
      */
     public String toRegularExpression(String pattern) {
-        return escapeText(pattern);
+        return escapeText(addRegularExpressionDelimiter(pattern));
     }
 
     /**
@@ -3272,5 +3272,20 @@ public class DefaultCodegen {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
             }
         }
+    }
+
+    /**
+     * If the pattern misses the delimiter, add "/" to the beginning and end
+     * Otherwise, return the original pattern
+     *
+     * @param pattern the pattern (regular expression)
+     * @return the pattern with delimiter
+     */
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (pattern != null && !pattern.matches("^/.*")) {
+            return "/" + pattern + "/";
+        }
+
+        return pattern;
     }
 }
