@@ -31,3 +31,14 @@ npm install PATH_TO_GENERATED_PACKAGE --save
 In your angular2 project:
 
 TODO: paste example.
+
+### Set service base path
+If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
+
+```
+import { BASE_PATH } from './path-to-swagger-gen-service/index';
+
+bootstrap(AppComponent, [
+    { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
+]);
+```  
