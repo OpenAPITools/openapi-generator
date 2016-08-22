@@ -11,6 +11,7 @@ import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.DecimalProperty;
 import io.swagger.models.properties.DoubleProperty;
 import io.swagger.models.properties.FloatProperty;
+import io.swagger.models.properties.BaseIntegerProperty;
 import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
@@ -270,6 +271,10 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
             return "0";
         } else if (p instanceof LongProperty) {
             return "0L";
+        } else if (p instanceof BaseIntegerProperty) {
+            // catchall for any other format of the swagger specifiction
+            // integer type not explictly handled above
+            return "0";
         } else if (p instanceof DecimalProperty) {
             return "0.0";
         } else if (p instanceof MapProperty) {
