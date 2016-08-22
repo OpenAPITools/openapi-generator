@@ -597,7 +597,7 @@ paths:
         - name: enum_form_string_array
           type: array
           items:
-            tyep: string
+            type: string
             default: '$'
             enum:
               - '>'
@@ -616,7 +616,7 @@ paths:
         - name: enum_header_string_array
           type: array
           items:
-            tyep: string
+            type: string
             default: '$'
             enum:
               - '>'
@@ -735,6 +735,11 @@ paths:
         - name: string
           type: string
           pattern: /[a-z]/i
+          in: formData
+          description: None
+        - name: pattern_without_delimiter
+          type: string
+          pattern: "^[A-Z].*"
           in: formData
           description: None
           required: true
