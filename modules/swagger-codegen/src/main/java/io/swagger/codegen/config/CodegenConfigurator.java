@@ -352,6 +352,7 @@ public class CodegenConfigurator {
 
         CodegenConfig config = CodegenConfigLoader.forName(lang);
 
+        config.setInputSpec(inputSpec);
         config.setOutputDir(outputDir);
         config.setSkipOverwrite(skipOverwrite);
 

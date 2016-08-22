@@ -73,7 +73,8 @@ import java.util.regex.Pattern;
 
 public class DefaultCodegen {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
-
+    
+    protected String inputSpec;
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
@@ -505,6 +506,14 @@ public class DefaultCodegen {
 
     public String getOutputDir() {
         return outputFolder();
+    }
+
+    public String getInputSpec() {
+        return inputSpec;
+    }
+
+    public void setInputSpec(String inputSpec) {
+        this.inputSpec = inputSpec;
     }
 
     public void setTemplateDir(String templateDir) {
