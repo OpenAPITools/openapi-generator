@@ -155,7 +155,7 @@ class FakeApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'))
 
-    def test_endpoint_parameters(self, number, double, string, byte, **kwargs):
+    def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):
         """
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -166,18 +166,19 @@ class FakeApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.test_endpoint_parameters(number, double, string, byte, callback=callback_function)
+        >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param float number: None (required)
         :param float double: None (required)
-        :param str string: None (required)
+        :param str pattern_without_delimiter: None (required)
         :param str byte: None (required)
         :param int integer: None
         :param int int32: None
         :param int int64: None
         :param float float: None
+        :param str string: None
         :param str binary: None
         :param date date: None
         :param datetime date_time: None
@@ -188,12 +189,12 @@ class FakeApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.test_endpoint_parameters_with_http_info(number, double, string, byte, **kwargs)
+            return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)
         else:
-            (data) = self.test_endpoint_parameters_with_http_info(number, double, string, byte, **kwargs)
+            (data) = self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)
             return data
 
-    def test_endpoint_parameters_with_http_info(self, number, double, string, byte, **kwargs):
+    def test_endpoint_parameters_with_http_info(self, number, double, pattern_without_delimiter, byte, **kwargs):
         """
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -204,18 +205,19 @@ class FakeApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.test_endpoint_parameters_with_http_info(number, double, string, byte, callback=callback_function)
+        >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param float number: None (required)
         :param float double: None (required)
-        :param str string: None (required)
+        :param str pattern_without_delimiter: None (required)
         :param str byte: None (required)
         :param int integer: None
         :param int int32: None
         :param int int64: None
         :param float float: None
+        :param str string: None
         :param str binary: None
         :param date date: None
         :param datetime date_time: None
@@ -225,7 +227,7 @@ class FakeApi(object):
                  returns the request thread.
         """
 
-        all_params = ['number', 'double', 'string', 'byte', 'integer', 'int32', 'int64', 'float', 'binary', 'date', 'date_time', 'password']
+        all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
 
@@ -244,9 +246,9 @@ class FakeApi(object):
         # verify the required parameter 'double' is set
         if ('double' not in params) or (params['double'] is None):
             raise ValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")
-        # verify the required parameter 'string' is set
-        if ('string' not in params) or (params['string'] is None):
-            raise ValueError("Missing the required parameter `string` when calling `test_endpoint_parameters`")
+        # verify the required parameter 'pattern_without_delimiter' is set
+        if ('pattern_without_delimiter' not in params) or (params['pattern_without_delimiter'] is None):
+            raise ValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")
         # verify the required parameter 'byte' is set
         if ('byte' not in params) or (params['byte'] is None):
             raise ValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")
@@ -259,8 +261,8 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to  `123.4`")
         if 'double' in params and params['double'] < 67.8:
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")
-        if 'string' in params and not re.search('[a-z]', params['string'], flags=re.IGNORECASE):
-            raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")
+        if 'pattern_without_delimiter' in params and not re.search('^[A-Z].*', params['pattern_without_delimiter']):
+            raise ValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")
         if 'integer' in params and params['integer'] > 100.0:
             raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to  `100.0`")
         if 'integer' in params and params['integer'] < 10.0:
@@ -271,6 +273,8 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20.0`")
         if 'float' in params and params['float'] > 987.6:
             raise ValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to  `987.6`")
+        if 'string' in params and not re.search('[a-z]', params['string'], flags=re.IGNORECASE):
+            raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")
         if 'password' in params and len(params['password']) > 64:
             raise ValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")
         if 'password' in params and len(params['password']) < 10:
@@ -298,6 +302,8 @@ class FakeApi(object):
             form_params.append(('double', params['double']))
         if 'string' in params:
             form_params.append(('string', params['string']))
+        if 'pattern_without_delimiter' in params:
+            form_params.append(('pattern_without_delimiter', params['pattern_without_delimiter']))
         if 'byte' in params:
             form_params.append(('byte', params['byte']))
         if 'binary' in params:
