@@ -61,24 +61,8 @@ class PetAPITests: XCTestCase {
     
     func test3DeletePet() {
         let expectation = self.expectationWithDescription("testDeletePet")
-        PetAPI.deletePet(petId: 1000).always {
-                // expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.error { errorType -> Void in
-                // The server gives us no data back so alamofire parsing fails - at least
-                // verify that is the error we get here
-                guard let error = errorType as? ErrorResponse else {
-                    XCTFail("error logging out")
-                    return
-                }
-
-                switch error {
-                case ErrorResponse.Error(200, _, _):
-                    expectation.fulfill()
-                default:
-                    XCTFail("error logging out")
-                }
+        PetAPI.deletePet(petId: 1000).then {
+            expectation.fulfill()
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }

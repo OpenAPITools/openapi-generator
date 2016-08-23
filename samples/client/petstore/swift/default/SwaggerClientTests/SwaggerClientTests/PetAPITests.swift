@@ -72,19 +72,12 @@ class PetAPITests: XCTestCase {
         let expectation = self.expectationWithDescription("testDeletePet")
         
         PetAPI.deletePet(petId: 1000) { (error) in
-            // The server gives us no data back so Alamofire parsing fails - at least
-            // verify that is the error we get here
-            guard let error = error else {
+            guard error == nil else {
                 XCTFail("error deleting pet")
                 return
             }
 
-            switch error {
-            case ErrorResponse.Error(200, _, _):
-                expectation.fulfill()
-            default:
-                XCTFail("error deleting pet")
-            }
+            expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
