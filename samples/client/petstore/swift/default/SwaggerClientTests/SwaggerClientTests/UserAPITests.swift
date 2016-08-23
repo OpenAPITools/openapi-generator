@@ -28,19 +28,12 @@ class UserAPITests: XCTestCase {
         let expectation = self.expectationWithDescription("testLogin")
         
         UserAPI.loginUser(username: "swiftTester", password: "swift") { (_, error) in
-            // The server isn't returning JSON - and currently the alamofire implementation
-            // always parses responses as JSON, so making an exception for this here
-            guard let error = error else {
+            guard error == nil else {
                 XCTFail("error logging in")
                 return
             }
 
-            switch error {
-            case ErrorResponse.Error(200, _, _):
-                expectation.fulfill()
-            default:
-                XCTFail("error logging in")
-            }
+            expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
