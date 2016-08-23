@@ -14,37 +14,11 @@ import XCTest
 class UserAPITests: XCTestCase {
 
     let testTimeout = 10.0
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
+        
     func testLogin() {
         let expectation = self.expectationWithDescription("testLogin")
         UserAPI.loginUser(username: "swiftTester", password: "swift").then { _ -> Void in
                 expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.error { errorType -> Void in
-                // The server isn't returning JSON - and currently the alamofire implementation
-                // always parses responses as JSON, so making an exception for this here
-                guard let error = errorType as? ErrorResponse else {
-                    XCTFail("error logging in")
-                    return
-                }
-
-                switch error {
-                case ErrorResponse.Error(200, _, _):
-                    expectation.fulfill()
-                default:
-                    XCTFail("error logging in")
-                }
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
