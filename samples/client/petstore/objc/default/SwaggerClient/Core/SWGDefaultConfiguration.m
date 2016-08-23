@@ -36,7 +36,7 @@
         _mutableApiKey = [NSMutableDictionary dictionary];
         _mutableApiKeyPrefix = [NSMutableDictionary dictionary];
         _mutableDefaultHeaders = [NSMutableDictionary dictionary];
-        ;
+        
         _logger = [SWGLogger sharedLogger];
     }
     return self;
@@ -128,8 +128,6 @@
 -(void)setDebug:(BOOL)debug {
     self.logger.enabled = debug;
 }
-
-
 
 - (void)setDefaultHeaderValue:(NSString *)value forKey:(NSString *)key {
     if(!value) {
