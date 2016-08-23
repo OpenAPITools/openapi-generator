@@ -39,78 +39,19 @@ extern NSString *const SWGResponseObjectErrorKey;
 
 @property (nonatomic, strong, readonly) id<SWGConfiguration> configuration;
 
-@property(nonatomic, assign) NSURLRequestCachePolicy cachePolicy;
 @property(nonatomic, assign) NSTimeInterval timeoutInterval;
-@property(nonatomic, readonly) NSOperationQueue* queue;
 
 @property(nonatomic, strong) id<SWGResponseDeserializer> responseDeserializer;
 
 @property(nonatomic, strong) id<SWGSanitizer> sanitizer;
-/**
- * Clears Cache
- */
-+(void)clearCache;
 
-/**
- * Turns on cache
- *
- * @param enabled If the cached is enable, must be `YES` or `NO`
- */
-+(void)setCacheEnabled:(BOOL) enabled;
-
-/**
- * Sets the client unreachable
- *
- * @param state off line state, must be `YES` or `NO`
- */
-+(void) setOfflineState:(BOOL) state;
-
-/**
- * Gets if the client is unreachable
- *
- * @return The client offline state
- */
-+(BOOL) getOfflineState;
-
-/**
- * Sets the client reachability, this may be overridden by the reachability manager if reachability changes
- *
- * @param The client reachability.
- */
-+(void) setReachabilityStatus:(AFNetworkReachabilityStatus) status;
-
-/**
- * Gets the client reachability
- *
- * @return The client reachability.
- */
-+(AFNetworkReachabilityStatus) getReachabilityStatus;
-
-/**
- * Customizes the behavior when the reachability changed
- *
- * @param changeBlock The block will be executed when the reachability changed.
- */
-+(void) setReachabilityChangeBlock:(void(^)(int))changeBlock;
+@property (nonatomic, strong) NSDictionary< NSString *, AFHTTPRequestSerializer <AFURLRequestSerialization> *>* requestSerializerForContentType;
 
 /**
  * Gets client singleton instance
  */
 + (instancetype) sharedClient;
 
-/**
- * Sets the api client reachability strategy
- */
-- (void)configureCacheReachibility;
-
-/**
- * Sets header for request
- *
- * @param value The header value
- * @param forKey The header key
- */
--(void)setHeaderValue:(NSString*) value
-               forKey:(NSString*) forKey;
 
 /**
  * Updates header parameters and query parameters for authentication
@@ -119,9 +60,7 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @param querys The query parameters will be updated, passed by pointer to pointer.
  * @param authSettings The authentication names NSArray.
  */
-- (void) updateHeaderParams:(NSDictionary **)headers
-                queryParams:(NSDictionary **)querys
-           WithAuthSettings:(NSArray *)authSettings;
+- (void) updateHeaderParams:(NSDictionary **)headers queryParams:(NSDictionary **)querys WithAuthSettings:(NSArray *)authSettings;
 
 
 /**
@@ -130,6 +69,14 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @param configuration The configuration implementation
  */
 - (instancetype)initWithConfiguration:(id<SWGConfiguration>)configuration;
+
+/**
+* Initializes the session manager with a configuration and url
+*
+* @param url The base url
+* @param configuration The configuration implementation
+*/
+- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<SWGConfiguration>)configuration;
 
 /**
  * Performs request
@@ -160,12 +107,5 @@ extern NSString *const SWGResponseObjectErrorKey;
                   responseContentType: (NSString*) responseContentType
                          responseType: (NSString *) responseType
                       completionBlock: (void (^)(id, NSError *))completionBlock;
-
-/**
- * Custom security policy
- *
- * @return AFSecurityPolicy
- */
-- (AFSecurityPolicy *) customSecurityPolicy;
 
 @end
