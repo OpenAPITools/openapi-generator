@@ -74,19 +74,12 @@ class StoreAPITests: XCTestCase {
         let expectation = self.expectationWithDescription("testDeleteOrder")
         
         StoreAPI.deleteOrder(orderId: "1000") { (error) in
-            // The server gives us no data back so Alamofire parsing fails - at least
-            // verify that is the error we get here
-            guard let error = error else {
+            guard error == nil else {
                 XCTFail("error deleting order")
                 return
             }
 
-            switch error {
-            case ErrorResponse.Error(200, _, _):
-                expectation.fulfill()
-            default:
-                XCTFail("error deleting order")
-            }
+            expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)

@@ -50,19 +50,12 @@ class UserAPITests: XCTestCase {
         let expectation = self.expectationWithDescription("testLogout")
         
         UserAPI.logoutUser { (error) in
-            // The server gives us no data back so Alamofire parsing fails - at least
-            // verify that is the error we get here
-            guard let error = error else {
+            guard error == nil else {
                 XCTFail("error logging out")
                 return
             }
 
-            switch error {
-            case ErrorResponse.Error(200, _, _):
-                expectation.fulfill()
-            default:
-                XCTFail("error logging out")
-            }
+            expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
@@ -82,19 +75,12 @@ class UserAPITests: XCTestCase {
         newUser.userStatus = 0
         
         UserAPI.createUser(body: newUser) { (error) in
-            // The server gives us no data back so Alamofire parsing fails - at least
-            // verify that is the error we get here
-            guard let error = error else {
+            guard error == nil else {
                 XCTFail("error creating user")
                 return
             }
 
-            switch error {
-            case ErrorResponse.Error(200, _, _):
-                expectation.fulfill()
-            default:
-                XCTFail("error creating user")
-            }
+            expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
@@ -128,19 +114,12 @@ class UserAPITests: XCTestCase {
         let expectation = self.expectationWithDescription("testDeleteUser")
         
         UserAPI.deleteUser(username: "test@test.com") { (error) in
-            // The server gives us no data back so Alamofire parsing fails - at least
-            // verify that is the error we get here
-            guard let error = error else {
+            guard error == nil else {
                 XCTFail("error deleting user")
                 return
             }
 
-            switch error {
-            case ErrorResponse.Error(200, _, _):
-                expectation.fulfill()
-            default:
-                XCTFail("error deleting user")
-            }
+            expectation.fulfill()
         }
         
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)

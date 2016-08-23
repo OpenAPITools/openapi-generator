@@ -89,6 +89,26 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         let validatedRequest = request.validate()
 
         switch T.self {
+        case is Void.Type:
+            validatedRequest.responseData(completionHandler: { (voidResponse) in
+                cleanupRequest()
+
+                if voidResponse.result.isFailure {
+                    completion(
+                        response: nil,
+                        error: ErrorResponse.Error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.result.error!)
+                    )
+                    return
+                }
+
+                completion(
+                    response: Response(
+                        response: voidResponse.response!,
+                        body: nil
+                    ),
+                    error: nil
+                )
+            })
         case is NSData.Type:
             validatedRequest.responseData(completionHandler: { (dataResponse) in
                 cleanupRequest()
