@@ -1,0 +1,104 @@
+swagger: '2.0'
+info:
+  version: 0.0.0
+  title: Simple API
+paths:
+  /:
+    get:
+      responses:
+        200:
+          description: OK
+
+definitions:
+
+  ModelOne:
+    type: object
+    properties:
+      modelOneProp:
+        type: string
+
+  ModelTwo:
+    type: object
+    properties:
+      modelTwoProp:
+        type: string
+
+  ModelThree:
+    type: object
+    properties:
+      modelThreeProp:
+        type: string
+
+  SimpleComposition:
+    allOf:
+      - $ref: '#/definitions/ModelOne'
+      - $ref: '#/definitions/ModelTwo'
+      - type: object
+        properties:
+          simpleCompositionProp:
+            type: string
+
+  CompositionOfSimpleComposition:
+      allOf:
+        - $ref: '#/definitions/SimpleComposition'
+        - $ref: '#/definitions/ModelThree'
+        - type: object
+          properties:
+            compositionOfSimpleCompositionProp:
+              type: string
+
+  SimpleParent:
+    type: object
+    discriminator: disc
+    properties:
+      disc:
+        type: string
+      simpleParentProp:
+        type: string
+    required: [disc]
+
+  ChildOfSimpleParent:
+    allOf:
+      - $ref: '#/definitions/ModelOne'
+      - $ref: '#/definitions/SimpleParent'
+      - type: object
+        properties:
+          childOfSimpleParentProp:
+            type: string
+
+  ChildOfChildOfSimpleParent:
+    allOf:
+      - $ref: '#/definitions/ChildOfSimpleParent'
+      - type: object
+        properties:
+          childOfChildOfSimpleParentProp:
+            type: string
+
+  ComposedParent:
+    allOf:
+      - $ref: '#/definitions/ModelOne'
+      - $ref: '#/definitions/ModelTwo'
+      - type: object
+        discriminator: disc
+        properties:
+          disc:
+            type: string
+          composedParentProp:
+            type: string
+        required: [disc]
+
+  ChildOfComposedParent:
+    allOf:
+    - $ref: '#/definitions/ComposedParent'
+    - type: object
+      properties:
+        childOfComposedParentProp:
+          type: string
+
+  ChildOfChildOfComposedParent:
+    allOf:
+      - $ref: '#/definitions/ChildOfComposedParent'
+      - type: object
+        properties:
+          childOfChildOfComposedParentProp:
+            type: string
