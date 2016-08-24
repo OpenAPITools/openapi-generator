@@ -1,5 +1,6 @@
 #import "SWGDefaultConfiguration.h"
 #import "SWGBasicAuthTokenProvider.h"
+#import "SWGLogger.h"
 
 @interface SWGDefaultConfiguration ()
 

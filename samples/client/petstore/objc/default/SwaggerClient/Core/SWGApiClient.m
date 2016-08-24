@@ -1,5 +1,6 @@
 #import <ISO8601/NSDate+ISO8601.h>
 
+#import "SWGLogger.h"
 #import "SWGApiClient.h"
 #import "SWGJSONRequestSerializer.h"
 #import "SWGJSONResponseSerializer.h"
@@ -62,24 +63,18 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 #pragma mark - Initialize Methods
 
 - (instancetype)init {
-
     return [self initWithConfiguration:[SWGDefaultConfiguration sharedConfig]];
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url {
-
-    return [self initWithBaseURL:url
-                   configuration:[SWGDefaultConfiguration sharedConfig]];
-    
+    return [self initWithBaseURL:url configuration:[SWGDefaultConfiguration sharedConfig]];
 }
 
 - (instancetype)initWithConfiguration:(id<SWGConfiguration>)configuration {
-
     return [self initWithBaseURL:[NSURL URLWithString:configuration.host] configuration:configuration];
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url
-                  configuration:(id<SWGConfiguration>)configuration {
+- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<SWGConfiguration>)configuration {
 
     self = [super initWithBaseURL:url];
     if (self) {

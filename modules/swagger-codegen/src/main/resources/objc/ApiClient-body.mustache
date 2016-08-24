@@ -1,5 +1,6 @@
 #import <ISO8601/NSDate+ISO8601.h>
 
+#import "{{classPrefix}}Logger.h"
 #import "{{classPrefix}}ApiClient.h"
 #import "{{classPrefix}}JSONRequestSerializer.h"
 #import "{{classPrefix}}JSONResponseSerializer.h"
@@ -62,24 +63,18 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
 #pragma mark - Initialize Methods
 
 - (instancetype)init {
-
     return [self initWithConfiguration:[{{classPrefix}}DefaultConfiguration sharedConfig]];
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url {
-
-    return [self initWithBaseURL:url
-                   configuration:[{{classPrefix}}DefaultConfiguration sharedConfig]];
-    
+    return [self initWithBaseURL:url configuration:[{{classPrefix}}DefaultConfiguration sharedConfig]];
 }
 
 - (instancetype)initWithConfiguration:(id<{{classPrefix}}Configuration>)configuration {
-
     return [self initWithBaseURL:[NSURL URLWithString:configuration.host] configuration:configuration];
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url
-                  configuration:(id<{{classPrefix}}Configuration>)configuration {
+- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<{{classPrefix}}Configuration>)configuration {
 
     self = [super initWithBaseURL:url];
     if (self) {
