@@ -61,22 +61,8 @@ class PetAPITests: XCTestCase {
     
     func test3DeletePet() {
         let expectation = self.expectationWithDescription("testDeletePet")
-        PetAPI.deletePet(petId: 1000).always {
-                // expectation.fulfill()
-            }.always {
-                // Noop for now
-            }.error { errorType -> Void in
-                // The server gives us no data back so alamofire parsing fails - at least
-                // verify that is the error we get here
-                // Error Domain=com.alamofire.error Code=-6006 "JSON could not be serialized. Input data was nil or zero
-                // length." UserInfo={NSLocalizedFailureReason=JSON could not be serialized. Input data was nil or zero
-                // length.}
-                let error = errorType as NSError
-                if error.code == -6006 {
-                    expectation.fulfill()
-                } else {
-                    XCTFail("error logging out")
-                }
+        PetAPI.deletePet(petId: 1000).then {
+            expectation.fulfill()
         }
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
