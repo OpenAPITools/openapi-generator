@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "SWGLogger.h"
+
+@class SWGLogger;
 
 /**
 * Swagger Petstore
@@ -24,6 +25,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+static NSString * const kSWGAPIVersion = @"1.0.0";
 
 @protocol SWGConfiguration <NSObject>
 
