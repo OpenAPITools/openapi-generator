@@ -6,7 +6,8 @@
 //
 
 import Alamofire{{#usePromiseKit}}
-import PromiseKit{{/usePromiseKit}}
+import PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
+import RxSwift{{/useRxSwift}}
 
 {{#swiftUseApiNamespace}}
 extension {{projectName}}API {
@@ -62,6 +63,28 @@ public class {{classname}}: APIBase {
         return deferred.promise
     }
 {{/usePromiseKit}}
+{{#useRxSwift}}
+    /**
+     {{#summary}}
+     {{{summary}}}
+     {{/summary}}{{#allParams}}
+     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
+     - returns: Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
+     */
+    public class func {{operationId}}({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
+        return Observable.create { observer -> Disposable in
+            {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { {{#returnType}}data, {{/returnType}}error in
+                if let error = error {
+                    observer.on(.Error(error as ErrorType))
+                } else {
+                    observer.on(.Next({{#returnType}}data!{{/returnType}}))
+                }
+                observer.on(.Completed)
+            }
+            return NopDisposable.instance
+        }
+    }
+{{/useRxSwift}}
 
     /**
      {{#summary}}

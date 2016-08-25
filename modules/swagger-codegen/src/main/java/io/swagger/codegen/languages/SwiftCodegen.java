@@ -40,7 +40,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "Swagger Codegen";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
-    protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT };
+    protected static final String LIBRARY_RX_SWIFT = "RxSwift";
+    protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT };
     protected String projectName = "SwaggerClient";
     protected boolean unwrapRequired;
     protected boolean swiftUseApiNamespace;
@@ -185,6 +186,9 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(RESPONSE_AS, responseAs);
         if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
             additionalProperties.put("usePromiseKit", true);
+        }
+        if (ArrayUtils.contains(responseAs, LIBRARY_RX_SWIFT)) {
+            additionalProperties.put("useRxSwift", true);
         }
 
         // Setup swiftUseApiNamespace option, which makes all the API classes inner-class of {{projectName}}API
