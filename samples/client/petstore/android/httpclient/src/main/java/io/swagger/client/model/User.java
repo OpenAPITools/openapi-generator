@@ -116,17 +116,17 @@ public class User  {
       return false;
     }
     User user = (User) o;
-    return (id == null ? user.id == null : id.equals(user.id)) &&
-        (username == null ? user.username == null : username.equals(user.username)) &&
-        (firstName == null ? user.firstName == null : firstName.equals(user.firstName)) &&
-        (lastName == null ? user.lastName == null : lastName.equals(user.lastName)) &&
-        (email == null ? user.email == null : email.equals(user.email)) &&
-        (password == null ? user.password == null : password.equals(user.password)) &&
-        (phone == null ? user.phone == null : phone.equals(user.phone)) &&
-        (userStatus == null ? user.userStatus == null : userStatus.equals(user.userStatus));
+    return (this.id == null ? user.id == null : this.id.equals(user.id)) &&
+        (this.username == null ? user.username == null : this.username.equals(user.username)) &&
+        (this.firstName == null ? user.firstName == null : this.firstName.equals(user.firstName)) &&
+        (this.lastName == null ? user.lastName == null : this.lastName.equals(user.lastName)) &&
+        (this.email == null ? user.email == null : this.email.equals(user.email)) &&
+        (this.password == null ? user.password == null : this.password.equals(user.password)) &&
+        (this.phone == null ? user.phone == null : this.phone.equals(user.phone)) &&
+        (this.userStatus == null ? user.userStatus == null : this.userStatus.equals(user.userStatus));
   }
 
-  @Override 
+  @Override
   public int hashCode() {
     int result = 17;
     result = 31 * result + (id == null ? 0: id.hashCode());
