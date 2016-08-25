@@ -43,11 +43,11 @@ public class Tag  {
       return false;
     }
     Tag tag = (Tag) o;
-    return (id == null ? tag.id == null : id.equals(tag.id)) &&
-        (name == null ? tag.name == null : name.equals(tag.name));
+    return (this.id == null ? tag.id == null : this.id.equals(tag.id)) &&
+        (this.name == null ? tag.name == null : this.name.equals(tag.name));
   }
 
-  @Override 
+  @Override
   public int hashCode() {
     int result = 17;
     result = 31 * result + (id == null ? 0: id.hashCode());

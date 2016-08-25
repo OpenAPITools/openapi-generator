@@ -67,8 +67,8 @@ public class Category  {
       return false;
     }
     Category category = (Category) o;
-    return (id == null ? category.id == null : id.equals(category.id)) &&
-        (name == null ? category.name == null : name.equals(category.name));
+    return (this.id == null ? category.id == null : this.id.equals(category.id)) &&
+        (this.name == null ? category.name == null : this.name.equals(category.name));
   }
 
   @Override
