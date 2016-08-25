@@ -758,6 +758,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [DecentFoX](http://decentfox.com/)
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
+- [EMC](https://www.emc.com/)
 - [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
