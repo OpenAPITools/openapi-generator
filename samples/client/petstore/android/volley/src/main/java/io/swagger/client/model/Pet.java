@@ -122,12 +122,12 @@ public class Pet  {
       return false;
     }
     Pet pet = (Pet) o;
-    return (id == null ? pet.id == null : id.equals(pet.id)) &&
-        (category == null ? pet.category == null : category.equals(pet.category)) &&
-        (name == null ? pet.name == null : name.equals(pet.name)) &&
-        (photoUrls == null ? pet.photoUrls == null : photoUrls.equals(pet.photoUrls)) &&
-        (tags == null ? pet.tags == null : tags.equals(pet.tags)) &&
-        (status == null ? pet.status == null : status.equals(pet.status));
+    return (this.id == null ? pet.id == null : this.id.equals(pet.id)) &&
+        (this.category == null ? pet.category == null : this.category.equals(pet.category)) &&
+        (this.name == null ? pet.name == null : this.name.equals(pet.name)) &&
+        (this.photoUrls == null ? pet.photoUrls == null : this.photoUrls.equals(pet.photoUrls)) &&
+        (this.tags == null ? pet.tags == null : this.tags.equals(pet.tags)) &&
+        (this.status == null ? pet.status == null : this.status.equals(pet.status));
   }
 
   @Override

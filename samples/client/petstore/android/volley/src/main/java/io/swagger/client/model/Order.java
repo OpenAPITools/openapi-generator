@@ -120,12 +120,12 @@ public class Order  {
       return false;
     }
     Order order = (Order) o;
-    return (id == null ? order.id == null : id.equals(order.id)) &&
-        (petId == null ? order.petId == null : petId.equals(order.petId)) &&
-        (quantity == null ? order.quantity == null : quantity.equals(order.quantity)) &&
-        (shipDate == null ? order.shipDate == null : shipDate.equals(order.shipDate)) &&
-        (status == null ? order.status == null : status.equals(order.status)) &&
-        (complete == null ? order.complete == null : complete.equals(order.complete));
+    return (this.id == null ? order.id == null : this.id.equals(order.id)) &&
+        (this.petId == null ? order.petId == null : this.petId.equals(order.petId)) &&
+        (this.quantity == null ? order.quantity == null : this.quantity.equals(order.quantity)) &&
+        (this.shipDate == null ? order.shipDate == null : this.shipDate.equals(order.shipDate)) &&
+        (this.status == null ? order.status == null : this.status.equals(order.status)) &&
+        (this.complete == null ? order.complete == null : this.complete.equals(order.complete));
   }
 
   @Override
