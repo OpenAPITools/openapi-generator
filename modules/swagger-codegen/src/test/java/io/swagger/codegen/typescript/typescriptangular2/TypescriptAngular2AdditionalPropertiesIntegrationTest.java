@@ -17,12 +17,12 @@ public class TypescriptAngular2AdditionalPropertiesIntegrationTest extends Abstr
 
     @Override
     protected Map<String, String> configProperties() {
-        Map<String, String> propeties = new HashMap<>();
-        propeties.put("npmName", "additionalPropertiesTest");
-        propeties.put("npmVersion", "1.0.2");
-        propeties.put("snapshot", "false");
+        Map<String, String> properties = new HashMap<>();
+        properties.put("npmName", "additionalPropertiesTest");
+        properties.put("npmVersion", "1.0.2");
+        properties.put("snapshot", "false");
 
-        return propeties;
+        return properties;
     }
 
     @Override

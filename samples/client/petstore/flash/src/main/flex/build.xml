@@ -17,7 +17,7 @@
 
     <target name="setup" description="perform an setup operations"/>
 
-    <!-- Execute the ASDoc Compile wich runs 3 seperate tasks in a series -->
+    <!-- Execute the ASDoc Compile which runs 3 separate tasks in a series -->
     <target name="compile" description="series of tasks to create docs and swc">
 
         <!--<antcall target="cleanDir" description="clean the docs directory"/>-->

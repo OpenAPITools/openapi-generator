@@ -12,7 +12,7 @@ public class Response {
     public var isSuccess:Boolean;
 
     /**
-     * The payload of the succesful operation eg. a Word in a WordRequest
+     * The payload of the successful operation eg. a Word in a WordRequest
      */
     public var payload:Object;
 

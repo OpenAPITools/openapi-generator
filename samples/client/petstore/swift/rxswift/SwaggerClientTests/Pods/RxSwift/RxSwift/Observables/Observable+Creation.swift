@@ -103,7 +103,7 @@ extension Observable {
     - seealso: [from operator on reactivex.io](http://reactivex.io/documentation/operators/from.html)
 
     - parameter elements: Elements to generate.
-    - parameter scheduler: Scheduler to send elements on. If `nil`, elements are sent immediatelly on subscription.
+    - parameter scheduler: Scheduler to send elements on. If `nil`, elements are sent immediately on subscription.
     - returns: The observable sequence whose elements are pulled from the given arguments.
     */
     @warn_unused_result(message="http://git.io/rxs.uo")

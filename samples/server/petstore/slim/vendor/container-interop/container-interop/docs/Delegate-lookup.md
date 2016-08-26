@@ -15,7 +15,7 @@ interpreted as described in [RFC 2119][].
 
 The word `implementor` in this document is to be interpreted as someone
 implementing the delegate lookup feature in a dependency injection-related library or framework.
-Users of dependency injections containers (DIC) are refered to as `user`.
+Users of dependency injections containers (DIC) are referred to as `user`.
 
 [RFC 2119]: http://tools.ietf.org/html/rfc2119
 

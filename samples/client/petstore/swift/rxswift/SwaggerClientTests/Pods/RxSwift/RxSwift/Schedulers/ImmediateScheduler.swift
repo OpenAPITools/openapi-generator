@@ -16,7 +16,7 @@ private class ImmediateScheduler : ImmediateSchedulerType {
     private let _asyncLock = AsyncLock<AnonymousInvocable>()
 
     /**
-    Schedules an action to be executed immediatelly.
+    Schedules an action to be executed immediately.
 
     In case `schedule` is called recursively from inside of `action` callback, scheduled `action` will be enqueued
     and executed after current `action`. (`AsyncLock` behavior)

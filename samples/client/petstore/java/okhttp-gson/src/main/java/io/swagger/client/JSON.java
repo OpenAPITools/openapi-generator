@@ -100,7 +100,7 @@ public class JSON {
      *
      * @param <T> Type
      * @param body The JSON string
-     * @param returnType The type to deserialize inot
+     * @param returnType The type to deserialize into
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
