@@ -106,7 +106,7 @@ null (empty response body)
 
 Finds Pets by status
 
-Multiple status values can be provided with comma seperated strings
+Multiple status values can be provided with comma separated strings
 
 ### Example
 ```java
@@ -149,7 +149,7 @@ Name | Type | Description  | Notes
 
 Finds Pets by tags
 
-Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
 ```java

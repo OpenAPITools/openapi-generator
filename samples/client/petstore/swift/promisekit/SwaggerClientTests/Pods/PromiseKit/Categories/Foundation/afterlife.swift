@@ -6,7 +6,7 @@ import PromiseKit
 /**
  @return A promise that resolves when the provided object deallocates
 
- @warning *Important* The promise is not guarenteed to resolve immediately
+ @warning *Important* The promise is not guaranteed to resolve immediately
  when the provided object is deallocated. So you cannot write code that
  depends on exact timing.
 */

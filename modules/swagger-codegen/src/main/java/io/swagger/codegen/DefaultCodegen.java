@@ -256,7 +256,7 @@ public class DefaultCodegen {
     }
     
     /**
-     * Return the enum default value in the language specifed format
+     * Return the enum default value in the language specified format
      * 
      * @param value enum variable name
      * @param datatype data type
@@ -267,7 +267,7 @@ public class DefaultCodegen {
     }
 
     /**
-     * Return the enum value in the language specifed format
+     * Return the enum value in the language specified format
      * e.g. status becomes "status"
      * 
      * @param value enum variable name
@@ -358,7 +358,7 @@ public class DefaultCodegen {
      * @return string with unsafe characters removed or escaped
      */
     public String escapeUnsafeCharacters(String input) {
-        LOGGER.warn("escapeUnsafeCharacters should be overriden in the code generator with proper logic to escape unsafe characters");
+        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters");
         // doing nothing by default and code generator should implement
         // the logic to prevent code injection
         // later we'll make this method abstract to make sure
@@ -372,7 +372,7 @@ public class DefaultCodegen {
      * @return string with quotation mark removed or escaped
      */
     public String escapeQuotationMark(String input) {
-        LOGGER.warn("escapeQuotationMark should be overriden in the code generator with proper logic to escape single/double quote");
+        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote");
         return input.replace("\"", "\\\"");
     }
 
@@ -3171,7 +3171,7 @@ public class DefaultCodegen {
      */
     public void setParameterBooleanFlagWithCodegenProperty(CodegenParameter parameter, CodegenProperty property) {
         if (parameter == null) {
-            LOGGER.error("Codegen Parameter cannnot be null.");
+            LOGGER.error("Codegen Parameter cannot be null.");
             return;
         }
 

@@ -273,7 +273,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
             return "0L";
         } else if (p instanceof BaseIntegerProperty) {
             // catchall for any other format of the swagger specifiction
-            // integer type not explictly handled above
+            // integer type not explicitly handled above
             return "0";
         } else if (p instanceof DecimalProperty) {
             return "0.0";

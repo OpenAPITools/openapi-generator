@@ -156,7 +156,7 @@ public class PetAPI: APIBase {
     /**
      Finds Pets by status
      - GET /pet/findByStatus
-     - Multiple status values can be provided with comma seperated strings
+     - Multiple status values can be provided with comma separated strings
      - OAuth:
        - type: oauth2
        - name: petstore_auth
@@ -222,7 +222,7 @@ public class PetAPI: APIBase {
     /**
      Finds Pets by tags
      - GET /pet/findByTags
-     - Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+     - Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      - OAuth:
        - type: oauth2
        - name: petstore_auth

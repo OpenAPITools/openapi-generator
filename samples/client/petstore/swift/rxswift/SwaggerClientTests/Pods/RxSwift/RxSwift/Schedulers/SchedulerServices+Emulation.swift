@@ -45,7 +45,7 @@ class SchedulePeriodicRecursive<State> {
         case .Tick:
             scheduler.schedule(.Tick, dueTime: _period)
 
-            // The idea is that if on tick there wasn't any item enqueued, schedule to perform work immediatelly.
+            // The idea is that if on tick there wasn't any item enqueued, schedule to perform work immediately.
             // Else work will be scheduled after previous enqueued work completes.
             if AtomicIncrement(&_pendingTickCount) == 1 {
                 self.tick(.DispatchStart, scheduler: scheduler)
