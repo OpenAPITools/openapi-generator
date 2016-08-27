@@ -47,7 +47,7 @@ public class Promise<T> {
          }
 
      - Parameter resolvers: The provided closure is called immediately.
-     Inside, execute your asynchronous system, calling fulfill if it suceeds
+     Inside, execute your asynchronous system, calling fulfill if it succeeds
      and reject for any errors.
 
      - Returns: return A new promise.
@@ -532,7 +532,7 @@ public let zalgo: dispatch_queue_t = dispatch_queue_create("Zalgo", nil)
  then is going to take a while and doesn’t interact with the UI.
 
  Please note (again) that generally you should not use zalgo or waldo. The
- performance gains are neglible and we provide these functions only out of
+ performance gains are negligible and we provide these functions only out of
  a misguided sense that library code should be as optimized as possible.
  If you use zalgo or waldo without tests proving their correctness you may
  unwillingly introduce horrendous, near-impossible-to-trace bugs.

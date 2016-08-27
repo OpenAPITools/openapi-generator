@@ -412,7 +412,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
 
-        // recursivly add import for mapping one type to multipe imports
+        // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
         if (recursiveImports == null)
             return objs;
@@ -442,7 +442,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 iterator.remove();
         }
 
-        // recursivly add import for mapping one type to multipe imports
+        // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
         if (recursiveImports == null)
             return objs;

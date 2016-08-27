@@ -17,13 +17,13 @@ public class TypescriptNodeES5IntegrationTest extends AbstractIntegrationTest {
 
     @Override
     protected Map<String, String> configProperties() {
-        Map<String, String> propeties = new HashMap<>();
-        propeties.put("npmName", "node-es6-test");
-        propeties.put("npmVersion", "1.0.3");
-        propeties.put("snapshot", "false");
-        propeties.put("supportsES6", "false");
+        Map<String, String> properties = new HashMap<>();
+        properties.put("npmName", "node-es6-test");
+        properties.put("npmVersion", "1.0.3");
+        properties.put("snapshot", "false");
+        properties.put("supportsES6", "false");
 
-        return propeties;
+        return properties;
     }
 
     @Override

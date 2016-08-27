@@ -110,7 +110,7 @@ class App
     }
 
     /**
-     * Calling a non-existant method on App checks to see if there's an item
+     * Calling a non-existent method on App checks to see if there's an item
      * in the container that is callable and if so, calls it.
      *
      * @param  string $method
