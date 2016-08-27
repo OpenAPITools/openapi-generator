@@ -93,7 +93,7 @@ paths:
       tags:
       - "pet"
       summary: "Finds Pets by status"
-      description: "Multiple status values can be provided with comma seperated strings"
+      description: "Multiple status values can be provided with comma separated strings"
       operationId: "findPetsByStatus"
       produces:
       - "application/xml"
@@ -130,7 +130,7 @@ paths:
       tags:
       - "pet"
       summary: "Finds Pets by tags"
-      description: "Muliple tags can be provided with comma seperated strings. Use\
+      description: "Multiple tags can be provided with comma separated strings. Use\
         \ tag1, tag2, tag3 for testing."
       operationId: "findPetsByTags"
       produces:

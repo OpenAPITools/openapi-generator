@@ -135,7 +135,7 @@ module Petstore
     #   application/json; charset=UTF8
     #   APPLICATION/JSON
     # @param [String] mime MIME
-    # @return [Boolean] True if the MIME is applicaton/json
+    # @return [Boolean] True if the MIME is application/json
     def json_mime?(mime)
        !(mime =~ /\Aapplication\/json(;.*)?\z/i).nil?
     end

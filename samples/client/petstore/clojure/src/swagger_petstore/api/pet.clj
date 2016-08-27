@@ -90,7 +90,7 @@
 
 (defn find-pets-by-tags-with-http-info
   "Finds Pets by tags
-  Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing."
+  Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."
   ([] (find-pets-by-tags-with-http-info nil))
   ([{:keys [tags ]}]
    (call-api "/pet/findByTags" :get
@@ -104,7 +104,7 @@
 
 (defn find-pets-by-tags
   "Finds Pets by tags
-  Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing."
+  Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."
   ([] (find-pets-by-tags nil))
   ([optional-params]
    (:data (find-pets-by-tags-with-http-info optional-params))))

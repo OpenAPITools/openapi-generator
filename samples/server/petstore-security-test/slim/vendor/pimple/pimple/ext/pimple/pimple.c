@@ -419,7 +419,7 @@ static zval *pimple_object_read_dimension(zval *object, zval *offset, int type T
 	}
 
 	if (zend_hash_index_exists(&pimple_obj->factories, retval->handle_num)) {
-		/* Service is a factory, call it everytime and never cache its result */
+		/* Service is a factory, call it every time and never cache its result */
 		PIMPLE_CALL_CB
 		Z_DELREF_P(retval_ptr_ptr); /* fetch dim addr will increment refcount */
 		return retval_ptr_ptr;

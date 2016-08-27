@@ -26,7 +26,7 @@ CAVEAT: Due to [privilege implications](https://docs.npmjs.com/misc/scripts#user
 #### NPM ####
 You may publish the module to NPM. In this case, you would be able to install the module as any other NPM module. It maybe useful to use [scoped packages](https://docs.npmjs.com/misc/scope).
 
-You can also use `npm link` to link the module. However, this would not modify `package.json` of the installing project, as such you would need to relink everytime you deploy that project. 
+You can also use `npm link` to link the module. However, this would not modify `package.json` of the installing project, as such you would need to relink every time you deploy that project. 
 
 You can also directly install the module using `npm install file_path`. If you do `npm install file_path --save`, NPM will save relative path to `package.json`. In this case, `npm install` and `npm shrinkwrap` may misbehave. You would need to manually edit `package.json` and replace it with absolute path. 
 

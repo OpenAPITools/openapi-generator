@@ -154,7 +154,7 @@ export const PetApiFetchParamCreactor = {
     },
     /** 
      * Finds Pets by status
-     * Multiple status values can be provided with comma seperated strings
+     * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
     findPetsByStatus(params: {  status?: Array<string>; }): FetchArgs {
@@ -176,7 +176,7 @@ export const PetApiFetchParamCreactor = {
     },
     /** 
      * Finds Pets by tags
-     * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
     findPetsByTags(params: {  tags?: Array<string>; }): FetchArgs {
@@ -348,7 +348,7 @@ export const PetApiFp = {
     },
     /** 
      * Finds Pets by status
-     * Multiple status values can be provided with comma seperated strings
+     * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
     findPetsByStatus(params: { status?: Array<string>;  }): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
@@ -365,7 +365,7 @@ export const PetApiFp = {
     },
     /** 
      * Finds Pets by tags
-     * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
     findPetsByTags(params: { tags?: Array<string>;  }): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
@@ -477,7 +477,7 @@ export class PetApi extends BaseAPI {
     }
     /** 
      * Finds Pets by status
-     * Multiple status values can be provided with comma seperated strings
+     * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
     findPetsByStatus(params: {  status?: Array<string>; }) {
@@ -485,7 +485,7 @@ export class PetApi extends BaseAPI {
     }
     /** 
      * Finds Pets by tags
-     * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
     findPetsByTags(params: {  tags?: Array<string>; }) {
@@ -553,7 +553,7 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         },
         /** 
          * Finds Pets by status
-         * Multiple status values can be provided with comma seperated strings
+         * Multiple status values can be provided with comma separated strings
          * @param status Status values that need to be considered for filter
          */
         findPetsByStatus(params: {  status?: Array<string>; }) {
@@ -561,7 +561,7 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         },
         /** 
          * Finds Pets by tags
-         * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @param tags Tags to filter by
          */
         findPetsByTags(params: {  tags?: Array<string>; }) {

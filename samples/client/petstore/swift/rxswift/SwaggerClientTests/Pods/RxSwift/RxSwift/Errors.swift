@@ -18,7 +18,7 @@ public enum RxError
     : ErrorType
     , CustomDebugStringConvertible {
     /**
-    Unknown error occured.
+    Unknown error occurred.
     */
     case Unknown
     /**
@@ -54,11 +54,11 @@ public extension RxError {
     public var debugDescription: String {
         switch self {
         case .Unknown:
-            return "Unknown error occured."
+            return "Unknown error occurred."
         case .Disposed(let object):
             return "Object `\(object)` was already disposed."
         case .Overflow:
-            return "Arithmetic overflow occured."
+            return "Arithmetic overflow occurred."
         case .ArgumentOutOfRange:
             return "Argument out of range."
         case .NoElements:

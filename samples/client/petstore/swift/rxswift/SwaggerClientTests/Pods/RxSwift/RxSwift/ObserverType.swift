@@ -20,7 +20,7 @@ public protocol ObserverType {
     /**
     Notify observer about sequence event.
 
-    - parameter event: Event that occured.
+    - parameter event: Event that occurred.
     */
     func on(event: Event<E>)
 }
