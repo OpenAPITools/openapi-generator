@@ -17,7 +17,7 @@ use constant VERSION => '{{moduleVersion}}';
 
 # class/static variables
 our $http_timeout = 180;
-our $http_user_agent = 'Perl-Swagger';
+our $http_user_agent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{moduleVersion}}}/perl{{/httpUserAgent}}';
 
 # authentication setting
 our $api_key = {};
