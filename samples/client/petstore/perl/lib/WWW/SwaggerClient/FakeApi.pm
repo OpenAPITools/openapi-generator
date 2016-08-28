@@ -64,60 +64,69 @@ sub new {
 
 
 #
-# test_code_inject__end
+# test_client_model
 #
-# To test code injection */ 
+# To test \"client\" model
 # 
-# @param string $test code inject */ &#x3D;end To test code injection */  (optional)
+# @param Client $body client model (required)
 {
     my $params = {
-    'test code inject */ &#x3D;end' => {
-        data_type => 'string',
-        description => 'To test code injection */ ',
-        required => '0',
+    'body' => {
+        data_type => 'Client',
+        description => 'client model',
+        required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'test_code_inject__end' } = { 
-    	summary => 'To test code injection */ ',
+    __PACKAGE__->method_documentation->{ 'test_client_model' } = { 
+    	summary => 'To test \&quot;client\&quot; model',
         params => $params,
-        returns => undef,
+        returns => 'Client',
         };
 }
-# @return void
+# @return Client
 #
-sub test_code_inject__end {
+sub test_client_model {
     my ($self, %args) = @_;
+
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_client_model");
+    }
 
     # parse inputs
     my $_resource_path = '/fake';
     $_resource_path =~ s/{format}/json/; # default format to json
 
-    my $_method = 'PUT';
+    my $_method = 'PATCH';
     my $query_params = {};
     my $header_params = {};
     my $form_params = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json', '*/ end');
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', '*/ =end));(phpinfo(');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
 
-    # form params
-    if ( exists $args{'test code inject */ &#x3D;end'} ) {
-                $form_params->{'test code inject */ &#x3D;end'} = $self->{api_client}->to_form_value($args{'test code inject */ &#x3D;end'});
-    }
-    
     my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
     # authentication setting, if any
     my $auth_settings = [qw()];
 
     # make the API Call
-    $self->{api_client}->call_api($_resource_path, $_method,
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
                                            $query_params, $form_params,
                                            $header_params, $_body_data, $auth_settings);
-    return;
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('Client', $response);
+    return $_response_object;
 }
 
 #
@@ -127,12 +136,13 @@ sub test_code_inject__end {
 # 
 # @param Number $number None (required)
 # @param double $double None (required)
-# @param string $string None (required)
+# @param string $pattern_without_delimiter None (required)
 # @param string $byte None (required)
 # @param int $integer None (optional)
 # @param int $int32 None (optional)
 # @param int $int64 None (optional)
 # @param double $float None (optional)
+# @param string $string None (optional)
 # @param string $binary None (optional)
 # @param DateTime $date None (optional)
 # @param DateTime $date_time None (optional)
@@ -149,7 +159,7 @@ sub test_code_inject__end {
         description => 'None',
         required => '1',
     },
-    'string' => {
+    'pattern_without_delimiter' => {
         data_type => 'string',
         description => 'None',
         required => '1',
@@ -176,6 +186,11 @@ sub test_code_inject__end {
     },
     'float' => {
         data_type => 'double',
+        description => 'None',
+        required => '0',
+    },
+    'string' => {
+        data_type => 'string',
         description => 'None',
         required => '0',
     },
@@ -221,9 +236,9 @@ sub test_endpoint_parameters {
       croak("Missing the required parameter 'double' when calling test_endpoint_parameters");
     }
 
-    # verify the required parameter 'string' is set
-    unless (exists $args{'string'}) {
-      croak("Missing the required parameter 'string' when calling test_endpoint_parameters");
+    # verify the required parameter 'pattern_without_delimiter' is set
+    unless (exists $args{'pattern_without_delimiter'}) {
+      croak("Missing the required parameter 'pattern_without_delimiter' when calling test_endpoint_parameters");
     }
 
     # verify the required parameter 'byte' is set
@@ -283,6 +298,11 @@ sub test_endpoint_parameters {
     }
     
     # form params
+    if ( exists $args{'pattern_without_delimiter'} ) {
+                $form_params->{'pattern_without_delimiter'} = $self->{api_client}->to_form_value($args{'pattern_without_delimiter'});
+    }
+    
+    # form params
     if ( exists $args{'byte'} ) {
                 $form_params->{'byte'} = $self->{api_client}->to_form_value($args{'byte'});
     }
@@ -309,7 +329,7 @@ sub test_endpoint_parameters {
     
     my $_body_data;
     # authentication setting, if any
-    my $auth_settings = [qw()];
+    my $auth_settings = [qw(http_basic_test )];
 
     # make the API Call
     $self->{api_client}->call_api($_resource_path, $_method,
@@ -319,15 +339,45 @@ sub test_endpoint_parameters {
 }
 
 #
-# test_enum_query_parameters
+# test_enum_parameters
 #
-# To test enum query parameters
+# To test enum parameters
 # 
+# @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional)
+# @param string $enum_form_string Form parameter enum test (string) (optional, default to -efg)
+# @param ARRAY[string] $enum_header_string_array Header parameter enum test (string array) (optional)
+# @param string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
+# @param ARRAY[string] $enum_query_string_array Query parameter enum test (string array) (optional)
 # @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
 # @param Number $enum_query_integer Query parameter enum test (double) (optional)
 # @param double $enum_query_double Query parameter enum test (double) (optional)
 {
     my $params = {
+    'enum_form_string_array' => {
+        data_type => 'ARRAY[string]',
+        description => 'Form parameter enum test (string array)',
+        required => '0',
+    },
+    'enum_form_string' => {
+        data_type => 'string',
+        description => 'Form parameter enum test (string)',
+        required => '0',
+    },
+    'enum_header_string_array' => {
+        data_type => 'ARRAY[string]',
+        description => 'Header parameter enum test (string array)',
+        required => '0',
+    },
+    'enum_header_string' => {
+        data_type => 'string',
+        description => 'Header parameter enum test (string)',
+        required => '0',
+    },
+    'enum_query_string_array' => {
+        data_type => 'ARRAY[string]',
+        description => 'Query parameter enum test (string array)',
+        required => '0',
+    },
     'enum_query_string' => {
         data_type => 'string',
         description => 'Query parameter enum test (string)',
@@ -344,15 +394,15 @@ sub test_endpoint_parameters {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ 'test_enum_query_parameters' } = { 
-    	summary => 'To test enum query parameters',
+    __PACKAGE__->method_documentation->{ 'test_enum_parameters' } = { 
+    	summary => 'To test enum parameters',
         params => $params,
         returns => undef,
         };
 }
 # @return void
 #
-sub test_enum_query_parameters {
+sub test_enum_parameters {
     my ($self, %args) = @_;
 
     # parse inputs
@@ -372,13 +422,38 @@ sub test_enum_query_parameters {
     $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
 
     # query params
+    if ( exists $args{'enum_query_string_array'}) {
+        $query_params->{'enum_query_string_array'} = $self->{api_client}->to_query_value($args{'enum_query_string_array'});
+    }
+
+    # query params
+    if ( exists $args{'enum_query_string'}) {
+        $query_params->{'enum_query_string'} = $self->{api_client}->to_query_value($args{'enum_query_string'});
+    }
+
+    # query params
     if ( exists $args{'enum_query_integer'}) {
         $query_params->{'enum_query_integer'} = $self->{api_client}->to_query_value($args{'enum_query_integer'});
     }
 
+    # header params
+    if ( exists $args{'enum_header_string_array'}) {
+        $header_params->{'enum_header_string_array'} = $self->{api_client}->to_header_value($args{'enum_header_string_array'});
+    }
+
+    # header params
+    if ( exists $args{'enum_header_string'}) {
+        $header_params->{'enum_header_string'} = $self->{api_client}->to_header_value($args{'enum_header_string'});
+    }
+
     # form params
-    if ( exists $args{'enum_query_string'} ) {
-                $form_params->{'enum_query_string'} = $self->{api_client}->to_form_value($args{'enum_query_string'});
+    if ( exists $args{'enum_form_string_array'} ) {
+                $form_params->{'enum_form_string_array'} = $self->{api_client}->to_form_value($args{'enum_form_string_array'});
+    }
+    
+    # form params
+    if ( exists $args{'enum_form_string'} ) {
+                $form_params->{'enum_form_string'} = $self->{api_client}->to_form_value($args{'enum_form_string'});
     }
     
     # form params
