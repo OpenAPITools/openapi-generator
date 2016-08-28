@@ -1,21 +1,13 @@
-#import <ISO8601/NSDate+ISO8601.h>
 
 #import "{{classPrefix}}Logger.h"
 #import "{{classPrefix}}ApiClient.h"
 #import "{{classPrefix}}JSONRequestSerializer.h"
-#import "{{classPrefix}}JSONResponseSerializer.h"
 #import "{{classPrefix}}QueryParamCollection.h"
 #import "{{classPrefix}}DefaultConfiguration.h"
 
-
-
 NSString *const {{classPrefix}}ResponseObjectErrorKey = @"{{classPrefix}}ResponseObject";
 
-static bool offlineState = false;
-static bool cacheEnabled = false;
-static AFNetworkReachabilityStatus reachabilityStatus = AFNetworkReachabilityStatusNotReachable;
-static void (^reachabilityChangeBlock)(int);
-
+static NSString * const k{{classPrefix}}ContentDispositionKey = @"Content-Disposition";
 
 static NSDictionary * {{classPrefix}}__headerFieldsForResponse(NSURLResponse *response) {
     if(![response isKindOfClass:[NSHTTPURLResponse class]]) {
@@ -26,17 +18,13 @@ static NSDictionary * {{classPrefix}}__headerFieldsForResponse(NSURLResponse *re
 
 static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) {
     NSDictionary * headers = {{classPrefix}}__headerFieldsForResponse(response);
-    if(!headers[@"Content-Disposition"]) {
+    if(!headers[k{{classPrefix}}ContentDispositionKey]) {
         return [NSString stringWithFormat:@"%@", [[NSProcessInfo processInfo] globallyUniqueString]];
     }
     NSString *pattern = @"filename=['\"]?([^'\"\\s]+)['\"]?";
-    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern
-                                                                            options:NSRegularExpressionCaseInsensitive
-                                                                              error:nil];
-    NSString *contentDispositionHeader = headers[@"Content-Disposition"];
-    NSTextCheckingResult *match = [regexp firstMatchInString:contentDispositionHeader
-                                                     options:0
-                                                       range:NSMakeRange(0, [contentDispositionHeader length])];
+    NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSString *contentDispositionHeader = headers[k{{classPrefix}}ContentDispositionKey];
+    NSTextCheckingResult *match = [regexp firstMatchInString:contentDispositionHeader options:0 range:NSMakeRange(0, [contentDispositionHeader length])];
     return [contentDispositionHeader substringWithRange:[match rangeAtIndex:1]];
 }
 
@@ -44,6 +32,8 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
 @interface {{classPrefix}}ApiClient ()
 
 @property (nonatomic, strong, readwrite) id<{{classPrefix}}Configuration> configuration;
+
+@property (nonatomic, strong) NSArray<NSString*>* downloadTaskResponseTypes;
 
 @end
 
@@ -75,7 +65,6 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<{{classPrefix}}Configuration>)configuration {
-
     self = [super initWithBaseURL:url];
     if (self) {
         _configuration = configuration;
@@ -83,102 +72,30 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
         _responseDeserializer = [[{{classPrefix}}ResponseDeserializer alloc] init];
         _sanitizer = [[{{classPrefix}}Sanitizer alloc] init];
 
-        self.requestSerializer = [AFJSONRequestSerializer serializer];
-        self.responseSerializer = [AFJSONResponseSerializer serializer];
-        self.securityPolicy = [self customSecurityPolicy];
+        _downloadTaskResponseTypes = @[@"NSURL*", @"NSURL"];
 
-        // configure reachability
-        [self configureCacheReachibility];
+        AFHTTPRequestSerializer* afhttpRequestSerializer = [AFHTTPRequestSerializer serializer];
+        SWGJSONRequestSerializer * swgjsonRequestSerializer = [SWGJSONRequestSerializer serializer];
+        _requestSerializerForContentType = @{kSWGApplicationJSONType : swgjsonRequestSerializer,
+            @"application/x-www-form-urlencoded": afhttpRequestSerializer,
+            @"multipart/form-data": afhttpRequestSerializer
+        };
+        self.securityPolicy = [self createSecurityPolicy];
+        self.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
-
     return self;
-}
-
-#pragma mark - Setter Methods
-
-+ (void) setOfflineState:(BOOL) state {
-    offlineState = state;
-}
-
-+ (void) setCacheEnabled:(BOOL)enabled {
-    cacheEnabled = enabled;
-}
-
-+(void) setReachabilityStatus:(AFNetworkReachabilityStatus)status {
-    reachabilityStatus = status;
-}
-
-- (void)setHeaderValue:(NSString*) value forKey:(NSString*) forKey {
-    [self.requestSerializer setValue:value forHTTPHeaderField:forKey];
-}
-
-- (void)setRequestSerializer:(AFHTTPRequestSerializer<AFURLRequestSerialization> *)requestSerializer {
-    [super setRequestSerializer:requestSerializer];
-    requestSerializer.timeoutInterval = self.timeoutInterval;
-}
-
-#pragma mark - Cache Methods
-
-+(void)clearCache {
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-}
-
-+(void)configureCacheWithMemoryAndDiskCapacity: (unsigned long) memorySize
-                                      diskSize: (unsigned long) diskSize {
-    NSAssert(memorySize > 0, @"invalid in-memory cache size");
-    NSAssert(diskSize >= 0, @"invalid disk cache size");
-
-    NSURLCache *cache =
-    [[NSURLCache alloc]
-     initWithMemoryCapacity:memorySize
-     diskCapacity:diskSize
-     diskPath:@"swagger_url_cache"];
-
-    [NSURLCache setSharedURLCache:cache];
-}
-
-#pragma mark - Reachability Methods
-
-+(AFNetworkReachabilityStatus) getReachabilityStatus {
-    return reachabilityStatus;
-}
-
-+(BOOL) getOfflineState {
-    return offlineState;
-}
-
-+(void) setReachabilityChangeBlock:(void(^)(int))changeBlock {
-    reachabilityChangeBlock = changeBlock;
-}
-
-- (void) configureCacheReachibility {
-    [self.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        reachabilityStatus = status;
-        {{classPrefix}}DebugLog(@"reachability changed to %@",AFStringFromNetworkReachabilityStatus(status));
-        [{{classPrefix}}ApiClient setOfflineState:status == AFNetworkReachabilityStatusUnknown || status == AFNetworkReachabilityStatusNotReachable];
-
-        // call the reachability block, if configured
-        if (reachabilityChangeBlock != nil) {
-            reachabilityChangeBlock(status);
-        }
-    }];
-
-    [self.reachabilityManager startMonitoring];
 }
 
 #pragma mark - Task Methods
 
-- (NSURLSessionDataTask*) taskWithCompletionBlock: (NSURLRequest *)request
-                                  completionBlock: (void (^)(id, NSError *))completionBlock {
+- (NSURLSessionDataTask*) taskWithCompletionBlock: (NSURLRequest *)request completionBlock: (void (^)(id, NSError *))completionBlock {
     
     NSURLSessionDataTask *task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         {{classPrefix}}DebugLogResponse(response, responseObject,request,error);
-        
         if(!error) {
             completionBlock(responseObject, nil);
             return;
         }
-
         NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
         if (responseObject) {
             // Add in the (parsed) response body.
@@ -191,10 +108,9 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
     return task;
 }
 
-- (NSURLSessionDataTask*) downloadTaskWithCompletionBlock: (NSURLRequest *)request
-                                          completionBlock: (void (^)(id, NSError *))completionBlock {
-    
-    id<{{classPrefix}}Configuration> config = self.configuration;
+- (NSURLSessionDataTask*) downloadTaskWithCompletionBlock: (NSURLRequest *)request completionBlock: (void (^)(id, NSError *))completionBlock {
+
+    __block NSString * tempFolderPath = [self.configuration.tempFolderPath copy];
 
     NSURLSessionDataTask* task = [self dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         {{classPrefix}}DebugLogResponse(response, responseObject,request,error);
@@ -206,9 +122,10 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
             }
             NSError *augmentedError = [error initWithDomain:error.domain code:error.code userInfo:userInfo];
             completionBlock(nil, augmentedError);
+            return;
         }
 
-        NSString *directory = config.tempFolderPath ?: NSTemporaryDirectory();
+        NSString *directory = tempFolderPath ?: NSTemporaryDirectory();
         NSString *filename = {{classPrefix}}__fileNameForResponse(response);
 
         NSString *filepath = [directory stringByAppendingPathComponent:filename];
@@ -238,35 +155,17 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
                          responseType: (NSString *) responseType
                       completionBlock: (void (^)(id, NSError *))completionBlock {
 
-    // setting request serializer
-    if ([requestContentType isEqualToString:@"application/json"]) {
-        self.requestSerializer = [{{classPrefix}}JSONRequestSerializer serializer];
-    }
-    else if ([requestContentType isEqualToString:@"application/x-www-form-urlencoded"]) {
-        self.requestSerializer = [AFHTTPRequestSerializer serializer];
-    }
-    else if ([requestContentType isEqualToString:@"multipart/form-data"]) {
-        self.requestSerializer = [AFHTTPRequestSerializer serializer];
-    }
-    else {
-        self.requestSerializer = [AFHTTPRequestSerializer serializer];
-        NSAssert(NO, @"Unsupported request type %@", requestContentType);
-    }
+    AFHTTPRequestSerializer <AFURLRequestSerialization> * requestSerializer = [self requestSerializerForRequestContentType:requestContentType];
 
-    // setting response serializer
-    if ([responseContentType isEqualToString:@"application/json"]) {
-        self.responseSerializer = [{{classPrefix}}JSONResponseSerializer serializer];
-    } else {
-        self.responseSerializer = [AFHTTPResponseSerializer serializer];
-    }
+    __weak id<SWGSanitizer> sanitizer = self.sanitizer;
 
     // sanitize parameters
-    pathParams = [self.sanitizer sanitizeForSerialization:pathParams];
-    queryParams = [self.sanitizer sanitizeForSerialization:queryParams];
-    headerParams = [self.sanitizer sanitizeForSerialization:headerParams];
-    formParams = [self.sanitizer sanitizeForSerialization:formParams];
+    pathParams = [sanitizer sanitizeForSerialization:pathParams];
+    queryParams = [sanitizer sanitizeForSerialization:queryParams];
+    headerParams = [sanitizer sanitizeForSerialization:headerParams];
+    formParams = [sanitizer sanitizeForSerialization:formParams];
     if(![body isKindOfClass:[NSData class]]) {
-        body = [self.sanitizer sanitizeForSerialization:body];
+        body = [sanitizer sanitizeForSerialization:body];
     }
 
     // auth setting
@@ -279,22 +178,19 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
         [resourcePath replaceCharactersInRange:[resourcePath rangeOfString:[NSString stringWithFormat:@"{%@}", key]] withString:safeString];
     }];
 
-    NSMutableURLRequest * request = nil;
-
     NSString* pathWithQueryParams = [self pathWithQueryParamsToString:resourcePath queryParams:queryParams];
     if ([pathWithQueryParams hasPrefix:@"/"]) {
         pathWithQueryParams = [pathWithQueryParams substringFromIndex:1];
     }
 
     NSString* urlString = [[NSURL URLWithString:pathWithQueryParams relativeToURL:self.baseURL] absoluteString];
+
+    NSError *requestCreateError = nil;
+    NSMutableURLRequest * request = nil;
     if (files.count > 0) {
-        __weak __typeof(self)weakSelf = self;
-        request = [self.requestSerializer multipartFormRequestWithMethod:@"POST"
-                                                               URLString:urlString
-                                                              parameters:nil
-                                               constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        request = [requestSerializer multipartFormRequestWithMethod:@"POST" URLString:urlString parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
                                                    [formParams enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                                                       NSString *objString = [weakSelf.sanitizer parameterToString:obj];
+                                                       NSString *objString = [sanitizer parameterToString:obj];
                                                        NSData *data = [objString dataUsingEncoding:NSUTF8StringEncoding];
                                                        [formData appendPartWithFormData:data name:key];
                                                    }];
@@ -302,59 +198,43 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
                                                        NSURL *filePath = (NSURL *)obj;
                                                        [formData appendPartWithFileURL:filePath name:key error:nil];
                                                    }];
-                                               } error:nil];
+                        } error:&requestCreateError];
     }
     else {
         if (formParams) {
-            request = [self.requestSerializer requestWithMethod:method
-                                                      URLString:urlString
-                                                     parameters:formParams
-                                                          error:nil];
+            request = [requestSerializer requestWithMethod:method URLString:urlString parameters:formParams error:&requestCreateError];
         }
         if (body) {
-            request = [self.requestSerializer requestWithMethod:method
-                                                      URLString:urlString
-                                                     parameters:body
-                                                          error:nil];
+            request = [requestSerializer requestWithMethod:method URLString:urlString parameters:body error:&requestCreateError];
         }
     }
-
-    // request cache
-    BOOL hasHeaderParams = [headerParams count] > 0;
-    if (offlineState) {
-        {{classPrefix}}DebugLog(@"%@ cache forced", resourcePath);
-        [request setCachePolicy:NSURLRequestReturnCacheDataDontLoad];
-    }
-    else if(!hasHeaderParams && [method isEqualToString:@"GET"] && cacheEnabled) {
-        {{classPrefix}}DebugLog(@"%@ cache enabled", resourcePath);
-        [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
-    }
-    else {
-        {{classPrefix}}DebugLog(@"%@ cache disabled", resourcePath);
-        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    if(!request) {
+        completionBlock(nil, requestCreateError);
+        return nil;
     }
 
-    if (hasHeaderParams){
+    if ([headerParams count] > 0){
         for(NSString * key in [headerParams keyEnumerator]){
             [request setValue:[headerParams valueForKey:key] forHTTPHeaderField:key];
         }
     }
-    [self.requestSerializer setValue:responseContentType forHTTPHeaderField:@"Accept"];
+    [requestSerializer setValue:responseContentType forHTTPHeaderField:@"Accept"];
 
     [self postProcessRequest:request];
 
     
     NSURLSessionTask *task = nil;
 
-    if ([responseType isEqualToString:@"NSURL*"] || [responseType isEqualToString:@"NSURL"]) {
+    if ([self.downloadTaskResponseTypes containsObject:responseType]) {
         task = [self downloadTaskWithCompletionBlock:request completionBlock:^(id data, NSError *error) {
             completionBlock(data, error);
         }];
-    }
-    else {
+    } else {
+        __weak typeof(self) weakSelf = self;
         task = [self taskWithCompletionBlock:request completionBlock:^(id data, NSError *error) {
             NSError * serializationError;
-            id response = [self.responseDeserializer deserialize:data class:responseType error:&serializationError];
+            id response = [weakSelf.responseDeserializer deserialize:data class:responseType error:&serializationError];
+
             if(!response && !error){
                 error = serializationError;
             }
@@ -367,16 +247,24 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
     return task;
 }
 
+-(AFHTTPRequestSerializer <AFURLRequestSerialization> *)requestSerializerForRequestContentType:(NSString *)requestContentType {
+    AFHTTPRequestSerializer <AFURLRequestSerialization> * serializer = self.requestSerializerForContentType[requestContentType];
+    if(!serializer) {
+        NSAssert(NO, @"Unsupported request content type %@", requestContentType);
+        serializer = [AFHTTPRequestSerializer serializer];
+    }
+    serializer.timeoutInterval = self.timeoutInterval;
+    return serializer;
+}
+
 //Added for easier override to modify request
 -(void)postProcessRequest:(NSMutableURLRequest *)request {
-    // Always disable cookies!
-    [request setHTTPShouldHandleCookies:NO];
+
 }
 
 #pragma mark -
 
-- (NSString*) pathWithQueryParamsToString:(NSString*) path
-                              queryParams:(NSDictionary*) queryParams {
+- (NSString*) pathWithQueryParamsToString:(NSString*) path queryParams:(NSDictionary*) queryParams {
     if(queryParams.count == 0) {
         return path;
     }
@@ -434,9 +322,7 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
 /**
  * Update header and query params based on authentication settings
  */
-- (void) updateHeaderParams:(NSDictionary *__autoreleasing *)headers
-                queryParams:(NSDictionary *__autoreleasing *)querys
-           WithAuthSettings:(NSArray *)authSettings {
+- (void) updateHeaderParams:(NSDictionary * *)headers queryParams:(NSDictionary * *)querys WithAuthSettings:(NSArray *)authSettings {
 
     if ([authSettings count] == 0) {
         return;
@@ -466,7 +352,7 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
 }
 
-- (AFSecurityPolicy *) customSecurityPolicy {
+- (AFSecurityPolicy *) createSecurityPolicy {
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
 
     id<{{classPrefix}}Configuration> config = self.configuration;
