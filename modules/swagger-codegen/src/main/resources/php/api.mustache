@@ -149,8 +149,8 @@ use \{{invokerPackage}}\ObjectSerializer;
         }
         {{/minimum}}
         {{#pattern}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}!preg_match("{{pattern}}", ${{paramName}})) {
-            throw new \InvalidArgumentException('invalid value for "{{paramName}}" when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}!preg_match("{{{pattern}}}", ${{paramName}})) {
+            throw new \InvalidArgumentException('invalid value for "{{paramName}}" when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
         }
         {{/pattern}}
 
