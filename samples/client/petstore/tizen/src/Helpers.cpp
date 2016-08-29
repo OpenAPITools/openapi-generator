@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2016 Samsung Electronics Co., Ltd All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -9,7 +25,7 @@
 
 using namespace std;
 
-using namespace Tizen::{{prefix}};
+using namespace Tizen::ArtikCloud;
 
 void helper_func(JsonObject *object, const gchar* member_name, JsonNode *member_node,gpointer user_data)
 {
@@ -107,10 +123,10 @@ converttoJson(void* ptr, string type, string containerType)
 					node_temp = converttoJson(&b, type, "");
 					json_array_add_element(json_array, node_temp);
 				}
-			} else if (strcmp("long long", type.c_str()) == 0) {
-				list<long long>* new_list = static_cast<std::list<long long>*> (ptr);
-				for (list<long long>::iterator it = (*new_list).begin(); it != (*new_list).end(); it++) {
-					long long b = *it;
+			} else if (strcmp("long", type.c_str()) == 0) {
+				list<long>* new_list = static_cast<std::list<long>*> (ptr);
+				for (list<long>::iterator it = (*new_list).begin(); it != (*new_list).end(); it++) {
+					long b = *it;
 					node_temp = converttoJson(&b, type, "");
 					json_array_add_element(json_array, node_temp);
 				}
@@ -143,45 +159,56 @@ converttoJson(void* ptr, string type, string containerType)
 		return NULL;
 	} else if (strcmp("std::string", type.c_str()) == 0) {
 		JsonNode* node = json_node_alloc();
+
 		string* v = static_cast<string*> (ptr);
 		//const_gchar* b = v;
-		json_node_init(node, JSON_NODE_VALUE);
-		json_node_set_string(node, v->c_str());
+		if(v!=NULL||v->empty()!=true){json_node_init(node, JSON_NODE_VALUE);
+			json_node_set_string(node, v->c_str());
+		}
 		return node;
 	} else if (strcmp("int", type.c_str()) == 0) {
 		JsonNode* node = json_node_alloc();
 		int* v = static_cast<int*> (ptr);
 		gint b = *v;
-		json_node_init(node, JSON_NODE_VALUE);
-		json_node_set_int(node, b);
+		if(v!=NULL){json_node_init(node, JSON_NODE_VALUE);
+			json_node_set_int(node, b);
+		}
 		return node;
 	} else if (strcmp("float", type.c_str()) == 0) {
 		JsonNode* node = json_node_alloc();
+
 		float* v = static_cast<float*> (ptr);
 		gdouble b = (double) *v;
-		json_node_init(node, JSON_NODE_VALUE);
-		json_node_set_double(node, b);
+		if(v!=NULL){json_node_init(node, JSON_NODE_VALUE);
+			json_node_set_double(node, b);
+		}
 		return node;
-	} else if (strcmp("long long", type.c_str()) == 0) {
+	} else if (strcmp("long", type.c_str()) == 0) {
 		JsonNode* node = json_node_alloc();
-		long long* v = static_cast<long long*> (ptr);
-		gint64 b = (long long) *v;
-		json_node_init(node, JSON_NODE_VALUE);
-		json_node_set_int(node, b);
+		long* v = static_cast<long*> (ptr);
+		gint b = (int) *v;
+		if(v!=NULL){
+			json_node_init(node, JSON_NODE_VALUE);
+			json_node_set_int(node, b);
+		}
 		return node;
 	} else if (strcmp("double", type.c_str()) == 0) {
 		JsonNode* node = json_node_alloc();
 		double* v = static_cast<double*> (ptr);
 		gdouble b = *v;
-		json_node_init(node, JSON_NODE_VALUE);
-		json_node_set_double(node, b);
+		if(v!=NULL){
+			json_node_init(node, JSON_NODE_VALUE);
+			json_node_set_double(node, b);
+		}
 		return node;
 	} else if (strcmp("bool", type.c_str()) == 0) {
 		JsonNode* node = json_node_alloc();
 		bool* v = static_cast<bool*> (ptr);
 		gboolean b = *v;
-		json_node_init(node, JSON_NODE_VALUE);
-		json_node_set_boolean(node, b);
+		if(v!=NULL){
+			json_node_init(node, JSON_NODE_VALUE);
+			json_node_set_boolean(node, b);
+		}
 		return node;
 	}
 	else if (!isprimitive(type)) {
@@ -258,9 +285,9 @@ jsonToValue(void* target, JsonNode* node, string type, string innerType)
 	} else if (strcmp("float", type.c_str()) == 0) {
 		float* val = static_cast<float*> (target);
 		*val = (float)(json_node_get_double(node));
-	} else if (strcmp("long long", type.c_str()) == 0) {
-		long long* val = static_cast<long long*> (target);
-		*val = (long long)(json_node_get_int(node));
+	} else if (strcmp("long", type.c_str()) == 0) {
+		long* val = static_cast<long*> (target);
+		*val = (long)(json_node_get_int(node));
 	} else if (strcmp("double", type.c_str()) == 0) {
 		double* val = static_cast<double*> (target);
 		*val = json_node_get_double(node);
@@ -322,8 +349,8 @@ stringify(void* ptr, string type)
 		ss << *pInt;
 		string retval = ss.str();
 		return retval;
-	} else if (strcmp("long long", type.c_str()) == 0) {
-		long long* pLong = static_cast<long long*> (ptr);
+	} else if (strcmp("long", type.c_str()) == 0) {
+		long* pLong = static_cast<long*> (ptr);
 		stringstream ss;
 		ss << *pLong;
 		string retval = ss.str();
@@ -356,7 +383,7 @@ stringify(void* ptr, string type)
 bool isprimitive(string type){
 	if(strcmp("std::string", type.c_str()) == 0||
 		strcmp("int", type.c_str()) == 0||
-		strcmp("long long", type.c_str()) == 0||
+		strcmp("long", type.c_str()) == 0||
 		strcmp("double", type.c_str()) == 0||
 		strcmp("float", type.c_str()) == 0||
 		strcmp("bool", type.c_str()) == 0||
