@@ -1,45 +1,30 @@
-#ifndef HELPERS_H_
-#define HELPERS_H_
+#ifndef _HELPERS_H_
+#define _HELPERS_H_
 
-#include <FApp.h>
-#include <FBase.h>
-#include <FSystem.h>
-#include <FWebJson.h>
-#include <FLocales.h>
-#include "{{prefix}}Helpers.h"
-#include "{{prefix}}Object.h"
+#include <string>
+#include <glib-object.h>
+#include <json-glib/json-glib.h>
 
-using Tizen::Base::String;
-using Tizen::Base::DateTime;
-using namespace Tizen::Web::Json;
-using namespace Tizen::Base::Collection;
+using namespace std;
 
-using Tizen::Base::Long;
-using Tizen::Base::DateTime;
-using Tizen::Base::String;
-using Tizen::Base::Integer;
+JsonNode *
+json_from_string (const char  *str,
+				  GError **mygerror);
 
-namespace Swagger {
-JsonObject*
-toJson(void* v, String type, String containerType);
+char *
+json_to_string (JsonNode *node,
+				gboolean  pretty);
+
+JsonNode*
+converttoJson(void* v, string type, string containerType);
 
 void
-jsonToValue(void* target, IJsonValue* ptr, String type, String innerType);
+jsonToValue(void* target, JsonNode* ptr, string type, string innerType);
 
-Integer*
-jsonToInteger(IJsonValue* value);
+void helper_func(JsonObject *object, const gchar* member_name, JsonNode *member_node,gpointer user_data);
 
-Long*
-jsonToLong(IJsonValue* value);
+string
+stringify(void* ptr, string type);
 
-String*
-jsonToString(IJsonValue* value);
-
-DateTime*
-jsonToDateTime(IJsonValue* value);
-
-String
-stringify(void* ptr, String type);
-
-} /* namespace Swagger */
+bool isprimitive(string type);
 #endif /* HELPERS_H_ */
