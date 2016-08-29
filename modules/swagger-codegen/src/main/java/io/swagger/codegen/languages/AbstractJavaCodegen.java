@@ -351,7 +351,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("class".equals(name.toLowerCase())) {
-            return "PropertyClass";
+            return "propertyClass";
         }
 
         if("_".equals(name)) {
