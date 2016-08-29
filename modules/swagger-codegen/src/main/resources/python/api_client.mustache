@@ -581,7 +581,7 @@ class ApiClient(object):
         """
         instance = klass()
 
-        if(not instance.swagger_types):
+        if not instance.swagger_types:
             return data
 
         for attr, attr_type in iteritems(instance.swagger_types):
