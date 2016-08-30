@@ -19,6 +19,7 @@ Method | HTTP request | Description
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import {{{packageName}}}
 from {{{packageName}}}.rest import ApiException
@@ -45,7 +46,7 @@ try:
 {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
     pprint(api_response){{/returnType}}
 except ApiException as e:
-    print "Exception when calling {{classname}}->{{operationId}}: %s\n" % e
+    print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
 ```
 
 ### Parameters

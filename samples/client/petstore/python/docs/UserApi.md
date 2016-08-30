@@ -23,6 +23,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -36,7 +37,7 @@ try:
     # Create user
     api_instance.create_user(body)
 except ApiException as e:
-    print "Exception when calling UserApi->create_user: %s\n" % e
+    print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -69,6 +70,7 @@ Creates list of users with given input array
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -82,7 +84,7 @@ try:
     # Creates list of users with given input array
     api_instance.create_users_with_array_input(body)
 except ApiException as e:
-    print "Exception when calling UserApi->create_users_with_array_input: %s\n" % e
+    print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
 
 ### Parameters
@@ -115,6 +117,7 @@ Creates list of users with given input array
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -128,7 +131,7 @@ try:
     # Creates list of users with given input array
     api_instance.create_users_with_list_input(body)
 except ApiException as e:
-    print "Exception when calling UserApi->create_users_with_list_input: %s\n" % e
+    print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
 
 ### Parameters
@@ -161,6 +164,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -174,7 +178,7 @@ try:
     # Delete user
     api_instance.delete_user(username)
 except ApiException as e:
-    print "Exception when calling UserApi->delete_user: %s\n" % e
+    print("Exception when calling UserApi->delete_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -207,6 +211,7 @@ Get user by user name
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -221,7 +226,7 @@ try:
     api_response = api_instance.get_user_by_name(username)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling UserApi->get_user_by_name: %s\n" % e
+    print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
 ```
 
 ### Parameters
@@ -254,6 +259,7 @@ Logs user into the system
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -269,7 +275,7 @@ try:
     api_response = api_instance.login_user(username, password)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling UserApi->login_user: %s\n" % e
+    print("Exception when calling UserApi->login_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -303,6 +309,7 @@ Logs out current logged in user session
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -315,7 +322,7 @@ try:
     # Logs out current logged in user session
     api_instance.logout_user()
 except ApiException as e:
-    print "Exception when calling UserApi->logout_user: %s\n" % e
+    print("Exception when calling UserApi->logout_user: %s\n" % e)
 ```
 
 ### Parameters
@@ -345,6 +352,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -359,7 +367,7 @@ try:
     # Updated user
     api_instance.update_user(username, body)
 except ApiException as e:
-    print "Exception when calling UserApi->update_user: %s\n" % e
+    print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
 
 ### Parameters

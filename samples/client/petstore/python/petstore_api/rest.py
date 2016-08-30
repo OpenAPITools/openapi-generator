@@ -24,7 +24,6 @@
 
 from __future__ import absolute_import
 
-import sys
 import io
 import json
 import ssl
@@ -33,7 +32,8 @@ import logging
 import re
 
 # python 2 and python 3 compatibility library
-from six import iteritems
+from six import PY3
+from six.moves.urllib.parse import urlencode
 
 from .configuration import Configuration
 
@@ -41,13 +41,6 @@ try:
     import urllib3
 except ImportError:
     raise ImportError('Swagger python client requires urllib3.')
-
-try:
-    # for python3
-    from urllib.parse import urlencode
-except ImportError:
-    # for python2
-    from urllib import urlencode
 
 
 logger = logging.getLogger(__name__)
@@ -120,7 +113,7 @@ class RESTClientObject(object):
         :param headers: http request headers
         :param body: request json body, for `application/json`
         :param post_params: request post parameters,
-                            `application/x-www-form-urlencode`
+                            `application/x-www-form-urlencoded`
                             and `multipart/form-data`
         """
         method = method.upper()
@@ -175,11 +168,11 @@ class RESTClientObject(object):
 
         # In the python 3, the response.data is bytes.
         # we need to decode it to string.
-        if sys.version_info > (3,):
+        if PY3:
             r.data = r.data.decode('utf8')
 
         # log response body
-        logger.debug("response body: %s" % r.data)
+        logger.debug("response body: %s", r.data)
 
         if r.status not in range(200, 206):
             raise ApiException(http_resp=r)

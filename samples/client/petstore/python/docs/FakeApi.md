@@ -16,6 +16,7 @@ To test \"client\" model
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -30,7 +31,7 @@ try:
     api_response = api_instance.test_client_model(body)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling FakeApi->test_client_model: %s\n" % e
+    print("Exception when calling FakeApi->test_client_model: %s\n" % e)
 ```
 
 ### Parameters
@@ -63,6 +64,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -92,7 +94,7 @@ try:
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, date=date, date_time=date_time, password=password)
 except ApiException as e:
-    print "Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e
+    print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
 
 ### Parameters
@@ -135,6 +137,7 @@ To test enum parameters
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -155,7 +158,7 @@ try:
     # To test enum parameters
     api_instance.test_enum_parameters(enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string, enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double)
 except ApiException as e:
-    print "Exception when calling FakeApi->test_enum_parameters: %s\n" % e
+    print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
 ```
 
 ### Parameters
