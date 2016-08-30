@@ -19,6 +19,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -32,7 +33,7 @@ try:
     # Delete purchase order by ID
     api_instance.delete_order(order_id)
 except ApiException as e:
-    print "Exception when calling StoreApi->delete_order: %s\n" % e
+    print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
 
 ### Parameters
@@ -65,6 +66,7 @@ Returns a map of status codes to quantities
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -83,7 +85,7 @@ try:
     api_response = api_instance.get_inventory()
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling StoreApi->get_inventory: %s\n" % e
+    print("Exception when calling StoreApi->get_inventory: %s\n" % e)
 ```
 
 ### Parameters
@@ -113,6 +115,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -127,7 +130,7 @@ try:
     api_response = api_instance.get_order_by_id(order_id)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling StoreApi->get_order_by_id: %s\n" % e
+    print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
 
 ### Parameters
@@ -160,6 +163,7 @@ Place an order for a pet
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -174,7 +178,7 @@ try:
     api_response = api_instance.place_order(body)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling StoreApi->place_order: %s\n" % e
+    print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
 
 ### Parameters

@@ -19,17 +19,15 @@ Copyright 2016 SmartBear Software
 """
 
 from __future__ import absolute_import
+
 from . import models
 from .rest import RESTClientObject
 from .rest import ApiException
 
 import os
 import re
-import sys
-import urllib
 import json
 import mimetypes
-import random
 import tempfile
 import threading
 
@@ -37,22 +35,8 @@ from datetime import datetime
 from datetime import date
 
 # python 2 and python 3 compatibility library
-from six import iteritems
-
-try:
-    # for python3
-    from urllib.parse import quote
-except ImportError:
-    # for python2
-    from urllib import quote
-
-# special handling of `long` (python2 only)
-try:
-    # Python 2
-    long
-except NameError:
-    # Python 3
-    long = int
+from six import PY3, integer_types, iteritems, text_type
+from six.moves.urllib.parse import quote
 
 from .configuration import Configuration
 
@@ -113,7 +97,7 @@ class ApiClient(object):
                    body=None, post_params=None, files=None,
                    response_type=None, auth_settings=None, callback=None, _return_http_data_only=None):
 
-        # headers parameters
+        # header parameters
         header_params = header_params or {}
         header_params.update(self.default_headers)
         if self.cookie:
@@ -167,11 +151,10 @@ class ApiClient(object):
         if callback:
             callback(deserialized_data) if _return_http_data_only else callback((deserialized_data, response_data.status, response_data.getheaders()))
         elif _return_http_data_only:
-            return ( deserialized_data );
+            return (deserialized_data)
         else:
             return (deserialized_data, response_data.status, response_data.getheaders())
         
-
     def to_path_value(self, obj):
         """
         Takes value and turn it into a string suitable for inclusion in
@@ -201,9 +184,7 @@ class ApiClient(object):
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
-        types = (str, int, long, float, bool, tuple)
-        if sys.version_info < (3, 0):
-            types = types + (unicode,)
+        types = (str, float, bool, tuple) + tuple(integer_types) + (text_type,)
         if isinstance(obj, type(None)):
             return None
         elif isinstance(obj, types):
@@ -235,7 +216,7 @@ class ApiClient(object):
 
         :param response: RESTResponse object to be deserialized.
         :param response_type: class literal for
-            deserialzied object, or string of class name.
+            deserialized object, or string of class name.
 
         :return: deserialized object.
         """
@@ -277,14 +258,16 @@ class ApiClient(object):
 
             # convert str to class
             # for native types
-            if klass in ['int', 'long', 'float', 'str', 'bool',
+            if klass in ['int', 'float', 'str', 'bool',
                          "date", 'datetime', "object"]:
                 klass = eval(klass)
+            elif klass == 'long':
+                klass = int if PY3 else long
             # for model types
             else:
                 klass = eval('models.' + klass)
 
-        if klass in [int, long, float, str, bool]:
+        if klass in integer_types or klass in (float, str, bool):
             return self.__deserialize_primitive(data, klass)
         elif klass == object:
             return self.__deserialize_object(data)
@@ -339,7 +322,7 @@ class ApiClient(object):
                                             header_params, body,
                                             post_params, files,
                                             response_type, auth_settings,
-                                            callback,_return_http_data_only))
+                                            callback, _return_http_data_only))
         thread.start()
         return thread
 
