@@ -216,13 +216,6 @@ class Configuration(object):
         :return: The Auth Settings information dict.
         """
         return {
-            'api_key':
-                {
-                    'type': 'api_key',
-                    'in': 'header',
-                    'key': 'api_key',
-                    'value': self.get_api_key_with_prefix('api_key')
-                },
 
             'petstore_auth':
                 {
@@ -237,6 +230,13 @@ class Configuration(object):
                     'in': 'header',
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
+                },
+            'api_key':
+                {
+                    'type': 'api_key',
+                    'in': 'header',
+                    'key': 'api_key',
+                    'value': self.get_api_key_with_prefix('api_key')
                 },
 
         }
