@@ -201,13 +201,6 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
-        'api_key' =>
-          {
-            type: 'api_key',
-            in: 'header',
-            key: 'api_key',
-            value: api_key_with_prefix('api_key')
-          },
         'petstore_auth' =>
           {
             type: 'oauth2',
@@ -221,6 +214,13 @@ module Petstore
             in: 'header',
             key: 'Authorization',
             value: basic_auth_token
+          },
+        'api_key' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'api_key',
+            value: api_key_with_prefix('api_key')
           },
       }
     end
