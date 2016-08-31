@@ -55,7 +55,7 @@ No authorization required
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
-> testEndpointParameters(_number, _double, _string, _byte, opts)
+> testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -77,7 +77,7 @@ var _number = 3.4; // Number | None
 
 var _double = 1.2; // Number | None
 
-var _string = "_string_example"; // String | None
+var patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 
 var _byte = "B"; // String | None
 
@@ -86,6 +86,7 @@ var opts = {
   'int32': 56, // Number | None
   'int64': 789, // Number | None
   '_float': 3.4, // Number | None
+  '_string': "_string_example", // String | None
   'binary': "B", // String | None
   '_date': new Date("2013-10-20"), // Date | None
   'dateTime': new Date("2013-10-20T19:20:30+01:00"), // Date | None
@@ -99,7 +100,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.testEndpointParameters(_number, _double, _string, _byte, opts, callback);
+apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts, callback);
 ```
 
 ### Parameters
@@ -108,12 +109,13 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **_number** | **Number**| None | 
  **_double** | **Number**| None | 
- **_string** | **String**| None | 
+ **patternWithoutDelimiter** | **String**| None | 
  **_byte** | **String**| None | 
  **integer** | **Number**| None | [optional] 
  **int32** | **Number**| None | [optional] 
  **int64** | **Number**| None | [optional] 
  **_float** | **Number**| None | [optional] 
+ **_string** | **String**| None | [optional] 
  **binary** | **String**| None | [optional] 
  **_date** | **Date**| None | [optional] 
  **dateTime** | **Date**| None | [optional] 
