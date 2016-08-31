@@ -40,10 +40,18 @@
      * The authentication methods to be included for all API calls.
      * @type {Array.<String>}
      */
-{{/emitJSDoc}}{{=< >=}}    this.authentications = {<#authMethods><#isBasic>
-      '<name>': {type: 'basic'}</isBasic><#isApiKey>
-      '<name>': {type: 'apiKey', 'in': <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}</isApiKey><#isOAuth>
-      '<name>': {type: 'oauth2'}</isOAuth><#hasMore>,</hasMore></authMethods>
+{{/emitJSDoc}}{{=< >=}}    this.authentications = {
+<#authMethods>
+<#isBasic>
+      '<name>': {type: 'basic'}<^-last>,</-last>
+</isBasic>
+<#isApiKey>
+      '<name>': {type: 'apiKey', 'in': <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}<^-last>,</-last>
+</isApiKey>
+<#isOAuth>
+      '<name>': {type: 'oauth2'}<^-last>,</-last>
+</isOAuth>
+</authMethods>
     };
 <={{ }}=>
 {{#emitJSDoc}}    /**
