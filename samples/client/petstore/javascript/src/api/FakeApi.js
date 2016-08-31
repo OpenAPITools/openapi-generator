@@ -113,20 +113,21 @@
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param {Number} _number None
      * @param {Number} _double None
-     * @param {String} _string None
+     * @param {String} patternWithoutDelimiter None
      * @param {String} _byte None
      * @param {Object} opts Optional parameters
      * @param {Number} opts.integer None
      * @param {Number} opts.int32 None
      * @param {Number} opts.int64 None
      * @param {Number} opts._float None
+     * @param {String} opts._string None
      * @param {String} opts.binary None
      * @param {Date} opts._date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
      * @param {module:api/FakeApi~testEndpointParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.testEndpointParameters = function(_number, _double, _string, _byte, opts, callback) {
+    this.testEndpointParameters = function(_number, _double, patternWithoutDelimiter, _byte, opts, callback) {
       opts = opts || {};
       var postBody = null;
 
@@ -140,9 +141,9 @@
         throw "Missing the required parameter '_double' when calling testEndpointParameters";
       }
 
-      // verify the required parameter '_string' is set
-      if (_string == undefined || _string == null) {
-        throw "Missing the required parameter '_string' when calling testEndpointParameters";
+      // verify the required parameter 'patternWithoutDelimiter' is set
+      if (patternWithoutDelimiter == undefined || patternWithoutDelimiter == null) {
+        throw "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters";
       }
 
       // verify the required parameter '_byte' is set
@@ -164,7 +165,8 @@
         'number': _number,
         'float': opts['_float'],
         'double': _double,
-        'string': _string,
+        'string': opts['_string'],
+        'pattern_without_delimiter': patternWithoutDelimiter,
         'byte': _byte,
         'binary': opts['binary'],
         'date': opts['_date'],
@@ -195,9 +197,9 @@
     /**
      * To test enum parameters
      * @param {Object} opts Optional parameters
-     * @param {Array.<String>} opts.enumFormStringArray Form parameter enum test (string array)
+     * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array)
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to -efg)
-     * @param {Array.<String>} opts.enumHeaderStringArray Header parameter enum test (string array)
+     * @param {Array.<module:model/String>} opts.enumHeaderStringArray Header parameter enum test (string array)
      * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to -efg)
      * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
