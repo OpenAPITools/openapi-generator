@@ -48,12 +48,12 @@ $app->PATCH('/v2/fake', 'FakeApi@testClientModel');
  */
 $app->POST('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
- * GET testEnumQueryParameters
- * Summary: To test enum query parameters
+ * GET testEnumParameters
+ * Summary: To test enum parameters
  * Notes: 
  * Output-Formats: [application/json]
  */
-$app->GET('/v2/fake', 'FakeApi@testEnumQueryParameters');
+$app->GET('/v2/fake', 'FakeApi@testEnumParameters');
 /**
  * POST addPet
  * Summary: Add a new pet to the store
