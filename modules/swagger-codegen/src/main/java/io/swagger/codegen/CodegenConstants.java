@@ -127,4 +127,6 @@ public class CodegenConstants {
     public static final String GENERATE_MODEL_TESTS = "generateModelTests";
     public static final String GENERATE_MODEL_TESTS_DESC = "Specifies that model tests are to be generated.";
 
+    public static final String HIDE_GENERATION_TIMESTAMP = "hideGenerationTimestamp";
+    public static final String HIDE_GENERATION_TIMESTAMP_DESC = "Hides the generation timestamp.";
 }
