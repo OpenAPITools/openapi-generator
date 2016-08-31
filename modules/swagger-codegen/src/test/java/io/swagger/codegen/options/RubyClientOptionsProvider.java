@@ -39,6 +39,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(RubyClientCodegen.GEM_AUTHOR_EMAIL, GEM_AUTHOR_EMAIL_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
+                .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .build();
     }
 
