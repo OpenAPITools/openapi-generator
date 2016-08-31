@@ -135,8 +135,8 @@ class {{classname}}(object):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than or equal to `{{minimum}}`")
     {{/minimum}}
     {{#pattern}}
-        if '{{paramName}}' in params and not re.search('{{vendorExtensions.x-regex}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{pattern}}`")
+        if '{{paramName}}' in params and not re.search('{{{vendorExtensions.x-regex}}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{{pattern}}}`")
     {{/pattern}}
 {{/hasValidation}}
 {{/allParams}}
