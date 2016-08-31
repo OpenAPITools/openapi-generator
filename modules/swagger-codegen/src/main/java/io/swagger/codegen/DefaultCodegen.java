@@ -106,6 +106,7 @@ public class DefaultCodegen {
     protected Boolean ensureUniqueParams = true;
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
+    protected Boolean hideGenerationTimestamp = true;
     // How to encode special characters like $
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
