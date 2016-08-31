@@ -52,6 +52,7 @@ public class SwiftOptionsProvider implements OptionsProvider {
                 .put(SwiftCodegen.POD_SCREENSHOTS, POD_SCREENSHOTS_VALUE)
                 .put(SwiftCodegen.POD_DOCUMENTATION_URL, POD_DOCUMENTATION_URL_VALUE)
                 .put(SwiftCodegen.SWIFT_USE_API_NAMESPACE, SWIFT_USE_API_NAMESPACE_VALUE)
+                .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .build();
     }
 
