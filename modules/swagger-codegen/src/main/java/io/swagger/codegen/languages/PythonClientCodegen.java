@@ -144,6 +144,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // default HIDE_GENERATION_TIMESTAMP to true
         if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                    Boolean.valueOf((String)additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
