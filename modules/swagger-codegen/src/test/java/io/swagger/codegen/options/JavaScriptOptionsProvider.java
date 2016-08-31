@@ -58,6 +58,7 @@ public class JavaScriptOptionsProvider implements OptionsProvider {
                 .put(JavascriptClientCodegen.USE_INHERITANCE, USE_INHERITANCE_VALUE)
                 .put(JavascriptClientCodegen.EMIT_MODEL_METHODS, EMIT_MODEL_METHODS_VALUE)
                 .put(JavascriptClientCodegen.EMIT_JS_DOC, EMIT_JS_DOC_VALUE)
+                .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .build();
     }
 
