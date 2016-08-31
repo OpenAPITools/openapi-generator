@@ -53,8 +53,8 @@ use Illuminate\Support\Facades\Request;
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", ${{paramName}}])) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        if (!preg_match("{{{pattern}}}", ${{paramName}}])) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
         }
         {{/pattern}}
         {{/hasValidation}}
@@ -91,8 +91,8 @@ use Illuminate\Support\Facades\Request;
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", $input['{{paramName}}'])) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        if (!preg_match("{{{pattern}}}", $input['{{paramName}}'])) {
+            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
         }
         {{/pattern}}
         {{/hasValidation}}

@@ -100,13 +100,13 @@ class FakeApi extends Controller
         }
         $double = $input['double'];
 
-        if (!isset($input['string'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $string when calling testEndpointParameters');
+        if (!isset($input['pattern_without_delimiter'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pattern_without_delimiter when calling testEndpointParameters');
         }
-        if (!preg_match("/[a-z]/i", $input['string'])) {
-            throw new \InvalidArgumentException('invalid value for $string when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.');
+        if (!preg_match("/^[A-Z].", $input['pattern_without_delimiter'])) {
+            throw new \InvalidArgumentException('invalid value for $pattern_without_delimiter when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z]..');
         }
-        $string = $input['string'];
+        $pattern_without_delimiter = $input['pattern_without_delimiter'];
 
         if (!isset($input['byte'])) {
             throw new \InvalidArgumentException('Missing the required parameter $byte when calling testEndpointParameters');
@@ -136,6 +136,11 @@ class FakeApi extends Controller
         }
         $float = $input['float'];
 
+        if (!preg_match("/[a-z]/i", $input['string'])) {
+            throw new \InvalidArgumentException('invalid value for $string when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.');
+        }
+        $string = $input['string'];
+
         $binary = $input['binary'];
 
         $date = $input['date'];
@@ -154,14 +159,14 @@ class FakeApi extends Controller
         return response('How about implementing testEndpointParameters as a POST method ?');
     }
     /**
-     * Operation testEnumQueryParameters
+     * Operation testEnumParameters
      *
-     * To test enum query parameters.
+     * To test enum parameters.
      *
      *
      * @return Http response
      */
-    public function testEnumQueryParameters()
+    public function testEnumParameters()
     {
         $input = Request::all();
 
@@ -169,6 +174,16 @@ class FakeApi extends Controller
 
 
         //not path params validation
+        $enum_form_string_array = $input['enum_form_string_array'];
+
+        $enum_form_string = $input['enum_form_string'];
+
+        $enum_header_string_array = $input['enum_header_string_array'];
+
+        $enum_header_string = $input['enum_header_string'];
+
+        $enum_query_string_array = $input['enum_query_string_array'];
+
         $enum_query_string = $input['enum_query_string'];
 
         $enum_query_integer = $input['enum_query_integer'];
@@ -176,6 +191,6 @@ class FakeApi extends Controller
         $enum_query_double = $input['enum_query_double'];
 
 
-        return response('How about implementing testEnumQueryParameters as a GET method ?');
+        return response('How about implementing testEnumParameters as a GET method ?');
     }
 }
