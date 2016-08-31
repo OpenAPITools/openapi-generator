@@ -89,8 +89,8 @@ class {{classname}}(object):
             raise ValueError("Invalid value for `{{name}}`, must be a value greater than or equal to `{{minimum}}`")
 {{/minimum}}
 {{#pattern}}
-        if not re.search('{{vendorExtensions.x-regex}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
-            raise ValueError("Invalid value for `{{name}}`, must be a follow pattern or equal to `{{pattern}}`")
+        if not re.search('{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
+            raise ValueError("Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")
 {{/pattern}}
 {{/hasValidation}}
 {{/isEnum}}

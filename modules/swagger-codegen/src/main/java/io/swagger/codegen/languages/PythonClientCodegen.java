@@ -203,7 +203,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         + "/pattern/modifiers convention. "+pattern+" is not valid.");
             }
 
-            String regex = pattern.substring(1, i).replace("'", "\'");
+            String regex = pattern.substring(1, i).replace("'", "\\'");
             List<String> modifiers = new ArrayList<String>();
 
             for(char c : pattern.substring(i).toCharArray()) {
