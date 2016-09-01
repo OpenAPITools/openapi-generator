@@ -261,7 +261,7 @@ class FakeApi
             throw new \InvalidArgumentException('Missing the required parameter $pattern_without_delimiter when calling testEndpointParameters');
         }
         if (!preg_match("/^[A-Z].*_/", $pattern_without_delimiter)) {
-            throw new \InvalidArgumentException('invalid value for "pattern_without_delimiter" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*_/.');
+            throw new \InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*_/.");
         }
 
         // verify the required parameter 'byte' is set
@@ -287,7 +287,7 @@ class FakeApi
         }
 
         if (!is_null($string) && !preg_match("/[a-z]/i", $string)) {
-            throw new \InvalidArgumentException('invalid value for "string" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.');
+            throw new \InvalidArgumentException("invalid value for \"string\" when calling FakeApi.testEndpointParameters, must conform to the pattern /[a-z]/i.");
         }
 
         if (!is_null($password) && (strlen($password) > 64)) {

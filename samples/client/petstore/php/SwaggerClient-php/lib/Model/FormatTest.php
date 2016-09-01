@@ -509,7 +509,7 @@ class FormatTest implements ArrayAccess
     {
 
         if (!preg_match("/[a-z]/i", $string)) {
-            throw new \InvalidArgumentException('invalid value for $string when calling FormatTest., must be conform to the pattern /[a-z]/i.');
+            throw new \InvalidArgumentException("invalid value for $string when calling FormatTest., must conform to the pattern /[a-z]/i.");
         }
         $this->container['string'] = $string;
 
