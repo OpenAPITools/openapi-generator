@@ -370,9 +370,34 @@ class ApiClient(object):
                                            body=body)
         else:
             raise ValueError(
-                "http method must be `GET`, `HEAD`,"
+                "http method must be `GET`, `HEAD`, `OPTIONS`,"
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
+
+    def parameter_to_tuples(self, collection_format, name, value):
+        """
+        Get parameter as list of tuples according to collection format.
+
+        :param str collection_format: Collection format
+        :param str name: Parameter name
+        :param value: Parameter value
+        :return: Parameter as list of tuples
+        """
+        if isinstance(value, (list, tuple)):
+            if collection_format == "multi":
+                return [(name, v) for v in value]
+            else:
+                if collection_format == "ssv":
+                    delimiter = " "
+                elif collection_format == "tsv":
+                    delimiter = "\t"
+                elif collection_format == "pipes":
+                    delimiter = "|"
+                else:  # csv is the default
+                    delimiter = ","
+                return [(name, delimiter.join(value))]
+        else:
+            return [(name, value)]
 
     def prepare_post_parameters(self, post_params=None, files=None):
         """

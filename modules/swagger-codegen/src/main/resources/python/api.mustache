@@ -163,7 +163,7 @@ class {{classname}}(object):
         local_var_files = {}
 {{#formParams}}
         if '{{paramName}}' in params:
-            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+            {{#notFile}}form_params.extend(self.api_client.parameter_to_tuples('{{collectionFormat}}', '{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
 {{/formParams}}
 
         body_params = None
