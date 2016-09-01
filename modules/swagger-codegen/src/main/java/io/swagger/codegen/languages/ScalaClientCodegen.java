@@ -29,6 +29,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
+    protected String modelPropertyNaming= "camelCase";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-scala-client";
@@ -136,6 +137,44 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        if ("original".equals(naming) || "camelCase".equals(naming) ||
+                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+            this.modelPropertyNaming = naming;
+        } else {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:    return name;
+            case camelCase:   return camelize(name, true);
+            case PascalCase:  return camelize(name);
+            case snake_case:  return underscore(name);
+            default:          throw new IllegalArgumentException("Invalid model property naming '" +
+                    name + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+
     }
 
     @Override
@@ -287,9 +326,7 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
             return name;
         }
 
-        // camelize (lower first character) the variable name
-        // pet_id => petId
-        name = camelize(name, true);
+        name = getNameUsingModelPropertyNaming(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
