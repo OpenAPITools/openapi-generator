@@ -289,31 +289,31 @@ class FakeApi(object):
         form_params = []
         local_var_files = {}
         if 'integer' in params:
-            form_params.append(('integer', params['integer']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'integer', params['integer']))
         if 'int32' in params:
-            form_params.append(('int32', params['int32']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'int32', params['int32']))
         if 'int64' in params:
-            form_params.append(('int64', params['int64']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'int64', params['int64']))
         if 'number' in params:
-            form_params.append(('number', params['number']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'number', params['number']))
         if 'float' in params:
-            form_params.append(('float', params['float']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'float', params['float']))
         if 'double' in params:
-            form_params.append(('double', params['double']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'double', params['double']))
         if 'string' in params:
-            form_params.append(('string', params['string']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'string', params['string']))
         if 'pattern_without_delimiter' in params:
-            form_params.append(('pattern_without_delimiter', params['pattern_without_delimiter']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'pattern_without_delimiter', params['pattern_without_delimiter']))
         if 'byte' in params:
-            form_params.append(('byte', params['byte']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'byte', params['byte']))
         if 'binary' in params:
-            form_params.append(('binary', params['binary']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'binary', params['binary']))
         if 'date' in params:
-            form_params.append(('date', params['date']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'date', params['date']))
         if 'date_time' in params:
-            form_params.append(('dateTime', params['date_time']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'dateTime', params['date_time']))
         if 'password' in params:
-            form_params.append(('password', params['password']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'password', params['password']))
 
         body_params = None
 
@@ -438,11 +438,11 @@ class FakeApi(object):
         form_params = []
         local_var_files = {}
         if 'enum_form_string_array' in params:
-            form_params.append(('enum_form_string_array', params['enum_form_string_array']))
+            form_params.extend(self.api_client.parameter_to_tuples('csv', 'enum_form_string_array', params['enum_form_string_array']))
         if 'enum_form_string' in params:
-            form_params.append(('enum_form_string', params['enum_form_string']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'enum_form_string', params['enum_form_string']))
         if 'enum_query_double' in params:
-            form_params.append(('enum_query_double', params['enum_query_double']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'enum_query_double', params['enum_query_double']))
 
         body_params = None
 

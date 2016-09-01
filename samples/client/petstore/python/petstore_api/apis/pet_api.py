@@ -760,9 +760,9 @@ class PetApi(object):
         form_params = []
         local_var_files = {}
         if 'name' in params:
-            form_params.append(('name', params['name']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'name', params['name']))
         if 'status' in params:
-            form_params.append(('status', params['status']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'status', params['status']))
 
         body_params = None
 
@@ -872,7 +872,7 @@ class PetApi(object):
         form_params = []
         local_var_files = {}
         if 'additional_metadata' in params:
-            form_params.append(('additionalMetadata', params['additional_metadata']))
+            form_params.extend(self.api_client.parameter_to_tuples('', 'additionalMetadata', params['additional_metadata']))
         if 'file' in params:
             local_var_files['file'] = params['file']
 
