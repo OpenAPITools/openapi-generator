@@ -32,6 +32,8 @@ public class ScalaClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(ScalaClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
+            clientCodegen.setModelPropertyNaming(ScalaClientOptionsProvider.MODEL_PROPERTY_NAMING);
+            times = 1;
         }};
     }
 }
