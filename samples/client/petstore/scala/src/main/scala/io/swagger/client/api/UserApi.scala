@@ -51,7 +51,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param body Created user object 
    * @return void
    */
-  def createUser (body: User)  = {
+  def createUser(body: User) = {
     // create path and map variables
     val path = "/user".replaceAll("\\{format\\}","json")
     val contentTypes = List("application/json")
@@ -64,8 +64,8 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUser")
 
-        
     
+
     var postBody: AnyRef = body
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -93,7 +93,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param body List of user object 
    * @return void
    */
-  def createUsersWithArrayInput (body: List[User])  = {
+  def createUsersWithArrayInput(body: List[User]) = {
     // create path and map variables
     val path = "/user/createWithArray".replaceAll("\\{format\\}","json")
     val contentTypes = List("application/json")
@@ -106,8 +106,8 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithArrayInput")
 
-        
     
+
     var postBody: AnyRef = body
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -135,7 +135,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param body List of user object 
    * @return void
    */
-  def createUsersWithListInput (body: List[User])  = {
+  def createUsersWithListInput(body: List[User]) = {
     // create path and map variables
     val path = "/user/createWithList".replaceAll("\\{format\\}","json")
     val contentTypes = List("application/json")
@@ -148,8 +148,8 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithListInput")
 
-        
     
+
     var postBody: AnyRef = body
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -177,7 +177,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param username The name that needs to be deleted 
    * @return void
    */
-  def deleteUser (username: String)  = {
+  def deleteUser(username: String) = {
     // create path and map variables
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
@@ -190,8 +190,8 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-        
     
+
     var postBody: AnyRef = null
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -219,7 +219,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param username The name that needs to be fetched. Use user1 for testing.  
    * @return User
    */
-  def getUserByName (username: String) : Option[User] = {
+  def getUserByName(username: String): Option[User] = {
     // create path and map variables
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
@@ -232,8 +232,8 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-        
     
+
     var postBody: AnyRef = null
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -263,7 +263,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param password The password for login in clear text 
    * @return String
    */
-  def loginUser (username: String, password: String) : Option[String] = {
+  def loginUser(username: String, password: String): Option[String] = {
     // create path and map variables
     val path = "/user/login".replaceAll("\\{format\\}","json")
     val contentTypes = List("application/json")
@@ -275,9 +275,9 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val formParams = new HashMap[String, String]
 
     if(String.valueOf(username) != "null") queryParams += "username" -> username.toString
-if(String.valueOf(password) != "null") queryParams += "password" -> password.toString
+    if(String.valueOf(password) != "null") queryParams += "password" -> password.toString
     
-    
+
     var postBody: AnyRef = null
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -305,7 +305,7 @@ if(String.valueOf(password) != "null") queryParams += "password" -> password.toS
    * 
    * @return void
    */
-  def logoutUser ()  = {
+  def logoutUser() = {
     // create path and map variables
     val path = "/user/logout".replaceAll("\\{format\\}","json")
     val contentTypes = List("application/json")
@@ -316,8 +316,8 @@ if(String.valueOf(password) != "null") queryParams += "password" -> password.toS
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-        
     
+
     var postBody: AnyRef = null
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -346,7 +346,7 @@ if(String.valueOf(password) != "null") queryParams += "password" -> password.toS
    * @param body Updated user object 
    * @return void
    */
-  def updateUser (username: String, body: User)  = {
+  def updateUser(username: String, body: User) = {
     // create path and map variables
     val path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
 
@@ -361,8 +361,8 @@ if(String.valueOf(password) != "null") queryParams += "password" -> password.toS
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->updateUser")
 
-        
     
+
     var postBody: AnyRef = body
 
     if(contentType.startsWith("multipart/form-data")) {
