@@ -38,7 +38,7 @@ class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
       parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
   )
 
-  {{httpMethod}}("{{path}}",operation({{nickname}}Operation)) {
+  {{httpMethod}}("{{{vendorExtensions.x-scalatra-path}}}",operation({{nickname}}Operation)) {
     {{#allParams}}
     {{#isFile}}val {{paramName}} = fileParams("{{paramName}}"){{/isFile}}
     {{^isFile}}{{#isPathParam}}

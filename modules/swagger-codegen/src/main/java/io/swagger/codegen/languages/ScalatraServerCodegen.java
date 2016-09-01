@@ -4,6 +4,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -161,8 +162,29 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+            // force http method to lower case
             op.httpMethod = op.httpMethod.toLowerCase();
+ 
+            String[] items = op.path.split("/", -1);
+            String scalaPath = "";
+            int pathParamIndex = 0;
+
+            for (int i = 0; i < items.length; ++i) {
+                if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+                    scalaPath = scalaPath + ":" + items[i].replace("{", "").replace("}", "");
+                    pathParamIndex++;
+                } else {
+                    scalaPath = scalaPath + items[i];
+                }
+
+                if (i != items.length -1) {
+                    scalaPath = scalaPath + "/";
+                }
+            }
+
+            op.vendorExtensions.put("x-scalatra-path", scalaPath);
         }
+
         return objs;
     }
 
