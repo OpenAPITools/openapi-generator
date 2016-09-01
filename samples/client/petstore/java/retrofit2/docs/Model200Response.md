@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **Integer** |  |  [optional]
-**PropertyClass** | **String** |  |  [optional]
+**propertyClass** | **String** |  |  [optional]
 
 
 

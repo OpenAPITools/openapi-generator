@@ -164,7 +164,7 @@ class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
      * @param typeOfSrc Type
      * @param context Json Serialization Context
      * @return Date
-     * @throw JsonParseException if fail to parse
+     * @throws JsonParseException if fail to parse
      */
     @Override
     public Date deserialize(JsonElement json, Type date, JsonDeserializationContext context) throws JsonParseException {
