@@ -154,7 +154,7 @@ module Petstore
       # verify the required parameter 'pattern_without_delimiter' is set
       fail ArgumentError, "Missing the required parameter 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters" if pattern_without_delimiter.nil?
       if pattern_without_delimiter !~ Regexp.new(/^[A-Z].*/)
-        fail ArgumentError, 'invalid value for "pattern_without_delimiter" when calling FakeApi.test_endpoint_parameters, must conform to the pattern /^[A-Z].*/.'
+        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /^[A-Z].*/."
       end
 
       # verify the required parameter 'byte' is set
@@ -180,7 +180,7 @@ module Petstore
       end
 
       if !opts[:'string'].nil? && opts[:'string'] !~ Regexp.new(/[a-z]/i)
-        fail ArgumentError, 'invalid value for "opts[:"string"]" when calling FakeApi.test_endpoint_parameters, must conform to the pattern /[a-z]/i.'
+        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /[a-z]/i."
       end
 
       if !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
