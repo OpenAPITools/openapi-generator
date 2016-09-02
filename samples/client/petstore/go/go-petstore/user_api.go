@@ -24,9 +24,9 @@ package petstore
 
 import (
 	"net/url"
+	"strings"
 	"encoding/json"
 	"fmt"
-	"strings"
 )
 
 type UserApi struct {
@@ -58,7 +58,7 @@ func NewUserApiWithBasePath(basePath string) *UserApi {
  */
 func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user"
 
@@ -98,11 +98,20 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "CreateUser", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -114,7 +123,7 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
  */
 func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user/createWithArray"
 
@@ -154,11 +163,20 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "CreateUsersWithArrayInput", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -170,7 +188,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
  */
 func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user/createWithList"
 
@@ -210,11 +228,20 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "CreateUsersWithListInput", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -226,7 +253,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
  */
 func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Delete"
+	var localVarHttpMethod = strings.ToUpper("Delete")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
@@ -265,11 +292,20 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "DeleteUser", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -281,7 +317,7 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
  */
 func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
@@ -320,11 +356,20 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 
 	var successPayload = new(User)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "GetUserByName", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+if err != nil {
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -337,7 +382,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
  */
 func (a UserApi) LoginUser(username string, password string) (*string, *APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user/login"
 
@@ -377,11 +422,20 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 
 	var successPayload = new(string)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "LoginUser", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+if err != nil {
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -392,7 +446,7 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
  */
 func (a UserApi) LogoutUser() (*APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user/logout"
 
@@ -430,11 +484,20 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "LogoutUser", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -447,7 +510,7 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
  */
 func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Put"
+	var localVarHttpMethod = strings.ToUpper("Put")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/user/{username}"
 	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
@@ -488,10 +551,19 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "UpdateUser", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 

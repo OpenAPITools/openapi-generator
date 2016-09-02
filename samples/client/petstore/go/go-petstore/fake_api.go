@@ -25,43 +25,41 @@ package petstore
 import (
 	"net/url"
 	"strings"
+	"time"
 	"encoding/json"
-	"fmt"
 )
 
-type StoreApi struct {
+type FakeApi struct {
 	Configuration *Configuration
 }
 
-func NewStoreApi() *StoreApi {
+func NewFakeApi() *FakeApi {
 	configuration := NewConfiguration()
-	return &StoreApi{
+	return &FakeApi{
 		Configuration: configuration,
 	}
 }
 
-func NewStoreApiWithBasePath(basePath string) *StoreApi {
+func NewFakeApiWithBasePath(basePath string) *FakeApi {
 	configuration := NewConfiguration()
 	configuration.BasePath = basePath
 
-	return &StoreApi{
+	return &FakeApi{
 		Configuration: configuration,
 	}
 }
 
 /**
- * Delete purchase order by ID
- * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+ * To test \&quot;client\&quot; model
  *
- * @param orderId ID of the order that needs to be deleted
- * @return void
+ * @param body client model
+ * @return *Client
  */
-func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
+func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 
-	var localVarHttpMethod = strings.ToUpper("Delete")
+	var localVarHttpMethod = strings.ToUpper("Patch")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/store/order/{orderId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath := a.Configuration.BasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -76,7 +74,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{ "application/json",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -85,8 +83,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
-		"application/xml",
-"application/json",
+		"application/json",
 	}
 
 	// set Accept header
@@ -94,13 +91,108 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+	// body params
+	localVarPostBody = &body
+
+	var successPayload = new(Client)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "TestClientModel", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+if err != nil {
+		return successPayload, localVarAPIResponse, err
+	}
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return successPayload, localVarAPIResponse, err
+}
+
+/**
+ * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ *
+ * @param number None
+ * @param double None
+ * @param patternWithoutDelimiter None
+ * @param byte_ None
+ * @param integer None
+ * @param int32_ None
+ * @param int64_ None
+ * @param float None
+ * @param string_ None
+ * @param binary None
+ * @param date None
+ * @param dateTime None
+ * @param password None
+ * @return void
+ */
+func (a FakeApi) TestEndpointParameters(number float32, double float64, patternWithoutDelimiter string, byte_ string, integer int32, int32_ int32, int64_ int64, float float32, string_ string, binary string, date time.Time, dateTime time.Time, password string) (*APIResponse, error) {
+
+	var localVarHttpMethod = strings.ToUpper("Post")
+	// create path and map variables
+	localVarPath := a.Configuration.BasePath + "/fake"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(http_basic_test)' required
+	// http basic authentication required
+	if a.Configuration.UserName != "" || a.Configuration.Password != ""{
+		localVarHeaderParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
+	}
+	// add default headers if any
+	for key := range a.Configuration.DefaultHeader {
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
+	}
+
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{ "application/xml; charset=utf-8", "application/json; charset=utf-8",  }
+
+	// set Content-Type header
+	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{
+		"application/xml; charset=utf-8",
+"application/json; charset=utf-8",
+	}
+
+	// set Accept header
+	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	localVarFormParams["integer"] = a.Configuration.APIClient.ParameterToString(integer, "")
+	localVarFormParams["int32_"] = a.Configuration.APIClient.ParameterToString(int32_, "")
+	localVarFormParams["int64_"] = a.Configuration.APIClient.ParameterToString(int64_, "")
+	localVarFormParams["number"] = a.Configuration.APIClient.ParameterToString(number, "")
+	localVarFormParams["float"] = a.Configuration.APIClient.ParameterToString(float, "")
+	localVarFormParams["double"] = a.Configuration.APIClient.ParameterToString(double, "")
+	localVarFormParams["string_"] = a.Configuration.APIClient.ParameterToString(string_, "")
+	localVarFormParams["patternWithoutDelimiter"] = a.Configuration.APIClient.ParameterToString(patternWithoutDelimiter, "")
+	localVarFormParams["byte_"] = a.Configuration.APIClient.ParameterToString(byte_, "")
+	localVarFormParams["binary"] = a.Configuration.APIClient.ParameterToString(binary, "")
+	localVarFormParams["date"] = a.Configuration.APIClient.ParameterToString(date, "")
+	localVarFormParams["dateTime"] = a.Configuration.APIClient.ParameterToString(dateTime, "")
+	localVarFormParams["password"] = a.Configuration.APIClient.ParameterToString(password, "")
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)
 	localVarURL.RawQuery = localVarQueryParams.Encode()
-	var localVarAPIResponse = &APIResponse{Operation: "DeleteOrder", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	var localVarAPIResponse = &APIResponse{Operation: "TestEndpointParameters", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
 	if localVarHttpResponse != nil {
 		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
 		localVarAPIResponse.Payload = localVarHttpResponse.Body()
@@ -114,16 +206,23 @@ if err != nil {
 }
 
 /**
- * Returns pet inventories by status
- * Returns a map of status codes to quantities
+ * To test enum parameters
  *
- * @return *map[string]int32
+ * @param enumFormStringArray Form parameter enum test (string array)
+ * @param enumFormString Form parameter enum test (string)
+ * @param enumHeaderStringArray Header parameter enum test (string array)
+ * @param enumHeaderString Header parameter enum test (string)
+ * @param enumQueryStringArray Query parameter enum test (string array)
+ * @param enumQueryString Query parameter enum test (string)
+ * @param enumQueryInteger Query parameter enum test (double)
+ * @param enumQueryDouble Query parameter enum test (double)
+ * @return void
  */
-func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
+func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString string, enumHeaderStringArray []string, enumHeaderString string, enumQueryStringArray []string, enumQueryString string, enumQueryInteger float32, enumQueryDouble float64) (*APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/store/inventory"
+	localVarPath := a.Configuration.BasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -131,17 +230,24 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 	var localVarPostBody interface{}
 	var localVarFileName string
 	var localVarFileBytes []byte
-	// authentication '(api_key)' required
-	// set key with prefix in header
-	localVarHeaderParams["api_key"] = a.Configuration.GetAPIKeyWithPrefix("api_key")
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-
+	var collectionFormat = "csv"
+	if collectionFormat == "multi" {
+		for _, value := range enumQueryStringArray {
+			localVarQueryParams.Add("enum_query_string_array", value)
+		}
+	} else {
+		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(enumQueryStringArray, collectionFormat))
+	}
+			localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(enumQueryString, ""))
+			localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(enumQueryInteger, ""))
+	
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
+	localVarHttpContentTypes := []string{ "application/json",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -159,150 +265,30 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 
-	var successPayload = new(map[string]int32)
+	// header params "enum_header_string_array"
+	localVarHeaderParams["enum_header_string_array"] = a.Configuration.APIClient.ParameterToString(enumHeaderStringArray, "")
+	// header params "enum_header_string"
+	localVarHeaderParams["enum_header_string"] = a.Configuration.APIClient.ParameterToString(enumHeaderString, "")
+
+	localVarFormParams["enumFormStringArray"] = a.Configuration.APIClient.ParameterToString(enumFormStringArray, "")
+	localVarFormParams["enumFormString"] = a.Configuration.APIClient.ParameterToString(enumFormString, "")
+	localVarFormParams["enumQueryDouble"] = a.Configuration.APIClient.ParameterToString(enumQueryDouble, "")
+
+
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)
 	localVarURL.RawQuery = localVarQueryParams.Encode()
-	var localVarAPIResponse = &APIResponse{Operation: "GetInventory", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	var localVarAPIResponse = &APIResponse{Operation: "TestEnumParameters", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
 	if localVarHttpResponse != nil {
 		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
 		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
 if err != nil {
-		return successPayload, localVarAPIResponse, err
-	}
-	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, localVarAPIResponse, err
-}
-
-/**
- * Find purchase order by ID
- * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
- *
- * @param orderId ID of pet that needs to be fetched
- * @return *Order
- */
-func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
-
-	var localVarHttpMethod = strings.ToUpper("Get")
-	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/store/order/{orderId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := make(map[string]string)
-	var localVarPostBody interface{}
-	var localVarFileName string
-	var localVarFileBytes []byte
-	// add default headers if any
-	for key := range a.Configuration.DefaultHeader {
-		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
+		return localVarAPIResponse, err
 	}
 
-
-	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
-
-	// set Content-Type header
-	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
-	if localVarHttpContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHttpContentType
-	}
-	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/xml",
-"application/json",
-	}
-
-	// set Accept header
-	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-	if localVarHttpHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-
-	var successPayload = new(Order)
-	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-
-	var localVarURL, _ = url.Parse(localVarPath)
-	localVarURL.RawQuery = localVarQueryParams.Encode()
-	var localVarAPIResponse = &APIResponse{Operation: "GetOrderById", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
-	if localVarHttpResponse != nil {
-		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
-		localVarAPIResponse.Payload = localVarHttpResponse.Body()
-	}
-
-if err != nil {
-		return successPayload, localVarAPIResponse, err
-	}
-	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, localVarAPIResponse, err
-}
-
-/**
- * Place an order for a pet
- * 
- *
- * @param body order placed for purchasing the pet
- * @return *Order
- */
-func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
-
-	var localVarHttpMethod = strings.ToUpper("Post")
-	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/store/order"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := make(map[string]string)
-	var localVarPostBody interface{}
-	var localVarFileName string
-	var localVarFileBytes []byte
-	// add default headers if any
-	for key := range a.Configuration.DefaultHeader {
-		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
-	}
-
-
-	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{  }
-
-	// set Content-Type header
-	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
-	if localVarHttpContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHttpContentType
-	}
-	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{
-		"application/xml",
-"application/json",
-	}
-
-	// set Accept header
-	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
-	if localVarHttpHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	// body params
-	localVarPostBody = &body
-
-	var successPayload = new(Order)
-	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-
-	var localVarURL, _ = url.Parse(localVarPath)
-	localVarURL.RawQuery = localVarQueryParams.Encode()
-	var localVarAPIResponse = &APIResponse{Operation: "PlaceOrder", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
-	if localVarHttpResponse != nil {
-		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
-		localVarAPIResponse.Payload = localVarHttpResponse.Body()
-	}
-
-if err != nil {
-		return successPayload, localVarAPIResponse, err
-	}
-	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, localVarAPIResponse, err
+	return localVarAPIResponse, err
 }
 
