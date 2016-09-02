@@ -24,11 +24,11 @@ package petstore
 
 import (
 	"net/url"
+	"strings"
 	"os"
 	"io/ioutil"
 	"encoding/json"
 	"fmt"
-	"strings"
 )
 
 type PetApi struct {
@@ -60,7 +60,7 @@ func NewPetApiWithBasePath(basePath string) *PetApi {
  */
 func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet"
 
@@ -105,11 +105,20 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "AddPet", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -122,7 +131,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
  */
 func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Delete"
+	var localVarHttpMethod = strings.ToUpper("Delete")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet/{petId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
@@ -170,11 +179,20 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "DeletePet", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -186,7 +204,7 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
  */
 func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet/findByStatus"
 
@@ -237,11 +255,20 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 
 	var successPayload = new([]Pet)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "FindPetsByStatus", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+if err != nil {
+		return *successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return *successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -253,7 +280,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
  */
 func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet/findByTags"
 
@@ -304,11 +331,20 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 
 	var successPayload = new([]Pet)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "FindPetsByTags", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+if err != nil {
+		return *successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return *successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -320,7 +356,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
  */
 func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet/{petId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
@@ -362,11 +398,20 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 
 	var successPayload = new(Pet)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "GetPetById", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+if err != nil {
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -378,7 +423,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
  */
 func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Put"
+	var localVarHttpMethod = strings.ToUpper("Put")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet"
 
@@ -423,11 +468,20 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "UpdatePet", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -441,7 +495,7 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
  */
 func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet/{petId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
@@ -487,11 +541,20 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 
 
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "UpdatePetWithForm", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+if err != nil {
+		return localVarAPIResponse, err
+	}
+
+	return localVarAPIResponse, err
 }
 
 /**
@@ -505,7 +568,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
  */
 func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File) (*ModelApiResponse, *APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/pet/{petId}/uploadImage"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
@@ -552,10 +615,19 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 
 	var successPayload = new(ModelApiResponse)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "UploadFile", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
+if err != nil {
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 
