@@ -140,30 +140,37 @@ class {{classname}}(object):
     {{/pattern}}
 {{/hasValidation}}
 {{/allParams}}
+
+        collection_formats = {}
+
         resource_path = '{{path}}'.replace('{format}', 'json')
         path_params = {}
 {{#pathParams}}
         if '{{paramName}}' in params:
-            path_params['{{baseName}}'] = params['{{paramName}}']
+            path_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/pathParams}}
 
         query_params = {}
 {{#queryParams}}
         if '{{paramName}}' in params:
-            query_params['{{baseName}}'] = params['{{paramName}}']
+            query_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/queryParams}}
 
         header_params = {}
 {{#headerParams}}
         if '{{paramName}}' in params:
-            header_params['{{baseName}}'] = params['{{paramName}}']
+            header_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/headerParams}}
 
         form_params = []
         local_var_files = {}
 {{#formParams}}
         if '{{paramName}}' in params:
-            {{#notFile}}form_params.extend(self.api_client.parameter_to_tuples('{{collectionFormat}}', '{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/formParams}}
 
         body_params = None
@@ -195,6 +202,7 @@ class {{classname}}(object):
                                             response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 {{/operation}}
 {{/operations}}
