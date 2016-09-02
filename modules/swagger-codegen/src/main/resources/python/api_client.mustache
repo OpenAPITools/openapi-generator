@@ -95,7 +95,8 @@ class ApiClient(object):
     def __call_api(self, resource_path, method,
                    path_params=None, query_params=None, header_params=None,
                    body=None, post_params=None, files=None,
-                   response_type=None, auth_settings=None, callback=None, _return_http_data_only=None):
+                   response_type=None, auth_settings=None, callback=None,
+                   _return_http_data_only=None, collection_formats=None):
 
         # header parameters
         header_params = header_params or {}
@@ -104,25 +105,30 @@ class ApiClient(object):
             header_params['Cookie'] = self.cookie
         if header_params:
             header_params = self.sanitize_for_serialization(header_params)
+            header_params = dict(self.parameters_to_tuples(header_params,
+                                                           collection_formats))
 
         # path parameters
         if path_params:
             path_params = self.sanitize_for_serialization(path_params)
-            for k, v in iteritems(path_params):
-                replacement = quote(str(self.to_path_value(v)))
-                resource_path = resource_path.\
-                    replace('{' + k + '}', replacement)
+            path_params = self.parameters_to_tuples(path_params,
+                                                    collection_formats)
+            for k, v in path_params:
+                resource_path = resource_path.replace(
+                    '{%s}' % k, quote(str(v)))
 
         # query parameters
         if query_params:
             query_params = self.sanitize_for_serialization(query_params)
-            query_params = {k: self.to_path_value(v)
-                            for k, v in iteritems(query_params)}
+            query_params = self.parameters_to_tuples(query_params,
+                                                     collection_formats)
 
         # post parameters
         if post_params or files:
             post_params = self.prepare_post_parameters(post_params, files)
             post_params = self.sanitize_for_serialization(post_params)
+            post_params = self.parameters_to_tuples(post_params,
+                                                    collection_formats)
 
         # auth setting
         self.update_params_for_auth(header_params, query_params, auth_settings)
@@ -154,20 +160,6 @@ class ApiClient(object):
             return (deserialized_data)
         else:
             return (deserialized_data, response_data.status, response_data.getheaders())
-        
-    def to_path_value(self, obj):
-        """
-        Takes value and turn it into a string suitable for inclusion in
-        the path, by url-encoding.
-
-        :param obj: object or string value.
-
-        :return string: quoted value.
-        """
-        if type(obj) == list:
-            return ','.join(obj)
-        else:
-            return str(obj)
 
     def sanitize_for_serialization(self, obj):
         """
@@ -281,7 +273,8 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, callback=None, _return_http_data_only=None):
+                 response_type=None, auth_settings=None, callback=None,
+                 _return_http_data_only=None, collection_formats=None):
         """
         Makes the HTTP request (synchronous) and return the deserialized data.
         To make an async request, define a function for callback.
@@ -303,6 +296,8 @@ class ApiClient(object):
             If provide this parameter,
             the request will be called asynchronously.
         :param _return_http_data_only: response data without head status code and headers
+        :param collection_formats: dict of collection formats for path, query,
+            header, and post parameters.
         :return:
             If provide parameter callback,
             the request will be called asynchronously.
@@ -314,7 +309,8 @@ class ApiClient(object):
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings, callback, _return_http_data_only)
+                                   response_type, auth_settings, callback,
+                                   _return_http_data_only, collection_formats)
         else:
             thread = threading.Thread(target=self.__call_api,
                                       args=(resource_path, method,
@@ -322,7 +318,8 @@ class ApiClient(object):
                                             header_params, body,
                                             post_params, files,
                                             response_type, auth_settings,
-                                            callback, _return_http_data_only))
+                                            callback, _return_http_data_only,
+                                            collection_formats))
         thread.start()
         return thread
 
@@ -374,30 +371,36 @@ class ApiClient(object):
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
 
-    def parameter_to_tuples(self, collection_format, name, value):
+    def parameters_to_tuples(self, params, collection_formats):
         """
-        Get parameter as list of tuples according to collection format.
+        Get parameters as list of tuples, formatting collections.
 
-        :param str collection_format: Collection format
-        :param str name: Parameter name
-        :param value: Parameter value
-        :return: Parameter as list of tuples
+        :param params: Parameters as dict or list of two-tuples
+        :param dict collection_formats: Parameter collection formats
+        :return: Parameters as list of tuples, collections formatted
         """
-        if isinstance(value, (list, tuple)):
-            if collection_format == "multi":
-                return [(name, v) for v in value]
+        new_params = []
+        if collection_formats is None:
+            collection_formats = {}
+        for k, v in iteritems(params) if isinstance(params, dict) else params:
+            if k in collection_formats:
+                collection_format = collection_formats[k]
+                if collection_format == 'multi':
+                    new_params.extend((k, value) for value in v)
+                else:
+                    if collection_format == 'ssv':
+                        delimiter = ' '
+                    elif collection_format == 'tsv':
+                        delimiter = '\t'
+                    elif collection_format == 'pipes':
+                        delimiter = '|'
+                    else:  # csv is the default
+                        delimiter = ','
+                    new_params.append(
+                        (k, delimiter.join(str(value) for value in v)))
             else:
-                if collection_format == "ssv":
-                    delimiter = " "
-                elif collection_format == "tsv":
-                    delimiter = "\t"
-                elif collection_format == "pipes":
-                    delimiter = "|"
-                else:  # csv is the default
-                    delimiter = ","
-                return [(name, delimiter.join(value))]
-        else:
-            return [(name, value)]
+                new_params.append((k, v))
+        return new_params
 
     def prepare_post_parameters(self, post_params=None, files=None):
         """
@@ -466,7 +469,7 @@ class ApiClient(object):
         Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
-        :param querys: Query parameters dict to be updated.
+        :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         """
         config = Configuration()
@@ -482,7 +485,7 @@ class ApiClient(object):
                 elif auth_setting['in'] == 'header':
                     headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
-                    querys[auth_setting['key']] = auth_setting['value']
+                    querys.append((auth_setting['key'], auth_setting['value']))
                 else:
                     raise ValueError(
                         'Authentication token must be in `query` or `header`'
