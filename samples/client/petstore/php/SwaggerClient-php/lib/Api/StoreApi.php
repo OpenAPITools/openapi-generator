@@ -123,7 +123,7 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteOrderWithHttpInfo($order_id)
@@ -206,7 +206,7 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
-     * @return Array of map[string,int], HTTP status code, HTTP response headers (array of strings)
+     * @return array of map[string,int], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getInventoryWithHttpInfo()
@@ -284,7 +284,7 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param int $order_id ID of pet that needs to be fetched (required)
-     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getOrderByIdWithHttpInfo($order_id)
@@ -376,7 +376,7 @@ class StoreApi
      * Place an order for a pet
      *
      * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
-     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function placeOrderWithHttpInfo($body)
