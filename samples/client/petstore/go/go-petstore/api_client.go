@@ -29,6 +29,7 @@ import (
 	"reflect"
 	"strings"
 	"net/url"
+	"io/ioutil"
 	"github.com/go-resty/resty"
 )
 
@@ -128,7 +129,7 @@ func (c *APIClient) prepareClient() *resty.Client {
 	if c.config.Timeout != nil {
 		rClient.SetTimeout(*c.config.Timeout)
 	}
-
+	rClient.SetLogger(ioutil.Discard)
 	return rClient
 }
 
