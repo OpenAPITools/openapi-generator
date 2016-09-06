@@ -139,13 +139,13 @@ use \{{invokerPackage}}\ObjectSerializer;
         }
         {{/minLength}}
         {{#maximum}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} > {{maximum}})) {
-            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
         }
         {{/maximum}}
         {{#minimum}}
-        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} < {{minimum}})) {
-            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
         }
         {{/minimum}}
         {{#pattern}}

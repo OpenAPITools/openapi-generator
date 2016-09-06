@@ -328,7 +328,7 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")
 
         if 'order_id' in params and params['order_id'] > 5.0:
-            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to  `5.0`")
+            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5.0`")
         if 'order_id' in params and params['order_id'] < 1.0:
             raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1.0`")
 

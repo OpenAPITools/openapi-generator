@@ -69,14 +69,14 @@ module {{moduleName}}
 
       {{/minLength}}
       {{#maximum}}
-      if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}} > {{{maximum}}}
-        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{{maximum}}}.'
+      if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.'
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}} < {{{minimum}}}
-        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, must be greater than or equal to {{{minimum}}}.'
+      if {{^required}}!opts[:'{{{paramName}}}'].nil? && {{/required}}{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+        fail ArgumentError, 'invalid value for "{{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:"{{{paramName}}}"]{{/required}}" when calling {{classname}}.{{operationId}}, must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.'
       end
 
       {{/minimum}}

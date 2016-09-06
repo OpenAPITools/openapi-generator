@@ -143,14 +143,14 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
 
         {{/minLength}}
         {{#maximum}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] > {{maximum}})) {
-            $invalid_properties[] = "invalid value for '{{name}}', must be smaller than or equal to {{maximum}}.";
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.";
         }
 
         {{/maximum}}
         {{#minimum}}
-        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] < {{minimum}})) {
-            $invalid_properties[] = "invalid value for '{{name}}', must be bigger than or equal to {{minimum}}.";
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.";
         }
 
         {{/minimum}}
@@ -199,12 +199,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/minLength}}
         {{#maximum}}
-        if ($this->container['{{name}}'] > {{maximum}}) {
+        if ($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
             return false;
         }
         {{/maximum}}
         {{#minimum}}
-        if ($this->container['{{name}}'] < {{minimum}}) {
+        if ($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
             return false;
         }
         {{/minimum}}
@@ -260,13 +260,13 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/minLength}}
         {{#maximum}}
-        if (${{name}} > {{maximum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        if (${{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
         }
         {{/maximum}}
         {{#minimum}}
-        if (${{name}} < {{minimum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        if (${{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
         }
         {{/minimum}}
         {{#pattern}}

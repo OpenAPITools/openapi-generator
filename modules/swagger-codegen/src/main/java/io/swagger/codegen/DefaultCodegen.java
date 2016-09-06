@@ -1403,7 +1403,8 @@ public class DefaultCodegen {
             property.exclusiveMaximum = np.getExclusiveMaximum();
 
             // check if any validation rule defined
-            if (property.minimum != null || property.maximum != null || property.exclusiveMinimum != null || property.exclusiveMaximum != null)
+            // exclusive* are noop without corresponding min/max
+            if (property.minimum != null || property.maximum != null)
                 property.hasValidation = true;
 
             // legacy support
@@ -2270,8 +2271,8 @@ public class DefaultCodegen {
             p.uniqueItems = qp.isUniqueItems();
             p.multipleOf = qp.getMultipleOf();
 
-            if (p.maximum != null || p.exclusiveMaximum != null ||
-                    p.minimum != null || p.exclusiveMinimum != null ||
+            // exclusive* are noop without corresponding min/max
+            if (p.maximum != null || p.minimum != null ||
                     p.maxLength != null || p.minLength != null ||
                     p.maxItems != null || p.minItems != null ||
                     p.pattern != null) {
