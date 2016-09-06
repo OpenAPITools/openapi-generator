@@ -81,12 +81,12 @@ class {{classname}}(object):
             raise ValueError("Invalid value for `{{name}}`, length must be greater than or equal to `{{minLength}}`")
 {{/minLength}}
 {{#maximum}}
-        if {{name}} > {{maximum}}:
-            raise ValueError("Invalid value for `{{name}}`, must be a value less than or equal to `{{maximum}}`")
+        if {{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:
+            raise ValueError("Invalid value for `{{name}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")
 {{/maximum}}
 {{#minimum}}
-        if {{name}} < {{minimum}}:
-            raise ValueError("Invalid value for `{{name}}`, must be a value greater than or equal to `{{minimum}}`")
+        if {{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:
+            raise ValueError("Invalid value for `{{name}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")
 {{/minimum}}
 {{#pattern}}
         if not re.search('{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):

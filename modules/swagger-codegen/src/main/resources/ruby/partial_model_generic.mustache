@@ -98,14 +98,14 @@
 
       {{/minLength}}
       {{#maximum}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} > {{{maximum}}}
-        invalid_properties.push("invalid value for '{{{name}}}', must be smaller than or equal to {{{maximum}}}.")
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+        invalid_properties.push("invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} < {{{minimum}}}
-        invalid_properties.push("invalid value for '{{{name}}}', must be greater than or equal to {{{minimum}}}.")
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+        invalid_properties.push("invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
       end
 
       {{/minimum}}
@@ -141,10 +141,10 @@
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length < {{{minLength}}}
       {{/minLength}}
       {{#maximum}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} > {{{maximum}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
       {{/maximum}}
       {{#minimum}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} < {{{minimum}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
       {{/minimum}}
       {{#pattern}}
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
@@ -193,14 +193,14 @@
 
       {{/minLength}}
       {{#maximum}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} > {{{maximum}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', must be smaller than or equal to {{{maximum}}}."
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+        fail ArgumentError, "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} < {{{minimum}}}
-        fail ArgumentError, "invalid value for '{{{name}}}', must be greater than or equal to {{{minimum}}}."
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+        fail ArgumentError, "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
       end
 
       {{/minimum}}
