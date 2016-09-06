@@ -44,7 +44,7 @@
     managedObject.name = [object.name copy];
     managedObject.photoUrls = [object.photoUrls copy];
     if(object.tags) {
-        NSMutableSet * convertedObjs = [NSMutableSet set];
+        NSMutableOrderedSet * convertedObjs = [NSMutableOrderedSet orderedSet];
         for (id innerObject in object.tags) {
             id convertedObj = [self.tagsBuilder SWGTagManagedObjectFromSWGTag:innerObject context:managedObject.managedObjectContext];
             [convertedObjs addObject:convertedObj];
