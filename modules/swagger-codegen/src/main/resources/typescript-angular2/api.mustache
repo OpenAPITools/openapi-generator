@@ -55,10 +55,10 @@ export class {{classname}} {
 {{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
-            queryParameters.set('{{baseName}}', String({{paramName}}));
+            queryParameters.set('{{baseName}}', <any>{{paramName}});
         }
-
 {{/queryParams}}
+
 {{#headers}}
         headers.set('{{baseName}}', String({{paramName}}));
 
@@ -80,16 +80,18 @@ export class {{classname}} {
 
 {{#hasFormParams}}
         headers.set('Content-Type', 'application/x-www-form-urlencoded');
-
 {{/hasFormParams}}
+
 {{#bodyParam}}
         headers.set('Content-Type', 'application/json');
-
 {{/bodyParam}}
-{{#formParams}}
-        formParams['{{baseName}}'] = {{paramName}};
 
+{{#formParams}}
+        if ({{paramName}} !== undefined) {
+        	formParams.set('{{baseName}}', <any>{{paramName}}); 
+        }
 {{/formParams}}
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: {{httpMethod}},
             headers: headers,

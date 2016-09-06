@@ -22,22 +22,26 @@
  * limitations under the License.
  */
 
-import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
-import {Injectable, Optional} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import * as models from '../model/models';
-import 'rxjs/Rx';
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Http, Headers, URLSearchParams }                    from '@angular/http';
+import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { Response, ResponseContentType }                     from '@angular/http';
+
+import { Observable }                                        from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
+import * as models                                           from '../model/models';
+import { BASE_PATH }                                         from '../variables';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
-'use strict';
 
 @Injectable()
 export class UserApi {
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders : Headers = new Headers();
+    public defaultHeaders: Headers = new Headers();
 
-    constructor(protected http: Http, @Optional() basePath: string) {
+    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string) {
         if (basePath) {
             this.basePath = basePath;
         }
@@ -48,17 +52,35 @@ export class UserApi {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    public createUser (body?: models.User, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/user';
+    public createUser(body?: models.User, extraHttpRequestParams?: any): Observable<{}> {
+        const path = this.basePath + `/user`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(body);
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+        headers.set('Content-Type', 'application/json');
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -75,17 +97,35 @@ export class UserApi {
      * 
      * @param body List of user object
      */
-    public createUsersWithArrayInput (body?: Array<models.User>, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/user/createWithArray';
+    public createUsersWithArrayInput(body?: Array<models.User>, extraHttpRequestParams?: any): Observable<{}> {
+        const path = this.basePath + `/user/createWithArray`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(body);
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+        headers.set('Content-Type', 'application/json');
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -102,17 +142,35 @@ export class UserApi {
      * 
      * @param body List of user object
      */
-    public createUsersWithListInput (body?: Array<models.User>, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/user/createWithList';
+    public createUsersWithListInput(body?: Array<models.User>, extraHttpRequestParams?: any): Observable<{}> {
+        const path = this.basePath + `/user/createWithList`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(body);
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+        headers.set('Content-Type', 'application/json');
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -129,21 +187,37 @@ export class UserApi {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    public deleteUser (username: string, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+    public deleteUser(username: string, extraHttpRequestParams?: any): Observable<{}> {
+        const path = this.basePath + `/user/${username}`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
-        let requestOptions: RequestOptionsArgs = {
-            method: 'DELETE',
-            headers: headerParams,
-            search: queryParameters
-        };
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -160,21 +234,37 @@ export class UserApi {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    public getUserByName (username: string, extraHttpRequestParams?: any ) : Observable<models.User> {
-        const path = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+    public getUserByName(username: string, extraHttpRequestParams?: any): Observable<models.User> {
+        const path = this.basePath + `/user/${username}`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -192,24 +282,39 @@ export class UserApi {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUser (username?: string, password?: string, extraHttpRequestParams?: any ) : Observable<string> {
-        const path = this.basePath + '/user/login';
+    public loginUser(username?: string, password?: string, extraHttpRequestParams?: any): Observable<string> {
+        const path = this.basePath + `/user/login`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
         if (username !== undefined) {
-            queryParameters.set('username', String(username));
+            queryParameters.set('username', <any>username);
         }
-
         if (password !== undefined) {
-            queryParameters.set('password', String(password));
+            queryParameters.set('password', <any>password);
         }
 
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -225,16 +330,33 @@ export class UserApi {
      * Logs out current logged in user session
      * 
      */
-    public logoutUser (extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/user/logout';
+    public logoutUser(extraHttpRequestParams?: any): Observable<{}> {
+        const path = this.basePath + `/user/logout`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
@@ -252,22 +374,39 @@ export class UserApi {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    public updateUser (username: string, body?: models.User, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+    public updateUser(username: string, body?: models.User, extraHttpRequestParams?: any): Observable<{}> {
+        const path = this.basePath + `/user/${username}`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
+        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
-        let requestOptions: RequestOptionsArgs = {
-            method: 'PUT',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(body);
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+        headers.set('Content-Type', 'application/json');
+
+// add form parameters if provided
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Put,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
