@@ -175,7 +175,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
         } else {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf((String)additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
         if (additionalProperties.containsKey(GEM_NAME)) {
@@ -568,7 +568,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toEnumVarName(String name, String datatype) {
         // number
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
-            String varName = new String(name);
+            String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
             varName = varName.replaceAll("\\.", "_DOT_");

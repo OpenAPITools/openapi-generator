@@ -199,7 +199,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
         } else {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf((String)additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
 

@@ -281,7 +281,7 @@ public class CodegenOperation {
 
     @Override
     public int hashCode() {
-        int result = responseHeaders != null ? responseHeaders.hashCode() : 0;
+        int result = responseHeaders.hashCode();
         result = 31 * result + (hasAuthMethods != null ? hasAuthMethods.hashCode() : 0);
         result = 31 * result + (hasConsumes != null ? hasConsumes.hashCode() : 0);
         result = 31 * result + (hasProduces != null ? hasProduces.hashCode() : 0);

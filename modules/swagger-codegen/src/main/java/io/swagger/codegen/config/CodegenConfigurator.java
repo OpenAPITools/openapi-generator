@@ -151,7 +151,7 @@ public class CodegenConfigurator {
         File f = new File(templateDir);
 
         // check to see if the folder exists
-        if (!(f != null && f.exists() && f.isDirectory())) {
+        if (!(f.exists() && f.isDirectory())) {
             throw new IllegalArgumentException("Template directory " + templateDir + " does not exist."); 
         }
 
@@ -414,7 +414,7 @@ public class CodegenConfigurator {
                 codegenConfig.additionalProperties().put(opt, dynamicProperties.get(opt));
             }
             else if(systemProperties.containsKey(opt)) {
-                codegenConfig.additionalProperties().put(opt, systemProperties.get(opt).toString());
+                codegenConfig.additionalProperties().put(opt, systemProperties.get(opt));
             }
         }
     }

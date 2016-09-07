@@ -2,7 +2,6 @@ package io.swagger.codegen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -124,9 +123,8 @@ public class Codegen extends DefaultGenerator {
     public static List<CodegenConfig> getExtensions() {
         ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
         List<CodegenConfig> output = new ArrayList<CodegenConfig>();
-        Iterator<CodegenConfig> itr = loader.iterator();
-        while (itr.hasNext()) {
-            output.add(itr.next());
+        for (CodegenConfig aLoader : loader) {
+            output.add(aLoader);
         }
         return output;
     }

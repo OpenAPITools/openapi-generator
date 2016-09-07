@@ -27,7 +27,7 @@ public class ConfigParser {
             Iterator<Map.Entry<String, JsonNode>> optionNodes = rootNode.fields();
 
             while (optionNodes.hasNext()) {
-                Map.Entry<String, JsonNode> optionNode = (Map.Entry<String, JsonNode>) optionNodes.next();
+                Map.Entry<String, JsonNode> optionNode = optionNodes.next();
 
                 if (optionNode.getValue().isValueNode()) {
                     config.setOption(optionNode.getKey(), optionNode.getValue().asText());
