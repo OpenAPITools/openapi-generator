@@ -74,7 +74,7 @@ class {{classname}}(object):
             raise ValueError("Invalid value for `{{name}}`, must not be `None`")
 {{#maxLength}}
         if len({{name}}) > {{maxLength}}:
-            raise ValueError("Invalid value for `{{name}}`, length must be less than `{{maxLength}}`")
+            raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")
 {{/maxLength}}
 {{#minLength}}
         if len({{name}}) < {{minLength}}:
