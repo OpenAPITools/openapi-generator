@@ -129,14 +129,14 @@ public class User  {
   @Override
   public int hashCode() {
     int result = 17;
-    result = 31 * result + (id == null ? 0: id.hashCode());
-    result = 31 * result + (username == null ? 0: username.hashCode());
-    result = 31 * result + (firstName == null ? 0: firstName.hashCode());
-    result = 31 * result + (lastName == null ? 0: lastName.hashCode());
-    result = 31 * result + (email == null ? 0: email.hashCode());
-    result = 31 * result + (password == null ? 0: password.hashCode());
-    result = 31 * result + (phone == null ? 0: phone.hashCode());
-    result = 31 * result + (userStatus == null ? 0: userStatus.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.username == null ? 0: this.username.hashCode());
+    result = 31 * result + (this.firstName == null ? 0: this.firstName.hashCode());
+    result = 31 * result + (this.lastName == null ? 0: this.lastName.hashCode());
+    result = 31 * result + (this.email == null ? 0: this.email.hashCode());
+    result = 31 * result + (this.password == null ? 0: this.password.hashCode());
+    result = 31 * result + (this.phone == null ? 0: this.phone.hashCode());
+    result = 31 * result + (this.userStatus == null ? 0: this.userStatus.hashCode());
     return result;
   }
 

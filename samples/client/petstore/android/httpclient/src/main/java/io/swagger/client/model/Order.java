@@ -107,12 +107,12 @@ public class Order  {
   @Override
   public int hashCode() {
     int result = 17;
-    result = 31 * result + (id == null ? 0: id.hashCode());
-    result = 31 * result + (petId == null ? 0: petId.hashCode());
-    result = 31 * result + (quantity == null ? 0: quantity.hashCode());
-    result = 31 * result + (shipDate == null ? 0: shipDate.hashCode());
-    result = 31 * result + (status == null ? 0: status.hashCode());
-    result = 31 * result + (complete == null ? 0: complete.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.petId == null ? 0: this.petId.hashCode());
+    result = 31 * result + (this.quantity == null ? 0: this.quantity.hashCode());
+    result = 31 * result + (this.shipDate == null ? 0: this.shipDate.hashCode());
+    result = 31 * result + (this.status == null ? 0: this.status.hashCode());
+    result = 31 * result + (this.complete == null ? 0: this.complete.hashCode());
     return result;
   }
 
