@@ -146,7 +146,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
         } else {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                    Boolean.valueOf((String)additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -500,7 +500,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return "'" + dp.getDefault().toString() + "'";
+                return "'" + dp.getDefault() + "'";
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;

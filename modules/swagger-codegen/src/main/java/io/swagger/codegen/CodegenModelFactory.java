@@ -30,9 +30,7 @@ public final class CodegenModelFactory {
         Class<?> classType = typeMapping.get(type);
         try {
             return (T) (classType != null ? classType : type.getDefaultImplementation()).newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             throw new RuntimeException(e);
         }
     }

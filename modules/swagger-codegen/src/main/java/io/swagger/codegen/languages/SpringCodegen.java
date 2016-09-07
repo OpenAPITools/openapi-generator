@@ -233,7 +233,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
         }
 
         this.additionalProperties.put("serverPort", port);
-        if (swagger != null && swagger.getPaths() != null) {
+        if (swagger.getPaths() != null) {
             for (String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
                 if (path.getOperations() != null) {

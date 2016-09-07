@@ -50,18 +50,18 @@ public class LumenServerCodegen extends AbstractPhpCodegen
 
         embeddedTemplateDir = templateDir = "lumen";
 
-        /**
+        /*
          * packPath
          */
         invokerPackage = "lumen";
         packagePath = "";
 
-        /**
+        /*
          * Api Package.  Optional, if needed, this can be used in templates
          */
         apiPackage = "app.Http.Controllers";
 
-        /**
+        /*
          * Model Package.  Optional, if needed, this can be used in templates
          */
         modelPackage = "models";
@@ -72,13 +72,13 @@ public class LumenServerCodegen extends AbstractPhpCodegen
         apiDocTemplateFiles.clear();
         modelDocTemplateFiles.clear();
 
-        /**
+        /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
 
-        /**
+        /*
          * Supporting Files.  You can write single files for the generator with the
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied

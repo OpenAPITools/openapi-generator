@@ -413,7 +413,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     // Pass sortParamsByRequiredFlag through to the Mustache template...
                     boolean sortParamsByRequiredFlag = true;
                     if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
-                        sortParamsByRequiredFlag = Boolean.valueOf((String)this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
+                        sortParamsByRequiredFlag = Boolean.valueOf(this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
                     }
                     operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
 
