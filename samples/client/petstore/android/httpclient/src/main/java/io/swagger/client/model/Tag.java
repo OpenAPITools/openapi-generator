@@ -50,8 +50,8 @@ public class Tag  {
   @Override
   public int hashCode() {
     int result = 17;
-    result = 31 * result + (id == null ? 0: id.hashCode());
-    result = 31 * result + (name == null ? 0: name.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.name == null ? 0: this.name.hashCode());
     return result;
   }
 
