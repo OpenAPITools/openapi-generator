@@ -115,6 +115,18 @@
       end
 
       {{/pattern}}
+      {{#maxItems}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length > {{{maxItems}}}
+        invalid_properties.push("invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."
+      end
+
+      {{/maxItems}}
+      {{#minItems}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length < {{{minItems}}}
+        invalid_properties.push("invalid value for '{{{name}}}', number of items must be greater than or equal to {{{minItems}}}."
+      end
+
+      {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
       return invalid_properties
@@ -149,6 +161,12 @@
       {{#pattern}}
       return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
       {{/pattern}}
+      {{#maxItems}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length > {{{maxItems}}}
+      {{/maxItems}}
+      {{#minItems}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.length < {{{minItems}}}
+      {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
       return true
@@ -210,6 +228,18 @@
       end
 
       {{/pattern}}
+      {{#maxItems}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length > {{{maxItems}}}
+        fail ArgumentError, "invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."
+      end
+
+      {{/maxItems}}
+      {{#minItems}}
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length < {{{minItems}}}
+        fail ArgumentError, "invalid value for '{{{name}}}', number of items must be greater than or equal to {{{minItems}}}."
+      end
+
+      {{/minItems}}
       @{{{name}}} = {{{name}}}
     end
 

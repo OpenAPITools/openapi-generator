@@ -57,6 +57,16 @@ use Illuminate\Support\Facades\Request;
             throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
         }
         {{/pattern}}
+        {{#maxItems}}
+        if (count(${{paramName}}]) > {{maxItems}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
+        }
+        {{/maxItems}}
+        {{#minItems}}
+        if (count(${{paramName}}]) < {{minItems}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
+        }
+        {{/minItems}}
         {{/hasValidation}}
         {{/pathParams}}
 
@@ -95,6 +105,16 @@ use Illuminate\Support\Facades\Request;
             throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
         }
         {{/pattern}}
+        {{#maxItems}}
+        if (count($input['{{paramName}}']) > {{maxItems}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
+        }
+        {{/maxItems}}
+        {{#minItems}}
+        if (count($input['{{paramName}}']) < {{minItems}}) {
+            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
+        }
+        {{/minItems}}
         {{/hasValidation}}
         ${{paramName}} = $input['{{paramName}}'];
 

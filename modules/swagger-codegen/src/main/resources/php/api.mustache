@@ -153,6 +153,16 @@ use \{{invokerPackage}}\ObjectSerializer;
             throw new \InvalidArgumentException("invalid value for \"{{paramName}}\" when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.");
         }
         {{/pattern}}
+        {{#maxItems}}
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(count(${{paramName}}) > {{maxItems}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
+        }
+        {{/maxItems}}
+        {{#minItems}}
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(count(${{paramName}}) < {{minItems}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
+        }
+        {{/minItems}}
 
         {{/hasValidation}}
         {{/allParams}}
