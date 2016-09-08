@@ -19,6 +19,9 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         outputFolder = "generated-code/JavaJaxRS-CXF";
         apiTestTemplateFiles.clear(); // TODO: add test template
 
+        //TODO add auto-generated pom.xml for maven
+        //apiTemplateFiles.put("pom.mustache", "pom.xml");
+
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
         //TODO: add doc templates
