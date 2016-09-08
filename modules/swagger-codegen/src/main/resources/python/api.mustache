@@ -138,6 +138,14 @@ class {{classname}}(object):
         if '{{paramName}}' in params and not re.search('{{{vendorExtensions.x-regex}}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{{pattern}}}`")
     {{/pattern}}
+    {{#maxItems}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) > {{maxItems}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be less than or equal to `{{maxItems}}`")
+    {{/maxItems}}
+    {{#minItems}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) < {{minItems}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")
+    {{/minItems}}
 {{/hasValidation}}
 {{/allParams}}
 

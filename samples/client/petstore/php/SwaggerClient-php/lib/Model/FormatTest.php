@@ -353,6 +353,7 @@ class FormatTest implements ArrayAccess
         if ($integer < 10.0) {
             throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be bigger than or equal to 10.0.');
         }
+
         $this->container['integer'] = $integer;
 
         return $this;
@@ -381,6 +382,7 @@ class FormatTest implements ArrayAccess
         if ($int32 < 20.0) {
             throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be bigger than or equal to 20.0.');
         }
+
         $this->container['int32'] = $int32;
 
         return $this;
@@ -430,6 +432,7 @@ class FormatTest implements ArrayAccess
         if ($number < 32.1) {
             throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be bigger than or equal to 32.1.');
         }
+
         $this->container['number'] = $number;
 
         return $this;
@@ -458,6 +461,7 @@ class FormatTest implements ArrayAccess
         if ($float < 54.3) {
             throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be bigger than or equal to 54.3.');
         }
+
         $this->container['float'] = $float;
 
         return $this;
@@ -486,6 +490,7 @@ class FormatTest implements ArrayAccess
         if ($double < 67.8) {
             throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be bigger than or equal to 67.8.');
         }
+
         $this->container['double'] = $double;
 
         return $this;
@@ -511,6 +516,7 @@ class FormatTest implements ArrayAccess
         if (!preg_match("/[a-z]/i", $string)) {
             throw new \InvalidArgumentException("invalid value for $string when calling FormatTest., must conform to the pattern /[a-z]/i.");
         }
+
         $this->container['string'] = $string;
 
         return $this;
@@ -643,6 +649,7 @@ class FormatTest implements ArrayAccess
         if (strlen($password) < 10) {
             throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be bigger than or equal to 10.');
         }
+
         $this->container['password'] = $password;
 
         return $this;

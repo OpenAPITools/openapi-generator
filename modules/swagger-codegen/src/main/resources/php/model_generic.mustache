@@ -160,6 +160,18 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
 
         {{/pattern}}
+        {{#maxItems}}
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(count($this->container['{{name}}']) > {{maxItems}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', number of items must be less than or equal to {{{maxItems}}}.";
+        }
+
+        {{/maxItems}}
+        {{#minItems}}
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(count($this->container['{{name}}']) < {{minItems}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', number of items must be greater than or equal to {{{minItems}}}.";
+        }
+
+        {{/minItems}}
         {{/hasValidation}}
         {{/vars}}
         return $invalid_properties;
@@ -213,6 +225,16 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
             return false;
         }
         {{/pattern}}
+        {{#maxItems}}
+        if (count($this->container['{{name}}']) > {{maxItems}}) {
+            return false;
+        }
+        {{/maxItems}}
+        {{#minItems}}
+        if (count($this->container['{{name}}']) < {{minItems}}) {
+            return false;
+        }
+        {{/minItems}}
         {{/hasValidation}}
         {{/vars}}
         return true;
@@ -274,6 +296,15 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
             throw new \InvalidArgumentException("invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.");
         }
         {{/pattern}}
+        {{#maxItems}}
+        if (count(${{name}}) > {{maxItems}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
+        }{{/maxItems}}
+        {{#minItems}}
+        if (count(${{name}}) < {{minItems}}) {
+            throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
+        }
+        {{/minItems}}
         {{/hasValidation}}
         $this->container['{{name}}'] = ${{name}};
 
