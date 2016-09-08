@@ -32,6 +32,8 @@ public class ScalatraServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(ScalatraServerOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
+            clientCodegen.setSourceFolder(ScalatraServerOptionsProvider.SOURCE_FOLDER_VALUE);
+            times = 1;
         }};
     }
 }

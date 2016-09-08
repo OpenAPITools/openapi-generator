@@ -34,6 +34,8 @@ public class ScalaClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setModelPropertyNaming(ScalaClientOptionsProvider.MODEL_PROPERTY_NAMING);
             times = 1;
+            clientCodegen.setSourceFolder(ScalaClientOptionsProvider.SOURCE_FOLDER_VALUE);
+            times = 1;
         }};
     }
 }
