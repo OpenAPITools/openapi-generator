@@ -163,8 +163,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getHelp() {
-        return "Generates an Erlang server library using the swagger-tools project.  By default, " +
-                "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
+        return "Generates an Erlang server library (beta) using the Swagger Codegen project. By default, " +
+                "it will also generate service classes, which can be disabled with the `-Dnoservice` environment variable.";
     }
 
     @Override
@@ -264,4 +264,17 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     protected String toPrivFilePath(String name, String extension) {
         return "priv" + File.separator + name + "." + extension;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // ref: http://stackoverflow.com/a/30421295/677735
+        return input.replace("-ifdef", "- if def").replace("-endif", "- end if");
+    }
+
 }
