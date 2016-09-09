@@ -874,6 +874,7 @@ Here is a list of template creators:
    * TypeScript (Angular2): @roni-frantchi
  * Server Stubs
    * C# ASP.NET5: @jimschubert
+   * Erlang Server: @galaxie
    * C# NancyFX: @mstefaniuk
    * Go Server: @guohuang
    * Haskell Servant: @algas
