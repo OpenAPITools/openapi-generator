@@ -9,7 +9,6 @@ package io.swagger.client.model
 import io.swagger.client.core.ApiModel
 import org.joda.time.DateTime
 
-
 case class User (
   id: Option[Long],
   username: Option[String],
@@ -19,7 +18,7 @@ case class User (
   password: Option[String],
   phone: Option[String],
   /* User Status */
-  userStatus: Option[Int])
-   extends ApiModel
+  userStatus: Option[Int]
+) extends ApiModel
 
 
