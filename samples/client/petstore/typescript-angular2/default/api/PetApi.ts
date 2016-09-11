@@ -56,7 +56,7 @@ export class PetApi {
         const path = this.basePath + `/pet`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -74,7 +74,6 @@ export class PetApi {
 
         headers.set('Content-Type', 'application/json');
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -104,7 +103,7 @@ export class PetApi {
         const path = this.basePath + `/pet/${petId}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
@@ -123,7 +122,6 @@ export class PetApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -151,7 +149,7 @@ export class PetApi {
         const path = this.basePath + `/pet/findByStatus`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         if (status !== undefined) {
             queryParameters.set('status', <any>status);
         }
@@ -169,7 +167,6 @@ export class PetApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -197,7 +194,7 @@ export class PetApi {
         const path = this.basePath + `/pet/findByTags`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         if (tags !== undefined) {
             queryParameters.set('tags', <any>tags);
         }
@@ -215,7 +212,6 @@ export class PetApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -243,7 +239,7 @@ export class PetApi {
         const path = this.basePath + `/pet/${petId}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
@@ -262,7 +258,6 @@ export class PetApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -290,7 +285,7 @@ export class PetApi {
         const path = this.basePath + `/pet`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -308,7 +303,6 @@ export class PetApi {
 
         headers.set('Content-Type', 'application/json');
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
@@ -339,7 +333,7 @@ export class PetApi {
         const path = this.basePath + `/pet/${petId}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         let formParams = new URLSearchParams();
 
         // verify required parameter 'petId' is not null or undefined
@@ -362,7 +356,6 @@ export class PetApi {
         headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
 
-// add form parameters if provided
         if (name !== undefined) {
         	formParams.set('name', <any>name); 
         }
@@ -399,7 +392,7 @@ export class PetApi {
         const path = this.basePath + `/pet/${petId}/uploadImage`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         let formParams = new URLSearchParams();
 
         // verify required parameter 'petId' is not null or undefined
@@ -422,7 +415,6 @@ export class PetApi {
         headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
 
-// add form parameters if provided
         if (additionalMetadata !== undefined) {
         	formParams.set('additionalMetadata', <any>additionalMetadata); 
         }

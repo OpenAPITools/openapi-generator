@@ -56,7 +56,7 @@ export class UserApi {
         const path = this.basePath + `/user`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -72,7 +72,6 @@ export class UserApi {
 
         headers.set('Content-Type', 'application/json');
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -101,7 +100,7 @@ export class UserApi {
         const path = this.basePath + `/user/createWithArray`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -117,7 +116,6 @@ export class UserApi {
 
         headers.set('Content-Type', 'application/json');
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -146,7 +144,7 @@ export class UserApi {
         const path = this.basePath + `/user/createWithList`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -162,7 +160,6 @@ export class UserApi {
 
         headers.set('Content-Type', 'application/json');
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -191,7 +188,7 @@ export class UserApi {
         const path = this.basePath + `/user/${username}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
@@ -210,7 +207,6 @@ export class UserApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -238,7 +234,7 @@ export class UserApi {
         const path = this.basePath + `/user/${username}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
@@ -257,7 +253,6 @@ export class UserApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -286,7 +281,7 @@ export class UserApi {
         const path = this.basePath + `/user/login`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         if (username !== undefined) {
             queryParameters.set('username', <any>username);
         }
@@ -307,7 +302,6 @@ export class UserApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -334,7 +328,7 @@ export class UserApi {
         const path = this.basePath + `/user/logout`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -349,7 +343,6 @@ export class UserApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -378,7 +371,7 @@ export class UserApi {
         const path = this.basePath + `/user/${username}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
@@ -398,7 +391,6 @@ export class UserApi {
 
         headers.set('Content-Type', 'application/json');
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
