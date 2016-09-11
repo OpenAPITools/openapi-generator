@@ -12,7 +12,6 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenSecurity;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.models.properties.ArrayProperty;
@@ -42,13 +41,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "io.swagger.client";
-    protected String invokerPackage = mainPackage + ".core";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-client";
     protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/scala";
     protected String resourcesFolder = "src/main/resources";
     protected String configKey = "apiRequest";
     protected int defaultTimeoutInMs = 5000;
@@ -75,6 +72,7 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         embeddedTemplateDir = templateDir = "akka-scala";
         apiPackage = mainPackage + ".api";
         modelPackage = mainPackage + ".model";
+        invokerPackage = mainPackage + ".core";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -135,25 +133,8 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
         typeMapping.put("file", "File");
         typeMapping.put("number", "Double");
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Int",
-                        "Long",
-                        "Float",
-                        "Object",
-                        "List",
-                        "Seq",
-                        "Map")
-        );
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
-
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
     @Override
@@ -174,16 +155,6 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
     @Override
     public String escapeReservedWord(String name) {
         return "`" + name + "`";
-    }
-
-    @Override
-    public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
-    }
-
-    @Override
-    public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -216,21 +187,6 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
             }
         }
         return super.postProcessOperations(objs);
-    }
-
-    @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
-        }
-        return super.getTypeDeclaration(p);
     }
 
     @Override
@@ -295,36 +251,6 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
     @Override
     public String toEnumName(CodegenProperty property) {
         return formatIdentifier(property.baseName, true);
-    }
-
-    @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        String type;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
-            }
-        } else {
-            type = swaggerType;
-        }
-        return toModelName(type);
-    }
-
-    @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
-            return instantiationTypes.get("map") + "[String, " + inner + "]";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
-            return instantiationTypes.get("array") + "[" + inner + "]";
-        } else {
-            return null;
-        }
     }
 
     @Override
@@ -418,10 +344,5 @@ public class AkkaScalaClientCodegen extends DefaultCodegen implements CodegenCon
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 }
