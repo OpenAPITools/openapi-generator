@@ -40,7 +40,7 @@ export class {{classname}} {
         const path = this.basePath + `{{path}}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 {{#hasFormParams}}
         let formParams = new URLSearchParams();
 

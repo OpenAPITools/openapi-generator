@@ -56,7 +56,7 @@ export class StoreApi {
         const path = this.basePath + `/store/order/${orderId}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
@@ -75,7 +75,6 @@ export class StoreApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -102,7 +101,7 @@ export class StoreApi {
         const path = this.basePath + `/store/inventory`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -117,7 +116,6 @@ export class StoreApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -145,7 +143,7 @@ export class StoreApi {
         const path = this.basePath + `/store/order/${orderId}`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
@@ -164,7 +162,6 @@ export class StoreApi {
 
 
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -192,7 +189,7 @@ export class StoreApi {
         const path = this.basePath + `/store/order`;
 
         let queryParameters = new URLSearchParams();
-        let headers = new Headers(this.defaultHeaders.values()); // https://github.com/angular/angular/issues/6845
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
         // to determine the Content-Type header
@@ -208,7 +205,6 @@ export class StoreApi {
 
         headers.set('Content-Type', 'application/json');
 
-// add form parameters if provided
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
