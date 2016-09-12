@@ -623,7 +623,7 @@ public class PetApi {
       // normal form params
         }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -693,7 +693,7 @@ public class PetApi {
       // normal form params
           }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
