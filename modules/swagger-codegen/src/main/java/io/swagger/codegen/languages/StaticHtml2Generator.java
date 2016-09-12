@@ -14,12 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
-    private static final String ALL_OPERATIONS = "";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-client";
     protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/scala";
 
     public StaticHtml2Generator() {
         super();
