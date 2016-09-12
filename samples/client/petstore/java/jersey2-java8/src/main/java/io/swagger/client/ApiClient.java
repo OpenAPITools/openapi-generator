@@ -84,8 +84,9 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -497,8 +498,15 @@ public class ApiClient {
    * Deserialize response body to Java object according to the Content-Type.
    */
   public <T> T deserialize(Response response, GenericType<T> returnType) throws ApiException {
-    // Handle file downloading.
-    if (returnType.equals(File.class)) {
+    if (response == null || returnType == null) {
+      return null;
+    }
+
+    if ("byte[]".equals(returnType.toString())) {
+      // Handle binary response (byte array).
+      return (T) response.readEntity(byte[].class);
+    } else if (returnType.equals(File.class)) {
+      // Handle file downloading.
       @SuppressWarnings("unchecked")
       T file = (T) downloadFileFromResponse(response);
       return file;

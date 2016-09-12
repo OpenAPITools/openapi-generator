@@ -87,9 +87,9 @@ namespace API.Client {
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling deletePet');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling deletePet.');
             }
             headerParams['api_key'] = apiKey;
 
@@ -109,7 +109,7 @@ namespace API.Client {
         }
         /**
          * Finds Pets by status
-         * Multiple status values can be provided with comma seperated strings
+         * Multiple status values can be provided with comma separated strings
          * @param status Status values that need to be considered for filter
          */
         public findPetsByStatus (status?: Array<string>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<Pet>> {
@@ -137,7 +137,7 @@ namespace API.Client {
         }
         /**
          * Finds Pets by tags
-         * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @param tags Tags to filter by
          */
         public findPetsByTags (tags?: Array<string>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<Pet>> {
@@ -174,9 +174,9 @@ namespace API.Client {
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling getPetById');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling getPetById.');
             }
             let httpRequestParams: any = {
                 method: 'GET',
@@ -232,9 +232,9 @@ namespace API.Client {
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let formParams: any = {};
 
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling updatePetWithForm');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
             }
             headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -272,9 +272,9 @@ namespace API.Client {
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
             let formParams: any = {};
 
-            // verify required parameter 'petId' is set
-            if (!petId) {
-                throw new Error('Missing required parameter petId when calling uploadFile');
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
             }
             headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
 

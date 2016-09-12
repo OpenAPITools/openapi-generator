@@ -60,7 +60,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 import {{{invokerPackage}}}.*;
 import {{{invokerPackage}}}.auth.*;
-import {{{invokerPackage}}}.model.*;
+import {{{modelPackage}}}.*;
 import {{{package}}}.{{{classname}}};
 
 import java.io.File;
@@ -140,7 +140,7 @@ Class | Method | HTTP request | Description
 
 ## Recommendation
 
-It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issue.
+It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
 
 ## Author
 

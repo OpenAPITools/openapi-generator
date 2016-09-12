@@ -159,7 +159,7 @@ module Petstore
       when :Float
         value.to_f
       when :BOOLEAN
-        if value.to_s =~ /^(true|t|yes|y|1)$/i
+        if value.to_s =~ /\A(true|t|yes|y|1)\z/i
           true
         else
           false

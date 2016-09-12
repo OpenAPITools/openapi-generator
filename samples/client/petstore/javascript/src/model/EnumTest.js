@@ -76,7 +76,7 @@
         obj['enum_string'] = ApiClient.convertToType(data['enum_string'], 'String');
       }
       if (data.hasOwnProperty('enum_integer')) {
-        obj['enum_integer'] = ApiClient.convertToType(data['enum_integer'], 'Integer');
+        obj['enum_integer'] = ApiClient.convertToType(data['enum_integer'], 'Number');
       }
       if (data.hasOwnProperty('enum_number')) {
         obj['enum_number'] = ApiClient.convertToType(data['enum_number'], 'Number');
@@ -118,7 +118,7 @@
 
   /**
    * Allowed values for the <code>enum_integer</code> property.
-   * @enum {Integer}
+   * @enum {Number}
    * @readonly
    */
   exports.EnumIntegerEnum = {

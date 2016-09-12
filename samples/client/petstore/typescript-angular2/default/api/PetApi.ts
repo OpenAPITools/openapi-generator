@@ -22,22 +22,26 @@
  * limitations under the License.
  */
 
-import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
-import {Injectable, Optional} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import * as models from '../model/models';
-import 'rxjs/Rx';
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Http, Headers, URLSearchParams }                    from '@angular/http';
+import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { Response, ResponseContentType }                     from '@angular/http';
+
+import { Observable }                                        from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
+import * as models                                           from '../model/models';
+import { BASE_PATH }                                         from '../variables';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
-'use strict';
 
 @Injectable()
 export class PetApi {
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders : Headers = new Headers();
+    public defaultHeaders: Headers = new Headers();
 
-    constructor(protected http: Http, @Optional() basePath: string) {
+    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string) {
         if (basePath) {
             this.basePath = basePath;
         }
@@ -48,19 +52,8 @@ export class PetApi {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public addPet (body?: models.Pet, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/pet';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(body);
-
-        return this.http.request(path, requestOptions)
+    public addPet(body?: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+        return this.addPetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -76,25 +69,8 @@ export class PetApi {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public deletePet (petId: number, apiKey?: string, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/pet/{petId}'
-            .replace('{' + 'petId' + '}', String(petId));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'petId' is not null or undefined
-        if (petId === null || petId === undefined) {
-            throw new Error('Required parameter petId was null or undefined when calling deletePet.');
-        }
-            headerParams.set('api_key', String(apiKey));
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'DELETE',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
+    public deletePet(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.deletePetWithHttpInfo(petId, apiKey, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -106,25 +82,11 @@ export class PetApi {
 
     /**
      * Finds Pets by status
-     * Multiple status values can be provided with comma seperated strings
+     * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus (status?: Array<string>, extraHttpRequestParams?: any ) : Observable<Array<models.Pet>> {
-        const path = this.basePath + '/pet/findByStatus';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        if (status !== undefined) {
-            queryParameters.set('status', String(status));
-        }
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
+    public findPetsByStatus(status?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+        return this.findPetsByStatusWithHttpInfo(status, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -136,25 +98,11 @@ export class PetApi {
 
     /**
      * Finds Pets by tags
-     * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    public findPetsByTags (tags?: Array<string>, extraHttpRequestParams?: any ) : Observable<Array<models.Pet>> {
-        const path = this.basePath + '/pet/findByTags';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        if (tags !== undefined) {
-            queryParameters.set('tags', String(tags));
-        }
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
+    public findPetsByTags(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+        return this.findPetsByTagsWithHttpInfo(tags, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -169,23 +117,8 @@ export class PetApi {
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param petId ID of pet that needs to be fetched
      */
-    public getPetById (petId: number, extraHttpRequestParams?: any ) : Observable<models.Pet> {
-        const path = this.basePath + '/pet/{petId}'
-            .replace('{' + 'petId' + '}', String(petId));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        // verify required parameter 'petId' is not null or undefined
-        if (petId === null || petId === undefined) {
-            throw new Error('Required parameter petId was null or undefined when calling getPetById.');
-        }
-        let requestOptions: RequestOptionsArgs = {
-            method: 'GET',
-            headers: headerParams,
-            search: queryParameters
-        };
-
-        return this.http.request(path, requestOptions)
+    public getPetById(petId: number, extraHttpRequestParams?: any): Observable<models.Pet> {
+        return this.getPetByIdWithHttpInfo(petId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -200,19 +133,8 @@ export class PetApi {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public updatePet (body?: models.Pet, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/pet';
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let requestOptions: RequestOptionsArgs = {
-            method: 'PUT',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = JSON.stringify(body);
-
-        return this.http.request(path, requestOptions)
+    public updatePet(body?: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+        return this.updatePetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -229,32 +151,8 @@ export class PetApi {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public updatePetWithForm (petId: string, name?: string, status?: string, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/pet/{petId}'
-            .replace('{' + 'petId' + '}', String(petId));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let formParams = new URLSearchParams();
-
-        // verify required parameter 'petId' is not null or undefined
-        if (petId === null || petId === undefined) {
-            throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
-        }
-        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
-
-        formParams['name'] = name;
-
-        formParams['status'] = status;
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = formParams.toString();
-
-        return this.http.request(path, requestOptions)
+    public updatePetWithForm(petId: string, name?: string, status?: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.updatePetWithFormWithHttpInfo(petId, name, status, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -271,32 +169,8 @@ export class PetApi {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile (petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any ) : Observable<{}> {
-        const path = this.basePath + '/pet/{petId}/uploadImage'
-            .replace('{' + 'petId' + '}', String(petId));
-
-        let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
-        let formParams = new URLSearchParams();
-
-        // verify required parameter 'petId' is not null or undefined
-        if (petId === null || petId === undefined) {
-            throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
-        }
-        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
-
-        formParams['additionalMetadata'] = additionalMetadata;
-
-        formParams['file'] = file;
-
-        let requestOptions: RequestOptionsArgs = {
-            method: 'POST',
-            headers: headerParams,
-            search: queryParameters
-        };
-        requestOptions.body = formParams.toString();
-
-        return this.http.request(path, requestOptions)
+    public uploadFile(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<{}> {
+        return this.uploadFileWithHttpInfo(petId, additionalMetadata, file, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -304,6 +178,344 @@ export class PetApi {
                     return response.json();
                 }
             });
+    }
+
+
+    /**
+     * Add a new pet to the store
+     * 
+     * @param body Pet object that needs to be added to the store
+     */
+    public addPetWithHttpInfo(body?: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+        headers.set('Content-Type', 'application/json');
+
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Deletes a pet
+     * 
+     * @param petId Pet id to delete
+     * @param apiKey 
+     */
+    public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet/${petId}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling deletePet.');
+        }
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Delete,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     * @param status Status values that need to be considered for filter
+     */
+    public findPetsByStatusWithHttpInfo(status?: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet/findByStatus`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        if (status !== undefined) {
+            queryParameters.set('status', <any>status);
+        }
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @param tags Tags to filter by
+     */
+    public findPetsByTagsWithHttpInfo(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet/findByTags`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        if (tags !== undefined) {
+            queryParameters.set('tags', <any>tags);
+        }
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Find pet by ID
+     * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+     * @param petId ID of pet that needs to be fetched
+     */
+    public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet/${petId}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling getPetById.');
+        }
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Get,
+            headers: headers,
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Update an existing pet
+     * 
+     * @param body Pet object that needs to be added to the store
+     */
+    public updatePetWithHttpInfo(body?: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+
+        headers.set('Content-Type', 'application/json');
+
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Put,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet
+     * @param status Updated status of the pet
+     */
+    public updatePetWithFormWithHttpInfo(petId: string, name?: string, status?: string, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet/${petId}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
+        }
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/x-www-form-urlencoded'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+
+        if (name !== undefined) {
+        	formParams.set('name', <any>name); 
+        }
+        if (status !== undefined) {
+        	formParams.set('status', <any>status); 
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: formParams.toString(),
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * uploads an image
+     * 
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server
+     * @param file file to upload
+     */
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `/pet/${petId}/uploadImage`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        let formParams = new URLSearchParams();
+
+        // verify required parameter 'petId' is not null or undefined
+        if (petId === null || petId === undefined) {
+            throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
+        }
+
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json', 
+            'application/xml'
+        ];
+
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+
+        if (additionalMetadata !== undefined) {
+        	formParams.set('additionalMetadata', <any>additionalMetadata); 
+        }
+        if (file !== undefined) {
+        	formParams.set('file', <any>file); 
+        }
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: formParams.toString(),
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
     }
 
 }

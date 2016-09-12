@@ -34,7 +34,7 @@ using Newtonsoft.Json.Converters;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// Gets or Sets EnumClass
+    /// Defines EnumClass
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum EnumClass

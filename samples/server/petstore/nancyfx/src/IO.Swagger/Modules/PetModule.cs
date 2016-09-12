@@ -9,6 +9,16 @@ using NodaTime;
 
 namespace IO.Swagger.v2.Modules
 { 
+    /// <summary>
+    /// Status values that need to be considered for filter
+    /// </summary>
+    public enum FindPetsByStatusStatusEnum
+    {
+        available, 
+        pending, 
+        sold
+    };
+
 
     /// <summary>
     /// Module processing requests of Pet domain.
@@ -24,8 +34,10 @@ namespace IO.Swagger.v2.Modules
             Post["/pet"] = parameters =>
             {
                 var body = this.Bind<Pet>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'AddPet'");
+                
                 service.AddPet(Context, body);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Delete["/pet/{petId}"] = parameters =>
@@ -35,18 +47,22 @@ namespace IO.Swagger.v2.Modules
                 Preconditions.IsNotNull(petId, "Required parameter: 'petId' is missing at 'DeletePet'");
                 
                 service.DeletePet(Context, petId, apiKey);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Get["/pet/findByStatus"] = parameters =>
             {
-                var status = Parameters.ValueOf<List<string>>(parameters, Context.Request, "status", ParameterType.Query);
+                var status = Parameters.ValueOf<FindPetsByStatusStatusEnum?>(parameters, Context.Request, "status", ParameterType.Query);
+                Preconditions.IsNotNull(status, "Required parameter: 'status' is missing at 'FindPetsByStatus'");
+                
                 return service.FindPetsByStatus(Context, status);
             };
 
             Get["/pet/findByTags"] = parameters =>
             {
                 var tags = Parameters.ValueOf<List<string>>(parameters, Context.Request, "tags", ParameterType.Query);
+                Preconditions.IsNotNull(tags, "Required parameter: 'tags' is missing at 'FindPetsByTags'");
+                
                 return service.FindPetsByTags(Context, tags);
             };
 
@@ -61,19 +77,21 @@ namespace IO.Swagger.v2.Modules
             Put["/pet"] = parameters =>
             {
                 var body = this.Bind<Pet>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'UpdatePet'");
+                
                 service.UpdatePet(Context, body);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Post["/pet/{petId}"] = parameters =>
             {
-                var petId = Parameters.ValueOf<string>(parameters, Context.Request, "petId", ParameterType.Path);
+                var petId = Parameters.ValueOf<long?>(parameters, Context.Request, "petId", ParameterType.Path);
                 var name = Parameters.ValueOf<string>(parameters, Context.Request, "name", ParameterType.Undefined);
                 var status = Parameters.ValueOf<string>(parameters, Context.Request, "status", ParameterType.Undefined);
                 Preconditions.IsNotNull(petId, "Required parameter: 'petId' is missing at 'UpdatePetWithForm'");
                 
                 service.UpdatePetWithForm(Context, petId, name, status);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Post["/pet/{petId}/uploadImage"] = parameters =>
@@ -83,8 +101,7 @@ namespace IO.Swagger.v2.Modules
                 var file = Parameters.ValueOf<System.IO.Stream>(parameters, Context.Request, "file", ParameterType.Undefined);
                 Preconditions.IsNotNull(petId, "Required parameter: 'petId' is missing at 'UploadFile'");
                 
-                service.UploadFile(Context, petId, additionalMetadata, file);
-                return new Response { ContentType = "application/json"};
+                return service.UploadFile(Context, petId, additionalMetadata, file);
             };
         }
     }
@@ -98,7 +115,7 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">Pet object that needs to be added to the store (optional)</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         void AddPet(NancyContext context, Pet body);
 
@@ -112,26 +129,26 @@ namespace IO.Swagger.v2.Modules
         void DeletePet(NancyContext context, long? petId, string apiKey);
 
         /// <summary>
-        /// Multiple status values can be provided with comma seperated strings
+        /// Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="status">Status values that need to be considered for filter (optional, default to available)</param>
+        /// <param name="status">Status values that need to be considered for filter</param>
         /// <returns>List&lt;Pet&gt;</returns>
-        List<Pet> FindPetsByStatus(NancyContext context, List<string> status);
+        List<Pet> FindPetsByStatus(NancyContext context, FindPetsByStatusStatusEnum? status);
 
         /// <summary>
-        /// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+        /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="tags">Tags to filter by (optional)</param>
+        /// <param name="tags">Tags to filter by</param>
         /// <returns>List&lt;Pet&gt;</returns>
         List<Pet> FindPetsByTags(NancyContext context, List<string> tags);
 
         /// <summary>
-        /// Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+        /// Returns a single pet
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="petId">ID of pet that needs to be fetched</param>
+        /// <param name="petId">ID of pet to return</param>
         /// <returns>Pet</returns>
         Pet GetPetById(NancyContext context, long? petId);
 
@@ -139,7 +156,7 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">Pet object that needs to be added to the store (optional)</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
         void UpdatePet(NancyContext context, Pet body);
 
@@ -151,7 +168,7 @@ namespace IO.Swagger.v2.Modules
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
-        void UpdatePetWithForm(NancyContext context, string petId, string name, string status);
+        void UpdatePetWithForm(NancyContext context, long? petId, string name, string status);
 
         /// <summary>
         /// 
@@ -160,8 +177,8 @@ namespace IO.Swagger.v2.Modules
         /// <param name="petId">ID of pet to update</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
-        /// <returns></returns>
-        void UploadFile(NancyContext context, long? petId, string additionalMetadata, System.IO.Stream file);
+        /// <returns>ApiResponse</returns>
+        ApiResponse UploadFile(NancyContext context, long? petId, string additionalMetadata, System.IO.Stream file);
     }
 
     /// <summary>
@@ -179,7 +196,7 @@ namespace IO.Swagger.v2.Modules
             DeletePet(petId, apiKey);
         }
 
-        public virtual List<Pet> FindPetsByStatus(NancyContext context, List<string> status)
+        public virtual List<Pet> FindPetsByStatus(NancyContext context, FindPetsByStatusStatusEnum? status)
         {
             return FindPetsByStatus(status);
         }
@@ -199,21 +216,21 @@ namespace IO.Swagger.v2.Modules
             UpdatePet(body);
         }
 
-        public virtual void UpdatePetWithForm(NancyContext context, string petId, string name, string status)
+        public virtual void UpdatePetWithForm(NancyContext context, long? petId, string name, string status)
         {
             UpdatePetWithForm(petId, name, status);
         }
 
-        public virtual void UploadFile(NancyContext context, long? petId, string additionalMetadata, System.IO.Stream file)
+        public virtual ApiResponse UploadFile(NancyContext context, long? petId, string additionalMetadata, System.IO.Stream file)
         {
-            UploadFile(petId, additionalMetadata, file);
+            return UploadFile(petId, additionalMetadata, file);
         }
 
         protected abstract void AddPet(Pet body);
 
         protected abstract void DeletePet(long? petId, string apiKey);
 
-        protected abstract List<Pet> FindPetsByStatus(List<string> status);
+        protected abstract List<Pet> FindPetsByStatus(FindPetsByStatusStatusEnum? status);
 
         protected abstract List<Pet> FindPetsByTags(List<string> tags);
 
@@ -221,9 +238,9 @@ namespace IO.Swagger.v2.Modules
 
         protected abstract void UpdatePet(Pet body);
 
-        protected abstract void UpdatePetWithForm(string petId, string name, string status);
+        protected abstract void UpdatePetWithForm(long? petId, string name, string status);
 
-        protected abstract void UploadFile(long? petId, string additionalMetadata, System.IO.Stream file);
+        protected abstract ApiResponse UploadFile(long? petId, string additionalMetadata, System.IO.Stream file);
     }
 
 }

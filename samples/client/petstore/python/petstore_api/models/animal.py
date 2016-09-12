@@ -54,6 +54,7 @@ class Animal(object):
         self._class_name = class_name
         self._color = color
 
+
     @property
     def class_name(self):
         """

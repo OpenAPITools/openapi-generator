@@ -136,9 +136,9 @@ namespace API.Client {
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'username' is set
-            if (!username) {
-                throw new Error('Missing required parameter username when calling deleteUser');
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new Error('Required parameter username was null or undefined when calling deleteUser.');
             }
             let httpRequestParams: any = {
                 method: 'DELETE',
@@ -165,9 +165,9 @@ namespace API.Client {
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'username' is set
-            if (!username) {
-                throw new Error('Missing required parameter username when calling getUserByName');
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new Error('Required parameter username was null or undefined when calling getUserByName.');
             }
             let httpRequestParams: any = {
                 method: 'GET',
@@ -251,9 +251,9 @@ namespace API.Client {
 
             let queryParameters: any = {};
             let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            // verify required parameter 'username' is set
-            if (!username) {
-                throw new Error('Missing required parameter username when calling updateUser');
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new Error('Required parameter username was null or undefined when calling updateUser.');
             }
             let httpRequestParams: any = {
                 method: 'PUT',

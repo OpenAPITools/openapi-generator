@@ -35,7 +35,7 @@ public class CodegenResponse {
 
         CodegenResponse that = (CodegenResponse) o;
 
-        if (headers != null ? !headers.equals(that.headers) : that.headers != null)
+        if (!headers.equals(that.headers))
             return false;
         if (code != null ? !code.equals(that.code) : that.code != null)
             return false;
@@ -71,7 +71,7 @@ public class CodegenResponse {
 
     @Override
     public int hashCode() {
-        int result = headers != null ? headers.hashCode() : 0;
+        int result = headers.hashCode();
         result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
         result = 31 * result + (hasMore != null ? hasMore.hashCode() : 0);

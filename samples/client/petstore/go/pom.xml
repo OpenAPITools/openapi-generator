@@ -4,7 +4,7 @@
     <artifactId>Goswagger</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
-    <name>Goswagger</name>
+    <name>Go Petstore Client</name>
  <build>
         <plugins>
             <plugin>

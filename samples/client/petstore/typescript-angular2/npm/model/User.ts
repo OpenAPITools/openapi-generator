@@ -22,12 +22,9 @@
  * limitations under the License.
  */
 
-'use strict';
 import * as models from './models';
 
 export interface User {
-    
-
     id?: number;
 
     username?: string;
@@ -46,4 +43,5 @@ export interface User {
      * User Status
      */
     userStatus?: number;
+
 }

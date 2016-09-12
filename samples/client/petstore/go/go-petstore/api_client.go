@@ -1,7 +1,7 @@
 /* 
  * Swagger Petstore
  *
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -29,10 +29,12 @@ import (
 	"reflect"
 	"strings"
 	"net/url"
+	"io/ioutil"
 	"github.com/go-resty/resty"
 )
 
 type APIClient struct {
+	config *Configuration
 }
 
 func (c *APIClient) SelectHeaderContentType(contentTypes []string) string {
@@ -57,9 +59,9 @@ func (c *APIClient) SelectHeaderAccept(accepts []string) string {
 	return strings.Join(accepts, ",")
 }
 
-func contains(source []string, containvalue string) bool {
-	for _, a := range source {
-		if strings.ToLower(a) == strings.ToLower(containvalue) {
+func contains(haystack []string, needle string) bool {
+	for _, a := range haystack {
+		if strings.ToLower(a) == strings.ToLower(needle) {
 			return true
 		}
 	}
@@ -74,11 +76,8 @@ func (c *APIClient) CallAPI(path string, method string,
 	fileName string,
 	fileBytes []byte) (*resty.Response, error) {
 
-	//set debug flag
-	configuration := NewConfiguration()
-	resty.SetDebug(configuration.GetDebug())
-
-	request := prepareRequest(postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	rClient := c.prepareClient()
+	request := c.prepareRequest(rClient, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
 
 	switch strings.ToUpper(method) {
 	case "GET":
@@ -115,18 +114,41 @@ func (c *APIClient) ParameterToString(obj interface{},collectionFormat string) s
 		}
 	}
 
-	return obj.(string)
+	return fmt.Sprintf("%v", obj)
 }
 
-func prepareRequest(postBody interface{},
+func (c *APIClient) prepareClient() *resty.Client {
+
+	rClient := resty.New()
+
+	rClient.SetDebug(c.config.Debug)
+	if c.config.Transport != nil {
+		rClient.SetTransport(c.config.Transport)
+	}
+
+	if c.config.Timeout != nil {
+		rClient.SetTimeout(*c.config.Timeout)
+	}
+	rClient.SetLogger(ioutil.Discard)
+	return rClient
+}
+
+func (c *APIClient) prepareRequest(
+	rClient *resty.Client,
+	postBody interface{},
 	headerParams map[string]string,
 	queryParams url.Values,
 	formParams map[string]string,
 	fileName string,
 	fileBytes []byte) *resty.Request {
 
-	request := resty.R()
+
+	request := rClient.R()
 	request.SetBody(postBody)
+
+	if c.config.UserAgent != "" {
+		request.SetHeader("User-Agent", c.config.UserAgent)
+	}
 
 	// add header parameter, if any
 	if len(headerParams) > 0 {

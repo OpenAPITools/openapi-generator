@@ -179,9 +179,7 @@ namespace IO.Swagger.Client
         /// <returns></returns>
         public void AddDefaultHeader(string key, string value)
         {
-            if (_defaultHeaderMap.ContainsKey(key))
-                _defaultHeaderMap.Remove(key);
-            _defaultHeaderMap.Add(key, value);
+            _defaultHeaderMap[key] = value;
         }
 
         /// <summary>
@@ -192,9 +190,7 @@ namespace IO.Swagger.Client
         /// <returns></returns>
         public void AddApiKey(string key, string value)
         {
-            if (ApiKey.ContainsKey(key))
-                ApiKey.Remove(key);
-            ApiKey.Add(key, value);
+            ApiKey[key] = value;
         }
 
         /// <summary>
@@ -204,9 +200,7 @@ namespace IO.Swagger.Client
         /// <param name="value">Api Key value.</param>
         public void AddApiKeyPrefix(string key, string value)
         {
-            if (ApiKeyPrefix.ContainsKey(key))
-                ApiKeyPrefix.Remove(key);
-            ApiKeyPrefix.Add(key, value);
+            ApiKeyPrefix[key] = value;
         }
 
         /// <summary>

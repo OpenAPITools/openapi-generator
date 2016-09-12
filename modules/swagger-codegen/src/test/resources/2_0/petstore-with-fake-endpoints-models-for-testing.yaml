@@ -586,15 +586,25 @@ paths:
     get:
       tags:
         - fake
-      summary: To test enum query parameters
-      descriptions: To test enum query parameters
-      operationId: testEnumQueryParameters
+      summary: To test enum parameters
+      descriptions: To test enum parameters
+      operationId: testEnumParameters
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: enum_query_string
+        - name: enum_form_string_array
+          type: array
+          items:
+            type: string
+            default: '$'
+            enum:
+              - '>'
+              - '$'
+          in: formData
+          description: Form parameter enum test (string array)
+        - name: enum_form_string
           type: string
           default: '-efg'
           enum:
@@ -602,6 +612,44 @@ paths:
             - '-efg'
             - (xyz)
           in: formData 
+          description: Form parameter enum test (string)
+        - name: enum_header_string_array
+          type: array
+          items:
+            type: string
+            default: '$'
+            enum:
+              - '>'
+              - '$'
+          in: header 
+          description: Header parameter enum test (string array)
+        - name: enum_header_string
+          type: string
+          default: '-efg'
+          enum:
+            - _abc
+            - '-efg'
+            - (xyz)
+          in: header
+          description: Header parameter enum test (string)
+        - name: enum_query_string_array
+          type: array 
+          items:
+            type: string
+            default: '$'
+            enum:
+              - '>'
+              - '$'
+          in: query
+          description: Query parameter enum test (string array)
+        - name: enum_query_string
+          type: string
+          default: '-efg'
+          enum:
+            - _abc
+            - '-efg'
+            - (xyz)
+          in: query 
           description: Query parameter enum test (string)
         - name: enum_query_integer
           type: number
@@ -689,6 +737,11 @@ paths:
           pattern: /[a-z]/i
           in: formData
           description: None
+        - name: pattern_without_delimiter
+          type: string
+          pattern: "^[A-Z].*"
+          in: formData
+          description: None
           required: true
         - name: byte
           type: string
@@ -723,7 +776,8 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-
+      security:
+        - http_basic_test: []
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -736,6 +790,8 @@ securityDefinitions:
     type: apiKey
     name: api_key
     in: header
+  http_basic_test:
+    type: basic
 definitions:
   Order:
     type: object
@@ -1040,6 +1096,11 @@ definitions:
         type: object
         additionalProperties:
           $ref: '#/definitions/Animal'
+  List:
+    type: object
+    properties:
+      123-list:
+        type: string
   Client:
     type: object
     properties:
@@ -1138,6 +1199,31 @@ definitions:
           type: array
           items:
             type: number
+  EnumArrays:
+    type: object
+    properties:
+      just_symbol:
+        type: string
+        enum:
+          - ">="
+          - "$" 
+      array_enum:
+        type: array
+        items:
+          type: string
+          enum:
+            - fish
+            - crab
+      # comment out the following as 2d array of enum is not supported at the moment
+      #array_array_enum:
+      #  type: array
+      #  items:
+      #    type: array
+      #    items:
+      #      type: string
+      #      enum:
+      #        - Cat
+      #        - Dog
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

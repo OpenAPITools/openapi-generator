@@ -1,16 +1,19 @@
 {{>licenseInfo}}
 package {{package}}
 
-{{#imports}}import {{import}}
+{{#imports}}
+import {{import}}
 {{/imports}}
 
 {{#models}}
-
 {{#model}}
-
 case class {{classname}} (
-  {{#vars}}{{#description}}/* {{{description}}} */
-  {{/description}}{{name}}: {{{datatype}}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
+  {{#vars}}
+  {{#description}}
+  /* {{{description}}} */
+  {{/description}}
+  {{name}}: {{{datatype}}}{{#hasMore}},{{/hasMore}}
   {{/vars}}
+)
 {{/model}}
 {{/models}}

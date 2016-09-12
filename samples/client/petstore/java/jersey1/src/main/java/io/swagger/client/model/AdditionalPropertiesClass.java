@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -27,6 +27,7 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
@@ -50,6 +51,11 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
+  public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
+    this.mapProperty.put(key, mapPropertyItem);
+    return this;
+  }
+
    /**
    * Get mapProperty
    * @return mapProperty
@@ -65,6 +71,11 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
+    return this;
+  }
+
+  public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
+    this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
   }
 

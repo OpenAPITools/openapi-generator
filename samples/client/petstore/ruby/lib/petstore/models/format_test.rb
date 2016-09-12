@@ -157,24 +157,89 @@ module Petstore
     # @return Array for valid properies with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+
+      if !@integer.nil? && @integer > 100.0
+        invalid_properties.push("invalid value for 'integer', must be smaller than or equal to 100.0.")
+      end
+
+      if !@integer.nil? && @integer < 10.0
+        invalid_properties.push("invalid value for 'integer', must be greater than or equal to 10.0.")
+      end
+
+
+      if !@int32.nil? && @int32 > 200.0
+        invalid_properties.push("invalid value for 'int32', must be smaller than or equal to 200.0.")
+      end
+
+      if !@int32.nil? && @int32 < 20.0
+        invalid_properties.push("invalid value for 'int32', must be greater than or equal to 20.0.")
+      end
+
+      if @number.nil?
+        invalid_properties.push("invalid value for 'number', number cannot be nil.")
+      end
+
+      if @number > 543.2
+        invalid_properties.push("invalid value for 'number', must be smaller than or equal to 543.2.")
+      end
+
+      if @number < 32.1
+        invalid_properties.push("invalid value for 'number', must be greater than or equal to 32.1.")
+      end
+
+
+      if !@float.nil? && @float > 987.6
+        invalid_properties.push("invalid value for 'float', must be smaller than or equal to 987.6.")
+      end
+
+      if !@float.nil? && @float < 54.3
+        invalid_properties.push("invalid value for 'float', must be greater than or equal to 54.3.")
+      end
+
+
+      if !@double.nil? && @double > 123.4
+        invalid_properties.push("invalid value for 'double', must be smaller than or equal to 123.4.")
+      end
+
+      if !@double.nil? && @double < 67.8
+        invalid_properties.push("invalid value for 'double', must be greater than or equal to 67.8.")
+      end
+
+
+      if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
+        invalid_properties.push("invalid value for 'string', must conform to the pattern /[a-z]/i.")
+      end
+
+      if @password.nil?
+        invalid_properties.push("invalid value for 'password', password cannot be nil.")
+      end
+
+      if @password.to_s.length > 64
+        invalid_properties.push("invalid value for 'password', the character length must be smaller than or equal to 64.")
+      end
+
+      if @password.to_s.length < 10
+        invalid_properties.push("invalid value for 'password', the character length must be great than or equal to 10.")
+      end
+
       return invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @integer > 100.0
-      return false if @integer < 10.0
-      return false if @int32 > 200.0
-      return false if @int32 < 20.0
+      return false if !@integer.nil? && @integer > 100.0
+      return false if !@integer.nil? && @integer < 10.0
+      return false if !@int32.nil? && @int32 > 200.0
+      return false if !@int32.nil? && @int32 < 20.0
       return false if @number.nil?
       return false if @number > 543.2
       return false if @number < 32.1
-      return false if @float > 987.6
-      return false if @float < 54.3
-      return false if @double > 123.4
-      return false if @double < 67.8
-      return false if @string !~ Regexp.new(/[a-z]/i)
+      return false if !@float.nil? && @float > 987.6
+      return false if !@float.nil? && @float < 54.3
+      return false if !@double.nil? && @double > 123.4
+      return false if !@double.nil? && @double < 67.8
+      return false if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
       return false if @byte.nil?
       return false if @date.nil?
       return false if @password.nil?
@@ -186,15 +251,12 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] integer Value to be assigned
     def integer=(integer)
-      if integer.nil?
-        fail ArgumentError, "integer cannot be nil"
-      end
 
-      if integer > 100.0
+      if !integer.nil? && integer > 100.0
         fail ArgumentError, "invalid value for 'integer', must be smaller than or equal to 100.0."
       end
 
-      if integer < 10.0
+      if !integer.nil? && integer < 10.0
         fail ArgumentError, "invalid value for 'integer', must be greater than or equal to 10.0."
       end
 
@@ -204,15 +266,12 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] int32 Value to be assigned
     def int32=(int32)
-      if int32.nil?
-        fail ArgumentError, "int32 cannot be nil"
-      end
 
-      if int32 > 200.0
+      if !int32.nil? && int32 > 200.0
         fail ArgumentError, "invalid value for 'int32', must be smaller than or equal to 200.0."
       end
 
-      if int32 < 20.0
+      if !int32.nil? && int32 < 20.0
         fail ArgumentError, "invalid value for 'int32', must be greater than or equal to 20.0."
       end
 
@@ -240,15 +299,12 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] float Value to be assigned
     def float=(float)
-      if float.nil?
-        fail ArgumentError, "float cannot be nil"
-      end
 
-      if float > 987.6
+      if !float.nil? && float > 987.6
         fail ArgumentError, "invalid value for 'float', must be smaller than or equal to 987.6."
       end
 
-      if float < 54.3
+      if !float.nil? && float < 54.3
         fail ArgumentError, "invalid value for 'float', must be greater than or equal to 54.3."
       end
 
@@ -258,15 +314,12 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] double Value to be assigned
     def double=(double)
-      if double.nil?
-        fail ArgumentError, "double cannot be nil"
-      end
 
-      if double > 123.4
+      if !double.nil? && double > 123.4
         fail ArgumentError, "invalid value for 'double', must be smaller than or equal to 123.4."
       end
 
-      if double < 67.8
+      if !double.nil? && double < 67.8
         fail ArgumentError, "invalid value for 'double', must be greater than or equal to 67.8."
       end
 
@@ -276,11 +329,8 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] string Value to be assigned
     def string=(string)
-      if string.nil?
-        fail ArgumentError, "string cannot be nil"
-      end
 
-      if @string !~ Regexp.new(/[a-z]/i)
+      if !string.nil? && string !~ Regexp.new(/[a-z]/i)
         fail ArgumentError, "invalid value for 'string', must conform to the pattern /[a-z]/i."
       end
 
@@ -343,7 +393,7 @@ module Petstore
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.swagger_types.each_pair do |key, type|
-        if type =~ /^Array<(.*)>/i
+        if type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the the attribute
           # is documented as an array but the input is not
           if attributes[self.class.attribute_map[key]].is_a?(Array)
@@ -374,7 +424,7 @@ module Petstore
       when :Float
         value.to_f
       when :BOOLEAN
-        if value.to_s =~ /^(true|t|yes|y|1)$/i
+        if value.to_s =~ /\A(true|t|yes|y|1)\z/i
           true
         else
           false

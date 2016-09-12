@@ -24,22 +24,28 @@ namespace IO.Swagger.v2.Modules
             Post["/user"] = parameters =>
             {
                 var body = this.Bind<User>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUser'");
+                
                 service.CreateUser(Context, body);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Post["/user/createWithArray"] = parameters =>
             {
                 var body = this.Bind<List<User>>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithArrayInput'");
+                
                 service.CreateUsersWithArrayInput(Context, body);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Post["/user/createWithList"] = parameters =>
             {
                 var body = this.Bind<List<User>>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithListInput'");
+                
                 service.CreateUsersWithListInput(Context, body);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Delete["/user/{username}"] = parameters =>
@@ -48,7 +54,7 @@ namespace IO.Swagger.v2.Modules
                 Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'DeleteUser'");
                 
                 service.DeleteUser(Context, username);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Get["/user/{username}"] = parameters =>
@@ -63,6 +69,10 @@ namespace IO.Swagger.v2.Modules
             {
                 var username = Parameters.ValueOf<string>(parameters, Context.Request, "username", ParameterType.Query);
                 var password = Parameters.ValueOf<string>(parameters, Context.Request, "password", ParameterType.Query);
+                Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'LoginUser'");
+                
+                Preconditions.IsNotNull(password, "Required parameter: 'password' is missing at 'LoginUser'");
+                
                 return service.LoginUser(Context, username, password);
             };
 
@@ -70,7 +80,7 @@ namespace IO.Swagger.v2.Modules
             {
                 
                 service.LogoutUser(Context);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
 
             Put["/user/{username}"] = parameters =>
@@ -79,8 +89,10 @@ namespace IO.Swagger.v2.Modules
                 var body = this.Bind<User>();
                 Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'UpdateUser'");
                 
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'UpdateUser'");
+                
                 service.UpdateUser(Context, username, body);
-                return new Response { ContentType = "application/json"};
+                return new Response { ContentType = "application/xml"};
             };
         }
     }
@@ -94,7 +106,7 @@ namespace IO.Swagger.v2.Modules
         /// This can only be done by the logged in user.
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">Created user object (optional)</param>
+        /// <param name="body">Created user object</param>
         /// <returns></returns>
         void CreateUser(NancyContext context, User body);
 
@@ -102,7 +114,7 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">List of user object (optional)</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
         void CreateUsersWithArrayInput(NancyContext context, List<User> body);
 
@@ -110,7 +122,7 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">List of user object (optional)</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
         void CreateUsersWithListInput(NancyContext context, List<User> body);
 
@@ -134,8 +146,8 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="username">The user name for login (optional)</param>
-        /// <param name="password">The password for login in clear text (optional)</param>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
         /// <returns>string</returns>
         string LoginUser(NancyContext context, string username, string password);
 
@@ -151,7 +163,7 @@ namespace IO.Swagger.v2.Modules
         /// </summary>
         /// <param name="context">Context of request</param>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="body">Updated user object (optional)</param>
+        /// <param name="body">Updated user object</param>
         /// <returns></returns>
         void UpdateUser(NancyContext context, string username, User body);
     }

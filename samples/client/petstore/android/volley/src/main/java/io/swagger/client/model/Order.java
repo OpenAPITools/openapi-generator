@@ -120,23 +120,23 @@ public class Order  {
       return false;
     }
     Order order = (Order) o;
-    return (id == null ? order.id == null : id.equals(order.id)) &&
-        (petId == null ? order.petId == null : petId.equals(order.petId)) &&
-        (quantity == null ? order.quantity == null : quantity.equals(order.quantity)) &&
-        (shipDate == null ? order.shipDate == null : shipDate.equals(order.shipDate)) &&
-        (status == null ? order.status == null : status.equals(order.status)) &&
-        (complete == null ? order.complete == null : complete.equals(order.complete));
+    return (this.id == null ? order.id == null : this.id.equals(order.id)) &&
+        (this.petId == null ? order.petId == null : this.petId.equals(order.petId)) &&
+        (this.quantity == null ? order.quantity == null : this.quantity.equals(order.quantity)) &&
+        (this.shipDate == null ? order.shipDate == null : this.shipDate.equals(order.shipDate)) &&
+        (this.status == null ? order.status == null : this.status.equals(order.status)) &&
+        (this.complete == null ? order.complete == null : this.complete.equals(order.complete));
   }
 
   @Override
   public int hashCode() {
     int result = 17;
-    result = 31 * result + (id == null ? 0: id.hashCode());
-    result = 31 * result + (petId == null ? 0: petId.hashCode());
-    result = 31 * result + (quantity == null ? 0: quantity.hashCode());
-    result = 31 * result + (shipDate == null ? 0: shipDate.hashCode());
-    result = 31 * result + (status == null ? 0: status.hashCode());
-    result = 31 * result + (complete == null ? 0: complete.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.petId == null ? 0: this.petId.hashCode());
+    result = 31 * result + (this.quantity == null ? 0: this.quantity.hashCode());
+    result = 31 * result + (this.shipDate == null ? 0: this.shipDate.hashCode());
+    result = 31 * result + (this.status == null ? 0: this.status.hashCode());
+    result = 31 * result + (this.complete == null ? 0: this.complete.hashCode());
     return result;
   }
 

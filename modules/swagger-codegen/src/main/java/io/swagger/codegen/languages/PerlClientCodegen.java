@@ -42,6 +42,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public PerlClientCodegen() {
         super();
+
+        // clear import mapping (from default generator) as perl does not use it
+        // at the moment
+        importMapping.clear();
+
         modelPackage = File.separatorChar + "Object";
         outputFolder = "generated-code" + File.separatorChar + "perl";
         modelTemplateFiles.put("object.mustache", ".pm");
@@ -227,7 +232,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return "'" + dp.getDefault().toString() + "'";
+                return "'" + dp.getDefault() + "'";
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;
@@ -396,9 +401,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             p.example = "'" + p.example + "'";
         } else if (Boolean.TRUE.equals(p.isBoolean)) {
             if (Boolean.parseBoolean(p.example))
-                p.example = new String("1");
+                p.example = "1";
             else
-                p.example = new String("0");
+                p.example = "0";
         } else if (Boolean.TRUE.equals(p.isDateTime) || Boolean.TRUE.equals(p.isDate)) {
             p.example = "DateTime->from_epoch(epoch => str2time('" + p.example + "'))";
         }

@@ -1,8 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.model.Pet;
-import io.swagger.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,10 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.POST)
-    ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body);
+    ResponseEntity<Void> addPet(
+
+@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body
+);
 
 
     @ApiOperation(value = "Deletes a pet", notes = "", response = Void.class, authorizations = {
@@ -48,7 +51,13 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = ""  ) @RequestHeader(value="api_key", required=false) String apiKey);
+    ResponseEntity<Void> deletePet(
+@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId
+
+,
+@ApiParam(value = ""  ) @RequestHeader(value="api_key", required=false) String apiKey
+
+);
 
 
     @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
@@ -64,7 +73,10 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    ResponseEntity<List<Pet>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true) @RequestParam(value = "status", required = true) List<String> status);
+    ResponseEntity<List<Pet>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "AVAILABLE, PENDING, SOLD") @RequestParam(value = "status", required = true) List<String> status
+
+
+);
 
 
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
@@ -80,7 +92,10 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    ResponseEntity<List<Pet>> findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags);
+    ResponseEntity<List<Pet>> findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags
+
+
+);
 
 
     @ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", response = Pet.class, authorizations = {
@@ -94,7 +109,10 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId);
+    ResponseEntity<Pet> getPetById(
+@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId
+
+);
 
 
     @ApiOperation(value = "Update an existing pet", notes = "", response = Void.class, authorizations = {
@@ -111,7 +129,10 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body);
+    ResponseEntity<Void> updatePet(
+
+@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body
+);
 
 
     @ApiOperation(value = "Updates a pet in the store with form data", notes = "", response = Void.class, authorizations = {
@@ -126,7 +147,16 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/x-www-form-urlencoded",
         method = RequestMethod.POST)
-    ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
+    ResponseEntity<Void> updatePetWithForm(
+@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId
+
+,
+
+
+@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,
+
+
+@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
 
 
     @ApiOperation(value = "uploads an image", notes = "", response = ModelApiResponse.class, authorizations = {
@@ -141,6 +171,15 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data",
         method = RequestMethod.POST)
-    ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @RequestParam("file") MultipartFile file);
+    ResponseEntity<ModelApiResponse> uploadFile(
+@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId
+
+,
+
+
+@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,
+
+
+@ApiParam(value = "file detail") @RequestParam("file") MultipartFile file);
 
 }

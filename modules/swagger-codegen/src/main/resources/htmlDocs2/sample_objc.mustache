@@ -1,0 +1,34 @@
+{{#hasAuthMethods}}
+{{classPrefix}}Configuration *apiConfig = [{{classPrefix}}Configuration sharedConfig];
+{{#authMethods}}{{#isBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
+[apiConfig setUsername:@"YOUR_USERNAME"];
+[apiConfig setPassword:@"YOUR_PASSWORD"];
+{{/isBasic}}{{#isApiKey}}
+// Configure API key authorization: (authentication scheme: {{{name}}})
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"{{{keyParamName}}}"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"{{{keyParamName}}}"];
+{{/isApiKey}}{{#isOAuth}}
+// Configure OAuth2 access token for authorization: (authentication scheme: {{{name}}})
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+{{/isOAuth}}{{/authMethods}}
+{{/hasAuthMethods}}
+
+{{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/allParams}}
+
+{{classname}} *apiInstance = [[{{classname}} alloc] init];
+
+{{#summary}}// {{{.}}}
+{{/summary}}[apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+    {{paramName}}{{/secondaryParam}}:{{paramName}}{{/allParams}}
+              {{#hasParams}}completionHandler: {{/hasParams}}^({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error) {
+{{#returnType}}
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+{{/returnType}}
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];

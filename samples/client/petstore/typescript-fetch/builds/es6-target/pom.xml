@@ -4,7 +4,7 @@
     <artifactId>TypeScriptAngularBuildES6PestoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>TS Angular Build ES6 Petstore Client</name>
+    <name>TS Fetch ES6 Petstore Client</name>
     <build>
         <plugins>
             <plugin>

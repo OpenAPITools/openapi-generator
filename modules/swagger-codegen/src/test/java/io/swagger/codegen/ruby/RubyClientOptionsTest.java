@@ -34,6 +34,8 @@ public class RubyClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setGemLicense(RubyClientOptionsProvider.GEM_LICENSE_VALUE);
             times = 1;
+            clientCodegen.setGemRequiredRubyVersion(RubyClientOptionsProvider.GEM_REQUIRED_RUBY_VERSION_VALUE);
+            times = 1;
             clientCodegen.setGemHomepage(RubyClientOptionsProvider.GEM_HOMEPAGE_VALUE);
             times = 1;
             clientCodegen.setGemDescription(RubyClientOptionsProvider.GEM_DESCRIPTION_VALUE);

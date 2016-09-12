@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **arrayOfString** | **[String]** |  | [optional] 
-**arrayArrayOfInteger** | **[[Integer]]** |  | [optional] 
+**arrayArrayOfInteger** | **[[Number]]** |  | [optional] 
 **arrayArrayOfModel** | **[[ReadOnlyFirst]]** |  | [optional] 
 
 

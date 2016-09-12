@@ -34,3 +34,7 @@ java $JAVA_OPTS -jar $executable $ags
 ags="$@ generate -t modules/swagger-codegen/src/main/resources/swift -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l swift -c ./bin/swift-petstore-promisekit.json -o samples/client/petstore/swift/promisekit"
 echo "#### Petstore Swift API client (promisekit) ####"
 java $JAVA_OPTS -jar $executable $ags
+
+ags="$@ generate -t modules/swagger-codegen/src/main/resources/swift -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l swift -c ./bin/swift-petstore-rxswift.json -o samples/client/petstore/swift/rxswift"
+echo "#### Petstore Swift API client (rxswift) ####"
+java $JAVA_OPTS -jar $executable $ags

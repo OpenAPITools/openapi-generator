@@ -34,11 +34,14 @@ from .array_of_number_only import ArrayOfNumberOnly
 from .array_test import ArrayTest
 from .cat import Cat
 from .category import Category
+from .client import Client
 from .dog import Dog
+from .enum_arrays import EnumArrays
 from .enum_class import EnumClass
 from .enum_test import EnumTest
 from .format_test import FormatTest
 from .has_only_read_only import HasOnlyReadOnly
+from .list import List
 from .map_test import MapTest
 from .mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from .model_200_response import Model200Response

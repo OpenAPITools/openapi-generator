@@ -3,10 +3,13 @@ package io.swagger.codegen.languages;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.ArrayProperty;
@@ -68,6 +71,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
+        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
@@ -160,6 +164,46 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = addModelPrefix(parameter.dataType);
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        for (CodegenOperation op : ops) {
+            // Convert httpMethod to Angular's RequestMethod enum
+            // https://angular.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
+            switch (op.httpMethod) {
+                case "GET":
+                    op.httpMethod = "RequestMethod.Get";
+                    break;
+                case "POST":
+                    op.httpMethod = "RequestMethod.Post";
+                    break;
+                case "PUT":
+                    op.httpMethod = "RequestMethod.Put";
+                    break;
+                case "DELETE":
+                    op.httpMethod = "RequestMethod.Delete";
+                    break;
+                case "OPTIONS":
+                    op.httpMethod = "RequestMethod.Options";
+                    break;
+                case "HEAD":
+                    op.httpMethod = "RequestMethod.Head";
+                    break;
+                case "PATCH":
+                    op.httpMethod = "RequestMethod.Patch";
+                    break;
+                default:
+                    throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
+            }
+
+            // Convert path to TypeScript template string
+            op.path = op.path.replaceAll("\\{(.*?)\\}", "\\$\\{$1\\}");
+        }
+
+        return operations;
     }
 
     public String getNpmName() {

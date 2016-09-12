@@ -1,7 +1,7 @@
 /* 
  * Swagger Petstore
  *
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -23,23 +23,22 @@
 package petstore
 
 import (
-	"strings"
-	"fmt"
-	"errors"
 	"net/url"
 	"os"
-"io/ioutil"
-"encoding/json"
+	"io/ioutil"
+	"encoding/json"
+	"fmt"
+	"strings"
 )
 
 type PetApi struct {
-	Configuration Configuration
+	Configuration *Configuration
 }
 
 func NewPetApi() *PetApi {
 	configuration := NewConfiguration()
 	return &PetApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -48,7 +47,7 @@ func NewPetApiWithBasePath(basePath string) *PetApi {
 	configuration.BasePath = basePath
 
 	return &PetApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -61,30 +60,24 @@ func NewPetApiWithBasePath(basePath string) *PetApi {
  */
 func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 
-	var httpMethod = "Post"
+	var localVarHttpMethod = "Post"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet"
+	localVarPath := a.Configuration.BasePath + "/pet"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling PetApi->AddPet")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
-		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -94,7 +87,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -105,18 +98,18 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	postBody = &body
+	localVarPostBody = &body
 
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -129,31 +122,25 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
  */
 func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 
-	var httpMethod = "Delete"
+	var localVarHttpMethod = "Delete"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet/{petId}"
-	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath := a.Configuration.BasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return nil, errors.New("Missing required parameter 'petId' when calling PetApi->DeletePet")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
-		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -163,7 +150,7 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -174,19 +161,20 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 
 	// header params "api_key"
-	headerParams["api_key"] = apiKey
+	localVarHeaderParams["api_key"] = a.Configuration.APIClient.ParameterToString(apiKey, "")
 
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -198,38 +186,32 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
  */
 func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 
-	var httpMethod = "Get"
+	var localVarHttpMethod = "Get"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet/findByStatus"
+	localVarPath := a.Configuration.BasePath + "/pet/findByStatus"
 
-	// verify the required parameter 'status' is set
-	if &status == nil {
-		return *new([]Pet), nil, errors.New("Missing required parameter 'status' when calling PetApi->FindPetsByStatus")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
-		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 	var collectionFormat = "csv"
 	if collectionFormat == "multi" {
 		for _, value := range status {
-			queryParams.Add("status", value)
+			localVarQueryParams.Add("status", value)
 		}
 	} else {
-		queryParams.Add("status", a.Configuration.APIClient.ParameterToString(status, collectionFormat))
+		localVarQueryParams.Add("status", a.Configuration.APIClient.ParameterToString(status, collectionFormat))
 	}
 	
 
@@ -239,7 +221,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -250,15 +232,16 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new([]Pet)
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -270,38 +253,32 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
  */
 func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 
-	var httpMethod = "Get"
+	var localVarHttpMethod = "Get"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet/findByTags"
+	localVarPath := a.Configuration.BasePath + "/pet/findByTags"
 
-	// verify the required parameter 'tags' is set
-	if &tags == nil {
-		return *new([]Pet), nil, errors.New("Missing required parameter 'tags' when calling PetApi->FindPetsByTags")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
-		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 	var collectionFormat = "csv"
 	if collectionFormat == "multi" {
 		for _, value := range tags {
-			queryParams.Add("tags", value)
+			localVarQueryParams.Add("tags", value)
 		}
 	} else {
-		queryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags, collectionFormat))
+		localVarQueryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags, collectionFormat))
 	}
 	
 
@@ -311,7 +288,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -322,15 +299,16 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new([]Pet)
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return *successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return *successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -342,30 +320,23 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
  */
 func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 
-	var httpMethod = "Get"
+	var localVarHttpMethod = "Get"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet/{petId}"
-	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath := a.Configuration.BasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return new(Pet), nil, errors.New("Missing required parameter 'petId' when calling PetApi->GetPetById")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (api_key) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(api_key)' required
 	// set key with prefix in header
-	headerParams["api_key"] = a.Configuration.GetAPIKeyWithPrefix("api_key")
-
+	localVarHeaderParams["api_key"] = a.Configuration.GetAPIKeyWithPrefix("api_key")
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -375,7 +346,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -386,15 +357,16 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new(Pet)
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -406,30 +378,24 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
  */
 func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 
-	var httpMethod = "Put"
+	var localVarHttpMethod = "Put"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet"
+	localVarPath := a.Configuration.BasePath + "/pet"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling PetApi->UpdatePet")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
-		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -439,7 +405,7 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -450,18 +416,18 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	postBody = &body
+	localVarPostBody = &body
 
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -475,31 +441,25 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
  */
 func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*APIResponse, error) {
 
-	var httpMethod = "Post"
+	var localVarHttpMethod = "Post"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet/{petId}"
-	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath := a.Configuration.BasePath + "/pet/{petId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return nil, errors.New("Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
-		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -509,7 +469,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -520,18 +480,18 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+	localVarFormParams["name"] = a.Configuration.APIClient.ParameterToString(name, "")
+	localVarFormParams["status"] = a.Configuration.APIClient.ParameterToString(status, "")
 
-	formParams["name"] = name
-	formParams["status"] = status
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -545,31 +505,25 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
  */
 func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File) (*ModelApiResponse, *APIResponse, error) {
 
-	var httpMethod = "Post"
+	var localVarHttpMethod = "Post"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/pet/{petId}/uploadImage"
-	path = strings.Replace(path, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+	localVarPath := a.Configuration.BasePath + "/pet/{petId}/uploadImage"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
-	// verify the required parameter 'petId' is set
-	if &petId == nil {
-		return new(ModelApiResponse), nil, errors.New("Missing required parameter 'petId' when calling PetApi->UploadFile")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-	// authentication (petstore_auth) required
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
+	// authentication '(petstore_auth)' required
 	// oauth required
 	if a.Configuration.AccessToken != ""{
-		headerParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
+		localVarHeaderParams["Authorization"] =  "Bearer " + a.Configuration.AccessToken
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -579,7 +533,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -589,20 +543,19 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-
-	formParams["additionalMetadata"] = additionalMetadata
+	localVarFormParams["additionalMetadata"] = a.Configuration.APIClient.ParameterToString(additionalMetadata, "")
 	fbs, _ := ioutil.ReadAll(file)
-	fileBytes = fbs
-	fileName = file.Name()
+	localVarFileBytes = fbs
+	localVarFileName = file.Name()
 
 	var successPayload = new(ModelApiResponse)
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 

@@ -35,6 +35,7 @@ namespace IO.Swagger.Models
     /// <summary>
     /// 
     /// </summary>
+    [DataContract]
     public partial class Pet :  IEquatable<Pet>
     {
         /// <summary>
@@ -76,32 +77,38 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
+        [DataMember(Name="id")]
         public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
+        [DataMember(Name="category")]
         public Category Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
+        [DataMember(Name="name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
+        [DataMember(Name="photoUrls")]
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
+        [DataMember(Name="tags")]
         public List<Tag> Tags { get; set; }
 
         /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
+        [DataMember(Name="status")]
         public string Status { get; set; }
 
 
@@ -114,11 +121,11 @@ namespace IO.Swagger.Models
             var sb = new StringBuilder();
             sb.Append("class Pet {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-sb.Append("  Category: ").Append(Category).Append("\n");
-sb.Append("  Name: ").Append(Name).Append("\n");
-sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-sb.Append("  Tags: ").Append(Tags).Append("\n");
-sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
+            sb.Append("  Tags: ").Append(Tags).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

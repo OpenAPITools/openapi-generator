@@ -71,14 +71,14 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('$special[property.name]')) {
-        obj['$special[property.name]'] = ApiClient.convertToType(data['$special[property.name]'], 'Integer');
+        obj['$special[property.name]'] = ApiClient.convertToType(data['$special[property.name]'], 'Number');
       }
     }
     return obj;
   }
 
   /**
-   * @member {Integer} $special[property.name]
+   * @member {Number} $special[property.name]
    */
   exports.prototype['$special[property.name]'] = undefined;
 

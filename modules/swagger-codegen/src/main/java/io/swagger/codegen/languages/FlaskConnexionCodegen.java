@@ -67,7 +67,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
         apiTemplateFiles.clear();
 
-        /**
+        /*
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
@@ -81,14 +81,14 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
                         "return", "def", "for", "lambda", "try"));
 
-        /**
+        /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("serverPort", serverPort);
 
-        /**
+        /*
          * Supporting Files.  You can write single files for the generator with the
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied

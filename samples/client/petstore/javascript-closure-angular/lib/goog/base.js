@@ -284,7 +284,7 @@ goog.addDependency = function(relPath, provides, requires) {
 
 // NOTE(nnaze): The debug DOM loader was included in base.js as an orignal
 // way to do "debug-mode" development.  The dependency system can sometimes
-// be confusing, as can the debug DOM loader's asyncronous nature.
+// be confusing, as can the debug DOM loader's asynchronous nature.
 //
 // With the DOM loader, a call to goog.require() is not blocking -- the
 // script will not load until some point after the current script.  If a

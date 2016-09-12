@@ -6,7 +6,7 @@
  * @category Class
  * @package  Swagger\Client
  * @author   http://github.com/swagger-api/swagger-codegen
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 
@@ -51,7 +51,7 @@ use \Swagger\Client\ObjectSerializer;
  * @category Class
  * @package  Swagger\Client
  * @author   http://github.com/swagger-api/swagger-codegen
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 class StoreApi
@@ -123,7 +123,7 @@ class StoreApi
      * Delete purchase order by ID
      *
      * @param string $order_id ID of the order that needs to be deleted (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteOrderWithHttpInfo($order_id)
@@ -132,7 +132,7 @@ class StoreApi
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
         }
-        if ($order_id < 1.0) {
+        if (($order_id < 1.0)) {
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
         }
 
@@ -206,7 +206,7 @@ class StoreApi
      *
      * Returns pet inventories by status
      *
-     * @return Array of map[string,int], HTTP status code, HTTP response headers (array of strings)
+     * @return array of map[string,int], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getInventoryWithHttpInfo()
@@ -284,7 +284,7 @@ class StoreApi
      * Find purchase order by ID
      *
      * @param int $order_id ID of pet that needs to be fetched (required)
-     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getOrderByIdWithHttpInfo($order_id)
@@ -293,10 +293,10 @@ class StoreApi
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling getOrderById');
         }
-        if ($order_id > 5.0) {
+        if (($order_id > 5.0)) {
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be smaller than or equal to 5.0.');
         }
-        if ($order_id < 1.0) {
+        if (($order_id < 1.0)) {
             throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.getOrderById, must be bigger than or equal to 1.0.');
         }
 
@@ -376,7 +376,7 @@ class StoreApi
      * Place an order for a pet
      *
      * @param \Swagger\Client\Model\Order $body order placed for purchasing the pet (required)
-     * @return Array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Swagger\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function placeOrderWithHttpInfo($body)

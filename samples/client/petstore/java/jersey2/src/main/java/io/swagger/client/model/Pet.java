@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -27,6 +27,7 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Category;
@@ -74,6 +75,16 @@ public class Pet   {
     @Override
     public String toString() {
       return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
     }
   }
 
@@ -139,6 +150,11 @@ public class Pet   {
     return this;
   }
 
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
    /**
    * Get photoUrls
    * @return photoUrls
@@ -154,6 +170,11 @@ public class Pet   {
 
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
+    return this;
+  }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    this.tags.add(tagsItem);
     return this;
   }
 

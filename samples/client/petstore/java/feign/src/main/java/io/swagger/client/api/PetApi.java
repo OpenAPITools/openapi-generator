@@ -40,7 +40,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Content-type: application/json",
     "Accept: application/json",
-    "apiKey: {apiKey}"
+    "api_key: {apiKey}"
   })
   void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
 

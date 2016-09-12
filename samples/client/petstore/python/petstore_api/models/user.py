@@ -72,6 +72,7 @@ class User(object):
         self._phone = phone
         self._user_status = user_status
 
+
     @property
     def id(self):
         """

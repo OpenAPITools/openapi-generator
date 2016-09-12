@@ -61,7 +61,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 
 
 /// Finds Pets by status
-/// Multiple status values can be provided with comma seperated strings
+/// Multiple status values can be provided with comma separated strings
 ///
 /// @param status Status values that need to be considered for filter (optional) (default to available)
 /// 
@@ -74,7 +74,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 
 
 /// Finds Pets by tags
-/// Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+/// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 ///
 /// @param tags Tags to filter by (optional)
 /// 

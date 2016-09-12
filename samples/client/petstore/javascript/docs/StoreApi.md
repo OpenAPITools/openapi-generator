@@ -58,7 +58,7 @@ No authorization required
 
 <a name="getInventory"></a>
 # **getInventory**
-> {&#39;String&#39;: &#39;Integer&#39;} getInventory()
+> {&#39;String&#39;: &#39;Number&#39;} getInventory()
 
 Returns pet inventories by status
 
@@ -92,7 +92,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{&#39;String&#39;: &#39;Integer&#39;}**
+**{&#39;String&#39;: &#39;Number&#39;}**
 
 ### Authorization
 
@@ -117,7 +117,7 @@ var SwaggerPetstore = require('swagger_petstore');
 
 var apiInstance = new SwaggerPetstore.StoreApi();
 
-var orderId = 789; // Integer | ID of pet that needs to be fetched
+var orderId = 789; // Number | ID of pet that needs to be fetched
 
 
 var callback = function(error, data, response) {
@@ -134,7 +134,7 @@ apiInstance.getOrderById(orderId, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Integer**| ID of pet that needs to be fetched | 
+ **orderId** | **Number**| ID of pet that needs to be fetched | 
 
 ### Return type
 

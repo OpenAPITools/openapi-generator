@@ -3,11 +3,13 @@ language: java
 jdk:
 - openjdk7
 - openjdk8
-- oraclejdk7
-- oraclejdk8
 
 build:
+  cache: true
+  cache_dir_list:
+    - $HOME/.m2
   ci:
-    - ./bin/run-all-petstore > run-all-petstore.log 2>&1
+    # generate all petstore sampless (client, servers, doc)
+    - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
   post_ci:
     - tail run-all-petstore.log

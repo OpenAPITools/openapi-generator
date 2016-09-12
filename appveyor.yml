@@ -1,7 +1,9 @@
 # for CI with appveyor.yml
 # Ref: http://www.yegor256.com/2015/01/10/windows-appveyor-maven.html
-version: '{build}'
+version: '{branch}-{build}'
 os: Windows Server 2012
+hosts:
+  petstore.swagger.io: 127.0.0.1
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -15,9 +17,17 @@ install:
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
+  - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
+  - git clone https://github.com/wing328/swagger-samples
+  - ps: Start-Process -FilePath 'C:\maven\apache-maven-3.2.5\bin\mvn' -ArgumentList 'jetty:run' -WorkingDirectory "$env:appveyor_build_folder\swagger-samples\java\java-jersey-jaxrs"
 build_script:
+  - nuget restore samples\client\petstore\csharp\SwaggerClient\IO.Swagger.sln
+  - msbuild samples\client\petstore\csharp\SwaggerClient\IO.Swagger.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - mvn clean install --batch-mode
 test_script:
+  # test c# API client
+  - nunit-console samples\client\petstore\csharp\SwaggerClient\src\IO.Swagger.Test\bin\Debug\IO.Swagger.Test.dll --result=myresults.xml;format=AppVeyor
+  # generate all petstore clients
   - .\bin\windows\run-all-petstore.cmd
 cache:
   - C:\maven\

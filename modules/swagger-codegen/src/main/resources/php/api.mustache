@@ -6,7 +6,7 @@
  * @category Class
  * @package  {{invokerPackage}}
  * @author   http://github.com/swagger-api/swagger-codegen
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 
@@ -30,7 +30,7 @@ use \{{invokerPackage}}\ObjectSerializer;
  * @category Class
  * @package  {{invokerPackage}}
  * @author   http://github.com/swagger-api/swagger-codegen
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 {{#operations}}class {{classname}}
@@ -115,7 +115,7 @@ use \{{invokerPackage}}\ObjectSerializer;
 {{#allParams}}
      * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}   
-     * @return Array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
+     * @return array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
@@ -129,30 +129,40 @@ use \{{invokerPackage}}\ObjectSerializer;
         {{/required}}
         {{#hasValidation}}
         {{#maxLength}}
-        if (strlen(${{paramName}}) > {{maxLength}}) {
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(strlen(${{paramName}}) > {{maxLength}})) {
             throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
         }
         {{/maxLength}}
         {{#minLength}}
-        if (strlen(${{paramName}}) < {{minLength}}) {
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(strlen(${{paramName}}) < {{minLength}})) {
             throw new \InvalidArgumentException('invalid length for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
         {{#maximum}}
-        if (${{paramName}} > {{maximum}}) {
-            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
         }
         {{/maximum}}
         {{#minimum}}
-        if (${{paramName}} < {{minimum}}) {
-            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(${{paramName}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", ${{paramName}})) {
-            throw new \InvalidArgumentException('invalid value for "{{paramName}}" when calling {{classname}}.{{operationId}}, must conform to the pattern {{pattern}}.');
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}!preg_match("{{{pattern}}}", ${{paramName}})) {
+            throw new \InvalidArgumentException("invalid value for \"{{paramName}}\" when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.");
         }
         {{/pattern}}
+        {{#maxItems}}
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(count(${{paramName}}) > {{maxItems}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
+        }
+        {{/maxItems}}
+        {{#minItems}}
+        if ({{^required}}!is_null(${{paramName}}) && {{/required}}(count(${{paramName}}) < {{minItems}})) {
+            throw new \InvalidArgumentException('invalid value for "${{paramName}}" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
+        }
+        {{/minItems}}
 
         {{/hasValidation}}
         {{/allParams}}

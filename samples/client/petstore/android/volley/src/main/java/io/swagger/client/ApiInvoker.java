@@ -25,6 +25,7 @@
 package io.swagger.client;
 
 import com.android.volley.Cache;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -236,6 +237,7 @@ public class ApiInvoker {
   }
 
   public static ApiInvoker getInstance() {
+    if (INSTANCE == null) initializeInstance();
     return INSTANCE;
   }
 
@@ -500,7 +502,12 @@ public class ApiInvoker {
           } else {
              request = new PatchRequest(url, headers, null, null, stringRequest, errorListener);
           }
-       }
+    }
+
+    if (request != null) {
+        request.setRetryPolicy(new DefaultRetryPolicy((int)TimeUnit.SECONDS.toMillis(this.connectionTimeout), DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    }
+
     return request;
   }
 

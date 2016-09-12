@@ -4,40 +4,22 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.client";
-    protected String groupId = "io.swagger";
-    protected String artifactId = "swagger-scala-client";
-    protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/scala";
+public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String authScheme = "";
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean authPreemptive;
     protected boolean asyncHttpClient = !authScheme.isEmpty();
+    protected String groupId = "io.swagger";
+    protected String artifactId = "swagger-scala-client";
+    protected String artifactVersion = "1.0.0";
 
     public ScalaClientCodegen() {
         super();
@@ -117,25 +99,76 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Int",
-                        "Long",
-                        "Float",
-                        "Object",
-                        "Any",
-                        "List",
-                        "Map")
-        );
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
 
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+    
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+    }
+    
+    public void setModelPropertyNaming(String naming) {
+        if ("original".equals(naming) || "camelCase".equals(naming) ||
+                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+            this.modelPropertyNaming = naming;
+        } else {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+    }
+
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+    
+        if("_".equals(name)) {
+          name = "_u";
+        }
+    
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+    
+        name = getNameUsingModelPropertyNaming(name);
+    
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+    
+        return name;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // should be the same as variable name
+        return toVarName(name);
+    }
+
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:    return name;
+            case camelCase:   return camelize(name, true);
+            case PascalCase:  return camelize(name);
+            case snake_case:  return underscore(name);
+            default:          throw new IllegalArgumentException("Invalid model property naming '" +
+                    name + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
+
     }
 
     @Override
@@ -154,98 +187,6 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name;
-    }
-
-    @Override
-    public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
-    }
-
-    @Override
-    public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
-    }
-
-    @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
-        }
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
-            }
-        } else {
-            type = swaggerType;
-        }
-        return toModelName(type);
-    }
-
-    @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
-            return instantiationTypes.get("map") + "[String, " + inner + "]";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
-            return instantiationTypes.get("array") + "[" + inner + "]";
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            return "null";
-        } else if (p instanceof BooleanProperty) {
-            return "null";
-        } else if (p instanceof DateProperty) {
-            return "null";
-        } else if (p instanceof DateTimeProperty) {
-            return "null";
-        } else if (p instanceof DoubleProperty) {
-            return "null";
-        } else if (p instanceof FloatProperty) {
-            return "null";
-        } else if (p instanceof IntegerProperty) {
-            return "null";
-        } else if (p instanceof LongProperty) {
-            return "null";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
-            return "new HashMap[String, " + inner + "]() ";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
-            return "new ListBuffer[" + inner + "]() ";
-        } else {
-            return "null";
-        }
-    }
-
-
-    @Override
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
@@ -261,90 +202,34 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // remove model imports to avoid warnings for importing class in the same package in Scala
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        final String prefix = modelPackage() + ".";
-        Iterator<Map<String, String>> iterator = imports.iterator();
-        while (iterator.hasNext()) {
-            String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix)) iterator.remove();
-        }
-        return objs;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if("_".equals(name)) {
-          name = "_u";
-        }
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        // camelize (lower first character) the variable name
-        // pet_id => petId
-        name = camelize(name, true);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
     public String toModelName(final String name) {
         final String sanitizedName = sanitizeName(modelNamePrefix + name + modelNameSuffix);
-
+    
         // camelize the model name
         // phone_number => PhoneNumber
         final String camelizedName = camelize(sanitizedName);
-
+    
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
             LOGGER.warn(camelizedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
-
+    
         // model name starts with number
         if (name.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
-
+    
         return camelizedName;
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-        // should be the same as the model name
-        return toModelName(name);
     }
 
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

@@ -127,43 +127,58 @@ class {{classname}}(object):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than or equal to `{{minLength}}`")
     {{/minLength}}
     {{#maximum}}
-        if '{{paramName}}' in params and params['{{paramName}}'] > {{maximum}}:
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than or equal to  `{{maximum}}`")
+        if '{{paramName}}' in params and params['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")
     {{/maximum}}
     {{#minimum}}
-        if '{{paramName}}' in params and params['{{paramName}}'] < {{minimum}}:
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than or equal to `{{minimum}}`")
+        if '{{paramName}}' in params and params['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")
     {{/minimum}}
     {{#pattern}}
-        if '{{paramName}}' in params and not re.search('{{vendorExtensions.x-regex}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
-            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{pattern}}`")
+        if '{{paramName}}' in params and not re.search('{{{vendorExtensions.x-regex}}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{{pattern}}}`")
     {{/pattern}}
+    {{#maxItems}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) > {{maxItems}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be less than or equal to `{{maxItems}}`")
+    {{/maxItems}}
+    {{#minItems}}
+        if '{{paramName}}' in params and len(params['{{paramName}}']) < {{minItems}}:
+            raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")
+    {{/minItems}}
 {{/hasValidation}}
 {{/allParams}}
+
+        collection_formats = {}
+
         resource_path = '{{path}}'.replace('{format}', 'json')
         path_params = {}
 {{#pathParams}}
         if '{{paramName}}' in params:
-            path_params['{{baseName}}'] = params['{{paramName}}']
+            path_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/pathParams}}
 
         query_params = {}
 {{#queryParams}}
         if '{{paramName}}' in params:
-            query_params['{{baseName}}'] = params['{{paramName}}']
+            query_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/queryParams}}
 
         header_params = {}
 {{#headerParams}}
         if '{{paramName}}' in params:
-            header_params['{{baseName}}'] = params['{{paramName}}']
+            header_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/headerParams}}
 
         form_params = []
         local_var_files = {}
 {{#formParams}}
         if '{{paramName}}' in params:
-            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}
+            {{#notFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/notFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}{{#isListContainer}}
+            collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/formParams}}
 
         body_params = None
@@ -195,6 +210,7 @@ class {{classname}}(object):
                                             response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 {{/operation}}
 {{/operations}}

@@ -2,74 +2,84 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
 
 
-
+/**
+ * ModelApiResponse
+ */
 
 public class ModelApiResponse   {
-  
+  @JsonProperty("code")
   private Integer code = null;
+
+  @JsonProperty("type")
   private String type = null;
+
+  @JsonProperty("message")
   private String message = null;
 
-  /**
-   **/
   public ModelApiResponse code(Integer code) {
     this.code = code;
     return this;
   }
 
-  
+   /**
+   * Get code
+   * @return code
+  **/
   @ApiModelProperty(value = "")
-  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
+
   public void setCode(Integer code) {
     this.code = code;
   }
 
-  /**
-   **/
   public ModelApiResponse type(String type) {
     this.type = type;
     return this;
   }
 
-  
+   /**
+   * Get type
+   * @return type
+  **/
   @ApiModelProperty(value = "")
-  @JsonProperty("type")
   public String getType() {
     return type;
   }
+
   public void setType(String type) {
     this.type = type;
   }
 
-  /**
-   **/
   public ModelApiResponse message(String message) {
     this.message = message;
     return this;
   }
 
-  
+   /**
+   * Get message
+   * @return message
+  **/
   @ApiModelProperty(value = "")
-  @JsonProperty("message")
   public String getMessage() {
     return message;
   }
+
   public void setMessage(String message) {
     this.message = message;
   }
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -77,9 +87,9 @@ public class ModelApiResponse   {
       return false;
     }
     ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(code, _apiResponse.code) &&
-        Objects.equals(type, _apiResponse.type) &&
-        Objects.equals(message, _apiResponse.message);
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override
@@ -103,7 +113,7 @@ public class ModelApiResponse   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

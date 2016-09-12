@@ -66,18 +66,19 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns></returns>
-        void TestEndpointParameters (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
+        void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -88,43 +89,54 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
         /// <summary>
-        /// To test enum query parameters
+        /// To test enum parameters
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns></returns>
-        void TestEnumQueryParameters (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
 
         /// <summary>
-        /// To test enum query parameters
+        /// To test enum parameters
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEnumQueryParametersWithHttpInfo (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -157,18 +169,19 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
+        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -179,43 +192,54 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null);
         /// <summary>
-        /// To test enum query parameters
+        /// To test enum parameters
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEnumQueryParametersAsync (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
 
         /// <summary>
-        /// To test enum query parameters
+        /// To test enum parameters
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumQueryParametersAsyncWithHttpInfo (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
         #endregion Asynchronous Operations
     }
 
@@ -491,20 +515,21 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns></returns>
-        public void TestEndpointParameters (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
+        public void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
         {
-             TestEndpointParametersWithHttpInfo(number, _double, _string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
+             TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password);
         }
 
         /// <summary>
@@ -513,18 +538,19 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
+        public ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
         {
             // verify the required parameter 'number' is set
             if (number == null)
@@ -532,9 +558,9 @@ namespace IO.Swagger.Api
             // verify the required parameter '_double' is set
             if (_double == null)
                 throw new ApiException(400, "Missing required parameter '_double' when calling FakeApi->TestEndpointParameters");
-            // verify the required parameter '_string' is set
-            if (_string == null)
-                throw new ApiException(400, "Missing required parameter '_string' when calling FakeApi->TestEndpointParameters");
+            // verify the required parameter 'patternWithoutDelimiter' is set
+            if (patternWithoutDelimiter == null)
+                throw new ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
             // verify the required parameter '_byte' is set
             if (_byte == null)
                 throw new ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
@@ -573,11 +599,19 @@ namespace IO.Swagger.Api
             if (_float != null) localVarFormParams.Add("float", Configuration.ApiClient.ParameterToString(_float)); // form parameter
             if (_double != null) localVarFormParams.Add("double", Configuration.ApiClient.ParameterToString(_double)); // form parameter
             if (_string != null) localVarFormParams.Add("string", Configuration.ApiClient.ParameterToString(_string)); // form parameter
+            if (patternWithoutDelimiter != null) localVarFormParams.Add("pattern_without_delimiter", Configuration.ApiClient.ParameterToString(patternWithoutDelimiter)); // form parameter
             if (_byte != null) localVarFormParams.Add("byte", Configuration.ApiClient.ParameterToString(_byte)); // form parameter
             if (binary != null) localVarFormParams.Add("binary", Configuration.ApiClient.ParameterToString(binary)); // form parameter
             if (date != null) localVarFormParams.Add("date", Configuration.ApiClient.ParameterToString(date)); // form parameter
             if (dateTime != null) localVarFormParams.Add("dateTime", Configuration.ApiClient.ParameterToString(dateTime)); // form parameter
             if (password != null) localVarFormParams.Add("password", Configuration.ApiClient.ParameterToString(password)); // form parameter
+
+            // authentication (http_basic_test) required
+            // http basic authentication required
+            if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
+            {
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
+            }
 
 
             // make the HTTP request
@@ -605,20 +639,21 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
         {
-             await TestEndpointParametersAsyncWithHttpInfo(number, _double, _string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
+             await TestEndpointParametersAsyncWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password);
 
         }
 
@@ -628,18 +663,19 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="number">None</param>
         /// <param name="_double">None</param>
-        /// <param name="_string">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="_byte">None</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="_float">None (optional)</param>
+        /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
         /// <param name="dateTime">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string _string, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
         {
             // verify the required parameter 'number' is set
             if (number == null)
@@ -647,9 +683,9 @@ namespace IO.Swagger.Api
             // verify the required parameter '_double' is set
             if (_double == null)
                 throw new ApiException(400, "Missing required parameter '_double' when calling FakeApi->TestEndpointParameters");
-            // verify the required parameter '_string' is set
-            if (_string == null)
-                throw new ApiException(400, "Missing required parameter '_string' when calling FakeApi->TestEndpointParameters");
+            // verify the required parameter 'patternWithoutDelimiter' is set
+            if (patternWithoutDelimiter == null)
+                throw new ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
             // verify the required parameter '_byte' is set
             if (_byte == null)
                 throw new ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
@@ -688,12 +724,19 @@ namespace IO.Swagger.Api
             if (_float != null) localVarFormParams.Add("float", Configuration.ApiClient.ParameterToString(_float)); // form parameter
             if (_double != null) localVarFormParams.Add("double", Configuration.ApiClient.ParameterToString(_double)); // form parameter
             if (_string != null) localVarFormParams.Add("string", Configuration.ApiClient.ParameterToString(_string)); // form parameter
+            if (patternWithoutDelimiter != null) localVarFormParams.Add("pattern_without_delimiter", Configuration.ApiClient.ParameterToString(patternWithoutDelimiter)); // form parameter
             if (_byte != null) localVarFormParams.Add("byte", Configuration.ApiClient.ParameterToString(_byte)); // form parameter
             if (binary != null) localVarFormParams.Add("binary", Configuration.ApiClient.ParameterToString(binary)); // form parameter
             if (date != null) localVarFormParams.Add("date", Configuration.ApiClient.ParameterToString(date)); // form parameter
             if (dateTime != null) localVarFormParams.Add("dateTime", Configuration.ApiClient.ParameterToString(dateTime)); // form parameter
             if (password != null) localVarFormParams.Add("password", Configuration.ApiClient.ParameterToString(password)); // form parameter
 
+            // authentication (http_basic_test) required
+            // http basic authentication required
+            if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
+            {
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
+            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
@@ -715,27 +758,37 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum query parameters 
+        /// To test enum parameters 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns></returns>
-        public void TestEnumQueryParameters (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
         {
-             TestEnumQueryParametersWithHttpInfo(enumQueryString, enumQueryInteger, enumQueryDouble);
+             TestEnumParametersWithHttpInfo(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
         }
 
         /// <summary>
-        /// To test enum query parameters 
+        /// To test enum parameters 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestEnumQueryParametersWithHttpInfo (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
         {
 
             var localVarPath = "/fake";
@@ -763,8 +816,13 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
+            if (enumQueryStringArray != null) localVarQueryParams.Add("enum_query_string_array", Configuration.ApiClient.ParameterToString(enumQueryStringArray)); // query parameter
+            if (enumQueryString != null) localVarQueryParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // query parameter
             if (enumQueryInteger != null) localVarQueryParams.Add("enum_query_integer", Configuration.ApiClient.ParameterToString(enumQueryInteger)); // query parameter
-            if (enumQueryString != null) localVarFormParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // form parameter
+            if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
+            if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
+            if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", Configuration.ApiClient.ParameterToString(enumFormStringArray)); // form parameter
+            if (enumFormString != null) localVarFormParams.Add("enum_form_string", Configuration.ApiClient.ParameterToString(enumFormString)); // form parameter
             if (enumQueryDouble != null) localVarFormParams.Add("enum_query_double", Configuration.ApiClient.ParameterToString(enumQueryDouble)); // form parameter
 
 
@@ -777,7 +835,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("TestEnumQueryParameters", localVarResponse);
+                Exception exception = ExceptionFactory("TestEnumParameters", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -788,28 +846,38 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum query parameters 
+        /// To test enum parameters 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEnumQueryParametersAsync (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
         {
-             await TestEnumQueryParametersAsyncWithHttpInfo(enumQueryString, enumQueryInteger, enumQueryDouble);
+             await TestEnumParametersAsyncWithHttpInfo(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
 
         }
 
         /// <summary>
-        /// To test enum query parameters 
+        /// To test enum parameters 
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumQueryParametersAsyncWithHttpInfo (string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
         {
 
             var localVarPath = "/fake";
@@ -837,8 +905,13 @@ namespace IO.Swagger.Api
             // set "format" to json by default
             // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
             localVarPathParams.Add("format", "json");
+            if (enumQueryStringArray != null) localVarQueryParams.Add("enum_query_string_array", Configuration.ApiClient.ParameterToString(enumQueryStringArray)); // query parameter
+            if (enumQueryString != null) localVarQueryParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // query parameter
             if (enumQueryInteger != null) localVarQueryParams.Add("enum_query_integer", Configuration.ApiClient.ParameterToString(enumQueryInteger)); // query parameter
-            if (enumQueryString != null) localVarFormParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // form parameter
+            if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
+            if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
+            if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", Configuration.ApiClient.ParameterToString(enumFormStringArray)); // form parameter
+            if (enumFormString != null) localVarFormParams.Add("enum_form_string", Configuration.ApiClient.ParameterToString(enumFormString)); // form parameter
             if (enumQueryDouble != null) localVarFormParams.Add("enum_query_double", Configuration.ApiClient.ParameterToString(enumQueryDouble)); // form parameter
 
 
@@ -851,7 +924,7 @@ namespace IO.Swagger.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("TestEnumQueryParameters", localVarResponse);
+                Exception exception = ExceptionFactory("TestEnumParameters", localVarResponse);
                 if (exception != null) throw exception;
             }
 

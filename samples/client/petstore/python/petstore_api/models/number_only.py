@@ -51,6 +51,7 @@ class NumberOnly(object):
 
         self._just_number = just_number
 
+
     @property
     def just_number(self):
         """

@@ -4,7 +4,6 @@ import io.swagger.codegen.*;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
-import org.apache.commons.lang3.BooleanUtils;
 
 import java.io.File;
 import java.util.*;
@@ -41,6 +40,9 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
         additionalProperties.put(BASE_PACKAGE, basePackage);
+
+        // spring uses the jackson lib
+        additionalProperties.put("jackson", "true");
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
@@ -231,7 +233,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
         }
 
         this.additionalProperties.put("serverPort", port);
-        if (swagger != null && swagger.getPaths() != null) {
+        if (swagger.getPaths() != null) {
             for (String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
                 if (path.getOperations() != null) {
@@ -352,16 +354,21 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        if("null".equals(property.example)) {
+        if ("null".equals(property.example)) {
             property.example = null;
         }
 
         //Add imports for Jackson
-        if(!BooleanUtils.toBoolean(model.isEnum)) {
+        if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
 
-            if(BooleanUtils.toBoolean(model.hasEnums)) {
+            if (Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonValue");
+            }
+        } else { // enum class
+            //Needed imports for Jackson's JsonCreator
+            if (additionalProperties.containsKey("jackson")) {
+                model.imports.add("JsonCreator");
             }
         }
     }

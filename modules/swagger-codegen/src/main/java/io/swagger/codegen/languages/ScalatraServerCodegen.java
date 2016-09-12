@@ -5,25 +5,19 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.client";
+public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
+
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-client";
     protected String artifactVersion = "1.0.0";
-    protected String sourceFolder = "src/main/scala";
 
     public ScalatraServerCodegen() {
         super();
@@ -93,17 +87,6 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Object")
-        );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
@@ -121,9 +104,6 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
         importMapping.put("LocalDateTime", "org.joda.time.LocalDateTime");
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
         importMapping.put("LocalTime", "org.joda.time.LocalTime");
-
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
     @Override
@@ -142,70 +122,41 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name;
-    }
-
-    @Override
-    public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
-    }
-
-    @Override
-    public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
-    }
-
-    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+            // force http method to lower case
             op.httpMethod = op.httpMethod.toLowerCase();
+ 
+            String[] items = op.path.split("/", -1);
+            String scalaPath = "";
+            int pathParamIndex = 0;
+
+            for (int i = 0; i < items.length; ++i) {
+                if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+                    scalaPath = scalaPath + ":" + items[i].replace("{", "").replace("}", "");
+                    pathParamIndex++;
+                } else {
+                    scalaPath = scalaPath + items[i];
+                }
+
+                if (i != items.length -1) {
+                    scalaPath = scalaPath + "/";
+                }
+            }
+
+            op.vendorExtensions.put("x-scalatra-path", scalaPath);
         }
+
         return objs;
     }
 
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
-        }
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
-            }
-        } else {
-            type = swaggerType;
-        }
-        return toModelName(type);
-    }
-
-    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
 }

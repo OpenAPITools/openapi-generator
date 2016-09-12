@@ -57,6 +57,7 @@ class EnumTest(object):
         self._enum_integer = enum_integer
         self._enum_number = enum_number
 
+
     @property
     def enum_string(self):
         """

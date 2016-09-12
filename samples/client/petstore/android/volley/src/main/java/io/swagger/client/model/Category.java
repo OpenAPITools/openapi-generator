@@ -67,15 +67,15 @@ public class Category  {
       return false;
     }
     Category category = (Category) o;
-    return (id == null ? category.id == null : id.equals(category.id)) &&
-        (name == null ? category.name == null : name.equals(category.name));
+    return (this.id == null ? category.id == null : this.id.equals(category.id)) &&
+        (this.name == null ? category.name == null : this.name.equals(category.name));
   }
 
   @Override
   public int hashCode() {
     int result = 17;
-    result = 31 * result + (id == null ? 0: id.hashCode());
-    result = 31 * result + (name == null ? 0: name.hashCode());
+    result = 31 * result + (this.id == null ? 0: this.id.hashCode());
+    result = 31 * result + (this.name == null ? 0: this.name.hashCode());
     return result;
   }
 

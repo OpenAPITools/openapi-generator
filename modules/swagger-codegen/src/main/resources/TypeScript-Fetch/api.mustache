@@ -41,14 +41,14 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      * {{{description}}}
      */
 {{/description}}
-    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{classname}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 }
 
 {{#hasEnums}}
 {{#vars}}
 {{#isEnum}}
-export type {{classname}}{{datatypeWithEnum}} = {{#allowableValues}}{{#values}}"{{.}}"{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
+export type {{{enumName}}} = {{#allowableValues}}{{#values}}"{{{.}}}"{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}

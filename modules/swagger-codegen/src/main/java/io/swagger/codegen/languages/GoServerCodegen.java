@@ -36,7 +36,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         // set the output folder here
         outputFolder = "generated-code/go";
 
-        /**
+        /*
          * Models.  You can write model files using the modelTemplateFiles map.
          * if you want to create one template for file, you can do so here.
          * for multiple files for model, just put another entry in the `modelTemplateFiles` with
@@ -44,7 +44,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
          */
         modelTemplateFiles.clear();
 
-        /**
+        /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
          * as with models, add multiple entries with different extensions for multiple files per
          * class
@@ -53,13 +53,13 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
                 "controller.mustache",   // the template to use
                 ".go");       // the extension for each file to write
 
-        /**
+        /*
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
         embeddedTemplateDir = templateDir = "go-server";
 
-        /**
+        /*
          * Reserved words.  Override this with reserved words specific to your language
          */
         setReservedWordsLowerCase(
@@ -126,14 +126,14 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("swagger"));
-        /**
+        /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("serverPort", serverPort);
         additionalProperties.put("apiPath", apiPath);
-        /**
+        /*
          * Supporting Files.  You can write single files for the generator with the
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied

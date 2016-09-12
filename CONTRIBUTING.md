@@ -72,3 +72,4 @@ To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all t
 - Add test case(s) to cover the change
 - Document the fix in the code to make the code more readable
 - Make sure test cases passed after the change (one way is to leverage https://travis-ci.org/ to run the CI tests)
+- File a PR with meaningful title, description and commit messages. A good example is [PR-3306](https://github.com/swagger-api/swagger-codegen/pull/3306)

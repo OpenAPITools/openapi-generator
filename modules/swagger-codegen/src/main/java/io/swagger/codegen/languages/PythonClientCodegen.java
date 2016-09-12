@@ -33,6 +33,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public PythonClientCodegen() {
         super();
 
+        // clear import mapping (from default generator) as python does not use it
+        // at the moment
+        importMapping.clear();
+
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separatorChar + "python";
@@ -110,6 +114,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -133,6 +139,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         else {
             setPackageVersion("1.0.0");
+        }
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -199,7 +213,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         + "/pattern/modifiers convention. "+pattern+" is not valid.");
             }
 
-            String regex = pattern.substring(1, i).replace("'", "\'");
+            String regex = pattern.substring(1, i).replace("'", "\\'");
             List<String> modifiers = new ArrayList<String>();
 
             for(char c : pattern.substring(i).toCharArray()) {
@@ -486,7 +500,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return "'" + dp.getDefault().toString() + "'";
+                return "'" + dp.getDefault() + "'";
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;

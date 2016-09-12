@@ -251,6 +251,8 @@ use warnings;
 {{/model}}{{/models}}
 # for displaying the API response data
 use Data::Dumper;
+use {{{moduleName}}}::Configuration;
+use {{moduleName}}::{{classname}};
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 ${{{moduleName}}}::Configuration::username = 'YOUR_USERNAME';
@@ -264,7 +266,7 @@ ${{{moduleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}
 {{/hasAuthMethods}}
 
 my $api_instance = {{moduleName}}::{{classname}}->new();
-{{#allParams}}my ${{paramName}} = {{#isListContainer}}({{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}){{/isListContainer}}; # {{{dataType}}} | {{{description}}}
+{{#allParams}}my ${{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; # {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 eval {
@@ -290,7 +292,7 @@ Class | Method | HTTP request | Description
 {{#models}}{{#model}} - [{{moduleName}}::Object::{{classname}}]({{modelDocPath}}{{classname}}.md)
 {{/model}}{{/models}}
 
-# DOCUMENTATION FOR AUTHORIATION
+# DOCUMENTATION FOR AUTHORIZATION
 {{^authMethods}} All endpoints do not require authorization.
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}## {{{name}}}

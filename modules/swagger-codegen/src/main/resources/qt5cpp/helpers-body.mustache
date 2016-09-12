@@ -94,6 +94,27 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             qDebug() << "Can't set value because the target pointer is NULL";
         }
     }
+    else if (QStringLiteral("QByteArray").compare(type) == 0) {
+        QByteArray **val = static_cast<QByteArray**>(value);
+
+        if(val != NULL) {
+            if(!obj.isNull()) {
+                // create a new value and return
+                delete *val;
+
+                *val = new QByteArray(QByteArray::fromBase64(QByteArray::fromStdString(obj.toString().toStdString())));
+                return;
+            }
+            else {
+                // set target to NULL
+                delete *val;
+                *val = NULL;
+            }
+        }
+        else {
+            qDebug() << "Can't set value because the target pointer is NULL";
+        }
+    }
     else if(type.startsWith("SWG") && obj.isObject()) {
         // complex type
         QJsonObject jsonObj = obj.toObject();
@@ -220,6 +241,10 @@ toJsonValue(QString name, void* value, QJsonObject* output, QString type) {
     else if(QStringLiteral("QDateTime").compare(type) == 0) {
         QDateTime* datetime = static_cast<QDateTime*>(value);
         output->insert(name, QJsonValue(datetime->toString(Qt::ISODate)));
+    }
+    else if(QStringLiteral("QByteArray").compare(type) == 0) {
+        QByteArray* byteArray = static_cast<QByteArray*>(value);
+        output->insert(name, QJsonValue(QString(byteArray->toBase64())));
     }
 }
 

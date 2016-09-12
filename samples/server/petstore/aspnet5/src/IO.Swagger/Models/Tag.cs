@@ -35,6 +35,7 @@ namespace IO.Swagger.Models
     /// <summary>
     /// 
     /// </summary>
+    [DataContract]
     public partial class Tag :  IEquatable<Tag>
     {
         /// <summary>
@@ -52,11 +53,13 @@ namespace IO.Swagger.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
+        [DataMember(Name="id")]
         public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
+        [DataMember(Name="name")]
         public string Name { get; set; }
 
 
@@ -69,7 +72,7 @@ namespace IO.Swagger.Models
             var sb = new StringBuilder();
             sb.Append("class Tag {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
-sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

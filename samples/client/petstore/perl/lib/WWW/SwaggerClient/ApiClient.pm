@@ -363,6 +363,12 @@ elsif ($auth eq 'petstore_auth') {
                 $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
             }
         }
+elsif ($auth eq 'http_basic_test') {
+            
+            if ($WWW::SwaggerClient::Configuration::username || $WWW::SwaggerClient::Configuration::password) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64($WWW::SwaggerClient::Configuration::username . ":" . $WWW::SwaggerClient::Configuration::password);
+            }
+        }
         else {
        	    # TODO show warning about security definition not found
         }

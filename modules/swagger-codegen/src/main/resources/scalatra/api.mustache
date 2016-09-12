@@ -16,14 +16,14 @@ import org.scalatra.servlet.{FileUploadSupport, MultipartConfig, SizeConstraintE
 
 import scala.collection.JavaConverters._
 
-class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet 
+class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
     with FileUploadSupport
     with JacksonJsonSupport
     with SwaggerSupport {
   protected implicit val jsonFormats: Formats = DefaultFormats
 
   protected val applicationDescription: String = "{{classname}}"
-  override protected val applicationName: Option[String] = Some("{{baseName}}")
+  override protected val applicationName: Option[String] = Some("{{basePathWithoutHost}}/{{baseName}}")
 
   before() {
     contentType = formats("json")
@@ -38,7 +38,7 @@ class {{classname}} (implicit val swagger: Swagger) extends ScalatraServlet
       parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
   )
 
-  {{httpMethod}}("{{path}}",operation({{nickname}}Operation)) {
+  {{httpMethod}}("{{{vendorExtensions.x-scalatra-path}}}",operation({{nickname}}Operation)) {
     {{#allParams}}
     {{#isFile}}val {{paramName}} = fileParams("{{paramName}}"){{/isFile}}
     {{^isFile}}{{#isPathParam}}

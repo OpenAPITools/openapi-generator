@@ -12,7 +12,7 @@ class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext) {
     implicit val system = ActorSystem("appActorSystem")
     try {
-      {{#apiInfo}}{{#apis}}context mount (new {{classname}}, "/{{baseName}}/*")
+      {{#apiInfo}}{{#apis}}context mount (new {{classname}}, "{{basePathWithoutHost}}/{{baseName}}/*")
       {{/apis}}{{/apiInfo}}
       context mount (new ResourcesApp, "/api-docs/*")
     } catch {

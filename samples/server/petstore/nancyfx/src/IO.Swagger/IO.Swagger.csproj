@@ -3,11 +3,11 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{1DE2DD8D-1AFB-4BC2-9FB5-04DE7DCA1353}</ProjectGuid>
+        <ProjectGuid>{D198220E-91F6-402F-966F-8EF6105B1B75}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>IO.Swagger.v2</RootNamespace>
-        <AssemblyName></AssemblyName>
+        <AssemblyName>IO.Swagger</AssemblyName>
             <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
@@ -39,8 +39,8 @@
             <HintPath>..\..\packages\NodaTime.1.3.1\lib\net35-Client\NodaTime.dll</HintPath>
             <Private>True</Private>
         </Reference>
-        <Reference Include="Sharpility, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-            <HintPath>..\..\packages\Sharpility.1.2.1\lib\net45\Sharpility.dll</HintPath>
+        <Reference Include="Sharpility, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>..\..\packages\Sharpility.1.2.2\lib\net45\Sharpility.dll</HintPath>
             <Private>True</Private>
         </Reference>
         <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
