@@ -105,10 +105,11 @@ class EnumArrays(object):
         :type: list[str]
         """
         allowed_values = ["fish", "crab"]
-        if array_enum not in allowed_values:
+        if not set(array_enum).issubset(set(allowed_values)):
             raise ValueError(
-                "Invalid value for `array_enum` ({0}), must be one of {1}"
-                .format(array_enum, allowed_values)
+                "Invalid values for `array_enum` [{0}], must be a subset of [{1}]"
+                .format(", ".join(map(str, set(array_enum)-set(allowed_values))), 
+                        ", ".join(map(str, allowed_values)))
             )
 
         self._array_enum = array_enum
