@@ -139,7 +139,16 @@ class Decoders {
                     return NSDate(timeIntervalSince1970: Double(sourceInt / 1000) )
                 }
                 fatalError("formatter failed to parse \(source)")
-            } 
+            }
+
+            // Decoder for ISOFullDate
+            Decoders.addDecoder(clazz: ISOFullDate.self, decoder: { (source: AnyObject) -> ISOFullDate in
+                if let string = source as? String,
+                   let isoDate = ISOFullDate.from(string: string) {
+                    return isoDate
+                }
+                fatalError("formatter failed to parse \(source)")
+            }) 
 
             // Decoder for [Category]
             Decoders.addDecoder(clazz: [Category].self) { (source: AnyObject) -> [Category] in
@@ -215,6 +224,7 @@ class Decoders {
                 let instance = User()
                 instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"])
                 instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"])
+                instance.dateOfBirth = Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["dateOfBirth"])
                 instance.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["firstName"])
                 instance.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["lastName"])
                 instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"])

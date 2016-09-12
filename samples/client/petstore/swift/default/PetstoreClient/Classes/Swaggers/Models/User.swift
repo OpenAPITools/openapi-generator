@@ -11,6 +11,7 @@ import Foundation
 public class User: JSONEncodable {
     public var id: Int64?
     public var username: String?
+    public var dateOfBirth: ISOFullDate?
     public var firstName: String?
     public var lastName: String?
     public var email: String?
@@ -26,6 +27,7 @@ public class User: JSONEncodable {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["username"] = self.username
+        nillableDictionary["dateOfBirth"] = self.dateOfBirth?.encodeToJSON()
         nillableDictionary["firstName"] = self.firstName
         nillableDictionary["lastName"] = self.lastName
         nillableDictionary["email"] = self.email
