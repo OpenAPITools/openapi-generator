@@ -53,6 +53,140 @@ export class PetApi {
      * @param body Pet object that needs to be added to the store
      */
     public addPet(body?: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+        return this.addPetWithHttpInfo(body, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Deletes a pet
+     * 
+     * @param petId Pet id to delete
+     * @param apiKey 
+     */
+    public deletePet(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.deletePetWithHttpInfo(petId, apiKey, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     * @param status Status values that need to be considered for filter
+     */
+    public findPetsByStatus(status?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+        return this.findPetsByStatusWithHttpInfo(status, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @param tags Tags to filter by
+     */
+    public findPetsByTags(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+        return this.findPetsByTagsWithHttpInfo(tags, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Find pet by ID
+     * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+     * @param petId ID of pet that needs to be fetched
+     */
+    public getPetById(petId: number, extraHttpRequestParams?: any): Observable<models.Pet> {
+        return this.getPetByIdWithHttpInfo(petId, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Update an existing pet
+     * 
+     * @param body Pet object that needs to be added to the store
+     */
+    public updatePet(body?: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+        return this.updatePetWithHttpInfo(body, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet
+     * @param status Updated status of the pet
+     */
+    public updatePetWithForm(petId: string, name?: string, status?: string, extraHttpRequestParams?: any): Observable<{}> {
+        return this.updatePetWithFormWithHttpInfo(petId, name, status, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+    /**
+     * uploads an image
+     * 
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server
+     * @param file file to upload
+     */
+    public uploadFile(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<{}> {
+        return this.uploadFileWithHttpInfo(petId, additionalMetadata, file, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+
+    /**
+     * Add a new pet to the store
+     * 
+     * @param body Pet object that needs to be added to the store
+     */
+    public addPetWithHttpInfo(body?: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet`;
 
         let queryParameters = new URLSearchParams();
@@ -83,14 +217,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
     /**
@@ -99,7 +226,7 @@ export class PetApi {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public deletePet(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<{}> {
+    public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet/${petId}`;
 
         let queryParameters = new URLSearchParams();
@@ -130,14 +257,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
     /**
@@ -145,7 +265,7 @@ export class PetApi {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+    public findPetsByStatusWithHttpInfo(status?: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet/findByStatus`;
 
         let queryParameters = new URLSearchParams();
@@ -175,14 +295,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
     /**
@@ -190,7 +303,7 @@ export class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    public findPetsByTags(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+    public findPetsByTagsWithHttpInfo(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet/findByTags`;
 
         let queryParameters = new URLSearchParams();
@@ -220,14 +333,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
     /**
@@ -235,7 +341,7 @@ export class PetApi {
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param petId ID of pet that needs to be fetched
      */
-    public getPetById(petId: number, extraHttpRequestParams?: any): Observable<models.Pet> {
+    public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet/${petId}`;
 
         let queryParameters = new URLSearchParams();
@@ -266,14 +372,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
     /**
@@ -281,7 +380,7 @@ export class PetApi {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public updatePet(body?: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+    public updatePetWithHttpInfo(body?: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet`;
 
         let queryParameters = new URLSearchParams();
@@ -312,14 +411,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
     /**
@@ -329,7 +421,7 @@ export class PetApi {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public updatePetWithForm(petId: string, name?: string, status?: string, extraHttpRequestParams?: any): Observable<{}> {
+    public updatePetWithFormWithHttpInfo(petId: string, name?: string, status?: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet/${petId}`;
 
         let queryParameters = new URLSearchParams();
@@ -371,14 +463,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
     /**
@@ -388,7 +473,7 @@ export class PetApi {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<{}> {
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet/${petId}/uploadImage`;
 
         let queryParameters = new URLSearchParams();
@@ -430,14 +515,7 @@ export class PetApi {
             responseType: ResponseContentType.Json
         });
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        return this.http.request(path, requestOptions);
     }
 
 }
