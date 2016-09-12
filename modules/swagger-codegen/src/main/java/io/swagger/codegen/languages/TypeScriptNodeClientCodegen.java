@@ -26,6 +26,11 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     public TypeScriptNodeClientCodegen() {
         super();
+
+        // clear import mapping (from default generator) as TS does not use it
+        // at the moment
+        importMapping.clear();
+
         outputFolder = "generated-code/typescript-node";
         embeddedTemplateDir = templateDir = "typescript-node";
 

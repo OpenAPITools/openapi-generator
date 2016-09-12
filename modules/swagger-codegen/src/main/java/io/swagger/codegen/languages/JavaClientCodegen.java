@@ -183,6 +183,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
             if(additionalProperties.containsKey("gson")) {
                 model.imports.add("SerializedName");
             }
+        } else { // enum class
+            //Needed imports for Jackson's JsonCreator
+            if(additionalProperties.containsKey("jackson")) {
+                model.imports.add("JsonCreator");
+            }
         }
     }
 

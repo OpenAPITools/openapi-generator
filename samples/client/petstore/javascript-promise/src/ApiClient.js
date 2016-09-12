@@ -64,8 +64,9 @@
      * @type {Array.<String>}
      */
     this.authentications = {
+      'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
+      'http_basic_test': {type: 'basic'}
       'petstore_auth': {type: 'oauth2'},
-      'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'}
     };
     /**
      * The default HTTP headers to be included for all API calls.

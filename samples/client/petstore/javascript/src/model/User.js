@@ -78,7 +78,7 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('id')) {
-        obj['id'] = ApiClient.convertToType(data['id'], 'Integer');
+        obj['id'] = ApiClient.convertToType(data['id'], 'Number');
       }
       if (data.hasOwnProperty('username')) {
         obj['username'] = ApiClient.convertToType(data['username'], 'String');
@@ -99,14 +99,14 @@
         obj['phone'] = ApiClient.convertToType(data['phone'], 'String');
       }
       if (data.hasOwnProperty('userStatus')) {
-        obj['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Integer');
+        obj['userStatus'] = ApiClient.convertToType(data['userStatus'], 'Number');
       }
     }
     return obj;
   }
 
   /**
-   * @member {Integer} id
+   * @member {Number} id
    */
   exports.prototype['id'] = undefined;
   /**
@@ -135,7 +135,7 @@
   exports.prototype['phone'] = undefined;
   /**
    * User Status
-   * @member {Integer} userStatus
+   * @member {Number} userStatus
    */
   exports.prototype['userStatus'] = undefined;
 

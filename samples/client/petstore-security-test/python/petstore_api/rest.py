@@ -178,7 +178,7 @@ class RESTClientObject(object):
             r.data = r.data.decode('utf8')
 
         # log response body
-        logger.debug("response body: %s" % r.data)
+        logger.debug("response body: %s", r.data)
 
         if r.status not in range(200, 206):
             raise ApiException(http_resp=r)

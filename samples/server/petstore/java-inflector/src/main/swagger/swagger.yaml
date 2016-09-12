@@ -1,10 +1,9 @@
 ---
 swagger: "2.0"
 info:
-  description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
-    \  For this sample, you can use the api key `special-key` to test the authorization\
-    \ filters."
+  description: "This spec is mainly for testing Petstore server and contains fake\
+    \ endpoints, models. Please do not use this for any other purpose. Special characters:\
+    \ \" \\"
   version: "1.0.0"
   title: "Swagger Petstore"
   termsOfService: "http://swagger.io/terms/"
@@ -31,6 +30,221 @@ tags:
 schemes:
 - "http"
 paths:
+  /fake:
+    get:
+      tags:
+      - "fake"
+      summary: "To test enum parameters"
+      operationId: "testEnumParameters"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "enum_form_string_array"
+        in: "formData"
+        description: "Form parameter enum test (string array)"
+        required: false
+        type: "array"
+      - name: "enum_form_string"
+        in: "formData"
+        description: "Form parameter enum test (string)"
+        required: false
+        type: "string"
+        default: "-efg"
+        enum:
+        - "_abc"
+        - "-efg"
+        - "(xyz)"
+      - name: "enum_header_string_array"
+        in: "header"
+        description: "Header parameter enum test (string array)"
+        required: false
+        type: "array"
+      - name: "enum_header_string"
+        in: "header"
+        description: "Header parameter enum test (string)"
+        required: false
+        type: "string"
+        default: "-efg"
+        enum:
+        - "_abc"
+        - "-efg"
+        - "(xyz)"
+      - name: "enum_query_string_array"
+        in: "query"
+        description: "Query parameter enum test (string array)"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+          default: "$"
+          enum:
+          - ">"
+          - "$"
+      - name: "enum_query_string"
+        in: "query"
+        description: "Query parameter enum test (string)"
+        required: false
+        type: "string"
+        default: "-efg"
+        enum:
+        - "_abc"
+        - "-efg"
+        - "(xyz)"
+      - name: "enum_query_integer"
+        in: "query"
+        description: "Query parameter enum test (double)"
+        required: false
+        type: "number"
+        format: "int32"
+        enum:
+        - null
+        - null
+      - name: "enum_query_double"
+        in: "formData"
+        description: "Query parameter enum test (double)"
+        required: false
+        type: "number"
+        format: "double"
+        enum:
+        - null
+        - null
+      responses:
+        400:
+          description: "Invalid request"
+        404:
+          description: "Not found"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
+    post:
+      tags:
+      - "fake"
+      summary: "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔\
+        드 포인트\n"
+      description: "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n\
+        가짜 엔드 포인트\n"
+      operationId: "testEndpointParameters"
+      consumes:
+      - "application/xml; charset=utf-8"
+      - "application/json; charset=utf-8"
+      produces:
+      - "application/xml; charset=utf-8"
+      - "application/json; charset=utf-8"
+      parameters:
+      - name: "integer"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "integer"
+        maximum: 100.0
+        minimum: 10.0
+      - name: "int32"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "integer"
+        maximum: 200.0
+        minimum: 20.0
+        format: "int32"
+      - name: "int64"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "number"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "number"
+        maximum: 543.2
+        minimum: 32.1
+      - name: "float"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "number"
+        maximum: 987.6
+        format: "float"
+      - name: "double"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "number"
+        maximum: 123.4
+        minimum: 67.8
+        format: "double"
+      - name: "string"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "string"
+        pattern: "/[a-z]/i"
+      - name: "byte"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "string"
+        format: "byte"
+      - name: "binary"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        format: "binary"
+      - name: "date"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        format: "date"
+      - name: "dateTime"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        format: "date-time"
+      - name: "password"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        maxLength: 64
+        minLength: 10
+        format: "password"
+      responses:
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+      security:
+      - http_basic_test: []
+      x-contentType: "application/xml; charset=utf-8"
+      x-accepts: "application/xml; charset=utf-8,application/json; charset=utf-8"
+    patch:
+      tags:
+      - "fake"
+      summary: "To test \"client\" model"
+      operationId: "testClientModel"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "client model"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Client"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
   /pet:
     post:
       tags:
@@ -618,6 +832,8 @@ securityDefinitions:
     scopes:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
+  http_basic_test:
+    type: "basic"
 definitions:
   Order:
     type: "object"
@@ -662,6 +878,7 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+        x-is-unique: true
       username:
         type: "string"
       firstName:
@@ -699,6 +916,7 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+        x-is-unique: true
       category:
         $ref: "#/definitions/Category"
       name:
@@ -737,6 +955,288 @@ definitions:
         type: "string"
       message:
         type: "string"
+  $special[model.name]:
+    properties:
+      $special[property.name]:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "$special[model.name]"
+  Return:
+    properties:
+      return:
+        type: "integer"
+        format: "int32"
+    description: "Model for testing reserved words"
+    xml:
+      name: "Return"
+  Name:
+    required:
+    - "name"
+    properties:
+      name:
+        type: "integer"
+        format: "int32"
+      snake_case:
+        type: "integer"
+        format: "int32"
+        readOnly: true
+      property:
+        type: "string"
+      123Number:
+        type: "integer"
+        readOnly: true
+    description: "Model for testing model name same as property name"
+    xml:
+      name: "Name"
+  200_response:
+    properties:
+      name:
+        type: "integer"
+        format: "int32"
+      class:
+        type: "string"
+    description: "Model for testing model name starting with number"
+    xml:
+      name: "Name"
+  Dog:
+    allOf:
+    - $ref: "#/definitions/Animal"
+    - type: "object"
+      properties:
+        breed:
+          type: "string"
+  Cat:
+    allOf:
+    - $ref: "#/definitions/Animal"
+    - type: "object"
+      properties:
+        declawed:
+          type: "boolean"
+  Animal:
+    type: "object"
+    required:
+    - "className"
+    discriminator: "className"
+    properties:
+      className:
+        type: "string"
+      color:
+        type: "string"
+        default: "red"
+  AnimalFarm:
+    type: "array"
+    items:
+      $ref: "#/definitions/Animal"
+  format_test:
+    type: "object"
+    required:
+    - "byte"
+    - "date"
+    - "number"
+    - "password"
+    properties:
+      integer:
+        type: "integer"
+        minimum: 10.0
+        maximum: 100.0
+      int32:
+        type: "integer"
+        format: "int32"
+        minimum: 20.0
+        maximum: 200.0
+      int64:
+        type: "integer"
+        format: "int64"
+      number:
+        type: "number"
+        minimum: 32.1
+        maximum: 543.2
+      float:
+        type: "number"
+        format: "float"
+        minimum: 54.3
+        maximum: 987.6
+      double:
+        type: "number"
+        format: "double"
+        minimum: 67.8
+        maximum: 123.4
+      string:
+        type: "string"
+        pattern: "/[a-z]/i"
+      byte:
+        type: "string"
+        format: "byte"
+      binary:
+        type: "string"
+        format: "binary"
+      date:
+        type: "string"
+        format: "date"
+      dateTime:
+        type: "string"
+        format: "date-time"
+      uuid:
+        type: "string"
+        format: "uuid"
+      password:
+        type: "string"
+        format: "password"
+        minLength: 10
+        maxLength: 64
+  EnumClass:
+    type: "string"
+    enum:
+    - "_abc"
+    - "-efg"
+    - "(xyz)"
+    default: "-efg"
+  Enum_Test:
+    type: "object"
+    properties:
+      enum_string:
+        type: "string"
+        enum:
+        - "UPPER"
+        - "lower"
+      enum_integer:
+        type: "integer"
+        format: "int32"
+        enum:
+        - 1
+        - -1
+      enum_number:
+        type: "number"
+        format: "double"
+        enum:
+        - 1.1
+        - -1.2
+  AdditionalPropertiesClass:
+    type: "object"
+    properties:
+      map_property:
+        type: "object"
+        additionalProperties:
+          type: "string"
+      map_of_map_property:
+        type: "object"
+        additionalProperties:
+          type: "object"
+          additionalProperties:
+            type: "string"
+  MixedPropertiesAndAdditionalPropertiesClass:
+    type: "object"
+    properties:
+      uuid:
+        type: "string"
+        format: "uuid"
+      dateTime:
+        type: "string"
+        format: "date-time"
+      map:
+        type: "object"
+        additionalProperties:
+          $ref: "#/definitions/Animal"
+  List:
+    type: "object"
+    properties:
+      123-list:
+        type: "string"
+  Client:
+    type: "object"
+    properties:
+      client:
+        type: "string"
+  ReadOnlyFirst:
+    type: "object"
+    properties:
+      bar:
+        type: "string"
+        readOnly: true
+      baz:
+        type: "string"
+  hasOnlyReadOnly:
+    type: "object"
+    properties:
+      bar:
+        type: "string"
+        readOnly: true
+      foo:
+        type: "string"
+        readOnly: true
+  MapTest:
+    type: "object"
+    properties:
+      map_map_of_string:
+        type: "object"
+        additionalProperties:
+          type: "object"
+          additionalProperties:
+            type: "string"
+      map_of_enum_string:
+        type: "object"
+        additionalProperties:
+          type: "string"
+          enum:
+          - "UPPER"
+          - "lower"
+  ArrayTest:
+    type: "object"
+    properties:
+      array_of_string:
+        type: "array"
+        items:
+          type: "string"
+      array_array_of_integer:
+        type: "array"
+        items:
+          type: "array"
+          items:
+            type: "integer"
+            format: "int64"
+      array_array_of_model:
+        type: "array"
+        items:
+          type: "array"
+          items:
+            $ref: "#/definitions/ReadOnlyFirst"
+  NumberOnly:
+    type: "object"
+    properties:
+      JustNumber:
+        type: "number"
+  ArrayOfNumberOnly:
+    type: "object"
+    properties:
+      ArrayNumber:
+        type: "array"
+        items:
+          type: "number"
+  ArrayOfArrayOfNumberOnly:
+    type: "object"
+    properties:
+      ArrayArrayNumber:
+        type: "array"
+        items:
+          type: "array"
+          items:
+            type: "number"
+  EnumArrays:
+    type: "object"
+    properties:
+      just_symbol:
+        type: "string"
+        enum:
+        - ">="
+        - "$"
+      array_enum:
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "fish"
+          - "crab"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

@@ -28,6 +28,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public DartClientCodegen() {
         super();
+
+        // clear import mapping (from default generator) as dart does not use it
+        // at the moment
+        importMapping.clear();
+
         outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");

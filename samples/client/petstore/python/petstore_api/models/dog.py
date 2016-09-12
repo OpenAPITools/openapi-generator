@@ -57,6 +57,7 @@ class Dog(object):
         self._color = color
         self._breed = breed
 
+
     @property
     def class_name(self):
         """

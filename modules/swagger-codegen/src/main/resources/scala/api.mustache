@@ -31,7 +31,7 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
 {{#allParams}}   * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  def {{operationId}} ({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} /* = {{{defaultValue}}} */{{/defaultValue}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
+  def {{operationId}}({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
     // create path and map variables
     val path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escape({{paramName}}))
 
@@ -53,27 +53,57 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
     {{/isPrimitiveType}}
     {{/required}}
     {{/allParams}}
-    {{#queryParams}}if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{#queryParams}}
+    {{#required}}
+    if(String.valueOf({{paramName}}) != "null") queryParams += "{{baseName}}" -> {{paramName}}.toString
+    {{/required}}
+    {{^required}}
+    {{paramName}}.map(paramVal => queryParams += "{{baseName}}" -> paramVal.toString)
+    {{/required}}
     {{/queryParams}}
     
-    {{#headerParams}}headerParams += "{{baseName}}" -> {{paramName}}
+    {{#headerParams}}
+    {{#required}}
+    headerParams += "{{baseName}}" -> {{paramName}}
+    {{/required}}
+    {{^required}}
+    {{paramName}}.map(paramVal => headerParams += "{{baseName}}" -> paramVal)
+    {{/required}}
     {{/headerParams}}
 
-    var postBody: AnyRef = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
+    var postBody: AnyRef = {{#bodyParam}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}.map(paramVal => paramVal){{/required}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
 
     if(contentType.startsWith("multipart/form-data")) {
       val mp = new FormDataMultiPart()
       {{#formParams}}{{#notFile}}
+      {{#required}}
       mp.field("{{baseName}}", {{paramName}}.toString(), MediaType.MULTIPART_FORM_DATA_TYPE)
+      {{/required}}
+      {{^required}}
+      {{paramName}}.map(paramVal => mp.field("{{baseName}}", paramVal.toString, MediaType.MULTIPART_FORM_DATA_TYPE))
+      {{/required}}
       {{/notFile}}{{#isFile}}
+      {{#required}}
       mp.field("{{baseName}}", file.getName)
       mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE))
+      {{/required}}
+      {{^required}}
+      file.map(fileVal => mp.field("{{baseName}}", fileVal.getName))
+      {{paramName}}.map(paramVal => mp.bodyPart(new FileDataBodyPart("{{baseName}}", paramVal, MediaType.MULTIPART_FORM_DATA_TYPE)))
+      {{/required}}
       {{/isFile}}{{/formParams}}
       postBody = mp
     }
     else {
       {{#formParams}}
-      {{#notFile}}formParams += "{{baseName}}" -> {{paramName}}.toString(){{/notFile}}
+      {{#notFile}}
+      {{#required}}
+      formParams += "{{baseName}}" -> {{paramName}}.toString()
+      {{/required}}
+      {{^required}}
+      {{paramName}}.map(paramVal => formParams += "{{baseName}}" -> paramVal.toString)
+      {{/required}}
+      {{/notFile}}
       {{/formParams}}
     }
 

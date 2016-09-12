@@ -6,7 +6,7 @@
  * @category Class
  * @package  Swagger\Client
  * @author   http://github.com/swagger-api/swagger-codegen
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 
@@ -51,7 +51,7 @@ use \Swagger\Client\ObjectSerializer;
  * @category Class
  * @package  Swagger\Client
  * @author   http://github.com/swagger-api/swagger-codegen
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 class UserApi
@@ -123,7 +123,7 @@ class UserApi
      * Create user
      *
      * @param \Swagger\Client\Model\User $body Created user object (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function createUserWithHttpInfo($body)
@@ -201,7 +201,7 @@ class UserApi
      * Creates list of users with given input array
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function createUsersWithArrayInputWithHttpInfo($body)
@@ -279,7 +279,7 @@ class UserApi
      * Creates list of users with given input array
      *
      * @param \Swagger\Client\Model\User[] $body List of user object (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function createUsersWithListInputWithHttpInfo($body)
@@ -357,7 +357,7 @@ class UserApi
      * Delete user
      *
      * @param string $username The name that needs to be deleted (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function deleteUserWithHttpInfo($username)
@@ -438,7 +438,7 @@ class UserApi
      * Get user by user name
      *
      * @param string $username The name that needs to be fetched. Use user1 for testing. (required)
-     * @return Array of \Swagger\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Swagger\Client\Model\User, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function getUserByNameWithHttpInfo($username)
@@ -525,7 +525,7 @@ class UserApi
      *
      * @param string $username The user name for login (required)
      * @param string $password The password for login in clear text (required)
-     * @return Array of string, HTTP status code, HTTP response headers (array of strings)
+     * @return array of string, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function loginUserWithHttpInfo($username, $password)
@@ -612,7 +612,7 @@ class UserApi
      *
      * Logs out current logged in user session
      *
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function logoutUserWithHttpInfo()
@@ -683,7 +683,7 @@ class UserApi
      *
      * @param string $username name that need to be deleted (required)
      * @param \Swagger\Client\Model\User $body Updated user object (required)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
      */
     public function updateUserWithHttpInfo($username, $body)

@@ -39,6 +39,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         modelPackage = System.getProperty("swagger.codegen.inflector.modelpackage", "io.swagger.model");
 
         additionalProperties.put("title", title);
+        // java inflector uses the jackson lib
+        additionalProperties.put("jackson", "true");
     }
 
     @Override

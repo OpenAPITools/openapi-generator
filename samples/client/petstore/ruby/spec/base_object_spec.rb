@@ -51,7 +51,7 @@ describe 'BaseObject' do
        int_arr_map: {'int_arr' => [123, 456]},
        pet_arr_map: {'pet_arr' => [{name: 'Kitty'}]},
        boolean_true_arr:  [true, "true", "TruE", 1, "y", "yes", "1", "t", "T"],
-       boolean_false_arr: [false, "", 0, "0", "f", nil, "null"],
+       boolean_false_arr: [false, "", 0, "0", "f", nil, "null", "\ntrue\n"],
       }
     end
 

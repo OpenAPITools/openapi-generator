@@ -87,6 +87,7 @@ class FormatTest(object):
         self._uuid = uuid
         self._password = password
 
+
     @property
     def integer(self):
         """
@@ -427,7 +428,7 @@ class FormatTest(object):
         if not password:
             raise ValueError("Invalid value for `password`, must not be `None`")
         if len(password) > 64:
-            raise ValueError("Invalid value for `password`, length must be less than `64`")
+            raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")
         if len(password) < 10:
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")
 

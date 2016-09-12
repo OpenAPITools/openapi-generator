@@ -98,7 +98,7 @@
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Object.<String, {'String': 'Integer'}>}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Object.<String, {'String': 'Number'}>}
      */
     this.getInventory = function() {
       var postBody = null;
@@ -116,7 +116,7 @@
       var authNames = ['api_key'];
       var contentTypes = [];
       var accepts = ['application/json'];
-      var returnType = {'String': 'Integer'};
+      var returnType = {'String': 'Number'};
 
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
@@ -129,7 +129,7 @@
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     * @param {Integer} orderId ID of pet that needs to be fetched
+     * @param {Number} orderId ID of pet that needs to be fetched
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
     this.getOrderById = function(orderId) {

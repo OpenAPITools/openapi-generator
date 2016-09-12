@@ -116,6 +116,9 @@ class UserApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `create_user`")
 
+
+        collection_formats = {}
+
         resource_path = '/user'.replace('{format}', 'json')
         path_params = {}
 
@@ -153,7 +156,8 @@ class UserApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def create_users_with_array_input(self, body, **kwargs):
         """
@@ -220,6 +224,9 @@ class UserApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `create_users_with_array_input`")
 
+
+        collection_formats = {}
+
         resource_path = '/user/createWithArray'.replace('{format}', 'json')
         path_params = {}
 
@@ -257,7 +264,8 @@ class UserApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def create_users_with_list_input(self, body, **kwargs):
         """
@@ -324,6 +332,9 @@ class UserApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `create_users_with_list_input`")
 
+
+        collection_formats = {}
+
         resource_path = '/user/createWithList'.replace('{format}', 'json')
         path_params = {}
 
@@ -361,7 +372,8 @@ class UserApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def delete_user(self, username, **kwargs):
         """
@@ -428,6 +440,9 @@ class UserApi(object):
         if ('username' not in params) or (params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `delete_user`")
 
+
+        collection_formats = {}
+
         resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
         if 'username' in params:
@@ -465,7 +480,8 @@ class UserApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def get_user_by_name(self, username, **kwargs):
         """
@@ -532,6 +548,9 @@ class UserApi(object):
         if ('username' not in params) or (params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")
 
+
+        collection_formats = {}
+
         resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
         if 'username' in params:
@@ -569,7 +588,8 @@ class UserApi(object):
                                             response_type='User',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def login_user(self, username, password, **kwargs):
         """
@@ -641,6 +661,9 @@ class UserApi(object):
         if ('password' not in params) or (params['password'] is None):
             raise ValueError("Missing the required parameter `password` when calling `login_user`")
 
+
+        collection_formats = {}
+
         resource_path = '/user/login'.replace('{format}', 'json')
         path_params = {}
 
@@ -680,7 +703,8 @@ class UserApi(object):
                                             response_type='str',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def logout_user(self, **kwargs):
         """
@@ -742,6 +766,9 @@ class UserApi(object):
             params[key] = val
         del params['kwargs']
 
+
+        collection_formats = {}
+
         resource_path = '/user/logout'.replace('{format}', 'json')
         path_params = {}
 
@@ -777,7 +804,8 @@ class UserApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def update_user(self, username, body, **kwargs):
         """
@@ -849,6 +877,9 @@ class UserApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `update_user`")
 
+
+        collection_formats = {}
+
         resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
         if 'username' in params:
@@ -888,4 +919,5 @@ class UserApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)

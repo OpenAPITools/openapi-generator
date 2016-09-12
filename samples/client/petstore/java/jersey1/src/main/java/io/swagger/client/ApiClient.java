@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -99,8 +99,9 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
@@ -509,9 +510,16 @@ public class ApiClient {
     if (contentType.startsWith("multipart/form-data")) {
       FormDataMultiPart mp = new FormDataMultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
-        if (param.getValue() instanceof File) {
+        if( param.getValue() instanceof List && !( ( List ) param.getValue() ).isEmpty()
+                  && ( ( List ) param.getValue() ).get( 0 ) instanceof File ) {
+            @SuppressWarnings( "unchecked" )
+            List<File> files = ( List<File> ) param.getValue();
+            for( File file : files ) {
+              mp.bodyPart( new FileDataBodyPart( param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE ) );
+            }
+        } else if (param.getValue() instanceof File) {
           File file = (File) param.getValue();
-          mp.bodyPart(new FileDataBodyPart(param.getKey(), file, MediaType.MULTIPART_FORM_DATA_TYPE));
+          mp.bodyPart(new FileDataBodyPart(param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
         } else {
           mp.field(param.getKey(), parameterToString(param.getValue()), MediaType.MULTIPART_FORM_DATA_TYPE);
         }

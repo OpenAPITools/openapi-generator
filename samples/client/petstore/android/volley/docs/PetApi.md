@@ -106,7 +106,7 @@ null (empty response body)
 
 Finds Pets by status
 
-Multiple status values can be provided with comma seperated strings
+Multiple status values can be provided with comma separated strings
 
 ### Example
 ```java
@@ -128,7 +128,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [optional] [default to available]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [optional] [default to available] [enum: available, pending, sold]
 
 ### Return type
 
@@ -149,7 +149,7 @@ Name | Type | Description  | Notes
 
 Finds Pets by tags
 
-Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
 ```java
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
 
 ### HTTP request headers
 

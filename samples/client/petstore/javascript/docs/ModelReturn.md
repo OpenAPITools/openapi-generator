@@ -3,6 +3,6 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**_return** | **Integer** |  | [optional] 
+**_return** | **Number** |  | [optional] 
 
 

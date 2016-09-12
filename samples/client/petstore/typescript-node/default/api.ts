@@ -300,7 +300,7 @@ export class PetApi {
     }
     /**
      * Finds Pets by status
-     * Multiple status values can be provided with comma seperated strings
+     * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus (status?: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
@@ -352,7 +352,7 @@ export class PetApi {
     }
     /**
      * Finds Pets by tags
-     * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
     public findPetsByTags (tags?: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {

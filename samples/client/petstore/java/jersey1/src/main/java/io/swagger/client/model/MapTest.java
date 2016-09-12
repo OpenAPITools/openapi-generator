@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -27,6 +27,7 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
@@ -60,6 +61,16 @@ public class MapTest   {
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static InnerEnum fromValue(String text) {
+      for (InnerEnum b : InnerEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
   @JsonProperty("map_of_enum_string")
@@ -67,6 +78,11 @@ public class MapTest   {
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
+    return this;
+  }
+
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    this.mapMapOfString.put(key, mapMapOfStringItem);
     return this;
   }
 
@@ -85,6 +101,11 @@ public class MapTest   {
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
+    return this;
+  }
+
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
   }
 

@@ -62,7 +62,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         return {{#parentSchema}}parent::getters() + {{/parentSchema}}self::$getters;
     }
 
-    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{datatypeWithEnum}}_{{{name}}} = {{{value}}};
+    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}const {{enumName}}_{{{name}}} = {{{value}}};
     {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
 
     {{#vars}}{{#isEnum}}
@@ -73,7 +73,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     public function {{getter}}AllowableValues()
     {
         return [
-            {{#allowableValues}}{{#enumVars}}self::{{datatypeWithEnum}}_{{{name}}},{{^-last}}
+            {{#allowableValues}}{{#enumVars}}self::{{enumName}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
         ];
     }
@@ -87,7 +87,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
 
     /**
      * Constructor
-     * @param mixed[] $data Associated array of property value initalizing the model
+     * @param mixed[] $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -121,37 +121,57 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/required}}
         {{#isEnum}}
+        {{^isContainer}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
             $invalid_properties[] = "invalid value for '{{name}}', must be one of #{allowed_values}.";
         }
+
+        {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
-        if (strlen($this->container['{{name}}']) > {{maxLength}}) {
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(strlen($this->container['{{name}}']) > {{maxLength}})) {
             $invalid_properties[] = "invalid value for '{{name}}', the character length must be smaller than or equal to {{{maxLength}}}.";
         }
+
         {{/maxLength}}
         {{#minLength}}
-        if (strlen($this->container['{{name}}']) < {{minLength}}) {
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(strlen($this->container['{{name}}']) < {{minLength}})) {
             $invalid_properties[] = "invalid value for '{{name}}', the character length must be bigger than or equal to {{{minLength}}}.";
         }
+
         {{/minLength}}
         {{#maximum}}
-        if ($this->container['{{name}}'] > {{maximum}}) {
-            $invalid_properties[] = "invalid value for '{{name}}', must be smaller than or equal to {{maximum}}.";
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.";
         }
+
         {{/maximum}}
         {{#minimum}}
-        if ($this->container['{{name}}'] < {{minimum}}) {
-            $invalid_properties[] = "invalid value for '{{name}}', must be bigger than or equal to {{minimum}}.";
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.";
         }
+
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
-            $invalid_properties[] = "invalid value for '{{name}}', must be conform to the pattern {{pattern}}.";
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}!preg_match("{{{pattern}}}", $this->container['{{name}}'])) {
+            $invalid_properties[] = "invalid value for '{{name}}', must be conform to the pattern {{{pattern}}}.";
         }
+
         {{/pattern}}
+        {{#maxItems}}
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(count($this->container['{{name}}']) > {{maxItems}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', number of items must be less than or equal to {{{maxItems}}}.";
+        }
+
+        {{/maxItems}}
+        {{#minItems}}
+        if ({{^required}}!is_null($this->container['{{name}}']) && {{/required}}(count($this->container['{{name}}']) < {{minItems}})) {
+            $invalid_properties[] = "invalid value for '{{name}}', number of items must be greater than or equal to {{{minItems}}}.";
+        }
+
+        {{/minItems}}
         {{/hasValidation}}
         {{/vars}}
         return $invalid_properties;
@@ -172,10 +192,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/required}}
         {{#isEnum}}
+        {{^isContainer}}
         $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
             return false;
         }
+        {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
@@ -189,20 +211,30 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/minLength}}
         {{#maximum}}
-        if ($this->container['{{name}}'] > {{maximum}}) {
+        if ($this->container['{{name}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
             return false;
         }
         {{/maximum}}
         {{#minimum}}
-        if ($this->container['{{name}}'] < {{minimum}}) {
+        if ($this->container['{{name}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
             return false;
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", $this->container['{{name}}'])) {
+        if (!preg_match("{{{pattern}}}", $this->container['{{name}}'])) {
             return false;
         }
         {{/pattern}}
+        {{#maxItems}}
+        if (count($this->container['{{name}}']) > {{maxItems}}) {
+            return false;
+        }
+        {{/maxItems}}
+        {{#minItems}}
+        if (count($this->container['{{name}}']) < {{minItems}}) {
+            return false;
+        }
+        {{/minItems}}
         {{/hasValidation}}
         {{/vars}}
         return true;
@@ -228,9 +260,16 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     {
         {{#isEnum}}
         $allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        {{^isContainer}}
         if (!in_array(${{{name}}}, $allowed_values)) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
         }
+        {{/isContainer}}
+        {{#isContainer}}
+        if (array_diff(${{{name}}}, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
+        }
+        {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
@@ -243,20 +282,29 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         }
         {{/minLength}}
         {{#maximum}}
-        if (${{name}} > {{maximum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maximum}}.');
+        if (${{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
         }
         {{/maximum}}
         {{#minimum}}
-        if (${{name}} < {{minimum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minimum}}.');
+        if (${{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{pattern}}", ${{name}})) {
-            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be conform to the pattern {{pattern}}.');
+        if (!preg_match("{{{pattern}}}", ${{name}})) {
+            throw new \InvalidArgumentException("invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.");
         }
         {{/pattern}}
+        {{#maxItems}}
+        if (count(${{name}}) > {{maxItems}}) {
+            throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
+        }{{/maxItems}}
+        {{#minItems}}
+        if (count(${{name}}) < {{minItems}}) {
+            throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
+        }
+        {{/minItems}}
         {{/hasValidation}}
         $this->container['{{name}}'] = ${{name}};
 

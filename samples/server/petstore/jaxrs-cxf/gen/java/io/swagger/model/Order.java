@@ -35,7 +35,7 @@ public class Order  {
 @XmlEnum
 public enum StatusEnum {
 
-    PLACED(String.valueOf("&quot;placed&quot;")), APPROVED(String.valueOf("&quot;approved&quot;")), DELIVERED(String.valueOf("&quot;delivered&quot;"));
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
 
     private String value;
@@ -52,6 +52,7 @@ public enum StatusEnum {
         return valueOf(v);
     }
 }
+
 
   @XmlElement(name="status")
   private StatusEnum status = null;

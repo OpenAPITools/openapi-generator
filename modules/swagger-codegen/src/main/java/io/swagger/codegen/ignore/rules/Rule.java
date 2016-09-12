@@ -26,10 +26,8 @@ public abstract class Rule {
         if(syntax == null) return this.definition;
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < syntax.size(); i++) {
-            Part current = syntax.get(i);
-
-            switch(current.getToken()){
+        for (Part current : syntax) {
+            switch (current.getToken()) {
                 case MATCH_ALL:
                 case MATCH_ANY:
                 case ESCAPED_EXCLAMATION:

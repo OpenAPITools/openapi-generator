@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -27,6 +27,7 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.ReadOnlyFirst;
@@ -53,6 +54,11 @@ public class ArrayTest   {
     return this;
   }
 
+  public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    this.arrayOfString.add(arrayOfStringItem);
+    return this;
+  }
+
    /**
    * Get arrayOfString
    * @return arrayOfString
@@ -71,6 +77,11 @@ public class ArrayTest   {
     return this;
   }
 
+  public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+    return this;
+  }
+
    /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
@@ -86,6 +97,11 @@ public class ArrayTest   {
 
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
+    return this;
+  }
+
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }
 

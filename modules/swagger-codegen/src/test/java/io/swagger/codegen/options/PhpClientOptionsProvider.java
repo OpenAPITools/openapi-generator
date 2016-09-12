@@ -43,6 +43,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(PhpClientCodegen.COMPOSER_PROJECT_NAME, COMPOSER_PROJECT_NAME_VALUE)
                 .put(CodegenConstants.GIT_REPO_ID, GIT_REPO_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
+                .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .build();
     }
 

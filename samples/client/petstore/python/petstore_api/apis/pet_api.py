@@ -116,6 +116,9 @@ class PetApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `add_pet`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet'.replace('{format}', 'json')
         path_params = {}
 
@@ -153,7 +156,8 @@ class PetApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def delete_pet(self, pet_id, **kwargs):
         """
@@ -222,6 +226,9 @@ class PetApi(object):
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         path_params = {}
         if 'pet_id' in params:
@@ -261,7 +268,8 @@ class PetApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def find_pets_by_status(self, status, **kwargs):
         """
@@ -328,12 +336,16 @@ class PetApi(object):
         if ('status' not in params) or (params['status'] is None):
             raise ValueError("Missing the required parameter `status` when calling `find_pets_by_status`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet/findByStatus'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
         if 'status' in params:
             query_params['status'] = params['status']
+            collection_formats['status'] = 'csv'
 
         header_params = {}
 
@@ -365,7 +377,8 @@ class PetApi(object):
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def find_pets_by_tags(self, tags, **kwargs):
         """
@@ -432,12 +445,16 @@ class PetApi(object):
         if ('tags' not in params) or (params['tags'] is None):
             raise ValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet/findByTags'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
         if 'tags' in params:
             query_params['tags'] = params['tags']
+            collection_formats['tags'] = 'csv'
 
         header_params = {}
 
@@ -469,7 +486,8 @@ class PetApi(object):
                                             response_type='list[Pet]',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def get_pet_by_id(self, pet_id, **kwargs):
         """
@@ -536,6 +554,9 @@ class PetApi(object):
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         path_params = {}
         if 'pet_id' in params:
@@ -573,7 +594,8 @@ class PetApi(object):
                                             response_type='Pet',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def update_pet(self, body, **kwargs):
         """
@@ -640,6 +662,9 @@ class PetApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `update_pet`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet'.replace('{format}', 'json')
         path_params = {}
 
@@ -677,7 +702,8 @@ class PetApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def update_pet_with_form(self, pet_id, **kwargs):
         """
@@ -748,6 +774,9 @@ class PetApi(object):
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet/{petId}'.replace('{format}', 'json')
         path_params = {}
         if 'pet_id' in params:
@@ -789,7 +818,8 @@ class PetApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def upload_file(self, pet_id, **kwargs):
         """
@@ -860,6 +890,9 @@ class PetApi(object):
         if ('pet_id' not in params) or (params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")
 
+
+        collection_formats = {}
+
         resource_path = '/pet/{petId}/uploadImage'.replace('{format}', 'json')
         path_params = {}
         if 'pet_id' in params:
@@ -901,4 +934,5 @@ class PetApi(object):
                                             response_type='ApiResponse',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)

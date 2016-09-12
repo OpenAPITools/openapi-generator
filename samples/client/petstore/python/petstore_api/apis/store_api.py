@@ -118,6 +118,9 @@ class StoreApi(object):
 
         if 'order_id' in params and params['order_id'] < 1.0:
             raise ValueError("Invalid value for parameter `order_id` when calling `delete_order`, must be a value greater than or equal to `1.0`")
+
+        collection_formats = {}
+
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
         path_params = {}
         if 'order_id' in params:
@@ -155,7 +158,8 @@ class StoreApi(object):
                                             response_type=None,
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def get_inventory(self, **kwargs):
         """
@@ -217,6 +221,9 @@ class StoreApi(object):
             params[key] = val
         del params['kwargs']
 
+
+        collection_formats = {}
+
         resource_path = '/store/inventory'.replace('{format}', 'json')
         path_params = {}
 
@@ -252,7 +259,8 @@ class StoreApi(object):
                                             response_type='dict(str, int)',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def get_order_by_id(self, order_id, **kwargs):
         """
@@ -320,9 +328,12 @@ class StoreApi(object):
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")
 
         if 'order_id' in params and params['order_id'] > 5.0:
-            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to  `5.0`")
+            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5.0`")
         if 'order_id' in params and params['order_id'] < 1.0:
             raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1.0`")
+
+        collection_formats = {}
+
         resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
         path_params = {}
         if 'order_id' in params:
@@ -360,7 +371,8 @@ class StoreApi(object):
                                             response_type='Order',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)
 
     def place_order(self, body, **kwargs):
         """
@@ -427,6 +439,9 @@ class StoreApi(object):
         if ('body' not in params) or (params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `place_order`")
 
+
+        collection_formats = {}
+
         resource_path = '/store/order'.replace('{format}', 'json')
         path_params = {}
 
@@ -464,4 +479,5 @@ class StoreApi(object):
                                             response_type='Order',
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
-                                            _return_http_data_only=params.get('_return_http_data_only'))
+                                            _return_http_data_only=params.get('_return_http_data_only'),
+                                            collection_formats=collection_formats)

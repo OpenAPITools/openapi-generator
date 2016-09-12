@@ -5,7 +5,7 @@ Also please indicate in the issue title which language/library is concerned. Eg:
 
 ##### Description
 
-<!-- describe what is the issue and why this is a problem for you. -->
+<!-- describe what is the question, suggestion or issue and why this is a problem for you. -->
 
 ##### Swagger-codegen version
 
@@ -37,7 +37,7 @@ Also please indicate in the issue title which language/library is concerned. Eg:
 
 ##### Related issues
 
-<!-- has a similar issue been reported before? -->
+<!-- has a similar issue been reported before? Please do a search in https://github.com/swagger-api/swagger-codegen/issues?utf8=%E2%9C%93&q=is%3Aissue%20 -->
 
 ##### Suggest a Fix
 

@@ -49,8 +49,10 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public HaskellServantCodegen() {
         super();
 
-        // override the mapping for "-" (Minus) to keep the original mapping in Haskell
-        specialCharReplacements.put('-', "Dash");
+        // override the mapping to keep the original mapping in Haskell
+        specialCharReplacements.put("-", "Dash");
+        specialCharReplacements.put(">", "GreaterThan");
+        specialCharReplacements.put("<", "LessThan");
 
         // set the output folder here
         outputFolder = "generated-code/haskell-servant";
@@ -203,9 +205,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         List<Map<String, Object>> replacements = new ArrayList<>();
         Object[] replacementChars = specialCharReplacements.keySet().toArray();
         for(int i = 0; i < replacementChars.length; i++) {
-            Character c = (Character) replacementChars[i];
+            String c = (String) replacementChars[i];
             Map<String, Object> o = new HashMap<>();
-            o.put("char", Character.toString(c));
+            o.put("char", c);
             o.put("replacement", "'" + specialCharReplacements.get(c));
             o.put("hasMore", i != replacementChars.length - 1);
             replacements.add(o);
@@ -471,6 +473,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // Create newtypes for things with non-object types
         String dataOrNewtype = "data";
+        // check if it's a ModelImpl before casting 
+        if (!(mod instanceof ModelImpl)) {
+            return model;
+        }
+
         String modelType = ((ModelImpl)  mod).getType();
         if(modelType != "object" && typeMapping.containsKey(modelType)) {
             String newtype = typeMapping.get(modelType);

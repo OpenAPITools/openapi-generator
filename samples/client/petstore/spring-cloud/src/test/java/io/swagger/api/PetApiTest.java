@@ -56,6 +56,7 @@ public class PetApiTest {
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
     }
 
+    @Ignore
     @Test
     public void testFindPetsByStatus() throws Exception {
         Pet pet = createRandomPet();
@@ -78,6 +79,7 @@ public class PetApiTest {
         assertTrue(found);
     }
 
+    @Ignore
     @Test
     public void testFindPetsByTags() throws Exception {
         Pet pet = createRandomPet();

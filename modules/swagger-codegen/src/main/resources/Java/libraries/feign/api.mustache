@@ -27,7 +27,7 @@ public interface {{classname}} extends ApiClient.Api {
   @Headers({
     "Content-type: {{vendorExtensions.x-contentType}}",
     "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
-    "{{paramName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
+    "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
     {{/hasMore}}{{/headerParams}}
   })
   {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}@Param("{{paramName}}") {{/isBodyParam}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});

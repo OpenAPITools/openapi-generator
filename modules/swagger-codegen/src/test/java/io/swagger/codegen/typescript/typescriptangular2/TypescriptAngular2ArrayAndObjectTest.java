@@ -17,12 +17,12 @@ public class TypescriptAngular2ArrayAndObjectTest extends AbstractIntegrationTes
 
     @Override
     protected Map<String, String> configProperties() {
-        Map<String, String> propeties = new HashMap<>();
-        propeties.put("npmName", "arrayAndAnyTest");
-        propeties.put("npmVersion", "1.0.2");
-        propeties.put("snapshot", "false");
+        Map<String, String> properties = new HashMap<>();
+        properties.put("npmName", "arrayAndAnyTest");
+        properties.put("npmVersion", "1.0.2");
+        properties.put("snapshot", "false");
 
-        return propeties;
+        return properties;
     }
 
     @Override

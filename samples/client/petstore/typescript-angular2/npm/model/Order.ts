@@ -22,12 +22,9 @@
  * limitations under the License.
  */
 
-'use strict';
 import * as models from './models';
 
 export interface Order {
-    
-
     id?: number;
 
     petId?: number;
@@ -42,12 +39,12 @@ export interface Order {
     status?: Order.StatusEnum;
 
     complete?: boolean;
+
 }
 export namespace Order {
-
-    export enum StatusEnum { 
-        placed = <any> 'placed',
-        approved = <any> 'approved',
-        delivered = <any> 'delivered',
+    export enum StatusEnum {
+        Placed = <any> 'placed',
+        Approved = <any> 'approved',
+        Delivered = <any> 'delivered'
     }
 }

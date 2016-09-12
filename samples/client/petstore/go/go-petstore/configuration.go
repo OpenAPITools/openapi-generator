@@ -1,7 +1,7 @@
 /* 
  * Swagger Petstore
  *
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -24,36 +24,42 @@ package petstore
 
 import (
 	"encoding/base64"
+	"net/http"
+	"time"
 )
+
 
 type Configuration struct {
 	UserName      string            `json:"userName,omitempty"`
 	Password      string            `json:"password,omitempty"`
 	APIKeyPrefix  map[string]string `json:"APIKeyPrefix,omitempty"`
 	APIKey        map[string]string `json:"APIKey,omitempty"`
-	debug         bool              `json:"debug,omitempty"`
+	Debug         bool              `json:"debug,omitempty"`
 	DebugFile     string            `json:"debugFile,omitempty"`
 	OAuthToken    string            `json:"oAuthToken,omitempty"`
-	Timeout       int               `json:"timeout,omitempty"`
 	BasePath      string            `json:"basePath,omitempty"`
 	Host          string            `json:"host,omitempty"`
 	Scheme        string            `json:"scheme,omitempty"`
 	AccessToken   string            `json:"accessToken,omitempty"`
 	DefaultHeader map[string]string `json:"defaultHeader,omitempty"`
 	UserAgent     string            `json:"userAgent,omitempty"`
-	APIClient     APIClient         `json:"APIClient,omitempty"`
+	APIClient     *APIClient
+	Transport     *http.Transport
+	Timeout       *time.Duration    `json:"timeout,omitempty"`
 }
 
 func NewConfiguration() *Configuration {
-	return &Configuration{
+	cfg := &Configuration{
 		BasePath:      "http://petstore.swagger.io/v2",
-		UserName:      "",
-		debug:         false,
 		DefaultHeader: make(map[string]string),
 		APIKey:        make(map[string]string),
 		APIKeyPrefix:  make(map[string]string),
 		UserAgent:     "Swagger-Codegen/1.0.0/go",
+		APIClient:     &APIClient{},
 	}
+
+	cfg.APIClient.config = cfg
+	return cfg
 }
 
 func (c *Configuration) GetBasicAuthEncodedString() string {
@@ -70,12 +76,4 @@ func (c *Configuration) GetAPIKeyWithPrefix(APIKeyIdentifier string) string {
 	}
 
 	return c.APIKey[APIKeyIdentifier]
-}
-
-func (c *Configuration) SetDebug(enable bool) {
-	c.debug = enable
-}
-
-func (c *Configuration) GetDebug() bool {
-	return c.debug
 }

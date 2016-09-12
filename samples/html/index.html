@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
   <head>
     <title>Swagger Petstore</title>
     <style type="text/css">
@@ -186,10 +184,14 @@ font-style: italic;
     
     <div class="app-desc">Contact Info: <a href="apiteam@swagger.io">apiteam@swagger.io</a></div>
     <div class="app-desc">Version: 1.0.0</div>
+    <div class="app-desc">BasePath:/v2</div>
     <div class="license-info">Apache 2.0</div>
     <div class="license-url">http://www.apache.org/licenses/LICENSE-2.0.html</div>
   <h2>Access</h2>
-  
+    <ol>
+      <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
+      <li>OAuth AuthorizationUrl:http://petstore.swagger.io/api/oauth/dialogTokenUrl:</li>
+    </ol>
 
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
@@ -259,6 +261,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">405</h4>
     Invalid input
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="deletePet"/>
@@ -272,7 +275,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">petId (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Pet id to delete </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Pet id to delete format: int64</div>
     </div>  <!-- field-items -->
 
 
@@ -295,6 +298,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">400</h4>
     Invalid pet value
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="findPetsByStatus"/>
@@ -324,6 +328,34 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>
+    <photoUrls>string</photoUrls>
+  </photoUrls>
+  <tags>
+  </tags>
+  <status>string</status>
+</Pet></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
+  "id" : 123456789,
+  "category" : {
+    "name" : "aeiou",
+    "id" : 123456789
+  },
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+} ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -336,8 +368,10 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        
     <h4 class="field-label">400</h4>
     Invalid status value
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="findPetsByTags"/>
@@ -367,6 +401,34 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>
+    <photoUrls>string</photoUrls>
+  </photoUrls>
+  <tags>
+  </tags>
+  <status>string</status>
+</Pet></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
+  "id" : 123456789,
+  "category" : {
+    "name" : "aeiou",
+    "id" : 123456789
+  },
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+} ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -379,8 +441,10 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        
     <h4 class="field-label">400</h4>
     Invalid tag value
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getPetById"/>
@@ -394,7 +458,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">petId (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to return </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to return format: int64</div>
     </div>  <!-- field-items -->
 
 
@@ -410,6 +474,34 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Pet>
+  <id>123456</id>
+  <name>doggie</name>
+  <photoUrls>
+    <photoUrls>string</photoUrls>
+  </photoUrls>
+  <tags>
+  </tags>
+  <status>string</status>
+</Pet></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "photoUrls" : [ "aeiou" ],
+  "name" : "doggie",
+  "id" : 123456789,
+  "category" : {
+    "name" : "aeiou",
+    "id" : 123456789
+  },
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 123456789
+  } ],
+  "status" : "aeiou"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -422,10 +514,13 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        <a href="#Pet">Pet</a>
     <h4 class="field-label">400</h4>
     Invalid ID supplied
+        <a href="#"></a>
     <h4 class="field-label">404</h4>
     Pet not found
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updatePet"/>
@@ -468,10 +563,13 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">400</h4>
     Invalid ID supplied
+        <a href="#"></a>
     <h4 class="field-label">404</h4>
     Pet not found
+        <a href="#"></a>
     <h4 class="field-label">405</h4>
     Validation exception
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updatePetWithForm"/>
@@ -485,7 +583,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">petId (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be updated </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be updated format: int64</div>
     </div>  <!-- field-items -->
 
     <h3 class="field-label">Consumes</h3>
@@ -521,6 +619,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">405</h4>
     Invalid input
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="uploadFile"/>
@@ -534,7 +633,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">petId (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to update </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet to update format: int64</div>
     </div>  <!-- field-items -->
 
     <h3 class="field-label">Consumes</h3>
@@ -563,6 +662,13 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "code" : 123,
+  "type" : "aeiou",
+  "message" : "aeiou"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -574,6 +680,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        <a href="#ApiResponse">ApiResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="deleteOrder"/>
@@ -610,8 +717,10 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">400</h4>
     Invalid ID supplied
+        <a href="#"></a>
     <h4 class="field-label">404</h4>
     Order not found
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getInventory"/>
@@ -635,6 +744,11 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "key" : 123
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -646,6 +760,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getOrderById"/>
@@ -659,7 +774,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">orderId (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be fetched </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; ID of pet that needs to be fetched format: int64</div>
     </div>  <!-- field-items -->
 
 
@@ -675,6 +790,26 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Order>
+  <id>123456</id>
+  <petId>123456</petId>
+  <quantity>0</quantity>
+  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
+  <status>string</status>
+  <complete>true</complete>
+</Order></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "petId" : 123456789,
+  "quantity" : 123,
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "complete" : true,
+  "status" : "aeiou"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -687,10 +822,13 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        <a href="#Order">Order</a>
     <h4 class="field-label">400</h4>
     Invalid ID supplied
+        <a href="#"></a>
     <h4 class="field-label">404</h4>
     Order not found
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="placeOrder"/>
@@ -720,6 +858,26 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Order>
+  <id>123456</id>
+  <petId>123456</petId>
+  <quantity>0</quantity>
+  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
+  <status>string</status>
+  <complete>true</complete>
+</Order></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "petId" : 123456789,
+  "quantity" : 123,
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "complete" : true,
+  "status" : "aeiou"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -732,8 +890,10 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        <a href="#Order">Order</a>
     <h4 class="field-label">400</h4>
     Invalid Order
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="createUser"/>
@@ -770,6 +930,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">0</h4>
     successful operation
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="createUsersWithArrayInput"/>
@@ -806,6 +967,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">0</h4>
     successful operation
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="createUsersWithListInput"/>
@@ -842,6 +1004,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">0</h4>
     successful operation
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="deleteUser"/>
@@ -878,8 +1041,10 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">400</h4>
     Invalid username supplied
+        <a href="#"></a>
     <h4 class="field-label">404</h4>
     User not found
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getUserByName"/>
@@ -909,6 +1074,30 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><User>
+  <id>123456</id>
+  <username>string</username>
+  <firstName>string</firstName>
+  <lastName>string</lastName>
+  <email>string</email>
+  <password>string</password>
+  <phone>string</phone>
+  <userStatus>0</userStatus>
+</User></code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "firstName" : "aeiou",
+  "lastName" : "aeiou",
+  "password" : "aeiou",
+  "userStatus" : 123,
+  "phone" : "aeiou",
+  "id" : 123456789,
+  "email" : "aeiou",
+  "username" : "aeiou"
+}</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -921,10 +1110,13 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        <a href="#User">User</a>
     <h4 class="field-label">400</h4>
     Invalid username supplied
+        <a href="#"></a>
     <h4 class="field-label">404</h4>
     User not found
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="loginUser"/>
@@ -956,6 +1148,12 @@ font-style: italic;
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code>string</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
 
     <h3 class="field-label">Produces</h3>
     This API call produces the following media types according to the <span class="header">Accept</span> request header;
@@ -968,8 +1166,10 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     successful operation
+        <a href="#String">String</a>
     <h4 class="field-label">400</h4>
     Invalid username/password supplied
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="logoutUser"/>
@@ -1000,6 +1200,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">0</h4>
     successful operation
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateUser"/>
@@ -1042,8 +1243,10 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">400</h4>
     Invalid user supplied
+        <a href="#"></a>
     <h4 class="field-label">404</h4>
     User not found
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
 
@@ -1064,40 +1267,40 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="ApiResponse">ApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">code (optional)</div><div class="param-desc"><span class="param-type">Integer</span> </div>
-<div class="param">type (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">message (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">code (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">message (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="Category">Category</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
-<div class="param">name (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="Order">Order</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
-<div class="param">petId (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
-<div class="param">quantity (optional)</div><div class="param-desc"><span class="param-type">Integer</span> </div>
-<div class="param">shipDate (optional)</div><div class="param-desc"><span class="param-type">Date</span> </div>
-<div class="param">status (optional)</div><div class="param-desc"><span class="param-type">String</span> Order Status</div>
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">petId (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">quantity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">shipDate (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Order Status </div>
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">placed</div><div class="param-enum">approved</div><div class="param-enum">delivered</div>
-<div class="param">complete (optional)</div><div class="param-desc"><span class="param-type">Boolean</span> </div>
+<div class="param">complete (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="Pet">Pet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
-<div class="param">category (optional)</div><div class="param-desc"><span class="param-type">Category</span> </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">photoUrls </div><div class="param-desc"><span class="param-type">array[String]</span> </div>
-<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type">array[Tag]</span> </div>
-<div class="param">status (optional)</div><div class="param-desc"><span class="param-type">String</span> pet status in the store</div>
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">category (optional)</div><div class="param-desc"><span class="param-type"><a href="#Category">Category</a></span>  </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">photoUrls </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+<div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#Tag">array[Tag]</a></span>  </div>
+<div class="param">status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> pet status in the store </div>
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">available</div><div class="param-enum">pending</div><div class="param-enum">sold</div>
     </div>  <!-- field-items -->
@@ -1105,21 +1308,21 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="Tag">Tag</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
-<div class="param">name (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="User">User</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type">Long</span> </div>
-<div class="param">username (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">firstName (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">lastName (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">email (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">password (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">phone (optional)</div><div class="param-desc"><span class="param-type">String</span> </div>
-<div class="param">userStatus (optional)</div><div class="param-desc"><span class="param-type">Integer</span> User Status</div>
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">firstName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">lastName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">phone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">userStatus (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User Status format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

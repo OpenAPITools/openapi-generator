@@ -51,7 +51,7 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param orderId ID of the order that needs to be deleted 
    * @return void
    */
-  def deleteOrder (orderId: String)  = {
+  def deleteOrder(orderId: String) = {
     // create path and map variables
     val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
@@ -64,8 +64,8 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-        
     
+
     var postBody: AnyRef = null
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -92,7 +92,7 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * Returns a map of status codes to quantities
    * @return Map[String, Integer]
    */
-  def getInventory () : Option[Map[String, Integer]] = {
+  def getInventory(): Option[Map[String, Integer]] = {
     // create path and map variables
     val path = "/store/inventory".replaceAll("\\{format\\}","json")
     val contentTypes = List("application/json")
@@ -103,8 +103,8 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-        
     
+
     var postBody: AnyRef = null
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -133,7 +133,7 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param orderId ID of pet that needs to be fetched 
    * @return Order
    */
-  def getOrderById (orderId: Long) : Option[Order] = {
+  def getOrderById(orderId: Long): Option[Order] = {
     // create path and map variables
     val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
@@ -146,8 +146,8 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
 
-        
     
+
     var postBody: AnyRef = null
 
     if(contentType.startsWith("multipart/form-data")) {
@@ -176,7 +176,7 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @param body order placed for purchasing the pet 
    * @return Order
    */
-  def placeOrder (body: Order) : Option[Order] = {
+  def placeOrder(body: Order): Option[Order] = {
     // create path and map variables
     val path = "/store/order".replaceAll("\\{format\\}","json")
     val contentTypes = List("application/json")
@@ -189,8 +189,8 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling StoreApi->placeOrder")
 
-        
     
+
     var postBody: AnyRef = body
 
     if(contentType.startsWith("multipart/form-data")) {

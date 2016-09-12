@@ -28,6 +28,10 @@ before_install:
   - cat /etc/hosts
 
 install:
+  # Add Godeps dependencies to GOPATH and PATH
+   - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
+   - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
+   - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
 
 script:
   - mvn verify -Psamples

@@ -7,7 +7,7 @@
  * @category Class
  * @package  Swagger\Client
  * @author   http://github.com/swagger-api/swagger-codegen
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link     https://github.com/swagger-api/swagger-codegen
  */
 
@@ -50,7 +50,7 @@ use \ArrayAccess;
 /** 
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
- * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
+ * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
 class FormatTest implements ArrayAccess
@@ -173,7 +173,7 @@ class FormatTest implements ArrayAccess
 
     /**
      * Constructor
-     * @param mixed[] $data Associated array of property value initalizing the model
+     * @param mixed[] $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
@@ -200,42 +200,53 @@ class FormatTest implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = array();
-        if ($this->container['integer'] > 100.0) {
+        if (!is_null($this->container['integer']) && ($this->container['integer'] > 100.0)) {
             $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.0.";
         }
-        if ($this->container['integer'] < 10.0) {
+
+        if (!is_null($this->container['integer']) && ($this->container['integer'] < 10.0)) {
             $invalid_properties[] = "invalid value for 'integer', must be bigger than or equal to 10.0.";
         }
-        if ($this->container['int32'] > 200.0) {
+
+        if (!is_null($this->container['int32']) && ($this->container['int32'] > 200.0)) {
             $invalid_properties[] = "invalid value for 'int32', must be smaller than or equal to 200.0.";
         }
-        if ($this->container['int32'] < 20.0) {
+
+        if (!is_null($this->container['int32']) && ($this->container['int32'] < 20.0)) {
             $invalid_properties[] = "invalid value for 'int32', must be bigger than or equal to 20.0.";
         }
+
         if ($this->container['number'] === null) {
             $invalid_properties[] = "'number' can't be null";
         }
-        if ($this->container['number'] > 543.2) {
+        if (($this->container['number'] > 543.2)) {
             $invalid_properties[] = "invalid value for 'number', must be smaller than or equal to 543.2.";
         }
-        if ($this->container['number'] < 32.1) {
+
+        if (($this->container['number'] < 32.1)) {
             $invalid_properties[] = "invalid value for 'number', must be bigger than or equal to 32.1.";
         }
-        if ($this->container['float'] > 987.6) {
+
+        if (!is_null($this->container['float']) && ($this->container['float'] > 987.6)) {
             $invalid_properties[] = "invalid value for 'float', must be smaller than or equal to 987.6.";
         }
-        if ($this->container['float'] < 54.3) {
+
+        if (!is_null($this->container['float']) && ($this->container['float'] < 54.3)) {
             $invalid_properties[] = "invalid value for 'float', must be bigger than or equal to 54.3.";
         }
-        if ($this->container['double'] > 123.4) {
+
+        if (!is_null($this->container['double']) && ($this->container['double'] > 123.4)) {
             $invalid_properties[] = "invalid value for 'double', must be smaller than or equal to 123.4.";
         }
-        if ($this->container['double'] < 67.8) {
+
+        if (!is_null($this->container['double']) && ($this->container['double'] < 67.8)) {
             $invalid_properties[] = "invalid value for 'double', must be bigger than or equal to 67.8.";
         }
-        if (!preg_match("/[a-z]/i", $this->container['string'])) {
+
+        if (!is_null($this->container['string']) && !preg_match("/[a-z]/i", $this->container['string'])) {
             $invalid_properties[] = "invalid value for 'string', must be conform to the pattern /[a-z]/i.";
         }
+
         if ($this->container['byte'] === null) {
             $invalid_properties[] = "'byte' can't be null";
         }
@@ -245,12 +256,14 @@ class FormatTest implements ArrayAccess
         if ($this->container['password'] === null) {
             $invalid_properties[] = "'password' can't be null";
         }
-        if (strlen($this->container['password']) > 64) {
+        if ((strlen($this->container['password']) > 64)) {
             $invalid_properties[] = "invalid value for 'password', the character length must be smaller than or equal to 64.";
         }
-        if (strlen($this->container['password']) < 10) {
+
+        if ((strlen($this->container['password']) < 10)) {
             $invalid_properties[] = "invalid value for 'password', the character length must be bigger than or equal to 10.";
         }
+
         return $invalid_properties;
     }
 
@@ -340,6 +353,7 @@ class FormatTest implements ArrayAccess
         if ($integer < 10.0) {
             throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be bigger than or equal to 10.0.');
         }
+
         $this->container['integer'] = $integer;
 
         return $this;
@@ -368,6 +382,7 @@ class FormatTest implements ArrayAccess
         if ($int32 < 20.0) {
             throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be bigger than or equal to 20.0.');
         }
+
         $this->container['int32'] = $int32;
 
         return $this;
@@ -417,6 +432,7 @@ class FormatTest implements ArrayAccess
         if ($number < 32.1) {
             throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be bigger than or equal to 32.1.');
         }
+
         $this->container['number'] = $number;
 
         return $this;
@@ -445,6 +461,7 @@ class FormatTest implements ArrayAccess
         if ($float < 54.3) {
             throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be bigger than or equal to 54.3.');
         }
+
         $this->container['float'] = $float;
 
         return $this;
@@ -473,6 +490,7 @@ class FormatTest implements ArrayAccess
         if ($double < 67.8) {
             throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be bigger than or equal to 67.8.');
         }
+
         $this->container['double'] = $double;
 
         return $this;
@@ -496,8 +514,9 @@ class FormatTest implements ArrayAccess
     {
 
         if (!preg_match("/[a-z]/i", $string)) {
-            throw new \InvalidArgumentException('invalid value for $string when calling FormatTest., must be conform to the pattern /[a-z]/i.');
+            throw new \InvalidArgumentException("invalid value for $string when calling FormatTest., must conform to the pattern /[a-z]/i.");
         }
+
         $this->container['string'] = $string;
 
         return $this;
@@ -630,6 +649,7 @@ class FormatTest implements ArrayAccess
         if (strlen($password) < 10) {
             throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be bigger than or equal to 10.');
         }
+
         $this->container['password'] = $password;
 
         return $this;

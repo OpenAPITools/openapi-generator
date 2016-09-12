@@ -113,7 +113,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         );
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("String", "Boolean", "Integer", "Number", "Array", "Object", "Date", "File")
+                Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File")
         );
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
@@ -126,17 +126,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("List", "Array");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
-        typeMapping.put("int", "Integer"); // Huh? What is JS Integer?
+        typeMapping.put("int", "Number");
         typeMapping.put("float", "Number");
         typeMapping.put("number", "Number");
-        typeMapping.put("DateTime", "Date"); // Should this be dateTime?
-        typeMapping.put("date", "Date"); // Should this be date?
-        typeMapping.put("long", "Integer");
-        typeMapping.put("short", "Integer");
+        typeMapping.put("DateTime", "Date");
+        typeMapping.put("date", "Date");
+        typeMapping.put("long", "Number");
+        typeMapping.put("short", "Number");
         typeMapping.put("char", "String");
         typeMapping.put("double", "Number");
         typeMapping.put("object", "Object");
-        typeMapping.put("integer", "Integer");
+        typeMapping.put("integer", "Number");
         // binary not supported in JavaScript client right now, using String as a workaround
         typeMapping.put("ByteArray", "String"); // I don't see ByteArray defined in the Swagger docs.
         typeMapping.put("binary", "String");
@@ -171,6 +171,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(USE_INHERITANCE,
                 "use JavaScript prototype chains & delegation for inheritance")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -191,6 +193,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+        }
+
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
             setProjectName(((String) additionalProperties.get(PROJECT_NAME)));
@@ -1008,25 +1019,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        return value;
-        /*
-        // number
-        if ("Integer".equals(datatype) || "Number".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+        // for symbol, e.g. $, #
+        if (getSymbolName(value) != null) {
+            return (getSymbolName(value)).toUpperCase();
         }
 
-        // string
-        String var = value.replaceAll("\\W+", "_").replaceAll("_+", "_").toUpperCase();
-        if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
-        }
-        */
+        return value;
     }
 
     @Override

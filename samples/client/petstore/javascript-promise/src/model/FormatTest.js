@@ -87,13 +87,13 @@
       obj = obj || new exports();
 
       if (data.hasOwnProperty('integer')) {
-        obj['integer'] = ApiClient.convertToType(data['integer'], 'Integer');
+        obj['integer'] = ApiClient.convertToType(data['integer'], 'Number');
       }
       if (data.hasOwnProperty('int32')) {
-        obj['int32'] = ApiClient.convertToType(data['int32'], 'Integer');
+        obj['int32'] = ApiClient.convertToType(data['int32'], 'Number');
       }
       if (data.hasOwnProperty('int64')) {
-        obj['int64'] = ApiClient.convertToType(data['int64'], 'Integer');
+        obj['int64'] = ApiClient.convertToType(data['int64'], 'Number');
       }
       if (data.hasOwnProperty('number')) {
         obj['number'] = ApiClient.convertToType(data['number'], 'Number');
@@ -130,15 +130,15 @@
   }
 
   /**
-   * @member {Integer} integer
+   * @member {Number} integer
    */
   exports.prototype['integer'] = undefined;
   /**
-   * @member {Integer} int32
+   * @member {Number} int32
    */
   exports.prototype['int32'] = undefined;
   /**
-   * @member {Integer} int64
+   * @member {Number} int64
    */
   exports.prototype['int64'] = undefined;
   /**

@@ -96,6 +96,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         cliOptions.add(framework);
 
         // CLI Switches
+        addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
+                this.hideGenerationTimestamp);
+
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
                 this.sortParamsByRequiredFlag);
@@ -127,13 +131,23 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValue);
+
+
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-        Boolean excludeTests = false;
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+        }
+
+        Boolean excludeTests = false;
         if(additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
             excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
         }

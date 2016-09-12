@@ -1,7 +1,7 @@
 /* 
  * Swagger Petstore
  *
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -23,21 +23,20 @@
 package petstore
 
 import (
-	"strings"
-	"fmt"
-	"errors"
 	"net/url"
 	"encoding/json"
+	"fmt"
+	"strings"
 )
 
 type UserApi struct {
-	Configuration Configuration
+	Configuration *Configuration
 }
 
 func NewUserApi() *UserApi {
 	configuration := NewConfiguration()
 	return &UserApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -46,7 +45,7 @@ func NewUserApiWithBasePath(basePath string) *UserApi {
 	configuration.BasePath = basePath
 
 	return &UserApi{
-		Configuration: *configuration,
+		Configuration: configuration,
 	}
 }
 
@@ -59,25 +58,19 @@ func NewUserApiWithBasePath(basePath string) *UserApi {
  */
 func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 
-	var httpMethod = "Post"
+	var localVarHttpMethod = "Post"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user"
+	localVarPath := a.Configuration.BasePath + "/user"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUser")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -87,7 +80,7 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -98,18 +91,18 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	postBody = &body
+	localVarPostBody = &body
 
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -121,25 +114,19 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
  */
 func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 
-	var httpMethod = "Post"
+	var localVarHttpMethod = "Post"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user/createWithArray"
+	localVarPath := a.Configuration.BasePath + "/user/createWithArray"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -149,7 +136,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -160,18 +147,18 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	postBody = &body
+	localVarPostBody = &body
 
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -183,25 +170,19 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
  */
 func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 
-	var httpMethod = "Post"
+	var localVarHttpMethod = "Post"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user/createWithList"
+	localVarPath := a.Configuration.BasePath + "/user/createWithList"
 
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -211,7 +192,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -222,18 +203,18 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	postBody = &body
+	localVarPostBody = &body
 
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -245,26 +226,20 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
  */
 func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 
-	var httpMethod = "Delete"
+	var localVarHttpMethod = "Delete"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user/{username}"
-	path = strings.Replace(path, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
+	localVarPath := a.Configuration.BasePath + "/user/{username}"
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return nil, errors.New("Missing required parameter 'username' when calling UserApi->DeleteUser")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -274,7 +249,7 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -285,15 +260,16 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -305,26 +281,20 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
  */
 func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 
-	var httpMethod = "Get"
+	var localVarHttpMethod = "Get"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user/{username}"
-	path = strings.Replace(path, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
+	localVarPath := a.Configuration.BasePath + "/user/{username}"
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return new(User), nil, errors.New("Missing required parameter 'username' when calling UserApi->GetUserByName")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -334,7 +304,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -345,15 +315,16 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new(User)
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -366,32 +337,22 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
  */
 func (a UserApi) LoginUser(username string, password string) (*string, *APIResponse, error) {
 
-	var httpMethod = "Get"
+	var localVarHttpMethod = "Get"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user/login"
+	localVarPath := a.Configuration.BasePath + "/user/login"
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return new(string), nil, errors.New("Missing required parameter 'username' when calling UserApi->LoginUser")
-	}
-	// verify the required parameter 'password' is set
-	if &password == nil {
-		return new(string), nil, errors.New("Missing required parameter 'password' when calling UserApi->LoginUser")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-		queryParams.Add("username", a.Configuration.APIClient.ParameterToString(username, ""))
-			queryParams.Add("password", a.Configuration.APIClient.ParameterToString(password, ""))
+		localVarQueryParams.Add("username", a.Configuration.APIClient.ParameterToString(username, ""))
+			localVarQueryParams.Add("password", a.Configuration.APIClient.ParameterToString(password, ""))
 	
 
 	// to determine the Content-Type header
@@ -400,7 +361,7 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -411,15 +372,16 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+
 	var successPayload = new(string)
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
-	err = json.Unmarshal(httpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(httpResponse.RawResponse), err
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -430,21 +392,19 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
  */
 func (a UserApi) LogoutUser() (*APIResponse, error) {
 
-	var httpMethod = "Get"
+	var localVarHttpMethod = "Get"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user/logout"
+	localVarPath := a.Configuration.BasePath + "/user/logout"
 
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -454,7 +414,7 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -465,15 +425,16 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 
 /**
@@ -486,30 +447,20 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
  */
 func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 
-	var httpMethod = "Put"
+	var localVarHttpMethod = "Put"
 	// create path and map variables
-	path := a.Configuration.BasePath + "/user/{username}"
-	path = strings.Replace(path, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
+	localVarPath := a.Configuration.BasePath + "/user/{username}"
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", fmt.Sprintf("%v", username), -1)
 
-	// verify the required parameter 'username' is set
-	if &username == nil {
-		return nil, errors.New("Missing required parameter 'username' when calling UserApi->UpdateUser")
-	}
-	// verify the required parameter 'body' is set
-	if &body == nil {
-		return nil, errors.New("Missing required parameter 'body' when calling UserApi->UpdateUser")
-	}
-
-	headerParams := make(map[string]string)
-	queryParams := url.Values{}
-	formParams := make(map[string]string)
-	var postBody interface{}
-	var fileName string
-	var fileBytes []byte
-
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := make(map[string]string)
+	var localVarPostBody interface{}
+	var localVarFileName string
+	var localVarFileBytes []byte
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
-		headerParams[key] = a.Configuration.DefaultHeader[key]
+		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
 
@@ -519,7 +470,7 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
-		headerParams["Content-Type"] = localVarHttpContentType
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
@@ -530,17 +481,17 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
-		headerParams["Accept"] = localVarHttpHeaderAccept
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	postBody = &body
+	localVarPostBody = &body
 
 
-	httpResponse, err := a.Configuration.APIClient.CallAPI(path, httpMethod, postBody, headerParams, queryParams, formParams, fileName, fileBytes)
+	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return NewAPIResponse(httpResponse.RawResponse), err
+		return NewAPIResponse(localVarHttpResponse.RawResponse), err
 	}
 
-	return NewAPIResponse(httpResponse.RawResponse), err
+	return NewAPIResponse(localVarHttpResponse.RawResponse), err
 }
 

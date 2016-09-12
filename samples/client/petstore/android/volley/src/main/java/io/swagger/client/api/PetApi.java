@@ -327,7 +327,7 @@ public class PetApi {
   }
   /**
   * Finds Pets by status
-  * Multiple status values can be provided with comma seperated strings
+  * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter
    * @return List<Pet>
   */
@@ -392,7 +392,7 @@ public class PetApi {
 
       /**
    * Finds Pets by status
-   * Multiple status values can be provided with comma seperated strings
+   * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter
   */
   public void findPetsByStatus (List<String> status, final Response.Listener<List<Pet>> responseListener, final Response.ErrorListener errorListener) {
@@ -454,7 +454,7 @@ public class PetApi {
   }
   /**
   * Finds Pets by tags
-  * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
    * @return List<Pet>
   */
@@ -519,7 +519,7 @@ public class PetApi {
 
       /**
    * Finds Pets by tags
-   * Muliple tags can be provided with comma seperated strings. Use tag1, tag2, tag3 for testing.
+   * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by
   */
   public void findPetsByTags (List<String> tags, final Response.Listener<List<Pet>> responseListener, final Response.ErrorListener errorListener) {
@@ -623,7 +623,7 @@ public class PetApi {
       // normal form params
         }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
       try {
         String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -693,7 +693,7 @@ public class PetApi {
       // normal form params
           }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,

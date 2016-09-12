@@ -40,7 +40,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "Swagger Codegen";
     protected static final String LIBRARY_PROMISE_KIT = "PromiseKit";
-    protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT };
+    protected static final String LIBRARY_RX_SWIFT = "RxSwift";
+    protected static final String[] RESPONSE_LIBRARIES = { LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT };
     protected String projectName = "SwaggerClient";
     protected boolean unwrapRequired;
     protected boolean swiftUseApiNamespace;
@@ -153,11 +154,21 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
         cliOptions.add(new CliOption(POD_DOCUMENTATION_URL, "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE, "Flag to make all the API classes inner-class of {{projectName}}API"));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+                .defaultValue(Boolean.TRUE.toString()));
+
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+        // default HIDE_GENERATION_TIMESTAMP to true
+        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -185,6 +196,9 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(RESPONSE_AS, responseAs);
         if (ArrayUtils.contains(responseAs, LIBRARY_PROMISE_KIT)) {
             additionalProperties.put("usePromiseKit", true);
+        }
+        if (ArrayUtils.contains(responseAs, LIBRARY_RX_SWIFT)) {
+            additionalProperties.put("useRxSwift", true);
         }
 
         // Setup swiftUseApiNamespace option, which makes all the API classes inner-class of {{projectName}}API
@@ -347,10 +361,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             List<Map<String, String>> swiftEnums = new ArrayList<Map<String, String>>();
             List<String> values = (List<String>) codegenProperty.allowableValues.get("values");
             
-            for (String value : values) {
+            for (Object value : values) {
                 Map<String, String> map = new HashMap<String, String>();
-                map.put("enum", toSwiftyEnumName(value));
-                map.put("raw", value);
+                map.put("enum", toSwiftyEnumName(String.valueOf(value)));
+                map.put("raw", String.valueOf(value));
                 swiftEnums.add(map);
             }
             codegenProperty.allowableValues.put("values", swiftEnums);
@@ -524,7 +538,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
         // TODO: this code is probably useless, because the var name is computed from the value in map.put("enum", toSwiftyEnumName(value));
         // number
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            String varName = new String(name);
+            String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
             varName = varName.replaceAll("\\.", "_DOT_");

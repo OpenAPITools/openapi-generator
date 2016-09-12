@@ -77,7 +77,7 @@
 @interface UIViewController (PMKUnavailable)
 
 #define PMKRationale \
-    "The promiseViewController system has been rennovated: the fullfil and " \
+    "The promiseViewController system has been renovated: the fullfil and " \
     "reject category methods have been removed due to runtime safety " \
     "concerns and instead you should implement a -promise property on your " \
     "view controller subclass. @see promiseViewController:animated:completion:"

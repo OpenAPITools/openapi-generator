@@ -187,27 +187,18 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
-    'array_of_enum' => {
-    	datatype => 'ARRAY[string]',
-    	base_name => 'array_of_enum',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
 });
 
 __PACKAGE__->swagger_types( {
     'array_of_string' => 'ARRAY[string]',
     'array_array_of_integer' => 'ARRAY[ARRAY[int]]',
-    'array_array_of_model' => 'ARRAY[ARRAY[ReadOnlyFirst]]',
-    'array_of_enum' => 'ARRAY[string]'
+    'array_array_of_model' => 'ARRAY[ARRAY[ReadOnlyFirst]]'
 } );
 
 __PACKAGE__->attribute_map( {
     'array_of_string' => 'array_of_string',
     'array_array_of_integer' => 'array_array_of_integer',
-    'array_array_of_model' => 'array_array_of_model',
-    'array_of_enum' => 'array_of_enum'
+    'array_array_of_model' => 'array_array_of_model'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

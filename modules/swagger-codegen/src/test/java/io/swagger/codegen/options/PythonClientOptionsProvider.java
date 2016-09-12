@@ -21,6 +21,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
+                .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .build();
     }
 

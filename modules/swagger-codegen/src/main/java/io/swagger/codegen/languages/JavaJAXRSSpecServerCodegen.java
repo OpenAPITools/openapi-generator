@@ -18,7 +18,6 @@ import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.util.Json;
 import org.apache.commons.io.FileUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
 {	
@@ -69,8 +68,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));	
-        cliOptions.add(new CliOption("title", "a title describing the application"));
 	}
 	
 	@Override
@@ -137,8 +134,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     	try {
 			String swaggerJson = Json.pretty(swagger);
             FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
-		} catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
 		} catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e.getCause());
 		}

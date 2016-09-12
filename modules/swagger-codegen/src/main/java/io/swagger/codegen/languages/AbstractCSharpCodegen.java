@@ -41,6 +41,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public AbstractCSharpCodegen() {
         super();
 
+        // C# does not use import mapping
+        importMapping.clear();
+
         outputFolder = "generated-code" + File.separator + this.getName();
         embeddedTemplateDir = templateDir = this.getName();
 
@@ -463,7 +466,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return "\"" + dp.getDefault().toString() + "\"";
+                return "\"" + dp.getDefault() + "\"";
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;

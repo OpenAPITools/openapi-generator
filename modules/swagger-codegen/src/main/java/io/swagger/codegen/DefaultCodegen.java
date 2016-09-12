@@ -2,6 +2,8 @@ package io.swagger.codegen;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.samskivert.mustache.Mustache.Compiler;
+
 import io.swagger.codegen.examples.ExampleGenerator;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.ComposedModel;
@@ -71,7 +73,8 @@ import java.util.regex.Pattern;
 
 public class DefaultCodegen {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
-
+    
+    protected String inputSpec;
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
@@ -103,10 +106,11 @@ public class DefaultCodegen {
     protected Boolean ensureUniqueParams = true;
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
+    protected Boolean hideGenerationTimestamp = true;
     // How to encode special characters like $
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
-    protected Map<Character, String> specialCharReplacements = new HashMap<Character, String>();
+    protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -253,7 +257,7 @@ public class DefaultCodegen {
     }
     
     /**
-     * Return the enum default value in the language specifed format
+     * Return the enum default value in the language specified format
      * 
      * @param value enum variable name
      * @param datatype data type
@@ -264,7 +268,7 @@ public class DefaultCodegen {
     }
 
     /**
-     * Return the enum value in the language specifed format
+     * Return the enum value in the language specified format
      * e.g. status becomes "status"
      * 
      * @param value enum variable name
@@ -326,6 +330,12 @@ public class DefaultCodegen {
     @SuppressWarnings("unused")
     public void processSwagger(Swagger swagger) {
     }
+    
+    // override with any special handling of the JMustache compiler
+    @SuppressWarnings("unused")
+    public Compiler processCompiler(Compiler compiler) {
+    	return compiler;
+    }
 
     // override with any special text escaping logic
     @SuppressWarnings("static-method")
@@ -349,7 +359,7 @@ public class DefaultCodegen {
      * @return string with unsafe characters removed or escaped
      */
     public String escapeUnsafeCharacters(String input) {
-        LOGGER.warn("escapeUnsafeCharacters should be overriden in the code generator with proper logic to escape unsafe characters");
+        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape unsafe characters");
         // doing nothing by default and code generator should implement
         // the logic to prevent code injection
         // later we'll make this method abstract to make sure
@@ -363,7 +373,7 @@ public class DefaultCodegen {
      * @return string with quotation mark removed or escaped
      */
     public String escapeQuotationMark(String input) {
-        LOGGER.warn("escapeQuotationMark should be overriden in the code generator with proper logic to escape single/double quote");
+        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape single/double quote");
         return input.replace("\"", "\\\"");
     }
 
@@ -499,6 +509,14 @@ public class DefaultCodegen {
         return outputFolder();
     }
 
+    public String getInputSpec() {
+        return inputSpec;
+    }
+
+    public void setInputSpec(String inputSpec) {
+        this.inputSpec = inputSpec;
+    }
+
     public void setTemplateDir(String templateDir) {
         this.templateDir = templateDir;
     }
@@ -534,7 +552,7 @@ public class DefaultCodegen {
      * @return properly-escaped pattern
      */
     public String toRegularExpression(String pattern) {
-        return escapeText(pattern);
+        return escapeText(addRegularExpressionDelimiter(pattern));
     }
 
     /**
@@ -780,30 +798,60 @@ public class DefaultCodegen {
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
 
-        // initalize special character mapping
+        // initialize special character mapping
         initalizeSpecialCharacterMapping();
     }
 
     /**
-     * Initalize special character mapping
+     * Initialize special character mapping
      */
     protected void initalizeSpecialCharacterMapping() {
         // Initialize special characters
-        specialCharReplacements.put('$', "Dollar");
-        specialCharReplacements.put('^', "Caret");
-        specialCharReplacements.put('|', "Pipe");
-        specialCharReplacements.put('=', "Equal");
-        specialCharReplacements.put('*', "Star");
-        specialCharReplacements.put('-', "Minus");
-        specialCharReplacements.put('&', "Ampersand");
-        specialCharReplacements.put('%', "Percent");
-        specialCharReplacements.put('#', "Hash");
-        specialCharReplacements.put('@', "At");
-        specialCharReplacements.put('!', "Exclamation");
-        specialCharReplacements.put('+', "Plus");
-        specialCharReplacements.put(':', "Colon");
-        specialCharReplacements.put('>', "GreaterThan");
-        specialCharReplacements.put('<', "LessThan");
+        specialCharReplacements.put("$", "Dollar");
+        specialCharReplacements.put("^", "Caret");
+        specialCharReplacements.put("|", "Pipe");
+        specialCharReplacements.put("=", "Equal");
+        specialCharReplacements.put("*", "Star");
+        specialCharReplacements.put("-", "Minus");
+        specialCharReplacements.put("&", "Ampersand");
+        specialCharReplacements.put("%", "Percent");
+        specialCharReplacements.put("#", "Hash");
+        specialCharReplacements.put("@", "At");
+        specialCharReplacements.put("!", "Exclamation");
+        specialCharReplacements.put("+", "Plus");
+        specialCharReplacements.put(":", "Colon");
+        specialCharReplacements.put(">", "Greater_Than");
+        specialCharReplacements.put("<", "Less_Than");
+        specialCharReplacements.put(".", "Period");
+        specialCharReplacements.put("_", "Underscore");
+        specialCharReplacements.put("?", "Question_Mark");
+        specialCharReplacements.put(",", "Comma");
+        specialCharReplacements.put("'", "Quote");
+        specialCharReplacements.put("\"", "Double_Quote");
+        specialCharReplacements.put("/", "Slash");
+        specialCharReplacements.put("\\", "Back_Slash");
+        specialCharReplacements.put("(", "Left_Parenthesis");
+        specialCharReplacements.put(")", "Right_Parenthesis");
+        specialCharReplacements.put("{", "Left_Curly_Bracket");
+        specialCharReplacements.put("}", "Right_Curly_Bracket");
+        specialCharReplacements.put("[", "Left_Square_Bracket");
+        specialCharReplacements.put("]", "Right_Square_Bracket");
+        specialCharReplacements.put("~", "Tilde");
+        specialCharReplacements.put("`", "Backtick");
+
+        specialCharReplacements.put("<=", "Less_Than_Or_Equal_To");
+        specialCharReplacements.put(">=", "Greater_Than_Or_Equal_To");
+        specialCharReplacements.put("!=", "Not_Equal");
+    }
+
+    /**
+     * Return the symbol name of a symbol
+     *
+     * @param input Symbol (e.g. $)
+     * @return Symbol name (e.g. Dollar)
+     */
+    protected String getSymbolName(String input) {
+        return specialCharReplacements.get(input);
     }
 
     /**
@@ -838,7 +886,7 @@ public class DefaultCodegen {
                     paramPart.append(param.getName()).append("=");
                     paramPart.append("{");
                     if (qp.getCollectionFormat() != null) {
-                        paramPart.append(param.getName() + "1");
+                        paramPart.append(param.getName()).append("1");
                         if ("csv".equals(qp.getCollectionFormat())) {
                             paramPart.append(",");
                         } else if ("pipes".equals(qp.getCollectionFormat())) {
@@ -847,7 +895,7 @@ public class DefaultCodegen {
                             paramPart.append("\t");
                         } else if ("multi".equals(qp.getCollectionFormat())) {
                             paramPart.append("&").append(param.getName()).append("=");
-                            paramPart.append(param.getName() + "2");
+                            paramPart.append(param.getName()).append("2");
                         }
                     } else {
                         paramPart.append(param.getName());
@@ -1334,7 +1382,7 @@ public class DefaultCodegen {
 
         property.name = toVarName(name);
         property.baseName = name;
-        property.nameInCamelCase = camelize(name, false);
+        property.nameInCamelCase = camelize(property.name, false);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
         property.getter = "get" + getterAndSetterCapitalize(name);
@@ -1355,7 +1403,8 @@ public class DefaultCodegen {
             property.exclusiveMaximum = np.getExclusiveMaximum();
 
             // check if any validation rule defined
-            if (property.minimum != null || property.maximum != null || property.exclusiveMinimum != null || property.exclusiveMaximum != null)
+            // exclusive* are noop without corresponding min/max
+            if (property.minimum != null || property.maximum != null)
                 property.hasValidation = true;
 
             // legacy support
@@ -1525,7 +1574,7 @@ public class DefaultCodegen {
                 List<String> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(String i : _enum) {
-                  property._enum.add(i.toString());
+                  property._enum.add(i);
                 }
                 property.isEnum = true;
 
@@ -1543,7 +1592,7 @@ public class DefaultCodegen {
                 List<String> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
                 for(String i : _enum) {
-                  property._enum.add(i.toString());
+                  property._enum.add(i);
                 }
                 property.isEnum = true;
 
@@ -1559,6 +1608,7 @@ public class DefaultCodegen {
         // this can cause issues for clients which don't support enums
         if (property.isEnum) {
             property.datatypeWithEnum = toEnumName(property);
+            property.enumName = toEnumName(property);
         } else {
             property.datatypeWithEnum = property.datatype;
         }
@@ -1606,11 +1656,14 @@ public class DefaultCodegen {
             property.items = innerProperty;
             // inner item is Enum
             if (isPropertyInnerMostEnum(property)) {
+                // isEnum is set to true when the type is an enum
+                // or the inner type of an array/map is an enum
                 property.isEnum = true;
                 // update datatypeWithEnum and default value for array
                 // e.g. List<string> => List<StatusEnum>
                 updateDataTypeWithEnumForArray(property);
-
+                // set allowable values to enum values (including array/map of enum)
+                property.allowableValues = getInnerEnumAllowableValues(property);
             }
         }
     }
@@ -1633,10 +1686,14 @@ public class DefaultCodegen {
             property.items = innerProperty;
             // inner item is Enum
             if (isPropertyInnerMostEnum(property)) {
+                // isEnum is set to true when the type is an enum
+                // or the inner type of an array/map is an enum
                 property.isEnum = true;
                 // update datatypeWithEnum and default value for map
                 // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
                 updateDataTypeWithEnumForMap(property);
+                // set allowable values to enum values (including array/map of enum)
+                property.allowableValues = getInnerEnumAllowableValues(property);
             }
         }
 
@@ -1657,6 +1714,17 @@ public class DefaultCodegen {
         return currentProperty.isEnum;
     }
 
+    protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
+        CodegenProperty currentProperty = property;
+        while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMapContainer)
+                    || Boolean.TRUE.equals(currentProperty.isListContainer))) {
+            currentProperty = currentProperty.items;
+        }
+
+        return currentProperty.allowableValues;
+    }
+
+
     /**
      * Update datatypeWithEnum for array container
      * @param property Codegen property
@@ -1670,9 +1738,13 @@ public class DefaultCodegen {
         // set both datatype and datetypeWithEnum as only the inner type is enum
         property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, toEnumName(baseItem));
 
+        // naming the enum with respect to the language enum naming convention
+        // e.g. remove [], {} from array/map of enum
+        property.enumName = toEnumName(property);
+
         // set default value for variable with inner enum
         if (property.defaultValue != null) {
-            property.defaultValue = property.defaultValue.replace(property.items.baseType, toEnumName(property.items));
+            property.defaultValue = property.defaultValue.replace(baseItem.baseType, toEnumName(baseItem));
         }
     }
 
@@ -1688,6 +1760,10 @@ public class DefaultCodegen {
         }
         // set both datatype and datetypeWithEnum as only the inner type is enum
         property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + baseItem.baseType, ", " + toEnumName(baseItem));
+
+        // naming the enum with respect to the language enum naming convention
+        // e.g. remove [], {} from array/map of enum
+        property.enumName = toEnumName(property);
 
         // set default value for variable with inner enum
         if (property.defaultValue != null) {
@@ -2195,8 +2271,8 @@ public class DefaultCodegen {
             p.uniqueItems = qp.isUniqueItems();
             p.multipleOf = qp.getMultipleOf();
 
-            if (p.maximum != null || p.exclusiveMaximum != null ||
-                    p.minimum != null || p.exclusiveMinimum != null ||
+            // exclusive* are noop without corresponding min/max
+            if (p.maximum != null || p.minimum != null ||
                     p.maxLength != null || p.minLength != null ||
                     p.maxItems != null || p.minItems != null ||
                     p.pattern != null) {
@@ -2279,28 +2355,28 @@ public class DefaultCodegen {
         } else if (Boolean.TRUE.equals(p.isString)) {
             p.example = p.paramName + "_example";
         } else if (Boolean.TRUE.equals(p.isBoolean)) {
-            p.example = new String("true");
+            p.example = "true";
         } else if (Boolean.TRUE.equals(p.isLong)) {
-            p.example = new String("789");
+            p.example = "789";
         } else if (Boolean.TRUE.equals(p.isInteger)) {
-            p.example = new String("56");
+            p.example = "56";
         } else if (Boolean.TRUE.equals(p.isFloat)) {
-            p.example = new String("3.4");
+            p.example = "3.4";
         } else if (Boolean.TRUE.equals(p.isDouble)) {
-            p.example = new String("1.2");
+            p.example = "1.2";
         } else if (Boolean.TRUE.equals(p.isBinary)) {
-            p.example = new String("BINARY_DATA_HERE");
+            p.example = "BINARY_DATA_HERE";
         } else if (Boolean.TRUE.equals(p.isByteArray)) {
-            p.example = new String("B");
+            p.example = "B";
         } else if (Boolean.TRUE.equals(p.isDate)) {
-            p.example = new String("2013-10-20");
+            p.example = "2013-10-20";
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
-            p.example = new String("2013-10-20T19:20:30+01:00");
+            p.example = "2013-10-20T19:20:30+01:00";
         } else if (param instanceof FormParameter &&
                 ("file".equalsIgnoreCase(((FormParameter) param).getType()) ||
                 "file".equals(p.baseType))) {
             p.isFile = true;
-            p.example = new String("/path/to/file.txt");
+            p.example = "/path/to/file.txt";
         }
 
         // set the parameter excample value
@@ -2455,8 +2531,7 @@ public class DefaultCodegen {
                 // must be root tmpPath
                 builder.append("root");
             }
-            for (int i = 0; i < parts.length; i++) {
-                String part = parts[i];
+            for (String part : parts) {
                 if (part.length() > 0) {
                     if (builder.toString().length() == 0) {
                         part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
@@ -2511,10 +2586,10 @@ public class DefaultCodegen {
         if (objs != null) {
             for (int i = 0; i < objs.size(); i++) {
                 if (i > 0) {
-                    objs.get(i).secondaryParam = new Boolean(true);
+                    objs.get(i).secondaryParam = true;
                 }
                 if (i < objs.size() - 1) {
-                    objs.get(i).hasMore = new Boolean(true);
+                    objs.get(i).hasMore = true;
                 }
             }
         }
@@ -2525,7 +2600,7 @@ public class DefaultCodegen {
         if (objs != null) {
             for (int i = 0; i < objs.size() - 1; i++) {
                 if (i > 0) {
-                    objs.put("secondaryParam", new Boolean(true));
+                    objs.put("secondaryParam", true);
                 }
                 if (i < objs.size() - 1) {
                     objs.put("hasMore", true);
@@ -3097,7 +3172,7 @@ public class DefaultCodegen {
      */
     public void setParameterBooleanFlagWithCodegenProperty(CodegenParameter parameter, CodegenProperty property) {
         if (parameter == null) {
-            LOGGER.error("Codegen Parameter cannnot be null.");
+            LOGGER.error("Codegen Parameter cannot be null.");
             return;
         }
 
@@ -3198,5 +3273,20 @@ public class DefaultCodegen {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
             }
         }
+    }
+
+    /**
+     * If the pattern misses the delimiter, add "/" to the beginning and end
+     * Otherwise, return the original pattern
+     *
+     * @param pattern the pattern (regular expression)
+     * @return the pattern with delimiter
+     */
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (pattern != null && !pattern.matches("^/.*")) {
+            return "/" + pattern + "/";
+        }
+
+        return pattern;
     }
 }

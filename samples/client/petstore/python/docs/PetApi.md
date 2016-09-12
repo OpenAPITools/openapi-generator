@@ -23,6 +23,7 @@ Add a new pet to the store
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -39,7 +40,7 @@ try:
     # Add a new pet to the store
     api_instance.add_pet(body)
 except ApiException as e:
-    print "Exception when calling PetApi->add_pet: %s\n" % e
+    print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
 
 ### Parameters
@@ -72,6 +73,7 @@ Deletes a pet
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -89,7 +91,7 @@ try:
     # Deletes a pet
     api_instance.delete_pet(pet_id, api_key=api_key)
 except ApiException as e:
-    print "Exception when calling PetApi->delete_pet: %s\n" % e
+    print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
 
 ### Parameters
@@ -123,6 +125,7 @@ Multiple status values can be provided with comma separated strings
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -140,7 +143,7 @@ try:
     api_response = api_instance.find_pets_by_status(status)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling PetApi->find_pets_by_status: %s\n" % e
+    print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
 ```
 
 ### Parameters
@@ -173,6 +176,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -190,7 +194,7 @@ try:
     api_response = api_instance.find_pets_by_tags(tags)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling PetApi->find_pets_by_tags: %s\n" % e
+    print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
 ```
 
 ### Parameters
@@ -223,6 +227,7 @@ Returns a single pet
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -242,7 +247,7 @@ try:
     api_response = api_instance.get_pet_by_id(pet_id)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling PetApi->get_pet_by_id: %s\n" % e
+    print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
 
 ### Parameters
@@ -275,6 +280,7 @@ Update an existing pet
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -291,7 +297,7 @@ try:
     # Update an existing pet
     api_instance.update_pet(body)
 except ApiException as e:
-    print "Exception when calling PetApi->update_pet: %s\n" % e
+    print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
 
 ### Parameters
@@ -324,6 +330,7 @@ Updates a pet in the store with form data
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -342,7 +349,7 @@ try:
     # Updates a pet in the store with form data
     api_instance.update_pet_with_form(pet_id, name=name, status=status)
 except ApiException as e:
-    print "Exception when calling PetApi->update_pet_with_form: %s\n" % e
+    print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
 
 ### Parameters
@@ -377,6 +384,7 @@ uploads an image
 
 ### Example 
 ```python
+from __future__ import print_statement
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -396,7 +404,7 @@ try:
     api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
     pprint(api_response)
 except ApiException as e:
-    print "Exception when calling PetApi->upload_file: %s\n" % e
+    print("Exception when calling PetApi->upload_file: %s\n" % e)
 ```
 
 ### Parameters

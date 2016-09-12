@@ -42,9 +42,9 @@ use constant VERSION => '1.0.0';
 
 # class/static variables
 our $http_timeout = 180;
-our $http_user_agent = 'Perl-Swagger';
+our $http_user_agent = 'Swagger-Codegen/1.0.0/perl';
 
-# authenticaiton setting
+# authentication setting
 our $api_key = {};
 our $api_key_prefix = {};
 our $api_key_in = {};

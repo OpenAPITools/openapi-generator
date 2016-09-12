@@ -239,7 +239,7 @@ NSInteger const SWGUnknownResponseObjectErrorCode = 143528;
 }
 
 -(NSError *)unknownResponseErrorWithExpectedType:(NSString *)expected data:(id)data  {
-    NSString * message = [NSString stringWithFormat:NSLocalizedString(@"Unknown response expected type %@ [reponse: %@]",nil),expected,data];
+    NSString * message = [NSString stringWithFormat:NSLocalizedString(@"Unknown response expected type %@ [response: %@]",nil),expected,data];
     NSDictionary * userInfo = @{NSLocalizedDescriptionKey : message};
     return [NSError errorWithDomain:SWGDeserializationErrorDomainKey code:SWGUnknownResponseObjectErrorCode userInfo:userInfo];
 }

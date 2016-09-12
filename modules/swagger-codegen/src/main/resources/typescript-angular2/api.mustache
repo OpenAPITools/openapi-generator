@@ -1,14 +1,18 @@
 {{>licenseInfo}}
-import {Http, Headers, RequestOptionsArgs, Response, URLSearchParams} from '@angular/http';
-import {Injectable, Optional} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import * as models from '../model/models';
-import 'rxjs/Rx';
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Http, Headers, URLSearchParams }                    from '@angular/http';
+import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { Response, ResponseContentType }                     from '@angular/http';
+
+import { Observable }                                        from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
+import * as models                                           from '../model/models';
+import { BASE_PATH }                                         from '../variables';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
 {{#operations}}
-'use strict';
 
 {{#description}}
 /**
@@ -18,9 +22,9 @@ import 'rxjs/Rx';
 @Injectable()
 export class {{classname}} {
     protected basePath = '{{basePath}}';
-    public defaultHeaders : Headers = new Headers();
+    public defaultHeaders: Headers = new Headers();
 
-    constructor(protected http: Http, @Optional() basePath: string) {
+    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string) {
         if (basePath) {
             this.basePath = basePath;
         }
@@ -32,12 +36,30 @@ export class {{classname}} {
      * {{notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
-    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-        const path = this.basePath + '{{path}}'{{#pathParams}}
-            .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+        return this.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+{{/operation}}
+
+{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `{{path}}`;
 
         let queryParameters = new URLSearchParams();
-        let headerParams = this.defaultHeaders;
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 {{#hasFormParams}}
         let formParams = new URLSearchParams();
 
@@ -52,42 +74,57 @@ export class {{classname}} {
 {{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
-            queryParameters.set('{{baseName}}', String({{paramName}}));
+            queryParameters.set('{{baseName}}', <any>{{paramName}});
         }
-
 {{/queryParams}}
-{{#headerParams}}
-            headerParams.set('{{baseName}}', String({{paramName}}));
 
-{{/headerParams}}
+{{#headers}}
+        headers.set('{{baseName}}', String({{paramName}}));
+
+{{/headers}}
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            {{/consumes}}
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            {{#produces}}
+            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            {{/produces}}
+        ];
+
 {{#hasFormParams}}
-        headerParams.set('Content-Type', 'application/x-www-form-urlencoded');
-
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
 {{/hasFormParams}}
+
+{{#bodyParam}}
+        headers.set('Content-Type', 'application/json');
+{{/bodyParam}}
+
 {{#formParams}}
-        formParams['{{baseName}}'] = {{paramName}};
-
+        if ({{paramName}} !== undefined) {
+        	formParams.set('{{baseName}}', <any>{{paramName}}); 
+        }
 {{/formParams}}
-        let requestOptions: RequestOptionsArgs = {
-            method: '{{httpMethod}}',
-            headers: headerParams,
-            search: queryParameters
-        };
-        {{#bodyParam}}
-        requestOptions.body = JSON.stringify({{paramName}});
-        {{/bodyParam}}
-        {{#hasFormParams}}
-        requestOptions.body = formParams.toString();
-        {{/hasFormParams}}
 
-        return this.http.request(path, requestOptions)
-            .map((response: Response) => {
-                if (response.status === 204) {
-                    return undefined;
-                } else {
-                    return response.json();
-                }
-            });
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: {{httpMethod}},
+            headers: headers,
+{{#bodyParam}}
+            body: {{paramName}} == null ? '' : JSON.stringify({{paramName}}), // https://github.com/angular/angular/issues/10612
+{{/bodyParam}}
+{{#hasFormParams}}
+            body: formParams.toString(),
+{{/hasFormParams}}
+            search: queryParameters,
+            responseType: ResponseContentType.Json
+        });
+
+        return this.http.request(path, requestOptions);
     }
 
 {{/operation}}

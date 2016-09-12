@@ -1,9 +1,10 @@
 # Swagger Code Generator
 
-[![Build Status](https://travis-ci.org/swagger-api/swagger-codegen.svg)](https://travis-ci.org/swagger-api/swagger-codegen)
+[![Build Status](https://img.shields.io/travis/swagger-api/swagger-codegen.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/swagger-codegen)
+[![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/swagger-codegen?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/swagger-codegen-wh2wu)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project)
 [![PR Stats](http://issuestats.com/github/swagger-api/swagger-codegen/badge/pr)](http://issuestats.com/github/swagger-api/swagger-codegen) [![Issue Stats](http://issuestats.com/github/swagger-api/swagger-codegen/badge/issue)](http://issuestats.com/github/swagger-api/swagger-codegen)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/swagger-codegen?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/swagger-codegen-wh2wu)
 
 :star::star::star: If you would like to contribute, please refer to [guidelines](https://github.com/swagger-api/swagger-codegen/blob/master/CONTRIBUTING.md) and a list of [open tasks](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22).:star::star::star:
 
@@ -60,8 +61,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
 2.3.0 (upcoming minor release) | TBD   | 1.0, 1.1, 1.2, 2.0   | Minor release with breaking changes
-2.2.1 (upcoming patch release) | TBD   | 1.0, 1.1, 1.2, 2.0   | Patch release with non-breaking changes
-2.2.0 (**current stable**) | 2016-07-15   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.0](https://github.com/swagger-api/swagger-codegen/tree/v2.2.0)
+2.2.2 (upcoming patch release) | TBD   | 1.0, 1.1, 1.2, 2.0   | Patch release (without breaking changes)
+2.2.1 (**current stable**) | 2016-08-07   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.1](https://github.com/swagger-api/swagger-codegen/tree/v2.2.1)
 2.1.6 | 2016-04-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.6](https://github.com/swagger-api/swagger-codegen/tree/v2.1.6)
 2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
@@ -71,7 +72,7 @@ Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 If you're looking for the latest stable version, you can grab it directly from maven central (you'll need java 7 runtime at a minimum):
 
 ```
-wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.0/swagger-codegen-cli-2.2.0.jar -O swagger-codegen-cli.jar
+wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar -O swagger-codegen-cli.jar
 
 java -jar swagger-codegen-cli.jar help
 ```
@@ -150,7 +151,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 (if you're on Windows, replace the last command with `java -jar modules\swagger-codegen-cli\target\swagger-codegen-cli.jar generate -i http://petstore.swagger.io/v2/swagger.json -l php -o c:\temp\php_api_client`)
 
-You can also download the JAR (latest relesae) directly from [maven.org]( http://central.maven.org/maven2/io/swagger/swagger-codegen/2.2.0/swagger-codegen-2.2.0.jar)
+You can also download the JAR (latest relesae) directly from [maven.org](http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar )
 
 To get a list of **general** options available, please run `java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar help generate`
 
@@ -753,15 +754,18 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Conplement](http://www.conplement.de/)
 - [Cupix](http://www.cupix.com)
-- [DBBest Technologies](https://www.dbbest.com) 
+- [DBBest Technologies](https://www.dbbest.com)
+- [DecentFoX](http://decentfox.com/)
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
+- [EMC](https://www.emc.com/)
 - [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [Finder](http://en.finder.pl/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [Gear Zero Network](https://www.gearzero.ca)
+- [Germin8](http://www.germin8.com)
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
@@ -778,14 +782,17 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [OSDN](https://osdn.jp)
 - [PagerDuty](https://www.pagerduty.com)
 - [Pepipost](https://www.pepipost.com)
+- [Plexxi](http://www.plexxi.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
+- [QuantiModo](https://quantimo.do/)
 - [Rapid7](https://rapid7.com/)
 - [Reload! A/S](https://reload.dk/) 
 - [REstore](https://www.restore.eu)
 - [Revault Sàrl](http://revault.ch)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [SCOOP Software GmbH](http://www.scoop-software.de)
+- [Skurt](http://www.skurt.com)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
@@ -799,7 +806,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 
 # Swagger Codegen Core Team
 
-Swaagger Codegen core team members are contributors who have been making signficiant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
+Swaagger Codegen core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ## API Clients
 | Languages     | Core Team (join date) | 
@@ -868,6 +875,7 @@ Here is a list of template creators:
  * Server Stubs
    * C# ASP.NET5: @jimschubert
    * C# NancyFX: @mstefaniuk
+   * Erlang Server: @galaxie
    * Go Server: @guohuang
    * Haskell Servant: @algas
    * Java Spring Boot: @diyfr
@@ -876,6 +884,9 @@ Here is a list of template creators:
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
    * Ruby on Rails 5: @zlx 
+ * Documentation
+   * HTML Doc 2: @jhitchcock
+   * Confluence Wiki: @jhitchcock
 
 ## How to join the core team
 

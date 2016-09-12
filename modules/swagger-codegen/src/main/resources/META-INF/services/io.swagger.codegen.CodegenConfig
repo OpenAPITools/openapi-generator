@@ -1,6 +1,7 @@
 io.swagger.codegen.languages.AndroidClientCodegen
 io.swagger.codegen.languages.AspNet5ServerCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
+io.swagger.codegen.languages.ConfluenceWikiGenerator
 io.swagger.codegen.languages.CSharpClientCodegen
 io.swagger.codegen.languages.CppRestClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
@@ -35,6 +36,7 @@ io.swagger.codegen.languages.SlimFrameworkServerCodegen
 io.swagger.codegen.languages.SpringCodegen
 io.swagger.codegen.languages.StaticDocCodegen
 io.swagger.codegen.languages.StaticHtmlGenerator
+io.swagger.codegen.languages.StaticHtml2Generator
 io.swagger.codegen.languages.SwaggerGenerator
 io.swagger.codegen.languages.SwaggerYamlGenerator
 io.swagger.codegen.languages.SwiftCodegen
@@ -49,3 +51,4 @@ io.swagger.codegen.languages.ClojureClientCodegen
 io.swagger.codegen.languages.HaskellServantCodegen
 io.swagger.codegen.languages.LumenServerCodegen
 io.swagger.codegen.languages.GoServerCodegen
+io.swagger.codegen.languages.ErlangServerCodegen
