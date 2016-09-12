@@ -259,12 +259,14 @@ public class UserAPI: APIBase {
   "password" : "aeiou",
   "userStatus" : 123,
   "phone" : "aeiou",
+  "dateOfBirth" : "2000-01-23T04:56:07.000+00:00",
   "id" : 123456789,
   "email" : "aeiou",
   "username" : "aeiou"
 }}, {contentType=application/xml, example=<User>
   <id>123456</id>
   <username>string</username>
+  <dateOfBirth>2000-01-23T04:56:07.000Z</dateOfBirth>
   <firstName>string</firstName>
   <lastName>string</lastName>
   <email>string</email>
@@ -278,12 +280,14 @@ public class UserAPI: APIBase {
   "password" : "aeiou",
   "userStatus" : 123,
   "phone" : "aeiou",
+  "dateOfBirth" : "2000-01-23T04:56:07.000+00:00",
   "id" : 123456789,
   "email" : "aeiou",
   "username" : "aeiou"
 }}, {contentType=application/xml, example=<User>
   <id>123456</id>
   <username>string</username>
+  <dateOfBirth>2000-01-23T04:56:07.000Z</dateOfBirth>
   <firstName>string</firstName>
   <lastName>string</lastName>
   <email>string</email>

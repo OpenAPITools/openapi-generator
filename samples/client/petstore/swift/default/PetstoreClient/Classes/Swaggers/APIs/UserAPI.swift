@@ -179,6 +179,7 @@ public class UserAPI: APIBase {
 }}, {contentType=application/xml, example=<User>
   <id>123456</id>
   <username>string</username>
+  <dateOfBirth>2000-01-23T04:56:07.000Z</dateOfBirth>
   <firstName>string</firstName>
   <lastName>string</lastName>
   <email>string</email>
@@ -198,6 +199,7 @@ public class UserAPI: APIBase {
 }}, {contentType=application/xml, example=<User>
   <id>123456</id>
   <username>string</username>
+  <dateOfBirth>2000-01-23T04:56:07.000Z</dateOfBirth>
   <firstName>string</firstName>
   <lastName>string</lastName>
   <email>string</email>
