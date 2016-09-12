@@ -25,12 +25,12 @@
 package com.wordnik.client.model
 
 
-
 case class Pet (
   id: Option[Long],
-category: Option[Category],
-name: String,
-photoUrls: List[String],
-tags: Option[List[Tag]],
-status: Option[String]  // pet status in the store
+  category: Option[Category],
+  name: String,
+  photoUrls: List[String],
+  tags: Option[List[Tag]],
+  /* pet status in the store */
+  status: Option[String]
 )
