@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 public class ScalaClientOptionsProvider implements OptionsProvider {
+    public static final String SOURCE_FOLDER_VALUE = "sourceFolder";
     public static final String MODEL_PACKAGE_VALUE = "package";
     public static final String API_PACKAGE_VALUE = "apiPackage";
     public static final String SORT_PARAMS_VALUE = "false";
@@ -26,6 +27,7 @@ public class ScalaClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING)
+                .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .build();
     }
 

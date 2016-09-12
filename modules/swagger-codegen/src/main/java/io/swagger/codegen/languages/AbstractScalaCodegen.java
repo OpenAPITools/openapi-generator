@@ -46,6 +46,24 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        }
+    }
+
+    public void setSourceFolder(String sourceFolder) {
+        this.sourceFolder = sourceFolder;
+    }
+
+    public String getSourceFolder() {
+        return sourceFolder;
     }
 
     @Override

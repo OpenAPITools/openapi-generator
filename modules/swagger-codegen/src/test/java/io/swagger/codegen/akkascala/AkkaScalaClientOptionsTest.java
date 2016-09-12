@@ -32,6 +32,8 @@ public class AkkaScalaClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(AkkaScalaClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
+            clientCodegen.setSourceFolder(AkkaScalaClientOptionsProvider.SOURCE_FOLDER_VALUE);
+            times = 1;
         }};
     }
 }
