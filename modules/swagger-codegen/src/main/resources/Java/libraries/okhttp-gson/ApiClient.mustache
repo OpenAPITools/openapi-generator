@@ -212,13 +212,13 @@ public class ApiClient {
     {{/joda}}
     {{#java8}}
     public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
-    this.json.setOffsetDateTimeFormat(dateFormat);
-    return this;
+        this.json.setOffsetDateTimeFormat(dateFormat);
+        return this;
     }
 
     public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
-    this.json.setLocalDateFormat(dateFormat);
-    return this;
+        this.json.setLocalDateFormat(dateFormat);
+        return this;
     }
 
     {{/java8}}
