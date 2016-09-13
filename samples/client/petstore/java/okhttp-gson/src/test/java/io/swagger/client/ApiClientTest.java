@@ -12,69 +12,13 @@ import static org.junit.Assert.*;
 
 
 public class ApiClientTest {
-    ApiClient apiClient = null;
+    ApiClient apiClient;
+    JSON json;
 
     @Before
     public void setup() {
         apiClient = new ApiClient();
-    }
-
-    @Test
-    public void testParseAndFormatDatetime() {
-        // default datetime format with UTC time zone
-        apiClient.getDatetimeFormat().setTimeZone(TimeZone.getTimeZone("UTC"));
-        String dateStr = "2015-11-07T03:49:09.356Z";
-        assertTrue(apiClient.isLenientDatetimeFormat());
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T03:49:09.356+00:00")));
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T05:49:09.356+02:00")));
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T02:49:09.356-01:00")));
-        // support various cases
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T03:49:09.356Z")));
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T03:49:09.356+00")));
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T02:49:09.356-0100")));
-        dateStr = "2015-11-07T03:49:09.000Z";
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T05:49:09+02")));
-
-        // custom datetime format: without milli-seconds, custom time zone
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
-        format.setTimeZone(TimeZone.getTimeZone("GMT+10"));
-        apiClient.setDatetimeFormat(format);
-        // disable support of various datetime format
-        apiClient.setLenientDatetimeFormat(false);
-        dateStr = "2015-11-07T13:49:09+10:00";
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T03:49:09+00:00")));
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T03:49:09Z")));
-        assertEquals(dateStr, apiClient.formatDatetime(apiClient.parseDatetime("2015-11-07T00:49:09-03:00")));
-
-        try {
-            // invalid time zone format
-            apiClient.parseDatetime("2015-11-07T03:49:09+00");
-            fail("parseDatetime should fail");
-        } catch (RuntimeException e) {
-            // OK
-        }
-        try {
-            // unexpected miliseconds
-            apiClient.parseDatetime("2015-11-07T03:49:09.000Z");
-            fail("parseDatetime should fail");
-        } catch (RuntimeException e) {
-            // OK
-        }
-    }
-
-    @Test
-    public void testParseAndFormatDate() {
-        // default date format
-        String dateStr = "2015-11-07";
-        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDatetime("2015-11-07T03:49:09.356+00:00")));
-        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07")));
-
-        // custom date format: without day
-        DateFormat format = new SimpleDateFormat("yyyy-MM");
-        apiClient.setDateFormat(format);
-        dateStr = "2015-11";
-        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDatetime("2015-11-07T03:49:09Z")));
-        assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11")));
+        json = apiClient.getJSON();
     }
 
     @Test

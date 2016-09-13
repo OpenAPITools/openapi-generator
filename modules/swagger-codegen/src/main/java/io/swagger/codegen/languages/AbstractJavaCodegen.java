@@ -260,6 +260,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if("joda".equals(dateLibrary)) {
+            additionalProperties.put("joda", "true");
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "DateTime");
 
