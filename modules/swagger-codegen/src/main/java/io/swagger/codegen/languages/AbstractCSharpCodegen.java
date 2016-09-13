@@ -615,6 +615,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return camelize(getSymbolName(name));
+        }
+
         String enumName = sanitizeName(name);
 
         enumName = enumName.replaceFirst("^_", "");
