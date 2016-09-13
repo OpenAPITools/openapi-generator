@@ -22,12 +22,6 @@ public class StoreApiTest {
         // setup authentication
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
         apiKeyAuth.setApiKey("special-key");
-        // set custom date format that is used by the petstore server
-        // Note: it would still work without this setting as okhttp-gson Java client supports
-        // various date formats by default (with lenientDatetimeFormat enabled), including
-        // the one used by petstore server
-        api.getApiClient().setDatetimeFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
-        api.getApiClient().setLenientDatetimeFormat(false);
     }
 
     @Test
@@ -84,8 +78,8 @@ public class StoreApiTest {
 
     private Order createOrder() {
         Order order = new Order();
-        order.setPetId(new Long(200));
-        order.setQuantity(new Integer(13));
+        order.setPetId(200L);
+        order.setQuantity(13);
         order.setShipDate(org.joda.time.DateTime.now());
         order.setStatus(Order.StatusEnum.PLACED);
         order.setComplete(true);
