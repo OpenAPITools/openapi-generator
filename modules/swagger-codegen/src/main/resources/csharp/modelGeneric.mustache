@@ -1,8 +1,10 @@
     /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    [DataContract]{{#generatePropertyChanged}}
-    [ImplementPropertyChanged]{{/generatePropertyChanged}}
+    [DataContract]
+    {{#generatePropertyChanged}}
+    [ImplementPropertyChanged]
+    {{/generatePropertyChanged}}
     public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
     {
         {{#vars}}
@@ -181,5 +183,6 @@ this.{{name}} = {{name}};
             {
                 propertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }{{/generatePropertyChanged}}
+        }
+    {{/generatePropertyChanged}}
     }

@@ -253,7 +253,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         if(Boolean.TRUE.equals(generatePropertyChanged)) {
-            supportingFiles.add(new SupportingFile("FodyWeavers.xml", "", "FodyWeavers.xml"));
+            supportingFiles.add(new SupportingFile("FodyWeavers.xml", packageFolder, "FodyWeavers.xml"));
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
