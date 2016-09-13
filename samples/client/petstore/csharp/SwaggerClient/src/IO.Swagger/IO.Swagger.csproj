@@ -24,7 +24,7 @@ limitations under the License.
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{497E0E11-BFD7-4CB3-BA32-A19285FBB551}</ProjectGuid>
+    <ProjectGuid>{1F7D41FE-F060-43E8-8866-F14DA42E2A22}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IO.Swagger</RootNamespace>
@@ -70,13 +70,14 @@ limitations under the License.
         <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
       <HintPath Condition="Exists('..\..\vendor')">..\..\vendor\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
     </Reference>
+    
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs"/>
   </ItemGroup>
   <ItemGroup>
       <None Include="packages.config" />
+      
   </ItemGroup>
-  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
-</Project>
+  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" /></Project>
 

@@ -2,6 +2,8 @@
 <packages>
   <package id="RestSharp" version="105.1.0" targetFramework="{{targetFrameworkNuget}}" developmentDependency="true" />
   <package id="Newtonsoft.Json" version="8.0.3" targetFramework="{{targetFrameworkNuget}}" developmentDependency="true" />
-  {{#generatePropertyChanged}}<package id="Fody" version="1.29.2" targetFramework="{{targetFrameworkNuget}}" developmentDependency="true" />
-  <package id="PropertyChanged.Fody" version="1.51.3" targetFramework="{{targetFrameworkNuget}}" developmentDependency="true" />{{/generatePropertyChanged}}
+  {{#generatePropertyChanged}}
+  <package id="Fody" version="1.29.2" targetFramework="{{targetFrameworkNuget}}" developmentDependency="true" />
+  <package id="PropertyChanged.Fody" version="1.51.3" targetFramework="{{targetFrameworkNuget}}" developmentDependency="true" />
+  {{/generatePropertyChanged}}
 </packages>
