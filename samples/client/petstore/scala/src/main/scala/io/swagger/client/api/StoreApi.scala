@@ -53,27 +53,25 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    */
   def deleteOrder(orderId: String) = {
     // create path and map variables
-    val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
-
+    val path = "/store/order/{orderId}".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
     val contentTypes = List("application/json")
     val contentType = contentTypes(0)
 
-    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
+
+    if (orderId == null) throw new Exception("Missing required parameter 'orderId' when calling StoreApi->deleteOrder")
 
     
 
     var postBody: AnyRef = null
 
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
+    if (contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart
       postBody = mp
-    }
-    else {
+    } else {
     }
 
     try {
@@ -94,11 +92,11 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    */
   def getInventory(): Option[Map[String, Integer]] = {
     // create path and map variables
-    val path = "/store/inventory".replaceAll("\\{format\\}","json")
+    val path = "/store/inventory".replaceAll("\\{format\\}", "json")
+
     val contentTypes = List("application/json")
     val contentType = contentTypes(0)
 
-    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
@@ -107,12 +105,10 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     var postBody: AnyRef = null
 
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
+    if (contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart
       postBody = mp
-    }
-    else {
+    } else {
     }
 
     try {
@@ -135,13 +131,11 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    */
   def getOrderById(orderId: Long): Option[Order] = {
     // create path and map variables
-    val path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
-
+    val path = "/store/order/{orderId}".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
 
     val contentTypes = List("application/json")
     val contentType = contentTypes(0)
 
-    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
@@ -150,12 +144,10 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     var postBody: AnyRef = null
 
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
+    if (contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart
       postBody = mp
-    }
-    else {
+    } else {
     }
 
     try {
@@ -178,11 +170,11 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    */
   def placeOrder(body: Order): Option[Order] = {
     // create path and map variables
-    val path = "/store/order".replaceAll("\\{format\\}","json")
+    val path = "/store/order".replaceAll("\\{format\\}", "json")
+
     val contentTypes = List("application/json")
     val contentType = contentTypes(0)
 
-    // query params
     val queryParams = new HashMap[String, String]
     val headerParams = new HashMap[String, String]
     val formParams = new HashMap[String, String]
@@ -193,12 +185,10 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
 
     var postBody: AnyRef = body
 
-    if(contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart()
-      
+    if (contentType.startsWith("multipart/form-data")) {
+      val mp = new FormDataMultiPart
       postBody = mp
-    }
-    else {
+    } else {
     }
 
     try {
