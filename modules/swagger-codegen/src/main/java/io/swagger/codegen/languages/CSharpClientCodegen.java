@@ -419,6 +419,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        // for symbol, e.g. $, #
+        if (getSymbolName(value) != null) {
+            return camelize(getSymbolName(value));
+        }
+
         // number
         if ("int?".equals(datatype) || "long?".equals(datatype) || 
             "double?".equals(datatype) || "float?".equals(datatype)) {
