@@ -212,7 +212,7 @@ class MapTest implements ArrayAccess
     public function setMapOfEnumString($map_of_enum_string)
     {
         $allowed_values = array('UPPER', 'lower');
-        if (array_diff($map_of_enum_string, $allowed_values)) {
+        if (!is_null($map_of_enum_string) && (array_diff($map_of_enum_string, $allowed_values))) {
             throw new \InvalidArgumentException("Invalid value for 'map_of_enum_string', must be one of 'UPPER', 'lower'");
         }
         $this->container['map_of_enum_string'] = $map_of_enum_string;

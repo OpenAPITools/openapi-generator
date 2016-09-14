@@ -306,7 +306,7 @@ class Order implements ArrayAccess
     public function setStatus($status)
     {
         $allowed_values = array('placed', 'approved', 'delivered');
-        if (!in_array($status, $allowed_values)) {
+        if (!is_null($status) && (!in_array($status, $allowed_values))) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'placed', 'approved', 'delivered'");
         }
         $this->container['status'] = $status;
