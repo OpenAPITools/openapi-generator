@@ -10,8 +10,8 @@ import io.swagger.jaxrs.*;
 import com.sun.jersey.multipart.FormDataParam;
 
 import io.swagger.model.Client;
-import java.util.Date;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -60,19 +60,20 @@ public class FakeApi  {
     public Response testEndpointParameters(
         @ApiParam(value = "None", required=true)  @FormParam("number")  BigDecimal number,
         @ApiParam(value = "None", required=true)  @FormParam("double")  Double _double,
-        @ApiParam(value = "None", required=true)  @FormParam("string")  String string,
+        @ApiParam(value = "None", required=true)  @FormParam("pattern_without_delimiter")  String patternWithoutDelimiter,
         @ApiParam(value = "None", required=true)  @FormParam("byte")  byte[] _byte,
         @ApiParam(value = "None")  @FormParam("integer")  Integer integer,
         @ApiParam(value = "None")  @FormParam("int32")  Integer int32,
         @ApiParam(value = "None")  @FormParam("int64")  Long int64,
         @ApiParam(value = "None")  @FormParam("float")  Float _float,
+        @ApiParam(value = "None")  @FormParam("string")  String string,
         @ApiParam(value = "None")  @FormParam("binary")  byte[] binary,
         @ApiParam(value = "None")  @FormParam("date")  Date date,
         @ApiParam(value = "None")  @FormParam("dateTime")  Date dateTime,
         @ApiParam(value = "None")  @FormParam("password")  String password,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEndpointParameters(number,_double,string,_byte,integer,int32,int64,_float,binary,date,dateTime,password,securityContext);
+        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,integer,int32,int64,_float,string,binary,date,dateTime,password,securityContext);
     }
     @GET
     
@@ -83,9 +84,9 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = void.class) })
     public Response testEnumParameters(
-        @ApiParam(value = "Form parameter enum test (string array)")  @FormParam("enum_form_string_array")  List<String> enumFormStringArray,
+        @ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $")  @FormParam("enum_form_string_array")  List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString,
-        @ApiParam(value = "Header parameter enum test (string array)" )@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,
+        @ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,
         @ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,
         @ApiParam(value = "Query parameter enum test (string array)", allowableValues=">, $") @QueryParam("enum_query_string_array") List<String> enumQueryStringArray,
         @ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @QueryParam("enum_query_string") String enumQueryString,
