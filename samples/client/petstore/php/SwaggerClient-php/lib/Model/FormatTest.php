@@ -347,10 +347,10 @@ class FormatTest implements ArrayAccess
     public function setInteger($integer)
     {
 
-        if ($integer > 100.0) {
+        if (!is_null($integer) && ($integer > 100.0)) {
             throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be smaller than or equal to 100.0.');
         }
-        if ($integer < 10.0) {
+        if (!is_null($integer) && ($integer < 10.0)) {
             throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be bigger than or equal to 10.0.');
         }
 
@@ -376,10 +376,10 @@ class FormatTest implements ArrayAccess
     public function setInt32($int32)
     {
 
-        if ($int32 > 200.0) {
+        if (!is_null($int32) && ($int32 > 200.0)) {
             throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be smaller than or equal to 200.0.');
         }
-        if ($int32 < 20.0) {
+        if (!is_null($int32) && ($int32 < 20.0)) {
             throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be bigger than or equal to 20.0.');
         }
 
@@ -426,10 +426,10 @@ class FormatTest implements ArrayAccess
     public function setNumber($number)
     {
 
-        if ($number > 543.2) {
+        if (($number > 543.2)) {
             throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be smaller than or equal to 543.2.');
         }
-        if ($number < 32.1) {
+        if (($number < 32.1)) {
             throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be bigger than or equal to 32.1.');
         }
 
@@ -455,10 +455,10 @@ class FormatTest implements ArrayAccess
     public function setFloat($float)
     {
 
-        if ($float > 987.6) {
+        if (!is_null($float) && ($float > 987.6)) {
             throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be smaller than or equal to 987.6.');
         }
-        if ($float < 54.3) {
+        if (!is_null($float) && ($float < 54.3)) {
             throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be bigger than or equal to 54.3.');
         }
 
@@ -484,10 +484,10 @@ class FormatTest implements ArrayAccess
     public function setDouble($double)
     {
 
-        if ($double > 123.4) {
+        if (!is_null($double) && ($double > 123.4)) {
             throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be smaller than or equal to 123.4.');
         }
-        if ($double < 67.8) {
+        if (!is_null($double) && ($double < 67.8)) {
             throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be bigger than or equal to 67.8.');
         }
 
@@ -513,7 +513,7 @@ class FormatTest implements ArrayAccess
     public function setString($string)
     {
 
-        if (!preg_match("/[a-z]/i", $string)) {
+        if (!is_null($string) && (!preg_match("/[a-z]/i", $string))) {
             throw new \InvalidArgumentException("invalid value for $string when calling FormatTest., must conform to the pattern /[a-z]/i.");
         }
 
@@ -643,10 +643,10 @@ class FormatTest implements ArrayAccess
      */
     public function setPassword($password)
     {
-        if (strlen($password) > 64) {
+        if ((strlen($password) > 64)) {
             throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be smaller than or equal to 64.');
         }
-        if (strlen($password) < 10) {
+        if ((strlen($password) < 10)) {
             throw new \InvalidArgumentException('invalid length for $password when calling FormatTest., must be bigger than or equal to 10.');
         }
 

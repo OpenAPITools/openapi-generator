@@ -261,47 +261,47 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#isEnum}}
         $allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
         {{^isContainer}}
-        if (!in_array(${{{name}}}, $allowed_values)) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(!in_array(${{{name}}}, $allowed_values))) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
         }
         {{/isContainer}}
         {{#isContainer}}
-        if (array_diff(${{{name}}}, $allowed_values)) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(array_diff(${{{name}}}, $allowed_values))) {
             throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
         }
         {{/isContainer}}
         {{/isEnum}}
         {{#hasValidation}}
         {{#maxLength}}
-        if (strlen(${{name}}) > {{maxLength}}) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(strlen(${{name}}) > {{maxLength}})) {
             throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
         }{{/maxLength}}
         {{#minLength}}
-        if (strlen(${{name}}) < {{minLength}}) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(strlen(${{name}}) < {{minLength}})) {
             throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
         {{#maximum}}
-        if (${{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(${{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}})) {
             throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
         }
         {{/maximum}}
         {{#minimum}}
-        if (${{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(${{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}})) {
             throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{{pattern}}}", ${{name}})) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(!preg_match("{{{pattern}}}", ${{name}}))) {
             throw new \InvalidArgumentException("invalid value for ${{name}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.");
         }
         {{/pattern}}
         {{#maxItems}}
-        if (count(${{name}}) > {{maxItems}}) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(count(${{name}}) > {{maxItems}})) {
             throw new \InvalidArgumentException('invalid value for ${{name}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
         }{{/maxItems}}
         {{#minItems}}
-        if (count(${{name}}) < {{minItems}}) {
+        if ({{^required}}!is_null(${{name}}) && {{/required}}(count(${{name}}) < {{minItems}})) {
             throw new \InvalidArgumentException('invalid length for ${{name}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
         }
         {{/minItems}}
