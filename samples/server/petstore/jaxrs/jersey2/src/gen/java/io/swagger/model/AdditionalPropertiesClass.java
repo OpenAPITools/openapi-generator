@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
@@ -16,8 +17,10 @@ import java.util.Map;
  */
 
 public class AdditionalPropertiesClass   {
+  @JsonProperty("map_property")
   private Map<String, String> mapProperty = new HashMap<String, String>();
 
+  @JsonProperty("map_of_map_property")
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {

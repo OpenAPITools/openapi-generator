@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,14 +19,19 @@ import java.util.List;
  */
 
 public class Pet   {
+  @JsonProperty("id")
   private Long id = null;
 
+  @JsonProperty("category")
   private Category category = null;
 
+  @JsonProperty("name")
   private String name = null;
 
+  @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
 
+  @JsonProperty("tags")
   private List<Tag> tags = new ArrayList<Tag>();
 
   /**
@@ -45,11 +51,23 @@ public class Pet   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("status")
   private StatusEnum status = null;
 
   public Pet id(Long id) {

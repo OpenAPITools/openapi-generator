@@ -8,8 +8,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import io.swagger.model.Pet;
-import java.io.File;
 import io.swagger.model.ModelApiResponse;
+import java.io.File;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
