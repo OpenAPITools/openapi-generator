@@ -339,7 +339,7 @@ class Pet implements ArrayAccess
     public function setStatus($status)
     {
         $allowed_values = array('available', 'pending', 'sold');
-        if (!in_array($status, $allowed_values)) {
+        if (!is_null($status) && (!in_array($status, $allowed_values))) {
             throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
         }
         $this->container['status'] = $status;
