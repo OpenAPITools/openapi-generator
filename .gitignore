@@ -124,6 +124,7 @@ samples/client/petstore/csharp/SwaggerClient/obj/Debug/
 samples/client/petstore/csharp/SwaggerClient/bin/Debug/
 samples/client/petstore/csharp/SwaggerClient/packages
 samples/client/petstore/csharp/SwaggerClient/TestResult.xml
+samples/client/petstore/csharp/SwaggerClientWithPropertyChanged/IO.Swagger.userprefs
 
 # Python
 *.pyc
