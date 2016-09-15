@@ -16,6 +16,7 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
+    if (orderId == null) throw new Exception("Missing required parameter 'orderId' when calling StoreApi->deleteOrder")
 
 
     val resFuture = client.submit("DELETE", path, queryParams.toMap, headerParams.toMap, "")
@@ -31,7 +32,6 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     // query params
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
-
 
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
@@ -50,7 +50,6 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     val headerParams = new mutable.HashMap[String, String]
 
 
-
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
       process(reader.read(resp))
@@ -66,8 +65,6 @@ class StoreApi(client: TransportClient, config: SwaggerConfig) extends ApiClient
     val headerParams = new mutable.HashMap[String, String]
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling StoreApi->placeOrder")
-
-
 
     val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
     resFuture flatMap { resp =>
