@@ -19,8 +19,6 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling PetApi->addPet")
 
-
-
     val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
     resFuture flatMap { resp =>
       process(reader.read(resp))
@@ -38,8 +36,10 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-
-    headerParams += "api_key" -> apiKey.toString
+    apiKey match {
+    case Some(param) => headerParams += "api_key" -> param.toString
+    case _ => headerParams
+    }
 
     val resFuture = client.submit("DELETE", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
@@ -56,10 +56,7 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
     val headerParams = new mutable.HashMap[String, String]
 
     if (status == null) throw new Exception("Missing required parameter 'status' when calling PetApi->findPetsByStatus")
-
-    if (status != null) queryParams += "status" -> status.toString
-
-
+    queryParams += "status" -> status.toString
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
@@ -76,10 +73,7 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
     val headerParams = new mutable.HashMap[String, String]
 
     if (tags == null) throw new Exception("Missing required parameter 'tags' when calling PetApi->findPetsByTags")
-
-    if (tags != null) queryParams += "tags" -> tags.toString
-
-
+    queryParams += "tags" -> tags.toString
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
@@ -97,7 +91,6 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
     val headerParams = new mutable.HashMap[String, String]
 
 
-
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
       process(reader.read(resp))
@@ -113,8 +106,6 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
     val headerParams = new mutable.HashMap[String, String]
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling PetApi->updatePet")
-
-
 
     val resFuture = client.submit("PUT", path, queryParams.toMap, headerParams.toMap, writer.write(body))
     resFuture flatMap { resp =>
@@ -135,7 +126,6 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
     val headerParams = new mutable.HashMap[String, String]
 
 
-
     val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>
       process(reader.read(resp))
@@ -153,7 +143,6 @@ class PetApi(client: TransportClient, config: SwaggerConfig) extends ApiClient(c
     // query params
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
-
 
 
     val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, "")
