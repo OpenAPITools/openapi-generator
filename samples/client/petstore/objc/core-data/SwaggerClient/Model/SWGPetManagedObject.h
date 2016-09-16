@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, retain) NSArray<NSString*>* photoUrls;
 
-@property (nullable, nonatomic, retain) NSSet<SWGTagManagedObject*>* tags;
+@property (nullable, nonatomic, retain) NSOrderedSet<SWGTagManagedObject*>* tags;
 /* pet status in the store [optional]
  */
 @property (nullable, nonatomic, retain) NSString* status;
@@ -51,8 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SWGPetManagedObject (GeneratedAccessors)
 - (void)addTagsObject:(SWGTagManagedObject *)value;
 - (void)removeTagsObject:(SWGTagManagedObject *)value;
-- (void)addTags:(NSSet<SWGTagManagedObject*> *)values;
-- (void)removeTags:(NSSet<SWGTagManagedObject*> *)values;
+- (void)addTags:(NSOrderedSet<SWGTagManagedObject*> *)values;
+- (void)removeTags:(NSOrderedSet<SWGTagManagedObject*> *)values;
 
 @end
 

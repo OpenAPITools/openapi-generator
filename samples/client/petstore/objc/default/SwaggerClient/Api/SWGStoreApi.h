@@ -32,7 +32,7 @@
 extern NSString* kSWGStoreApiErrorDomain;
 extern NSInteger kSWGStoreApiMissingParamErrorCode;
 
-+(instancetype) sharedAPI;
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient NS_DESIGNATED_INITIALIZER;
 
 /// Delete purchase order by ID
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -43,7 +43,7 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 ///  code:404 message:"Order not found"
 ///
 /// @return 
--(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+-(NSURLSessionTask*) deleteOrderWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -54,7 +54,7 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 ///  code:200 message:"successful operation"
 ///
 /// @return NSDictionary<NSString*, NSNumber*>*
--(NSNumber*) getInventoryWithCompletionHandler: 
+-(NSURLSessionTask*) getInventoryWithCompletionHandler: 
     (void (^)(NSDictionary<NSString*, NSNumber*>* output, NSError* error)) handler;
 
 
@@ -68,7 +68,7 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 ///  code:404 message:"Order not found"
 ///
 /// @return SWGOrder*
--(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
+-(NSURLSessionTask*) getOrderByIdWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 
@@ -81,7 +81,7 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 ///  code:400 message:"Invalid Order"
 ///
 /// @return SWGOrder*
--(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+-(NSURLSessionTask*) placeOrderWithBody: (SWGOrder*) body
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 
 

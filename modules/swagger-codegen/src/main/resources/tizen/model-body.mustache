@@ -1,158 +1,188 @@
+#include <map>
+#include <cstdlib>
+#include <glib-object.h>
+#include <json-glib/json-glib.h>
+#include "Helpers.h"
+
 {{#models}}{{#model}}
 #include "{{classname}}.h"
-#include <FLocales.h>
 
-using namespace Tizen::Base;
-using namespace Tizen::System;
-using namespace Tizen::Base::Utility;
-using namespace Tizen::Base::Collection;
-using namespace Tizen::Web::Json;
-using namespace Tizen::Locales;
+using namespace std;
+using namespace Tizen::{{prefix}};
 
-
-namespace Swagger {
-
-{{classname}}::{{classname}}() {
-    init();
-}
-
-{{classname}}::~{{classname}}() {
-    this->cleanup();
-}
-
-void
-{{classname}}::init() {
-    {{#vars}}{{name}} = null;
-    {{/vars}}
-}
-
-void
-{{classname}}::cleanup() {
-    {{#vars}}if({{name}} != null) {
-        {{#isContainer}}{{name}}->RemoveAll(true);{{/isContainer}}
-        delete {{name}};
-        {{name}} = null;
-    }
-    {{/vars}}
-}
-
-
-{{classname}}*
-{{classname}}::fromJson(String* json) {
-    this->cleanup();
-    String str(json->GetPointer());
-    int length = str.GetLength();
-
-    ByteBuffer buffer;
-    buffer.Construct(length);
-
-    for (int i = 0; i < length; ++i) {
-       byte b = str[i];
-       buffer.SetByte(b);
-    }
-
-    IJsonValue* pJson = JsonParser::ParseN(buffer);
-    fromJsonObject(pJson);
-    if (pJson->GetType() == JSON_TYPE_OBJECT) {
-       JsonObject* pObject = static_cast< JsonObject* >(pJson);
-       pObject->RemoveAll(true);
-    }
-    else if (pJson->GetType() == JSON_TYPE_ARRAY) {
-       JsonArray* pArray = static_cast< JsonArray* >(pJson);
-       pArray->RemoveAll(true);
-    }
-    delete pJson;
-    return this;
-}
-
-
-void
-{{classname}}::fromJsonObject(IJsonValue* pJson) {
-    JsonObject* pJsonObject = static_cast< JsonObject* >(pJson);
-
-    if(pJsonObject != null) {
-        {{#vars}}JsonString* {{name}}Key = new JsonString(L"{{baseName}}");
-        IJsonValue* {{name}}Val = null;
-        pJsonObject->GetValue({{name}}Key, {{name}}Val);
-        if({{name}}Val != null) {
-            {{#isContainer}}{{name}} = {{defaultValue}};{{/isContainer}}
-            {{#isNotContainer}}{{name}} = {{defaultValue}};{{/isNotContainer}}
-            jsonToValue({{name}}, {{name}}Val, L"{{baseType}}", L"{{complexType}}");
-        }
-        delete {{name}}Key;
-        {{/vars}}
-    }
-}
-
-{{classname}}::{{classname}}(String* json) {
-    init();
-    String str(json->GetPointer());
-    int length = str.GetLength();
-
-    ByteBuffer buffer;
-    buffer.Construct(length);
-
-    for (int i = 0; i < length; ++i) {
-       byte b = str[i];
-       buffer.SetByte(b);
-    }
-
-    IJsonValue* pJson = JsonParser::ParseN(buffer);
-    fromJsonObject(pJson);
-    if (pJson->GetType() == JSON_TYPE_OBJECT) {
-       JsonObject* pObject = static_cast< JsonObject* >(pJson);
-       pObject->RemoveAll(true);
-    }
-    else if (pJson->GetType() == JSON_TYPE_ARRAY) {
-       JsonArray* pArray = static_cast< JsonArray* >(pJson);
-       pArray->RemoveAll(true);
-    }
-    delete pJson;
-}
-
-String
-{{classname}}::asJson ()
+{{classname}}::{{classname}}()
 {
-    JsonObject* pJsonObject = asJsonObject();
-
-    char *pComposeBuf = new char[256];
-    JsonWriter::Compose(pJsonObject, pComposeBuf, 256);
-    String s = String(pComposeBuf);
-
-    delete pComposeBuf;
-    pJsonObject->RemoveAll(true);
-    delete pJsonObject;
-
-    return s;
+	//__init();
 }
 
-JsonObject*
-{{classname}}::asJsonObject() {
-    JsonObject *pJsonObject = new JsonObject();
-    pJsonObject->Construct();
+{{classname}}::~{{classname}}()
+{
+	//__cleanup();
+}
 
-    {{#vars}}
-    JsonString *{{name}}Key = new JsonString(L"{{baseName}}");
-    pJsonObject->Add({{name}}Key, toJson({{getter}}(), "{{complexType}}", "{{containerType}}"));
+void
+{{classname}}::__init()
+{
+	//{{#vars}}
+	//{{#isContainer}}{{defaultValue}}{{baseType}}> {{name}};{{/isContainer}}
+	//{{#isNotContainer}}{{name}} = {{defaultValue}};{{/isNotContainer}}
+	//{{/vars}}
+}
 
-    {{/vars}}
-    return pJsonObject;
+void
+{{classname}}::__cleanup()
+{
+	//{{#vars}}if({{name}} != NULL) {
+	//{{#isContainer}}{{name}}.RemoveAll(true);{{/isContainer}}
+	//delete {{name}};
+	//{{name}} = NULL;
+	//}
+	//{{/vars}}
+}
+
+void
+{{classname}}::fromJson(char* jsonStr)
+{
+	JsonObject *pJsonObject = json_node_get_object(json_from_string(jsonStr,NULL));
+	JsonNode *node;
+	{{#vars}}
+	const gchar *{{name}}Key = "{{baseName}}";
+	node = json_object_get_member(pJsonObject, {{name}}Key);
+	if (node !=NULL) {
+	{{#isContainer}}{{#isListContainer}}
+		{
+			JsonArray* arr = json_node_get_array(node);
+			JsonNode*  temp_json;
+			list<{{#items}}{{datatype}}{{/items}}> new_list;
+			{{#items}}{{datatype}}{{/items}} inst;
+			for (guint i=0;i<json_array_get_length(arr);i++) {
+				temp_json = json_array_get_element(arr,i);
+				if (isprimitive("{{#items}}{{datatype}}{{/items}}")) {
+					jsonToValue(&inst, temp_json, "{{#items}}{{datatype}}{{/items}}", "");
+				} else {
+					{{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+					inst.fromJson(json_to_string(temp_json, false));
+					{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/items}}
+				}
+				new_list.push_back(inst);
+			}
+			{{name}} = new_list;
+		}
+		{{/isListContainer}}{{#isMapContainer}}
+		{
+			JsonObject* json_obj = json_node_get_object(node);
+			map<string,string> new_map;
+			json_object_foreach_member(json_obj,helper_func,&new_map);
+			{{name}} = new_map;
+		}
+		{{/isMapContainer}}{{/isContainer}}
+		{{^isContainer}}
+
+		if (isprimitive("{{baseType}}")) {
+			jsonToValue(&{{name}}, node, "{{baseType}}", "{{complexType}}");
+		} else {
+			{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+			{{baseType}}* obj = static_cast<{{baseType}}*> (&{{name}});
+			obj->fromJson(json_to_string(node, false));
+			{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
+		}
+		{{/isContainer}}
+	}
+	{{/vars}}
+}
+
+{{classname}}::{{classname}}(char* json)
+{
+	this->fromJson(json);
+}
+
+char*
+{{classname}}::toJson()
+{
+	JsonObject *pJsonObject = json_object_new();
+	JsonNode *node;
+	{{#vars}}
+	{{#isContainer}}
+	{{#isListContainer}}
+	if (isprimitive("{{#items}}{{datatype}}{{/items}}")) {
+		list<{{#items}}{{datatype}}{{/items}}> new_list = static_cast<list <{{#items}}{{datatype}}{{/items}}> > ({{getter}}());
+		node = converttoJson(&new_list, "{{#items}}{{datatype}}{{/items}}", "{{containerType}}");
+	} else {
+		node = json_node_alloc();
+		list<{{#items}}{{datatype}}{{/items}}> new_list = static_cast<list <{{#items}}{{datatype}}{{/items}}> > ({{getter}}());
+		JsonArray* json_array = json_array_new();
+		GError *mygerror;
+		{{#items}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+		for (list<{{datatype}}>::iterator it = new_list.begin(); it != new_list.end(); it++) {
+			mygerror = NULL;
+			{{datatype}} obj = *it;
+			JsonNode *node_temp = json_from_string(obj.toJson(), &mygerror);
+			json_array_add_element(json_array, node_temp);
+			g_clear_error(&mygerror);
+		}
+		json_node_init_array(node, json_array);
+		json_array_unref(json_array);
+		{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/items}}
+	}
+	{{/isListContainer}}
+
+
+	{{#isMapContainer}}{
+		JsonObject* json_obj;
+		map<string, string> new_list = static_cast<map <string, string> > ({{getter}}());
+		json_obj = json_object_new();
+		for (map<string, string>::iterator it = new_list.begin(); it != new_list.end(); it++) {
+			string obj = (*it).first;
+			string obj2 = (*it).second;
+			JsonNode* tempnode = json_from_string(obj2.c_str(),NULL);
+			json_object_set_member(json_obj, obj.c_str(), tempnode);
+		}
+	node = json_node_alloc();
+	json_node_init_object(node, json_obj);
+	json_object_unref(json_obj);
+	}
+	{{/isMapContainer}}
+
+	{{/isContainer}}
+	{{^isContainer}}
+	if (isprimitive("{{baseType}}")) {
+		{{baseType}} obj = {{getter}}();
+		node = converttoJson(&obj, "{{baseType}}", "");
+	}
+	else {
+		{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isFloat}}
+		{{baseType}} obj = static_cast<{{baseType}}> ({{getter}}());
+		GError *mygerror;
+		mygerror = NULL;
+		node = json_from_string(obj.toJson(), &mygerror);
+		{{/isFloat}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
+	}
+	{{/isContainer}}
+	const gchar *{{name}}Key = "{{baseName}}";
+	json_object_set_member(pJsonObject, {{name}}Key, node);
+	{{/vars}}
+	node = json_node_alloc();
+	json_node_init(node, JSON_NODE_OBJECT);
+	json_node_take_object(node, pJsonObject);
+	char * ret = json_to_string(node, false);
+	json_node_free(node);
+	return ret;
 }
 
 {{#vars}}
-{{datatype}}
-{{classname}}::{{getter}}() {
-    return {{name}};
+{{datatype}}{{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}}
+{{classname}}::{{getter}}()
+{
+	return {{name}};
 }
+
 void
-{{classname}}::{{setter}}({{datatype}} {{name}}) {
-    this->{{name}} = {{name}};
+{{classname}}::{{setter}}({{datatype}} {{#isContainer}}{{#isMapContainer}}<string, string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{name}})
+{
+	this->{{name}} = {{name}};
 }
 
 {{/vars}}
-
-
-} /* namespace Swagger */
 
 {{/model}}
 {{/models}}

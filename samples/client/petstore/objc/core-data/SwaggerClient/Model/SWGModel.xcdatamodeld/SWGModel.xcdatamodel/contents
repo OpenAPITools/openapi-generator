@@ -2,38 +2,38 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Xcode 7.0">
 
     <entity name="SWGCategoryManagedObject" representedClassName="SWGCategoryManagedObject" syncable="YES">
-       <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
-       <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="SWGOrderManagedObject" representedClassName="SWGOrderManagedObject" syncable="YES">
-       <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
-       <attribute name="petId" optional="YES" attributeType="Double" syncable="YES"/>
-       <attribute name="quantity" optional="YES" attributeType="Integer 16" syncable="YES"/>
-       <attribute name="shipDate" optional="YES" attributeType="Date" syncable="YES"/>
-       <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
-       <attribute name="complete" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="petId" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="shipDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="complete" optional="YES" attributeType="Boolean" syncable="YES"/>
     </entity>
     <entity name="SWGPetManagedObject" representedClassName="SWGPetManagedObject" syncable="YES">
-       <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
-       <relationship name="category" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SWGCategoryManagedObject" syncable="YES"/>
-       <attribute name="name"  attributeType="String" syncable="YES"/>
-       <attribute name="photoUrls"  attributeType="Transformable" syncable="YES"/>
-       <relationship name="tags" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SWGTagManagedObject" syncable="YES"/>
-       <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SWGCategoryManagedObject" syncable="YES"/>
+        <attribute name="name"  attributeType="String" syncable="YES"/>
+        <attribute name="photoUrls"  attributeType="Transformable" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" ordered="YES" deletionRule="Cascade" destinationEntity="SWGTagManagedObject" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="SWGTagManagedObject" representedClassName="SWGTagManagedObject" syncable="YES">
-       <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
-       <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="SWGUserManagedObject" representedClassName="SWGUserManagedObject" syncable="YES">
-       <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
-       <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-       <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
-       <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
-       <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-       <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
-       <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
-       <attribute name="userStatus" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userStatus" optional="YES" attributeType="Integer 16" syncable="YES"/>
     </entity>
     
 </model>

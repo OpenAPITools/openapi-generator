@@ -26,6 +26,8 @@
 
 extern NSString * SWGPercentEscapedStringFromString(NSString *string);
 
+extern NSString * const kSWGApplicationJSONType;
+
 @protocol SWGSanitizer <NSObject>
 
 /**
