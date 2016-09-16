@@ -10,7 +10,7 @@
 #import <SwaggerClient/SWGApiClient.h>
 #import <SwaggerClient/SWGPet.h>
 #import <SwaggerClient/SWGPetApi.h>
-#import <SwaggerClient/SWGConfiguration.h>
+#import <SwaggerClient/SWGDefaultConfiguration.h>
 
 @interface SWGViewController ()
 
@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
     
-    SWGConfiguration *config = [SWGConfiguration sharedConfig];
+    SWGDefaultConfiguration *config = [SWGDefaultConfiguration sharedConfig];
     config.debug = YES;
     
     SWGPetApi *api = [[SWGPetApi alloc] init];

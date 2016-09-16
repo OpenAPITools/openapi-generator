@@ -32,7 +32,7 @@
 extern NSString* kSWGPetApiErrorDomain;
 extern NSInteger kSWGPetApiMissingParamErrorCode;
 
-+(instancetype) sharedAPI;
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient NS_DESIGNATED_INITIALIZER;
 
 /// Add a new pet to the store
 /// 
@@ -42,7 +42,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:405 message:"Invalid input"
 ///
 /// @return 
--(NSNumber*) addPetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -55,7 +55,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:400 message:"Invalid pet value"
 ///
 /// @return 
--(NSNumber*) deletePetWithPetId: (NSNumber*) petId
+-(NSURLSessionTask*) deletePetWithPetId: (NSNumber*) petId
     apiKey: (NSString*) apiKey
     completionHandler: (void (^)(NSError* error)) handler;
 
@@ -69,7 +69,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:400 message:"Invalid status value"
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
+-(NSURLSessionTask*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
@@ -82,7 +82,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:400 message:"Invalid tag value"
 ///
 /// @return NSArray<SWGPet>*
--(NSNumber*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
+-(NSURLSessionTask*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 
 
@@ -96,7 +96,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:404 message:"Pet not found"
 ///
 /// @return SWGPet*
--(NSNumber*) getPetByIdWithPetId: (NSNumber*) petId
+-(NSURLSessionTask*) getPetByIdWithPetId: (NSNumber*) petId
     completionHandler: (void (^)(SWGPet* output, NSError* error)) handler;
 
 
@@ -110,7 +110,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:405 message:"Validation exception"
 ///
 /// @return 
--(NSNumber*) updatePetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -124,7 +124,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:405 message:"Invalid input"
 ///
 /// @return 
--(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
+-(NSURLSessionTask*) updatePetWithFormWithPetId: (NSString*) petId
     name: (NSString*) name
     status: (NSString*) status
     completionHandler: (void (^)(NSError* error)) handler;
@@ -140,7 +140,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:0 message:"successful operation"
 ///
 /// @return 
--(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
+-(NSURLSessionTask*) uploadFileWithPetId: (NSNumber*) petId
     additionalMetadata: (NSString*) additionalMetadata
     file: (NSURL*) file
     completionHandler: (void (^)(NSError* error)) handler;

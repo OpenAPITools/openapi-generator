@@ -214,12 +214,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "SwaggerClient_Example" */;
 			buildPhases = (
-				799E7E29D924C30424DFBA28 /* 📦 Check Pods Manifest.lock */,
+				799E7E29D924C30424DFBA28 /* [CP] Check Pods Manifest.lock */,
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				429AF5C69E165ED75311B4B0 /* 📦 Copy Pods Resources */,
-				183E54C09C54DAEB54B2546F /* 📦 Embed Pods Frameworks */,
+				429AF5C69E165ED75311B4B0 /* [CP] Copy Pods Resources */,
+				183E54C09C54DAEB54B2546F /* [CP] Embed Pods Frameworks */,
+				FF3F107CF27E0A54D86C49F5 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -234,12 +235,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "SwaggerClient_Tests" */;
 			buildPhases = (
-				7B069562A9F91E498732474F /* 📦 Check Pods Manifest.lock */,
+				7B069562A9F91E498732474F /* [CP] Check Pods Manifest.lock */,
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				E337D7E459CCFFDF27046FFC /* 📦 Copy Pods Resources */,
-				111D7956304BD6E860AA8709 /* 📦 Embed Pods Frameworks */,
+				E337D7E459CCFFDF27046FFC /* [CP] Copy Pods Resources */,
+				111D7956304BD6E860AA8709 /* [CP] Embed Pods Frameworks */,
+				AA7CAD658C61D6EBA222B5F8 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -258,7 +260,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = SWG;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = geekerzp;
 			};
 			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "SwaggerClient" */;
@@ -303,14 +305,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		111D7956304BD6E860AA8709 /* 📦 Embed Pods Frameworks */ = {
+		111D7956304BD6E860AA8709 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,14 +320,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		183E54C09C54DAEB54B2546F /* 📦 Embed Pods Frameworks */ = {
+		183E54C09C54DAEB54B2546F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,14 +335,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		429AF5C69E165ED75311B4B0 /* 📦 Copy Pods Resources */ = {
+		429AF5C69E165ED75311B4B0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,14 +350,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		799E7E29D924C30424DFBA28 /* 📦 Check Pods Manifest.lock */ = {
+		799E7E29D924C30424DFBA28 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,14 +365,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		7B069562A9F91E498732474F /* 📦 Check Pods Manifest.lock */ = {
+		7B069562A9F91E498732474F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,19 +380,49 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		E337D7E459CCFFDF27046FFC /* 📦 Copy Pods Resources */ = {
+		AA7CAD658C61D6EBA222B5F8 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E337D7E459CCFFDF27046FFC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Tests/Pods-SwaggerClient_Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FF3F107CF27E0A54D86C49F5 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient_Example/Pods-SwaggerClient_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -463,6 +495,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -527,6 +560,7 @@
 				GCC_PREFIX_HEADER = "SwaggerClient/SwaggerClient-Prefix.pch";
 				INFOPLIST_FILE = "SwaggerClient/SwaggerClient-Info.plist";
 				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -542,6 +576,7 @@
 				GCC_PREFIX_HEADER = "SwaggerClient/SwaggerClient-Prefix.pch";
 				INFOPLIST_FILE = "SwaggerClient/SwaggerClient-Info.plist";
 				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -563,6 +598,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -580,6 +616,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};

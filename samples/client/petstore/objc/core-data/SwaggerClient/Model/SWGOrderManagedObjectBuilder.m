@@ -32,6 +32,7 @@
     if(!managedObject || !object) {
         return;
     }
+    NSManagedObjectContext* context = managedObject.managedObjectContext;
     managedObject._id = [object._id copy];
     managedObject.petId = [object.petId copy];
     managedObject.quantity = [object.quantity copy];

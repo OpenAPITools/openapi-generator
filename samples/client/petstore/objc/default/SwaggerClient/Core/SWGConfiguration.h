@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "SWGApiClient.h"
-#import "SWGLogger.h"
+
+@class SWGLogger;
 
 /**
 * Swagger Petstore
@@ -26,157 +26,75 @@
 * limitations under the License.
 */
 
-@class SWGApiClient;
+static NSString * const kSWGAPIVersion = @"1.0.0";
 
-@interface SWGConfiguration : NSObject
-
-/**
- * Default api logger
- */
-@property (nonatomic, strong) SWGLogger * logger;
+@protocol SWGConfiguration <NSObject>
 
 /**
- * Default api client
+ * Api logger
  */
-@property (nonatomic) SWGApiClient *apiClient;
+@property (readonly, nonatomic) SWGLogger *logger;
 
 /**
- * Default base url
+ * Base url
  */
-@property (nonatomic) NSString *host;
+@property (readonly, nonatomic) NSString *host;
 
 /**
  * Api key values for Api Key type Authentication
- *
- * To add or remove api key, use `setApiKey:forApiKeyIdentifier:`.
  */
-@property (readonly, nonatomic, strong) NSDictionary *apiKey;
+@property (readonly, nonatomic) NSDictionary *apiKey;
 
 /**
  * Api key prefix values to be prepend to the respective api key
- *
- * To add or remove prefix, use `setApiKeyPrefix:forApiKeyPrefixIdentifier:`.
  */
-@property (readonly, nonatomic, strong) NSDictionary *apiKeyPrefix;
+@property (readonly, nonatomic) NSDictionary *apiKeyPrefix;
 
 /**
  * Username for HTTP Basic Authentication
  */
- @property (nonatomic) NSString *username;
+@property (readonly, nonatomic) NSString *username;
 
 /**
  * Password for HTTP Basic Authentication
  */
-@property (nonatomic) NSString *password;
+@property (readonly, nonatomic) NSString *password;
 
 /**
  * Access token for OAuth
  */
-@property (nonatomic) NSString *accessToken;
+@property (readonly, nonatomic) NSString *accessToken;
 
 /**
  * Temp folder for file download
  */
-@property (nonatomic) NSString *tempFolderPath;
+@property (readonly, nonatomic) NSString *tempFolderPath;
 
 /**
  * Debug switch, default false
  */
-@property (nonatomic) BOOL debug;
-
-/**
- * Gets configuration singleton instance
- */
-+ (instancetype) sharedConfig;
+@property (readonly, nonatomic) BOOL debug;
 
 /**
  * SSL/TLS verification
  * Set this to NO to skip verifying SSL certificate when calling API from https server
  */
-@property (nonatomic) BOOL verifySSL;
+@property (readonly, nonatomic) BOOL verifySSL;
 
 /**
  * SSL/TLS verification
  * Set this to customize the certificate file to verify the peer
  */
-@property (nonatomic) NSString *sslCaCert;
+@property (readonly, nonatomic) NSString *sslCaCert;
 
 /**
- * Sets API key
- *
- * To remove a apiKey for an identifier, just set the apiKey to nil.
- *
- * @param apiKey     API key or token.
- * @param identifier API key identifier (authentication schema).
- *
+ * Authentication Settings
  */
-- (void) setApiKey:(NSString *)apiKey forApiKeyIdentifier:(NSString*)identifier;
-
-/**
- * Removes api key
- *
- * @param identifier API key identifier.
- */
-- (void) removeApiKey:(NSString *)identifier;
-
-/**
- * Sets the prefix for API key
- *
- * @param apiKeyPrefix API key prefix.
- * @param identifier   API key identifier.
- */
-- (void) setApiKeyPrefix:(NSString *)prefix forApiKeyPrefixIdentifier:(NSString *)identifier;
-
-/**
- * Removes api key prefix
- *
- * @param identifier API key identifier.
- */
-- (void) removeApiKeyPrefix:(NSString *)identifier;
-
-/**
- * Gets API key (with prefix if set)
- */
-- (NSString *) getApiKeyWithPrefix:(NSString *) key;
-
-/**
- * Gets Basic Auth token
- */
-- (NSString *) getBasicAuthToken;
-
-/**
- * Gets OAuth access token
- */
-- (NSString *) getAccessToken;
-
-/**
- * Gets Authentication Settings
- */
-- (NSDictionary *) authSettings;
+@property (readonly, nonatomic) NSDictionary *authSettings;
 
 /**
 * Default headers for all services
 */
 @property (readonly, nonatomic, strong) NSDictionary *defaultHeaders;
-
-/**
-* Removes header from defaultHeaders
-*
-* @param Header name.
-*/
--(void) removeDefaultHeaderForKey:(NSString*)key;
-
-/**
-* Sets the header for key
-*
-* @param value         Value for header name
-* @param key           Header name
-*/
--(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key;
-
-/**
-* @param Header key name.
-*/
--(NSString*) defaultHeaderForKey:(NSString*)key;
 
 @end

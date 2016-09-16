@@ -34,8 +34,14 @@
     if(!managedObject || !object) {
         return;
     }
-{{#vars}}{{^complexType}}    managedObject.{{name}} = [object.{{name}} copy];{{/complexType}}{{#complexType}}{{#isListContainer}}    if(object.{{name}}) {
-        NSMutableSet * convertedObjs = [NSMutableSet set];
+    NSManagedObjectContext* context = managedObject.managedObjectContext;
+{{#vars}}{{^complexType}}    managedObject.{{name}} = [object.{{name}} copy];{{/complexType}}{{#complexType}}{{#isListContainer}}    if(managedObject.{{name}}) {
+        for (id object in managedObject.{{name}}) {
+            [context deleteObject:object];
+        }
+    }
+    if(object.{{name}}) {
+        NSMutableOrderedSet * convertedObjs = [NSMutableOrderedSet orderedSet];
         for (id innerObject in object.{{name}}) {
             id convertedObj = [self.{{name}}Builder {{complexType}}ManagedObjectFrom{{complexType}}:innerObject context:managedObject.managedObjectContext];
             [convertedObjs addObject:convertedObj];
@@ -47,7 +53,7 @@
     } else {
         [self.{{name}}Builder update{{complexType}}ManagedObject:managedObject.{{name}} with{{complexType}}:object.{{name}}];
     }{{/isMapContainer}}{{#isMapContainer}}managedObject.{{name}} = [object.{{name}} copy];{{/isMapContainer}}{{/isListContainer}}{{/complexType}}
-{{/vars}}{{#isArrayModel}}    NSMutableSet * convertedObjs = [NSMutableSet set];
+{{/vars}}{{#isArrayModel}}    NSMutableOrderedSet * convertedObjs = [NSMutableOrderedSet orderedSet];
     for (id innerObject in object) {
         id convertedObj = [self.entriesBuilder {{arrayModelType}}ManagedObjectFrom{{arrayModelType}}:innerObject context:managedObject.managedObjectContext];
         [convertedObjs addObject:convertedObj];

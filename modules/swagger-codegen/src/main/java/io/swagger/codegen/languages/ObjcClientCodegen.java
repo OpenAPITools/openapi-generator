@@ -255,10 +255,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Object-body.mustache",  coreFileFolder(), classPrefix + "Object.m"));
         supportingFiles.add(new SupportingFile("QueryParamCollection-header.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.h"));
         supportingFiles.add(new SupportingFile("QueryParamCollection-body.mustache",  coreFileFolder(), classPrefix + "QueryParamCollection.m"));
-        supportingFiles.add(new SupportingFile("ApiClient-header.mustache",  coreFileFolder(), classPrefix + "ApiClient.h"));
+        supportingFiles.add(new SupportingFile("ApiClient-header.mustache",  coreFileFolder(), classPrefix + "ApiClient.h")); 
         supportingFiles.add(new SupportingFile("ApiClient-body.mustache",  coreFileFolder(), classPrefix + "ApiClient.m"));
-        supportingFiles.add(new SupportingFile("JSONResponseSerializer-header.mustache",  coreFileFolder(), classPrefix + "JSONResponseSerializer.h"));
-        supportingFiles.add(new SupportingFile("JSONResponseSerializer-body.mustache",  coreFileFolder(), classPrefix + "JSONResponseSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-body.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.m"));
         supportingFiles.add(new SupportingFile("JSONRequestSerializer-header.mustache",  coreFileFolder(), classPrefix + "JSONRequestSerializer.h"));
         supportingFiles.add(new SupportingFile("ResponseDeserializer-body.mustache",  coreFileFolder(), classPrefix + "ResponseDeserializer.m"));
@@ -269,8 +267,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Logger-header.mustache",  coreFileFolder(), classPrefix + "Logger.h"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-body.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.m"));
         supportingFiles.add(new SupportingFile("JSONValueTransformer+ISO8601-header.mustache",  coreFileFolder(), "JSONValueTransformer+ISO8601.h"));
-        supportingFiles.add(new SupportingFile("Configuration-body.mustache",  coreFileFolder(), classPrefix + "Configuration.m"));
-        supportingFiles.add(new SupportingFile("Configuration-header.mustache",  coreFileFolder(), classPrefix + "Configuration.h"));
+        supportingFiles.add(new SupportingFile("Configuration-protocol.mustache", coreFileFolder(), classPrefix + "Configuration.h"));
+        supportingFiles.add(new SupportingFile("DefaultConfiguration-body.mustache", coreFileFolder(), classPrefix + "DefaultConfiguration.m"));
+        supportingFiles.add(new SupportingFile("DefaultConfiguration-header.mustache", coreFileFolder(), classPrefix + "DefaultConfiguration.h"));
+        supportingFiles.add(new SupportingFile("BasicAuthTokenProvider-header.mustache", coreFileFolder(), classPrefix + "BasicAuthTokenProvider.h"));
+        supportingFiles.add(new SupportingFile("BasicAuthTokenProvider-body.mustache", coreFileFolder(), classPrefix + "BasicAuthTokenProvider.m"));
         supportingFiles.add(new SupportingFile("api-protocol.mustache", coreFileFolder(), classPrefix + "Api.h"));
         supportingFiles.add(new SupportingFile("podspec.mustache", "", podName + ".podspec"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
