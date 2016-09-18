@@ -107,7 +107,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         instantiationTypes.put("map", "HashMap");
         typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
-        typeMapping.put("UUID", "String");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -790,10 +789,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
 
         op.path = sanitizePath(op.path);
-        
+
         return op;
     }
-    
+
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
