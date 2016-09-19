@@ -182,8 +182,10 @@ public class InlineModelResolver {
                     }
                 } else if (model instanceof ComposedModel) {
                     ComposedModel m = (ComposedModel) model;
-                    Map<String, Property> properties = m.getChild().getProperties();
-                    flattenProperties(properties, modelName);
+                    if (m.getChild() != null) {
+                        Map<String, Property> properties = m.getChild().getProperties();
+                        flattenProperties(properties, modelName);
+                    }
                 }
             }
         }
