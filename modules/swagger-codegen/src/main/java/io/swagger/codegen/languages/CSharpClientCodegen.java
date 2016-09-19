@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenOperation;
@@ -11,8 +12,10 @@ import io.swagger.codegen.CliOption;
 import io.swagger.models.Model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.slf4j.Logger;

@@ -14,8 +14,12 @@
 
 @echo off
 
-{{#supportsAsync}}SET CSCPATH=%SYSTEMROOT%\Microsoft.NET\Framework\v4.0.30319{{/supportsAsync}}
-{{^supportsAsync}}SET CSCPATH=%SYSTEMROOT%\Microsoft.NET\Framework\v3.5{{/supportsAsync}}
+{{#supportsAsync}}
+SET CSCPATH=%SYSTEMROOT%\Microsoft.NET\Framework\v4.0.30319
+{{/supportsAsync}}
+{{^supportsAsync}}
+SET CSCPATH=%SYSTEMROOT%\Microsoft.NET\Framework\v3.5
+{{/supportsAsync}}
 
 if not exist ".\nuget.exe" powershell -Command "(new-object System.Net.WebClient).DownloadFile('https://nuget.org/nuget.exe', '.\nuget.exe')"
 .\nuget.exe install src\{{packageName}}\packages.config -o packages
