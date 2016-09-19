@@ -32,6 +32,7 @@ cp packages/RestSharp.105.1.0/lib/net45/RestSharp.dll bin/RestSharp.dll;
 echo "[INFO] Run 'mcs' to build bin/IO.Swagger.dll"
 mcs -sdk:${netfx} -r:bin/Newtonsoft.Json.dll,\
 bin/RestSharp.dll,\
+System.ComponentModel.DataAnnotations.dll,\
 System.Runtime.Serialization.dll \
 -target:library \
 -out:bin/IO.Swagger.dll \
