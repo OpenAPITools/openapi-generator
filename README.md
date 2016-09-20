@@ -807,7 +807,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 
 # Swagger Codegen Core Team
 
-Swaagger Codegen core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
+Swagger Codegen core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ## API Clients
 | Languages     | Core Team (join date) | 
