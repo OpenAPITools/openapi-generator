@@ -2455,6 +2455,9 @@ public class DefaultCodegen {
             	sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
                 sec.isOAuth = true;
                 sec.flow = oauth2Definition.getFlow();
+                if (sec.flow == null) {
+                    throw new RuntimeException("missing oauth flow in " + sec.name);
+                }
                 switch(sec.flow) {
                     case "accessCode":
                         sec.isCode = true;
