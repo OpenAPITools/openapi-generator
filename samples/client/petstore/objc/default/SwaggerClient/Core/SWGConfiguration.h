@@ -76,18 +76,6 @@ static NSString * const kSWGAPIVersion = @"1.0.0";
 @property (readonly, nonatomic) BOOL debug;
 
 /**
- * SSL/TLS verification
- * Set this to NO to skip verifying SSL certificate when calling API from https server
- */
-@property (readonly, nonatomic) BOOL verifySSL;
-
-/**
- * SSL/TLS verification
- * Set this to customize the certificate file to verify the peer
- */
-@property (readonly, nonatomic) NSString *sslCaCert;
-
-/**
  * Authentication Settings
  */
 @property (readonly, nonatomic) NSDictionary *authSettings;
