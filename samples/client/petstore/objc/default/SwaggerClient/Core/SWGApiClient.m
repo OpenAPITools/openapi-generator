@@ -80,7 +80,6 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
             @"application/x-www-form-urlencoded": afhttpRequestSerializer,
             @"multipart/form-data": afhttpRequestSerializer
         };
-        self.securityPolicy = [self createSecurityPolicy];
         self.responseSerializer = [AFHTTPResponseSerializer serializer];
     }
     return self;
@@ -350,27 +349,6 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
     *headers = [NSDictionary dictionaryWithDictionary:headersWithAuth];
     *querys = [NSDictionary dictionaryWithDictionary:querysWithAuth];
-}
-
-- (AFSecurityPolicy *) createSecurityPolicy {
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
-
-    id<SWGConfiguration> config = self.configuration;
-
-    if (config.sslCaCert) {
-        NSData *certData = [NSData dataWithContentsOfFile:config.sslCaCert];
-        [securityPolicy setPinnedCertificates:[NSSet setWithObject:certData]];
-    }
-
-    if (config.verifySSL) {
-        [securityPolicy setAllowInvalidCertificates:NO];
-    }
-    else {
-        [securityPolicy setAllowInvalidCertificates:YES];
-        [securityPolicy setValidatesDomainName:NO];
-    }
-
-    return securityPolicy;
 }
 
 @end

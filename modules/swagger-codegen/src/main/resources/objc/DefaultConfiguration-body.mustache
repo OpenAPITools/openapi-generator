@@ -32,7 +32,6 @@
         _username = @"";
         _password = @"";
         _accessToken= @"";
-        _verifySSL = YES;
         _mutableApiKey = [NSMutableDictionary dictionary];
         _mutableApiKeyPrefix = [NSMutableDictionary dictionary];
         _mutableDefaultHeaders = [NSMutableDictionary dictionary];
