@@ -9,7 +9,7 @@ import Foundation
 
 
 public class Order: JSONEncodable {
-    public enum Status: String {
+    public enum Status: String { 
         case Placed = "placed"
         case Approved = "approved"
         case Delivered = "delivered"

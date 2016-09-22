@@ -1,21 +1,36 @@
 Pod::Spec.new do |s|
-  s.name = '{{projectName}}'{{#projectDescription}}
-  s.summary = '{{projectDescription}}'{{/projectDescription}}
+  s.name = '{{projectName}}'
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
   s.version = '{{#podVersion}}{{podVersion}}{{/podVersion}}{{^podVersion}}0.0.1{{/podVersion}}'
-  s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:swagger-api/swagger-mustache.git', :tag => 'v1.0.0' }{{/podSource}}{{#podAuthors}}
-  s.authors = '{{podAuthors}}'{{/podAuthors}}{{#podSocialMediaURL}}
-  s.social_media_url = '{{podSocialMediaURL}}'{{/podSocialMediaURL}}{{#podDocsetURL}}
-  s.docset_url = '{{podDocsetURL}}'{{/podDocsetURL}}
-  s.license = {{#podLicense}}{{& podLicense}}{{/podLicense}}{{^podLicense}}'Apache License, Version 2.0'{{/podLicense}}{{#podHomepage}}
-  s.homepage = '{{podHomepage}}'{{/podHomepage}}{{#podSummary}}
-  s.summary = '{{podSummary}}'{{/podSummary}}{{#podDescription}}
-  s.description = '{{podDescription}}'{{/podDescription}}{{#podScreenshots}}
-  s.screenshots = {{& podScreenshots}}{{/podScreenshots}}{{#podDocumentationURL}}
-  s.documentation_url = '{{podDocumentationURL}}'{{/podDocumentationURL}}
-  s.source_files = '{{projectName}}/Classes/Swaggers/**/*.swift'{{#usePromiseKit}}
-  s.dependency 'PromiseKit', '~> 3.1.1'{{/usePromiseKit}}{{#useRxSwift}}
-  s.dependency 'RxSwift', '~> 2.0'{{/useRxSwift}}
+  s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:swagger-api/swagger-mustache.git', :tag => 'v1.0.0' }{{/podSource}}
+  {{#podAuthors}}
+  s.authors = '{{podAuthors}}'
+  {{/podAuthors}}
+  {{#podSocialMediaURL}}
+  s.social_media_url = '{{podSocialMediaURL}}'
+  {{/podSocialMediaURL}}
+  {{#podDocsetURL}}
+  s.docset_url = '{{podDocsetURL}}'
+  {{/podDocsetURL}}
+  s.license = {{#podLicense}}{{& podLicense}}{{/podLicense}}{{^podLicense}}'Apache License, Version 2.0'{{/podLicense}}
+  s.homepage = '{{podHomepage}}{{^podHomepage}}https://github.com/swagger-api/swagger-codegen{{/podHomepage}}'
+  s.summary = '{{podSummary}}{{^podSummary}}{{projectName}} Swift SDK{{/podSummary}}'
+  {{#podDescription}}
+  s.description = '{{podDescription}}'
+  {{/podDescription}}
+  {{#podScreenshots}}
+  s.screenshots = {{& podScreenshots}}
+  {{/podScreenshots}}
+  {{#podDocumentationURL}}
+  s.documentation_url = '{{podDocumentationURL}}'
+  {{/podDocumentationURL}}
+  s.source_files = '{{projectName}}/Classes/Swaggers/**/*.swift'
+  {{#usePromiseKit}}
+  s.dependency 'PromiseKit', '~> 3.1.1'
+  {{/usePromiseKit}}
+  {{#useRxSwift}}
+  s.dependency 'RxSwift', '~> 2.0'
+  {{/useRxSwift}}
   s.dependency 'Alamofire', '~> 3.4.1'
 end
