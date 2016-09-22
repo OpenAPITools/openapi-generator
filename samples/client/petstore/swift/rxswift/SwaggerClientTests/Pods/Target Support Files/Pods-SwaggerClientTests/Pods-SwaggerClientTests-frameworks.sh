@@ -81,3 +81,4 @@ strip_invalid_archs() {
     echo "Stripped $binary of architectures:$stripped"
   fi
 }
+

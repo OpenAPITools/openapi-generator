@@ -9,7 +9,7 @@ import Foundation
 public class PetstoreClientAPI {
     public static var basePath = "http://petstore.swagger.io/v2"
     public static var credential: NSURLCredential?
-    public static var customHeaders: [String:String] = [:]
+    public static var customHeaders: [String:String] = [:]  
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 }
 
@@ -36,7 +36,7 @@ public class RequestBuilder<T> {
     let isBody: Bool
     let method: String
     let URLString: String
-
+    
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((NSProgress) -> ())?
 
@@ -45,16 +45,16 @@ public class RequestBuilder<T> {
         self.URLString = URLString
         self.parameters = parameters
         self.isBody = isBody
-
+        
         addHeaders(PetstoreClientAPI.customHeaders)
     }
-
+    
     public func addHeaders(aHeaders:[String:String]) {
         for (header, value) in aHeaders {
             headers[header] = value
         }
     }
-
+    
     public func execute(completion: (response: Response<T>?, error: ErrorType?) -> Void) { }
 
     public func addHeader(name name: String, value: String) -> Self {
@@ -63,7 +63,7 @@ public class RequestBuilder<T> {
         }
         return self
     }
-
+    
     public func addCredential() -> Self {
         self.credential = PetstoreClientAPI.credential
         return self
@@ -73,3 +73,4 @@ public class RequestBuilder<T> {
 protocol RequestBuilderFactory {
     func getBuilder<T>() -> RequestBuilder<T>.Type
 }
+
