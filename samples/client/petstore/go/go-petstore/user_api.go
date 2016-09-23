@@ -84,7 +84,7 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -145,7 +145,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -206,7 +206,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -268,7 +268,7 @@ func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -328,7 +328,7 @@ func (a UserApi) GetUserByName(username string) (*User, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -392,7 +392,7 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -452,7 +452,7 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -513,7 +513,7 @@ func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header

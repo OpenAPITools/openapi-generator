@@ -98,7 +98,7 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	{{/hasQueryParams}}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }
+	localVarHttpContentTypes := []string{ {{#consumes}}"{{{mediaType}}}", {{/consumes}} }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -108,7 +108,7 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		{{#produces}}
-		"{{{mediaType}}}"{{^-last}},{{/-last}}
+		"{{{mediaType}}}",
 		{{/produces}}
 		}
 

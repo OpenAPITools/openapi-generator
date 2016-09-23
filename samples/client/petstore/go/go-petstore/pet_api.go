@@ -81,7 +81,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json", "application/xml" }
+	localVarHttpContentTypes := []string{ "application/json", "application/xml",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -91,7 +91,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -159,7 +159,7 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -233,7 +233,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -307,7 +307,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -372,7 +372,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -428,7 +428,7 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json", "application/xml" }
+	localVarHttpContentTypes := []string{ "application/json", "application/xml",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -438,7 +438,7 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -497,7 +497,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/x-www-form-urlencoded" }
+	localVarHttpContentTypes := []string{ "application/x-www-form-urlencoded",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -507,7 +507,7 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -566,7 +566,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "multipart/form-data" }
+	localVarHttpContentTypes := []string{ "multipart/form-data",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -575,7 +575,7 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
