@@ -10,7 +10,7 @@ import * as assign from "core-js/library/fn/object/assign";
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
-const BASE_PATH = "{{basePath}}";
+const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, '');
 
 export interface FetchArgs {
     url: string;
