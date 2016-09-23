@@ -73,7 +73,7 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json" }
+	localVarHttpContentTypes := []string{ "application/json",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -82,7 +82,7 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -152,7 +152,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/xml; charset=utf-8", "application/json; charset=utf-8" }
+	localVarHttpContentTypes := []string{ "application/xml; charset=utf-8", "application/json; charset=utf-8",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -162,7 +162,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml; charset=utf-8",
-		"application/json; charset=utf-8"
+		"application/json; charset=utf-8",
 		}
 
 	// set Accept header
@@ -240,7 +240,7 @@ func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString
 		localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(enumQueryInteger, ""))
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{ "application/json" }
+	localVarHttpContentTypes := []string{ "application/json",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -249,7 +249,7 @@ func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header

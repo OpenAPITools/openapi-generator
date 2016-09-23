@@ -85,7 +85,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -145,7 +145,7 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -207,7 +207,7 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
@@ -268,7 +268,7 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-		"application/json"
+		"application/json",
 		}
 
 	// set Accept header
