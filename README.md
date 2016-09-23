@@ -777,6 +777,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Kabuku](http://www.kabuku.co.jp/en)
 - [Kuroi](http://kuroiwebdesign.com/)
 - [Kuary](https://kuary.com/)
+- [Mindera](http://mindera.com/)
 - [Mporium](http://mporium.com/) 
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
