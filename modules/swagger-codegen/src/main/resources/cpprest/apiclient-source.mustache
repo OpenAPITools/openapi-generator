@@ -33,11 +33,11 @@ utility::string_t ApiClient::parameterToString(utility::string_t value)
 }
 utility::string_t ApiClient::parameterToString(int64_t value)
 {
-    return std::to_wstring(value);
+    return utility::conversions::to_string_t(std::to_string(value));
 }
 utility::string_t ApiClient::parameterToString(int32_t value)
 {
-    return std::to_wstring(value);
+    return utility::conversions::to_string_t(std::to_string(value));
 }
 
 pplx::task<web::http::http_response> ApiClient::callApi( 
