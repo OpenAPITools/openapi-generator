@@ -306,7 +306,7 @@ utility::string_t ModelBase::stringFromHttpContent(std::shared_ptr<HttpContent> 
     std::string str((std::istreambuf_iterator<char>(*data.get())),
                  std::istreambuf_iterator<char>());
     
-    return utility::conversions::to_utf16string(str);
+    return utility::conversions::to_string_t(str);
 }
 utility::datetime ModelBase::dateFromHttpContent(std::shared_ptr<HttpContent> val)
 {
