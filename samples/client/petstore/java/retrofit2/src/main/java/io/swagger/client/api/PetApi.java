@@ -118,7 +118,7 @@ public interface PetApi {
   @Multipart
   @POST("pet/{petId}/uploadImage")
   Call<ModelApiResponse> uploadFile(
-    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file\"; filename=\"file\"") RequestBody file
+    @Path("petId") Long petId, @Part("additionalMetadata") String additionalMetadata, @Part("file\"; filename=\"file") RequestBody file
   );
 
 }
