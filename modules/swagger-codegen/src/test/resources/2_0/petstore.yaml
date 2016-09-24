@@ -573,6 +573,8 @@ securityDefinitions:
     in: header
 definitions:
   Order:
+    title: Pet Order
+    description: An order for a pets from the pet store
     type: object
     properties:
       id:
@@ -600,6 +602,8 @@ definitions:
     xml:
       name: Order
   Category:
+    title: Pet catehgry
+    description: A category for a pet
     type: object
     properties:
       id:
@@ -610,6 +614,8 @@ definitions:
     xml:
       name: Category
   User:
+    title: a User
+    description: A User who is purchasing from the pet store
     type: object
     properties:
       id:
@@ -634,6 +640,8 @@ definitions:
     xml:
       name: User
   Tag:
+    title: Pet Tag
+    description: A tag for a pet
     type: object
     properties:
       id:
@@ -644,6 +652,8 @@ definitions:
     xml:
       name: Tag
   Pet:
+    title: a Pet
+    description: A pet for sale in the pet store
     type: object
     required:
       - name
@@ -681,6 +691,8 @@ definitions:
     xml:
       name: Pet
   ApiResponse:
+    title: An uploaded response
+    description: Describes the result of uploading an image resource
     type: object
     properties:
       code:
