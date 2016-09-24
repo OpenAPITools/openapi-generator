@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 public class ArrayOfArrayOfNumberOnly   {
+  @JsonProperty("ArrayArrayNumber")
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {

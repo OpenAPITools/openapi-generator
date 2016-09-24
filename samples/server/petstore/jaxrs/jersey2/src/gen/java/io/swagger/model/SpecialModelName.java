@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 public class SpecialModelName   {
+  @JsonProperty("$special[property.name]")
   private Long specialPropertyName = null;
 
   public SpecialModelName specialPropertyName(Long specialPropertyName) {
