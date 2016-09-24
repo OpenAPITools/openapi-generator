@@ -9,6 +9,15 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
+
+    protected static final String LIBRARY_JERSEY1 = "jersey1";
+    protected static final String LIBRARY_JERSEY2 = "jersey2";
+
+    /**
+     * Default library template to use. (Default:{@value #DEFAULT_LIBRARY})
+     */
+    public static final String DEFAULT_LIBRARY = LIBRARY_JERSEY2;
+
     public JavaJerseyServerCodegen() {
         super();
 
@@ -29,10 +38,10 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
 
-        supportedLibraries.put("jersey1", "Jersey core 1.x");
-        supportedLibraries.put("jersey2", "Jersey core 2.x (default)");
+        supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
+        supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         library.setEnum(supportedLibraries);
-        library.setDefault("jersey1");
+        library.setDefault(DEFAULT_LIBRARY);
 
         cliOptions.add(library);
 
@@ -71,9 +80,9 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public void processOpts() {
         super.processOpts();
 
-        // set jersey2 as default
+        // use default library if unset
         if (StringUtils.isEmpty(library)) {
-            setLibrary("jersey2");
+            setLibrary(DEFAULT_LIBRARY);
         }
 
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {

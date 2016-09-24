@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Model for testing reserved words")
 
 public class ModelReturn   {
+  @JsonProperty("return")
   private Integer _return = null;
 
   public ModelReturn _return(Integer _return) {

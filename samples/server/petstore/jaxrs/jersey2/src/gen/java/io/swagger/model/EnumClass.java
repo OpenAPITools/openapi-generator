@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * Gets or Sets EnumClass
  */
@@ -23,8 +25,19 @@ public enum EnumClass {
   }
 
   @Override
+  @JsonValue
   public String toString() {
     return String.valueOf(value);
+  }
+
+  @JsonCreator
+  public static EnumClass fromValue(String text) {
+    for (EnumClass b : EnumClass.values()) {
+      if (String.valueOf(b.value).equals(text)) {
+        return b;
+      }
+    }
+    return null;
   }
 }
 
