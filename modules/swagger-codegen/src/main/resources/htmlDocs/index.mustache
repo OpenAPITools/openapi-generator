@@ -162,7 +162,8 @@
   {{#models}}
   {{#model}}
   <div class="model">
-    <h3 class="field-label"><a name="{{name}}">{{name}}</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="{{name}}">{{name}} - {{title}}</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>{{description}}</div>
     <div class="field-items">
       {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{datatype}}</a>{{/isPrimitiveType}}</span> {{description}} {{#dataFormat}}format: {{{dataFormat}}}{{/dataFormat}}</div>
       {{#isEnum}}

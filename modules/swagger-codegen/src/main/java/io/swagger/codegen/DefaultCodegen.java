@@ -1205,6 +1205,7 @@ public class DefaultCodegen {
         } else {
             m.name = name;
         }
+        m.title = escapeText(model.getTitle());
         m.description = escapeText(model.getDescription());
         m.unescapedDescription = model.getDescription();
         m.classname = toModelName(name);
