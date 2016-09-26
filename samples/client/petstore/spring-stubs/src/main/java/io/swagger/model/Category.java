@@ -8,10 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
+/**
+ * A category for a pet
+ **/
 
 /**
- * Category
+ * A category for a pet
  */
+@ApiModel(description = "A category for a pet")
 
 public class Category   {
   @JsonProperty("id")

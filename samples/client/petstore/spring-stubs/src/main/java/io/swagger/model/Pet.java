@@ -13,10 +13,14 @@ import java.util.List;
 
 
 
+/**
+ * A pet for sale in the pet store
+ **/
 
 /**
- * Pet
+ * A pet for sale in the pet store
  */
+@ApiModel(description = "A pet for sale in the pet store")
 
 public class Pet   {
   @JsonProperty("id")

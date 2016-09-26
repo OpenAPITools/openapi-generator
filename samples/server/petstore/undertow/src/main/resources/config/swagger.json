@@ -60,8 +60,8 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       },
       "put" : {
         "tags" : [ "pet" ],
@@ -93,8 +93,8 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/pet/findByStatus" : {
@@ -112,10 +112,10 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "available", "pending", "sold" ],
-            "default" : "available"
+            "default" : "available",
+            "enum" : [ "available", "pending", "sold" ]
           },
-          "collectionFormat" : "multi"
+          "collectionFormat" : "csv"
         } ],
         "responses" : {
           "200" : {
@@ -134,15 +134,15 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/pet/findByTags" : {
       "get" : {
         "tags" : [ "pet" ],
         "summary" : "Finds Pets by tags",
-        "description" : "Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+        "description" : "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         "operationId" : "findPetsByTags",
         "produces" : [ "application/xml", "application/json" ],
         "parameters" : [ {
@@ -154,7 +154,7 @@
           "items" : {
             "type" : "string"
           },
-          "collectionFormat" : "multi"
+          "collectionFormat" : "csv"
         } ],
         "responses" : {
           "200" : {
@@ -173,9 +173,8 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "deprecated" : true,
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/pet/{petId}" : {
@@ -210,8 +209,8 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       },
       "post" : {
         "tags" : [ "pet" ],
@@ -248,8 +247,8 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/x-www-form-urlencoded"
+        "x-contentType" : "application/x-www-form-urlencoded",
+        "x-accepts" : "application/json"
       },
       "delete" : {
         "tags" : [ "pet" ],
@@ -272,17 +271,14 @@
         } ],
         "responses" : {
           "400" : {
-            "description" : "Invalid ID supplied"
-          },
-          "404" : {
-            "description" : "Pet not found"
+            "description" : "Invalid pet value"
           }
         },
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/pet/{petId}/uploadImage" : {
@@ -324,8 +320,8 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "multipart/form-data"
+        "x-contentType" : "multipart/form-data",
+        "x-accepts" : "application/json"
       }
     },
     "/store/inventory" : {
@@ -351,8 +347,8 @@
         "security" : [ {
           "api_key" : [ ]
         } ],
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/store/order" : {
@@ -382,15 +378,15 @@
             "description" : "Invalid Order"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/store/order/{orderId}" : {
       "get" : {
         "tags" : [ "store" ],
         "summary" : "Find purchase order by ID",
-        "description" : "For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
+        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
         "operationId" : "getOrderById",
         "produces" : [ "application/xml", "application/json" ],
         "parameters" : [ {
@@ -399,7 +395,7 @@
           "description" : "ID of pet that needs to be fetched",
           "required" : true,
           "type" : "integer",
-          "maximum" : 10.0,
+          "maximum" : 5.0,
           "minimum" : 1.0,
           "format" : "int64"
         } ],
@@ -417,13 +413,13 @@
             "description" : "Order not found"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       },
       "delete" : {
         "tags" : [ "store" ],
         "summary" : "Delete purchase order by ID",
-        "description" : "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
+        "description" : "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
         "operationId" : "deleteOrder",
         "produces" : [ "application/xml", "application/json" ],
         "parameters" : [ {
@@ -431,9 +427,8 @@
           "in" : "path",
           "description" : "ID of the order that needs to be deleted",
           "required" : true,
-          "type" : "integer",
-          "minimum" : 1.0,
-          "format" : "int64"
+          "type" : "string",
+          "minimum" : 1.0
         } ],
         "responses" : {
           "400" : {
@@ -443,8 +438,8 @@
             "description" : "Order not found"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/user" : {
@@ -468,8 +463,8 @@
             "description" : "successful operation"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/user/createWithArray" : {
@@ -496,8 +491,8 @@
             "description" : "successful operation"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/user/createWithList" : {
@@ -524,8 +519,8 @@
             "description" : "successful operation"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/user/login" : {
@@ -563,7 +558,7 @@
               "X-Expires-After" : {
                 "type" : "string",
                 "format" : "date-time",
-                "description" : "date in UTC when token expires"
+                "description" : "date in UTC when toekn expires"
               }
             }
           },
@@ -571,8 +566,8 @@
             "description" : "Invalid username/password supplied"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/user/logout" : {
@@ -588,8 +583,8 @@
             "description" : "successful operation"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     },
     "/user/{username}" : {
@@ -620,8 +615,8 @@
             "description" : "User not found"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       },
       "put" : {
         "tags" : [ "user" ],
@@ -632,7 +627,7 @@
         "parameters" : [ {
           "name" : "username",
           "in" : "path",
-          "description" : "name that need to be updated",
+          "description" : "name that need to be deleted",
           "required" : true,
           "type" : "string"
         }, {
@@ -652,8 +647,8 @@
             "description" : "User not found"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       },
       "delete" : {
         "tags" : [ "user" ],
@@ -676,25 +671,25 @@
             "description" : "User not found"
           }
         },
-        "x-accepts" : "application/json",
-        "x-contentType" : "application/json"
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
       }
     }
   },
   "securityDefinitions" : {
+    "api_key" : {
+      "type" : "apiKey",
+      "name" : "api_key",
+      "in" : "header"
+    },
     "petstore_auth" : {
       "type" : "oauth2",
-      "authorizationUrl" : "http://petstore.swagger.io/oauth/dialog",
+      "authorizationUrl" : "http://petstore.swagger.io/api/oauth/dialog",
       "flow" : "implicit",
       "scopes" : {
         "write:pets" : "modify pets in your account",
         "read:pets" : "read your pets"
       }
-    },
-    "api_key" : {
-      "type" : "apiKey",
-      "name" : "api_key",
-      "in" : "header"
     }
   },
   "definitions" : {
@@ -727,6 +722,8 @@
           "default" : false
         }
       },
+      "title" : "Pet Order",
+      "description" : "An order for a pets from the pet store",
       "xml" : {
         "name" : "Order"
       }
@@ -742,6 +739,8 @@
           "type" : "string"
         }
       },
+      "title" : "Pet catehgry",
+      "description" : "A category for a pet",
       "xml" : {
         "name" : "Category"
       }
@@ -777,6 +776,8 @@
           "description" : "User Status"
         }
       },
+      "title" : "a User",
+      "description" : "A User who is purchasing from the pet store",
       "xml" : {
         "name" : "User"
       }
@@ -792,23 +793,10 @@
           "type" : "string"
         }
       },
+      "title" : "Pet Tag",
+      "description" : "A tag for a pet",
       "xml" : {
         "name" : "Tag"
-      }
-    },
-    "ApiResponse" : {
-      "type" : "object",
-      "properties" : {
-        "code" : {
-          "type" : "integer",
-          "format" : "int32"
-        },
-        "type" : {
-          "type" : "string"
-        },
-        "message" : {
-          "type" : "string"
-        }
       }
     },
     "Pet" : {
@@ -852,9 +840,28 @@
           "enum" : [ "available", "pending", "sold" ]
         }
       },
+      "title" : "a Pet",
+      "description" : "A pet for sale in the pet store",
       "xml" : {
         "name" : "Pet"
       }
+    },
+    "ApiResponse" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        }
+      },
+      "title" : "An uploaded response",
+      "description" : "Describes the result of uploading an image resource"
     }
   },
   "externalDocs" : {

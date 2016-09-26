@@ -10,10 +10,14 @@ import org.joda.time.DateTime;
 
 
 
+/**
+ * An order for a pets from the pet store
+ **/
 
 /**
- * Order
+ * An order for a pets from the pet store
  */
+@ApiModel(description = "An order for a pets from the pet store")
 
 public class Order   {
   @JsonProperty("id")
