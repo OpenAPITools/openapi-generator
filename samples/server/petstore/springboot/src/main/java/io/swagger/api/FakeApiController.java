@@ -46,7 +46,7 @@ public class FakeApiController implements FakeApi {
         
 
 
-@ApiParam(value = "None", required=true ) @RequestPart(value="string", required=true)  String string
+@ApiParam(value = "None", required=true ) @RequestPart(value="patternWithoutDelimiter", required=true)  String patternWithoutDelimiter
 ,
         
 
@@ -76,6 +76,11 @@ public class FakeApiController implements FakeApi {
         
 
 
+@ApiParam(value = "None" ) @RequestPart(value="string", required=false)  String string
+,
+        
+
+
 @ApiParam(value = "None" ) @RequestPart(value="binary", required=false)  byte[] binary
 ,
         
@@ -100,7 +105,7 @@ public class FakeApiController implements FakeApi {
     public ResponseEntity<Void> testEnumParameters(
 
 
-@ApiParam(value = "Form parameter enum test (string array)" ) @RequestPart(value="enumFormStringArray", required=false)  List<String> enumFormStringArray
+@ApiParam(value = "Form parameter enum test (string array)" , allowableValues="GREATER_THAN, DOLLAR") @RequestPart(value="enumFormStringArray", required=false)  List<String> enumFormStringArray
 ,
         
 
@@ -108,7 +113,7 @@ public class FakeApiController implements FakeApi {
 @ApiParam(value = "Form parameter enum test (string)" , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestPart(value="enumFormString", required=false)  String enumFormString
 ,
         
-@ApiParam(value = "Header parameter enum test (string array)"  ) @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray
+@ApiParam(value = "Header parameter enum test (string array)"  , allowableValues="GREATER_THAN, DOLLAR") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray
 
 
 ,

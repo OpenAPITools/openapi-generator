@@ -8,10 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
+/**
+ * Describes the result of uploading an image resource
+ **/
 
 /**
- * ModelApiResponse
+ * Describes the result of uploading an image resource
  */
+@ApiModel(description = "Describes the result of uploading an image resource")
 
 public class ModelApiResponse   {
   @JsonProperty("code")

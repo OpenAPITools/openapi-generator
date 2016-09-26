@@ -8,9 +8,12 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
+/**
+ * A User who is purchasing from the pet store
+ **/
 
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.UndertowCodegen", date = "2016-09-19T05:56:00.864-04:00")
+@ApiModel(description = "A User who is purchasing from the pet store")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.UndertowCodegen", date = "2016-09-26T16:15:27.984+08:00")
 public class User   {
   
   private Long id = null;
