@@ -47,7 +47,7 @@ use \ArrayAccess;
  * EnumClass Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -61,5 +61,3 @@ class EnumClass {
 
     
 }
-
-

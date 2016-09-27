@@ -47,7 +47,7 @@ use \ArrayAccess;
  * User Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -65,7 +65,7 @@ class User implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'id' => 'int',
         'username' => 'string',
         'first_name' => 'string',
@@ -74,7 +74,7 @@ class User implements ArrayAccess
         'password' => 'string',
         'phone' => 'string',
         'user_status' => 'int'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -85,7 +85,7 @@ class User implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'id' => 'id',
         'username' => 'username',
         'first_name' => 'firstName',
@@ -94,18 +94,14 @@ class User implements ArrayAccess
         'password' => 'password',
         'phone' => 'phone',
         'user_status' => 'userStatus'
-    );
+    ];
 
-    public static function attributeMap()
-    {
-        return self::$attributeMap;
-    }
 
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    protected static $setters = array(
+    protected static $setters = [
         'id' => 'setId',
         'username' => 'setUsername',
         'first_name' => 'setFirstName',
@@ -114,18 +110,14 @@ class User implements ArrayAccess
         'password' => 'setPassword',
         'phone' => 'setPhone',
         'user_status' => 'setUserStatus'
-    );
+    ];
 
-    public static function setters()
-    {
-        return self::$setters;
-    }
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    protected static $getters = array(
+    protected static $getters = [
         'id' => 'getId',
         'username' => 'getUsername',
         'first_name' => 'getFirstName',
@@ -134,7 +126,17 @@ class User implements ArrayAccess
         'password' => 'getPassword',
         'phone' => 'getPhone',
         'user_status' => 'getUserStatus'
-    );
+    ];
+
+    public static function attributeMap()
+    {
+        return self::$attributeMap;
+    }
+
+    public static function setters()
+    {
+        return self::$setters;
+    }
 
     public static function getters()
     {
@@ -149,7 +151,7 @@ class User implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -174,7 +176,7 @@ class User implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         return $invalid_properties;
     }
 
@@ -415,5 +417,3 @@ class User implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

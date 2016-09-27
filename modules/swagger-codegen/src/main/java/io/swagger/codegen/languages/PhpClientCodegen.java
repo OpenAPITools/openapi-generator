@@ -55,7 +55,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         // clear import mapping (from default generator) as php does not use it
         // at the moment
         importMapping.clear();
-        
+
 
         supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "php";
@@ -291,6 +291,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
         supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
         supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
+        supportingFiles.add(new SupportingFile(".php_cs", getPackagePath(), ".php_cs"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
         // apache v2 license
         supportingFiles.add(new SupportingFile("LICENSE", getPackagePath(), "LICENSE"));
@@ -447,7 +448,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
-        // remove [ 
+        // remove [
         name = name.replaceAll("\\]", "");
 
         // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
@@ -472,7 +473,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (!name.matches("^\\\\.*")) {
             name = modelNamePrefix + name + modelNameSuffix;
         }
-        
+
         // camelize the model name
         // phone_number => PhoneNumber
         return camelize(name);
