@@ -47,7 +47,7 @@ use \ArrayAccess;
  * Dog Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -65,9 +65,9 @@ class Dog extends Animal implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'breed' => 'string'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -78,35 +78,37 @@ class Dog extends Animal implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'breed' => 'breed'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'breed' => 'setBreed'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'breed' => 'getBreed'
+    ];
 
     public static function attributeMap()
     {
         return parent::attributeMap() + self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'breed' => 'setBreed'
-    );
-
     public static function setters()
     {
         return parent::setters() + self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'breed' => 'getBreed'
-    );
 
     public static function getters()
     {
@@ -121,7 +123,7 @@ class Dog extends Animal implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -141,7 +143,7 @@ class Dog extends Animal implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         return $invalid_properties;
     }
 
@@ -235,5 +237,3 @@ class Dog extends Animal implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

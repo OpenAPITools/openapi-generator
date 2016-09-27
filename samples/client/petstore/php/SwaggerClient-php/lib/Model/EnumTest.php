@@ -47,7 +47,7 @@ use \ArrayAccess;
  * EnumTest Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -65,11 +65,11 @@ class EnumTest implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'enum_string' => 'string',
         'enum_integer' => 'int',
         'enum_number' => 'double'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -80,41 +80,43 @@ class EnumTest implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'enum_string' => 'enum_string',
         'enum_integer' => 'enum_integer',
         'enum_number' => 'enum_number'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'enum_string' => 'setEnumString',
+        'enum_integer' => 'setEnumInteger',
+        'enum_number' => 'setEnumNumber'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'enum_string' => 'getEnumString',
+        'enum_integer' => 'getEnumInteger',
+        'enum_number' => 'getEnumNumber'
+    ];
 
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'enum_string' => 'setEnumString',
-        'enum_integer' => 'setEnumInteger',
-        'enum_number' => 'setEnumNumber'
-    );
-
     public static function setters()
     {
         return self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'enum_string' => 'getEnumString',
-        'enum_integer' => 'getEnumInteger',
-        'enum_number' => 'getEnumNumber'
-    );
 
     public static function getters()
     {
@@ -171,7 +173,7 @@ class EnumTest implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -191,18 +193,18 @@ class EnumTest implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
-        $allowed_values = array("UPPER", "lower");
+        $invalid_properties = [];
+        $allowed_values = ["UPPER", "lower"];
         if (!in_array($this->container['enum_string'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'enum_string', must be one of #{allowed_values}.";
         }
 
-        $allowed_values = array("1", "-1");
+        $allowed_values = ["1", "-1"];
         if (!in_array($this->container['enum_integer'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'enum_integer', must be one of #{allowed_values}.";
         }
 
-        $allowed_values = array("1.1", "-1.2");
+        $allowed_values = ["1.1", "-1.2"];
         if (!in_array($this->container['enum_number'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'enum_number', must be one of #{allowed_values}.";
         }
@@ -218,15 +220,15 @@ class EnumTest implements ArrayAccess
      */
     public function valid()
     {
-        $allowed_values = array("UPPER", "lower");
+        $allowed_values = ["UPPER", "lower"];
         if (!in_array($this->container['enum_string'], $allowed_values)) {
             return false;
         }
-        $allowed_values = array("1", "-1");
+        $allowed_values = ["1", "-1"];
         if (!in_array($this->container['enum_integer'], $allowed_values)) {
             return false;
         }
-        $allowed_values = array("1.1", "-1.2");
+        $allowed_values = ["1.1", "-1.2"];
         if (!in_array($this->container['enum_number'], $allowed_values)) {
             return false;
         }
@@ -366,5 +368,3 @@ class EnumTest implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

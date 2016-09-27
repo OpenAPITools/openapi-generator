@@ -48,7 +48,7 @@ use \ArrayAccess;
  *
  * @category    Class */
  // @description Model for testing reserved words
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -66,9 +66,9 @@ class ModelReturn implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'return' => 'int'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -79,35 +79,37 @@ class ModelReturn implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'return' => 'return'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'return' => 'setReturn'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'return' => 'getReturn'
+    ];
 
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'return' => 'setReturn'
-    );
-
     public static function setters()
     {
         return self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'return' => 'getReturn'
-    );
 
     public static function getters()
     {
@@ -122,7 +124,7 @@ class ModelReturn implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -140,7 +142,7 @@ class ModelReturn implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         return $invalid_properties;
     }
 
@@ -234,5 +236,3 @@ class ModelReturn implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

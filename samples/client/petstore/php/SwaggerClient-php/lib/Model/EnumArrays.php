@@ -47,7 +47,7 @@ use \ArrayAccess;
  * EnumArrays Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -65,10 +65,10 @@ class EnumArrays implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'just_symbol' => 'string',
         'array_enum' => 'string[]'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -79,38 +79,40 @@ class EnumArrays implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'just_symbol' => 'just_symbol',
         'array_enum' => 'array_enum'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'just_symbol' => 'setJustSymbol',
+        'array_enum' => 'setArrayEnum'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'just_symbol' => 'getJustSymbol',
+        'array_enum' => 'getArrayEnum'
+    ];
 
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'just_symbol' => 'setJustSymbol',
-        'array_enum' => 'setArrayEnum'
-    );
-
     public static function setters()
     {
         return self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'just_symbol' => 'getJustSymbol',
-        'array_enum' => 'getArrayEnum'
-    );
 
     public static function getters()
     {
@@ -153,7 +155,7 @@ class EnumArrays implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -172,8 +174,8 @@ class EnumArrays implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
-        $allowed_values = array(">=", "$");
+        $invalid_properties = [];
+        $allowed_values = [">=", "$"];
         if (!in_array($this->container['just_symbol'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'just_symbol', must be one of #{allowed_values}.";
         }
@@ -189,7 +191,7 @@ class EnumArrays implements ArrayAccess
      */
     public function valid()
     {
-        $allowed_values = array(">=", "$");
+        $allowed_values = [">=", "$"];
         if (!in_array($this->container['just_symbol'], $allowed_values)) {
             return false;
         }
@@ -304,5 +306,3 @@ class EnumArrays implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-
