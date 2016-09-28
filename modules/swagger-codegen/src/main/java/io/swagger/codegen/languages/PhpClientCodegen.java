@@ -150,6 +150,10 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String toPackagePath(String packageName, String basePath) {
+        return (getPackagePath() + File.separatorChar + toSrcPath(packageName, basePath));
+    }
+
+    public String toSrcPath(String packageName, String basePath) {
         packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
             basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
@@ -169,13 +173,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             regLastPathSeparator = "\\\\$";
         }
 
-        return (getPackagePath() + File.separatorChar + basePath
-                    // Replace period, backslash, forward slash with file separator in package name
-                    + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
-                    // Trim prefix file separators from package path
-                    .replaceAll(regFirstPathSeparator, ""))
-                    // Trim trailing file separators from the overall path
-                    .replaceAll(regLastPathSeparator+ "$", "");
+        return (basePath
+                // Replace period, backslash, forward slash with file separator in package name
+                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
+                // Trim prefix file separators from package path
+                .replaceAll(regFirstPathSeparator, ""))
+                // Trim trailing file separators from the overall path
+                .replaceAll(regLastPathSeparator+ "$", "");
     }
 
     @Override
@@ -276,6 +280,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
+        // make api and model src path available in mustache template
+        additionalProperties.put("apiSrcPath", "./" + toSrcPath(apiPackage, srcBasePath));
+        additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage, srcBasePath));
+        additionalProperties.put("apiTestPath", "./" + testBasePath + "/" + apiDirName);
+        additionalProperties.put("modelTestPath", "./" + testBasePath + "/" + modelDirName);
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -290,6 +300,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
         supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
+        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php_cs", getPackagePath(), ".php_cs"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
