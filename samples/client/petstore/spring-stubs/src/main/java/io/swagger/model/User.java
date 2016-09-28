@@ -6,12 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
-
-/**
- * A User who is purchasing from the pet store
- **/
-
 /**
  * A User who is purchasing from the pet store
  */

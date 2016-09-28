@@ -6,12 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
-
-/**
- * Describes the result of uploading an image resource
- **/
-
 /**
  * Describes the result of uploading an image resource
  */
