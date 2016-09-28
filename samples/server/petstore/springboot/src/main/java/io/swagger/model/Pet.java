@@ -11,9 +11,6 @@ import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
  * Pet
  */

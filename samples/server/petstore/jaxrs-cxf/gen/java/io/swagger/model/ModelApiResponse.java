@@ -1,7 +1,6 @@
 package io.swagger.model;
 
-
-
+import io.swagger.annotations.ApiModel;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

@@ -8,12 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
-
-
-/**
- * An order for a pets from the pet store
- **/
-
 /**
  * An order for a pets from the pet store
  */

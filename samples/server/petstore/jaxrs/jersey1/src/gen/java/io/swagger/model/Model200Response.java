@@ -6,12 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
-
-/**
- * Model for testing model name starting with number
- **/
-
 /**
  * Model for testing model name starting with number
  */

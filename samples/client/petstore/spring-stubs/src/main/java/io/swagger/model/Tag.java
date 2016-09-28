@@ -6,12 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
-
-/**
- * A tag for a pet
- **/
-
 /**
  * A tag for a pet
  */

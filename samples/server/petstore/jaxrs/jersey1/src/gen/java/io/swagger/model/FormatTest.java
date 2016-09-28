@@ -8,9 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
-
-
 /**
  * FormatTest
  */
