@@ -31,7 +31,10 @@ namespace {{invokerPackage}};
  */
 class Configuration
 {
-    private static $defaultConfiguration = null;
+    /**
+     * @var Configuration
+     */
+    private static $defaultConfiguration;
 
     /**
      * Associate array to store API key(s)
@@ -94,7 +97,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{#artifactVersion}}{{{.}}}{{/artifactVersion}}{{^artifactVersion}}1.0.0{{/artifactVersion}}/php{{/httpUserAgent}}";
+    protected $userAgent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{#artifactVersion}}{{{.}}}{{/artifactVersion}}{{^artifactVersion}}1.0.0{{/artifactVersion}}/php{{/httpUserAgent}}';
 
     /**
      * Debug switch (default set to false)
@@ -261,6 +264,7 @@ class Configuration
      * @param string $headerName  header name (e.g. Token)
      * @param string $headerValue header value (e.g. 1z8wp3)
      *
+     * @throws \InvalidArgumentException
      * @return Configuration
      */
     public function addDefaultHeader($headerName, $headerValue)
@@ -293,6 +297,7 @@ class Configuration
     public function deleteDefaultHeader($headerName)
     {
         unset($this->defaultHeaders[$headerName]);
+        return $this;
     }
 
     /**
@@ -323,6 +328,7 @@ class Configuration
      *
      * @param string $userAgent the user agent of the api client
      *
+     * @throws \InvalidArgumentException
      * @return Configuration
      */
     public function setUserAgent($userAgent)
@@ -350,6 +356,7 @@ class Configuration
      *
      * @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
      *
+     * @throws \InvalidArgumentException
      * @return Configuration
      */
     public function setCurlTimeout($seconds)
@@ -389,6 +396,17 @@ class Configuration
      * Gets the debug flag
      *
      * @return bool
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
+     * Gets the debug flag
+     *
+     * @return bool
+     * @deprecated
      */
     public function getDebug()
     {
@@ -459,6 +477,17 @@ class Configuration
      *
      * @return boolean True if the certificate should be validated, false otherwise
      */
+    public function isSSLVerification()
+    {
+        return $this->sslVerification;
+    }
+
+    /**
+     * Gets if SSL verification should be enabled or disabled
+     *
+     * @return boolean True if the certificate should be validated, false otherwise
+     * @deprecated
+     */
     public function getSSLVerification()
     {
         return $this->sslVerification;
@@ -479,7 +508,7 @@ class Configuration
     }
 
     /**
-     * Sets the detault configuration instance
+     * Sets the default configuration instance
      *
      * @param Configuration $config An instance of the Configuration Object
      *
