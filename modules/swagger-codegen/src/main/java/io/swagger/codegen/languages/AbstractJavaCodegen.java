@@ -377,6 +377,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toParamName(String name) {
+        // to avoid conflicts with 'callback' parameter for async call
+        if ("callback".equals(name)) {
+            return "paramCallback";
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
