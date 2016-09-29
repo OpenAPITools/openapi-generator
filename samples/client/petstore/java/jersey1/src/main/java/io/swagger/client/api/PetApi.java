@@ -33,8 +33,8 @@ import io.swagger.client.model.*;
 import io.swagger.client.Pair;
 
 import io.swagger.client.model.Pet;
-import io.swagger.client.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.client.model.ModelApiResponse;
 
 
 import java.util.ArrayList;
