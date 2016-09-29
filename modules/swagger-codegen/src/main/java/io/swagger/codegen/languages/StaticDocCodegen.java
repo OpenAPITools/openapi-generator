@@ -90,4 +90,16 @@ public class StaticDocCodegen extends DefaultCodegen implements CodegenConfig {
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + "models";
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // just return the original string
+        return input;
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // just return the original string
+        return input;
+    }   
 }

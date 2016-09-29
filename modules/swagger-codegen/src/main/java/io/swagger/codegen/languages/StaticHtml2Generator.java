@@ -149,4 +149,16 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public String normalizeType(String type) {
         return type.replaceAll("\\b(Boolean|Integer|Number|String|Date)\\b", "'$1'");
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // just return the original string
+        return input;
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // just return the original string
+        return input;
+    }   
 }
