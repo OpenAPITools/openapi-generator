@@ -343,18 +343,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -416,18 +416,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -489,18 +489,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -665,9 +665,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "message" : "aeiou",
   "code" : 123,
-  "type" : "aeiou",
-  "message" : "aeiou"
+  "type" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -803,12 +803,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "petId" : 123456789,
-  "quantity" : 123,
   "id" : 123456789,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 123456789,
   "complete" : true,
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "quantity" : 123,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -871,12 +871,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "petId" : 123456789,
-  "quantity" : 123,
   "id" : 123456789,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 123456789,
   "complete" : true,
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "quantity" : 123,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1089,14 +1089,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1274,7 +1274,7 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Category">Category - Pet catehory</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="Category">Category - Pet catehgry</a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>A category for a pet</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
