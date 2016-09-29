@@ -21,8 +21,6 @@ namespace {{apiPackage}};
 
 use \{{invokerPackage}}\ApiClient;
 use \{{invokerPackage}}\ApiException;
-use \{{invokerPackage}}\Configuration;
-use \{{invokerPackage}}\ObjectSerializer;
 
 /**
  * {{classname}} Class Doc Comment
@@ -38,29 +36,28 @@ use \{{invokerPackage}}\ObjectSerializer;
     /**
      * API Client
      *
-     * @var \{{invokerPackage}}\ApiClient instance of the ApiClient
+     * @var ApiClient instance of the ApiClient
      */
     protected $apiClient;
 
     /**
      * Constructor
      *
-     * @param \{{invokerPackage}}\ApiClient|null $apiClient The api client to use
+     * @param ApiClient|null $apiClient The API client to use
      */
-    public function __construct(\{{invokerPackage}}\ApiClient $apiClient = null)
+    public function __construct(ApiClient $apiClient = null)
     {
         if ($apiClient === null) {
             $apiClient = new ApiClient();
             $apiClient->getConfig()->setHost('{{basePath}}');
         }
-
-        $this->apiClient = $apiClient;
+        $this->setApiClient($apiClient);
     }
 
     /**
      * Get API client
      *
-     * @return \{{invokerPackage}}\ApiClient get the API client
+     * @return ApiClient get the API client
      */
     public function getApiClient()
     {
@@ -70,11 +67,11 @@ use \{{invokerPackage}}\ObjectSerializer;
     /**
      * Set the API client
      *
-     * @param \{{invokerPackage}}\ApiClient $apiClient set the API client
+     * @param ApiClient $apiClient set the API client
      *
      * @return {{classname}}
      */
-    public function setApiClient(\{{invokerPackage}}\ApiClient $apiClient)
+    public function setApiClient(ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
         return $this;
@@ -115,6 +112,7 @@ use \{{invokerPackage}}\ObjectSerializer;
      * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
      * @throws \{{invokerPackage}}\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
      * @return array of {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = null{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
@@ -166,7 +164,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         {{/hasValidation}}
         {{/allParams}}
         // parse inputs
-        $resourcePath = "{{path}}";
+        $resourcePath = '{{path}}';
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -208,14 +206,14 @@ use \{{invokerPackage}}\ObjectSerializer;
         {{/collectionFormat}}
         if (${{paramName}} !== null) {
             $resourcePath = str_replace(
-                "{" . "{{baseName}}" . "}",
+                '{'.'{{baseName}}'.'}',
                 $this->apiClient->getSerializer()->toPathValue(${{paramName}}),
                 $resourcePath
             );
         }
         {{/pathParams}}
         // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
+        $resourcePath = str_replace('{format}', 'json', $resourcePath);
 
         {{#formParams}}
         // form params
@@ -277,12 +275,11 @@ use \{{invokerPackage}}\ObjectSerializer;
                 $httpBody,
                 $headerParams,
                 {{#returnType}}
-                '{{returnType}}',
+                '{{returnType}}'
                 {{/returnType}}
                 {{^returnType}}
-                null,
+                null
                 {{/returnType}}
-                '{{path}}'
             );
 
             {{#returnType}}
