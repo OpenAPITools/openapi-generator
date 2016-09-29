@@ -349,6 +349,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toParamName(String name) {
+        // to avoid conflicts with 'callback' parameter for async call
+        if ("callback".equals(name)) {
+            return "param_callback";
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }

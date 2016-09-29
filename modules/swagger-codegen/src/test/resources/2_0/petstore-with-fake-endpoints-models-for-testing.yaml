@@ -771,6 +771,10 @@ paths:
           minLength: 10
           in: formData
           description: None
+        - name: callback
+          type: string
+          in: formData
+          description: None
       responses:
         '400':
           description: Invalid username supplied
