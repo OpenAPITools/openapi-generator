@@ -23,8 +23,8 @@ limitations under the License.
 
 
 class Pet < ApplicationRecord
-  validate_presence_of :name
-  validate_presence_of :photo_urls
+  validates_presence_of :name
+  validates_presence_of :photo_urls
 
   serialize :photo_urls, Array
   serialize :tags, Array
