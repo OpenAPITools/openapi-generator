@@ -23,7 +23,7 @@ limitations under the License.
 
 class InitTables < ActiveRecord::Migration
   def change
-    create_table :api_response, id: false do |t|
+    create_table "api_response".pluralize.to_sym, id: false do |t|
       t.integer :code
       t.string :type
       t.string :message
@@ -31,14 +31,14 @@ class InitTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :category, id: false do |t|
+    create_table "category".pluralize.to_sym, id: false do |t|
       t.integer :id
       t.string :name
 
       t.timestamps
     end
 
-    create_table :order, id: false do |t|
+    create_table "order".pluralize.to_sym, id: false do |t|
       t.integer :id
       t.integer :pet_id
       t.integer :quantity
@@ -49,7 +49,7 @@ class InitTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :pet, id: false do |t|
+    create_table "pet".pluralize.to_sym, id: false do |t|
       t.integer :id
       t.string :category
       t.string :name
@@ -60,14 +60,14 @@ class InitTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :tag, id: false do |t|
+    create_table "tag".pluralize.to_sym, id: false do |t|
       t.integer :id
       t.string :name
 
       t.timestamps
     end
 
-    create_table :user, id: false do |t|
+    create_table "user".pluralize.to_sym, id: false do |t|
       t.integer :id
       t.string :username
       t.string :first_name
