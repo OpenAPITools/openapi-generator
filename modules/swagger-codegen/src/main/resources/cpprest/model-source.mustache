@@ -29,12 +29,12 @@ web::json::value {{classname}}::toJson() const
 {
     web::json::value val = web::json::value::object();
      
-	{{#vars}}{{#isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
+    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
     {
         val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
     }
     {{/required}}{{#required}}val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
-    {{/required}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isListContainer}}{
+    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
         std::vector<web::json::value> jsonArray;
         for( auto& item : m_{{name}} )
         {
@@ -48,24 +48,24 @@ web::json::value {{classname}}::toJson() const
         }
         {{/required}}
     }
-    {{/isListContainer}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
+    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
     {
         val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
     }
     {{/required}}{{#required}}val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
-    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{/vars}}
+    {{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
 
     return val;
 }
 
 void {{classname}}::fromJson(web::json::value& val)
 {
-    {{#vars}}{{#isPrimitiveType}}{{^required}}if(val.has_field(U("{{baseName}}")))
+    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(val.has_field(U("{{baseName}}")))
     {
         {{setter}}(ModelBase::{{baseType}}FromJson(val[U("{{baseName}}")]));
     }
     {{/required}}{{#required}}{{setter}}(ModelBase::{{baseType}}FromJson(val[U("{{baseName}}")]));
-    {{/required}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isListContainer}}{
+    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
         m_{{name}}.clear();
         std::vector<web::json::value> jsonArray;
         {{^required}}if(val.has_field(U("{{baseName}}")))
@@ -73,8 +73,8 @@ void {{classname}}::fromJson(web::json::value& val)
         {{/required}}
         for( auto& item : val[U("{{baseName}}")].as_array() )
         {
-            {{#items.isPrimitiveType}}m_{{name}}.push_back(ModelBase::{{baseType}}FromJson(item));
-            {{/items.isPrimitiveType}}{{^items.isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(ModelBase::stringFromJson(item));
+            {{#isPrimitiveType}}m_{{name}}.push_back(ModelBase::{{items.baseType}}FromJson(item));
+            {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(ModelBase::stringFromJson(item));
             {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(ModelBase::dateFromJson(item));
             {{/items.isDateTime}}{{^items.isDateTime}}
             if(item.is_null()) 
@@ -87,13 +87,13 @@ void {{classname}}::fromJson(web::json::value& val)
                 newItem->fromJson(item);
                 m_{{name}}.push_back( newItem );
             }
-            {{/items.isDateTime}}{{/items.isString}}{{/items.isPrimitiveType}}
+            {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
         }
         {{^required}} 
         }
         {{/required}}
     }
-    {{/isListContainer}}{{^isListContainer}}{{^required}}if(val.has_field(U("{{baseName}}")))
+    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(val.has_field(U("{{baseName}}")))
     {
         {{#isString}}{{setter}}(ModelBase::stringFromJson(val[U("{{baseName}}")]));
         {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(ModelBase::dateFromJson(val[U("{{baseName}}")]));
@@ -111,23 +111,23 @@ void {{classname}}::fromJson(web::json::value& val)
     {{/vendorExtensions.x-codegen-file}}{{^vendorExtensions.x-codegen-file}}{{{datatype}}} new{{name}}({{{defaultValue}}});
     new{{name}}->fromJson(val[U("{{baseName}}")]);
     {{setter}}( newItem );
-    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{/vars}}
+    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
 }
 
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-	if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
-	{
-		namePrefix += U(".");
-	}
+    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    {
+        namePrefix += U(".");
+    }
 
-	{{#vars}}{{#isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
+    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
     }
     {{/required}}{{#required}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
-    {{/required}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isListContainer}}{
+    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
         std::vector<web::json::value> jsonArray;
         for( auto& item : m_{{name}} )
         {
@@ -141,7 +141,7 @@ void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
         }
         {{/required}}
     }
-    {{/isListContainer}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
+    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
     {
         {{#isString}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
         {{/isString}}{{^isString}}{{#isDateTime}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
@@ -155,23 +155,23 @@ void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {{/isString}}{{^isString}}{{#isDateTime}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
     {{/isDateTime}}{{^isDateTime}}{{#vendorExtensions.x-codegen-file}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
     {{/vendorExtensions.x-codegen-file}}{{^vendorExtensions.x-codegen-file}}m_{{name}}->toMultipart(multipart, U("{{baseName}}."));
-    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{/vars}}
+    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
 }
 
 void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     utility::string_t namePrefix = prefix;
-	if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
-	{
-		namePrefix += U(".");
-	}
+    if(namePrefix.size() > 0 && namePrefix[namePrefix.size() - 1] != U('.'))
+    {
+        namePrefix += U(".");
+    }
 
-    {{#vars}}{{#isPrimitiveType}}{{^required}}if(multipart->hasContent(U("{{baseName}}")))
+    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(multipart->hasContent(U("{{baseName}}")))
     {
         {{setter}}(ModelBase::{{baseType}}FromHttpContent(multipart->getContent(U("{{baseName}}"))));
     }
     {{/required}}{{#required}}{{setter}}(ModelBase::{{baseType}}FromHttpContent(multipart->getContent(U("{{baseName}}"))));
-    {{/required}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isListContainer}}{
+    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
         m_{{name}}.clear();
         {{^required}}if(multipart->hasContent(U("{{baseName}}")))
         {            
@@ -180,8 +180,8 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         web::json::value jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(U("{{baseName}}"))));
         for( auto& item : jsonArray.as_array() )
         {
-            {{#items.isPrimitiveType}}m_{{name}}.push_back(ModelBase::{{baseType}}FromJson(item));
-            {{/items.isPrimitiveType}}{{^items.isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(ModelBase::stringFromJson(item));
+            {{#isPrimitiveType}}m_{{name}}.push_back(ModelBase::{{items.baseType}}FromJson(item));
+            {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(ModelBase::stringFromJson(item));
             {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(ModelBase::dateFromJson(item));
             {{/items.isDateTime}}{{^items.isDateTime}}
             if(item.is_null()) 
@@ -194,13 +194,13 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
                 newItem->fromJson(item);
                 m_{{name}}.push_back( newItem );
             }
-            {{/items.isDateTime}}{{/items.isString}}{{/items.isPrimitiveType}}
+            {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
         }
         {{^required}} 
         }
         {{/required}}
     }
-    {{/isListContainer}}{{^isListContainer}}{{^required}}if(multipart->hasContent(U("{{baseName}}")))
+    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(multipart->hasContent(U("{{baseName}}")))
     {
         {{#isString}}{{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(U("{{baseName}}"))));
         {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(ModelBase::dateFromHttpContent(multipart->getContent(U("{{baseName}}"))));
@@ -218,21 +218,21 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {{/vendorExtensions.x-codegen-file}}{{^vendorExtensions.x-codegen-file}}{{{datatype}}} new{{name}}({{{defaultValue}}});
     new{{name}}->fromMultiPart(multipart, U("{{baseName}}."));
     {{setter}}( new{{name}} );
-    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{/vars}}
+    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
 }
     
    
 {{#vars}}{{^isNotContainer}}{{{datatype}}}& {{classname}}::{{getter}}()
 {
-	return m_{{name}};
+    return m_{{name}};
 }
 {{/isNotContainer}}{{#isNotContainer}}{{{datatype}}} {{classname}}::{{getter}}() const
 {
-	return m_{{name}};
+    return m_{{name}};
 }
 void {{classname}}::{{setter}}({{{datatype}}} value)
 {
-	m_{{name}} = value;
+    m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
 {{/isNotContainer}} 

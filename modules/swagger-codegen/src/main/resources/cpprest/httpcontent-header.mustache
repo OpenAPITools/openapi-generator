@@ -40,9 +40,9 @@ public:
     virtual void setData( std::shared_ptr<std::istream> value );
     
     virtual void writeTo( std::ostream& stream );
-       
+
 protected:
-	// NOTE: no utility::string_t here because those strings can only contain ascii
+    // NOTE: no utility::string_t here because those strings can only contain ascii
     utility::string_t m_ContentDisposition;
     utility::string_t m_Name;
     utility::string_t m_FileName;
