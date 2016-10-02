@@ -48,7 +48,7 @@ namespace IO.Swagger.Controllers
         /// <param name="body">Pet object that needs to be added to the store</param>
         /// <response code="405">Invalid input</response>
         [HttpPost]
-        [Route("/pet")]
+        [Route("/v2/pet")]
         [SwaggerOperation("AddPet")]
         public virtual void AddPet([FromBody]Pet body)
         { 
@@ -64,7 +64,7 @@ namespace IO.Swagger.Controllers
         /// <param name="apiKey"></param>
         /// <response code="400">Invalid pet value</response>
         [HttpDelete]
-        [Route("/pet/{petId}")]
+        [Route("/v2/pet/{petId}")]
         [SwaggerOperation("DeletePet")]
         public virtual void DeletePet([FromRoute]long? petId, [FromHeader]string apiKey)
         { 
@@ -80,7 +80,7 @@ namespace IO.Swagger.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid status value</response>
         [HttpGet]
-        [Route("/pet/findByStatus")]
+        [Route("/v2/pet/findByStatus")]
         [SwaggerOperation("FindPetsByStatus")]
         [SwaggerResponse(200, type: typeof(List<Pet>))]
         public virtual IActionResult FindPetsByStatus([FromQuery]List<string> status)
@@ -102,7 +102,7 @@ namespace IO.Swagger.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid tag value</response>
         [HttpGet]
-        [Route("/pet/findByTags")]
+        [Route("/v2/pet/findByTags")]
         [SwaggerOperation("FindPetsByTags")]
         [SwaggerResponse(200, type: typeof(List<Pet>))]
         public virtual IActionResult FindPetsByTags([FromQuery]List<string> tags)
@@ -125,7 +125,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Pet not found</response>
         [HttpGet]
-        [Route("/pet/{petId}")]
+        [Route("/v2/pet/{petId}")]
         [SwaggerOperation("GetPetById")]
         [SwaggerResponse(200, type: typeof(Pet))]
         public virtual IActionResult GetPetById([FromRoute]long? petId)
@@ -148,7 +148,7 @@ namespace IO.Swagger.Controllers
         /// <response code="404">Pet not found</response>
         /// <response code="405">Validation exception</response>
         [HttpPut]
-        [Route("/pet")]
+        [Route("/v2/pet")]
         [SwaggerOperation("UpdatePet")]
         public virtual void UpdatePet([FromBody]Pet body)
         { 
@@ -165,7 +165,7 @@ namespace IO.Swagger.Controllers
         /// <param name="status">Updated status of the pet</param>
         /// <response code="405">Invalid input</response>
         [HttpPost]
-        [Route("/pet/{petId}")]
+        [Route("/v2/pet/{petId}")]
         [SwaggerOperation("UpdatePetWithForm")]
         public virtual void UpdatePetWithForm([FromRoute]long? petId, [FromForm]string name, [FromForm]string status)
         { 
@@ -182,7 +182,7 @@ namespace IO.Swagger.Controllers
         /// <param name="file">file to upload</param>
         /// <response code="200">successful operation</response>
         [HttpPost]
-        [Route("/pet/{petId}/uploadImage")]
+        [Route("/v2/pet/{petId}/uploadImage")]
         [SwaggerOperation("UploadFile")]
         [SwaggerResponse(200, type: typeof(ApiResponse))]
         public virtual IActionResult UploadFile([FromRoute]long? petId, [FromForm]string additionalMetadata, [FromForm]System.IO.Stream file)

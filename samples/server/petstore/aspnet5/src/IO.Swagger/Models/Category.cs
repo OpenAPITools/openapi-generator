@@ -33,7 +33,7 @@ using Newtonsoft.Json;
 namespace IO.Swagger.Models
 {
     /// <summary>
-    /// 
+    /// A category for a pet
     /// </summary>
     [DataContract]
     public partial class Category :  IEquatable<Category>

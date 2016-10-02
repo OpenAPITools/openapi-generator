@@ -49,7 +49,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Order not found</response>
         [HttpDelete]
-        [Route("/store/order/{orderId}")]
+        [Route("/v2/store/order/{orderId}")]
         [SwaggerOperation("DeleteOrder")]
         public virtual void DeleteOrder([FromRoute]string orderId)
         { 
@@ -63,7 +63,7 @@ namespace IO.Swagger.Controllers
         /// <remarks>Returns a map of status codes to quantities</remarks>
         /// <response code="200">successful operation</response>
         [HttpGet]
-        [Route("/store/inventory")]
+        [Route("/v2/store/inventory")]
         [SwaggerOperation("GetInventory")]
         [SwaggerResponse(200, type: typeof(Dictionary<string, int?>))]
         public virtual IActionResult GetInventory()
@@ -86,7 +86,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Order not found</response>
         [HttpGet]
-        [Route("/store/order/{orderId}")]
+        [Route("/v2/store/order/{orderId}")]
         [SwaggerOperation("GetOrderById")]
         [SwaggerResponse(200, type: typeof(Order))]
         public virtual IActionResult GetOrderById([FromRoute]long? orderId)
@@ -108,7 +108,7 @@ namespace IO.Swagger.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid Order</response>
         [HttpPost]
-        [Route("/store/order")]
+        [Route("/v2/store/order")]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(200, type: typeof(Order))]
         public virtual IActionResult PlaceOrder([FromBody]Order body)
