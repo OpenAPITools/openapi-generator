@@ -37,7 +37,7 @@ paths:
       - "pet"
       summary: "Add a new pet to the store"
       description: ""
-      operationId: "controllers.default_controller.add_pet"
+      operationId: "controllers.pet_controller.add_pet"
       consumes:
       - "application/json"
       - "application/xml"
@@ -65,7 +65,7 @@ paths:
       - "pet"
       summary: "Update an existing pet"
       description: ""
-      operationId: "controllers.default_controller.update_pet"
+      operationId: "controllers.pet_controller.update_pet"
       consumes:
       - "application/json"
       - "application/xml"
@@ -98,7 +98,7 @@ paths:
       - "pet"
       summary: "Finds Pets by status"
       description: "Multiple status values can be provided with comma separated strings"
-      operationId: "controllers.default_controller.find_pets_by_status"
+      operationId: "controllers.pet_controller.find_pets_by_status"
       produces:
       - "application/xml"
       - "application/json"
@@ -138,7 +138,7 @@ paths:
       summary: "Finds Pets by tags"
       description: "Multiple tags can be provided with comma separated strings. Use\
         \ tag1, tag2, tag3 for testing."
-      operationId: "controllers.default_controller.find_pets_by_tags"
+      operationId: "controllers.pet_controller.find_pets_by_tags"
       produces:
       - "application/xml"
       - "application/json"
@@ -172,7 +172,7 @@ paths:
       - "pet"
       summary: "Find pet by ID"
       description: "Returns a single pet"
-      operationId: "controllers.default_controller.get_pet_by_id"
+      operationId: "controllers.pet_controller.get_pet_by_id"
       produces:
       - "application/xml"
       - "application/json"
@@ -201,7 +201,7 @@ paths:
       - "pet"
       summary: "Updates a pet in the store with form data"
       description: ""
-      operationId: "controllers.default_controller.update_pet_with_form"
+      operationId: "controllers.pet_controller.update_pet_with_form"
       consumes:
       - "application/x-www-form-urlencoded"
       produces:
@@ -238,7 +238,7 @@ paths:
       - "pet"
       summary: "Deletes a pet"
       description: ""
-      operationId: "controllers.default_controller.delete_pet"
+      operationId: "controllers.pet_controller.delete_pet"
       produces:
       - "application/xml"
       - "application/json"
@@ -268,7 +268,7 @@ paths:
       - "pet"
       summary: "uploads an image"
       description: ""
-      operationId: "controllers.default_controller.upload_file"
+      operationId: "controllers.pet_controller.upload_file"
       consumes:
       - "multipart/form-data"
       produces:
@@ -307,7 +307,7 @@ paths:
       - "store"
       summary: "Returns pet inventories by status"
       description: "Returns a map of status codes to quantities"
-      operationId: "controllers.default_controller.get_inventory"
+      operationId: "controllers.store_controller.get_inventory"
       produces:
       - "application/json"
       parameters: []
@@ -329,7 +329,7 @@ paths:
       - "store"
       summary: "Place an order for a pet"
       description: ""
-      operationId: "controllers.default_controller.place_order"
+      operationId: "controllers.store_controller.place_order"
       produces:
       - "application/xml"
       - "application/json"
@@ -356,7 +356,7 @@ paths:
       summary: "Find purchase order by ID"
       description: "For valid response try integer IDs with value <= 5 or > 10. Other\
         \ values will generated exceptions"
-      operationId: "controllers.default_controller.get_order_by_id"
+      operationId: "controllers.store_controller.get_order_by_id"
       produces:
       - "application/xml"
       - "application/json"
@@ -386,7 +386,7 @@ paths:
       summary: "Delete purchase order by ID"
       description: "For valid response try integer IDs with value < 1000. Anything\
         \ above 1000 or nonintegers will generate API errors"
-      operationId: "controllers.default_controller.delete_order"
+      operationId: "controllers.store_controller.delete_order"
       produces:
       - "application/xml"
       - "application/json"
@@ -410,7 +410,7 @@ paths:
       - "user"
       summary: "Create user"
       description: "This can only be done by the logged in user."
-      operationId: "controllers.default_controller.create_user"
+      operationId: "controllers.user_controller.create_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -432,7 +432,7 @@ paths:
       - "user"
       summary: "Creates list of users with given input array"
       description: ""
-      operationId: "controllers.default_controller.create_users_with_array_input"
+      operationId: "controllers.user_controller.create_users_with_array_input"
       produces:
       - "application/xml"
       - "application/json"
@@ -456,7 +456,7 @@ paths:
       - "user"
       summary: "Creates list of users with given input array"
       description: ""
-      operationId: "controllers.default_controller.create_users_with_list_input"
+      operationId: "controllers.user_controller.create_users_with_list_input"
       produces:
       - "application/xml"
       - "application/json"
@@ -480,7 +480,7 @@ paths:
       - "user"
       summary: "Logs user into the system"
       description: ""
-      operationId: "controllers.default_controller.login_user"
+      operationId: "controllers.user_controller.login_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -519,7 +519,7 @@ paths:
       - "user"
       summary: "Logs out current logged in user session"
       description: ""
-      operationId: "controllers.default_controller.logout_user"
+      operationId: "controllers.user_controller.logout_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -535,7 +535,7 @@ paths:
       - "user"
       summary: "Get user by user name"
       description: ""
-      operationId: "controllers.default_controller.get_user_by_name"
+      operationId: "controllers.user_controller.get_user_by_name"
       produces:
       - "application/xml"
       - "application/json"
@@ -561,7 +561,7 @@ paths:
       - "user"
       summary: "Updated user"
       description: "This can only be done by the logged in user."
-      operationId: "controllers.default_controller.update_user"
+      operationId: "controllers.user_controller.update_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -589,7 +589,7 @@ paths:
       - "user"
       summary: "Delete user"
       description: "This can only be done by the logged in user."
-      operationId: "controllers.default_controller.delete_user"
+      operationId: "controllers.user_controller.delete_user"
       produces:
       - "application/xml"
       - "application/json"

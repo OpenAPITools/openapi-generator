@@ -47,7 +47,7 @@ use \ArrayAccess;
  * FormatTest Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -65,7 +65,7 @@ class FormatTest implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'integer' => 'int',
         'int32' => 'int',
         'int64' => 'int',
@@ -79,7 +79,7 @@ class FormatTest implements ArrayAccess
         'date_time' => '\DateTime',
         'uuid' => 'string',
         'password' => 'string'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -90,7 +90,7 @@ class FormatTest implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'integer' => 'integer',
         'int32' => 'int32',
         'int64' => 'int64',
@@ -104,18 +104,14 @@ class FormatTest implements ArrayAccess
         'date_time' => 'dateTime',
         'uuid' => 'uuid',
         'password' => 'password'
-    );
+    ];
 
-    public static function attributeMap()
-    {
-        return self::$attributeMap;
-    }
 
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
      */
-    protected static $setters = array(
+    protected static $setters = [
         'integer' => 'setInteger',
         'int32' => 'setInt32',
         'int64' => 'setInt64',
@@ -129,18 +125,14 @@ class FormatTest implements ArrayAccess
         'date_time' => 'setDateTime',
         'uuid' => 'setUuid',
         'password' => 'setPassword'
-    );
+    ];
 
-    public static function setters()
-    {
-        return self::$setters;
-    }
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
      * @var string[]
      */
-    protected static $getters = array(
+    protected static $getters = [
         'integer' => 'getInteger',
         'int32' => 'getInt32',
         'int64' => 'getInt64',
@@ -154,7 +146,17 @@ class FormatTest implements ArrayAccess
         'date_time' => 'getDateTime',
         'uuid' => 'getUuid',
         'password' => 'getPassword'
-    );
+    ];
+
+    public static function attributeMap()
+    {
+        return self::$attributeMap;
+    }
+
+    public static function setters()
+    {
+        return self::$setters;
+    }
 
     public static function getters()
     {
@@ -169,7 +171,7 @@ class FormatTest implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -199,7 +201,7 @@ class FormatTest implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         if (!is_null($this->container['integer']) && ($this->container['integer'] > 100.0)) {
             $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.0.";
         }
@@ -712,5 +714,3 @@ class FormatTest implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

@@ -7,13 +7,10 @@
     "swagger-client"
   ],
   "license": "Apache-2.0",
-  "files": [
-    "lib"
-  ],
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "typings install && tsc",
+    "build": "typings install && tsc --outDir dist/",
     "postinstall": "npm run build"
   },
   "peerDependencies": {

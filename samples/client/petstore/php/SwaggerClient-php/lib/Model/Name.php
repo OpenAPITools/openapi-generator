@@ -48,7 +48,7 @@ use \ArrayAccess;
  *
  * @category    Class */
  // @description Model for testing model name same as property name
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -66,12 +66,12 @@ class Name implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'name' => 'int',
         'snake_case' => 'int',
         'property' => 'string',
         '_123_number' => 'int'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -82,44 +82,46 @@ class Name implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'name' => 'name',
         'snake_case' => 'snake_case',
         'property' => 'property',
         '_123_number' => '123Number'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'name' => 'setName',
+        'snake_case' => 'setSnakeCase',
+        'property' => 'setProperty',
+        '_123_number' => 'set123Number'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'name' => 'getName',
+        'snake_case' => 'getSnakeCase',
+        'property' => 'getProperty',
+        '_123_number' => 'get123Number'
+    ];
 
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'name' => 'setName',
-        'snake_case' => 'setSnakeCase',
-        'property' => 'setProperty',
-        '_123_number' => 'set123Number'
-    );
-
     public static function setters()
     {
         return self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'name' => 'getName',
-        'snake_case' => 'getSnakeCase',
-        'property' => 'getProperty',
-        '_123_number' => 'get123Number'
-    );
 
     public static function getters()
     {
@@ -134,7 +136,7 @@ class Name implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -155,7 +157,7 @@ class Name implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
@@ -318,5 +320,3 @@ class Name implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

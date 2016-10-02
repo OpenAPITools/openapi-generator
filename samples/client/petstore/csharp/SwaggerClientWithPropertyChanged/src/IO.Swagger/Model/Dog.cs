@@ -24,6 +24,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,6 +33,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PropertyChanged;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace IO.Swagger.Model
 {
@@ -40,7 +42,7 @@ namespace IO.Swagger.Model
     /// </summary>
     [DataContract]
     [ImplementPropertyChanged]
-    public partial class Dog : Animal,  IEquatable<Dog>
+    public partial class Dog : Animal,  IEquatable<Dog>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
@@ -175,7 +177,9 @@ namespace IO.Swagger.Model
                 return hash;
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public virtual void OnPropertyChanged(string propertyName)
         {
             // NOTE: property changed is handled via "code weaving" using Fody.
@@ -185,6 +189,11 @@ namespace IO.Swagger.Model
             {
                 propertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        { 
+            yield break;
         }
     }
 

@@ -40,9 +40,9 @@
 
 namespace Swagger\Client\Api;
 
-use \Swagger\Client\Configuration;
 use \Swagger\Client\ApiClient;
 use \Swagger\Client\ApiException;
+use \Swagger\Client\Configuration;
 use \Swagger\Client\ObjectSerializer;
 
 /**
@@ -56,7 +56,6 @@ use \Swagger\Client\ObjectSerializer;
  */
 class FakeApi
 {
-
     /**
      * API Client
      *
@@ -71,7 +70,7 @@ class FakeApi
      */
     public function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
-        if ($apiClient == null) {
+        if ($apiClient === null) {
             $apiClient = new ApiClient();
             $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
         }
@@ -108,8 +107,8 @@ class FakeApi
      * To test \"client\" model
      *
      * @param \Swagger\Client\Model\Client $body client model (required)
-     * @return \Swagger\Client\Model\Client
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\Client
      */
     public function testClientModel($body)
     {
@@ -123,8 +122,8 @@ class FakeApi
      * To test \"client\" model
      *
      * @param \Swagger\Client\Model\Client $body client model (required)
-     * @return array of \Swagger\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
     public function testClientModelWithHttpInfo($body)
     {
@@ -135,14 +134,14 @@ class FakeApi
         // parse inputs
         $resourcePath = "/fake";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -171,7 +170,7 @@ class FakeApi
                 '/fake'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Client', $httpHeader), $statusCode, $httpHeader);
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Client', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -202,8 +201,8 @@ class FakeApi
      * @param \DateTime $date None (optional)
      * @param \DateTime $date_time None (optional)
      * @param string $password None (optional)
-     * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return void
      */
     public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null)
     {
@@ -229,8 +228,8 @@ class FakeApi
      * @param \DateTime $date None (optional)
      * @param \DateTime $date_time None (optional)
      * @param string $password None (optional)
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null)
     {
@@ -300,14 +299,14 @@ class FakeApi
         // parse inputs
         $resourcePath = "/fake";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml; charset=utf-8', 'application/json; charset=utf-8'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml; charset=utf-8', 'application/json; charset=utf-8']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/xml; charset=utf-8','application/json; charset=utf-8'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/xml; charset=utf-8', 'application/json; charset=utf-8']);
 
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -387,7 +386,7 @@ class FakeApi
                 '/fake'
             );
 
-            return array(null, $statusCode, $httpHeader);
+            return [null, $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
@@ -409,8 +408,8 @@ class FakeApi
      * @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
      * @param float $enum_query_integer Query parameter enum test (double) (optional)
      * @param double $enum_query_double Query parameter enum test (double) (optional)
-     * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return void
      */
     public function testEnumParameters($enum_form_string_array = null, $enum_form_string = null, $enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null)
     {
@@ -431,22 +430,22 @@ class FakeApi
      * @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
      * @param float $enum_query_integer Query parameter enum test (double) (optional)
      * @param double $enum_query_double Query parameter enum test (double) (optional)
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEnumParametersWithHttpInfo($enum_form_string_array = null, $enum_form_string = null, $enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null)
     {
         // parse inputs
         $resourcePath = "/fake";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
         // query params
         if (is_array($enum_query_string_array)) {
@@ -508,7 +507,7 @@ class FakeApi
                 '/fake'
             );
 
-            return array(null, $statusCode, $httpHeader);
+            return [null, $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
@@ -516,5 +515,4 @@ class FakeApi
             throw $e;
         }
     }
-
 }

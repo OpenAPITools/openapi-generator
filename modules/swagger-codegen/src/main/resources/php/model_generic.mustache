@@ -10,10 +10,10 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -24,38 +24,40 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        {{#vars}}'{{name}}' => '{{setter}}'{{#hasMore}},
+        {{/hasMore}}{{/vars}}
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        {{#vars}}'{{name}}' => '{{getter}}'{{#hasMore}},
+        {{/hasMore}}{{/vars}}
+    ];
 
     public static function attributeMap()
     {
         return {{#parentSchema}}parent::attributeMap() + {{/parentSchema}}self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        {{#vars}}'{{name}}' => '{{setter}}'{{#hasMore}},
-        {{/hasMore}}{{/vars}}
-    );
-
     public static function setters()
     {
         return {{#parentSchema}}parent::setters() + {{/parentSchema}}self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        {{#vars}}'{{name}}' => '{{getter}}'{{#hasMore}},
-        {{/hasMore}}{{/vars}}
-    );
 
     public static function getters()
     {
@@ -83,7 +85,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -113,7 +115,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         {{#vars}}
         {{#required}}
         if ($this->container['{{name}}'] === null) {
@@ -122,7 +124,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/required}}
         {{#isEnum}}
         {{^isContainer}}
-        $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        $allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}];
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
             $invalid_properties[] = "invalid value for '{{name}}', must be one of #{allowed_values}.";
         }
@@ -193,7 +195,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/required}}
         {{#isEnum}}
         {{^isContainer}}
-        $allowed_values = array({{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        $allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}];
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
             return false;
         }

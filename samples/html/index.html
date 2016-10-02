@@ -343,18 +343,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -416,18 +416,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -489,18 +489,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -665,9 +665,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "message" : "aeiou",
   "code" : 123,
-  "type" : "aeiou",
-  "message" : "aeiou"
+  "type" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -803,12 +803,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "petId" : 123456789,
-  "quantity" : 123,
   "id" : 123456789,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 123456789,
   "complete" : true,
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "quantity" : 123,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -871,12 +871,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "petId" : 123456789,
-  "quantity" : 123,
   "id" : 123456789,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 123456789,
   "complete" : true,
-  "status" : "aeiou"
+  "status" : "aeiou",
+  "quantity" : 123,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1089,14 +1089,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1265,7 +1265,8 @@ font-style: italic;
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="ApiResponse">ApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="ApiResponse">ApiResponse - An uploaded response</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Describes the result of uploading an image resource</div>
     <div class="field-items">
       <div class="param">code (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
@@ -1273,14 +1274,16 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Category">Category</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="Category">Category - Pet catehgry</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A category for a pet</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Order">Order</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="Order">Order - Pet Order</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An order for a pets from the pet store</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">petId (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
@@ -1293,7 +1296,8 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Pet">Pet</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="Pet">Pet - a Pet</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A pet for sale in the pet store</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">category (optional)</div><div class="param-desc"><span class="param-type"><a href="#Category">Category</a></span>  </div>
@@ -1306,14 +1310,16 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Tag">Tag</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="Tag">Tag - Pet Tag</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A tag for a pet</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="User">User</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="User">User - a User</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A User who is purchasing from the pet store</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
 <div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>

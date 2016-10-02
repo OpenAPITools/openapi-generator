@@ -24,6 +24,7 @@ package petstore
 
 import (
 	"net/url"
+	"strings"
 	"time"
 	"encoding/json"
 )
@@ -56,7 +57,7 @@ func NewFakeApiWithBasePath(basePath string) *FakeApi {
  */
 func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 
-	var localVarHttpMethod = "Patch"
+	var localVarHttpMethod = strings.ToUpper("Patch")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/fake"
 
@@ -71,7 +72,6 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
-
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/json",  }
 
@@ -83,7 +83,7 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-	}
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
@@ -92,14 +92,22 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 	}
 	// body params
 	localVarPostBody = &body
-
 	var successPayload = new(Client)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "TestClientModel", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
 	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -123,7 +131,7 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
  */
 func (a FakeApi) TestEndpointParameters(number float32, double float64, patternWithoutDelimiter string, byte_ string, integer int32, int32_ int32, int64_ int64, float float32, string_ string, binary string, date time.Time, dateTime time.Time, password string) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/fake"
 
@@ -143,7 +151,6 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
-
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/xml; charset=utf-8", "application/json; charset=utf-8",  }
 
@@ -155,8 +162,8 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml; charset=utf-8",
-"application/json; charset=utf-8",
-	}
+		"application/json; charset=utf-8",
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
@@ -176,14 +183,20 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	localVarFormParams["date"] = a.Configuration.APIClient.ParameterToString(date, "")
 	localVarFormParams["dateTime"] = a.Configuration.APIClient.ParameterToString(dateTime, "")
 	localVarFormParams["password"] = a.Configuration.APIClient.ParameterToString(password, "")
-
-
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "TestEndpointParameters", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+	if err != nil {
+		return localVarAPIResponse, err
+	}
+	return localVarAPIResponse, err
 }
 
 /**
@@ -201,7 +214,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
  */
 func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString string, enumHeaderStringArray []string, enumHeaderString string, enumQueryStringArray []string, enumQueryString string, enumQueryInteger float32, enumQueryDouble float64) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/fake"
 
@@ -223,9 +236,8 @@ func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString
 	} else {
 		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(enumQueryStringArray, collectionFormat))
 	}
-			localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(enumQueryString, ""))
-			localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(enumQueryInteger, ""))
-	
+		localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(enumQueryString, ""))
+		localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(enumQueryInteger, ""))
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/json",  }
@@ -238,29 +250,33 @@ func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-	}
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-
 	// header params "enum_header_string_array"
 	localVarHeaderParams["enum_header_string_array"] = a.Configuration.APIClient.ParameterToString(enumHeaderStringArray, "")
 	// header params "enum_header_string"
 	localVarHeaderParams["enum_header_string"] = a.Configuration.APIClient.ParameterToString(enumHeaderString, "")
-
 	localVarFormParams["enumFormStringArray"] = a.Configuration.APIClient.ParameterToString(enumFormStringArray, "")
 	localVarFormParams["enumFormString"] = a.Configuration.APIClient.ParameterToString(enumFormString, "")
 	localVarFormParams["enumQueryDouble"] = a.Configuration.APIClient.ParameterToString(enumQueryDouble, "")
-
-
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "TestEnumParameters", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+	if err != nil {
+		return localVarAPIResponse, err
+	}
+	return localVarAPIResponse, err
 }
 

@@ -187,6 +187,7 @@ class FakeApi(object):
         :param date date: None
         :param datetime date_time: None
         :param str password: None
+        :param str param_callback: None
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -226,12 +227,13 @@ class FakeApi(object):
         :param date date: None
         :param datetime date_time: None
         :param str password: None
+        :param str param_callback: None
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password']
+        all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
 
@@ -321,6 +323,8 @@ class FakeApi(object):
             form_params.append(('dateTime', params['date_time']))
         if 'password' in params:
             form_params.append(('password', params['password']))
+        if 'param_callback' in params:
+            form_params.append(('callback', params['param_callback']))
 
         body_params = None
 

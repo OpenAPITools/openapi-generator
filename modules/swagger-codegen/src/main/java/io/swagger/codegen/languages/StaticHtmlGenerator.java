@@ -99,4 +99,17 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         }
         return objs;
     }
+
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // just return the original string
+        return input;
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // just return the original string
+        return input;
+    }
 }
