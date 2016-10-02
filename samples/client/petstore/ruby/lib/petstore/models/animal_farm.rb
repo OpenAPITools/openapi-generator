@@ -129,7 +129,7 @@ module Petstore
       when /\AArray<(?<inner_type>.+)>\z/
         inner_type = Regexp.last_match[:inner_type]
         value.map { |v| _deserialize(inner_type, v) }
-      when /\AHash<(?<k_type>.+), (?<v_type>.+)>\z/
+      when /\AHash<(?<k_type>.+?), (?<v_type>.+)>\z/
         k_type = Regexp.last_match[:k_type]
         v_type = Regexp.last_match[:v_type]
         {}.tap do |hash|
