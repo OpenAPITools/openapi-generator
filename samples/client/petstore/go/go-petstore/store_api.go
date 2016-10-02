@@ -24,9 +24,9 @@ package petstore
 
 import (
 	"net/url"
+	"strings"
 	"encoding/json"
 	"fmt"
-	"strings"
 )
 
 type StoreApi struct {
@@ -58,7 +58,7 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi {
  */
 func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 
-	var localVarHttpMethod = "Delete"
+	var localVarHttpMethod = strings.ToUpper("Delete")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/store/order/{orderId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
@@ -74,7 +74,6 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
-
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -86,22 +85,28 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-"application/json",
-	}
+		"application/json",
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-
-
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return NewAPIResponse(localVarHttpResponse.RawResponse), err
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "DeleteOrder", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
 	}
 
-	return NewAPIResponse(localVarHttpResponse.RawResponse), err
+	if err != nil {
+		return localVarAPIResponse, err
+	}
+	return localVarAPIResponse, err
 }
 
 /**
@@ -112,7 +117,7 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
  */
 func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/store/inventory"
 
@@ -130,7 +135,6 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
-
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -142,21 +146,29 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-	}
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-
 	var successPayload = new(map[string]int32)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "GetInventory", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
 	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -168,7 +180,7 @@ func (a StoreApi) GetInventory() (*map[string]int32, *APIResponse, error) {
  */
 func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 
-	var localVarHttpMethod = "Get"
+	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/store/order/{orderId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
@@ -184,7 +196,6 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
-
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -196,22 +207,30 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-"application/json",
-	}
+		"application/json",
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-
 	var successPayload = new(Order)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "GetOrderById", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
 	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 
 /**
@@ -223,7 +242,7 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
  */
 func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 
-	var localVarHttpMethod = "Post"
+	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "/store/order"
 
@@ -238,7 +257,6 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 
-
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -250,8 +268,8 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/xml",
-"application/json",
-	}
+		"application/json",
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
@@ -260,13 +278,21 @@ func (a StoreApi) PlaceOrder(body Order) (*Order, *APIResponse, error) {
 	}
 	// body params
 	localVarPostBody = &body
-
 	var successPayload = new(Order)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "PlaceOrder", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
 	if err != nil {
-		return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+		return successPayload, localVarAPIResponse, err
 	}
 	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, NewAPIResponse(localVarHttpResponse.RawResponse), err
+	return successPayload, localVarAPIResponse, err
 }
 

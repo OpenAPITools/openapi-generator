@@ -48,7 +48,7 @@ use \ArrayAccess;
  *
  * @category    Class */
  // @description Model for testing model name starting with number
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -66,10 +66,10 @@ class Model200Response implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'name' => 'int',
         'class' => 'string'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -80,38 +80,40 @@ class Model200Response implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'name' => 'name',
         'class' => 'class'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'name' => 'setName',
+        'class' => 'setClass'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'name' => 'getName',
+        'class' => 'getClass'
+    ];
 
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'name' => 'setName',
-        'class' => 'setClass'
-    );
-
     public static function setters()
     {
         return self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'name' => 'getName',
-        'class' => 'getClass'
-    );
 
     public static function getters()
     {
@@ -126,7 +128,7 @@ class Model200Response implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -145,7 +147,7 @@ class Model200Response implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         return $invalid_properties;
     }
 
@@ -260,5 +262,3 @@ class Model200Response implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

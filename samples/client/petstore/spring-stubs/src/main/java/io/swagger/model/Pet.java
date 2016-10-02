@@ -11,12 +11,10 @@ import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
- * Pet
+ * A pet for sale in the pet store
  */
+@ApiModel(description = "A pet for sale in the pet store")
 
 public class Pet   {
   @JsonProperty("id")

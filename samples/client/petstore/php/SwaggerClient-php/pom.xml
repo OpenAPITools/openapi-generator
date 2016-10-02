@@ -47,9 +47,6 @@
                         </goals>
                         <configuration>
                             <executable>vendor/bin/phpunit</executable>
-                            <arguments>
-                                <argument>test</argument>
-                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

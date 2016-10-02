@@ -4,6 +4,7 @@ package {{packageName}}
 {{#operations}}
 import (
 	"net/url"
+	"strings"
 {{#imports}}	"{{import}}"
 {{/imports}}
 )
@@ -38,7 +39,7 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}} {
  */
 func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) ({{#returnType}}{{^isListContainer}}*{{/isListContainer}}{{{returnType}}}, {{/returnType}}*APIResponse, error) {
 
-	var localVarHttpMethod = "{{httpMethod}}"
+	var localVarHttpMethod = strings.ToUpper("{{httpMethod}}")
 	// create path and map variables
 	localVarPath := a.Configuration.BasePath + "{{path}}"{{#pathParams}}
 	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", fmt.Sprintf("%v", {{paramName}}), -1){{/pathParams}}
@@ -93,7 +94,8 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	{{^isListContainer}}
 		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
 	{{/isListContainer}}
-	{{/queryParams}}{{/hasQueryParams}}
+	{{/queryParams}}
+	{{/hasQueryParams}}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ {{#consumes}}"{{{mediaType}}}", {{/consumes}} }
@@ -105,18 +107,22 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	}
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
-		{{#produces}}"{{{mediaType}}}",
-{{/produces}}	}
+		{{#produces}}
+		"{{{mediaType}}}",
+		{{/produces}}
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}{{#hasHeaderParams}}
-
-{{#headerParams}}	// header params "{{baseName}}"
+	}
+{{#hasHeaderParams}}
+{{#headerParams}}
+	// header params "{{baseName}}"
 	localVarHeaderParams["{{baseName}}"] = a.Configuration.APIClient.ParameterToString({{paramName}}, "")
-{{/headerParams}}{{/hasHeaderParams}}
+{{/headerParams}}
+{{/hasHeaderParams}}
 {{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
@@ -132,14 +138,27 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 {{#hasBodyParam}}
 {{#bodyParams}}	// body params
 	localVarPostBody = &{{paramName}}
-{{/bodyParams}}{{/hasBodyParam}}
-{{#returnType}}	var successPayload = new({{returnType}}){{/returnType}}
+{{/bodyParams}}
+{{/hasBodyParam}}
+{{#returnType}}
+	var successPayload = new({{returnType}})
+{{/returnType}}
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+
+	var localVarURL, _ = url.Parse(localVarPath)
+	localVarURL.RawQuery = localVarQueryParams.Encode()
+	var localVarAPIResponse = &APIResponse{Operation: "{{operationId}}", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
+	if localVarHttpResponse != nil {
+		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
+		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	}
+
 	if err != nil {
-		return {{#returnType}}{{#isListContainer}}*{{/isListContainer}}successPayload, {{/returnType}}NewAPIResponse(localVarHttpResponse.RawResponse), err
+		return {{#returnType}}{{#isListContainer}}*{{/isListContainer}}successPayload, {{/returnType}}localVarAPIResponse, err
 	}
 {{#returnType}}
-	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload){{/returnType}}
-	return {{#returnType}}{{#isListContainer}}*{{/isListContainer}}successPayload, {{/returnType}}NewAPIResponse(localVarHttpResponse.RawResponse), err
+	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
+{{/returnType}}
+	return {{#returnType}}{{#isListContainer}}*{{/isListContainer}}successPayload, {{/returnType}}localVarAPIResponse, err
 }
 {{/operation}}{{/operations}}

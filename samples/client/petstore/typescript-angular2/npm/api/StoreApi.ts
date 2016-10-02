@@ -32,6 +32,7 @@ import 'rxjs/add/operator/map';
 
 import * as models                                           from '../model/models';
 import { BASE_PATH }                                         from '../variables';
+import { Configuration }                                     from '../configuration';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
@@ -40,10 +41,14 @@ import { BASE_PATH }                                         from '../variables'
 export class StoreApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
+    public configuration: Configuration = new Configuration();
 
-    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string) {
+    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
         if (basePath) {
             this.basePath = basePath;
+        }
+        if (configuration) {
+            this.configuration = configuration;
         }
     }
 
@@ -136,7 +141,8 @@ export class StoreApi {
             'application/json', 
             'application/xml'
         ];
-
+        
+            
 
 
 
@@ -170,7 +176,13 @@ export class StoreApi {
             'application/json', 
             'application/xml'
         ];
-
+        
+        // authentication (api_key) required
+        if (this.configuration.apiKey)
+        {
+            headers.set('api_key', this.configuration.apiKey);
+        }
+            
 
 
 
@@ -209,7 +221,8 @@ export class StoreApi {
             'application/json', 
             'application/xml'
         ];
-
+        
+            
 
 
 
@@ -244,7 +257,8 @@ export class StoreApi {
             'application/json', 
             'application/xml'
         ];
-
+        
+            
 
         headers.set('Content-Type', 'application/json');
 

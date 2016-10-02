@@ -9,9 +9,6 @@ import java.math.BigDecimal;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-
-
-
 /**
  * FormatTest
  */

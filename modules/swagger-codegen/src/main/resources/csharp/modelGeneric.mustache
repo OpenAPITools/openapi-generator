@@ -5,7 +5,7 @@
     {{#generatePropertyChanged}}
     [ImplementPropertyChanged]
     {{/generatePropertyChanged}}
-    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>, IValidatableObject
     {
         {{#vars}}
         {{#isEnum}}
@@ -172,8 +172,10 @@ this.{{name}} = {{name}};
                 return hash;
             }
         }
-    {{#generatePropertyChanged}}
+
+{{#generatePropertyChanged}}
         public event PropertyChangedEventHandler PropertyChanged;
+
         public virtual void OnPropertyChanged(string propertyName)
         {
             // NOTE: property changed is handled via "code weaving" using Fody.
@@ -184,5 +186,41 @@ this.{{name}} = {{name}};
                 propertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-    {{/generatePropertyChanged}}
+
+{{/generatePropertyChanged}}
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        { {{#vars}}{{#hasValidation}}{{#maxLength}}
+            // {{{name}}} ({{{datatype}}}) maxLength
+            if(this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
+            }
+{{/maxLength}}{{#minLength}}
+            // {{{name}}} ({{{datatype}}}) minLength
+            if(this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
+            }
+{{/minLength}}{{#maximum}}
+            // {{{name}}} ({{{datatype}}}) maximum
+            if(this.{{{name}}} > ({{{datatype}}}){{maximum}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
+            }
+{{/maximum}}{{#minimum}}
+            // {{{name}}} ({{{datatype}}}) minimum
+            if(this.{{{name}}} < ({{{datatype}}}){{minimum}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
+            }
+{{/minimum}}{{#pattern}}
+            // {{{name}}} ({{{datatype}}}) pattern
+            Regex regex{{{name}}} = new Regex(@"{{vendorExtensions.x-regex}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
+            if (false == regex{{{name}}}.Match(this.{{{name}}}).Success)
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, must match a pattern of {{pattern}}.", new [] { "{{{name}}}" });
+            }
+{{/pattern}}{{/hasValidation}}{{/vars}}
+            yield break;
+        }
     }

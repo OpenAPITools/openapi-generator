@@ -6,12 +6,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
-
-
 /**
- * ModelApiResponse
+ * Describes the result of uploading an image resource
  */
+@ApiModel(description = "Describes the result of uploading an image resource")
 
 public class ModelApiResponse   {
   @JsonProperty("code")

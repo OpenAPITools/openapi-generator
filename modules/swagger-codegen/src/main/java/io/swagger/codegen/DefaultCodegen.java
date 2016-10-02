@@ -1205,6 +1205,7 @@ public class DefaultCodegen {
         } else {
             m.name = name;
         }
+        m.title = escapeText(model.getTitle());
         m.description = escapeText(model.getDescription());
         m.unescapedDescription = model.getDescription();
         m.classname = toModelName(name);
@@ -2455,6 +2456,9 @@ public class DefaultCodegen {
             	sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
                 sec.isOAuth = true;
                 sec.flow = oauth2Definition.getFlow();
+                if (sec.flow == null) {
+                    throw new RuntimeException("missing oauth flow in " + sec.name);
+                }
                 switch(sec.flow) {
                     case "accessCode":
                         sec.isCode = true;

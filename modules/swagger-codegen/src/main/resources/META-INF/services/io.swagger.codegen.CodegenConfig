@@ -52,3 +52,5 @@ io.swagger.codegen.languages.HaskellServantCodegen
 io.swagger.codegen.languages.LumenServerCodegen
 io.swagger.codegen.languages.GoServerCodegen
 io.swagger.codegen.languages.ErlangServerCodegen
+io.swagger.codegen.languages.UndertowCodegen
+

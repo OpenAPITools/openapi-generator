@@ -24,12 +24,14 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace IO.Swagger.Model
 {
@@ -37,7 +39,7 @@ namespace IO.Swagger.Model
     /// FormatTest
     /// </summary>
     [DataContract]
-    public partial class FormatTest :  IEquatable<FormatTest>
+    public partial class FormatTest :  IEquatable<FormatTest>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
@@ -337,6 +339,90 @@ namespace IO.Swagger.Model
                     hash = hash * 59 + this.Password.GetHashCode();
                 return hash;
             }
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        { 
+            // Integer (int?) maximum
+            if(this.Integer > (int?)100.0)
+            {
+                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.0.", new [] { "Integer" });
+            }
+
+            // Integer (int?) minimum
+            if(this.Integer < (int?)10.0)
+            {
+                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.0.", new [] { "Integer" });
+            }
+
+            // Int32 (int?) maximum
+            if(this.Int32 > (int?)200.0)
+            {
+                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.0.", new [] { "Int32" });
+            }
+
+            // Int32 (int?) minimum
+            if(this.Int32 < (int?)20.0)
+            {
+                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.0.", new [] { "Int32" });
+            }
+
+            // Number (decimal?) maximum
+            if(this.Number > (decimal?)543.2)
+            {
+                yield return new ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
+            }
+
+            // Number (decimal?) minimum
+            if(this.Number < (decimal?)32.1)
+            {
+                yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
+            }
+
+            // _Float (float?) maximum
+            if(this._Float > (float?)987.6)
+            {
+                yield return new ValidationResult("Invalid value for _Float, must be a value less than or equal to 987.6.", new [] { "_Float" });
+            }
+
+            // _Float (float?) minimum
+            if(this._Float < (float?)54.3)
+            {
+                yield return new ValidationResult("Invalid value for _Float, must be a value greater than or equal to 54.3.", new [] { "_Float" });
+            }
+
+            // _Double (double?) maximum
+            if(this._Double > (double?)123.4)
+            {
+                yield return new ValidationResult("Invalid value for _Double, must be a value less than or equal to 123.4.", new [] { "_Double" });
+            }
+
+            // _Double (double?) minimum
+            if(this._Double < (double?)67.8)
+            {
+                yield return new ValidationResult("Invalid value for _Double, must be a value greater than or equal to 67.8.", new [] { "_Double" });
+            }
+
+            // _String (string) pattern
+            Regex regex_String = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regex_String.Match(this._String).Success)
+            {
+                yield return new ValidationResult("Invalid value for _String, must match a pattern of /[a-z]/i.", new [] { "_String" });
+            }
+
+            // Password (string) maxLength
+            if(this.Password != null && this.Password.Length > 64)
+            {
+                yield return new ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
+            }
+
+            // Password (string) minLength
+            if(this.Password != null && this.Password.Length < 10)
+            {
+                yield return new ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+            }
+
+            yield break;
         }
     }
 

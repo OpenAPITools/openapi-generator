@@ -52,7 +52,6 @@ namespace Swagger\Client;
  */
 class ObjectSerializer
 {
-
     /**
      * Serialize data
      *
@@ -72,7 +71,7 @@ class ObjectSerializer
             }
             return $data;
         } elseif (is_object($data)) {
-            $values = array();
+            $values = [];
             foreach (array_keys($data::swaggerTypes()) as $property) {
                 $getter = $data::getters()[$property];
                 if ($data->$getter() !== null) {
@@ -234,7 +233,7 @@ class ObjectSerializer
             return null;
         } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
             $inner = substr($class, 4, -1);
-            $deserialized = array();
+            $deserialized = [];
             if (strrpos($inner, ",") !== false) {
                 $subClass_array = explode(',', $inner, 2);
                 $subClass = $subClass_array[1];
@@ -243,9 +242,9 @@ class ObjectSerializer
                 }
             }
             return $deserialized;
-        } elseif (strcasecmp(substr($class, -2), '[]') == 0) {
+        } elseif (strcasecmp(substr($class, -2), '[]') === 0) {
             $subClass = substr($class, 0, -2);
-            $values = array();
+            $values = [];
             foreach ($data as $key => $value) {
                 $values[] = self::deserialize($value, $subClass, null, $discriminator);
             }
@@ -265,7 +264,7 @@ class ObjectSerializer
             } else {
                 return null;
             }
-        } elseif (in_array($class, array('DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'))) {
+        } elseif (in_array($class, ['DateTime', 'bool', 'boolean', 'byte', 'double', 'float', 'int', 'integer', 'mixed', 'number', 'object', 'string', 'void'], true)) {
             settype($data, $class);
             return $data;
         } elseif ($class === '\SplFileObject') {
@@ -278,7 +277,6 @@ class ObjectSerializer
             }
             $deserialized = new \SplFileObject($filename, "w");
             $byte_written = $deserialized->fwrite($data);
- 
             if (Configuration::getDefaultConfiguration()->getDebug()) {
                 error_log("[DEBUG] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.".PHP_EOL, 3, Configuration::getDefaultConfiguration()->getDebugFile());
             }

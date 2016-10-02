@@ -65,7 +65,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
         modelTemplateFiles.clear();
 
-        apiTemplateFiles.clear();
+        apiTemplateFiles.put("controller.mustache", ".py");
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -122,7 +122,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public void processOpts() {
         super.processOpts();
-        apiTemplateFiles.clear();
+        //apiTemplateFiles.clear();
 
         if (additionalProperties.containsKey(CONTROLLER_PACKAGE)) {
             this.controllerPackage = additionalProperties.get(CONTROLLER_PACKAGE).toString();
@@ -145,10 +145,10 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if(!new java.io.File(controllerPackage + File.separator + defaultController + ".py").exists()) {
-            supportingFiles.add(new SupportingFile("controller.mustache",
-                            controllerPackage,
-                            defaultController + ".py")
-            );
+            //supportingFiles.add(new SupportingFile("controller.mustache",
+            //                controllerPackage,
+            //                defaultController + ".py")
+            //);
             supportingFiles.add(new SupportingFile("__init__.mustache",
                             controllerPackage,
                             "__init__.py")
@@ -197,15 +197,15 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name == null || name.length() == 0) {
             return "DefaultController";
         }
-        return initialCaps(name);
+        return camelize(name, false) + "Controller";
     }
 
     @Override
     public String toApiFilename(String name) {
-        return toApiName(name);
+        return underscore(toApiName(name));
     }
 
     /**
@@ -228,24 +228,22 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+
     @Override
     public void preprocessSwagger(Swagger swagger) {
-        if(swagger != null && swagger.getPaths() != null) {
+        if (swagger != null && swagger.getPaths() != null) {
             for(String pathname : swagger.getPaths().keySet()) {
                 Path path = swagger.getPath(pathname);
-                if(path.getOperations() != null) {
+                if (path.getOperations() != null) {
                     for(Map.Entry<HttpMethod, Operation> entry : path.getOperationMap().entrySet()) {
                         // Normalize `operationId` and add package/class path in front, e.g.
                         //     controllers.default_controller.add_pet
                         String httpMethod = entry.getKey().name().toLowerCase();
                         Operation operation = entry.getValue();
                         String operationId = getOrGenerateOperationId(operation, pathname, httpMethod);
-                        if(!operationId.contains(".")) {
-                            operationId = underscore(sanitizeName(operationId));
-                            operationId = controllerPackage + "." + defaultController + "." + operationId;
-                        }
-                        operation.setOperationId(operationId);
-                        if(operation.getTags() != null) {
+                        String controllerName;
+
+                        if (operation.getTags() != null) {
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                             for(String tag : operation.getTags()) {
                                 Map<String, String> value = new HashMap<String, String>();
@@ -253,19 +251,32 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                                 value.put("hasMore", "true");
                                 tags.add(value);
                             }
-                            if(tags.size() > 0) {
+                            
+                            if (tags.size() > 0) {
                                 tags.get(tags.size() - 1).remove("hasMore");
                             }
-                            if(operation.getTags().size() > 0) {
+
+                            // use only the first tag
+                            if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
                                 operation.setTags(Arrays.asList(tag));
+                                controllerName = tag + "_controller";
+                            } else {
+                                controllerName = "default_controller";
                             }
+
                             operation.setVendorExtension("x-tags", tags);
                         }
                         else {
+                            // no tag found, use "default_controller" as the default
                             String tag = "default_controller";
                             operation.setTags(Arrays.asList(tag));
+                            controllerName = tag + "_controller";
                         }
+
+                        operationId = underscore(sanitizeName(operationId));
+                        operationId = controllerPackage + "." + controllerName + "." + operationId;
+                        operation.setOperationId(operationId);
                     }
                 }
             }

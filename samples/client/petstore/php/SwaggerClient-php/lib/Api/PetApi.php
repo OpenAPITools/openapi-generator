@@ -40,9 +40,9 @@
 
 namespace Swagger\Client\Api;
 
-use \Swagger\Client\Configuration;
 use \Swagger\Client\ApiClient;
 use \Swagger\Client\ApiException;
+use \Swagger\Client\Configuration;
 use \Swagger\Client\ObjectSerializer;
 
 /**
@@ -56,7 +56,6 @@ use \Swagger\Client\ObjectSerializer;
  */
 class PetApi
 {
-
     /**
      * API Client
      *
@@ -71,7 +70,7 @@ class PetApi
      */
     public function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
-        if ($apiClient == null) {
+        if ($apiClient === null) {
             $apiClient = new ApiClient();
             $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
         }
@@ -108,8 +107,8 @@ class PetApi
      * Add a new pet to the store
      *
      * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-     * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return void
      */
     public function addPet($body)
     {
@@ -123,8 +122,8 @@ class PetApi
      * Add a new pet to the store
      *
      * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function addPetWithHttpInfo($body)
     {
@@ -135,14 +134,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml', 'application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json', 'application/xml']);
 
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -175,7 +174,7 @@ class PetApi
                 '/pet'
             );
 
-            return array(null, $statusCode, $httpHeader);
+            return [null, $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
@@ -191,8 +190,8 @@ class PetApi
      *
      * @param int $pet_id Pet id to delete (required)
      * @param string $api_key  (optional)
-     * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return void
      */
     public function deletePet($pet_id, $api_key = null)
     {
@@ -207,8 +206,8 @@ class PetApi
      *
      * @param int $pet_id Pet id to delete (required)
      * @param string $api_key  (optional)
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function deletePetWithHttpInfo($pet_id, $api_key = null)
     {
@@ -219,14 +218,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml', 'application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
 
         // header params
         if ($api_key !== null) {
@@ -266,7 +265,7 @@ class PetApi
                 '/pet/{petId}'
             );
 
-            return array(null, $statusCode, $httpHeader);
+            return [null, $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
@@ -281,8 +280,8 @@ class PetApi
      * Finds Pets by status
      *
      * @param string[] $status Status values that need to be considered for filter (required)
-     * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\Pet[]
      */
     public function findPetsByStatus($status)
     {
@@ -296,8 +295,8 @@ class PetApi
      * Finds Pets by status
      *
      * @param string[] $status Status values that need to be considered for filter (required)
-     * @return array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      */
     public function findPetsByStatusWithHttpInfo($status)
     {
@@ -308,14 +307,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet/findByStatus";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml', 'application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
 
         // query params
         if (is_array($status)) {
@@ -350,7 +349,7 @@ class PetApi
                 '/pet/findByStatus'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -369,8 +368,8 @@ class PetApi
      * Finds Pets by tags
      *
      * @param string[] $tags Tags to filter by (required)
-     * @return \Swagger\Client\Model\Pet[]
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\Pet[]
      */
     public function findPetsByTags($tags)
     {
@@ -384,8 +383,8 @@ class PetApi
      * Finds Pets by tags
      *
      * @param string[] $tags Tags to filter by (required)
-     * @return array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\Pet[], HTTP status code, HTTP response headers (array of strings)
      */
     public function findPetsByTagsWithHttpInfo($tags)
     {
@@ -396,14 +395,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet/findByTags";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml', 'application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
 
         // query params
         if (is_array($tags)) {
@@ -438,7 +437,7 @@ class PetApi
                 '/pet/findByTags'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader);
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet[]', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -457,8 +456,8 @@ class PetApi
      * Find pet by ID
      *
      * @param int $pet_id ID of pet to return (required)
-     * @return \Swagger\Client\Model\Pet
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\Pet
      */
     public function getPetById($pet_id)
     {
@@ -472,8 +471,8 @@ class PetApi
      * Find pet by ID
      *
      * @param int $pet_id ID of pet to return (required)
-     * @return array of \Swagger\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
      */
     public function getPetByIdWithHttpInfo($pet_id)
     {
@@ -484,14 +483,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml', 'application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array());
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
 
         // path params
         if ($pet_id !== null) {
@@ -528,7 +527,7 @@ class PetApi
                 '/pet/{petId}'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader);
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Pet', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -547,8 +546,8 @@ class PetApi
      * Update an existing pet
      *
      * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-     * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return void
      */
     public function updatePet($body)
     {
@@ -562,8 +561,8 @@ class PetApi
      * Update an existing pet
      *
      * @param \Swagger\Client\Model\Pet $body Pet object that needs to be added to the store (required)
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updatePetWithHttpInfo($body)
     {
@@ -574,14 +573,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml', 'application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','application/xml'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json', 'application/xml']);
 
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -614,7 +613,7 @@ class PetApi
                 '/pet'
             );
 
-            return array(null, $statusCode, $httpHeader);
+            return [null, $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
@@ -631,8 +630,8 @@ class PetApi
      * @param int $pet_id ID of pet that needs to be updated (required)
      * @param string $name Updated name of the pet (optional)
      * @param string $status Updated status of the pet (optional)
-     * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return void
      */
     public function updatePetWithForm($pet_id, $name = null, $status = null)
     {
@@ -648,8 +647,8 @@ class PetApi
      * @param int $pet_id ID of pet that needs to be updated (required)
      * @param string $name Updated name of the pet (optional)
      * @param string $status Updated status of the pet (optional)
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function updatePetWithFormWithHttpInfo($pet_id, $name = null, $status = null)
     {
@@ -660,14 +659,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet/{petId}";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/xml', 'application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/xml', 'application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/x-www-form-urlencoded'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/x-www-form-urlencoded']);
 
         // path params
         if ($pet_id !== null) {
@@ -711,7 +710,7 @@ class PetApi
                 '/pet/{petId}'
             );
 
-            return array(null, $statusCode, $httpHeader);
+            return [null, $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
@@ -728,8 +727,8 @@ class PetApi
      * @param int $pet_id ID of pet to update (required)
      * @param string $additional_metadata Additional data to pass to server (optional)
      * @param \SplFileObject $file file to upload (optional)
-     * @return \Swagger\Client\Model\ApiResponse
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\ApiResponse
      */
     public function uploadFile($pet_id, $additional_metadata = null, $file = null)
     {
@@ -745,8 +744,8 @@ class PetApi
      * @param int $pet_id ID of pet to update (required)
      * @param string $additional_metadata Additional data to pass to server (optional)
      * @param \SplFileObject $file file to upload (optional)
-     * @return array of \Swagger\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function uploadFileWithHttpInfo($pet_id, $additional_metadata = null, $file = null)
     {
@@ -757,14 +756,14 @@ class PetApi
         // parse inputs
         $resourcePath = "/pet/{petId}/uploadImage";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('multipart/form-data'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['multipart/form-data']);
 
         // path params
         if ($pet_id !== null) {
@@ -814,7 +813,7 @@ class PetApi
                 '/pet/{petId}/uploadImage'
             );
 
-            return array($this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\ApiResponse', $httpHeader), $statusCode, $httpHeader);
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\ApiResponse', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -826,5 +825,4 @@ class PetApi
             throw $e;
         }
     }
-
 }

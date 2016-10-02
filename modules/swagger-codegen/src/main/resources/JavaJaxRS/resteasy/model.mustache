@@ -4,14 +4,17 @@ import java.util.Objects;
 import java.util.ArrayList;
 {{#imports}}import {{import}};
 {{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
 
-{{#serializableModel}}import java.io.Serializable;{{/serializableModel}}
 {{#models}}
-{{#model}}{{#description}}
-/**
- * {{description}}
- **/{{/description}}
-{{#isEnum}}{{>enumOuterClass}}{{/isEnum}}
-{{^isEnum}}{{>pojo}}{{/isEnum}}
+{{#model}}
+{{#isEnum}}
+{{>enumOuterClass}}
+{{/isEnum}}
+{{^isEnum}}
+{{>pojo}}
+{{/isEnum}}
 {{/model}}
 {{/models}}

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenOperation;
@@ -11,8 +12,10 @@ import io.swagger.codegen.CliOption;
 import io.swagger.models.Model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.slf4j.Logger;
@@ -37,8 +40,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean supportsUWP = Boolean.FALSE;
     protected boolean generatePropertyChanged = Boolean.FALSE;
-
-
+    protected Map<Character, String> regexModifiers;
     protected final Map<String, String> frameworks;
 
     public CSharpClientCodegen() {
@@ -124,6 +126,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
                 CodegenConstants.PACKAGE_DESCRIPTION_DESC,
                 this.generatePropertyChanged);
+
+        regexModifiers = new HashMap<Character, String>();
+        regexModifiers.put('i', "IgnoreCase");
+        regexModifiers.put('m', "Multiline");
+        regexModifiers.put('s', "Singleline");
+        regexModifiers.put('x', "IgnorePatternWhitespace");
     }
 
     @Override
@@ -348,6 +356,56 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
     	return super.postProcessModels(objMap);
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        super.postProcessParameter(parameter);
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        postProcessPattern(property.pattern, property.vendorExtensions);
+        super.postProcessModelProperty(model, property);
+    }
+
+
+    /*
+    * The swagger pattern spec follows the Perl convention and style of modifiers. .NET
+    * does not support this syntax directly so we need to convert the pattern to a .NET compatible
+    * format and apply modifiers in a compatible way.
+    * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
+    * See https://github.com/swagger-api/swagger-codegen/pull/2794 for Python's initial implementation from which this is copied.
+    */
+    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
+        if(pattern != null) {
+            int i = pattern.lastIndexOf('/');
+
+            //Must follow Perl /pattern/modifiers convention
+            if(pattern.charAt(0) != '/' || i < 2) {
+                throw new IllegalArgumentException("Pattern must follow the Perl "
+                        + "/pattern/modifiers convention. "+pattern+" is not valid.");
+            }
+
+            String regex = pattern.substring(1, i).replace("'", "\'");
+            List<String> modifiers = new ArrayList<String>();
+
+            // perl requires an explicit modifier to be culture specific and .NET is the reverse.
+            modifiers.add("CultureInvariant");
+
+            for(char c : pattern.substring(i).toCharArray()) {
+                if(regexModifiers.containsKey(c)) {
+                    String modifier = regexModifiers.get(c);
+                    modifiers.add(modifier);
+                } else if (c == 'l') {
+                    modifiers.remove("CultureInvariant");
+                }
+            }
+
+            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-modifiers", modifiers);
+        }
     }
 
     public void setTargetFramework(String dotnetFramework) {

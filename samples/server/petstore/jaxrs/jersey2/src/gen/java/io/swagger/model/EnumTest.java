@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,11 +30,23 @@ public class EnumTest   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static EnumStringEnum fromValue(String text) {
+      for (EnumStringEnum b : EnumStringEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("enum_string")
   private EnumStringEnum enumString = null;
 
   /**
@@ -51,11 +64,23 @@ public class EnumTest   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static EnumIntegerEnum fromValue(String text) {
+      for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("enum_integer")
   private EnumIntegerEnum enumInteger = null;
 
   /**
@@ -73,11 +98,23 @@ public class EnumTest   {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static EnumNumberEnum fromValue(String text) {
+      for (EnumNumberEnum b : EnumNumberEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber = null;
 
   public EnumTest enumString(EnumStringEnum enumString) {

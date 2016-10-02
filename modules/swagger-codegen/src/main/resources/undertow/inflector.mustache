@@ -1,0 +1,13 @@
+controllerPackage: {{invokerPackage}}
+modelPackage:  {{modelPackage}}
+swaggerUrl: ./src/main/swagger/swagger.yaml
+modelMappings:
+  # to enable explicit mappings, use this syntax:
+  DefinitionFromSwaggerSpecification: fully.qualified.path.to.Model
+  {{#models}}{{#model}}{{classname}} : {{modelPackage}}.{{classname}}{{/model}}
+  {{/models}}
+
+entityProcessors:
+  - json
+  - xml
+  - yaml

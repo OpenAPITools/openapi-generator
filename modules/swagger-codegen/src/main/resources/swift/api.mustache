@@ -107,7 +107,7 @@ public class {{classname}}: APIBase {
      */
     public class func {{operationId}}WithRequestBuilder({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{path}}"{{#pathParams}}
-        path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", withString: "\({{paramName}}{{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}})", options: .LiteralSearch, range: nil){{/pathParams}}
+        path = path.stringByReplacingOccurrencesOfString("{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", withString: "\({{paramName}}{{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}})", options: .LiteralSearch, range: nil){{/pathParams}}
         let URLString = {{projectName}}API.basePath + path
         {{#bodyParam}}
         let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}

@@ -47,7 +47,7 @@ use \ArrayAccess;
  * Animal Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -65,10 +65,10 @@ class Animal implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'class_name' => 'string',
         'color' => 'string'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -79,38 +79,40 @@ class Animal implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'class_name' => 'className',
         'color' => 'color'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'class_name' => 'setClassName',
+        'color' => 'setColor'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'class_name' => 'getClassName',
+        'color' => 'getColor'
+    ];
 
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'class_name' => 'setClassName',
-        'color' => 'setColor'
-    );
-
     public static function setters()
     {
         return self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'class_name' => 'getClassName',
-        'color' => 'getColor'
-    );
 
     public static function getters()
     {
@@ -125,7 +127,7 @@ class Animal implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -148,7 +150,7 @@ class Animal implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         if ($this->container['class_name'] === null) {
             $invalid_properties[] = "'class_name' can't be null";
         }
@@ -269,5 +271,3 @@ class Animal implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

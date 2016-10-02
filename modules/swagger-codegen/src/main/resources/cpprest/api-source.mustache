@@ -62,10 +62,19 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     {
         responseHttpContentType = U("multipart/form-data");
     }
+    {{#vendorExtensions.x-codegen-response-ishttpcontent}}
+    else
+    {
+        //It's going to be binary, so just use the first one.
+        responseHttpContentType = *responseHttpContentTypes.begin();
+    }
+    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+    {{^vendorExtensions.x-codegen-response-ishttpcontent}}
     else
     {
         throw ApiException(400, U("{{classname}}->{{operationId}} does not produce any supported media type"));
     }    
+    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
     
     headerParams[U("Accept")] = responseHttpContentType;
     
@@ -189,17 +198,17 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     return m_ApiClient->callApi(path, U("{{httpMethod}}"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
     {
-		// 1xx - informational : OK
-		// 2xx - successful	   : OK
-		// 3xx - redirection   : OK 
-		// 4xx - client error  : not OK
-		// 5xx - client error  : not OK
-		if (response.status_code() >= 400)
-		{
-			throw ApiException(response.status_code()
-				, U("error calling {{operationId}}: ") + response.reason_phrase()
-				, std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
-		}
+        // 1xx - informational : OK
+        // 2xx - successful       : OK
+        // 3xx - redirection   : OK 
+        // 4xx - client error  : not OK
+        // 5xx - client error  : not OK
+        if (response.status_code() >= 400)
+        {
+            throw ApiException(response.status_code()
+                , U("error calling {{operationId}}: ") + response.reason_phrase()
+                , std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
+        }
         
         // check response content type
         if(response.headers().has(U("Content-Type")))
@@ -213,6 +222,17 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
             }
         }
         
+        {{#vendorExtensions.x-codegen-response-ishttpcontent}}
+        return response.extract_vector();
+    })
+    .then([=](std::vector<unsigned char> response)
+    {
+        HttpContent result;
+        std::shared_ptr<std::stringstream> stream = std::make_shared<std::stringstream>(std::string(response.begin(), response.end()));
+        result.setData(stream);
+        return result;
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+        {{^vendorExtensions.x-codegen-response-ishttpcontent}}
         return response.extract_string();
     })
     .then([=](utility::string_t response)
@@ -253,12 +273,13 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         // }
         else 
         {
-			throw ApiException(500
-				, U("error calling findPetsByStatus: unsupported response type"));
+            throw ApiException(500
+                , U("error calling findPetsByStatus: unsupported response type"));
         }
         
         return result;
         {{/returnType}}
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
     });            
 }
 {{/operation}}

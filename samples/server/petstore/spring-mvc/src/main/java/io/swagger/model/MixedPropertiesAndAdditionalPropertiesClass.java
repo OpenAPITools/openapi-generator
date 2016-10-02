@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 import org.joda.time.DateTime;
 
-
-
-
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */

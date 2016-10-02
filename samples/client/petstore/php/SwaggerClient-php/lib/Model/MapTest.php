@@ -47,7 +47,7 @@ use \ArrayAccess;
  * MapTest Class Doc Comment
  *
  * @category    Class */
-/** 
+/**
  * @package     Swagger\Client
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License v2
@@ -65,10 +65,10 @@ class MapTest implements ArrayAccess
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
-    protected static $swaggerTypes = array(
+    protected static $swaggerTypes = [
         'map_map_of_string' => 'map[string,map[string,string]]',
         'map_of_enum_string' => 'map[string,string]'
-    );
+    ];
 
     public static function swaggerTypes()
     {
@@ -79,38 +79,40 @@ class MapTest implements ArrayAccess
      * Array of attributes where the key is the local name, and the value is the original name
      * @var string[]
      */
-    protected static $attributeMap = array(
+    protected static $attributeMap = [
         'map_map_of_string' => 'map_map_of_string',
         'map_of_enum_string' => 'map_of_enum_string'
-    );
+    ];
+
+
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     * @var string[]
+     */
+    protected static $setters = [
+        'map_map_of_string' => 'setMapMapOfString',
+        'map_of_enum_string' => 'setMapOfEnumString'
+    ];
+
+
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     * @var string[]
+     */
+    protected static $getters = [
+        'map_map_of_string' => 'getMapMapOfString',
+        'map_of_enum_string' => 'getMapOfEnumString'
+    ];
 
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
-    /**
-     * Array of attributes to setter functions (for deserialization of responses)
-     * @var string[]
-     */
-    protected static $setters = array(
-        'map_map_of_string' => 'setMapMapOfString',
-        'map_of_enum_string' => 'setMapOfEnumString'
-    );
-
     public static function setters()
     {
         return self::$setters;
     }
-
-    /**
-     * Array of attributes to getter functions (for serialization of requests)
-     * @var string[]
-     */
-    protected static $getters = array(
-        'map_map_of_string' => 'getMapMapOfString',
-        'map_of_enum_string' => 'getMapOfEnumString'
-    );
 
     public static function getters()
     {
@@ -139,7 +141,7 @@ class MapTest implements ArrayAccess
      * Associative array for storing property values
      * @var mixed[]
      */
-    protected $container = array();
+    protected $container = [];
 
     /**
      * Constructor
@@ -158,7 +160,7 @@ class MapTest implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = array();
+        $invalid_properties = [];
         return $invalid_properties;
     }
 
@@ -277,5 +279,3 @@ class MapTest implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-

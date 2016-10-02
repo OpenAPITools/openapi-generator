@@ -6,12 +6,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
-
-
 /**
- * User
+ * A User who is purchasing from the pet store
  */
+@ApiModel(description = "A User who is purchasing from the pet store")
 
 public class User   {
   @JsonProperty("id")
