@@ -33,7 +33,7 @@ using Newtonsoft.Json;
 namespace IO.Swagger.Models
 {
     /// <summary>
-    /// 
+    /// A tag for a pet
     /// </summary>
     [DataContract]
     public partial class Tag :  IEquatable<Tag>
