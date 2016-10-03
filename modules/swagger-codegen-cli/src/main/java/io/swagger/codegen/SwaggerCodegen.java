@@ -6,6 +6,7 @@ import io.swagger.codegen.cmd.ConfigHelp;
 import io.swagger.codegen.cmd.Generate;
 import io.swagger.codegen.cmd.Langs;
 import io.swagger.codegen.cmd.Meta;
+import io.swagger.codegen.cmd.Version;
 
 /**
  * User: lanwen
@@ -21,16 +22,20 @@ public class SwaggerCodegen {
 
 
     public static void main(String[] args) {
+        String version = Version.readVersionFromResources();
         @SuppressWarnings("unchecked")
         Cli.CliBuilder<Runnable> builder = Cli.<Runnable>builder("swagger-codegen-cli")
-                .withDescription("Swagger code generator CLI. More info on swagger.io")
+                .withDescription(String.format(
+                        "Swagger code generator CLI (version %s). More info on swagger.io",
+                        version))
                 .withDefaultCommand(Langs.class)
                 .withCommands(
                         Generate.class,
                         Meta.class,
                         Langs.class,
                         Help.class,
-                        ConfigHelp.class
+                        ConfigHelp.class,
+                        Version.class
                 );
 
         builder.build().parse(args).run();
