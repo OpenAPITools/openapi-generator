@@ -4,7 +4,7 @@
 
 class InitTables < ActiveRecord::Migration
   def change{{#models}}{{#model}}
-    create_table :{{classFilename}}, id: false do |t|{{#vars}}{{#isContainer}}
+    create_table "{{classFilename}}".pluralize.to_sym, id: false do |t|{{#vars}}{{#isContainer}}
       t.string :{{name}}{{/isContainer}}{{^isContainer}}
       t.{{datatype}} :{{{name}}}{{/isContainer}}{{/vars}}
 
