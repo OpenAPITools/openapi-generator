@@ -5,9 +5,12 @@ import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http
 import { Response, ResponseContentType }                     from '@angular/http';
 
 import { Observable }                                        from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import '../rxjs-operators';
 
-import * as models                                           from '../model/models';
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+
 import { BASE_PATH }                                         from '../variables';
 import { Configuration }                                     from '../configuration';
 

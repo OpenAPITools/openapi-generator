@@ -1,7 +1,10 @@
 {{>licenseInfo}}
 {{#models}}
 {{#model}}
-import * as models from './models';
+{{#tsImports}}
+import { {{classname}} } from './{{filename}}';
+{{/tsImports}}
+
 
 {{#description}}
 /**
