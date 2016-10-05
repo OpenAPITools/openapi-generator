@@ -97,9 +97,24 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.4</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+            <execution>
+                <id>gradle-test</id>
+                <phase>integration-test</phase>
+                <goals>
+                    <goal>exec</goal>
+                </goals>
+                <configuration>
+                    <executable>gradle</executable>
+                    <arguments>
+                        <argument>test</argument>
+                    </arguments>
+                </configuration>
+            </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
