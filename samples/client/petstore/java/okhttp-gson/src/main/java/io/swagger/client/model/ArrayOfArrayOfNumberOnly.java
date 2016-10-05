@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -33,22 +33,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * ArrayOfArrayOfNumberOnly
  */
 
-public class ArrayOfArrayOfNumberOnly   {
+public class ArrayOfArrayOfNumberOnly {
   @SerializedName("ArrayArrayNumber")
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
-    return this;
-  }
-
-  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
-    this.arrayArrayNumber.add(arrayArrayNumberItem);
     return this;
   }
 
@@ -103,5 +97,6 @@ public class ArrayOfArrayOfNumberOnly   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

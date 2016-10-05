@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -33,12 +33,11 @@ import java.math.BigDecimal;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-
 /**
  * FormatTest
  */
 
-public class FormatTest   {
+public class FormatTest {
   @SerializedName("integer")
   private Integer integer = null;
 
@@ -384,5 +383,6 @@ public class FormatTest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
