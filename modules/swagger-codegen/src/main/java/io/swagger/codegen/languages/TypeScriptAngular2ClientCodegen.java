@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
         embeddedTemplateDir = templateDir = "typescript-angular2";
         modelTemplateFiles.put("model.mustache", ".ts");
-        apiTemplateFiles.put("api.mustache", ".ts");
+        apiTemplateFiles.put("api.service.mustache", ".ts");
         typeMapping.put("Date","Date");
         apiPackage = "api";
         modelPackage = "model";
@@ -71,6 +72,8 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
+        supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
+        supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));        
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
@@ -135,19 +138,13 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         if(languageSpecificPrimitives.contains(swaggerType)) {
             return swaggerType;
         }
-        return addModelPrefix(swaggerType);
+        applyLocalTypeMapping(swaggerType);
+        return swaggerType;
     }
 
-    private String addModelPrefix(String swaggerType) {
-        String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-        } else {
-            type = swaggerType;
-        }
-
-        if (!startsWithLanguageSpecificPrimitiv(type)) {
-            type = "models." + swaggerType;
+    private String applyLocalTypeMapping(String type) {
+         if (typeMapping.containsKey(type)) {
+            type = typeMapping.get(type);
         }
         return type;
     }
@@ -164,12 +161,16 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        parameter.dataType = addModelPrefix(parameter.dataType);
+        parameter.dataType = applyLocalTypeMapping(parameter.dataType);
     }
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+
+        // Add filename information for api imports
+        objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
+
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
         for (CodegenOperation op : ops) {
             // Convert httpMethod to Angular's RequestMethod enum
@@ -204,7 +205,65 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             op.path = op.path.replaceAll("\\{(.*?)\\}", "\\$\\{$1\\}");
         }
 
+        // Add additional filename information for model imports in the services
+        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
+        for(Map<String, Object> im : imports) {
+            im.put("filename", im.get("import"));
+            im.put("classname", getModelnameFromModelFilename(im.get("filename").toString()));
+        }
+
         return operations;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessModels(objs);
+
+        // Add additional filename information for imports
+        List<Object> models = (List<Object>) postProcessModelsEnum(result).get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            Map<String, String> tsImports = new HashMap<String, String>();
+            for(String im : cm.imports) {
+                tsImports.put("classname", im);
+                tsImports.put("filename", toModelFilename(im));
+                mo.put("tsImports", tsImports);
+            }
+        }
+        
+        return result;
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultService";
+        }
+        return initialCaps(name) + "Service";
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        if (name.length() == 0) {
+            return "default.service";
+        }
+        return camelize(name, true) + ".service";
+    }
+
+    @Override
+    public String toApiImport(String name) {
+        return apiPackage() + "/" + toApiFilename(name);
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        return camelize(toModelName(name), true);
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        return modelPackage() + "/" + toModelFilename(name);
     }
 
     public String getNpmName() {
@@ -229,5 +288,15 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
+    }
+
+    private String getApiFilenameFromClassname(String classname) {
+        String name = classname.substring(0, classname.length() - "Service".length());
+        return toApiFilename(name);
+    }
+
+    private String getModelnameFromModelFilename(String filename) {
+        String name = filename.substring((modelPackage() + "/").length());
+        return camelize(name);
     }
 }

@@ -1,0 +1,17 @@
+import { NgModule }     from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpModule }   from '@angular/http';
+
+{{#apiInfo}}
+{{#apis}}
+import { {{classname}} } from './{{importPath}}';
+{{/apis}}
+{{/apiInfo}}
+
+@NgModule({
+  imports:      [ CommonModule, HttpModule ],
+  declarations: [],
+  exports:      [],
+  providers:    [ {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}} ]
+})
+export class ApiModule {}

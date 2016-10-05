@@ -55,7 +55,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Array",
                 "Date",
                 "number",
-                "any"
+                "any",
+                "File"
         ));
         instantiationTypes.put("array", "Array");
 
@@ -81,6 +82,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("File", "any");        
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
