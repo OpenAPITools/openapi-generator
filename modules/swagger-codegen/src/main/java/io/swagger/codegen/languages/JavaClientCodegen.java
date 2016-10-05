@@ -74,8 +74,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
             this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
         }
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
-            this.setParcelableModels(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
+            this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
         }
+        // put the boolean value back to PARCELABLE_MODEL in additionalProperties
+        additionalProperties.put(PARCELABLE_MODEL, parcelableModel);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
@@ -223,7 +225,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         this.useRxJava = useRxJava;
     }
 
-    public void setParcelableModels(boolean parcelableModel) {
+    public void setParcelableModel(boolean parcelableModel) {
         this.parcelableModel = parcelableModel;
     }
 }
