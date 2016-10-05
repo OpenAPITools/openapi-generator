@@ -33,7 +33,7 @@ using Newtonsoft.Json;
 namespace IO.Swagger.Models
 {
     /// <summary>
-    /// 
+    /// Describes the result of uploading an image resource
     /// </summary>
     [DataContract]
     public partial class ApiResponse :  IEquatable<ApiResponse>

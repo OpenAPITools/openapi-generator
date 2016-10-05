@@ -48,7 +48,7 @@ namespace IO.Swagger.Controllers
         /// <param name="body">Created user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
-        [Route("/user")]
+        [Route("/v2/user")]
         [SwaggerOperation("CreateUser")]
         public virtual void CreateUser([FromBody]User body)
         { 
@@ -63,7 +63,7 @@ namespace IO.Swagger.Controllers
         /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
-        [Route("/user/createWithArray")]
+        [Route("/v2/user/createWithArray")]
         [SwaggerOperation("CreateUsersWithArrayInput")]
         public virtual void CreateUsersWithArrayInput([FromBody]List<User> body)
         { 
@@ -78,7 +78,7 @@ namespace IO.Swagger.Controllers
         /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
-        [Route("/user/createWithList")]
+        [Route("/v2/user/createWithList")]
         [SwaggerOperation("CreateUsersWithListInput")]
         public virtual void CreateUsersWithListInput([FromBody]List<User> body)
         { 
@@ -94,7 +94,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid username supplied</response>
         /// <response code="404">User not found</response>
         [HttpDelete]
-        [Route("/user/{username}")]
+        [Route("/v2/user/{username}")]
         [SwaggerOperation("DeleteUser")]
         public virtual void DeleteUser([FromRoute]string username)
         { 
@@ -111,7 +111,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid username supplied</response>
         /// <response code="404">User not found</response>
         [HttpGet]
-        [Route("/user/{username}")]
+        [Route("/v2/user/{username}")]
         [SwaggerOperation("GetUserByName")]
         [SwaggerResponse(200, type: typeof(User))]
         public virtual IActionResult GetUserByName([FromRoute]string username)
@@ -134,7 +134,7 @@ namespace IO.Swagger.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid username/password supplied</response>
         [HttpGet]
-        [Route("/user/login")]
+        [Route("/v2/user/login")]
         [SwaggerOperation("LoginUser")]
         [SwaggerResponse(200, type: typeof(string))]
         public virtual IActionResult LoginUser([FromQuery]string username, [FromQuery]string password)
@@ -154,7 +154,7 @@ namespace IO.Swagger.Controllers
         /// <remarks></remarks>
         /// <response code="0">successful operation</response>
         [HttpGet]
-        [Route("/user/logout")]
+        [Route("/v2/user/logout")]
         [SwaggerOperation("LogoutUser")]
         public virtual void LogoutUser()
         { 
@@ -171,7 +171,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>
         [HttpPut]
-        [Route("/user/{username}")]
+        [Route("/v2/user/{username}")]
         [SwaggerOperation("UpdateUser")]
         public virtual void UpdateUser([FromRoute]string username, [FromBody]User body)
         { 

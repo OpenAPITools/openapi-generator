@@ -234,6 +234,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             setUseInheritance(Boolean.parseBoolean((String)additionalProperties.get(USE_INHERITANCE)));
         } else {
             supportsInheritance = true;
+            supportsMixins = true;
         }
         if (additionalProperties.containsKey(EMIT_MODEL_METHODS)) {
             setEmitModelMethods(Boolean.parseBoolean((String)additionalProperties.get(EMIT_MODEL_METHODS)));
@@ -397,6 +398,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public void setUseInheritance(boolean useInheritance) {
         this.supportsInheritance = useInheritance;
+        this.supportsMixins = useInheritance;
     }
 
     public void setEmitModelMethods(boolean emitModelMethods) {
@@ -900,7 +902,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts names
             // alphabetically and in any case the document order of 'required' and 'properties' can differ.
             List<CodegenProperty> required = new ArrayList<>();
-            List<CodegenProperty> allRequired = supportsInheritance ? new ArrayList<CodegenProperty>() : required;
+            List<CodegenProperty> allRequired = supportsInheritance || supportsMixins ? new ArrayList<CodegenProperty>() : required;
             cm.vendorExtensions.put("x-required", required);
             cm.vendorExtensions.put("x-all-required", allRequired);
 
@@ -914,7 +916,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
 
-            if (supportsInheritance) {
+            if (supportsInheritance || supportsMixins) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.required)) {
                         allRequired.add(var);

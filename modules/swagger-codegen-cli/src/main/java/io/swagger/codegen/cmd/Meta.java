@@ -68,12 +68,8 @@ public class Meta implements Runnable {
                         "src/main/resources/META-INF/services", "io.swagger.codegen.CodegenConfig")
         );
 
-        String swaggerVersion = this.getClass().getPackage().getImplementationVersion();
-        // if the code is running outside of the jar (i.e. from the IDE), it will not have the version available.
-        // let's default it with something.
-        if (swaggerVersion==null) {
-            swaggerVersion = "2.1.3";
-        }
+        String swaggerVersion = Version.readVersionFromResources();
+
         Map<String, Object> data = new ImmutableMap.Builder<String, Object>()
                 .put("generatorPackage", targetPackage)
                 .put("generatorClass", mainClass)

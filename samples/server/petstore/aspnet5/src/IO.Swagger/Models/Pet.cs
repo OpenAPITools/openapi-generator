@@ -33,7 +33,7 @@ using Newtonsoft.Json;
 namespace IO.Swagger.Models
 {
     /// <summary>
-    /// 
+    /// A pet for sale in the pet store
     /// </summary>
     [DataContract]
     public partial class Pet :  IEquatable<Pet>

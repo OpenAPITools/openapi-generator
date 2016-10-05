@@ -16,9 +16,8 @@ namespace {{packageName}}.Controllers
 { {{#operations}}
     /// <summary>
     /// {{description}}
-    /// </summary>{{#description}}{{#basePath}}
-    [Route("{{{basePath}}}")]
-    {{/basePath}}[Description("{{description}}")]{{/description}}
+    /// </summary>{{#description}}
+    [Description("{{description}}")]{{/description}}
     public class {{classname}}Controller : Controller
     { {{#operation}}
 
@@ -29,7 +28,7 @@ namespace {{packageName}}.Controllers
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
-        [Route("{{path}}")]
+        [Route("{{basePathWithoutHost}}{{path}}")]
         [SwaggerOperation("{{operationId}}")]{{#returnType}}
         [SwaggerResponse(200, type: typeof({{&returnType}}))]{{/returnType}}
         public virtual {{#returnType}}IActionResult{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
