@@ -145,10 +145,6 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if(!new java.io.File(controllerPackage + File.separator + defaultController + ".py").exists()) {
-            //supportingFiles.add(new SupportingFile("controller.mustache",
-            //                controllerPackage,
-            //                defaultController + ".py")
-            //);
             supportingFiles.add(new SupportingFile("__init__.mustache",
                             controllerPackage,
                             "__init__.py")
@@ -269,7 +265,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                         }
                         else {
                             // no tag found, use "default_controller" as the default
-                            String tag = "default_controller";
+                            String tag = "default";
                             operation.setTags(Arrays.asList(tag));
                             controllerName = tag + "_controller";
                         }

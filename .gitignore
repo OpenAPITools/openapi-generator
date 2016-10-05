@@ -4,6 +4,7 @@ out/
 *.iws
 classpath.txt
 version.properties
+!modules/swagger-codegen-cli/src/main/resources/version.properties
 .project
 .classpath
 lib/*
@@ -33,7 +34,7 @@ packages/
 
 /target
 /generated-files
-/nbactions.xml
+nbactions.xml
 
 # scalatra
 samples/server-generator/scalatra/output

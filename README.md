@@ -782,6 +782,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Mporium](http://mporium.com/) 
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
+- [Onedata](http://onedata.org)
 - [OSDN](https://osdn.jp)
 - [PagerDuty](https://www.pagerduty.com)
 - [Pepipost](https://www.pepipost.com)
@@ -881,6 +882,7 @@ Here is a list of template creators:
    * Erlang Server: @galaxie
    * Go Server: @guohuang
    * Haskell Servant: @algas
+   * Java Undertow: @stevehu
    * Java Spring Boot: @diyfr
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship 
