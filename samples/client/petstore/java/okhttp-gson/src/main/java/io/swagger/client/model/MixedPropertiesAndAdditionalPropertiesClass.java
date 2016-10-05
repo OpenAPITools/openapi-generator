@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -35,12 +35,11 @@ import java.util.List;
 import java.util.Map;
 import org.joda.time.DateTime;
 
-
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-public class MixedPropertiesAndAdditionalPropertiesClass   {
+public class MixedPropertiesAndAdditionalPropertiesClass {
   @SerializedName("uuid")
   private String uuid = null;
 
@@ -88,11 +87,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;
-    return this;
-  }
-
-  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
-    this.map.put(key, mapItem);
     return this;
   }
 
@@ -151,5 +145,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

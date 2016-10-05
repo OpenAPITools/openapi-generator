@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -30,18 +30,17 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
 
-public class Model200Response   {
+public class Model200Response {
   @SerializedName("name")
   private Integer name = null;
 
   @SerializedName("class")
-  private String propertyClass = null;
+  private String PropertyClass = null;
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -61,22 +60,22 @@ public class Model200Response   {
     this.name = name;
   }
 
-  public Model200Response propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+  public Model200Response PropertyClass(String PropertyClass) {
+    this.PropertyClass = PropertyClass;
     return this;
   }
 
    /**
-   * Get propertyClass
-   * @return propertyClass
+   * Get PropertyClass
+   * @return PropertyClass
   **/
   @ApiModelProperty(example = "null", value = "")
   public String getPropertyClass() {
-    return propertyClass;
+    return PropertyClass;
   }
 
-  public void setPropertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+  public void setPropertyClass(String PropertyClass) {
+    this.PropertyClass = PropertyClass;
   }
 
 
@@ -90,12 +89,12 @@ public class Model200Response   {
     }
     Model200Response _200Response = (Model200Response) o;
     return Objects.equals(this.name, _200Response.name) &&
-        Objects.equals(this.propertyClass, _200Response.propertyClass);
+        Objects.equals(this.PropertyClass, _200Response.PropertyClass);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, propertyClass);
+    return Objects.hash(name, PropertyClass);
   }
 
   @Override
@@ -104,7 +103,7 @@ public class Model200Response   {
     sb.append("class Model200Response {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
+    sb.append("    PropertyClass: ").append(toIndentedString(PropertyClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -119,5 +118,6 @@ public class Model200Response   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

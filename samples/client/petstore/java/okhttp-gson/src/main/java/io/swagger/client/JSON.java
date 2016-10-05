@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -100,7 +100,7 @@ public class JSON {
      *
      * @param <T> Type
      * @param body The JSON string
-     * @param returnType The type to deserialize into
+     * @param returnType The type to deserialize inot
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
@@ -162,9 +162,10 @@ class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
      *
      * @param json Json element
      * @param date Type
+     * @param typeOfSrc Type
      * @param context Json Serialization Context
      * @return Date
-     * @throws JsonParseException if fail to parse
+     * @throw JsonParseException if fail to parse
      */
     @Override
     public Date deserialize(JsonElement json, Type date, JsonDeserializationContext context) throws JsonParseException {

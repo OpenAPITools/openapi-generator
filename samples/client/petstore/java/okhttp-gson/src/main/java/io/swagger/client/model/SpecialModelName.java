@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -30,12 +30,11 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * SpecialModelName
  */
 
-public class SpecialModelName   {
+public class SpecialModelName {
   @SerializedName("$special[property.name]")
   private Long specialPropertyName = null;
 
@@ -95,5 +94,6 @@ public class SpecialModelName   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

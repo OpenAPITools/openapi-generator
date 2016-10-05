@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -33,12 +33,11 @@ import io.swagger.client.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * ArrayTest
  */
 
-public class ArrayTest   {
+public class ArrayTest {
   @SerializedName("array_of_string")
   private List<String> arrayOfString = new ArrayList<String>();
 
@@ -50,11 +49,6 @@ public class ArrayTest   {
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
-    return this;
-  }
-
-  public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
-    this.arrayOfString.add(arrayOfStringItem);
     return this;
   }
 
@@ -76,11 +70,6 @@ public class ArrayTest   {
     return this;
   }
 
-  public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
-    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
-    return this;
-  }
-
    /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
@@ -96,11 +85,6 @@ public class ArrayTest   {
 
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
-    return this;
-  }
-
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
-    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }
 
@@ -159,5 +143,6 @@ public class ArrayTest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
