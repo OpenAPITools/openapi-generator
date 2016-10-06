@@ -3,17 +3,21 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
 {{#models}}
 
-{{#model}}{{#description}}
+{{#model}}
+{{#description}}
 /**
  * {{description}}
- **/{{/description}}
+ **/
+{{/description}}
 @ApiModel(description = "{{{description}}}")
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
+public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#serializableModel}}implements Serializable {{/serializableModel}}{
   {{#vars}}{{#isEnum}}
   public enum {{datatypeWithEnum}} {
     {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
