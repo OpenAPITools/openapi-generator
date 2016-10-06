@@ -28,6 +28,9 @@
          return [super initWithDictionary:dict error:err];
     }
     Class class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:discriminatedClassName]);
+    if(!class) {
+        class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:[discriminatedClassName capitalizedString]]);
+    }
     if([self class ] == class) {
         return [super initWithDictionary:dict error:err];
     }
