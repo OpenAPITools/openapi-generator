@@ -24,8 +24,8 @@ class ApiClient {
 
   ApiClient({this.basePath: "http://petstore.swagger.io/v2"}) {
     // Setup authentications (key: authentication name, value: authentication).
-    _authentications['petstore_auth'] = new OAuth();
     _authentications['api_key'] = new ApiKeyAuth("header", "api_key");
+    _authentications['petstore_auth'] = new OAuth();
   }
 
   void addDefaultHeader(String key, String value) {
