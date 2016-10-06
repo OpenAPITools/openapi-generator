@@ -25,13 +25,11 @@
 package io.swagger.client.model;
 
 import java.util.Date;
-
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
-
 @ApiModel(description = "")
-public class Order  {
+public class Order {
   
   @SerializedName("id")
   private Long id = null;

@@ -29,6 +29,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String projectFolder = "src/main";
     protected String sourceFolder = projectFolder + "/java";
     protected Boolean useAndroidMavenGradlePlugin = true;
+    protected Boolean serializableModel = false;
 
     // requestPackage and authPackage are used by the "volley" template/library
     protected String requestPackage = "io.swagger.client.request";
@@ -89,6 +90,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(CliOption.newBoolean(USE_ANDROID_MAVEN_GRADLE_PLUGIN, "A flag to toggle android-maven gradle plugin.")
                 .defaultValue(Boolean.TRUE.toString()));
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 
         supportedLibraries.put("volley", "HTTP client: Volley 1.0.19 (default)");
         supportedLibraries.put("httpclient", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be depecreated in the next major release.");
@@ -378,6 +381,14 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
+            this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
+        }
+
+        // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
+        additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        LOGGER.info("CodegenConstants.SERIALIZABLE_MODEL = " + additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL));
+
         //make api and model doc path available in mustache template
         additionalProperties.put( "apiDocPath", apiDocPath );
         additionalProperties.put( "modelDocPath", modelDocPath );
@@ -502,6 +513,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    public void setSerializableModel(Boolean serializableModel) {
+        this.serializableModel = serializableModel;
     }
 
     @Override
