@@ -46,7 +46,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public ObjcClientCodegen() {
         super();
-
+        supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "objc";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".m");
