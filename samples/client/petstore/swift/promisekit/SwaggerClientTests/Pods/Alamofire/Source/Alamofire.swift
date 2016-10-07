@@ -27,7 +27,7 @@ import Foundation
 // MARK: - URLStringConvertible
 
 /**
-    Types adopting the `URLStringConvertible` protocol can be used to construct URL strings, which are then used to 
+    Types adopting the `URLStringConvertible` protocol can be used to construct URL strings, which are then used to
     construct URL requests.
 */
 public protocol URLStringConvertible {
@@ -44,27 +44,19 @@ public protocol URLStringConvertible {
 }
 
 extension String: URLStringConvertible {
-    public var URLString: String {
-        return self
-    }
+    public var URLString: String { return self }
 }
 
 extension NSURL: URLStringConvertible {
-    public var URLString: String {
-        return absoluteString
-    }
+    public var URLString: String { return absoluteString }
 }
 
 extension NSURLComponents: URLStringConvertible {
-    public var URLString: String {
-        return URL!.URLString
-    }
+    public var URLString: String { return URL!.URLString }
 }
 
 extension NSURLRequest: URLStringConvertible {
-    public var URLString: String {
-        return URL!.URLString
-    }
+    public var URLString: String { return URL!.URLString }
 }
 
 // MARK: - URLRequestConvertible
@@ -78,9 +70,7 @@ public protocol URLRequestConvertible {
 }
 
 extension NSURLRequest: URLRequestConvertible {
-    public var URLRequest: NSMutableURLRequest {
-        return self.mutableCopy() as! NSMutableURLRequest
-    }
+    public var URLRequest: NSMutableURLRequest { return self.mutableCopy() as! NSMutableURLRequest }
 }
 
 // MARK: - Convenience
@@ -91,7 +81,16 @@ func URLRequest(
     headers: [String: String]? = nil)
     -> NSMutableURLRequest
 {
-    let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URLString.URLString)!)
+    let mutableURLRequest: NSMutableURLRequest
+
+    if let request = URLString as? NSMutableURLRequest {
+        mutableURLRequest = request
+    } else if let request = URLString as? NSURLRequest {
+        mutableURLRequest = request.URLRequest
+    } else {
+        mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URLString.URLString)!)
+    }
+
     mutableURLRequest.HTTPMethod = method.rawValue
 
     if let headers = headers {
@@ -355,11 +354,11 @@ public func download(URLRequest: URLRequestConvertible, destination: Request.Dow
 // MARK: Resume Data
 
 /**
-    Creates a request using the shared manager instance for downloading from the resume data produced from a 
+    Creates a request using the shared manager instance for downloading from the resume data produced from a
     previous request cancellation.
 
     - parameter resumeData:  The resume data. This is an opaque data blob produced by `NSURLSessionDownloadTask`
-                             when a task is cancelled. See `NSURLSession -downloadTaskWithResumeData:` for additional 
+                             when a task is cancelled. See `NSURLSession -downloadTaskWithResumeData:` for additional
                              information.
     - parameter destination: The closure used to determine the destination of the downloaded file.
 
