@@ -81,6 +81,8 @@ class Name(object):
         :param name: The name of this Name.
         :type: int
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")
 
         self._name = name
 
