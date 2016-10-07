@@ -224,7 +224,6 @@ class Decoders {
                 let instance = User()
                 instance.id = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["id"])
                 instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"])
-                instance.dateOfBirth = Decoders.decodeOptional(clazz: ISOFullDate.self, source: sourceDictionary["dateOfBirth"])
                 instance.firstName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["firstName"])
                 instance.lastName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["lastName"])
                 instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"])
