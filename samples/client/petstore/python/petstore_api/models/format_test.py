@@ -108,9 +108,9 @@ class FormatTest(object):
         :param integer: The integer of this FormatTest.
         :type: int
         """
-        if integer > 100.0:
+        if integer is not None and integer > 100.0:
             raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100.0`")
-        if integer < 10.0:
+        if integer is not None and integer < 10.0:
             raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10.0`")
 
         self._integer = integer
@@ -135,9 +135,9 @@ class FormatTest(object):
         :param int32: The int32 of this FormatTest.
         :type: int
         """
-        if int32 > 200.0:
+        if int32 is not None and int32 > 200.0:
             raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200.0`")
-        if int32 < 20.0:
+        if int32 is not None and int32 < 20.0:
             raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20.0`")
 
         self._int32 = int32
@@ -185,11 +185,11 @@ class FormatTest(object):
         :param number: The number of this FormatTest.
         :type: float
         """
-        if not number:
+        if number is None:
             raise ValueError("Invalid value for `number`, must not be `None`")
-        if number > 543.2:
+        if number is not None and number > 543.2:
             raise ValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")
-        if number < 32.1:
+        if number is not None and number < 32.1:
             raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")
 
         self._number = number
@@ -214,9 +214,9 @@ class FormatTest(object):
         :param float: The float of this FormatTest.
         :type: float
         """
-        if float > 987.6:
+        if float is not None and float > 987.6:
             raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")
-        if float < 54.3:
+        if float is not None and float < 54.3:
             raise ValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")
 
         self._float = float
@@ -241,9 +241,9 @@ class FormatTest(object):
         :param double: The double of this FormatTest.
         :type: float
         """
-        if double > 123.4:
+        if double is not None and double > 123.4:
             raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")
-        if double < 67.8:
+        if double is not None and double < 67.8:
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")
 
         self._double = double
@@ -268,7 +268,7 @@ class FormatTest(object):
         :param string: The string of this FormatTest.
         :type: str
         """
-        if not re.search('[a-z]', string, flags=re.IGNORECASE):
+        if string is not None and not re.search('[a-z]', string, flags=re.IGNORECASE):
             raise ValueError("Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")
 
         self._string = string
@@ -293,6 +293,8 @@ class FormatTest(object):
         :param byte: The byte of this FormatTest.
         :type: str
         """
+        if byte is None:
+            raise ValueError("Invalid value for `byte`, must not be `None`")
 
         self._byte = byte
 
@@ -339,6 +341,8 @@ class FormatTest(object):
         :param date: The date of this FormatTest.
         :type: date
         """
+        if date is None:
+            raise ValueError("Invalid value for `date`, must not be `None`")
 
         self._date = date
 
@@ -408,11 +412,11 @@ class FormatTest(object):
         :param password: The password of this FormatTest.
         :type: str
         """
-        if not password:
+        if password is None:
             raise ValueError("Invalid value for `password`, must not be `None`")
-        if len(password) > 64:
+        if password is not None and len(password) > 64:
             raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")
-        if len(password) < 10:
+        if password is not None and len(password) < 10:
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")
 
         self._password = password

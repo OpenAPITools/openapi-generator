@@ -133,6 +133,8 @@ class Pet(object):
         :param name: The name of this Pet.
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")
 
         self._name = name
 
@@ -156,6 +158,8 @@ class Pet(object):
         :param photo_urls: The photo_urls of this Pet.
         :type: list[str]
         """
+        if photo_urls is None:
+            raise ValueError("Invalid value for `photo_urls`, must not be `None`")
 
         self._photo_urls = photo_urls
 
