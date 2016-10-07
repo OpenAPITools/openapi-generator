@@ -75,6 +75,8 @@ class Animal(object):
         :param class_name: The class_name of this Animal.
         :type: str
         """
+        if class_name is None:
+            raise ValueError("Invalid value for `class_name`, must not be `None`")
 
         self._class_name = class_name
 
