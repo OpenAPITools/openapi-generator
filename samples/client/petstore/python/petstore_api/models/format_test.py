@@ -108,9 +108,6 @@ class FormatTest(object):
         :param integer: The integer of this FormatTest.
         :type: int
         """
-
-        if not integer:
-            raise ValueError("Invalid value for `integer`, must not be `None`")
         if integer > 100.0:
             raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100.0`")
         if integer < 10.0:
@@ -138,9 +135,6 @@ class FormatTest(object):
         :param int32: The int32 of this FormatTest.
         :type: int
         """
-
-        if not int32:
-            raise ValueError("Invalid value for `int32`, must not be `None`")
         if int32 > 200.0:
             raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200.0`")
         if int32 < 20.0:
@@ -191,7 +185,6 @@ class FormatTest(object):
         :param number: The number of this FormatTest.
         :type: float
         """
-
         if not number:
             raise ValueError("Invalid value for `number`, must not be `None`")
         if number > 543.2:
@@ -221,9 +214,6 @@ class FormatTest(object):
         :param float: The float of this FormatTest.
         :type: float
         """
-
-        if not float:
-            raise ValueError("Invalid value for `float`, must not be `None`")
         if float > 987.6:
             raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")
         if float < 54.3:
@@ -251,9 +241,6 @@ class FormatTest(object):
         :param double: The double of this FormatTest.
         :type: float
         """
-
-        if not double:
-            raise ValueError("Invalid value for `double`, must not be `None`")
         if double > 123.4:
             raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")
         if double < 67.8:
@@ -281,9 +268,6 @@ class FormatTest(object):
         :param string: The string of this FormatTest.
         :type: str
         """
-
-        if not string:
-            raise ValueError("Invalid value for `string`, must not be `None`")
         if not re.search('[a-z]', string, flags=re.IGNORECASE):
             raise ValueError("Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")
 
@@ -424,7 +408,6 @@ class FormatTest(object):
         :param password: The password of this FormatTest.
         :type: str
         """
-
         if not password:
             raise ValueError("Invalid value for `password`, must not be `None`")
         if len(password) > 64:
