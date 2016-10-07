@@ -66,7 +66,7 @@ class {{classname}}(object):
         if not set({{{name}}}).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid values for `{{{name}}}` [{0}], must be a subset of [{1}]"
-                .format(", ".join(map(str, set({{{name}}})-set(allowed_values))), 
+                .format(", ".join(map(str, set({{{name}}})-set(allowed_values))),
                         ", ".join(map(str, allowed_values)))
             )
 {{/isListContainer}}
@@ -74,7 +74,7 @@ class {{classname}}(object):
         if not set({{{name}}}.keys()).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid keys in `{{{name}}}` [{0}], must be a subset of [{1}]"
-                .format(", ".join(map(str, set({{{name}}}.keys())-set(allowed_values))), 
+                .format(", ".join(map(str, set({{{name}}}.keys())-set(allowed_values))),
                         ", ".join(map(str, allowed_values)))
             )
 {{/isMapContainer}}
@@ -89,9 +89,10 @@ class {{classname}}(object):
 {{/isEnum}}
 {{^isEnum}}
 {{#hasValidation}}
-
-        if not {{name}}:
+{{#required}}
+        if {{name}} is None:
             raise ValueError("Invalid value for `{{name}}`, must not be `None`")
+{{/required}}
 {{#maxLength}}
         if len({{name}}) > {{maxLength}}:
             raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")
