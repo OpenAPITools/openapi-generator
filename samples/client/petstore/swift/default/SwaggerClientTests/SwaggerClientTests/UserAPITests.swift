@@ -49,7 +49,10 @@ class UserAPITests: XCTestCase {
 
         let newUser = User()
         newUser.email = "test@test.com"
-        newUser.dateOfBirth = ISOFullDate.from(string: "1999-12-31")
+        // TODO comment out the following as dateOfBirth has been removed
+        // from petstore.json, we'll need to add back the test after switching
+        // to petstore-with-fake-endpoints-models-for-testing.yaml
+        ////newUser.dateOfBirth = ISOFullDate.from(string: "1999-12-31")
         newUser.firstName = "Test"
         newUser.lastName = "Tester"
         newUser.id = 1000
@@ -86,7 +89,10 @@ class UserAPITests: XCTestCase {
                 XCTAssert(user.lastName == "Tester", "invalid lastName")
                 XCTAssert(user.password == "test!", "invalid password")
                 XCTAssert(user.phone == "867-5309", "invalid phone")
-                XCTAssert(user.dateOfBirth?.description == "1999-12-31", "invalid date of birth")
+                // TODO comment out the following as dateOfBirth has been removed
+                // from petstore.json, we'll need to add back the test after switching
+                // to petstore-with-fake-endpoints-models-for-testing.yaml
+                //XCTAssert(user.dateOfBirth?.description == "1999-12-31", "invalid date of birth")
 
                 expectation.fulfill()
             }

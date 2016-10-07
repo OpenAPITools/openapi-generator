@@ -253,48 +253,44 @@ public class UserAPI: APIBase {
      Get user by user name
      - GET /user/{username}
      - 
-     - examples: [{contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
-  "dateOfBirth" : "2000-01-23T04:56:07.000+00:00",
+     - examples: [{example={
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
-}}, {contentType=application/xml, example=<User>
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}, {example=<User>
   <id>123456</id>
   <username>string</username>
-  <dateOfBirth>2000-01-23T04:56:07.000Z</dateOfBirth>
   <firstName>string</firstName>
   <lastName>string</lastName>
   <email>string</email>
   <password>string</password>
   <phone>string</phone>
   <userStatus>0</userStatus>
-</User>}]
-     - examples: [{contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
-  "dateOfBirth" : "2000-01-23T04:56:07.000+00:00",
+</User>, contentType=application/xml}]
+     - examples: [{example={
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
-}}, {contentType=application/xml, example=<User>
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}, {example=<User>
   <id>123456</id>
   <username>string</username>
-  <dateOfBirth>2000-01-23T04:56:07.000Z</dateOfBirth>
   <firstName>string</firstName>
   <lastName>string</lastName>
   <email>string</email>
   <password>string</password>
   <phone>string</phone>
   <userStatus>0</userStatus>
-</User>}]
+</User>, contentType=application/xml}]
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
 
@@ -352,8 +348,8 @@ public class UserAPI: APIBase {
      Logs user into the system
      - GET /user/login
      - 
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
+     - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
+     - examples: [{example="aeiou", contentType=application/json}, {example=string, contentType=application/xml}]
      
      - parameter username: (query) The user name for login (optional)
      - parameter password: (query) The password for login in clear text (optional)

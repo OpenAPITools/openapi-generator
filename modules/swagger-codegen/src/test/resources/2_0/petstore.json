@@ -833,10 +833,6 @@
         "username": {
           "type": "string"
         },
-        "dateOfBirth": {
-          "type": "string",
-          "format": "date"
-        },
         "firstName": {
           "type": "string"
         },
