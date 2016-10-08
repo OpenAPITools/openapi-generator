@@ -1,7 +1,7 @@
 {
-  "name": "swagger_petstore____end",
-  "version": "1.0.0    =end",
-  "description": "This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters_______end",
+  "name": "swagger_petstore____end____rn_n_r",
+  "version": "1.0.0 *_/   =end -- \r\n \n \r",
+  "description": "This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters_______end______",
   "license": "Apache-2.0",
   "main": "src/index.js",
   "scripts": {

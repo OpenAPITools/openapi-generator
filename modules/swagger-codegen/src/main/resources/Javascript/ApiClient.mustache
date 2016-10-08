@@ -363,7 +363,10 @@
 
     var contentType = this.jsonPreferredMime(contentTypes);
     if (contentType) {
-      request.type(contentType);
+      // Issue with superagent and multipart/form-data (https://github.com/visionmedia/superagent/issues/746)
+      if(contentType != 'multipart/form-data') {
+        request.type(contentType);
+      }
     } else if (!request.header['Content-Type']) {
       request.type('application/json');
     }
