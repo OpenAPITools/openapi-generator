@@ -90,7 +90,8 @@ var opts = {
   'binary': "B", // String | None
   '_date': new Date("2013-10-20"), // Date | None
   'dateTime': new Date("2013-10-20T19:20:30+01:00"), // Date | None
-  'password': "password_example" // String | None
+  'password': "password_example", // String | None
+  'callback': "callback_example" // String | None
 };
 
 var callback = function(error, data, response) {
@@ -120,6 +121,7 @@ Name | Type | Description  | Notes
  **_date** | **Date**| None | [optional] 
  **dateTime** | **Date**| None | [optional] 
  **password** | **String**| None | [optional] 
+ **callback** | **String**| None | [optional] 
 
 ### Return type
 

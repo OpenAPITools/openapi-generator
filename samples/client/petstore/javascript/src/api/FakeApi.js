@@ -125,6 +125,7 @@
      * @param {Date} opts._date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
+     * @param {String} opts.callback None
      * @param {module:api/FakeApi~testEndpointParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
     this.testEndpointParameters = function(_number, _double, patternWithoutDelimiter, _byte, opts, callback) {
@@ -171,7 +172,8 @@
         'binary': opts['binary'],
         'date': opts['_date'],
         'dateTime': opts['dateTime'],
-        'password': opts['password']
+        'password': opts['password'],
+        'callback': opts['callback']
       };
 
       var authNames = ['http_basic_test'];
