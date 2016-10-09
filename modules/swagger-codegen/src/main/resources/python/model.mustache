@@ -66,7 +66,7 @@ class {{classname}}(object):
         if not set({{{name}}}).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid values for `{{{name}}}` [{0}], must be a subset of [{1}]"
-                .format(", ".join(map(str, set({{{name}}})-set(allowed_values))), 
+                .format(", ".join(map(str, set({{{name}}})-set(allowed_values))),
                         ", ".join(map(str, allowed_values)))
             )
 {{/isListContainer}}
@@ -74,7 +74,7 @@ class {{classname}}(object):
         if not set({{{name}}}.keys()).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid keys in `{{{name}}}` [{0}], must be a subset of [{1}]"
-                .format(", ".join(map(str, set({{{name}}}.keys())-set(allowed_values))), 
+                .format(", ".join(map(str, set({{{name}}}.keys())-set(allowed_values))),
                         ", ".join(map(str, allowed_values)))
             )
 {{/isMapContainer}}
@@ -88,36 +88,37 @@ class {{classname}}(object):
 {{/isContainer}}
 {{/isEnum}}
 {{^isEnum}}
-{{#hasValidation}}
-
-        if not {{name}}:
+{{#required}}
+        if {{name}} is None:
             raise ValueError("Invalid value for `{{name}}`, must not be `None`")
+{{/required}}
+{{#hasValidation}}
 {{#maxLength}}
-        if len({{name}}) > {{maxLength}}:
+        if {{name}} is not None and len({{name}}) > {{maxLength}}:
             raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")
 {{/maxLength}}
 {{#minLength}}
-        if len({{name}}) < {{minLength}}:
+        if {{name}} is not None and len({{name}}) < {{minLength}}:
             raise ValueError("Invalid value for `{{name}}`, length must be greater than or equal to `{{minLength}}`")
 {{/minLength}}
 {{#maximum}}
-        if {{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:
+        if {{name}} is not None and {{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:
             raise ValueError("Invalid value for `{{name}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")
 {{/maximum}}
 {{#minimum}}
-        if {{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:
+        if {{name}} is not None and {{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:
             raise ValueError("Invalid value for `{{name}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")
 {{/minimum}}
 {{#pattern}}
-        if not re.search('{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
+        if {{name}} is not None and not re.search('{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):
             raise ValueError("Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")
 {{/pattern}}
 {{#maxItems}}
-        if len({{name}}) > {{maxItems}}:
+        if {{name}} is not None and len({{name}}) > {{maxItems}}:
             raise ValueError("Invalid value for `{{name}}`, number of items must be less than or equal to `{{maxItems}}`")
 {{/maxItems}}
 {{#minItems}}
-        if len({{name}}) < {{minItems}}:
+        if {{name}} is not None and len({{name}}) < {{minItems}}:
             raise ValueError("Invalid value for `{{name}}`, number of items must be greater than or equal to `{{minItems}}`")
 {{/minItems}}
 {{/hasValidation}}

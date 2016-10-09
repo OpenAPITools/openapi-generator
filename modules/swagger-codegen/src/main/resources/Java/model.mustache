@@ -6,8 +6,14 @@ import java.util.Objects;
 {{#imports}}
 import {{import}};
 {{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+{{#parcelableModel}}
+import android.os.Parcelable;
+import android.os.Parcel;
+{{/parcelableModel}}
 
-{{#serializableModel}}import java.io.Serializable;{{/serializableModel}}
 {{#models}}
 {{#model}}
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}

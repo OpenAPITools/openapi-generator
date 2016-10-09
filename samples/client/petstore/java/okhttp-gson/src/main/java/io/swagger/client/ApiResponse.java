@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * API response returned by API call.
  *
- * @param <T> The type of data that is deserialized from response body
+ * @param T The type of data that is deserialized from response body
  */
 public class ApiResponse<T> {
     final private int statusCode;

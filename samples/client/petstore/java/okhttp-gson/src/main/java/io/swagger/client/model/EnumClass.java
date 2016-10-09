@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -27,8 +27,6 @@ package io.swagger.client.model;
 
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
-
-
 
 /**
  * Gets or Sets EnumClass

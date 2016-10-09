@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -31,12 +31,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
-
 /**
  * Order
  */
 
-public class Order   {
+public class Order {
   @SerializedName("id")
   private Long id = null;
 
@@ -236,5 +235,6 @@ public class Order   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

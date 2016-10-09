@@ -58,6 +58,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "String",
                         "bool",
                         "int",
+                        "num",
                         "double")
         );
         instantiationTypes.put("array", "List");
@@ -69,11 +70,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("List", "List");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
+        typeMapping.put("char", "String");
         typeMapping.put("int", "int");
-        typeMapping.put("float", "double");
         typeMapping.put("long", "int");
         typeMapping.put("short", "int");
-        typeMapping.put("char", "String");
+        typeMapping.put("number", "num");
+        typeMapping.put("float", "double");
         typeMapping.put("double", "double");
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "int");

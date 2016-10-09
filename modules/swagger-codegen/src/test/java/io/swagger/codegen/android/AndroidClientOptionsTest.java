@@ -46,6 +46,8 @@ public class AndroidClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setLibrary(AndroidClientOptionsProvider.LIBRARY_VALUE);
             times = 1;
+            clientCodegen.setSerializableModel(Boolean.valueOf(AndroidClientOptionsProvider.SERIALIZABLE_MODEL_VALUE));
+            times = 1;
         }};
     }
 }
