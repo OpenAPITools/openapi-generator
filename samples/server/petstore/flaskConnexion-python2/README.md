@@ -10,25 +10,19 @@ This example uses the [Connexion](https://github.com/zalando/connexion) library 
 To run the server, please execute the following:
 
 ```
-{{#supportPython2}}
 sudo pip install -U connexion # install Connexion from PyPI
 python app.py
-{{/supportPython2}}
-{{^supportPython2}}
-sudo pip3 install -U connexion # install Connexion from PyPI
-python3 app.py
-{{/supportPython2}}
 ```
 
 and open your browser to here:
 
 ```
-http://localhost:{{serverPort}}{{contextPath}}/ui/
+http://localhost:8080/v2/ui/
 ```
 
 Your Swagger definition lives here:
 
 ```
-http://localhost:{{serverPort}}{{contextPath}}/swagger.json
+http://localhost:8080/v2/swagger.json
 ```
 
