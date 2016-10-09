@@ -17,6 +17,7 @@
 		6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */; };
 		6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */; };
 		751C65B82F596107A3DC8ED9 /* Pods_SwaggerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F60AECFF321A25553B6A5B0 /* Pods_SwaggerClient.framework */; };
+		C6AAAD211D8718D00016A515 /* ISOFullDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AAAD201D8718D00016A515 /* ISOFullDateTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		A638467ACFB30852DEA51F7A /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
 		B4B2BEC2ECA535C616F2F3FE /* Pods-SwaggerClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		C07EC0A94AA0F86D60668B32 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6AAAD201D8718D00016A515 /* ISOFullDateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISOFullDateTests.swift; sourceTree = "<group>"; };
 		F65B6638217EDDC99D103B16 /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC60BDC7328C2AA916F25840 /* Pods-SwaggerClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				6D4EFBAB1C692C6300B96B06 /* Info.plist */,
+				C6AAAD201D8718D00016A515 /* ISOFullDateTests.swift */,
 				6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */,
 				6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */,
 				6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */,
@@ -143,7 +146,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D4EFBAE1C692C6300B96B06 /* Build configuration list for PBXNativeTarget "SwaggerClient" */;
 			buildPhases = (
-				A16DAFA9EF474E5065B5B1C2 /* 📦 Check Pods Manifest.lock */,
+				6345B531824FA2069A72B604 /* 📦 Check Pods Manifest.lock */,
 				CF310079E3CB0BE5BE604471 /* [CP] Check Pods Manifest.lock */,
 				1F03F780DC2D9727E5E64BA9 /* [CP] Check Pods Manifest.lock */,
 				6D4EFB8D1C692C6300B96B06 /* Sources */,
@@ -167,7 +170,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D4EFBB11C692C6300B96B06 /* Build configuration list for PBXNativeTarget "SwaggerClientTests" */;
 			buildPhases = (
-				FE27E864CEDDA2D12F7972B1 /* 📦 Check Pods Manifest.lock */,
+				5B23A28C59366E7C8D31550A /* 📦 Check Pods Manifest.lock */,
 				B4DB169E5F018305D6759D34 /* [CP] Check Pods Manifest.lock */,
 				79FE27B09B2DD354C831BD49 /* [CP] Check Pods Manifest.lock */,
 				6D4EFBA11C692C6300B96B06 /* Sources */,
@@ -322,6 +325,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		5B23A28C59366E7C8D31550A /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6345B531824FA2069A72B604 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		796EAD48F1BCCDAA291CD963 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -473,6 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6AAAD211D8718D00016A515 /* ISOFullDateTests.swift in Sources */,
 				6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */,
 				6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */,
 				6D4EFBB51C693BE200B96B06 /* PetAPITests.swift in Sources */,

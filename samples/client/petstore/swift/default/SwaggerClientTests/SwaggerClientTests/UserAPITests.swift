@@ -11,22 +11,12 @@ import XCTest
 @testable import SwaggerClient
 
 class UserAPITests: XCTestCase {
-    
+
     let testTimeout = 10.0
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
+
     func testLogin() {
         let expectation = self.expectationWithDescription("testLogin")
-        
+
         UserAPI.loginUser(username: "swiftTester", password: "swift") { (_, error) in
             guard error == nil else {
                 XCTFail("error logging in")
@@ -35,13 +25,13 @@ class UserAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func testLogout() {
         let expectation = self.expectationWithDescription("testLogout")
-        
+
         UserAPI.logoutUser { (error) in
             guard error == nil else {
                 XCTFail("error logging out")
@@ -50,15 +40,19 @@ class UserAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func test1CreateUser() {
         let expectation = self.expectationWithDescription("testCreateUser")
-        
+
         let newUser = User()
         newUser.email = "test@test.com"
+        // TODO comment out the following as dateOfBirth has been removed
+        // from petstore.json, we'll need to add back the test after switching
+        // to petstore-with-fake-endpoints-models-for-testing.yaml
+        ////newUser.dateOfBirth = ISOFullDate.from(string: "1999-12-31")
         newUser.firstName = "Test"
         newUser.lastName = "Tester"
         newUser.id = 1000
@@ -66,7 +60,7 @@ class UserAPITests: XCTestCase {
         newUser.phone = "867-5309"
         newUser.username = "test@test.com"
         newUser.userStatus = 0
-        
+
         UserAPI.createUser(body: newUser) { (error) in
             guard error == nil else {
                 XCTFail("error creating user")
@@ -75,19 +69,19 @@ class UserAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func test2GetUser() {
         let expectation = self.expectationWithDescription("testGetUser")
-        
+
         UserAPI.getUserByName(username: "test@test.com") { (user, error) in
             guard error == nil else {
                 XCTFail("error getting user")
                 return
             }
-            
+
             if let user = user {
                 XCTAssert(user.userStatus == 0, "invalid userStatus")
                 XCTAssert(user.email == "test@test.com", "invalid email")
@@ -95,17 +89,21 @@ class UserAPITests: XCTestCase {
                 XCTAssert(user.lastName == "Tester", "invalid lastName")
                 XCTAssert(user.password == "test!", "invalid password")
                 XCTAssert(user.phone == "867-5309", "invalid phone")
-                
+                // TODO comment out the following as dateOfBirth has been removed
+                // from petstore.json, we'll need to add back the test after switching
+                // to petstore-with-fake-endpoints-models-for-testing.yaml
+                //XCTAssert(user.dateOfBirth?.description == "1999-12-31", "invalid date of birth")
+
                 expectation.fulfill()
             }
         }
-        
+
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
-    
+
     func test3DeleteUser() {
         let expectation = self.expectationWithDescription("testDeleteUser")
-        
+
         UserAPI.deleteUser(username: "test@test.com") { (error) in
             guard error == nil else {
                 XCTFail("error deleting user")
@@ -114,7 +112,7 @@ class UserAPITests: XCTestCase {
 
             expectation.fulfill()
         }
-        
+
         self.waitForExpectationsWithTimeout(testTimeout, handler: nil)
     }
 
