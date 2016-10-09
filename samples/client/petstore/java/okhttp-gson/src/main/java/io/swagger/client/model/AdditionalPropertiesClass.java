@@ -1,4 +1,4 @@
-/*
+/**
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -33,12 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * AdditionalPropertiesClass
  */
 
-public class AdditionalPropertiesClass   {
+public class AdditionalPropertiesClass {
   @SerializedName("map_property")
   private Map<String, String> mapProperty = new HashMap<String, String>();
 
@@ -47,11 +46,6 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
-    this.mapProperty.put(key, mapPropertyItem);
     return this;
   }
 
@@ -70,11 +64,6 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
-    return this;
-  }
-
-  public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
-    this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
   }
 
@@ -131,5 +120,6 @@ public class AdditionalPropertiesClass   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

@@ -3,7 +3,7 @@
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcelableModel}}implements Parcelable {{#serializableModel}}, Serializable {{/serializableModel}}{{/parcelableModel}}{{^parcelableModel}}{{#serializableModel}}implements Serializable {{/serializableModel}}{{/parcelableModel}}{
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -119,4 +119,46 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  {{#parcelableModel}}
+  public void writeToParcel(Parcel out, int flags) {
+    {{#parent}} super.writeToParcel(out, flags); {{/parent}} {{#vars}}
+    out.writeValue({{name}});
+    {{/vars}}
+  }
+
+  public {{classname}}() {
+    super();
+  }
+
+  {{classname}}(Parcel in) {
+    {{#parent}} super(in); {{/parent}}
+    {{#vars}}
+    {{#isContainer}}
+    {{#complexType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
+    {{/complexType}}
+    {{^complexType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
+    {{/complexType}}
+    {{/isContainer}}
+    {{^isContainer}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
+    {{/isContainer}}
+    {{/vars}}
+  }
+  
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
+    public {{classname}} createFromParcel(Parcel in) {
+      return new {{classname}}(in);
+    }
+    public {{classname}}[] newArray(int size) {
+      return new {{classname}}[size];
+    }
+  };
+  {{/parcelableModel}}
 }

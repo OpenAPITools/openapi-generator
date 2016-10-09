@@ -102,7 +102,7 @@ class MapTest(object):
         if not set(map_of_enum_string.keys()).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid keys in `map_of_enum_string` [{0}], must be a subset of [{1}]"
-                .format(", ".join(map(str, set(map_of_enum_string.keys())-set(allowed_values))), 
+                .format(", ".join(map(str, set(map_of_enum_string.keys())-set(allowed_values))),
                         ", ".join(map(str, allowed_values)))
             )
 

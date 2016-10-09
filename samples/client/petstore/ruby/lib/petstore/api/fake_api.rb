@@ -104,6 +104,7 @@ module Petstore
     # @option opts [Date] :date None
     # @option opts [DateTime] :date_time None
     # @option opts [String] :password None
+    # @option opts [String] :callback None
     # @return [nil]
     def test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts = {})
       test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, opts)
@@ -126,6 +127,7 @@ module Petstore
     # @option opts [Date] :date None
     # @option opts [DateTime] :date_time None
     # @option opts [String] :password None
+    # @option opts [String] :callback None
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, opts = {})
       if @api_client.config.debugging
@@ -223,6 +225,7 @@ module Petstore
       form_params["date"] = opts[:'date'] if !opts[:'date'].nil?
       form_params["dateTime"] = opts[:'date_time'] if !opts[:'date_time'].nil?
       form_params["password"] = opts[:'password'] if !opts[:'password'].nil?
+      form_params["callback"] = opts[:'callback'] if !opts[:'callback'].nil?
 
       # http body (model)
       post_body = nil

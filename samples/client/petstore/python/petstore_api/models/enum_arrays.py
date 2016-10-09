@@ -108,7 +108,7 @@ class EnumArrays(object):
         if not set(array_enum).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid values for `array_enum` [{0}], must be a subset of [{1}]"
-                .format(", ".join(map(str, set(array_enum)-set(allowed_values))), 
+                .format(", ".join(map(str, set(array_enum)-set(allowed_values))),
                         ", ".join(map(str, allowed_values)))
             )
 

@@ -305,6 +305,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-okhttp-gson-parcelable</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp-gson/parcelableModel</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-client-retrofit</id>
             <activation>
                 <property>

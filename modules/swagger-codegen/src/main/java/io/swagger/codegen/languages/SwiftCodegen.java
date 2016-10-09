@@ -384,10 +384,18 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
     @SuppressWarnings("static-method")
     public String toSwiftyEnumName(String value) {
+        if (value.matches("^-?\\d*\\.{0,1}\\d+.*")) { // starts with number
+            value = "Number" + value;
+            value = value.replaceAll("-", "Minus");
+            value = value.replaceAll("\\+", "Plus");
+            value = value.replaceAll("\\.", "Dot");
+        }
+        
         // Prevent from breaking properly cased identifier
         if (value.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
             return value;
         }
+
         char[] separators = {'-', '_', ' ', ':'};
         return WordUtils.capitalizeFully(StringUtils.lowerCase(value), separators).replaceAll("[-_  :]", "");
     }
