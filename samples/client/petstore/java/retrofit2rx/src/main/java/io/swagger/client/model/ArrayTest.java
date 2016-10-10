@@ -33,12 +33,11 @@ import io.swagger.client.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * ArrayTest
  */
 
-public class ArrayTest   {
+public class ArrayTest {
   @SerializedName("array_of_string")
   private List<String> arrayOfString = new ArrayList<String>();
 
@@ -159,5 +158,6 @@ public class ArrayTest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
