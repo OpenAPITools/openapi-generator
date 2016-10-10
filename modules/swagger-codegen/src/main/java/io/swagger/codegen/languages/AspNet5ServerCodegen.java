@@ -9,9 +9,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static java.util.UUID.randomUUID;
+
 public class AspNet5ServerCodegen extends AbstractCSharpCodegen {
 
     protected String sourceFolder = "src" + File.separator + packageName;
+
+    private final String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNet5ServerCodegen.class);
@@ -80,6 +84,8 @@ public class AspNet5ServerCodegen extends AbstractCSharpCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        additionalProperties.put("packageGuid", packageGuid);
 
         apiPackage = packageName + ".Controllers";
         modelPackage = packageName + ".Models";
