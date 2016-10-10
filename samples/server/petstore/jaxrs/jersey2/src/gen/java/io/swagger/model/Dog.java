@@ -7,9 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Animal;
 
-
-
-
 /**
  * Dog
  */
