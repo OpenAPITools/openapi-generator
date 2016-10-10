@@ -9,9 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 /**
  * EnumArrays
  */
