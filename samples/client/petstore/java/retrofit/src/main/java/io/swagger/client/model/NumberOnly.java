@@ -31,12 +31,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 
-
 /**
  * NumberOnly
  */
 
-public class NumberOnly   {
+public class NumberOnly {
   @SerializedName("JustNumber")
   private BigDecimal justNumber = null;
 
@@ -96,5 +95,6 @@ public class NumberOnly   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
