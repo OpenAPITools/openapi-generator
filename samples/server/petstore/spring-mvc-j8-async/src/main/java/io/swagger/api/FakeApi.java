@@ -1,8 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.model.Client;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.math.BigDecimal;
 
 import io.swagger.annotations.*;
