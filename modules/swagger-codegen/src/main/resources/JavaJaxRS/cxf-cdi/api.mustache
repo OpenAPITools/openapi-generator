@@ -1,0 +1,55 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import {{package}}.{{classname}}Service;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+
+import io.swagger.annotations.*;
+
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+
+import java.util.List;
+
+@Path("/{{baseName}}")
+@RequestScoped
+
+@Api(description = "the {{baseName}} API")
+{{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+{{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+{{>generatedAnnotation}}
+
+public class {{classname}}  {
+
+  @Context SecurityContext securityContext;
+
+  @Inject {{classname}}Service delegate;
+
+{{#operations}}
+{{#operation}}
+
+    @{{httpMethod}}
+    {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
+    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
+    {{#hasProduces}}@Produces({ {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+            {{/hasMore}}{{/scopes}}
+        }{{/isOAuth}}){{#hasMore}},
+        {{/hasMore}}{{/authMethods}}
+    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
+    @ApiResponses(value = { {{#responses}}
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},{{/hasMore}}{{/responses}} })
+    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    	return delegate.{{nickname}}({{#allParams}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}, {{/allParams}}securityContext);
+    }
+{{/operation}}
+}
+{{/operations}}
