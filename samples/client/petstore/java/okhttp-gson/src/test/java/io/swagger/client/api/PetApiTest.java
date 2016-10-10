@@ -153,7 +153,7 @@ public class PetApiTest {
 
         // test getting a nonexistent pet
         result.clear();
-        api.getPetByIdAsync(new Long(-10000), new ApiCallback<Pet>() {
+        api.getPetByIdAsync(-10000L, new ApiCallback<Pet>() {
             @Override
             public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
                 result.put("exception", e);
@@ -174,8 +174,6 @@ public class PetApiTest {
                 //empty
             }
         });
-        // the API call should be executed asynchronously, so result should be empty at the moment
-        assertTrue(result.isEmpty());
 
         // wait for the asynchronous call to finish (at most 10 seconds)
         tryCount = 1;
@@ -254,7 +252,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByStatus(Arrays.asList(new String[]{"pending"}));
+        List<Pet> pets = api.findPetsByStatus(Arrays.asList("pending"));
         assertNotNull(pets);
 
         boolean found = false;
@@ -284,7 +282,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByTags(Arrays.asList(new String[]{"friendly"}));
+        List<Pet> pets = api.findPetsByTags(Arrays.asList("friendly"));
         assertNotNull(pets);
 
         boolean found = false;
@@ -353,7 +351,7 @@ public class PetApiTest {
         assertTrue(pet1.hashCode() == pet1.hashCode());
 
         pet2.setName("really-happy");
-        pet2.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet2.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertFalse(pet1.equals(pet2));
         assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
@@ -361,7 +359,7 @@ public class PetApiTest {
         assertTrue(pet2.hashCode() == pet2.hashCode());
 
         pet1.setName("really-happy");
-        pet1.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet1.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertTrue(pet1.equals(pet2));
         assertTrue(pet2.equals(pet1));
         assertTrue(pet1.hashCode() == pet2.hashCode());
@@ -379,7 +377,7 @@ public class PetApiTest {
 
         pet.setCategory(category);
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"});
+        List<String> photos = Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2");
         pet.setPhotoUrls(photos);
 
         return pet;
