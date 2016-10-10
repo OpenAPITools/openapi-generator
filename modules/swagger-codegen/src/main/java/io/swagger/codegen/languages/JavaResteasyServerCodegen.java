@@ -67,10 +67,12 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
+        supportingFiles.add(new SupportingFile("JacksonConfig.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "JacksonConfig.java"));
+        supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RFC3339DateFormat.java"));
 
         if ("joda".equals(dateLibrary)) {
-            supportingFiles.add(new SupportingFile("JacksonConfig.mustache",
-                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "JacksonConfig.java"));
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache",
                     (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache",
