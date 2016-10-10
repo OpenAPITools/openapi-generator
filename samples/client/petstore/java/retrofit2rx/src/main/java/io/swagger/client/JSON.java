@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -47,7 +47,6 @@ import java.util.Date;
 
 public class JSON {
     private Gson gson;
-    private boolean isLenientOnJson = false;
     private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
     private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
     private DateTimeTypeAdapter dateTimeTypeAdapter = new DateTimeTypeAdapter();
@@ -80,49 +79,6 @@ public class JSON {
     public JSON setGson(Gson gson) {
         this.gson = gson;
         return this;
-    }
-
-    public JSON setLenientOnJson(boolean lenientOnJson) {
-        isLenientOnJson = lenientOnJson;
-        return this;
-    }
-
-    /**
-     * Serialize the given Java object into JSON string.
-     *
-     * @param obj Object
-     * @return String representation of the JSON
-     */
-    public String serialize(Object obj) {
-        return gson.toJson(obj);
-    }
-
-    /**
-     * Deserialize the given JSON string to Java object.
-     *
-     * @param <T>        Type
-     * @param body       The JSON string
-     * @param returnType The type to deserialize into
-     * @return The deserialized Java object
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T deserialize(String body, Type returnType) {
-        try {
-            if (isLenientOnJson) {
-                JsonReader jsonReader = new JsonReader(new StringReader(body));
-                // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
-                jsonReader.setLenient(true);
-                return gson.fromJson(jsonReader, returnType);
-            } else {
-                return gson.fromJson(body, returnType);
-            }
-        } catch (JsonParseException e) {
-            // Fallback processing when failed to parse JSON form response body:
-            // return the response body string directly for the String return type;
-            if (returnType.equals(String.class))
-                return (T) body;
-            else throw (e);
-        }
     }
 
     /**
