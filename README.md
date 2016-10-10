@@ -885,7 +885,8 @@ Here is a list of template creators:
    * Java Undertow: @stevehu
    * Java Spring Boot: @diyfr
    * JAX-RS RestEasy: @chameleon82
-   * JAX-RS CXF: @hiveship 
+   * JAX-RS CXF: @hiveship
+   * JAX-RS CXF (CDI): @nickcmaynard
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
    * Ruby on Rails 5: @zlx 
