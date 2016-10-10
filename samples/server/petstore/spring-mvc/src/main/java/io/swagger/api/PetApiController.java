@@ -1,8 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.model.Pet;
-import java.io.File;
 import io.swagger.model.ModelApiResponse;
+import java.io.File;
 
 import io.swagger.annotations.*;
 
