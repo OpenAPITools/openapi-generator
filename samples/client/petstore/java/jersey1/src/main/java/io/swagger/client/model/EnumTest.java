@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * EnumTest
  */
 
-public class EnumTest   {
+public class EnumTest {
   /**
    * Gets or Sets enumString
    */
@@ -232,5 +231,6 @@ public class EnumTest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
