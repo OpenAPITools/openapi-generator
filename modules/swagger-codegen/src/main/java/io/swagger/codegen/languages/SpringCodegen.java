@@ -126,6 +126,8 @@ public class SpringCodegen extends AbstractJavaCodegen {
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
                 supportingFiles.add(new SupportingFile("swagger2SpringBoot.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "Swagger2SpringBoot.java"));
+                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
                 supportingFiles.add(new SupportingFile("application.mustache",
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
             }
@@ -136,6 +138,8 @@ public class SpringCodegen extends AbstractJavaCodegen {
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebMvcConfiguration.java"));
                 supportingFiles.add(new SupportingFile("swaggerUiConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerUiConfiguration.java"));
+                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
                 supportingFiles.add(new SupportingFile("application.properties",
                         ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
             }
