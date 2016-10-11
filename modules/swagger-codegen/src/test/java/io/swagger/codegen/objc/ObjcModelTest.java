@@ -224,7 +224,7 @@ public class ObjcModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "SWGChildren");
-        Assert.assertEquals(property1.datatype, "NSDictionary<NSString*, SWGChildren>*");
+        Assert.assertEquals(property1.datatype, "NSDictionary<SWGChildren>*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
