@@ -145,6 +145,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
+
+        if (additionalProperties.containsKey("jackson") ) {
+            supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
+        }
     }
 
     private boolean usesAnyRetrofitLibrary() {

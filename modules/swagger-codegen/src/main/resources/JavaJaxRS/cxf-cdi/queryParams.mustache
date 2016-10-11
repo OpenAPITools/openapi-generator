@@ -1,0 +1,1 @@
+{{#isQueryParam}}@ApiParam(value = "{{{description}}}"{{#required}},required=true{{/required}}{{#allowableValues}}, {{> allowableValues }}{{/allowableValues}}{{#defaultValue}}, defaultValue="{{{defaultValue}}}"{{/defaultValue}}) {{#defaultValue}}@DefaultValue("{{{defaultValue}}}"){{/defaultValue}} @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isQueryParam}}
