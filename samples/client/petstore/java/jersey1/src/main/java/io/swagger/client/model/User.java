@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * User
  */
 
-public class User   {
+public class User {
   @JsonProperty("id")
   private Long id = null;
 
@@ -257,5 +256,6 @@ public class User   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
