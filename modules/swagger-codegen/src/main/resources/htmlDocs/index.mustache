@@ -28,23 +28,25 @@
   [ Jump to <a href="#__Models">Models</a> ]
 
   {{! for the tables of content, I cheat and don't use CSS styles.... }}
-  <h2>Table of Contents </h2>
+  <h3>Table of Contents </h3>
   <div class="method-summary">{{access}}</div>
   {{#apiInfo}}
-  <ol>
   {{#apis}}
   {{#operations}}
+  <h4><a href="#{{baseName}}">{{baseName}}</a></h4>
+  <ul>
   {{#operation}}
   <li><a href="#{{nickname}}"><code><span class="http-method">{{httpMethod}}</span> {{path}}</code></a></li>
   {{/operation}}
+  </ul>
   {{/operations}}
   {{/apis}}
-  </ol>
   {{/apiInfo}}
 
   {{#apiInfo}}
   {{#apis}}
   {{#operations}}
+  <h1><a name="{{baseName}}">{{baseName}}</a></h1>
   {{#operation}}
   <div class="method"><a name="{{nickname}}"/>
     <div class="method-path">
@@ -150,7 +152,7 @@
   <h2><a name="__Models">Models</a></h2>
   [ Jump to <a href="#__Methods">Methods</a> ]
 
-  <h2>Table of Contents</h2>
+  <h3>Table of Contents</h3>
   <ol>
   {{#models}}
   {{#model}}

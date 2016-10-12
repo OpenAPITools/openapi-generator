@@ -49,6 +49,11 @@ public class SwiftCodegenTest {
         Assert.assertEquals(swiftCodegen.toSwiftyEnumName("entry_name"), "EntryName");
     }
 
+    @Test
+    public void testSlash() throws Exception {
+        Assert.assertEquals(swiftCodegen.toSwiftyEnumName("application/x-tar"), "ApplicationXTar");
+    }
+
     @Test(description = "returns NSData when response format is binary")
     public void binaryDataTest() {
         final Swagger model = new SwaggerParser().read("src/test/resources/2_0/binaryDataTest.json");

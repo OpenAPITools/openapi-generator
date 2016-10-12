@@ -30,12 +30,11 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * HasOnlyReadOnly
  */
 
-public class HasOnlyReadOnly   {
+public class HasOnlyReadOnly {
   @SerializedName("bar")
   private String bar = null;
 
@@ -100,5 +99,6 @@ public class HasOnlyReadOnly   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
