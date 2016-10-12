@@ -396,8 +396,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
             return value;
         }
 
-        char[] separators = {'-', '_', ' ', ':'};
-        return WordUtils.capitalizeFully(StringUtils.lowerCase(value), separators).replaceAll("[-_  :]", "");
+        char[] separators = {'-', '_', ' ', ':', '/'};
+        return WordUtils.capitalizeFully(StringUtils.lowerCase(value), separators).replaceAll("[-_  :/]", "");
     }
 
 
