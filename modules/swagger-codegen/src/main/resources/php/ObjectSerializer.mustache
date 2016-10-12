@@ -213,7 +213,7 @@ class ObjectSerializer
         } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
             $inner = substr($class, 4, -1);
             $deserialized = [];
-            if (strrpos($inner, ",") !== false) {
+            if (strrpos($inner, ',') !== false) {
                 $subClass_array = explode(',', $inner, 2);
                 $subClass = $subClass_array[1];
                 foreach ($data as $key => $value) {
@@ -254,9 +254,9 @@ class ObjectSerializer
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }
-            $deserialized = new \SplFileObject($filename, "w");
+            $deserialized = new \SplFileObject($filename, 'w');
             $byte_written = $deserialized->fwrite($data);
-            if (Configuration::getDefaultConfiguration()->getDebug()) {
+            if (Configuration::getDefaultConfiguration()->isDebug()) {
                 error_log("[DEBUG] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.".PHP_EOL, 3, Configuration::getDefaultConfiguration()->getDebugFile());
             }
 
