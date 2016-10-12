@@ -25,7 +25,7 @@ public interface StoreApi {
   
   @DELETE("store/order/{orderId}")
   Observable<Void> deleteOrder(
-    @Path("orderId") String orderId
+    @retrofit2.http.Path("orderId") String orderId
   );
 
   /**
@@ -47,7 +47,7 @@ public interface StoreApi {
   
   @GET("store/order/{orderId}")
   Observable<Order> getOrderById(
-    @Path("orderId") Long orderId
+    @retrofit2.http.Path("orderId") Long orderId
   );
 
   /**
@@ -59,7 +59,7 @@ public interface StoreApi {
   
   @POST("store/order")
   Observable<Order> placeOrder(
-    @Body Order body
+    @retrofit2.http.Body Order body
   );
 
 }
