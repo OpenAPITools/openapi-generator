@@ -32,12 +32,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
 
-
 /**
  * Dog
  */
 
-public class Dog extends Animal  {
+public class Dog extends Animal {
   @JsonProperty("breed")
   private String breed = null;
 
@@ -98,5 +97,6 @@ public class Dog extends Animal  {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
