@@ -8,8 +8,8 @@ import retrofit.mime.*;
 
 import io.swagger.client.model.Client;
 import org.joda.time.LocalDate;
-import java.math.BigDecimal;
 import org.joda.time.DateTime;
+import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,12 +27,7 @@ public interface FakeApi {
   
   @PATCH("/fake")
   Client testClientModel(
-    
-
-
-@retrofit.http.Body Client body
-
-
+    @retrofit.http.Body Client body
   );
 
   /**
@@ -45,12 +40,7 @@ public interface FakeApi {
   
   @PATCH("/fake")
   void testClientModel(
-    
-
-
-@retrofit.http.Body Client body
-
-, Callback<Client> cb
+    @retrofit.http.Body Client body, Callback<Client> cb
   );
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -76,77 +66,7 @@ public interface FakeApi {
   @retrofit.http.FormUrlEncoded
   @POST("/fake")
   Void testEndpointParameters(
-    
-
-
-
-@retrofit.http.Field("number") BigDecimal number
-, 
-
-
-
-@retrofit.http.Field("double") Double _double
-, 
-
-
-
-@retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter
-, 
-
-
-
-@retrofit.http.Field("byte") byte[] _byte
-, 
-
-
-
-@retrofit.http.Field("integer") Integer integer
-, 
-
-
-
-@retrofit.http.Field("int32") Integer int32
-, 
-
-
-
-@retrofit.http.Field("int64") Long int64
-, 
-
-
-
-@retrofit.http.Field("float") Float _float
-, 
-
-
-
-@retrofit.http.Field("string") String string
-, 
-
-
-
-@retrofit.http.Field("binary") byte[] binary
-, 
-
-
-
-@retrofit.http.Field("date") LocalDate date
-, 
-
-
-
-@retrofit.http.Field("dateTime") DateTime dateTime
-, 
-
-
-
-@retrofit.http.Field("password") String password
-, 
-
-
-
-@retrofit.http.Field("callback") String paramCallback
-
+    @retrofit.http.Field("number") BigDecimal number, @retrofit.http.Field("double") Double _double, @retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit.http.Field("byte") byte[] _byte, @retrofit.http.Field("integer") Integer integer, @retrofit.http.Field("int32") Integer int32, @retrofit.http.Field("int64") Long int64, @retrofit.http.Field("float") Float _float, @retrofit.http.Field("string") String string, @retrofit.http.Field("binary") byte[] binary, @retrofit.http.Field("date") LocalDate date, @retrofit.http.Field("dateTime") DateTime dateTime, @retrofit.http.Field("password") String password, @retrofit.http.Field("callback") String paramCallback
   );
 
   /**
@@ -173,77 +93,7 @@ public interface FakeApi {
   @retrofit.http.FormUrlEncoded
   @POST("/fake")
   void testEndpointParameters(
-    
-
-
-
-@retrofit.http.Field("number") BigDecimal number
-, 
-
-
-
-@retrofit.http.Field("double") Double _double
-, 
-
-
-
-@retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter
-, 
-
-
-
-@retrofit.http.Field("byte") byte[] _byte
-, 
-
-
-
-@retrofit.http.Field("integer") Integer integer
-, 
-
-
-
-@retrofit.http.Field("int32") Integer int32
-, 
-
-
-
-@retrofit.http.Field("int64") Long int64
-, 
-
-
-
-@retrofit.http.Field("float") Float _float
-, 
-
-
-
-@retrofit.http.Field("string") String string
-, 
-
-
-
-@retrofit.http.Field("binary") byte[] binary
-, 
-
-
-
-@retrofit.http.Field("date") LocalDate date
-, 
-
-
-
-@retrofit.http.Field("dateTime") DateTime dateTime
-, 
-
-
-
-@retrofit.http.Field("password") String password
-, 
-
-
-
-@retrofit.http.Field("callback") String paramCallback
-, Callback<Void> cb
+    @retrofit.http.Field("number") BigDecimal number, @retrofit.http.Field("double") Double _double, @retrofit.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit.http.Field("byte") byte[] _byte, @retrofit.http.Field("integer") Integer integer, @retrofit.http.Field("int32") Integer int32, @retrofit.http.Field("int64") Long int64, @retrofit.http.Field("float") Float _float, @retrofit.http.Field("string") String string, @retrofit.http.Field("binary") byte[] binary, @retrofit.http.Field("date") LocalDate date, @retrofit.http.Field("dateTime") DateTime dateTime, @retrofit.http.Field("password") String password, @retrofit.http.Field("callback") String paramCallback, Callback<Void> cb
   );
   /**
    * To test enum parameters
@@ -263,47 +113,7 @@ public interface FakeApi {
   @retrofit.http.FormUrlEncoded
   @GET("/fake")
   Void testEnumParameters(
-    
-
-
-
-@retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray
-, 
-
-
-
-@retrofit.http.Field("enum_form_string") String enumFormString
-, 
-
-@retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray
-
-
-, 
-
-@retrofit.http.Header("enum_header_string") String enumHeaderString
-
-
-, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray
-
-
-
-
-, @retrofit.http.Query("enum_query_string") String enumQueryString
-
-
-
-
-, @retrofit.http.Query("enum_query_integer") BigDecimal enumQueryInteger
-
-
-
-
-, 
-
-
-
-@retrofit.http.Field("enum_query_double") Double enumQueryDouble
-
+    @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") BigDecimal enumQueryInteger, @retrofit.http.Field("enum_query_double") Double enumQueryDouble
   );
 
   /**
@@ -324,46 +134,6 @@ public interface FakeApi {
   @retrofit.http.FormUrlEncoded
   @GET("/fake")
   void testEnumParameters(
-    
-
-
-
-@retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray
-, 
-
-
-
-@retrofit.http.Field("enum_form_string") String enumFormString
-, 
-
-@retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray
-
-
-, 
-
-@retrofit.http.Header("enum_header_string") String enumHeaderString
-
-
-, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray
-
-
-
-
-, @retrofit.http.Query("enum_query_string") String enumQueryString
-
-
-
-
-, @retrofit.http.Query("enum_query_integer") BigDecimal enumQueryInteger
-
-
-
-
-, 
-
-
-
-@retrofit.http.Field("enum_query_double") Double enumQueryDouble
-, Callback<Void> cb
+    @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") BigDecimal enumQueryInteger, @retrofit.http.Field("enum_query_double") Double enumQueryDouble, Callback<Void> cb
   );
 }

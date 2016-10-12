@@ -25,12 +25,7 @@ public interface UserApi {
   
   @POST("user")
   Observable<Void> createUser(
-    
-
-
-@retrofit2.http.Body User body
-
-
+    @retrofit2.http.Body User body
   );
 
   /**
@@ -42,12 +37,7 @@ public interface UserApi {
   
   @POST("user/createWithArray")
   Observable<Void> createUsersWithArrayInput(
-    
-
-
-@retrofit2.http.Body List<User> body
-
-
+    @retrofit2.http.Body List<User> body
   );
 
   /**
@@ -59,12 +49,7 @@ public interface UserApi {
   
   @POST("user/createWithList")
   Observable<Void> createUsersWithListInput(
-    
-
-
-@retrofit2.http.Body List<User> body
-
-
+    @retrofit2.http.Body List<User> body
   );
 
   /**
@@ -76,12 +61,7 @@ public interface UserApi {
   
   @DELETE("user/{username}")
   Observable<Void> deleteUser(
-    
-@retrofit2.http.Path("username") String username
-
-
-
-
+    @retrofit2.http.Path("username") String username
   );
 
   /**
@@ -93,12 +73,7 @@ public interface UserApi {
   
   @GET("user/{username}")
   Observable<User> getUserByName(
-    
-@retrofit2.http.Path("username") String username
-
-
-
-
+    @retrofit2.http.Path("username") String username
   );
 
   /**
@@ -111,17 +86,7 @@ public interface UserApi {
   
   @GET("user/login")
   Observable<String> loginUser(
-    @retrofit2.http.Query("username") String username
-
-
-
-
-, @retrofit2.http.Query("password") String password
-
-
-
-
-
+    @retrofit2.http.Query("username") String username, @retrofit2.http.Query("password") String password
   );
 
   /**
@@ -144,17 +109,7 @@ public interface UserApi {
   
   @PUT("user/{username}")
   Observable<Void> updateUser(
-    
-@retrofit2.http.Path("username") String username
-
-
-
-, 
-
-
-@retrofit2.http.Body User body
-
-
+    @retrofit2.http.Path("username") String username, @retrofit2.http.Body User body
   );
 
 }
