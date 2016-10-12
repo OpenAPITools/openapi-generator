@@ -29,7 +29,6 @@ import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
 
-
 /**
  * Gets or Sets EnumClass
  */
