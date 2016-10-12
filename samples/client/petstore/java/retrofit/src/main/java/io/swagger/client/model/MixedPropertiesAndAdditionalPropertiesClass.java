@@ -36,12 +36,11 @@ import java.util.Map;
 import java.util.UUID;
 import org.joda.time.DateTime;
 
-
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-public class MixedPropertiesAndAdditionalPropertiesClass   {
+public class MixedPropertiesAndAdditionalPropertiesClass {
   @SerializedName("uuid")
   private UUID uuid = null;
 
@@ -152,5 +151,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

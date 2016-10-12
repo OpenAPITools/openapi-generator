@@ -3,7 +3,7 @@
   <head>
     <title>Swagger Petstore</title>
     <style type="text/css">
-      body { 
+      body {
 	font-family: Trebuchet MS, sans-serif;
 	font-size: 15px;
 	color: #444;
@@ -25,7 +25,6 @@ hr	{
 	border: 0;
 	color: #ddd;
 	background-color: #ddd;
-	display: none;
 }
 
 .app-desc {
@@ -176,6 +175,7 @@ font-style: italic;
   display: inline-block;
   text-decoration: none;
 }
+
     </style>
   </head>
   <body>
@@ -196,9 +196,10 @@ font-style: italic;
   <h2><a name="__Methods">Methods</a></h2>
   [ Jump to <a href="#__Models">Models</a> ]
 
-  <h2>Table of Contents </h2>
+  <h3>Table of Contents </h3>
   <div class="method-summary"></div>
-  <ol>
+  <h4><a href="#Pet">Pet</a></h4>
+  <ul>
   <li><a href="#addPet"><code><span class="http-method">post</span> /pet</code></a></li>
   <li><a href="#deletePet"><code><span class="http-method">delete</span> /pet/{petId}</code></a></li>
   <li><a href="#findPetsByStatus"><code><span class="http-method">get</span> /pet/findByStatus</code></a></li>
@@ -207,10 +208,16 @@ font-style: italic;
   <li><a href="#updatePet"><code><span class="http-method">put</span> /pet</code></a></li>
   <li><a href="#updatePetWithForm"><code><span class="http-method">post</span> /pet/{petId}</code></a></li>
   <li><a href="#uploadFile"><code><span class="http-method">post</span> /pet/{petId}/uploadImage</code></a></li>
+  </ul>
+  <h4><a href="#Store">Store</a></h4>
+  <ul>
   <li><a href="#deleteOrder"><code><span class="http-method">delete</span> /store/order/{orderId}</code></a></li>
   <li><a href="#getInventory"><code><span class="http-method">get</span> /store/inventory</code></a></li>
   <li><a href="#getOrderById"><code><span class="http-method">get</span> /store/order/{orderId}</code></a></li>
   <li><a href="#placeOrder"><code><span class="http-method">post</span> /store/order</code></a></li>
+  </ul>
+  <h4><a href="#User">User</a></h4>
+  <ul>
   <li><a href="#createUser"><code><span class="http-method">post</span> /user</code></a></li>
   <li><a href="#createUsersWithArrayInput"><code><span class="http-method">post</span> /user/createWithArray</code></a></li>
   <li><a href="#createUsersWithListInput"><code><span class="http-method">post</span> /user/createWithList</code></a></li>
@@ -219,8 +226,9 @@ font-style: italic;
   <li><a href="#loginUser"><code><span class="http-method">get</span> /user/login</code></a></li>
   <li><a href="#logoutUser"><code><span class="http-method">get</span> /user/logout</code></a></li>
   <li><a href="#updateUser"><code><span class="http-method">put</span> /user/{username}</code></a></li>
-  </ol>
+  </ul>
 
+  <h1><a name="Pet">Pet</a></h1>
   <div class="method"><a name="addPet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -683,6 +691,7 @@ font-style: italic;
         <a href="#ApiResponse">ApiResponse</a>
   </div> <!-- method -->
   <hr/>
+  <h1><a name="Store">Store</a></h1>
   <div class="method"><a name="deleteOrder"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -896,6 +905,7 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <h1><a name="User">User</a></h1>
   <div class="method"><a name="createUser"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -1254,7 +1264,7 @@ font-style: italic;
   <h2><a name="__Models">Models</a></h2>
   [ Jump to <a href="#__Methods">Methods</a> ]
 
-  <h2>Table of Contents</h2>
+  <h3>Table of Contents</h3>
   <ol>
     <li><a href="#ApiResponse"><code>ApiResponse</code></a></li>
     <li><a href="#Category"><code>Category</code></a></li>

@@ -32,12 +32,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
-
 /**
  * Order
  */
 
-public class Order   {
+public class Order {
   @JsonProperty("id")
   private Long id = null;
 
@@ -244,5 +243,6 @@ public class Order   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
