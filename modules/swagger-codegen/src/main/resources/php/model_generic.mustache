@@ -183,7 +183,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properties are valid
+     * @return bool True if all properteis are valid
      */
     public function valid()
     {
@@ -365,9 +365,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     public function __toString()
     {
         if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
-            return json_encode(ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
+            return json_encode(\{{invokerPackage}}\ObjectSerializer::sanitizeForSerialization($this), JSON_PRETTY_PRINT);
         }
 
-        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(\{{invokerPackage}}\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
