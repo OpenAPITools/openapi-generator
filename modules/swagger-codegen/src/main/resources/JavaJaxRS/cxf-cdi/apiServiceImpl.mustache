@@ -24,7 +24,7 @@ public class {{classname}}ServiceImpl implements {{classname}}Service {
       @Override
       public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}, {{/allParams}}SecurityContext securityContext) {
       // do some magic!
-      return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+      return Response.ok().entity("magic!").build();
   }
   {{/operation}}
 }
