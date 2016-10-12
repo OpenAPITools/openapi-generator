@@ -19,6 +19,11 @@
 
 namespace {{invokerPackage}};
 
+use \{{invokerPackage}}\Configuration;
+use \{{invokerPackage}}\ApiClient;
+use \{{invokerPackage}}\ApiException;
+use \{{invokerPackage}}\ObjectSerializer;
+
 /**
  * {{classname}}Test Class Doc Comment
  *
@@ -30,6 +35,7 @@ namespace {{invokerPackage}};
  */
 {{#operations}}class {{classname}}Test extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Setup before running any test cases
      */
@@ -67,6 +73,7 @@ namespace {{invokerPackage}};
      * Test case for {{{operationId}}}
      *
      * {{{summary}}}.
+     *
      */
     public function test{{vendorExtensions.x-testOperationId}}()
     {
