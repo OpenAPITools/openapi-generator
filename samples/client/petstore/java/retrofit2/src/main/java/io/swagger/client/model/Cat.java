@@ -31,12 +31,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
 
-
 /**
  * Cat
  */
 
-public class Cat extends Animal  {
+public class Cat extends Animal {
   @SerializedName("declawed")
   private Boolean declawed = null;
 
@@ -97,5 +96,6 @@ public class Cat extends Animal  {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

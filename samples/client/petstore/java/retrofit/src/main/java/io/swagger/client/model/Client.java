@@ -30,12 +30,11 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * Client
  */
 
-public class Client   {
+public class Client {
   @SerializedName("client")
   private String client = null;
 
@@ -95,5 +94,6 @@ public class Client   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
