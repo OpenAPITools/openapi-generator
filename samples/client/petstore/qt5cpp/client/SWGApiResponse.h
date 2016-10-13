@@ -25,7 +25,7 @@
 /*
  * SWGApiResponse.h
  * 
- * 
+ * Describes the result of uploading an image resource
  */
 
 #ifndef SWGApiResponse_H_

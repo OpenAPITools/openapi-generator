@@ -25,7 +25,7 @@
 /*
  * SWGOrder.h
  * 
- * 
+ * An order for a pets from the pet store
  */
 
 #ifndef SWGOrder_H_

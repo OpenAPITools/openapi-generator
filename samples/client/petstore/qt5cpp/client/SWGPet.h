@@ -25,7 +25,7 @@
 /*
  * SWGPet.h
  * 
- * 
+ * A pet for sale in the pet store
  */
 
 #ifndef SWGPet_H_

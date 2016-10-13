@@ -25,7 +25,7 @@
 /*
  * SWGTag.h
  * 
- * 
+ * A tag for a pet
  */
 
 #ifndef SWGTag_H_
