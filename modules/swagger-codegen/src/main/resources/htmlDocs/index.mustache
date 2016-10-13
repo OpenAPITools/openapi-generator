@@ -80,12 +80,12 @@
     </div>  <!-- field-items -->
     {{/hasBodyParam}}
 
-    {{#hasHeaderParam}}
+    {{#hasHeaderParams}}
     <h3 class="field-label">Request headers</h3>
     <div class="field-items">
       {{#headerParam}}{{>headerParam}}{{/headerParam}}
     </div>  <!-- field-items -->
-    {{/hasHeaderParam}}
+    {{/hasHeaderParams}}
 
     {{#hasQueryParams}}
     <h3 class="field-label">Query parameters</h3>
