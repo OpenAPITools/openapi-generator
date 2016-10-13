@@ -212,7 +212,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace("::", File.separator);
     }
 
     @Override
