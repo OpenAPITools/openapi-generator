@@ -127,6 +127,14 @@ module Petstore
     # @return Array for valid properies with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @name.nil?
+        invalid_properties.push("invalid value for 'name', name cannot be nil.")
+      end
+
+      if @photo_urls.nil?
+        invalid_properties.push("invalid value for 'photo_urls', photo_urls cannot be nil.")
+      end
+
       return invalid_properties
     end
 
