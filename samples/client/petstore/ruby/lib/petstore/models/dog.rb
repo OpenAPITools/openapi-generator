@@ -79,6 +79,10 @@ module Petstore
     # @return Array for valid properies with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @class_name.nil?
+        invalid_properties.push("invalid value for 'class_name', class_name cannot be nil.")
+      end
+
       return invalid_properties
     end
 
