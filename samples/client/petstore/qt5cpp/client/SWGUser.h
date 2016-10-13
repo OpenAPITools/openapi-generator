@@ -25,7 +25,7 @@
 /*
  * SWGUser.h
  * 
- * 
+ * A User who is purchasing from the pet store
  */
 
 #ifndef SWGUser_H_
