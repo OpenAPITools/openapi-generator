@@ -39,6 +39,8 @@ import org.apache.http.params.*;
 import org.apache.http.util.EntityUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.net.URLEncoder;
@@ -48,8 +50,6 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
@@ -230,7 +230,11 @@ public class ApiInvoker {
   }
 
   public String escapeString(String str) {
-    return str;
+    try {
+      return URLEncoder.encode(str, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      return str;
+    }
   }
 
   public static Object deserialize(String json, String containerType, Class cls) throws ApiException {

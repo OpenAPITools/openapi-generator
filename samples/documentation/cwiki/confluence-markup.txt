@@ -60,7 +60,9 @@ h2. Endpoints
         |petId |Pet id to delete |(/) | |  |
 
 
-
+        h5. Header Parameters
+        ||Name||Description||Required||Default||Pattern||
+        
 
 
 

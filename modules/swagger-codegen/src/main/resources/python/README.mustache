@@ -70,7 +70,7 @@ from pprint import pprint
 {{{packageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 # create an instance of the API class
-api_instance = {{{packageName}}}.{{{classname}}}
+api_instance = {{{packageName}}}.{{{classname}}}()
 {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 

@@ -92,4 +92,16 @@ public class ConfluenceWikiGenerator extends DefaultCodegen implements CodegenCo
         }
         return objs;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // just return the original string
+        return input;
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // just return the original string
+        return input;
+    }
 }
