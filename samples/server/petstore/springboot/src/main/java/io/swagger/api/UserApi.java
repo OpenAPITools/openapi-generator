@@ -26,11 +26,7 @@ public interface UserApi {
     @RequestMapping(value = "/user",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUser(
-
-@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body
-
-);
+    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body);
 
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
@@ -39,11 +35,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithArray",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUsersWithArrayInput(
-
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
-
-);
+    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body);
 
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
@@ -52,11 +44,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithList",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUsersWithListInput(
-
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
-
-);
+    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body);
 
 
     @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
@@ -66,11 +54,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteUser(
-@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username
-
-
-);
+    ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user", })
@@ -81,11 +65,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<User> getUserByName(
-@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username
-
-
-);
+    ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username);
 
 
     @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
@@ -95,15 +75,8 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username
-
-
-
-,@ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password
-
-
-
-);
+    ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
+        @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password);
 
 
     @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
@@ -122,14 +95,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUser(
-@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username
-
-
-,
-
-@ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body
-
-);
+    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,
+        @ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body);
 
 }
