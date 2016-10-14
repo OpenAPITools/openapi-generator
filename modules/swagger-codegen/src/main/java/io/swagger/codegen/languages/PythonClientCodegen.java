@@ -430,7 +430,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // e.g. PhoneNumberApi.rb => phone_number_api.rb
+        // e.g. PhoneNumberApi.py => phone_number_api.py
         return underscore(name) + "_api";
     }
     
@@ -608,6 +608,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         p.example = example;
     }
+    
+    @Override
+    public String sanitizeTag(String tag) {
+        return sanitizeName(tag);
+    }
+
 
     @Override
     public String escapeQuotationMark(String input) {
