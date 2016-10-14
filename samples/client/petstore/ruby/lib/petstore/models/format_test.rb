@@ -157,7 +157,6 @@ module Petstore
     # @return Array for valid properies with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-
       if !@integer.nil? && @integer > 100.0
         invalid_properties.push("invalid value for 'integer', must be smaller than or equal to 100.0.")
       end
@@ -165,7 +164,6 @@ module Petstore
       if !@integer.nil? && @integer < 10.0
         invalid_properties.push("invalid value for 'integer', must be greater than or equal to 10.0.")
       end
-
 
       if !@int32.nil? && @int32 > 200.0
         invalid_properties.push("invalid value for 'int32', must be smaller than or equal to 200.0.")
@@ -187,7 +185,6 @@ module Petstore
         invalid_properties.push("invalid value for 'number', must be greater than or equal to 32.1.")
       end
 
-
       if !@float.nil? && @float > 987.6
         invalid_properties.push("invalid value for 'float', must be smaller than or equal to 987.6.")
       end
@@ -195,7 +192,6 @@ module Petstore
       if !@float.nil? && @float < 54.3
         invalid_properties.push("invalid value for 'float', must be greater than or equal to 54.3.")
       end
-
 
       if !@double.nil? && @double > 123.4
         invalid_properties.push("invalid value for 'double', must be smaller than or equal to 123.4.")
@@ -205,9 +201,16 @@ module Petstore
         invalid_properties.push("invalid value for 'double', must be greater than or equal to 67.8.")
       end
 
-
       if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
         invalid_properties.push("invalid value for 'string', must conform to the pattern /[a-z]/i.")
+      end
+
+      if @byte.nil?
+        invalid_properties.push("invalid value for 'byte', byte cannot be nil.")
+      end
+
+      if @date.nil?
+        invalid_properties.push("invalid value for 'date', date cannot be nil.")
       end
 
       if @password.nil?

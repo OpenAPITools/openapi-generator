@@ -78,13 +78,13 @@
     def list_invalid_properties
       invalid_properties = Array.new
       {{#vars}}
-      {{#hasValidation}}
       {{#required}}
       if @{{{name}}}.nil?
         invalid_properties.push("invalid value for '{{{name}}}', {{{name}}} cannot be nil.")
       end
-      {{/required}}
 
+      {{/required}}
+      {{#hasValidation}}
       {{#maxLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.length > {{{maxLength}}}
         invalid_properties.push("invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}.")

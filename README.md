@@ -151,7 +151,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 (if you're on Windows, replace the last command with `java -jar modules\swagger-codegen-cli\target\swagger-codegen-cli.jar generate -i http://petstore.swagger.io/v2/swagger.json -l php -o c:\temp\php_api_client`)
 
-You can also download the JAR (latest relesae) directly from [maven.org](http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar )
+You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar )
 
 To get a list of **general** options available, please run `java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar help generate`
 
@@ -783,6 +783,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [Onedata](http://onedata.org)
+- [OrderCloud.io](http://ordercloud.io)
 - [OSDN](https://osdn.jp)
 - [PagerDuty](https://www.pagerduty.com)
 - [Pepipost](https://www.pepipost.com)
