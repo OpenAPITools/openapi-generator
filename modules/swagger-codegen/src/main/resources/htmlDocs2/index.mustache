@@ -266,7 +266,7 @@ function loadGoogleFontCss() {
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-0-curl">
                                                     <pre class="prettyprint"><code class="language-bsh">
-curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#isApiKey}} -H "apiKey: [[apiKey]]" -H "apiSecret: [[apiSecret]]"{{/isApiKey}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{paramName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"
+curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}} -H "{{keyParamName}}: [[apiKey]]" {{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}} -H "Authorization: Basic [[basicHash]]" {{/isBasic}}{{/authMethods}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{paramName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"
 
 
 </code></pre>
