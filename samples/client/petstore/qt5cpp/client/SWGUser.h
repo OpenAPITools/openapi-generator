@@ -25,7 +25,7 @@
 /*
  * SWGUser.h
  * 
- * 
+ * A User who is purchasing from the pet store
  */
 
 #ifndef SWGUser_H_
@@ -59,9 +59,9 @@ public:
 QString* getUsername();
     void setUsername(QString* username);
 QString* getFirstName();
-    void setFirstName(QString* firstName);
+    void setFirstName(QString* first_name);
 QString* getLastName();
-    void setLastName(QString* lastName);
+    void setLastName(QString* last_name);
 QString* getEmail();
     void setEmail(QString* email);
 QString* getPassword();
@@ -69,17 +69,17 @@ QString* getPassword();
 QString* getPhone();
     void setPhone(QString* phone);
 qint32 getUserStatus();
-    void setUserStatus(qint32 userStatus);
+    void setUserStatus(qint32 user_status);
 
 private:
     qint64 id;
 QString* username;
-QString* firstName;
-QString* lastName;
+QString* first_name;
+QString* last_name;
 QString* email;
 QString* password;
 QString* phone;
-qint32 userStatus;
+qint32 user_status;
 };
 
 } /* namespace Swagger */
