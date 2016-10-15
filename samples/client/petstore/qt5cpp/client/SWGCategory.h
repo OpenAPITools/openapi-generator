@@ -25,7 +25,7 @@
 /*
  * SWGCategory.h
  * 
- * 
+ * A category for a pet
  */
 
 #ifndef SWGCategory_H_

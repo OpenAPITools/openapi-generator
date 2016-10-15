@@ -52,12 +52,12 @@ void
 SWGUser::init() {
     id = 0L;
 username = new QString("");
-firstName = new QString("");
-lastName = new QString("");
+first_name = new QString("");
+last_name = new QString("");
 email = new QString("");
 password = new QString("");
 phone = new QString("");
-userStatus = 0;
+user_status = 0;
 }
 
 void
@@ -66,11 +66,11 @@ SWGUser::cleanup() {
 if(username != NULL) {
         delete username;
     }
-if(firstName != NULL) {
-        delete firstName;
+if(first_name != NULL) {
+        delete first_name;
     }
-if(lastName != NULL) {
-        delete lastName;
+if(last_name != NULL) {
+        delete last_name;
     }
 if(email != NULL) {
         delete email;
@@ -97,12 +97,12 @@ void
 SWGUser::fromJsonObject(QJsonObject &pJson) {
     setValue(&id, pJson["id"], "qint64", "");
 setValue(&username, pJson["username"], "QString", "QString");
-setValue(&firstName, pJson["firstName"], "QString", "QString");
-setValue(&lastName, pJson["lastName"], "QString", "QString");
+setValue(&first_name, pJson["first_name"], "QString", "QString");
+setValue(&last_name, pJson["last_name"], "QString", "QString");
 setValue(&email, pJson["email"], "QString", "QString");
 setValue(&password, pJson["password"], "QString", "QString");
 setValue(&phone, pJson["phone"], "QString", "QString");
-setValue(&userStatus, pJson["userStatus"], "qint32", "");
+setValue(&user_status, pJson["user_status"], "qint32", "");
 }
 
 QString
@@ -126,12 +126,12 @@ SWGUser::asJsonObject() {
         
 
     
-    toJsonValue(QString("firstName"), firstName, obj, QString("QString"));
+    toJsonValue(QString("first_name"), first_name, obj, QString("QString"));
     
         
 
     
-    toJsonValue(QString("lastName"), lastName, obj, QString("QString"));
+    toJsonValue(QString("last_name"), last_name, obj, QString("QString"));
     
         
 
@@ -149,7 +149,7 @@ SWGUser::asJsonObject() {
     toJsonValue(QString("phone"), phone, obj, QString("QString"));
     
         
-obj->insert("userStatus", QJsonValue(userStatus));
+obj->insert("user_status", QJsonValue(user_status));
 
     return obj;
 }
@@ -174,20 +174,20 @@ SWGUser::setUsername(QString* username) {
 
 QString*
 SWGUser::getFirstName() {
-    return firstName;
+    return first_name;
 }
 void
-SWGUser::setFirstName(QString* firstName) {
-    this->firstName = firstName;
+SWGUser::setFirstName(QString* first_name) {
+    this->first_name = first_name;
 }
 
 QString*
 SWGUser::getLastName() {
-    return lastName;
+    return last_name;
 }
 void
-SWGUser::setLastName(QString* lastName) {
-    this->lastName = lastName;
+SWGUser::setLastName(QString* last_name) {
+    this->last_name = last_name;
 }
 
 QString*
@@ -219,11 +219,11 @@ SWGUser::setPhone(QString* phone) {
 
 qint32
 SWGUser::getUserStatus() {
-    return userStatus;
+    return user_status;
 }
 void
-SWGUser::setUserStatus(qint32 userStatus) {
-    this->userStatus = userStatus;
+SWGUser::setUserStatus(qint32 user_status) {
+    this->user_status = user_status;
 }
 
 
