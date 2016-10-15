@@ -79,6 +79,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
 
   {{/vars}}
 
+{{^supportJava6}}
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -99,6 +100,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
     return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
+{{/supportJava6}}
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
