@@ -9,7 +9,7 @@ public class CodegenParameter {
     public Boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType;
-    public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue;
+    public String baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
     public String example; // example value (x-example)
     public String jsonSchema;
     public Boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
@@ -85,6 +85,7 @@ public class CodegenParameter {
         output.paramName = this.paramName;
         output.dataType = this.dataType;
         output.datatypeWithEnum = this.datatypeWithEnum;
+        output.enumName = this.enumName;
         output.dataFormat = this.dataFormat;
         output.collectionFormat = this.collectionFormat;
         output.isCollectionFormatMulti = this.isCollectionFormatMulti;
@@ -181,6 +182,8 @@ public class CodegenParameter {
         if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null)
             return false;
         if (datatypeWithEnum != null ? !datatypeWithEnum.equals(that.datatypeWithEnum) : that.datatypeWithEnum != null)
+            return false;
+        if (enumName != null ? !enumName.equals(that.enumName) : that.enumName != null)
             return false;
         if (dataFormat != null ? !dataFormat.equals(that.dataFormat) : that.dataFormat != null)
             return false;
@@ -279,6 +282,7 @@ public class CodegenParameter {
         result = 31 * result + (paramName != null ? paramName.hashCode() : 0);
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
         result = 31 * result + (datatypeWithEnum != null ? datatypeWithEnum.hashCode() : 0);
+        result = 31 * result + (enumName != null ? enumName.hashCode() : 0);
         result = 31 * result + (dataFormat != null ? dataFormat.hashCode() : 0);
         result = 31 * result + (collectionFormat != null ? collectionFormat.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
