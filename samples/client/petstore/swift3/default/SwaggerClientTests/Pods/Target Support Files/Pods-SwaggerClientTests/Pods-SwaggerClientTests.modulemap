@@ -1,0 +1,6 @@
+framework module Pods_SwaggerClientTests {
+  umbrella header "Pods-SwaggerClientTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

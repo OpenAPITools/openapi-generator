@@ -1307,13 +1307,15 @@ public class DefaultCodegen {
             addVars(m, properties, required, allProperties, allRequired);
         } else {
             ModelImpl impl = (ModelImpl) model;
+            if (m != null && impl.getType() != null) {
+                Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
+                m.dataType = getSwaggerType(p);
+            }
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
                 m.isEnum = true;
                 // comment out below as allowableValues is not set in post processing model enum
                 m.allowableValues = new HashMap<String, Object>();
                 m.allowableValues.put("values", impl.getEnum());
-                Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
-                m.dataType = getSwaggerType(p);
             }
             if (impl.getAdditionalProperties() != null) {
                 addAdditionPropertiesToCodeGenModel(m, impl);
@@ -2263,6 +2265,7 @@ public class DefaultCodegen {
             p.dataFormat = cp.dataFormat;
             if(cp.isEnum) {
                 p.datatypeWithEnum = cp.datatypeWithEnum;
+                p.enumName = cp.enumName;
             }
 
             // enum
@@ -2274,6 +2277,7 @@ public class DefaultCodegen {
 
             if (cp.items != null && cp.items.isEnum) {
                 p.datatypeWithEnum = cp.datatypeWithEnum;
+                p.enumName = cp.enumName;
                 p.items = cp.items;
             }
             p.collectionFormat = collectionFormat;
