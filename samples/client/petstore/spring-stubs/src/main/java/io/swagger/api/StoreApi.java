@@ -28,11 +28,7 @@ public interface StoreApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteOrder(
-@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId
-
-
-);
+    ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId);
 
 
     @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
@@ -56,11 +52,7 @@ public interface StoreApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    ResponseEntity<Order> getOrderById(
-@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId
-
-
-);
+    ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId);
 
 
     @ApiOperation(value = "Place an order for a pet", notes = "", response = Order.class, tags={ "store", })
@@ -71,10 +63,6 @@ public interface StoreApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.POST)
-    ResponseEntity<Order> placeOrder(
-
-@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body
-
-);
+    ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body);
 
 }

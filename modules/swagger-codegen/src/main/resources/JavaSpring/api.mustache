@@ -4,9 +4,9 @@ package {{package}};
 {{/imports}}
 
 import io.swagger.annotations.*;
-{{#java8}}
+{{#jdk8}}
 import org.springframework.http.HttpStatus;
-{{/java8}}
+{{/jdk8}}
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 {{#async}}
-import java.util.concurrent.{{^java8}}Callable{{/java8}}{{#java8}}CompletableFuture{{/java8}};
+import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
 {{/async}}
 
 {{>generatedAnnotation}}
@@ -43,10 +43,11 @@ public interface {{classname}} {
         produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}{{#hasConsumes}}
         consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}{{/singleContentTypes}}
         method = RequestMethod.{{httpMethod}})
-    {{#java8}}default {{/java8}}{{#async}}{{^java8}}Callable{{/java8}}{{#java8}}CompletableFuture<{{/java8}}{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}){{^java8}};{{/java8}}{{#java8}} {
+    {{#jdk8}}default {{/jdk8}}{{#async}}{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture<{{/jdk8}}{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
+        {{/hasMore}}{{/allParams}}){{^jdk8}};{{/jdk8}}{{#jdk8}} {
         // do some magic!
         return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK){{#async}}){{/async}};
-    }{{/java8}}
+    }{{/jdk8}}
 
 {{/operation}}
 }

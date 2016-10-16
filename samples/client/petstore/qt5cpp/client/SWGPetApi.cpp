@@ -81,12 +81,12 @@ SWGPetApi::addPetCallback(HttpRequestWorker * worker) {
     emit addPetSignal();
 }
 void
-SWGPetApi::deletePet(qint64 petId, QString* apiKey) {
+SWGPetApi::deletePet(qint64 pet_id, QString* api_key) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
-    QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
-    fullPath.replace(petIdPathParam, stringValue(petId));
+    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();
@@ -315,12 +315,12 @@ SWGPetApi::findPetsByTagsCallback(HttpRequestWorker * worker) {
     
 }
 void
-SWGPetApi::getPetById(qint64 petId) {
+SWGPetApi::getPetById(qint64 pet_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
-    QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
-    fullPath.replace(petIdPathParam, stringValue(petId));
+    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();
@@ -400,12 +400,12 @@ SWGPetApi::updatePetCallback(HttpRequestWorker * worker) {
     emit updatePetSignal();
 }
 void
-SWGPetApi::updatePetWithForm(qint64 petId, QString* name, QString* status) {
+SWGPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
 
-    QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
-    fullPath.replace(petIdPathParam, stringValue(petId));
+    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();
@@ -447,19 +447,19 @@ SWGPetApi::updatePetWithFormCallback(HttpRequestWorker * worker) {
     emit updatePetWithFormSignal();
 }
 void
-SWGPetApi::uploadFile(qint64 petId, QString* additionalMetadata, SWGHttpRequestInputFileElement* file) {
+SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
 
-    QString petIdPathParam("{"); petIdPathParam.append("petId").append("}");
-    fullPath.replace(petIdPathParam, stringValue(petId));
+    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, stringValue(pet_id));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
-    if (additionalMetadata != NULL) {
-        input.add_var("additionalMetadata", *additionalMetadata);
+    if (additional_metadata != NULL) {
+        input.add_var("additionalMetadata", *additional_metadata);
     }
 if (file != NULL) {
         input.add_file("file", (*file).local_filename, (*file).request_filename, (*file).mime_type);

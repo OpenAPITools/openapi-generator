@@ -1,6 +1,6 @@
 package {{package}};
 
-{{^java8}}
+{{^jdk8}}
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -8,9 +8,9 @@ import io.swagger.annotations.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-{{/java8}}
+{{/jdk8}}
 import org.springframework.stereotype.Controller;
-{{^java8}}
+{{^jdk8}}
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,13 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 {{#async}}
 import java.util.concurrent.Callable;
-{{/async}}{{/java8}}
+{{/async}}{{/jdk8}}
 
 {{>generatedAnnotation}}
 @Controller
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
-{{^java8}}{{#operation}}
+{{^jdk8}}{{#operation}}
     public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
         {{/hasMore}}{{/allParams}}) {
         // do some magic!{{^async}}
@@ -39,6 +39,6 @@ public class {{classname}}Controller implements {{classname}} {
             }
         };{{/async}}
     }
-{{/operation}}{{/java8}}
+{{/operation}}{{/jdk8}}
 }
 {{/operations}}

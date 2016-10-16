@@ -19,6 +19,7 @@ public class JavaOptionsProvider implements OptionsProvider {
     public static final String SERIALIZABLE_MODEL_VALUE = "false";
     public static final String FULL_JAVA_UTIL_VALUE = "true";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
+    //public static final String SUPPORT_JAVA6 = "true";
 
     private ImmutableMap<String, String> options;
 
@@ -42,6 +43,7 @@ public class JavaOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true")
                 .put(JavaClientCodegen.DATE_LIBRARY, "joda")
                 .put("hideGenerationTimestamp", "true")
+                //.put("supportJava6", "true")
                 .build();
     }
 
@@ -49,7 +51,7 @@ public class JavaOptionsProvider implements OptionsProvider {
      * Use the default options, but override the ones found in additionalOptions.
      */
     public JavaOptionsProvider(Map<String, String> additionalOptions) {
-        options = new ImmutableMap.Builder<String, String>()
+         options = new ImmutableMap.Builder<String, String>()
                 .putAll(options)
                 .putAll(additionalOptions)
                 .build();

@@ -873,6 +873,7 @@ Here is a list of template creators:
    * Javascript (Closure-annotated Angular) @achew22
    * Perl: @wing328
    * Swift: @tkqubo
+   * Swift 3: @hexelon
    * TypeScript (Node):  @mhardorf 
    * TypeScript (Angular1):  @mhardorf 
    * TypeScript (Fetch): @leonyu
