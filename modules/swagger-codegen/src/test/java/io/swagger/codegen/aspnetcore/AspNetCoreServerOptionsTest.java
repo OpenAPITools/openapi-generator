@@ -1,19 +1,19 @@
-package io.swagger.codegen.aspnet5;
+package io.swagger.codegen.aspnetcore;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.languages.AspNet5ServerCodegen;
-import io.swagger.codegen.options.AspNet5ServerOptionsProvider;
+import io.swagger.codegen.languages.AspNetCoreServerCodegen;
+import io.swagger.codegen.options.AspNetCoreServerOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
-public class AspNet5ServerOptionsTest extends AbstractOptionsTest {
+public class AspNetCoreServerOptionsTest extends AbstractOptionsTest {
 
     @Tested
-    private AspNet5ServerCodegen serverCodegen;
+    private AspNetCoreServerCodegen serverCodegen;
 
-    public AspNet5ServerOptionsTest() {
-        super(new AspNet5ServerOptionsProvider());
+    public AspNetCoreServerOptionsTest() {
+        super(new AspNetCoreServerOptionsProvider());
     }
 
     @Override
@@ -25,11 +25,11 @@ public class AspNet5ServerOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(serverCodegen) {{
-            serverCodegen.setPackageName(AspNet5ServerOptionsProvider.PACKAGE_NAME_VALUE);
+            serverCodegen.setPackageName(AspNetCoreServerOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
-            serverCodegen.setPackageVersion(AspNet5ServerOptionsProvider.PACKAGE_VERSION_VALUE);
+            serverCodegen.setPackageVersion(AspNetCoreServerOptionsProvider.PACKAGE_VERSION_VALUE);
             times = 1;
-            serverCodegen.setSourceFolder(AspNet5ServerOptionsProvider.SOURCE_FOLDER_VALUE);
+            serverCodegen.setSourceFolder(AspNetCoreServerOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
             serverCodegen.useDateTimeOffset(true);
             times = 1;
