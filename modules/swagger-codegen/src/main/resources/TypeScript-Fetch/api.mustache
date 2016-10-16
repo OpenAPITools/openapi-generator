@@ -102,16 +102,16 @@ export const {{classname}}FetchParamCreactor = {
             fetchOptions.body = JSON.stringify(params["{{paramName}}"] || {});
         }{{/bodyParam}}
 {{/hasBodyParam}}
-{{#hasHeaderParam}}
+{{#hasHeaderParams}}
         fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({ {{#headerParams}}
             "{{baseName}}": params.{{paramName}},{{/headerParams}}
         }, contentTypeHeader);
-{{/hasHeaderParam}}
-{{^hasHeaderParam}}
+{{/hasHeaderParams}}
+{{^hasHeaderParams}}
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
-{{/hasHeaderParam}}
+{{/hasHeaderParams}}
         return {
             url: url.format(urlObj),
             options: fetchOptions,
