@@ -51,9 +51,9 @@ SWGOrder::~SWGOrder() {
 void
 SWGOrder::init() {
     id = 0L;
-petId = 0L;
+pet_id = 0L;
 quantity = 0;
-shipDate = NULL;
+ship_date = NULL;
 status = new QString("");
 complete = false;
 }
@@ -63,8 +63,8 @@ SWGOrder::cleanup() {
     
 
 
-if(shipDate != NULL) {
-        delete shipDate;
+if(ship_date != NULL) {
+        delete ship_date;
     }
 if(status != NULL) {
         delete status;
@@ -84,9 +84,9 @@ SWGOrder::fromJson(QString &json) {
 void
 SWGOrder::fromJsonObject(QJsonObject &pJson) {
     setValue(&id, pJson["id"], "qint64", "");
-setValue(&petId, pJson["petId"], "qint64", "");
+setValue(&pet_id, pJson["pet_id"], "qint64", "");
 setValue(&quantity, pJson["quantity"], "qint32", "");
-setValue(&shipDate, pJson["shipDate"], "QDateTime", "QDateTime");
+setValue(&ship_date, pJson["ship_date"], "QDateTime", "QDateTime");
 setValue(&status, pJson["status"], "QString", "QString");
 setValue(&complete, pJson["complete"], "bool", "");
 }
@@ -105,11 +105,11 @@ QJsonObject*
 SWGOrder::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     obj->insert("id", QJsonValue(id));
-obj->insert("petId", QJsonValue(petId));
+obj->insert("pet_id", QJsonValue(pet_id));
 obj->insert("quantity", QJsonValue(quantity));
 
     
-    toJsonValue(QString("shipDate"), shipDate, obj, QString("QDateTime"));
+    toJsonValue(QString("ship_date"), ship_date, obj, QString("QDateTime"));
     
         
 
@@ -133,11 +133,11 @@ SWGOrder::setId(qint64 id) {
 
 qint64
 SWGOrder::getPetId() {
-    return petId;
+    return pet_id;
 }
 void
-SWGOrder::setPetId(qint64 petId) {
-    this->petId = petId;
+SWGOrder::setPetId(qint64 pet_id) {
+    this->pet_id = pet_id;
 }
 
 qint32
@@ -151,11 +151,11 @@ SWGOrder::setQuantity(qint32 quantity) {
 
 QDateTime*
 SWGOrder::getShipDate() {
-    return shipDate;
+    return ship_date;
 }
 void
-SWGOrder::setShipDate(QDateTime* shipDate) {
-    this->shipDate = shipDate;
+SWGOrder::setShipDate(QDateTime* ship_date) {
+    this->ship_date = ship_date;
 }
 
 QString*

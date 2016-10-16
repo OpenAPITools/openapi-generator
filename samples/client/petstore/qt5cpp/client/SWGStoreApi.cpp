@@ -40,12 +40,12 @@ SWGStoreApi::SWGStoreApi(QString host, QString basePath) {
 }
 
 void
-SWGStoreApi::deleteOrder(QString* orderId) {
+SWGStoreApi::deleteOrder(QString* order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
-    QString orderIdPathParam("{"); orderIdPathParam.append("orderId").append("}");
-    fullPath.replace(orderIdPathParam, stringValue(orderId));
+    QString order_idPathParam("{"); order_idPathParam.append("orderId").append("}");
+    fullPath.replace(order_idPathParam, stringValue(order_id));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();
@@ -135,12 +135,12 @@ SWGStoreApi::getInventoryCallback(HttpRequestWorker * worker) {
     
 }
 void
-SWGStoreApi::getOrderById(qint64 orderId) {
+SWGStoreApi::getOrderById(qint64 order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
-    QString orderIdPathParam("{"); orderIdPathParam.append("orderId").append("}");
-    fullPath.replace(orderIdPathParam, stringValue(orderId));
+    QString order_idPathParam("{"); order_idPathParam.append("orderId").append("}");
+    fullPath.replace(order_idPathParam, stringValue(order_id));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();

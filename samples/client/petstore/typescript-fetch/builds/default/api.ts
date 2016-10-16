@@ -144,9 +144,9 @@ export const PetApiFetchParamCreactor = {
         let fetchOptions: RequestInit = { method: "DELETE" };
 
         let contentTypeHeader: Dictionary<string>;
-        if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
-        }
+        fetchOptions.headers = assign({ 
+            "api_key": params.apiKey,
+        }, contentTypeHeader);
         return {
             url: url.format(urlObj),
             options: fetchOptions,

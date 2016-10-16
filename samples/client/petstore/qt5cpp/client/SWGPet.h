@@ -25,7 +25,7 @@
 /*
  * SWGPet.h
  * 
- * 
+ * A pet for sale in the pet store
  */
 
 #ifndef SWGPet_H_
@@ -64,7 +64,7 @@ SWGCategory* getCategory();
 QString* getName();
     void setName(QString* name);
 QList<QString*>* getPhotoUrls();
-    void setPhotoUrls(QList<QString*>* photoUrls);
+    void setPhotoUrls(QList<QString*>* photo_urls);
 QList<SWGTag*>* getTags();
     void setTags(QList<SWGTag*>* tags);
 QString* getStatus();
@@ -74,7 +74,7 @@ private:
     qint64 id;
 SWGCategory* category;
 QString* name;
-QList<QString*>* photoUrls;
+QList<QString*>* photo_urls;
 QList<SWGTag*>* tags;
 QString* status;
 };

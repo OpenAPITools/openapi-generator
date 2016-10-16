@@ -46,9 +46,9 @@ public:
     QString host;
     QString basePath;
 
-    void deleteOrder(QString* orderId);
+    void deleteOrder(QString* order_id);
     void getInventory();
-    void getOrderById(qint64 orderId);
+    void getOrderById(qint64 order_id);
     void placeOrder(SWGOrder body);
     
 private:

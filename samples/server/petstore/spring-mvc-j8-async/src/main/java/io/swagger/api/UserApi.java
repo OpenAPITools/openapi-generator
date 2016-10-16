@@ -28,11 +28,7 @@ public interface UserApi {
     @RequestMapping(value = "/user",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUser(
-
-@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body
-
-) {
+    default CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
@@ -44,11 +40,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithArray",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(
-
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
-
-) {
+    default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
@@ -60,11 +52,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithList",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(
-
-@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body
-
-) {
+    default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
@@ -77,11 +65,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.DELETE)
-    default CompletableFuture<ResponseEntity<Void>> deleteUser(
-@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username
-
-
-) {
+    default CompletableFuture<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
@@ -95,11 +79,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<User>> getUserByName(
-@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username
-
-
-) {
+    default CompletableFuture<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<User>(HttpStatus.OK));
     }
@@ -112,15 +92,8 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<String>> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username
-
-
-
-,@ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password
-
-
-
-) {
+    default CompletableFuture<ResponseEntity<String>> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
+        @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<String>(HttpStatus.OK));
     }
@@ -145,15 +118,8 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.PUT)
-    default CompletableFuture<ResponseEntity<Void>> updateUser(
-@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username
-
-
-,
-
-@ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body
-
-) {
+    default CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,
+        @ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }

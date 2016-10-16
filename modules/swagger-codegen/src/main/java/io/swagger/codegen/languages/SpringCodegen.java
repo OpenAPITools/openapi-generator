@@ -172,6 +172,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
+            additionalProperties.put("jdk8", "true");
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
