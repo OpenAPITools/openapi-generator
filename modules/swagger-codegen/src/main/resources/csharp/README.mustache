@@ -44,11 +44,9 @@ Run the following command to generate the DLL
 
 Then include the DLL (under the `bin` folder) in the C# project, and use the namespaces:
 ```csharp
-using {{packageName}}.Api;
+using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
-{{#modelPackage}}
-using {{{.}}};
-{{/modelPackage}}
+using {{packageName}}.{{modelPackage}};
 ```
 
 ## Getting Started
@@ -56,11 +54,9 @@ using {{{.}}};
 ```csharp
 using System;
 using System.Diagnostics;
-using {{packageName}}.Api;
+using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
-{{#modelPackage}}
-using {{{.}}};
-{{/modelPackage}}
+using {{packageName}}.{{modelPackage}};
 
 namespace Example
 {

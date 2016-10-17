@@ -9,8 +9,8 @@ using RestSharp;
 using NUnit.Framework;
 
 using {{packageName}}.Client;
-using {{packageName}}.Api;
-{{#hasImport}}using {{packageName}}.Model;
+using {{packageName}}.{{apiPackage}};
+{{#hasImport}}using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
 namespace {{packageName}}.Test

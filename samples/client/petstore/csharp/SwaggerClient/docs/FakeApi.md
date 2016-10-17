@@ -71,7 +71,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
+> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -110,11 +110,12 @@ namespace Example
             var date = 2013-10-20;  // DateTime? | None (optional) 
             var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional) 
             var password = password_example;  // string | None (optional) 
+            var callback = callback_example;  // string | None (optional) 
 
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password);
+                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
             }
             catch (Exception e)
             {
@@ -142,6 +143,7 @@ Name | Type | Description  | Notes
  **date** | **DateTime?**| None | [optional] 
  **dateTime** | **DateTime?**| None | [optional] 
  **password** | **string**| None | [optional] 
+ **callback** | **string**| None | [optional] 
 
 ### Return type
 

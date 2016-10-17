@@ -1,4 +1,4 @@
-# {{packageName}}.Api.{{classname}}{{#description}}
+# {{packageName}}.{{apiPackage}}.{{classname}}{{#description}}
 {{description}}{{/description}}
 
 All URIs are relative to *{{{basePath}}}*
@@ -22,9 +22,9 @@ Method | HTTP request | Description
 ```csharp
 using System;
 using System.Diagnostics;
-using {{packageName}}.Api;
+using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
-using {{packageName}}.Model;
+using {{packageName}}.{{modelPackage}};
 
 namespace Example
 {
