@@ -21,6 +21,8 @@ import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"unused", "hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -47,9 +49,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         super();
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-
-        modelTestTemplateFiles.put("model_test.mustache", ".cs");
-        apiTestTemplateFiles.put("api_test.mustache", ".cs");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -146,14 +145,22 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
+        if(isEmpty(apiPackage)) {
+            apiPackage = "Api";
+        }
+        if(isEmpty(modelPackage)) {
+            modelPackage = "Model";
+        }
+        clientPackage = "Client";
+
         Boolean excludeTests = false;
         if(additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
             excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
         }
 
-        apiPackage = "Api";
-        modelPackage = "Model";
-        clientPackage = "Client";
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         additionalProperties.put("clientPackage", clientPackage);
 
@@ -248,15 +255,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "build.sh"));
-        // shell script to run the nunit test
-        supportingFiles.add(new SupportingFile("mono_nunit_test.mustache", "", "mono_nunit_test.sh"));
 
         // copy package.config to nuget's standard location for project-level installs
         supportingFiles.add(new SupportingFile("packages.config.mustache", packageFolder + File.separator, "packages.config"));
         // .travis.yml for travis-ci.org CI
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
 
+        // Only write out test related files if excludeTests is unset or explicitly set to false (see start of this method)
         if(Boolean.FALSE.equals(excludeTests)) {
+            // shell script to run the nunit test
+            supportingFiles.add(new SupportingFile("mono_nunit_test.mustache", "", "mono_nunit_test.sh"));
+
+            modelTestTemplateFiles.put("model_test.mustache", ".cs");
+            apiTestTemplateFiles.put("api_test.mustache", ".cs");
+
             supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
         }
 
@@ -279,6 +291,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
 
             if(Boolean.FALSE.equals(excludeTests)) {
+                // NOTE: This exists here rather than previous excludeTests block because the test project is considered an optional project file.
                 supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
             }
         }

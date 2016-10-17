@@ -18,7 +18,7 @@ using System.ComponentModel.DataAnnotations;
 
 {{#models}}
 {{#model}}
-namespace {{packageName}}.Model
+namespace {{packageName}}.{{modelPackage}}
 {
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}
 {{/model}}
