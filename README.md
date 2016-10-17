@@ -752,6 +752,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [bitly](https://bitly.com)
 - [Bufferfly Network](https://www.butterflynetinc.com/)
 - [Cachet Financial](http://www.cachetfinancial.com/)
+- [carpolo](http://www.carpolo.co/)
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Conplement](http://www.conplement.de/)
 - [Cummins] (http://www.cummins.com/)
@@ -809,6 +810,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [WEXO A/S](https://www.wexo.dk/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
+
 
 # Swagger Codegen Core Team
 
