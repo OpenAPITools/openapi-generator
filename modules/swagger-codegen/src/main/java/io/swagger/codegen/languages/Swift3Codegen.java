@@ -68,7 +68,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
-        embeddedTemplateDir = templateDir = "swift";
+        embeddedTemplateDir = templateDir = "swift3";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
 
