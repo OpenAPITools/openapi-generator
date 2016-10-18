@@ -604,6 +604,8 @@ definitions:
       complete:
         type: "boolean"
         default: false
+    title: "Pet Order"
+    description: "An order for a pets from the pet store"
     xml:
       name: "Order"
   Category:
@@ -614,6 +616,8 @@ definitions:
         format: "int64"
       name:
         type: "string"
+    title: "Pet catehgry"
+    description: "A category for a pet"
     xml:
       name: "Category"
   User:
@@ -638,6 +642,8 @@ definitions:
         type: "integer"
         format: "int32"
         description: "User Status"
+    title: "a User"
+    description: "A User who is purchasing from the pet store"
     xml:
       name: "User"
   Tag:
@@ -648,6 +654,8 @@ definitions:
         format: "int64"
       name:
         type: "string"
+    title: "Pet Tag"
+    description: "A tag for a pet"
     xml:
       name: "Tag"
   Pet:
@@ -685,6 +693,8 @@ definitions:
         - "available"
         - "pending"
         - "sold"
+    title: "a Pet"
+    description: "A pet for sale in the pet store"
     xml:
       name: "Pet"
   ApiResponse:
@@ -697,6 +707,8 @@ definitions:
         type: "string"
       message:
         type: "string"
+    title: "An uploaded response"
+    description: "Describes the result of uploading an image resource"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
