@@ -2,7 +2,9 @@
 
 package {{package}};
 
+{{^supportJava6}}
 import java.util.Objects;
+{{/supportJava6}}
 {{#imports}}
 import {{import}};
 {{/imports}}
