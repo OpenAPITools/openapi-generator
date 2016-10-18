@@ -876,6 +876,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.sourceFolder = sourceFolder;
     }
 
+    public void setTestFolder(String testFolder) {
+        this.testFolder = testFolder;
+    }
+
     public void setLocalVariablePrefix(String localVariablePrefix) {
         this.localVariablePrefix = localVariablePrefix;
     }
