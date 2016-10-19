@@ -40,7 +40,7 @@ void PetApiTests::findPetsByStatusTest() {
 
     static QEventLoop loop;
     QTimer timer;
-    timer.setInterval(4000);
+    timer.setInterval(14000);
     timer.setSingleShot(true);
 
     auto validator = [](QList<SWGPet*>* pets) {
@@ -68,7 +68,7 @@ void PetApiTests::createAndGetPetTest() {
 
     static QEventLoop loop;
     QTimer timer;
-    timer.setInterval(1000);
+    timer.setInterval(14000);
     timer.setSingleShot(true);
 
     auto validator = []() {
