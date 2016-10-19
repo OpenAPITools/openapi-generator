@@ -143,6 +143,6 @@ samples/client/petstore/typescript-angular/**/typings
 samples/client/petstore/typescript-fetch/**/dist/
 samples/client/petstore/typescript-fetch/**/typings
 
-# aspnet5
-samples/server/petstore/aspnet5/.vs/
+# aspnetcore
+samples/server/petstore/aspnetcore/.vs/
 
