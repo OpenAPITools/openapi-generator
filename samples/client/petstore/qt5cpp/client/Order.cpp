@@ -23,7 +23,7 @@
  */
 
 
-#include "SWGCategory.h"
+#include "Order.h"
 
 #include "SWGHelpers.h"
 
@@ -35,35 +35,45 @@
 namespace Swagger {
 
 
-SWGCategory::SWGCategory(QString* json) {
+Order::Order(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-SWGCategory::SWGCategory() {
+Order::Order() {
     init();
 }
 
-SWGCategory::~SWGCategory() {
+Order::~Order() {
     this->cleanup();
 }
 
 void
-SWGCategory::init() {
+Order::init() {
     id = 0L;
-name = new QString("");
+petId = 0L;
+quantity = 0;
+shipDate = NULL;
+status = new QString("");
+complete = false;
 }
 
 void
-SWGCategory::cleanup() {
+Order::cleanup() {
     
-if(name != NULL) {
-        delete name;
+
+
+if(shipDate != NULL) {
+        delete shipDate;
     }
+if(status != NULL) {
+        delete status;
+    }
+
 }
 
-SWGCategory*
-SWGCategory::fromJson(QString &json) {
+Order*
+Order::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -72,13 +82,17 @@ SWGCategory::fromJson(QString &json) {
 }
 
 void
-SWGCategory::fromJsonObject(QJsonObject &pJson) {
+Order::fromJsonObject(QJsonObject &pJson) {
     setValue(&id, pJson["id"], "qint64", "");
-setValue(&name, pJson["name"], "QString", "QString");
+setValue(&petId, pJson["petId"], "qint64", "");
+setValue(&quantity, pJson["quantity"], "qint32", "");
+setValue(&shipDate, pJson["shipDate"], "QDateTime", "QDateTime");
+setValue(&status, pJson["status"], "QString", "QString");
+setValue(&complete, pJson["complete"], "bool", "");
 }
 
 QString
-SWGCategory::asJson ()
+Order::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -88,34 +102,78 @@ SWGCategory::asJson ()
 }
 
 QJsonObject*
-SWGCategory::asJsonObject() {
+Order::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     obj->insert("id", QJsonValue(id));
+obj->insert("petId", QJsonValue(petId));
+obj->insert("quantity", QJsonValue(quantity));
 
     
-    toJsonValue(QString("name"), name, obj, QString("QString"));
+    toJsonValue(QString("shipDate"), shipDate, obj, QString("QDateTime"));
     
         
+
+    
+    toJsonValue(QString("status"), status, obj, QString("QString"));
+    
+        
+obj->insert("complete", QJsonValue(complete));
 
     return obj;
 }
 
 qint64
-SWGCategory::getId() {
+Order::getId() {
     return id;
 }
 void
-SWGCategory::setId(qint64 id) {
+Order::setId(qint64 id) {
     this->id = id;
 }
 
-QString*
-SWGCategory::getName() {
-    return name;
+qint64
+Order::getPetId() {
+    return petId;
 }
 void
-SWGCategory::setName(QString* name) {
-    this->name = name;
+Order::setPetId(qint64 petId) {
+    this->petId = petId;
+}
+
+qint32
+Order::getQuantity() {
+    return quantity;
+}
+void
+Order::setQuantity(qint32 quantity) {
+    this->quantity = quantity;
+}
+
+QDateTime*
+Order::getShipDate() {
+    return shipDate;
+}
+void
+Order::setShipDate(QDateTime* shipDate) {
+    this->shipDate = shipDate;
+}
+
+QString*
+Order::getStatus() {
+    return status;
+}
+void
+Order::setStatus(QString* status) {
+    this->status = status;
+}
+
+bool
+Order::getComplete() {
+    return complete;
+}
+void
+Order::setComplete(bool complete) {
+    this->complete = complete;
 }
 
 

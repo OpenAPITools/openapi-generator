@@ -18,7 +18,7 @@ public:
 
 private:
     SWGPetApi* getApi();
-    SWGPet* createRandomPet();
+    Pet* createRandomPet();
 
 signals:
     void quit();

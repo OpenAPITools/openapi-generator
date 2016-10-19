@@ -217,7 +217,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        return PREFIX + initialCaps(name);
+        return modelNamePrefix + initialCaps(name);
     }
 
     @Override
@@ -332,7 +332,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
                 languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return PREFIX + Character.toUpperCase(type.charAt(0)) + type.substring(1);
+            return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1);
         }
     }
 

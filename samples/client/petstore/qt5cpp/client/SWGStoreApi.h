@@ -29,7 +29,7 @@
 
 #include <QString>
 #include <QMap>
-#include "SWGOrder.h"
+#include "Order.h"
 
 #include <QObject>
 
@@ -46,10 +46,10 @@ public:
     QString host;
     QString basePath;
 
-    void deleteOrder(QString* order_id);
+    void deleteOrder(QString* orderId);
     void getInventory();
-    void getOrderById(qint64 order_id);
-    void placeOrder(SWGOrder body);
+    void getOrderById(qint64 orderId);
+    void placeOrder(Order body);
     
 private:
     void deleteOrderCallback (HttpRequestWorker * worker);
@@ -60,8 +60,8 @@ private:
 signals:
     void deleteOrderSignal();
     void getInventorySignal(QMap<QString, qint32>* summary);
-    void getOrderByIdSignal(SWGOrder* summary);
-    void placeOrderSignal(SWGOrder* summary);
+    void getOrderByIdSignal(Order* summary);
+    void placeOrderSignal(Order* summary);
     
 };
 }

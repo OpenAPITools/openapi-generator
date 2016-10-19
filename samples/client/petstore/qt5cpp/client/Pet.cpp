@@ -23,7 +23,7 @@
  */
 
 
-#include "SWGTag.h"
+#include "Pet.h"
 
 #include "SWGHelpers.h"
 
@@ -35,35 +35,59 @@
 namespace Swagger {
 
 
-SWGTag::SWGTag(QString* json) {
+Pet::Pet(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-SWGTag::SWGTag() {
+Pet::Pet() {
     init();
 }
 
-SWGTag::~SWGTag() {
+Pet::~Pet() {
     this->cleanup();
 }
 
 void
-SWGTag::init() {
+Pet::init() {
     id = 0L;
+category = new Category();
 name = new QString("");
+photoUrls = new QList<QString*>();
+tags = new QList<Tag*>();
+status = new QString("");
 }
 
 void
-SWGTag::cleanup() {
+Pet::cleanup() {
     
+if(category != NULL) {
+        delete category;
+    }
 if(name != NULL) {
         delete name;
     }
+if(photoUrls != NULL) {
+        QList<QString*>* arr = photoUrls;
+        foreach(QString* o, *arr) {
+            delete o;
+        }
+        delete photoUrls;
+    }
+if(tags != NULL) {
+        QList<Tag*>* arr = tags;
+        foreach(Tag* o, *arr) {
+            delete o;
+        }
+        delete tags;
+    }
+if(status != NULL) {
+        delete status;
+    }
 }
 
-SWGTag*
-SWGTag::fromJson(QString &json) {
+Pet*
+Pet::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -72,13 +96,17 @@ SWGTag::fromJson(QString &json) {
 }
 
 void
-SWGTag::fromJsonObject(QJsonObject &pJson) {
+Pet::fromJsonObject(QJsonObject &pJson) {
     setValue(&id, pJson["id"], "qint64", "");
+setValue(&category, pJson["category"], "Category", "Category");
 setValue(&name, pJson["name"], "QString", "QString");
+setValue(&photoUrls, pJson["photoUrls"], "QList", "QString");
+setValue(&tags, pJson["tags"], "QList", "Tag");
+setValue(&status, pJson["status"], "QString", "QString");
 }
 
 QString
-SWGTag::asJson ()
+Pet::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -88,12 +116,38 @@ SWGTag::asJson ()
 }
 
 QJsonObject*
-SWGTag::asJsonObject() {
+Pet::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     obj->insert("id", QJsonValue(id));
 
     
+    toJsonValue(QString("category"), category, obj, QString("Category"));
+    
+        
+
+    
     toJsonValue(QString("name"), name, obj, QString("QString"));
+    
+        
+
+    
+    QList<QString*>* photoUrlsList = photoUrls;
+    QJsonArray photoUrlsJsonArray;
+    toJsonArray((QList<void*>*)photoUrls, &photoUrlsJsonArray, "photoUrls", "QString");
+
+    obj->insert("photoUrls", photoUrlsJsonArray);
+    
+
+    
+    QList<Tag*>* tagsList = tags;
+    QJsonArray tagsJsonArray;
+    toJsonArray((QList<void*>*)tags, &tagsJsonArray, "tags", "Tag");
+
+    obj->insert("tags", tagsJsonArray);
+    
+
+    
+    toJsonValue(QString("status"), status, obj, QString("QString"));
     
         
 
@@ -101,21 +155,57 @@ SWGTag::asJsonObject() {
 }
 
 qint64
-SWGTag::getId() {
+Pet::getId() {
     return id;
 }
 void
-SWGTag::setId(qint64 id) {
+Pet::setId(qint64 id) {
     this->id = id;
 }
 
+Category*
+Pet::getCategory() {
+    return category;
+}
+void
+Pet::setCategory(Category* category) {
+    this->category = category;
+}
+
 QString*
-SWGTag::getName() {
+Pet::getName() {
     return name;
 }
 void
-SWGTag::setName(QString* name) {
+Pet::setName(QString* name) {
     this->name = name;
+}
+
+QList<QString*>*
+Pet::getPhotoUrls() {
+    return photoUrls;
+}
+void
+Pet::setPhotoUrls(QList<QString*>* photoUrls) {
+    this->photoUrls = photoUrls;
+}
+
+QList<Tag*>*
+Pet::getTags() {
+    return tags;
+}
+void
+Pet::setTags(QList<Tag*>* tags) {
+    this->tags = tags;
+}
+
+QString*
+Pet::getStatus() {
+    return status;
+}
+void
+Pet::setStatus(QString* status) {
+    this->status = status;
 }
 
 
