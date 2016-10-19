@@ -40,12 +40,12 @@ SWGStoreApi::SWGStoreApi(QString host, QString basePath) {
 }
 
 void
-SWGStoreApi::deleteOrder(QString* order_id) {
+SWGStoreApi::deleteOrder(QString* orderId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
-    QString order_idPathParam("{"); order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, stringValue(order_id));
+    QString orderIdPathParam("{"); orderIdPathParam.append("orderId").append("}");
+    fullPath.replace(orderIdPathParam, stringValue(orderId));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();
@@ -135,12 +135,12 @@ SWGStoreApi::getInventoryCallback(HttpRequestWorker * worker) {
     
 }
 void
-SWGStoreApi::getOrderById(qint64 order_id) {
+SWGStoreApi::getOrderById(qint64 orderId) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
 
-    QString order_idPathParam("{"); order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, stringValue(order_id));
+    QString orderIdPathParam("{"); orderIdPathParam.append("orderId").append("}");
+    fullPath.replace(orderIdPathParam, stringValue(orderId));
 
 
     HttpRequestWorker *worker = new HttpRequestWorker();
@@ -170,7 +170,7 @@ SWGStoreApi::getOrderByIdCallback(HttpRequestWorker * worker) {
 
     
         QString json(worker->response);
-    SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    Order* output = static_cast<Order*>(create(json, QString("Order")));
     
 
     worker->deleteLater();
@@ -179,7 +179,7 @@ SWGStoreApi::getOrderByIdCallback(HttpRequestWorker * worker) {
     
 }
 void
-SWGStoreApi::placeOrder(SWGOrder body) {
+SWGStoreApi::placeOrder(Order body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
 
@@ -214,7 +214,7 @@ SWGStoreApi::placeOrderCallback(HttpRequestWorker * worker) {
 
     
         QString json(worker->response);
-    SWGOrder* output = static_cast<SWGOrder*>(create(json, QString("SWGOrder")));
+    Order* output = static_cast<Order*>(create(json, QString("Order")));
     
 
     worker->deleteLater();

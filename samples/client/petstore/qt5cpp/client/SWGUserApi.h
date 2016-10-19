@@ -27,7 +27,7 @@
 
 #include "SWGHttpRequest.h"
 
-#include "SWGUser.h"
+#include "User.h"
 #include <QList>
 #include <QString>
 
@@ -46,14 +46,14 @@ public:
     QString host;
     QString basePath;
 
-    void createUser(SWGUser body);
-    void createUsersWithArrayInput(QList<SWGUser*>* body);
-    void createUsersWithListInput(QList<SWGUser*>* body);
+    void createUser(User body);
+    void createUsersWithArrayInput(QList<User*>* body);
+    void createUsersWithListInput(QList<User*>* body);
     void deleteUser(QString* username);
     void getUserByName(QString* username);
     void loginUser(QString* username, QString* password);
     void logoutUser();
-    void updateUser(QString* username, SWGUser body);
+    void updateUser(QString* username, User body);
     
 private:
     void createUserCallback (HttpRequestWorker * worker);
@@ -70,7 +70,7 @@ signals:
     void createUsersWithArrayInputSignal();
     void createUsersWithListInputSignal();
     void deleteUserSignal();
-    void getUserByNameSignal(SWGUser* summary);
+    void getUserByNameSignal(User* summary);
     void loginUserSignal(QString* summary);
     void logoutUserSignal();
     void updateUserSignal();

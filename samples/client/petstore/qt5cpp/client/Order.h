@@ -23,17 +23,18 @@
  */
 
 /*
- * SWGApiResponse.h
+ * Order.h
  * 
- * Describes the result of uploading an image resource
+ * An order for a pets from the pet store
  */
 
-#ifndef SWGApiResponse_H_
-#define SWGApiResponse_H_
+#ifndef Order_H_
+#define Order_H_
 
 #include <QJsonObject>
 
 
+#include <QDateTime>
 #include <QString>
 
 #include "SWGObject.h"
@@ -41,32 +42,41 @@
 
 namespace Swagger {
 
-class SWGApiResponse: public SWGObject {
+class Order: public SWGObject {
 public:
-    SWGApiResponse();
-    SWGApiResponse(QString* json);
-    virtual ~SWGApiResponse();
+    Order();
+    Order(QString* json);
+    virtual ~Order();
     void init();
     void cleanup();
 
     QString asJson ();
     QJsonObject* asJsonObject();
     void fromJsonObject(QJsonObject &json);
-    SWGApiResponse* fromJson(QString &jsonString);
+    Order* fromJson(QString &jsonString);
 
-    qint32 getCode();
-    void setCode(qint32 code);
-QString* getType();
-    void setType(QString* type);
-QString* getMessage();
-    void setMessage(QString* message);
+    qint64 getId();
+    void setId(qint64 id);
+qint64 getPetId();
+    void setPetId(qint64 petId);
+qint32 getQuantity();
+    void setQuantity(qint32 quantity);
+QDateTime* getShipDate();
+    void setShipDate(QDateTime* shipDate);
+QString* getStatus();
+    void setStatus(QString* status);
+bool getComplete();
+    void setComplete(bool complete);
 
 private:
-    qint32 code;
-QString* type;
-QString* message;
+    qint64 id;
+qint64 petId;
+qint32 quantity;
+QDateTime* shipDate;
+QString* status;
+bool complete;
 };
 
 } /* namespace Swagger */
 
-#endif /* SWGApiResponse_H_ */
+#endif /* Order_H_ */

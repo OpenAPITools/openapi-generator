@@ -23,13 +23,13 @@
  */
 
 /*
- * SWGUser.h
+ * ApiResponse.h
  * 
- * A User who is purchasing from the pet store
+ * Describes the result of uploading an image resource
  */
 
-#ifndef SWGUser_H_
-#define SWGUser_H_
+#ifndef ApiResponse_H_
+#define ApiResponse_H_
 
 #include <QJsonObject>
 
@@ -41,47 +41,32 @@
 
 namespace Swagger {
 
-class SWGUser: public SWGObject {
+class ApiResponse: public SWGObject {
 public:
-    SWGUser();
-    SWGUser(QString* json);
-    virtual ~SWGUser();
+    ApiResponse();
+    ApiResponse(QString* json);
+    virtual ~ApiResponse();
     void init();
     void cleanup();
 
     QString asJson ();
     QJsonObject* asJsonObject();
     void fromJsonObject(QJsonObject &json);
-    SWGUser* fromJson(QString &jsonString);
+    ApiResponse* fromJson(QString &jsonString);
 
-    qint64 getId();
-    void setId(qint64 id);
-QString* getUsername();
-    void setUsername(QString* username);
-QString* getFirstName();
-    void setFirstName(QString* first_name);
-QString* getLastName();
-    void setLastName(QString* last_name);
-QString* getEmail();
-    void setEmail(QString* email);
-QString* getPassword();
-    void setPassword(QString* password);
-QString* getPhone();
-    void setPhone(QString* phone);
-qint32 getUserStatus();
-    void setUserStatus(qint32 user_status);
+    qint32 getCode();
+    void setCode(qint32 code);
+QString* getType();
+    void setType(QString* type);
+QString* getMessage();
+    void setMessage(QString* message);
 
 private:
-    qint64 id;
-QString* username;
-QString* first_name;
-QString* last_name;
-QString* email;
-QString* password;
-QString* phone;
-qint32 user_status;
+    qint32 code;
+QString* type;
+QString* message;
 };
 
 } /* namespace Swagger */
 
-#endif /* SWGUser_H_ */
+#endif /* ApiResponse_H_ */

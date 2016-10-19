@@ -23,13 +23,13 @@
  */
 
 /*
- * SWGCategory.h
+ * User.h
  * 
- * A category for a pet
+ * A User who is purchasing from the pet store
  */
 
-#ifndef SWGCategory_H_
-#define SWGCategory_H_
+#ifndef User_H_
+#define User_H_
 
 #include <QJsonObject>
 
@@ -41,29 +41,47 @@
 
 namespace Swagger {
 
-class SWGCategory: public SWGObject {
+class User: public SWGObject {
 public:
-    SWGCategory();
-    SWGCategory(QString* json);
-    virtual ~SWGCategory();
+    User();
+    User(QString* json);
+    virtual ~User();
     void init();
     void cleanup();
 
     QString asJson ();
     QJsonObject* asJsonObject();
     void fromJsonObject(QJsonObject &json);
-    SWGCategory* fromJson(QString &jsonString);
+    User* fromJson(QString &jsonString);
 
     qint64 getId();
     void setId(qint64 id);
-QString* getName();
-    void setName(QString* name);
+QString* getUsername();
+    void setUsername(QString* username);
+QString* getFirstName();
+    void setFirstName(QString* firstName);
+QString* getLastName();
+    void setLastName(QString* lastName);
+QString* getEmail();
+    void setEmail(QString* email);
+QString* getPassword();
+    void setPassword(QString* password);
+QString* getPhone();
+    void setPhone(QString* phone);
+qint32 getUserStatus();
+    void setUserStatus(qint32 userStatus);
 
 private:
     qint64 id;
-QString* name;
+QString* username;
+QString* firstName;
+QString* lastName;
+QString* email;
+QString* password;
+QString* phone;
+qint32 userStatus;
 };
 
 } /* namespace Swagger */
 
-#endif /* SWGCategory_H_ */
+#endif /* User_H_ */

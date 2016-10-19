@@ -23,7 +23,7 @@
  */
 
 
-#include "SWGOrder.h"
+#include "Tag.h"
 
 #include "SWGHelpers.h"
 
@@ -35,45 +35,35 @@
 namespace Swagger {
 
 
-SWGOrder::SWGOrder(QString* json) {
+Tag::Tag(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-SWGOrder::SWGOrder() {
+Tag::Tag() {
     init();
 }
 
-SWGOrder::~SWGOrder() {
+Tag::~Tag() {
     this->cleanup();
 }
 
 void
-SWGOrder::init() {
+Tag::init() {
     id = 0L;
-pet_id = 0L;
-quantity = 0;
-ship_date = NULL;
-status = new QString("");
-complete = false;
+name = new QString("");
 }
 
 void
-SWGOrder::cleanup() {
+Tag::cleanup() {
     
-
-
-if(ship_date != NULL) {
-        delete ship_date;
+if(name != NULL) {
+        delete name;
     }
-if(status != NULL) {
-        delete status;
-    }
-
 }
 
-SWGOrder*
-SWGOrder::fromJson(QString &json) {
+Tag*
+Tag::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -82,17 +72,13 @@ SWGOrder::fromJson(QString &json) {
 }
 
 void
-SWGOrder::fromJsonObject(QJsonObject &pJson) {
+Tag::fromJsonObject(QJsonObject &pJson) {
     setValue(&id, pJson["id"], "qint64", "");
-setValue(&pet_id, pJson["pet_id"], "qint64", "");
-setValue(&quantity, pJson["quantity"], "qint32", "");
-setValue(&ship_date, pJson["ship_date"], "QDateTime", "QDateTime");
-setValue(&status, pJson["status"], "QString", "QString");
-setValue(&complete, pJson["complete"], "bool", "");
+setValue(&name, pJson["name"], "QString", "QString");
 }
 
 QString
-SWGOrder::asJson ()
+Tag::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -102,78 +88,34 @@ SWGOrder::asJson ()
 }
 
 QJsonObject*
-SWGOrder::asJsonObject() {
+Tag::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     obj->insert("id", QJsonValue(id));
-obj->insert("pet_id", QJsonValue(pet_id));
-obj->insert("quantity", QJsonValue(quantity));
 
     
-    toJsonValue(QString("ship_date"), ship_date, obj, QString("QDateTime"));
+    toJsonValue(QString("name"), name, obj, QString("QString"));
     
         
-
-    
-    toJsonValue(QString("status"), status, obj, QString("QString"));
-    
-        
-obj->insert("complete", QJsonValue(complete));
 
     return obj;
 }
 
 qint64
-SWGOrder::getId() {
+Tag::getId() {
     return id;
 }
 void
-SWGOrder::setId(qint64 id) {
+Tag::setId(qint64 id) {
     this->id = id;
 }
 
-qint64
-SWGOrder::getPetId() {
-    return pet_id;
-}
-void
-SWGOrder::setPetId(qint64 pet_id) {
-    this->pet_id = pet_id;
-}
-
-qint32
-SWGOrder::getQuantity() {
-    return quantity;
-}
-void
-SWGOrder::setQuantity(qint32 quantity) {
-    this->quantity = quantity;
-}
-
-QDateTime*
-SWGOrder::getShipDate() {
-    return ship_date;
-}
-void
-SWGOrder::setShipDate(QDateTime* ship_date) {
-    this->ship_date = ship_date;
-}
-
 QString*
-SWGOrder::getStatus() {
-    return status;
+Tag::getName() {
+    return name;
 }
 void
-SWGOrder::setStatus(QString* status) {
-    this->status = status;
-}
-
-bool
-SWGOrder::getComplete() {
-    return complete;
-}
-void
-SWGOrder::setComplete(bool complete) {
-    this->complete = complete;
+Tag::setName(QString* name) {
+    this->name = name;
 }
 
 

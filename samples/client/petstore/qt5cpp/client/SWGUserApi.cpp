@@ -40,7 +40,7 @@ SWGUserApi::SWGUserApi(QString host, QString basePath) {
 }
 
 void
-SWGUserApi::createUser(SWGUser body) {
+SWGUserApi::createUser(User body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
 
@@ -81,7 +81,7 @@ SWGUserApi::createUserCallback(HttpRequestWorker * worker) {
     emit createUserSignal();
 }
 void
-SWGUserApi::createUsersWithArrayInput(QList<SWGUser*>* body) {
+SWGUserApi::createUsersWithArrayInput(QList<User*>* body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
 
@@ -127,7 +127,7 @@ SWGUserApi::createUsersWithArrayInputCallback(HttpRequestWorker * worker) {
     emit createUsersWithArrayInputSignal();
 }
 void
-SWGUserApi::createUsersWithListInput(QList<SWGUser*>* body) {
+SWGUserApi::createUsersWithListInput(QList<User*>* body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
 
@@ -249,7 +249,7 @@ SWGUserApi::getUserByNameCallback(HttpRequestWorker * worker) {
 
     
         QString json(worker->response);
-    SWGUser* output = static_cast<SWGUser*>(create(json, QString("SWGUser")));
+    User* output = static_cast<User*>(create(json, QString("User")));
     
 
     worker->deleteLater();
@@ -355,7 +355,7 @@ SWGUserApi::logoutUserCallback(HttpRequestWorker * worker) {
     emit logoutUserSignal();
 }
 void
-SWGUserApi::updateUser(QString* username, SWGUser body) {
+SWGUserApi::updateUser(QString* username, User body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 

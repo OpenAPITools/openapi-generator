@@ -18,31 +18,31 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    ../client/SWGCategory.cpp \
+    ../client/Category.cpp \
     ../client/SWGHelpers.cpp \
     ../client/SWGHttpRequest.cpp \
-    ../client/SWGOrder.cpp \
-    ../client/SWGPet.cpp \
+    ../client/Order.cpp \
+    ../client/Pet.cpp \
     ../client/SWGPetApi.cpp \
     ../client/SWGStoreApi.cpp \
-    ../client/SWGTag.cpp \
-    ../client/SWGUser.cpp \
+    ../client/Tag.cpp \
+    ../client/User.cpp \
     ../client/SWGUserApi.cpp \
-    ../client/SWGApiResponse.cpp \
+    ../client/ApiResponse.cpp \
     PetApiTests.cpp
 
 HEADERS += \
-    ../client/SWGCategory.h \
+    ../client/Category.h \
     ../client/SWGHelpers.h \
     ../client/SWGHttpRequest.h \
     ../client/SWGObject.h \
-    ../client/SWGOrder.h \
-    ../client/SWGPet.h \
+    ../client/Order.h \
+    ../client/Pet.h \
     ../client/SWGPetApi.h \
     ../client/SWGStoreApi.h \
-    ../client/SWGTag.h \
-    ../client/SWGUser.h \
+    ../client/Tag.h \
+    ../client/User.h \
     ../client/SWGUserApi.h \
     PetApiTests.h \
-    ../client/SWGApiResponse.h \
+    ../client/ApiResponse.h \
     ../client/SWGModelFactory.h

@@ -23,18 +23,20 @@
  */
 
 /*
- * SWGOrder.h
+ * Pet.h
  * 
- * An order for a pets from the pet store
+ * A pet for sale in the pet store
  */
 
-#ifndef SWGOrder_H_
-#define SWGOrder_H_
+#ifndef Pet_H_
+#define Pet_H_
 
 #include <QJsonObject>
 
 
-#include <QDateTime>
+#include "Category.h"
+#include "Tag.h"
+#include <QList>
 #include <QString>
 
 #include "SWGObject.h"
@@ -42,41 +44,41 @@
 
 namespace Swagger {
 
-class SWGOrder: public SWGObject {
+class Pet: public SWGObject {
 public:
-    SWGOrder();
-    SWGOrder(QString* json);
-    virtual ~SWGOrder();
+    Pet();
+    Pet(QString* json);
+    virtual ~Pet();
     void init();
     void cleanup();
 
     QString asJson ();
     QJsonObject* asJsonObject();
     void fromJsonObject(QJsonObject &json);
-    SWGOrder* fromJson(QString &jsonString);
+    Pet* fromJson(QString &jsonString);
 
     qint64 getId();
     void setId(qint64 id);
-qint64 getPetId();
-    void setPetId(qint64 pet_id);
-qint32 getQuantity();
-    void setQuantity(qint32 quantity);
-QDateTime* getShipDate();
-    void setShipDate(QDateTime* ship_date);
+Category* getCategory();
+    void setCategory(Category* category);
+QString* getName();
+    void setName(QString* name);
+QList<QString*>* getPhotoUrls();
+    void setPhotoUrls(QList<QString*>* photoUrls);
+QList<Tag*>* getTags();
+    void setTags(QList<Tag*>* tags);
 QString* getStatus();
     void setStatus(QString* status);
-bool getComplete();
-    void setComplete(bool complete);
 
 private:
     qint64 id;
-qint64 pet_id;
-qint32 quantity;
-QDateTime* ship_date;
+Category* category;
+QString* name;
+QList<QString*>* photoUrls;
+QList<Tag*>* tags;
 QString* status;
-bool complete;
 };
 
 } /* namespace Swagger */
 
-#endif /* SWGOrder_H_ */
+#endif /* Pet_H_ */

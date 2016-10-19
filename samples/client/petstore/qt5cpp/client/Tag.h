@@ -23,13 +23,13 @@
  */
 
 /*
- * SWGTag.h
+ * Tag.h
  * 
  * A tag for a pet
  */
 
-#ifndef SWGTag_H_
-#define SWGTag_H_
+#ifndef Tag_H_
+#define Tag_H_
 
 #include <QJsonObject>
 
@@ -41,18 +41,18 @@
 
 namespace Swagger {
 
-class SWGTag: public SWGObject {
+class Tag: public SWGObject {
 public:
-    SWGTag();
-    SWGTag(QString* json);
-    virtual ~SWGTag();
+    Tag();
+    Tag(QString* json);
+    virtual ~Tag();
     void init();
     void cleanup();
 
     QString asJson ();
     QJsonObject* asJsonObject();
     void fromJsonObject(QJsonObject &json);
-    SWGTag* fromJson(QString &jsonString);
+    Tag* fromJson(QString &jsonString);
 
     qint64 getId();
     void setId(qint64 id);
@@ -66,4 +66,4 @@ QString* name;
 
 } /* namespace Swagger */
 
-#endif /* SWGTag_H_ */
+#endif /* Tag_H_ */
