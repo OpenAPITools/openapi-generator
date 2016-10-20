@@ -293,6 +293,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-client-jersey2-java6</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/jersey2-java6</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-client-okhttp-gson</id>
             <activation>
                 <property>
