@@ -111,6 +111,10 @@ ext {
     {{^java8}}
     jodatime_version = "2.9.4"
     {{/java8}}
+    {{#supportJava6}}
+    commons_io_version=2.5
+    commons_lang3_version=3.5
+    {{/supportJava6}}
     junit_version = "4.12"
 }
 
@@ -129,6 +133,10 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
     {{/java8}}
+    {{#supportJava6}}
+    compile "commons-io:commons-io:$commons_io_version"
+    compile "org.apache.commons:commons-lang3:$commons_lang3_version"
+    {{/supportJava6}}
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"
 }
