@@ -183,7 +183,12 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
         } else if (systemIncludes.contains(name)) {
             return "#include <" + name + ">";
         }
-        return "#include \"" + name + ".h\"";
+
+        String folder = modelPackage().replace("::", File.separator);
+        if (!folder.isEmpty())
+            folder += File.separator;
+
+        return "#include \"" + folder + name + ".h\"";
     }
 
     /**
@@ -203,7 +208,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace("::", File.separator);
     }
 
     /**
@@ -212,7 +217,7 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace("::", File.separator);
     }
 
     @Override
