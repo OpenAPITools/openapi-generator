@@ -7,6 +7,8 @@ import * as isomorphicFetch from "isomorphic-fetch";
 import * as assign from "core-js/library/fn/object/assign";
 {{/supportsES6}}
 
+import { Configuration } from './configuration';
+
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
@@ -20,11 +22,14 @@ export interface FetchArgs {
 export class BaseAPI {
     basePath: string;
     fetch: FetchAPI;
+    public configuration: Configuration;
 
-    constructor(fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) {
+    constructor(fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH, configuration: Configuration = new Configuration()) {
         this.basePath = basePath;
         this.fetch = fetch;
+        this.configuration = configuration;
     }
+
 }
 
 {{#models}}
@@ -70,7 +75,7 @@ export const {{classname}}FetchParamCreactor = {
      * {{notes}}{{/notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{/allParams}}
      */
-    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}): FetchArgs {
+    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration: Configuration{{/hasAuthMethods}}): FetchArgs {
 {{#allParams}}
 {{#required}}
         // verify required parameter "{{paramName}}" is set
@@ -112,6 +117,42 @@ export const {{classname}}FetchParamCreactor = {
             fetchOptions.headers = contentTypeHeader;
         }
 {{/hasHeaderParams}}
+{{#authMethods}}
+        // authentication ({{name}}) required
+{{#isApiKey}}
+{{#isKeyInHeader}}
+        if (configuration.apiKey && configuration.apiKey.{{keyParamName}}) {
+            fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
+                    '{{keyParamName}}': configuration.apiKey.{{keyParamName}},
+                    }, contentTypeHeader);
+        }
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+        if (configuration.apiKey && configuration.apiKey.{{keyParamName}}) {
+            urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, {
+                    '{{keyParamName}}': configuration.apiKey.{{keyParamName}},
+                    });
+        }
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasic}}
+        // http basic authentication required
+        if (configuration.username || configuration.password) {
+            fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
+                    'Authorization': 'Basic ' + btoa(configuration.username + ':' + configuration.password),
+                    }, contentTypeHeader);
+        }
+{{/isBasic}}
+{{#isOAuth}}
+        // oauth required
+        if (configuration.accessToken) {
+            fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
+                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    }, contentTypeHeader);
+        }
+{{/isOAuth}}
+{{/authMethods}}
+
         return {
             url: url.format(urlObj),
             options: fetchOptions,
@@ -131,8 +172,8 @@ export const {{classname}}Fp = {
      * {{notes}}{{/notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{/allParams}}
      */
-    {{nickname}}({{#hasParams}}params: { {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }{{/hasParams}}): (fetch: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-        const fetchArgs = {{classname}}FetchParamCreactor.{{nickname}}({{#hasParams}}params{{/hasParams}});
+    {{nickname}}({{#hasParams}}params: { {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration: Configuration{{/hasAuthMethods}}): (fetch: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+        const fetchArgs = {{classname}}FetchParamCreactor.{{nickname}}({{#hasParams}}params{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration{{/hasAuthMethods}});
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -158,7 +199,7 @@ export class {{classname}} extends BaseAPI {
      * @param {{paramName}} {{description}}{{/allParams}}
      */
     {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}) {
-        return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}})(this.fetch, this.basePath);
+        return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}this.configuration{{/hasAuthMethods}})(this.fetch, this.basePath);
     }
 {{/operation}}
 };
@@ -175,8 +216,8 @@ export const {{classname}}Factory = function (fetch?: FetchAPI, basePath?: strin
          * {{notes}}{{/notes}}{{#allParams}}
          * @param {{paramName}} {{description}}{{/allParams}}
          */
-        {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}) {
-            return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}})(fetch, basePath);
+        {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration: Configuration{{/hasAuthMethods}}) {
+            return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration{{/hasAuthMethods}})(fetch, basePath);
         },
 {{/operation}}
     }
