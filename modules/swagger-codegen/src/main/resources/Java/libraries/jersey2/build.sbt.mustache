@@ -24,6 +24,10 @@ lazy val root = (project in file(".")).
       "joda-time" % "joda-time" % "2.9.4",
       {{/java8}}
       "com.brsanthu" % "migbase64" % "2.2",
+      {{#supportJava6}}
+      "org.apache.commons" % "commons-lang3" % "3.5",
+      "commons-io" % "commons-io" % "2.5",
+      {{/supportJava6}}
       "junit" % "junit" % "4.12" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
