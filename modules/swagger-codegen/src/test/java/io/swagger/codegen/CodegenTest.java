@@ -13,6 +13,17 @@ import java.util.List;
 
 public class CodegenTest {
 
+    @Test(description = "test sanitizeTag")
+    public void sanitizeTagTest() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        Assert.assertEquals(codegen.sanitizeTag("foo"), "Foo");
+        Assert.assertEquals(codegen.sanitizeTag("foo bar"), "FooBar");
+        Assert.assertEquals(codegen.sanitizeTag("foo_bar"), "Foo_bar");
+        Assert.assertEquals(codegen.sanitizeTag("foo1 bar2"), "Foo1Bar2");
+        Assert.assertEquals(codegen.sanitizeTag("foo bar 1"), "FooBar1");
+        Assert.assertEquals(codegen.sanitizeTag("1foo"), "_1foo");
+    }
+
     @Test(description = "read a file upload param from a 2.0 spec")
     public void fileUploadParamTest() {
         final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");
