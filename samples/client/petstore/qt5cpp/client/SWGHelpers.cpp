@@ -33,7 +33,7 @@ namespace Swagger {
 
 void
 setValue(void* value, QJsonValue obj, QString type, QString complexType) {
-    if(value == NULL) {
+    if(value == nullptr) {
         // can't set value with a null pointer
         return;
     }
@@ -60,7 +60,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
     else if (QStringLiteral("QString").compare(type) == 0) {
         QString **val = static_cast<QString**>(value);
 
-        if(val != NULL) {
+        if(val != nullptr) {
             if(!obj.isNull()) {
                 // create a new value and return
                 delete *val;
@@ -68,19 +68,19 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 return;
             }
             else {
-                // set target to NULL
+                // set target to nullptr
                 delete *val;
-                *val = NULL;
+                *val = nullptr;
             }
         }
         else {
-            qDebug() << "Can't set value because the target pointer is NULL";
+            qDebug() << "Can't set value because the target pointer is nullptr";
         }
     }
     else if (QStringLiteral("QDateTime").compare(type) == 0) {
         QDateTime **val = static_cast<QDateTime**>(value);
 
-        if(val != NULL) {
+        if(val != nullptr) {
             if(!obj.isNull()) {
                 // create a new value and return
                 delete *val;
@@ -88,19 +88,19 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 return;
             }
             else {
-                // set target to NULL
+                // set target to nullptr
                 delete *val;
-                *val = NULL;
+                *val = nullptr;
             }
         }
         else {
-            qDebug() << "Can't set value because the target pointer is NULL";
+            qDebug() << "Can't set value because the target pointer is nullptr";
         }
     }
     else if (QStringLiteral("QDate").compare(type) == 0) {
         QDate **val = static_cast<QDate**>(value);
 
-        if(val != NULL) {
+        if(val != nullptr) {
             if(!obj.isNull()) {
                 // create a new value and return
                 delete *val;
@@ -108,19 +108,19 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 return;
             }
             else {
-                // set target to NULL
+                // set target to nullptr
                 delete *val;
-                *val = NULL;
+                *val = nullptr;
             }
         }
         else {
-            qDebug() << "Can't set value because the target pointer is NULL";
+            qDebug() << "Can't set value because the target pointer is nullptr";
         }
     }
     else if (QStringLiteral("QByteArray").compare(type) == 0) {
         QByteArray **val = static_cast<QByteArray**>(value);
 
-        if(val != NULL) {
+        if(val != nullptr) {
             if(!obj.isNull()) {
                 // create a new value and return
                 delete *val;
@@ -129,20 +129,20 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                 return;
             }
             else {
-                // set target to NULL
+                // set target to nullptr
                 delete *val;
-                *val = NULL;
+                *val = nullptr;
             }
         }
         else {
-            qDebug() << "Can't set value because the target pointer is NULL";
+            qDebug() << "Can't set value because the target pointer is nullptr";
         }
     }
     else if(type.startsWith("SWG") && obj.isObject()) {
         // complex type
         QJsonObject jsonObj = obj.toObject();
         SWGObject * so = (SWGObject*)Swagger::create(type);
-        if(so != NULL) {
+        if(so != nullptr) {
             so->fromJsonObject(jsonObj);
             SWGObject **val = static_cast<SWGObject**>(value);
             delete *val;
@@ -190,19 +190,19 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
                     output->append((void*)&val);
                 }
                 else if(QStringLiteral("QString").compare(complexType) == 0) {
-                    QString val;
+                    QString * val = new QString();
                     setValue(&val, jval, QStringLiteral("QString"), QStringLiteral(""));
-                    output->append((void*)&val);
+                    output->append((void*)val);
                 }
                 else if(QStringLiteral("QDate").compare(complexType) == 0) {
-                    QDate val;
+                    QDate * val = new QDate();
                     setValue(&val, jval, QStringLiteral("QDate"), QStringLiteral(""));
-                    output->append((void*)&val);
+                    output->append((void*)val);
                 }
                 else if(QStringLiteral("QDateTime").compare(complexType) == 0) {
-                    QDateTime val;
+                    QDateTime * val = new QDateTime();
                     setValue(&val, jval, QStringLiteral("QDateTime"), QStringLiteral(""));
-                    output->append((void*)&val);
+                    output->append((void*)val);
                 }
             }
         }
@@ -214,14 +214,14 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
 
 void
 toJsonValue(QString name, void* value, QJsonObject* output, QString type) {
-    if(value == NULL) {
+    if(value == nullptr) {
         return;
     }
     if(type.startsWith("SWG")) {
         SWGObject *swgObject = reinterpret_cast<SWGObject *>(value);
-        if(swgObject != NULL) {
+        if(swgObject != nullptr) {
             QJsonObject* o = (*swgObject).asJsonObject();
-            if(name != NULL) {
+            if(name != nullptr) {
                 output->insert(name, *o);
                 delete o;
             }
@@ -276,7 +276,7 @@ toJsonArray(QList<void*>* value, QJsonArray* output, QString innerName, QString 
     foreach(void* obj, *value) {
         QJsonObject element;
 
-        toJsonValue(NULL, obj, &element, innerType);
+        toJsonValue(nullptr, obj, &element, innerType);
         output->append(element);
     }
 }

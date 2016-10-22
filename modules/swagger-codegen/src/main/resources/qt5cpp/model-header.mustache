@@ -32,12 +32,15 @@ public:
     void fromJsonObject(QJsonObject &json);
     {{classname}}* fromJson(QString &jsonString);
 
-    {{#vars}}{{{datatype}}} {{getter}}();
+    {{#vars}}
+    {{{datatype}}} {{getter}}();
     void {{setter}}({{{datatype}}} {{name}});
+
     {{/vars}}
 
 private:
-    {{#vars}}{{{datatype}}} {{name}};
+    {{#vars}}
+    {{{datatype}}} {{name}};
     {{/vars}}
 };
 

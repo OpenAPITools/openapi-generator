@@ -51,37 +51,42 @@ SWGPet::~SWGPet() {
 void
 SWGPet::init() {
     id = 0L;
-category = new SWGCategory();
-name = new QString("");
-photo_urls = new QList<QString*>();
-tags = new QList<SWGTag*>();
-status = new QString("");
+    category = new SWGCategory();
+    name = new QString("");
+    photo_urls = new QList<QString*>();
+    tags = new QList<SWGTag*>();
+    status = new QString("");
 }
 
 void
 SWGPet::cleanup() {
     
-if(category != NULL) {
+
+    if(category != nullptr) {
         delete category;
     }
-if(name != NULL) {
+
+    if(name != nullptr) {
         delete name;
     }
-if(photo_urls != NULL) {
+
+    if(photo_urls != nullptr) {
         QList<QString*>* arr = photo_urls;
         foreach(QString* o, *arr) {
             delete o;
         }
         delete photo_urls;
     }
-if(tags != NULL) {
+
+    if(tags != nullptr) {
         QList<SWGTag*>* arr = tags;
         foreach(SWGTag* o, *arr) {
             delete o;
         }
         delete tags;
     }
-if(status != NULL) {
+
+    if(status != nullptr) {
         delete status;
     }
 }
@@ -97,12 +102,16 @@ SWGPet::fromJson(QString &json) {
 
 void
 SWGPet::fromJsonObject(QJsonObject &pJson) {
-    setValue(&id, pJson["id"], "qint64", "");
-setValue(&category, pJson["category"], "SWGCategory", "SWGCategory");
-setValue(&name, pJson["name"], "QString", "QString");
-setValue(&photo_urls, pJson["photo_urls"], "QList", "QString");
-setValue(&tags, pJson["tags"], "QList", "SWGTag");
-setValue(&status, pJson["status"], "QString", "QString");
+    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    ::Swagger::setValue(&category, pJson["category"], "SWGCategory", "SWGCategory");
+    ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
+    
+    ::Swagger::setValue(&photo_urls, pJson["photo_urls"], "QList", "QString");
+    
+    
+    ::Swagger::setValue(&tags, pJson["tags"], "QList", "SWGTag");
+    
+    ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
 }
 
 QString
@@ -118,38 +127,22 @@ SWGPet::asJson ()
 QJsonObject*
 SWGPet::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     obj->insert("id", QJsonValue(id));
 
-    
     toJsonValue(QString("category"), category, obj, QString("SWGCategory"));
-    
-        
 
-    
     toJsonValue(QString("name"), name, obj, QString("QString"));
-    
-        
 
-    
-    QList<QString*>* photo_urlsList = photo_urls;
     QJsonArray photo_urlsJsonArray;
     toJsonArray((QList<void*>*)photo_urls, &photo_urlsJsonArray, "photo_urls", "QString");
-
     obj->insert("photo_urls", photo_urlsJsonArray);
-    
 
-    
-    QList<SWGTag*>* tagsList = tags;
     QJsonArray tagsJsonArray;
     toJsonArray((QList<void*>*)tags, &tagsJsonArray, "tags", "SWGTag");
-
     obj->insert("tags", tagsJsonArray);
-    
 
-    
     toJsonValue(QString("status"), status, obj, QString("QString"));
-    
-        
 
     return obj;
 }

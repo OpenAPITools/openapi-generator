@@ -51,11 +51,11 @@ SWGOrder::~SWGOrder() {
 void
 SWGOrder::init() {
     id = 0L;
-pet_id = 0L;
-quantity = 0;
-ship_date = NULL;
-status = new QString("");
-complete = false;
+    pet_id = 0L;
+    quantity = 0;
+    ship_date = NULL;
+    status = new QString("");
+    complete = false;
 }
 
 void
@@ -63,10 +63,12 @@ SWGOrder::cleanup() {
     
 
 
-if(ship_date != NULL) {
+
+    if(ship_date != nullptr) {
         delete ship_date;
     }
-if(status != NULL) {
+
+    if(status != nullptr) {
         delete status;
     }
 
@@ -83,12 +85,12 @@ SWGOrder::fromJson(QString &json) {
 
 void
 SWGOrder::fromJsonObject(QJsonObject &pJson) {
-    setValue(&id, pJson["id"], "qint64", "");
-setValue(&pet_id, pJson["pet_id"], "qint64", "");
-setValue(&quantity, pJson["quantity"], "qint32", "");
-setValue(&ship_date, pJson["ship_date"], "QDateTime", "QDateTime");
-setValue(&status, pJson["status"], "QString", "QString");
-setValue(&complete, pJson["complete"], "bool", "");
+    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    ::Swagger::setValue(&pet_id, pJson["pet_id"], "qint64", "");
+    ::Swagger::setValue(&quantity, pJson["quantity"], "qint32", "");
+    ::Swagger::setValue(&ship_date, pJson["ship_date"], "QDateTime", "QDateTime");
+    ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
+    ::Swagger::setValue(&complete, pJson["complete"], "bool", "");
 }
 
 QString
@@ -104,20 +106,18 @@ SWGOrder::asJson ()
 QJsonObject*
 SWGOrder::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     obj->insert("id", QJsonValue(id));
-obj->insert("pet_id", QJsonValue(pet_id));
-obj->insert("quantity", QJsonValue(quantity));
 
-    
+    obj->insert("pet_id", QJsonValue(pet_id));
+
+    obj->insert("quantity", QJsonValue(quantity));
+
     toJsonValue(QString("ship_date"), ship_date, obj, QString("QDateTime"));
-    
-        
 
-    
     toJsonValue(QString("status"), status, obj, QString("QString"));
-    
-        
-obj->insert("complete", QJsonValue(complete));
+
+    obj->insert("complete", QJsonValue(complete));
 
     return obj;
 }

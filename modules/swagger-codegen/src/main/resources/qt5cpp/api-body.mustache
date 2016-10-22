@@ -87,7 +87,7 @@ void
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "{{httpMethod}}");
 
-    {{#formParams}}if ({{paramName}} != NULL) {
+    {{#formParams}}if ({{paramName}} != nullptr) {
         {{^isFile}}input.add_var("{{baseName}}", *{{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{baseName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
     }
     {{/formParams}}
