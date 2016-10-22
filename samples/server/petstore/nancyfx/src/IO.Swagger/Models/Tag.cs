@@ -8,7 +8,7 @@ using NodaTime;
 namespace IO.Swagger.v2.Models
 {
     /// <summary>
-    /// Tag
+    /// A tag for a pet
     /// </summary>
     public sealed class Tag:  IEquatable<Tag>
     { 
