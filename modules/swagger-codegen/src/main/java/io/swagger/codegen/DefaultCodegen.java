@@ -3171,7 +3171,12 @@ public class DefaultCodegen {
                 buf.append(StringUtils.capitalize(part));
             }
         }
-        return buf.toString().replaceAll("[^a-zA-Z ]", "");
+        String returnTag = buf.toString().replaceAll("[^a-zA-Z0-9_]", "");
+        if (returnTag.matches("\\d.*")) {
+            return "_" + returnTag;
+        } else {
+            return returnTag;
+        }
     }
 
     /**

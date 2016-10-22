@@ -30,12 +30,12 @@
 class SWGObject {
   public:
     virtual QJsonObject* asJsonObject() {
-      return NULL;
+      return nullptr;
     }
     virtual ~SWGObject() {}
     virtual SWGObject* fromJson(QString &jsonString) {
         Q_UNUSED(jsonString);
-        return NULL;
+        return nullptr;
     }
     virtual void fromJsonObject(QJsonObject &json) {
         Q_UNUSED(json);

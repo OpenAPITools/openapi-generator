@@ -23,7 +23,7 @@
  */
 
 
-#include "Tag.h"
+#include "SWGTag.h"
 
 #include "SWGHelpers.h"
 
@@ -35,35 +35,36 @@
 namespace Swagger {
 
 
-Tag::Tag(QString* json) {
+SWGTag::SWGTag(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-Tag::Tag() {
+SWGTag::SWGTag() {
     init();
 }
 
-Tag::~Tag() {
+SWGTag::~SWGTag() {
     this->cleanup();
 }
 
 void
-Tag::init() {
+SWGTag::init() {
     id = 0L;
-name = new QString("");
+    name = new QString("");
 }
 
 void
-Tag::cleanup() {
+SWGTag::cleanup() {
     
-if(name != NULL) {
+
+    if(name != nullptr) {
         delete name;
     }
 }
 
-Tag*
-Tag::fromJson(QString &json) {
+SWGTag*
+SWGTag::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -72,13 +73,13 @@ Tag::fromJson(QString &json) {
 }
 
 void
-Tag::fromJsonObject(QJsonObject &pJson) {
-    setValue(&id, pJson["id"], "qint64", "");
-setValue(&name, pJson["name"], "QString", "QString");
+SWGTag::fromJsonObject(QJsonObject &pJson) {
+    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
 }
 
 QString
-Tag::asJson ()
+SWGTag::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -88,33 +89,31 @@ Tag::asJson ()
 }
 
 QJsonObject*
-Tag::asJsonObject() {
+SWGTag::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     obj->insert("id", QJsonValue(id));
 
-    
     toJsonValue(QString("name"), name, obj, QString("QString"));
-    
-        
 
     return obj;
 }
 
 qint64
-Tag::getId() {
+SWGTag::getId() {
     return id;
 }
 void
-Tag::setId(qint64 id) {
+SWGTag::setId(qint64 id) {
     this->id = id;
 }
 
 QString*
-Tag::getName() {
+SWGTag::getName() {
     return name;
 }
 void
-Tag::setName(QString* name) {
+SWGTag::setName(QString* name) {
     this->name = name;
 }
 

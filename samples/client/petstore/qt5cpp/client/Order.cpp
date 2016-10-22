@@ -23,7 +23,7 @@
  */
 
 
-#include "Order.h"
+#include "SWGOrder.h"
 
 #include "SWGHelpers.h"
 
@@ -35,45 +35,47 @@
 namespace Swagger {
 
 
-Order::Order(QString* json) {
+SWGOrder::SWGOrder(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-Order::Order() {
+SWGOrder::SWGOrder() {
     init();
 }
 
-Order::~Order() {
+SWGOrder::~SWGOrder() {
     this->cleanup();
 }
 
 void
-Order::init() {
+SWGOrder::init() {
     id = 0L;
-petId = 0L;
-quantity = 0;
-shipDate = NULL;
-status = new QString("");
-complete = false;
+    pet_id = 0L;
+    quantity = 0;
+    ship_date = NULL;
+    status = new QString("");
+    complete = false;
 }
 
 void
-Order::cleanup() {
+SWGOrder::cleanup() {
     
 
 
-if(shipDate != NULL) {
-        delete shipDate;
+
+    if(ship_date != nullptr) {
+        delete ship_date;
     }
-if(status != NULL) {
+
+    if(status != nullptr) {
         delete status;
     }
 
 }
 
-Order*
-Order::fromJson(QString &json) {
+SWGOrder*
+SWGOrder::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -82,17 +84,17 @@ Order::fromJson(QString &json) {
 }
 
 void
-Order::fromJsonObject(QJsonObject &pJson) {
-    setValue(&id, pJson["id"], "qint64", "");
-setValue(&petId, pJson["petId"], "qint64", "");
-setValue(&quantity, pJson["quantity"], "qint32", "");
-setValue(&shipDate, pJson["shipDate"], "QDateTime", "QDateTime");
-setValue(&status, pJson["status"], "QString", "QString");
-setValue(&complete, pJson["complete"], "bool", "");
+SWGOrder::fromJsonObject(QJsonObject &pJson) {
+    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    ::Swagger::setValue(&pet_id, pJson["pet_id"], "qint64", "");
+    ::Swagger::setValue(&quantity, pJson["quantity"], "qint32", "");
+    ::Swagger::setValue(&ship_date, pJson["ship_date"], "QDateTime", "QDateTime");
+    ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
+    ::Swagger::setValue(&complete, pJson["complete"], "bool", "");
 }
 
 QString
-Order::asJson ()
+SWGOrder::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -102,77 +104,75 @@ Order::asJson ()
 }
 
 QJsonObject*
-Order::asJsonObject() {
+SWGOrder::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     obj->insert("id", QJsonValue(id));
-obj->insert("petId", QJsonValue(petId));
-obj->insert("quantity", QJsonValue(quantity));
 
-    
-    toJsonValue(QString("shipDate"), shipDate, obj, QString("QDateTime"));
-    
-        
+    obj->insert("pet_id", QJsonValue(pet_id));
 
-    
+    obj->insert("quantity", QJsonValue(quantity));
+
+    toJsonValue(QString("ship_date"), ship_date, obj, QString("QDateTime"));
+
     toJsonValue(QString("status"), status, obj, QString("QString"));
-    
-        
-obj->insert("complete", QJsonValue(complete));
+
+    obj->insert("complete", QJsonValue(complete));
 
     return obj;
 }
 
 qint64
-Order::getId() {
+SWGOrder::getId() {
     return id;
 }
 void
-Order::setId(qint64 id) {
+SWGOrder::setId(qint64 id) {
     this->id = id;
 }
 
 qint64
-Order::getPetId() {
-    return petId;
+SWGOrder::getPetId() {
+    return pet_id;
 }
 void
-Order::setPetId(qint64 petId) {
-    this->petId = petId;
+SWGOrder::setPetId(qint64 pet_id) {
+    this->pet_id = pet_id;
 }
 
 qint32
-Order::getQuantity() {
+SWGOrder::getQuantity() {
     return quantity;
 }
 void
-Order::setQuantity(qint32 quantity) {
+SWGOrder::setQuantity(qint32 quantity) {
     this->quantity = quantity;
 }
 
 QDateTime*
-Order::getShipDate() {
-    return shipDate;
+SWGOrder::getShipDate() {
+    return ship_date;
 }
 void
-Order::setShipDate(QDateTime* shipDate) {
-    this->shipDate = shipDate;
+SWGOrder::setShipDate(QDateTime* ship_date) {
+    this->ship_date = ship_date;
 }
 
 QString*
-Order::getStatus() {
+SWGOrder::getStatus() {
     return status;
 }
 void
-Order::setStatus(QString* status) {
+SWGOrder::setStatus(QString* status) {
     this->status = status;
 }
 
 bool
-Order::getComplete() {
+SWGOrder::getComplete() {
     return complete;
 }
 void
-Order::setComplete(bool complete) {
+SWGOrder::setComplete(bool complete) {
     this->complete = complete;
 }
 

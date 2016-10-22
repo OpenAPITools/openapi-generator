@@ -134,7 +134,7 @@ namespace IO.Swagger.v2.Utils
         private static IDictionary<Type, Func<Parameter, object>> CreateParsers()
         {
             var parsers = ImmutableDictionary.CreateBuilder<Type, Func<Parameter, object>>();
-            parsers.Put(typeof(string), value => value);
+            parsers.Put(typeof(string), value => value.Value);
             parsers.Put(typeof(bool), SafeParse(bool.Parse));
             parsers.Put(typeof(bool?), SafeParse(bool.Parse));
             parsers.Put(typeof(byte), SafeParse(byte.Parse));

@@ -56,15 +56,18 @@ public:
 
     qint32 getCode();
     void setCode(qint32 code);
-QString* getType();
+
+    QString* getType();
     void setType(QString* type);
-QString* getMessage();
+
+    QString* getMessage();
     void setMessage(QString* message);
+
 
 private:
     qint32 code;
-QString* type;
-QString* message;
+    QString* type;
+    QString* message;
 };
 
 } /* namespace Swagger */

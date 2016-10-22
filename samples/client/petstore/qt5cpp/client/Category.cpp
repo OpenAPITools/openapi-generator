@@ -23,7 +23,7 @@
  */
 
 
-#include "Category.h"
+#include "SWGCategory.h"
 
 #include "SWGHelpers.h"
 
@@ -35,35 +35,36 @@
 namespace Swagger {
 
 
-Category::Category(QString* json) {
+SWGCategory::SWGCategory(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-Category::Category() {
+SWGCategory::SWGCategory() {
     init();
 }
 
-Category::~Category() {
+SWGCategory::~SWGCategory() {
     this->cleanup();
 }
 
 void
-Category::init() {
+SWGCategory::init() {
     id = 0L;
-name = new QString("");
+    name = new QString("");
 }
 
 void
-Category::cleanup() {
+SWGCategory::cleanup() {
     
-if(name != NULL) {
+
+    if(name != nullptr) {
         delete name;
     }
 }
 
-Category*
-Category::fromJson(QString &json) {
+SWGCategory*
+SWGCategory::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -72,13 +73,13 @@ Category::fromJson(QString &json) {
 }
 
 void
-Category::fromJsonObject(QJsonObject &pJson) {
-    setValue(&id, pJson["id"], "qint64", "");
-setValue(&name, pJson["name"], "QString", "QString");
+SWGCategory::fromJsonObject(QJsonObject &pJson) {
+    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
 }
 
 QString
-Category::asJson ()
+SWGCategory::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -88,33 +89,31 @@ Category::asJson ()
 }
 
 QJsonObject*
-Category::asJsonObject() {
+SWGCategory::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
+    
     obj->insert("id", QJsonValue(id));
 
-    
     toJsonValue(QString("name"), name, obj, QString("QString"));
-    
-        
 
     return obj;
 }
 
 qint64
-Category::getId() {
+SWGCategory::getId() {
     return id;
 }
 void
-Category::setId(qint64 id) {
+SWGCategory::setId(qint64 id) {
     this->id = id;
 }
 
 QString*
-Category::getName() {
+SWGCategory::getName() {
     return name;
 }
 void
-Category::setName(QString* name) {
+SWGCategory::setName(QString* name) {
     this->name = name;
 }
 
