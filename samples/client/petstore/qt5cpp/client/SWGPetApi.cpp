@@ -411,10 +411,10 @@ SWGPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
-    if (name != NULL) {
+    if (name != nullptr) {
         input.add_var("name", *name);
     }
-if (status != NULL) {
+if (status != nullptr) {
         input.add_var("status", *status);
     }
 
@@ -458,10 +458,10 @@ SWGPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpReques
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "POST");
 
-    if (additional_metadata != NULL) {
+    if (additional_metadata != nullptr) {
         input.add_var("additionalMetadata", *additional_metadata);
     }
-if (file != NULL) {
+if (file != nullptr) {
         input.add_file("file", (*file).local_filename, (*file).request_filename, (*file).mime_type);
     }
 

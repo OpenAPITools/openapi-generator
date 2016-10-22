@@ -60,7 +60,7 @@ void HttpRequestInput::add_file(QString variable_name, QString local_filename, Q
 
 
 HttpRequestWorker::HttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(NULL)
+    : QObject(parent), manager(nullptr)
 {
     qsrand(QDateTime::currentDateTime().toTime_t());
 
@@ -204,8 +204,8 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
 
             // ensure necessary variables are available
             if (
-                file_info->local_filename == NULL || file_info->local_filename.isEmpty()
-                || file_info->variable_name == NULL || file_info->variable_name.isEmpty()
+                file_info->local_filename == nullptr || file_info->local_filename.isEmpty()
+                || file_info->variable_name == nullptr || file_info->variable_name.isEmpty()
                 || !fi.exists() || !fi.isFile() || !fi.isReadable()
             ) {
                 // silent abort for the current file
@@ -219,7 +219,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
             }
 
             // ensure filename for the request
-            if (file_info->request_filename == NULL || file_info->request_filename.isEmpty()) {
+            if (file_info->request_filename == nullptr || file_info->request_filename.isEmpty()) {
                 file_info->request_filename = fi.fileName();
                 if (file_info->request_filename.isEmpty()) {
                     file_info->request_filename = "file";
@@ -238,7 +238,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
             ));
             request_content.append(new_line);
 
-            if (file_info->mime_type != NULL && !file_info->mime_type.isEmpty()) {
+            if (file_info->mime_type != nullptr && !file_info->mime_type.isEmpty()) {
                 request_content.append("Content-Type: ");
                 request_content.append(file_info->mime_type);
                 request_content.append(new_line);

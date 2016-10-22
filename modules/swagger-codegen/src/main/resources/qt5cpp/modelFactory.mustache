@@ -11,19 +11,19 @@ namespace Swagger {
       return new {{classname}}();
     }
     {{/model}}{{/models}}
-    return NULL;
+    return nullptr;
   }
 
   inline void* create(QString json, QString type) {
     void* val = create(type);
-    if(val != NULL) {
+    if(val != nullptr) {
       SWGObject* obj = static_cast<SWGObject*>(val);
       return obj->fromJson(json);
     }
     if(type.startsWith("QString")) {
       return new QString();
     }
-    return NULL;
+    return nullptr;
   }
 } /* namespace Swagger */
 
