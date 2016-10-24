@@ -55,6 +55,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final String API_NAMESPACE = "Modules";
     private static final String MODEL_NAMESPACE = "Models";
     private static final String IMMUTABLE_OPTION = "immutable";
+    private static final String USE_BASE_PATH = "writeModulePath";
 
     private static final Map<String, Predicate<Property>> propertyToSwaggerTypeMapping =
             createPropertyToSwaggerTypeMapping();
@@ -89,6 +90,7 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
         addSwitch(USE_COLLECTION, USE_COLLECTION_DESC, useCollection);
         addSwitch(RETURN_ICOLLECTION, RETURN_ICOLLECTION_DESC, returnICollection);
         addSwitch(IMMUTABLE_OPTION, "Enabled by default. If disabled generates model classes with setters", true);
+        addSwitch(USE_BASE_PATH, "Enabled by default. If disabled, module paths will not mirror api base path", true);
         typeMapping.putAll(nodaTimeTypesMappings());
         languageSpecificPrimitives.addAll(nodaTimePrimitiveTypes());
 
@@ -348,7 +350,8 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     @Override
     public void preprocessSwagger(final Swagger swagger) {
         additionalProperties.put("packageContext", sanitizeName(swagger.getBasePath()));
-        additionalProperties.put("baseContext", swagger.getBasePath());
+        final Object basePathOption = additionalProperties.get(USE_BASE_PATH);
+        additionalProperties.put("baseContext", basePathOption == null ? swagger.getBasePath() : "/");
     }
 
     @Override
