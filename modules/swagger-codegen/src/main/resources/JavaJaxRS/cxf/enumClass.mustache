@@ -1,9 +1,9 @@
 @XmlType(name="{{datatypeWithEnum}}")
-@XmlEnum
+@XmlEnum({{datatype}}.class)
 public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
-    {{#enumVars}}{{name}}({{datatype}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}@XmlEnumValue({{{value}}}) {{name}}({{datatype}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/allowableValues}}
 
 
@@ -17,7 +17,17 @@ public enum {{datatypeWithEnum}} {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
     public static {{datatypeWithEnum}} fromValue(String v) {
-        return valueOf(v);
+        for ({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
+            if (String.valueOf(b.value).equals(v)) {
+                return b;
+            }
+        }
+        return null;
     }
 }
