@@ -75,7 +75,7 @@
 
       // verify the required parameter 'body' is set
       if (body == undefined || body == null) {
-        throw "Missing the required parameter 'body' when calling testClientModel";
+        throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
 
 
@@ -134,22 +134,22 @@
 
       // verify the required parameter '_number' is set
       if (_number == undefined || _number == null) {
-        throw "Missing the required parameter '_number' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter '_number' when calling testEndpointParameters");
       }
 
       // verify the required parameter '_double' is set
       if (_double == undefined || _double == null) {
-        throw "Missing the required parameter '_double' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter '_double' when calling testEndpointParameters");
       }
 
       // verify the required parameter 'patternWithoutDelimiter' is set
       if (patternWithoutDelimiter == undefined || patternWithoutDelimiter == null) {
-        throw "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
       }
 
       // verify the required parameter '_byte' is set
       if (_byte == undefined || _byte == null) {
-        throw "Missing the required parameter '_byte' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter '_byte' when calling testEndpointParameters");
       }
 
 

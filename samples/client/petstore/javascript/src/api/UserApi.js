@@ -75,7 +75,7 @@
 
       // verify the required parameter 'body' is set
       if (body == undefined || body == null) {
-        throw "Missing the required parameter 'body' when calling createUser";
+        throw new Error("Missing the required parameter 'body' when calling createUser");
       }
 
 
@@ -119,7 +119,7 @@
 
       // verify the required parameter 'body' is set
       if (body == undefined || body == null) {
-        throw "Missing the required parameter 'body' when calling createUsersWithArrayInput";
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithArrayInput");
       }
 
 
@@ -163,7 +163,7 @@
 
       // verify the required parameter 'body' is set
       if (body == undefined || body == null) {
-        throw "Missing the required parameter 'body' when calling createUsersWithListInput";
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithListInput");
       }
 
 
@@ -207,7 +207,7 @@
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
-        throw "Missing the required parameter 'username' when calling deleteUser";
+        throw new Error("Missing the required parameter 'username' when calling deleteUser");
       }
 
 
@@ -253,7 +253,7 @@
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
-        throw "Missing the required parameter 'username' when calling getUserByName";
+        throw new Error("Missing the required parameter 'username' when calling getUserByName");
       }
 
 
@@ -300,12 +300,12 @@
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
-        throw "Missing the required parameter 'username' when calling loginUser";
+        throw new Error("Missing the required parameter 'username' when calling loginUser");
       }
 
       // verify the required parameter 'password' is set
       if (password == undefined || password == null) {
-        throw "Missing the required parameter 'password' when calling loginUser";
+        throw new Error("Missing the required parameter 'password' when calling loginUser");
       }
 
 
@@ -390,12 +390,12 @@
 
       // verify the required parameter 'username' is set
       if (username == undefined || username == null) {
-        throw "Missing the required parameter 'username' when calling updateUser";
+        throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
 
       // verify the required parameter 'body' is set
       if (body == undefined || body == null) {
-        throw "Missing the required parameter 'body' when calling updateUser";
+        throw new Error("Missing the required parameter 'body' when calling updateUser");
       }
 
 
