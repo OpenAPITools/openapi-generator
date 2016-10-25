@@ -65,8 +65,8 @@
      */
     this.authentications = {
       'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
-      'http_basic_test': {type: 'basic'}
-      'petstore_auth': {type: 'oauth2'},
+      'http_basic_test': {type: 'basic'},
+      'petstore_auth': {type: 'oauth2'}
     };
     /**
      * The default HTTP headers to be included for all API calls.
@@ -368,7 +368,10 @@
 
     var contentType = this.jsonPreferredMime(contentTypes);
     if (contentType) {
-      request.type(contentType);
+      // Issue with superagent and multipart/form-data (https://github.com/visionmedia/superagent/issues/746)
+      if(contentType != 'multipart/form-data') {
+        request.type(contentType);
+      }
     } else if (!request.header['Content-Type']) {
       request.type('application/json');
     }
