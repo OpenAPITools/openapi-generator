@@ -67,7 +67,7 @@
 
       // verify the required parameter 'body' is set
       if (body == undefined || body == null) {
-        throw "Missing the required parameter 'body' when calling testClientModel";
+        throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
 
 
@@ -110,6 +110,7 @@
      * @param {Date} opts._date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
+     * @param {String} opts.callback None
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.testEndpointParameters = function(_number, _double, patternWithoutDelimiter, _byte, opts) {
@@ -118,22 +119,22 @@
 
       // verify the required parameter '_number' is set
       if (_number == undefined || _number == null) {
-        throw "Missing the required parameter '_number' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter '_number' when calling testEndpointParameters");
       }
 
       // verify the required parameter '_double' is set
       if (_double == undefined || _double == null) {
-        throw "Missing the required parameter '_double' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter '_double' when calling testEndpointParameters");
       }
 
       // verify the required parameter 'patternWithoutDelimiter' is set
       if (patternWithoutDelimiter == undefined || patternWithoutDelimiter == null) {
-        throw "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
       }
 
       // verify the required parameter '_byte' is set
       if (_byte == undefined || _byte == null) {
-        throw "Missing the required parameter '_byte' when calling testEndpointParameters";
+        throw new Error("Missing the required parameter '_byte' when calling testEndpointParameters");
       }
 
 
@@ -156,7 +157,8 @@
         'binary': opts['binary'],
         'date': opts['_date'],
         'dateTime': opts['dateTime'],
-        'password': opts['password']
+        'password': opts['password'],
+        'callback': opts['callback']
       };
 
       var authNames = ['http_basic_test'];
