@@ -363,6 +363,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return name;
         }
 
+        if(startsWithTwoUppercaseLetters(name)){
+            name = name.substring(0, 2).toLowerCase() + name.substring(2);
+        }
+
         // camelize (lower first character) the variable name
         // pet_id => petId
         name = camelize(name, true);
@@ -373,6 +377,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         return name;
+    }
+
+    private boolean startsWithTwoUppercaseLetters(String name) {
+        boolean startsWithTwoUppercaseLetters = false;
+        if(name.length() > 1) {
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase());
+        }
+        return startsWithTwoUppercaseLetters;
     }
 
     @Override
@@ -933,10 +945,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             delim = ".";
         }
         return sb.toString();
-    }
-
-    public String toRegularExpression(String pattern) {
-        return escapeText(pattern);
     }
 
 }
