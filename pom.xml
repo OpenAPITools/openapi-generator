@@ -425,6 +425,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-msf4j-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/java-msf4/</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-resteasy-server</id>
             <activation>
                 <property>
