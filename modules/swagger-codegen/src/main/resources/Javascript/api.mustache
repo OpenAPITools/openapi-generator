@@ -58,7 +58,7 @@
 <#allParams><#required>
       // verify the required parameter '<paramName>' is set
       if (<paramName> == undefined || <paramName> == null) {
-        throw "Missing the required parameter '<paramName>' when calling <operationId>";
+        throw new Error("Missing the required parameter '<paramName>' when calling <operationId>");
       }
 </required></allParams>
 

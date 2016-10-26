@@ -935,4 +935,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return sb.toString();
     }
 
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
+    }
+
 }

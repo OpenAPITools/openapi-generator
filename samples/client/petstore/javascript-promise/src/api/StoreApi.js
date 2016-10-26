@@ -68,7 +68,7 @@
 
       // verify the required parameter 'orderId' is set
       if (orderId == undefined || orderId == null) {
-        throw "Missing the required parameter 'orderId' when calling deleteOrder";
+        throw new Error("Missing the required parameter 'orderId' when calling deleteOrder");
       }
 
 
@@ -137,7 +137,7 @@
 
       // verify the required parameter 'orderId' is set
       if (orderId == undefined || orderId == null) {
-        throw "Missing the required parameter 'orderId' when calling getOrderById";
+        throw new Error("Missing the required parameter 'orderId' when calling getOrderById");
       }
 
 
@@ -175,7 +175,7 @@
 
       // verify the required parameter 'body' is set
       if (body == undefined || body == null) {
-        throw "Missing the required parameter 'body' when calling placeOrder";
+        throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
 
 
