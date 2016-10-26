@@ -36,7 +36,7 @@ const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, '');
 
 export interface FetchArgs {
     url: string;
-    options: any; 
+    options: any;
 }
 
 export class BaseAPI {
@@ -131,7 +131,7 @@ export interface User {
 /**
  * PetApi - fetch parameter creator
  */
-export const PetApiFetchParamCreactor = {
+export const PetApiFetchParamCreator = {
     /** 
      * Add a new pet to the store
      * 
@@ -424,7 +424,7 @@ export const PetApiFp = {
      * @param body Pet object that needs to be added to the store
      */
     addPet(params: { body: Pet;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.addPet(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.addPet(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -442,7 +442,7 @@ export const PetApiFp = {
      * @param apiKey 
      */
     deletePet(params: { petId: number; apiKey?: string;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.deletePet(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.deletePet(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -459,7 +459,7 @@ export const PetApiFp = {
      * @param status Status values that need to be considered for filter
      */
     findPetsByStatus(params: { status: Array<string>;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-        const fetchArgs = PetApiFetchParamCreactor.findPetsByStatus(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.findPetsByStatus(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -476,7 +476,7 @@ export const PetApiFp = {
      * @param tags Tags to filter by
      */
     findPetsByTags(params: { tags: Array<string>;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-        const fetchArgs = PetApiFetchParamCreactor.findPetsByTags(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.findPetsByTags(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -493,7 +493,7 @@ export const PetApiFp = {
      * @param petId ID of pet to return
      */
     getPetById(params: { petId: number;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<Pet> {
-        const fetchArgs = PetApiFetchParamCreactor.getPetById(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.getPetById(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -510,7 +510,7 @@ export const PetApiFp = {
      * @param body Pet object that needs to be added to the store
      */
     updatePet(params: { body: Pet;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.updatePet(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.updatePet(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -529,7 +529,7 @@ export const PetApiFp = {
      * @param status Updated status of the pet
      */
     updatePetWithForm(params: { petId: number; name?: string; status?: string;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.updatePetWithForm(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.updatePetWithForm(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -548,7 +548,7 @@ export const PetApiFp = {
      * @param file file to upload
      */
     uploadFile(params: { petId: number; additionalMetadata?: string; file?: any;  }, configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<ApiResponse> {
-        const fetchArgs = PetApiFetchParamCreactor.uploadFile(params, configuration);
+        const fetchArgs = PetApiFetchParamCreator.uploadFile(params, configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -717,7 +717,7 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
 /**
  * StoreApi - fetch parameter creator
  */
-export const StoreApiFetchParamCreactor = {
+export const StoreApiFetchParamCreator = {
     /** 
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -833,7 +833,7 @@ export const StoreApiFp = {
      * @param orderId ID of the order that needs to be deleted
      */
     deleteOrder(params: { orderId: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = StoreApiFetchParamCreactor.deleteOrder(params);
+        const fetchArgs = StoreApiFetchParamCreator.deleteOrder(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -849,7 +849,7 @@ export const StoreApiFp = {
      * Returns a map of status codes to quantities
      */
     getInventory(configuration: Configuration): (fetch: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
-        const fetchArgs = StoreApiFetchParamCreactor.getInventory(configuration);
+        const fetchArgs = StoreApiFetchParamCreator.getInventory(configuration);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -866,7 +866,7 @@ export const StoreApiFp = {
      * @param orderId ID of pet that needs to be fetched
      */
     getOrderById(params: { orderId: number;  }): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
-        const fetchArgs = StoreApiFetchParamCreactor.getOrderById(params);
+        const fetchArgs = StoreApiFetchParamCreator.getOrderById(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -883,7 +883,7 @@ export const StoreApiFp = {
      * @param body order placed for purchasing the pet
      */
     placeOrder(params: { body: Order;  }): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
-        const fetchArgs = StoreApiFetchParamCreactor.placeOrder(params);
+        const fetchArgs = StoreApiFetchParamCreator.placeOrder(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -976,7 +976,7 @@ export const StoreApiFactory = function (fetch?: FetchAPI, basePath?: string) {
 /**
  * UserApi - fetch parameter creator
  */
-export const UserApiFetchParamCreactor = {
+export const UserApiFetchParamCreator = {
     /** 
      * Create user
      * This can only be done by the logged in user.
@@ -1209,7 +1209,7 @@ export const UserApiFp = {
      * @param body Created user object
      */
     createUser(params: { body: User;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.createUser(params);
+        const fetchArgs = UserApiFetchParamCreator.createUser(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1226,7 +1226,7 @@ export const UserApiFp = {
      * @param body List of user object
      */
     createUsersWithArrayInput(params: { body: Array<User>;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.createUsersWithArrayInput(params);
+        const fetchArgs = UserApiFetchParamCreator.createUsersWithArrayInput(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1243,7 +1243,7 @@ export const UserApiFp = {
      * @param body List of user object
      */
     createUsersWithListInput(params: { body: Array<User>;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.createUsersWithListInput(params);
+        const fetchArgs = UserApiFetchParamCreator.createUsersWithListInput(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1260,7 +1260,7 @@ export const UserApiFp = {
      * @param username The name that needs to be deleted
      */
     deleteUser(params: { username: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.deleteUser(params);
+        const fetchArgs = UserApiFetchParamCreator.deleteUser(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1277,7 +1277,7 @@ export const UserApiFp = {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     getUserByName(params: { username: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<User> {
-        const fetchArgs = UserApiFetchParamCreactor.getUserByName(params);
+        const fetchArgs = UserApiFetchParamCreator.getUserByName(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1295,7 +1295,7 @@ export const UserApiFp = {
      * @param password The password for login in clear text
      */
     loginUser(params: { username: string; password: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<string> {
-        const fetchArgs = UserApiFetchParamCreactor.loginUser(params);
+        const fetchArgs = UserApiFetchParamCreator.loginUser(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1311,7 +1311,7 @@ export const UserApiFp = {
      * 
      */
     logoutUser(): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.logoutUser();
+        const fetchArgs = UserApiFetchParamCreator.logoutUser();
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1329,7 +1329,7 @@ export const UserApiFp = {
      * @param body Updated user object
      */
     updateUser(params: { username: string; body: User;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.updateUser(params);
+        const fetchArgs = UserApiFetchParamCreator.updateUser(params);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
