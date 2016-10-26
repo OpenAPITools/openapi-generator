@@ -12,6 +12,7 @@ io.swagger.codegen.languages.GoClientCodegen
 io.swagger.codegen.languages.GroovyClientCodegen
 io.swagger.codegen.languages.JavaClientCodegen
 io.swagger.codegen.languages.JavaJerseyServerCodegen
+io.swagger.codegen.languages.JavaCXFClientCodegen
 io.swagger.codegen.languages.JavaCXFServerCodegen
 io.swagger.codegen.languages.JavaResteasyServerCodegen
 io.swagger.codegen.languages.JavaJAXRSSpecServerCodegen
@@ -56,3 +57,4 @@ io.swagger.codegen.languages.LumenServerCodegen
 io.swagger.codegen.languages.GoServerCodegen
 io.swagger.codegen.languages.ErlangServerCodegen
 io.swagger.codegen.languages.UndertowCodegen
+io.swagger.codegen.languages.JavaMSF4JServerCodegen

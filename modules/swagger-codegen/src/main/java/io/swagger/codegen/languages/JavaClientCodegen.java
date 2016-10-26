@@ -1,6 +1,8 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-public class JavaClientCodegen extends AbstractJavaCodegen {
+public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
@@ -24,6 +26,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
     protected boolean useRxJava = false;
     protected boolean parcelableModel = false;
     protected boolean supportJava6= false;
+    protected boolean useBeanValidation = false;
 
     public JavaClientCodegen() {
         super();
@@ -37,6 +40,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library."));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
 
         supportedLibraries.put("jersey1", "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0. Enable Java6 support using '-DsupportJava6=true'.");
         supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.16.0. JSON processing: Jackson 2.7.0");
@@ -81,6 +85,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         }
         // put the boolean value back to PARCELABLE_MODEL in additionalProperties
         additionalProperties.put(PARCELABLE_MODEL, parcelableModel);
+        
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            boolean useBeanValidationProp = Boolean.valueOf(additionalProperties.get(USE_BEANVALIDATION).toString());
+            this.setUseBeanValidation(useBeanValidationProp);
+            
+            // write back as boolean
+            additionalProperties.put(USE_BEANVALIDATION, useBeanValidationProp);
+        }
 
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
             this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
@@ -187,7 +199,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
                         operation.returnType = "Void";
                     }
                     if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/"))
-                    	operation.path = operation.path.substring(1);
+                        operation.path = operation.path.substring(1);
                 }
             }
         }
@@ -235,7 +247,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
         }
         return objs;
     }
-
+    
     public void setUseRxJava(boolean useRxJava) {
         this.useRxJava = useRxJava;
     }
@@ -246,6 +258,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen {
 
     public void setSupportJava6(boolean value) {
         this.supportJava6 = value;
+    }
+
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
     }
 
 }

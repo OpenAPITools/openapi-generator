@@ -3,7 +3,7 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{1CE943E7-586D-4D9C-BE8B-3E005FDC39D1}</ProjectGuid>
+        <ProjectGuid>{7D50D142-14E1-4E99-842B-18D3AF159948}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>IO.Swagger.v2</RootNamespace>
@@ -63,4 +63,3 @@
     </ItemGroup>
     <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
-

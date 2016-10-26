@@ -18,6 +18,7 @@ public class JavaClientOptionsProvider extends JavaOptionsProvider {
         options.put(JavaClientCodegen.USE_RX_JAVA, "false");
         options.put(JavaClientCodegen.PARCELABLE_MODEL, "false");
         options.put(JavaClientCodegen.SUPPORT_JAVA6, "false");
+        options.put(JavaClientCodegen.USE_BEANVALIDATION, "false");
 
         return options;
     }

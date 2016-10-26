@@ -887,8 +887,9 @@ Here is a list of template creators:
    * Erlang Server: @galaxie
    * Go Server: @guohuang
    * Haskell Servant: @algas
-   * Java Undertow: @stevehu
+   * Java MSF4J: @sanjeewa-malalgoda
    * Java Spring Boot: @diyfr
+   * Java Undertow: @stevehu
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
