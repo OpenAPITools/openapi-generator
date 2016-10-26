@@ -18,7 +18,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public JavaMSF4JServerCodegen() {
         super();
-        outputFolder = "generated-code/JavaJaxRS-Jersey";
+        outputFolder = "generated-code/JavaJaxRS-MSF4J";
         apiTemplateFiles.put("apiService.mustache", ".java");
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
         apiTemplateFiles.put("apiServiceFactory.mustache", ".java");
