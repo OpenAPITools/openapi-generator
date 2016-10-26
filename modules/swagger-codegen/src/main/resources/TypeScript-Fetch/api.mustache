@@ -16,7 +16,7 @@ const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, '');
 
 export interface FetchArgs {
     url: string;
-    options: any; 
+    options: any;
 }
 
 export class BaseAPI {
@@ -68,7 +68,7 @@ export type {{{enumName}}} = {{#allowableValues}}{{#values}}"{{{.}}}"{{^-last}} 
  * {{classname}} - fetch parameter creator{{#description}}
  * {{&description}}{{/description}}
  */
-export const {{classname}}FetchParamCreactor = {
+export const {{classname}}FetchParamCreator = {
 {{#operation}}
     /** {{#summary}}
      * {{summary}}{{/summary}}{{#notes}}
@@ -173,7 +173,7 @@ export const {{classname}}Fp = {
      * @param {{paramName}} {{description}}{{/allParams}}
      */
     {{nickname}}({{#hasParams}}params: { {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration: Configuration{{/hasAuthMethods}}): (fetch: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-        const fetchArgs = {{classname}}FetchParamCreactor.{{nickname}}({{#hasParams}}params{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration{{/hasAuthMethods}});
+        const fetchArgs = {{classname}}FetchParamCreator.{{nickname}}({{#hasParams}}params{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration{{/hasAuthMethods}});
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
