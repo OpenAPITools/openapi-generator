@@ -33,7 +33,7 @@ public final class CodegenConfiguratorUtils {
     public static void applyImportMappingsKvp(String importMappings, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(importMappings);
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addImportMapping(entry.getKey(), entry.getValue());
+            configurator.addImportMapping(entry.getKey().trim(), entry.getValue().trim());
         }
     }
 
