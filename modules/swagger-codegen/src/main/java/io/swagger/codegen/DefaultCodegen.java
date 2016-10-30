@@ -36,6 +36,7 @@ import io.swagger.models.properties.DateProperty;
 import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.DecimalProperty;
 import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.FileProperty;
 import io.swagger.models.properties.FloatProperty;
 import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
@@ -765,6 +766,7 @@ public class DefaultCodegen {
         typeMapping.put("integer", "Integer");
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("binary", "byte[]");
+        typeMapping.put("file", "File");
 
 
         instantiationTypes = new HashMap<String, String>();
@@ -1069,6 +1071,8 @@ public class DefaultCodegen {
             datatype = "ByteArray";
         } else if (p instanceof BinaryProperty) {
             datatype = "binary";
+        } else if (p instanceof FileProperty) {
+            datatype = "file";
         } else if (p instanceof BooleanProperty) {
             datatype = "boolean";
         } else if (p instanceof DateProperty) {
@@ -1536,6 +1540,9 @@ public class DefaultCodegen {
         if (p instanceof BinaryProperty) {
             property.isBinary = true;
         }
+        if (p instanceof FileProperty) {
+            property.isFile = true;
+        }
         if (p instanceof UUIDProperty) {
             property.isString = true;
         }
@@ -1964,6 +1971,9 @@ public class DefaultCodegen {
                 if (r.isBinary && r.isDefault){
                     op.isResponseBinary = Boolean.TRUE;
                 }
+                if (r.isFile && r.isDefault){
+                    op.isResponseFile = Boolean.TRUE;
+                }
             }
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
@@ -2163,6 +2173,7 @@ public class DefaultCodegen {
             }
             r.dataType = cm.datatype;
             r.isBinary = isDataTypeBinary(cm.datatype);
+            r.isFile = isDataTypeFile(cm.datatype);
             if (cm.isContainer != null) {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
@@ -2345,6 +2356,7 @@ public class DefaultCodegen {
                         p.dataType = cp.datatype;
                         p.isPrimitiveType = cp.isPrimitiveType;
                         p.isBinary = isDataTypeBinary(cp.datatype);
+                        p.isFile = isDataTypeFile(cp.datatype);
                     }
 
                     // set boolean flag (e.g. isString)
@@ -2412,6 +2424,8 @@ public class DefaultCodegen {
             p.example = "BINARY_DATA_HERE";
         } else if (Boolean.TRUE.equals(p.isByteArray)) {
             p.example = "B";
+        } else if (Boolean.TRUE.equals(p.isFile)) {
+            p.example = "/path/to/file.txt";
         } else if (Boolean.TRUE.equals(p.isDate)) {
             p.example = "2013-10-20";
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
@@ -2460,6 +2474,10 @@ public class DefaultCodegen {
 
     public boolean isDataTypeBinary(String dataType) {
         return dataType.toLowerCase().startsWith("byte");
+    }
+
+    public boolean isDataTypeFile(String dataType) {
+        return dataType.toLowerCase().equals("file");
     }
 
     /**
@@ -3256,6 +3274,9 @@ public class DefaultCodegen {
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isBinary)) {
             parameter.isByteArray = true;
+            parameter.isPrimitiveType = true;
+        } else if (Boolean.TRUE.equals(property.isFile)) {
+            parameter.isFile = true;
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDate)) {
             parameter.isDate = true;
