@@ -17,7 +17,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String PARCELABLE_MODEL = "parcelableModel";
-    public static final String SUPPORT_JAVA6 = "supportJava6";
 
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
@@ -25,7 +24,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
     protected boolean parcelableModel = false;
-    protected boolean supportJava6= false;
     protected boolean useBeanValidation = false;
 
     public JavaClientCodegen() {
@@ -85,19 +83,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
         }
         // put the boolean value back to PARCELABLE_MODEL in additionalProperties
         additionalProperties.put(PARCELABLE_MODEL, parcelableModel);
-        
+
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             boolean useBeanValidationProp = Boolean.valueOf(additionalProperties.get(USE_BEANVALIDATION).toString());
             this.setUseBeanValidation(useBeanValidationProp);
-            
+
             // write back as boolean
             additionalProperties.put(USE_BEANVALIDATION, useBeanValidationProp);
         }
-
-        if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
-            this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
-        }
-        additionalProperties.put(SUPPORT_JAVA6, supportJava6);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
@@ -196,7 +189,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
                         operation.returnType = "Void";
                     }
                     if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/"))
-                        operation.path = operation.path.substring(1);
+                    	operation.path = operation.path.substring(1);
                 }
             }
         }
@@ -244,17 +237,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
         }
         return objs;
     }
-    
+
     public void setUseRxJava(boolean useRxJava) {
         this.useRxJava = useRxJava;
     }
 
     public void setParcelableModel(boolean parcelableModel) {
         this.parcelableModel = parcelableModel;
-    }
-
-    public void setSupportJava6(boolean value) {
-        this.supportJava6 = value;
     }
 
     public void setUseBeanValidation(boolean useBeanValidation) {

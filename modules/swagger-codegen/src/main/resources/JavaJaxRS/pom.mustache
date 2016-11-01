@@ -124,6 +124,27 @@
       <artifactId>jersey-media-multipart</artifactId>
       <version>${jersey2-version}</version>
     </dependency>
+      <!-- Base64 encoding that works in both JVM and Android -->
+    <dependency>
+      <groupId>com.brsanthu</groupId>
+      <artifactId>migbase64</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+  {{#supportJava6}}
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons_lang3_version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons_io_version}</version>
+    </dependency>
+  {{/supportJava6}}
+
   </dependencies>
   <repositories>
     <repository>
@@ -141,6 +162,10 @@
     <swagger-core-version>1.5.9</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey2-version>2.22.2</jersey2-version>
+  {{#supportJava6}}
+    <commons_io_version>2.5</commons_io_version>
+    <commons_lang3_version>3.5</commons_lang3_version>
+  {{/supportJava6}}
     <junit-version>4.12</junit-version>
     <logback-version>1.1.7</logback-version>
     <servlet-api-version>2.5</servlet-api-version>

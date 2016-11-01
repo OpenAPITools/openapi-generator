@@ -44,7 +44,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         library.setDefault(DEFAULT_LIBRARY);
 
         cliOptions.add(library);
-
+        cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
     }
 
     @Override
@@ -109,6 +109,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         writeOptional(outputFolder, new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
     }
+
 
     @Override
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
