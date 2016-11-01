@@ -10,9 +10,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
-    @SuppressWarnings("hiding")
+    static final String MEDIA_TYPE = "mediaType";
+
+	@SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
@@ -178,22 +181,71 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
                 for (CodegenOperation operation : ops) {
                     if (operation.hasConsumes == Boolean.TRUE) {
-                        Map<String, String> firstType = operation.consumes.get(0);
-                        if (firstType != null) {
-                            if ("multipart/form-data".equals(firstType.get("mediaType"))) {
-                                operation.isMultipart = Boolean.TRUE;
-                            }
+
+                        if ( isMultipartType(operation.consumes) ) { 
+                            operation.isMultipart = Boolean.TRUE;
+                        }	
+                        else {
+                            operation.prioritizedContentTypes = prioritizeContentTypes(operation.consumes);
                         }
                     }
                     if (operation.returnType == null) {
                         operation.returnType = "Void";
                     }
                     if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/"))
-                    	operation.path = operation.path.substring(1);
+                        operation.path = operation.path.substring(1);
                 }
             }
         }
         return objs;
+    }
+
+    /**
+     *  Prioritizes consumes mime-type list by moving json-vendor and json mime-types up front, but 
+     *  otherwise preserves original consumes definition order. 
+     *  [application/vnd...+json,... application/json, ..as is..]  
+     *  
+     * @param consumes consumes mime-type list
+     * @return 
+     */
+    static List<Map<String, String>> prioritizeContentTypes(List<Map<String, String>> consumes) {
+        if ( consumes.size() <= 1 )
+            return consumes;
+        
+        List<Map<String, String>> prioritizedContentTypes = new ArrayList<>(consumes.size());
+        
+        List<Map<String, String>> jsonVendorMimeTypes = new ArrayList<>(consumes.size());
+        List<Map<String, String>> jsonMimeTypes = new ArrayList<>(consumes.size());
+        
+        for ( Map<String, String> consume : consumes) {
+            if ( isJsonVendorMimeType(consume.get(MEDIA_TYPE))) {
+                jsonVendorMimeTypes.add(consume);
+            }
+            else if ( isJsonMimeType(consume.get(MEDIA_TYPE))) {
+                jsonMimeTypes.add(consume);
+            }
+            else
+                prioritizedContentTypes.add(consume);
+            
+            consume.put("hasMore", "true");
+        }
+        
+        prioritizedContentTypes.addAll(0, jsonMimeTypes);
+        prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
+        
+        prioritizedContentTypes.get(prioritizedContentTypes.size()-1).put("hasMore", null);
+        
+        return prioritizedContentTypes;
+    }
+    
+    private static boolean isMultipartType(List<Map<String, String>> consumes) {
+        Map<String, String> firstType = consumes.get(0);
+        if (firstType != null) {
+            if ("multipart/form-data".equals(firstType.get(MEDIA_TYPE))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -248,6 +300,30 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
+    final private static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?"); 
+
+    /**
+     * Check if the given MIME is a JSON MIME.
+     * JSON MIME examples:
+     *   application/json
+     *   application/json; charset=UTF8
+     *   APPLICATION/JSON
+     */
+    static boolean isJsonMimeType(String mime) {
+        return mime != null && ( JSON_MIME_PATTERN.matcher(mime).matches());
+    }
+
+    /**
+     * Check if the given MIME is a JSON Vendor MIME.
+     * JSON MIME examples:
+     *   application/vnd.mycompany+json
+     *   application/vnd.mycompany.resourceA.version1+json
+     */
+    static boolean isJsonVendorMimeType(String mime) {
+        return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
     }
 
 }

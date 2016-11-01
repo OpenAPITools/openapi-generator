@@ -19,7 +19,7 @@ public class CodegenOperation {
             isRestful;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
-    public List<Map<String, String>> consumes, produces;
+    public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
@@ -275,6 +275,8 @@ public class CodegenOperation {
             return false;
         if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null)
             return false;
+        if ( prioritizedContentTypes != null ? !prioritizedContentTypes.equals(that.prioritizedContentTypes) : that.prioritizedContentTypes != null )
+            return false;
         return operationIdLowerCase != null ? operationIdLowerCase.equals(that.operationIdLowerCase) : that.operationIdLowerCase == null;
 
     }
@@ -325,6 +327,7 @@ public class CodegenOperation {
         result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (prioritizedContentTypes != null ? prioritizedContentTypes.hashCode() : 0);
         result = 31 * result + (operationIdLowerCase != null ? operationIdLowerCase.hashCode() : 0);
         return result;
     }
