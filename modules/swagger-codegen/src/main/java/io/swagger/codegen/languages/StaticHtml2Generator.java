@@ -66,6 +66,12 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
+    public String escapeText(String input) {
+        // newline escaping disabled for HTML documentation for markdown to work correctly
+        return input;
+    }
+
+    @Override
     public String getHelp() {
         return "Generates a static HTML file.";
     }
