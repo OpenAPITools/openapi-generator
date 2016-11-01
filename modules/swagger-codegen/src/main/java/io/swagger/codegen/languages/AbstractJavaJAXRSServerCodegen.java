@@ -200,10 +200,4 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     private String implFileFolder(String output) {
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
-
-    @Override
-    public boolean shouldOverwrite(String filename) {
-        return super.shouldOverwrite(filename) && !filename.endsWith("ServiceImpl.java") && !filename.endsWith("ServiceFactory.java");
-    }
-
 }

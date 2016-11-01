@@ -45,6 +45,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String SUPPORT_JAVA6 = "supportJava6";
 
     protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger";
@@ -63,6 +64,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean hideGenerationTimestamp = false;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean supportJava6= false;
 
     public AbstractJavaCodegen() {
         super();
@@ -138,6 +140,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
+            this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
+        }
+        additionalProperties.put(SUPPORT_JAVA6, supportJava6);
+
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -934,6 +942,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return sb.toString();
     }
+    public void setSupportJava6(boolean value) {
+        this.supportJava6 = value;
+    }
+
 
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
