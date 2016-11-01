@@ -17,6 +17,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
+    public static final String RESPONSE_WRAPPER = "responseWrapper";
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
 
@@ -27,6 +28,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
     protected boolean singleContentTypes = false;
     protected boolean java8 = false;
     protected boolean async = false;
+    protected String responseWrapper = "";
 
     public SpringCodegen() {
         super();
@@ -51,6 +53,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
+        cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -117,6 +120,10 @@ public class SpringCodegen extends AbstractJavaCodegen {
             this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
         }
 
+        if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
+            this.setResponseWrapper((String) additionalProperties.get(RESPONSE_WRAPPER));
+        }
+
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -173,11 +180,43 @@ public class SpringCodegen extends AbstractJavaCodegen {
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
             additionalProperties.put("jdk8", "true");
+            if (this.async) {
+                additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
+            }
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("LocalDate", "java.time.LocalDate");
             importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+        } else if (this.async) {
+            additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
+
+        // Some well-known Spring or Spring-Cloud response wrappers
+        switch (this.responseWrapper) {
+            case "Future":
+            case "Callable":
+            case "CompletableFuture":
+                additionalProperties.put(RESPONSE_WRAPPER, "java.util.concurrent" + this.responseWrapper);
+                break;
+            case "ListenableFuture":
+                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.util.concurrent.ListenableFuture");
+                break;
+            case "DeferredResult":
+                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.DeferredResult");
+                break;
+            case "HystrixCommand":
+                additionalProperties.put(RESPONSE_WRAPPER, "com.netflix.hystrix.HystrixCommand");
+                break;
+            case "RxObservable":
+                additionalProperties.put(RESPONSE_WRAPPER, "rx.Observable");
+                break;
+            case "RxSingle":
+                additionalProperties.put(RESPONSE_WRAPPER, "rx.Single");
+                break;
+            default:
+                break;
+        }
+
     }
 
     @Override
@@ -354,6 +393,8 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public void setJava8(boolean java8) { this.java8 = java8; }
 
     public void setAsync(boolean async) { this.async = async; }
+
+    public void setResponseWrapper(String responseWrapper) { this.responseWrapper = responseWrapper; }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
