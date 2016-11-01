@@ -15,6 +15,7 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
     public static final String SINGLE_CONTENT_TYPES = "true";
     public static final String JAVA_8 = "true";
     public static final String ASYNC = "true";
+    public static final String RESPONSE_WRAPPER = "Callable";
 
     @Override
     public String getLanguage() {
@@ -32,6 +33,7 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
         options.put(SpringCodegen.SINGLE_CONTENT_TYPES, SINGLE_CONTENT_TYPES);
         options.put(SpringCodegen.JAVA_8, JAVA_8);
         options.put(SpringCodegen.ASYNC, ASYNC);
+        options.put(SpringCodegen.RESPONSE_WRAPPER, RESPONSE_WRAPPER);
 
         return options;
     }
