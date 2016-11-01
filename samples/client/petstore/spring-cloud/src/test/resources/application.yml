@@ -2,9 +2,7 @@ spring:
     application:
         name: petstore-test
 
-feign.hystrix.enabled: false
+hystrix.command.default.execution.timeout.enabled: false
 
-logging.level.io.swagger.api:
-    PetApiClient: DEBUG
-    StoreApiClient: DEBUG
-    UserApiClient: DEBUG
+logging.level.io.swagger.api: DEBUG
+
