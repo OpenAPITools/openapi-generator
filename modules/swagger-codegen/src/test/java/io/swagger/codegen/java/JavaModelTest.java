@@ -360,6 +360,32 @@ public class JavaModelTest {
         Assert.assertTrue(property.isNotContainer);
     }
 
+    @Test(description = "convert a model starting with two upper-case letter property names")
+    public void firstTwoUpperCaseLetterNamesTest() {
+        final Model model = new ModelImpl()
+                .description("a model with a property name starting with two upper-case letters")
+                .property("ATTName", new StringProperty())
+                .required("ATTName");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "ATTName");
+        Assert.assertEquals(property.getter, "getAtTName");
+        Assert.assertEquals(property.setter, "setAtTName");
+        Assert.assertEquals(property.datatype, "String");
+        Assert.assertEquals(property.name, "atTName");
+        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.baseType, "String");
+        Assert.assertNull(property.hasMore);
+        Assert.assertTrue(property.required);
+        Assert.assertTrue(property.isNotContainer);
+    }
+
     @Test(description = "convert hyphens per issue 503")
     public void hyphensTest() {
         final Model model = new ModelImpl()
