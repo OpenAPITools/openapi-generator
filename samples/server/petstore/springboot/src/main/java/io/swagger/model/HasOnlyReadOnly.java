@@ -17,6 +17,11 @@ public class HasOnlyReadOnly   {
   @JsonProperty("foo")
   private String foo = null;
 
+  public HasOnlyReadOnly bar(String bar) {
+    this.bar = bar;
+    return this;
+  }
+
    /**
    * Get bar
    * @return bar
@@ -26,6 +31,15 @@ public class HasOnlyReadOnly   {
     return bar;
   }
 
+  public void setBar(String bar) {
+    this.bar = bar;
+  }
+
+  public HasOnlyReadOnly foo(String foo) {
+    this.foo = foo;
+    return this;
+  }
+
    /**
    * Get foo
    * @return foo
@@ -33,6 +47,10 @@ public class HasOnlyReadOnly   {
   @ApiModelProperty(value = "")
   public String getFoo() {
     return foo;
+  }
+
+  public void setFoo(String foo) {
+    this.foo = foo;
   }
 
 

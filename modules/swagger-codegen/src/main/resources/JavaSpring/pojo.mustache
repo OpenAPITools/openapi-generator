@@ -27,7 +27,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
   {{/vars}}
   {{#vars}}
-  {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
@@ -47,7 +46,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   }
   {{/isMapContainer}}
 
-  {{/isReadOnly}}
    /**
   {{#description}}
    * {{{description}}}
@@ -70,12 +68,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  {{^isReadOnly}}
 
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
-  {{/isReadOnly}}
 
   {{/vars}}
 
