@@ -55,7 +55,7 @@ namespace IO.Swagger.v2.Modules
                 var status = Parameters.ValueOf<FindPetsByStatusStatusEnum?>(parameters, Context.Request, "status", ParameterType.Query);
                 Preconditions.IsNotNull(status, "Required parameter: 'status' is missing at 'FindPetsByStatus'");
                 
-                return service.FindPetsByStatus(Context, status);
+                return service.FindPetsByStatus(Context, status).ToArray();
             };
 
             Get["/pet/findByTags"] = parameters =>
@@ -63,7 +63,7 @@ namespace IO.Swagger.v2.Modules
                 var tags = Parameters.ValueOf<List<string>>(parameters, Context.Request, "tags", ParameterType.Query);
                 Preconditions.IsNotNull(tags, "Required parameter: 'tags' is missing at 'FindPetsByTags'");
                 
-                return service.FindPetsByTags(Context, tags);
+                return service.FindPetsByTags(Context, tags).ToArray();
             };
 
             Get["/pet/{petId}"] = parameters =>

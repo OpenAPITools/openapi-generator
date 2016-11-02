@@ -34,12 +34,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * AdditionalPropertiesClass
  */
 
-public class AdditionalPropertiesClass   {
+public class AdditionalPropertiesClass {
   @JsonProperty("map_property")
   private Map<String, String> mapProperty = new HashMap<String, String>();
 
@@ -111,6 +110,7 @@ public class AdditionalPropertiesClass   {
     return Objects.hash(mapProperty, mapOfMapProperty);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -132,5 +132,6 @@ public class AdditionalPropertiesClass   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
