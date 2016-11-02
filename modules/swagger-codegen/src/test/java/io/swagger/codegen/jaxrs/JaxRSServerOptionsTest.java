@@ -54,6 +54,8 @@ public class JaxRSServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setDateLibrary("joda");
             times = 1;
+            clientCodegen.setSupportJava6(false);
+            times = 1;
         }};
     }
 }

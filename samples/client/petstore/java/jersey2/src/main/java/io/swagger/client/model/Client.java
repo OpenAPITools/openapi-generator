@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * Client
  */
 
-public class Client   {
+public class Client {
   @JsonProperty("client")
   private String client = null;
 
@@ -76,6 +75,7 @@ public class Client   {
     return Objects.hash(client);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -96,5 +96,6 @@ public class Client   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

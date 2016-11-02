@@ -37,12 +37,11 @@ import java.util.Map;
 import java.util.UUID;
 import org.joda.time.DateTime;
 
-
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-public class MixedPropertiesAndAdditionalPropertiesClass   {
+public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty("uuid")
   private UUID uuid = null;
 
@@ -131,6 +130,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return Objects.hash(uuid, dateTime, map);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -153,5 +153,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

@@ -45,6 +45,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String SUPPORT_JAVA6 = "supportJava6";
 
     protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger";
@@ -63,6 +64,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean hideGenerationTimestamp = false;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean supportJava6= false;
 
     public AbstractJavaCodegen() {
         super();
@@ -137,6 +139,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
+            this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
+        }
+        additionalProperties.put(SUPPORT_JAVA6, supportJava6);
+
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -363,6 +371,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return name;
         }
 
+        if(startsWithTwoUppercaseLetters(name)){
+            name = name.substring(0, 2).toLowerCase() + name.substring(2);
+        }
+
         // camelize (lower first character) the variable name
         // pet_id => petId
         name = camelize(name, true);
@@ -373,6 +385,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         return name;
+    }
+
+    private boolean startsWithTwoUppercaseLetters(String name) {
+        boolean startsWithTwoUppercaseLetters = false;
+        if(name.length() > 1) {
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase());
+        }
+        return startsWithTwoUppercaseLetters;
     }
 
     @Override
@@ -933,6 +953,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             delim = ".";
         }
         return sb.toString();
+    }
+    
+    public void setSupportJava6(boolean value) {
+        this.supportJava6 = value;
     }
 
     public String toRegularExpression(String pattern) {

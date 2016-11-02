@@ -1,30 +1,28 @@
 package io.swagger.api;
 
-import feign.FeignException;
+import com.netflix.hystrix.exception.HystrixRuntimeException;
+import io.swagger.Application;
 import io.swagger.TestUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import io.swagger.model.Category;
 import io.swagger.model.Pet;
 import io.swagger.model.Tag;
-import org.junit.*;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = PetApiTest.Application.class)
+@SpringBootTest(classes = Application.class)
 public class PetApiTest {
 
     @Autowired
@@ -33,9 +31,8 @@ public class PetApiTest {
     @Test
     public void testCreateAndGetPet() {
         Pet pet = createRandomPet();
-        client.addPet(pet);
-        ResponseEntity<Pet> rp = client.getPetById(pet.getId());
-        Pet fetched =  rp.getBody();
+        client.addPet(pet).execute();
+        Pet fetched = client.getPetById(pet.getId()).execute().getBody();
         assertNotNull(fetched);
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
@@ -47,9 +44,9 @@ public class PetApiTest {
         Pet pet = createRandomPet();
         pet.setName("programmer");
 
-        client.updatePet(pet);
+        client.updatePet(pet).execute();
 
-        Pet fetched = client.getPetById(pet.getId()).getBody();
+        Pet fetched = client.getPetById(pet.getId()).execute().getBody();
         assertNotNull(fetched);
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
@@ -63,9 +60,9 @@ public class PetApiTest {
         pet.setName("programmer");
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        client.updatePet(pet);
+        client.updatePet(pet).execute();
 
-        List<Pet> pets = client.findPetsByStatus(Arrays.asList(new String[]{"available"})).getBody();
+        List<Pet> pets = client.findPetsByStatus(Collections.singletonList("available")).execute().getBody();
         assertNotNull(pets);
 
         boolean found = false;
@@ -92,9 +89,9 @@ public class PetApiTest {
         tags.add(tag1);
         pet.setTags(tags);
 
-        client.updatePet(pet);
+        client.updatePet(pet).execute();
 
-        List<Pet> pets = client.findPetsByTags(Arrays.asList(new String[]{"friendly"})).getBody();
+        List<Pet> pets = client.findPetsByTags(Collections.singletonList("friendly")).execute().getBody();
         assertNotNull(pets);
 
         boolean found = false;
@@ -111,12 +108,12 @@ public class PetApiTest {
     public void testUpdatePetWithForm() throws Exception {
         Pet pet = createRandomPet();
         pet.setName("frank");
-        client.addPet(pet);
+        client.addPet(pet).execute();
 
-        Pet fetched = client.getPetById(pet.getId()).getBody();
+        Pet fetched = client.getPetById(pet.getId()).execute().getBody();
 
-        client.updatePetWithForm(fetched.getId(), "furt", null);
-        Pet updated = client.getPetById(fetched.getId()).getBody();
+        client.updatePetWithForm(fetched.getId(), "furt", null).execute();
+        Pet updated = client.getPetById(fetched.getId()).execute().getBody();
 
         assertEquals(updated.getName(), "furt");
     }
@@ -124,16 +121,16 @@ public class PetApiTest {
     @Test
     public void testDeletePet() throws Exception {
         Pet pet = createRandomPet();
-        client.addPet(pet);
+        client.addPet(pet).execute();
 
-        Pet fetched = client.getPetById(pet.getId()).getBody();
-        client.deletePet(fetched.getId(), null);
+        Pet fetched = client.getPetById(pet.getId()).execute().getBody();
+        client.deletePet(fetched.getId(), null).execute();
 
         try {
-            client.getPetById(fetched.getId());
+            client.getPetById(fetched.getId()).execute();
             fail("expected an error");
-        } catch (FeignException e) {
-            assertTrue(e.getMessage().startsWith("status 404 "));
+        } catch (HystrixRuntimeException e) {
+            assertTrue(e.getCause().getMessage().startsWith("status 404 "));
         }
     }
 
@@ -141,10 +138,10 @@ public class PetApiTest {
     @Test
     public void testUploadFile() throws Exception {
         Pet pet = createRandomPet();
-        client.addPet(pet);
+        client.addPet(pet).execute();
 
         MockMultipartFile filePart = new MockMultipartFile("file", "bar".getBytes());
-        client.uploadFile(pet.getId(), "a test file", filePart);
+        client.uploadFile(pet.getId(), "a test file", filePart).execute();
     }
 
     @Test
@@ -158,7 +155,7 @@ public class PetApiTest {
         assertTrue(pet1.hashCode() == pet1.hashCode());
 
         pet2.setName("really-happy");
-        pet2.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet2.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertFalse(pet1.equals(pet2));
         assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
@@ -166,7 +163,7 @@ public class PetApiTest {
         assertTrue(pet2.hashCode() == pet2.hashCode());
 
         pet1.setName("really-happy");
-        pet1.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet1.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertTrue(pet1.equals(pet2));
         assertTrue(pet2.equals(pet1));
         assertTrue(pet1.hashCode() == pet2.hashCode());
@@ -184,24 +181,10 @@ public class PetApiTest {
 
         pet.setCategory(category);
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"});
+        List<String> photos = Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2");
         pet.setPhotoUrls(photos);
 
         return pet;
     }
-
-
-    @SpringBootApplication
-    @EnableFeignClients
-    protected static class Application {
-        public static void main(String[] args) {
-            new SpringApplicationBuilder(Application.class).run(args);
-        }
-    }
-
-
-
-
-
 
 }
