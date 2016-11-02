@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * ModelApiResponse
  */
 
-public class ModelApiResponse   {
+public class ModelApiResponse {
   @JsonProperty("code")
   private Integer code = null;
 
@@ -120,6 +119,7 @@ public class ModelApiResponse   {
     return Objects.hash(code, type, message);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -142,5 +142,6 @@ public class ModelApiResponse   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

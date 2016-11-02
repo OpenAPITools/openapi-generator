@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * HasOnlyReadOnly
  */
 
-public class HasOnlyReadOnly   {
+public class HasOnlyReadOnly {
   @JsonProperty("bar")
   private String bar = null;
 
@@ -80,6 +79,7 @@ public class HasOnlyReadOnly   {
     return Objects.hash(bar, foo);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -101,5 +101,6 @@ public class HasOnlyReadOnly   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

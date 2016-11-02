@@ -33,12 +33,11 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * EnumArrays
  */
 
-public class EnumArrays   {
+public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
@@ -165,6 +164,7 @@ public class EnumArrays   {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -186,5 +186,6 @@ public class EnumArrays   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
