@@ -31,13 +31,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
 
-public class ModelReturn   {
+public class ModelReturn {
   @JsonProperty("return")
   private Integer _return = null;
 
@@ -77,6 +76,7 @@ public class ModelReturn   {
     return Objects.hash(_return);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -97,5 +97,6 @@ public class ModelReturn   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
