@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * SpecialModelName
  */
 
-public class SpecialModelName   {
+public class SpecialModelName {
   @JsonProperty("$special[property.name]")
   private Long specialPropertyName = null;
 
@@ -76,6 +75,7 @@ public class SpecialModelName   {
     return Objects.hash(specialPropertyName);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -96,5 +96,6 @@ public class SpecialModelName   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
