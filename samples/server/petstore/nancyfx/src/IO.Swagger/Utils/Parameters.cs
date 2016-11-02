@@ -166,19 +166,19 @@ namespace IO.Swagger.v2.Utils
             parsers.Put(typeof(LocalTime), SafeParse(ParseLocalTime));
             parsers.Put(typeof(LocalTime?), SafeParse(ParseLocalTime));
 
-            parsers.Put(typeof(IEnumerable<string>), value => value);
-            parsers.Put(typeof(ICollection<string>), value => value);
-            parsers.Put(typeof(IList<string>), value => value);
-            parsers.Put(typeof(List<string>), value => value);
-            parsers.Put(typeof(ISet<string>), value => value);
-            parsers.Put(typeof(HashSet<string>), value => value);
+            parsers.Put(typeof(IEnumerable<string>), ImmutableListParse(value => value));
+            parsers.Put(typeof(ICollection<string>), ImmutableListParse(value => value));
+            parsers.Put(typeof(IList<string>), ImmutableListParse(value => value));
+            parsers.Put(typeof(List<string>), ListParse(value => value));
+            parsers.Put(typeof(ISet<string>), ImmutableListParse(value => value));
+            parsers.Put(typeof(HashSet<string>), SetParse(value => value));
 
-            parsers.Put(typeof(IEnumerable<bool>), ImmutableListParse(bool.Parse));
-            parsers.Put(typeof(ICollection<bool>), ImmutableListParse(bool.Parse));
-            parsers.Put(typeof(IList<bool>), ImmutableListParse(bool.Parse));
-            parsers.Put(typeof(List<bool>), ListParse(bool.Parse));
-            parsers.Put(typeof(ISet<bool>), ImmutableSetParse(bool.Parse));
-            parsers.Put(typeof(HashSet<bool>), SetParse(bool.Parse));
+            parsers.Put(typeof(IEnumerable<bool?>), NullableImmutableListParse(bool.Parse));
+            parsers.Put(typeof(ICollection<bool?>), NullableImmutableListParse(bool.Parse));
+            parsers.Put(typeof(IList<bool?>), NullableImmutableListParse(bool.Parse));
+            parsers.Put(typeof(List<bool?>), NullableListParse(bool.Parse));
+            parsers.Put(typeof(ISet<bool?>), NullableImmutableSetParse(bool.Parse));
+            parsers.Put(typeof(HashSet<bool?>), NullableSetParse(bool.Parse));
 
             parsers.Put(typeof(IEnumerable<byte>), ImmutableListParse(byte.Parse));
             parsers.Put(typeof(ICollection<byte>), ImmutableListParse(byte.Parse));
@@ -186,6 +186,7 @@ namespace IO.Swagger.v2.Utils
             parsers.Put(typeof(List<byte>), ListParse(byte.Parse));
             parsers.Put(typeof(ISet<byte>), ImmutableSetParse(byte.Parse));
             parsers.Put(typeof(HashSet<byte>), SetParse(byte.Parse));
+
             parsers.Put(typeof(IEnumerable<sbyte>), ImmutableListParse(sbyte.Parse));
             parsers.Put(typeof(ICollection<sbyte>), ImmutableListParse(sbyte.Parse));
             parsers.Put(typeof(IList<sbyte>), ImmutableListParse(sbyte.Parse));
@@ -199,6 +200,7 @@ namespace IO.Swagger.v2.Utils
             parsers.Put(typeof(List<short>), ListParse(short.Parse));
             parsers.Put(typeof(ISet<short>), ImmutableSetParse(short.Parse));
             parsers.Put(typeof(HashSet<short>), SetParse(short.Parse));
+
             parsers.Put(typeof(IEnumerable<ushort>), ImmutableListParse(ushort.Parse));
             parsers.Put(typeof(ICollection<ushort>), ImmutableListParse(ushort.Parse));
             parsers.Put(typeof(IList<ushort>), ImmutableListParse(ushort.Parse));
@@ -206,12 +208,13 @@ namespace IO.Swagger.v2.Utils
             parsers.Put(typeof(ISet<ushort>), ImmutableSetParse(ushort.Parse));
             parsers.Put(typeof(HashSet<ushort>), SetParse(ushort.Parse));
 
-            parsers.Put(typeof(IEnumerable<int>), ImmutableListParse(int.Parse));
-            parsers.Put(typeof(ICollection<int>), ImmutableListParse(int.Parse));
-            parsers.Put(typeof(IList<int>), ImmutableListParse(int.Parse));
-            parsers.Put(typeof(List<int>), ListParse(int.Parse));
-            parsers.Put(typeof(ISet<int>), ImmutableSetParse(int.Parse));
-            parsers.Put(typeof(HashSet<int>), SetParse(int.Parse));
+            parsers.Put(typeof(IEnumerable<int?>), NullableImmutableListParse(int.Parse));
+            parsers.Put(typeof(ICollection<int?>), NullableImmutableListParse(int.Parse));
+            parsers.Put(typeof(IList<int?>), NullableImmutableListParse(int.Parse));
+            parsers.Put(typeof(List<int?>), NullableListParse(int.Parse));
+            parsers.Put(typeof(ISet<int?>), NullableImmutableSetParse(int.Parse));
+            parsers.Put(typeof(HashSet<int?>), NullableSetParse(int.Parse));
+
             parsers.Put(typeof(IEnumerable<uint>), ImmutableListParse(uint.Parse));
             parsers.Put(typeof(ICollection<uint>), ImmutableListParse(uint.Parse));
             parsers.Put(typeof(IList<uint>), ImmutableListParse(uint.Parse));
@@ -219,12 +222,13 @@ namespace IO.Swagger.v2.Utils
             parsers.Put(typeof(ISet<uint>), ImmutableSetParse(uint.Parse));
             parsers.Put(typeof(HashSet<uint>), SetParse(uint.Parse));
 
-            parsers.Put(typeof(IEnumerable<long>), ImmutableListParse(long.Parse));
-            parsers.Put(typeof(ICollection<long>), ImmutableListParse(long.Parse));
-            parsers.Put(typeof(IList<long>), ImmutableListParse(long.Parse));
-            parsers.Put(typeof(List<long>), ListParse(long.Parse));
-            parsers.Put(typeof(ISet<long>), ImmutableSetParse(long.Parse));
-            parsers.Put(typeof(HashSet<long>), SetParse(long.Parse));
+            parsers.Put(typeof(IEnumerable<long?>), NullableImmutableListParse(long.Parse));
+            parsers.Put(typeof(ICollection<long?>), NullableImmutableListParse(long.Parse));
+            parsers.Put(typeof(IList<long?>), NullableImmutableListParse(long.Parse));
+            parsers.Put(typeof(List<long?>), NullableListParse(long.Parse));
+            parsers.Put(typeof(ISet<long?>), NullableImmutableSetParse(long.Parse));
+            parsers.Put(typeof(HashSet<long?>), NullableSetParse(long.Parse));
+
             parsers.Put(typeof(IEnumerable<ulong>), ImmutableListParse(ulong.Parse));
             parsers.Put(typeof(ICollection<ulong>), ImmutableListParse(ulong.Parse));
             parsers.Put(typeof(IList<ulong>), ImmutableListParse(ulong.Parse));
@@ -232,34 +236,33 @@ namespace IO.Swagger.v2.Utils
             parsers.Put(typeof(ISet<ulong>), ImmutableSetParse(ulong.Parse));
             parsers.Put(typeof(HashSet<ulong>), SetParse(ulong.Parse));
 
-            parsers.Put(typeof(IEnumerable<float>), ImmutableListParse(float.Parse));
-            parsers.Put(typeof(ICollection<float>), ImmutableListParse(float.Parse));
-            parsers.Put(typeof(IList<float>), ImmutableListParse(float.Parse));
-            parsers.Put(typeof(List<float>), ListParse(float.Parse));
-            parsers.Put(typeof(ISet<float>), ImmutableSetParse(float.Parse));
-            parsers.Put(typeof(HashSet<float>), SetParse(float.Parse));
+            parsers.Put(typeof(IEnumerable<float?>), NullableImmutableListParse(float.Parse));
+            parsers.Put(typeof(ICollection<float?>), NullableImmutableListParse(float.Parse));
+            parsers.Put(typeof(IList<float?>), NullableImmutableListParse(float.Parse));
+            parsers.Put(typeof(List<float?>), NullableListParse(float.Parse));
+            parsers.Put(typeof(ISet<float?>), NullableImmutableSetParse(float.Parse));
+            parsers.Put(typeof(HashSet<float?>), NullableSetParse(float.Parse));
 
-            parsers.Put(typeof(IEnumerable<double>), ImmutableListParse(double.Parse));
-            parsers.Put(typeof(ICollection<double>), ImmutableListParse(double.Parse));
-            parsers.Put(typeof(IList<double>), ImmutableListParse(double.Parse));
-            parsers.Put(typeof(List<double>), ListParse(double.Parse));
-            parsers.Put(typeof(ISet<double>), ImmutableSetParse(double.Parse));
-            parsers.Put(typeof(HashSet<double>), SetParse(double.Parse));
+            parsers.Put(typeof(IEnumerable<double?>), NullableImmutableListParse(double.Parse));
+            parsers.Put(typeof(ICollection<double?>), NullableImmutableListParse(double.Parse));
+            parsers.Put(typeof(IList<double?>), NullableImmutableListParse(double.Parse));
+            parsers.Put(typeof(List<double?>), NullableListParse(double.Parse));
+            parsers.Put(typeof(ISet<double?>), NullableImmutableSetParse(double.Parse));
+            parsers.Put(typeof(HashSet<double?>), NullableSetParse(double.Parse));
 
-            parsers.Put(typeof(IEnumerable<decimal>), ImmutableListParse(decimal.Parse));
-            parsers.Put(typeof(ICollection<decimal>), ImmutableListParse(decimal.Parse));
-            parsers.Put(typeof(IList<decimal>), ImmutableListParse(decimal.Parse));
-            parsers.Put(typeof(List<decimal>), ListParse(decimal.Parse));
-            parsers.Put(typeof(ISet<decimal>), ImmutableSetParse(decimal.Parse));
-            parsers.Put(typeof(HashSet<decimal>), SetParse(decimal.Parse));
+            parsers.Put(typeof(IEnumerable<decimal?>), NullableImmutableListParse(decimal.Parse));
+            parsers.Put(typeof(ICollection<decimal?>), NullableImmutableListParse(decimal.Parse));
+            parsers.Put(typeof(IList<decimal?>), NullableImmutableListParse(decimal.Parse));
+            parsers.Put(typeof(List<decimal?>), NullableListParse(decimal.Parse));
+            parsers.Put(typeof(ISet<decimal?>), NullableImmutableSetParse(decimal.Parse));
+            parsers.Put(typeof(HashSet<decimal?>), NullableSetParse(decimal.Parse));
 
-
-            parsers.Put(typeof(IEnumerable<DateTime>), ImmutableListParse(DateTime.Parse));
-            parsers.Put(typeof(ICollection<DateTime>), ImmutableListParse(DateTime.Parse));
-            parsers.Put(typeof(IList<DateTime>), ImmutableListParse(DateTime.Parse));
-            parsers.Put(typeof(List<DateTime>), ListParse(DateTime.Parse));
-            parsers.Put(typeof(ISet<DateTime>), ImmutableSetParse(DateTime.Parse));
-            parsers.Put(typeof(HashSet<DateTime>), SetParse(DateTime.Parse));
+            parsers.Put(typeof(IEnumerable<DateTime?>), NullableImmutableListParse(DateTime.Parse));
+            parsers.Put(typeof(ICollection<DateTime?>), NullableImmutableListParse(DateTime.Parse));
+            parsers.Put(typeof(IList<DateTime?>), NullableImmutableListParse(DateTime.Parse));
+            parsers.Put(typeof(List<DateTime?>), NullableListParse(DateTime.Parse));
+            parsers.Put(typeof(ISet<DateTime?>), NullableImmutableSetParse(DateTime.Parse));
+            parsers.Put(typeof(HashSet<DateTime?>), NullableSetParse(DateTime.Parse));
 
             parsers.Put(typeof(IEnumerable<TimeSpan>), ImmutableListParse(TimeSpan.Parse));
             parsers.Put(typeof(ICollection<TimeSpan>), ImmutableListParse(TimeSpan.Parse));
@@ -295,6 +298,11 @@ namespace IO.Swagger.v2.Utils
             };
         }
 
+        private static Func<Parameter, object> NullableListParse<T>(Func<string, T> itemParser) where T: struct
+        {
+            return ListParse(it => it.ToNullable(itemParser));
+        }
+
         private static Func<Parameter, object> ListParse<T>(Func<string, T> itemParser)
         {
             return parameter =>
@@ -303,13 +311,13 @@ namespace IO.Swagger.v2.Utils
                 {
                     return new List<T>();
                 }
-                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
-                    .Where(it => it != null)
-                    .Select(it => it.Trim())
-                    .Select(itemParser)
-                    .ToList();
-                return results;
+                return ParseCollection(parameter.Value, itemParser).ToList();
             };
+        }
+
+        private static Func<Parameter, object> NullableImmutableListParse<T>(Func<string, T> itemParser) where T: struct
+        {
+            return ImmutableListParse(it => it.ToNullable(itemParser));
         }
 
         private static Func<Parameter, object> ImmutableListParse<T>(Func<string, T> itemParser)
@@ -320,13 +328,13 @@ namespace IO.Swagger.v2.Utils
                 {
                     return Lists.EmptyList<T>();
                 }
-                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
-                    .Where(it => it != null)
-                    .Select(it => it.Trim())
-                    .Select(itemParser)
-                    .ToImmutableList();
-                return results;
+                return ParseCollection(parameter.Value, itemParser).ToImmutableList();
             };
+        }
+
+        private static Func<Parameter, object> NullableSetParse<T>(Func<string, T> itemParser) where T: struct
+        {
+            return SetParse(it => it.ToNullable(itemParser));
         }
 
         private static Func<Parameter, object> SetParse<T>(Func<string, T> itemParser)
@@ -337,13 +345,13 @@ namespace IO.Swagger.v2.Utils
                 {
                     return new HashSet<T>();
                 }
-                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
-                    .Where(it => it != null)
-                    .Select(it => it.Trim())
-                    .Select(itemParser)
-                    .ToSet();
-                return results;
+                return ParseCollection(parameter.Value, itemParser).ToSet();
             };
+        }
+
+        private static Func<Parameter, object> NullableImmutableSetParse<T>(Func<string, T> itemParser) where T: struct
+        {
+            return ImmutableSetParse(it => it.ToNullable(itemParser));
         }
 
         private static Func<Parameter, object> ImmutableSetParse<T>(Func<string, T> itemParser)
@@ -354,12 +362,7 @@ namespace IO.Swagger.v2.Utils
                 {
                     return Sets.EmptySet<T>();
                 }
-                var results = parameter.Value.Split(new[] { ',' }, StringSplitOptions.None)
-                    .Where(it => it != null)
-                    .Select(it => it.Trim())
-                    .Select(itemParser)
-                    .ToImmutableHashSet();
-                return results;
+                return ParseCollection(parameter.Value, itemParser).ToImmutableHashSet();
             };
         }
 
@@ -384,6 +387,32 @@ namespace IO.Swagger.v2.Utils
         {
             return new ArgumentException(Strings.Format("Query '{0}' value: '{1}' format is invalid for: '{2}'",
                 parameter.Name, parameter.Value, type));
+        }
+
+        private static IEnumerable<T> ParseCollection<T>(string value, Func<string, T> itemParser)
+        {
+            var results = value.Split(new[] { ',' }, StringSplitOptions.None)
+                        .Where(it => it != null)
+                        .Select(it => it.Trim())
+                        .Select(itemParser);
+            return results;
+        }
+
+        public static T? ToNullable<T>(this string s, Func<string, T> itemParser) where T : struct
+        {
+            T? result = new T?();
+            try
+            {
+                if (!string.IsNullOrEmpty(s) && s.Trim().Length > 0)
+                {
+                    result = itemParser(s);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException(Strings.Format("Unable to parse value: '{0}' to nullable: '{1}'", s, typeof(T).ToString()), e);
+            }
+            return result;
         }
 
         private class Parameter

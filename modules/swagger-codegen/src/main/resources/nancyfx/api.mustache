@@ -30,7 +30,7 @@ namespace {{packageName}}.{{packageContext}}.Modules
                 {{/hasMore}}{{/isBodyParam}}{{/allParams}}{{#allParams}}{{#required}}
                 Preconditions.IsNotNull({{paramName}}, "Required parameter: '{{paramName}}' is missing at '{{operationId}}'");
                 {{/required}}{{/allParams}}
-                {{#returnType}}return {{/returnType}}service.{{operationId}}(Context{{#allParams.0}}, {{/allParams.0}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{^returnType}}
+                {{#returnType}}return {{/returnType}}service.{{operationId}}(Context{{#allParams.0}}, {{/allParams.0}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}{{#isListContainer}}.ToArray(){{/isListContainer}}{{/returnType}};{{^returnType}}
                 return new Response { ContentType = "{{produces.0.mediaType}}"};{{/returnType}}
             };
 {{/operation}}
