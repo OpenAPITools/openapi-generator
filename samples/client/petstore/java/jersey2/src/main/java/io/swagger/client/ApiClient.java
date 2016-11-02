@@ -22,6 +22,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Collections;
@@ -623,6 +624,8 @@ public class ApiClient {
       response = invocationBuilder.put(entity);
     } else if ("DELETE".equals(method)) {
       response = invocationBuilder.delete();
+    } else if ("PATCH".equals(method)) {
+      response = invocationBuilder.header("X-HTTP-Method-Override", "PATCH").post(entity);
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }

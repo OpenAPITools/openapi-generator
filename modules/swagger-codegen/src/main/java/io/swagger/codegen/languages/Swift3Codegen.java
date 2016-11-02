@@ -102,7 +102,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         );
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any",
+                        "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
                         "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
                         "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
                         "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
@@ -422,6 +422,21 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+        if(codegenModel.description != null) {
+            codegenModel.imports.add("ApiModel");
+        }
+        if (allDefinitions != null && codegenModel.parentSchema != null) {
+            final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
+        }
+
+        return codegenModel;
+    }
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
         path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         List<Parameter> parameters = operation.getParameters();
@@ -546,4 +561,47 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    private static CodegenModel reconcileProperties(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        // To support inheritance in this generator, we will analyze
+        // the parent and child models, look for properties that match, and remove
+        // them from the child models and leave them in the parent.
+        // Because the child models extend the parents, the properties will be available via the parent.
+
+        // Get the properties for the parent and child models
+        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
+        List<CodegenProperty> codegenProperties = codegenModel.vars;
+        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
+        codegenModel.parentVars = parentCodegenModel.allVars;
+
+        // Iterate over all of the parent model properties
+        boolean removedChildProperty = false;
+
+        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
+          // Now that we have found a prop in the parent class,
+          // and search the child class for the same prop.
+          Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+          while (iterator.hasNext()) {
+              CodegenProperty codegenProperty = iterator.next();
+              if (codegenProperty.equals(parentModelCodegenProperty)) {
+                  // We found a property in the child class that is
+                  // a duplicate of the one in the parent, so remove it.
+                  iterator.remove();
+                  removedChildProperty = true;
+              }
+          }
+        }
+
+        if(removedChildProperty) {
+            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
+            int count = 0, numVars = codegenProperties.size();
+            for(CodegenProperty codegenProperty : codegenProperties) {
+                count += 1;
+                codegenProperty.hasMore = (count < numVars) ? true : null;
+            }
+            codegenModel.vars = codegenProperties;
+        }
+
+
+        return codegenModel;
+    }
 }

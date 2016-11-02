@@ -21,13 +21,16 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
+    public static final String PACKAGE_URL = "packageUrl";
+
     protected String packageName;
     protected String packageVersion;
+    protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    
+
     protected Map<Character, String> regexModifiers;
-    
+
 	private String testFolder;
 
     public PythonClientCodegen() {
@@ -40,18 +43,18 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separatorChar + "python";
-        
+
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
-        
+
         modelTestTemplateFiles.put("model_test.mustache", ".py");
         apiTestTemplateFiles.put("api_test.mustache", ".py");
-        
+
         embeddedTemplateDir = templateDir = "python";
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        
+
         testFolder = "test";
 
         languageSpecificPrimitives.clear();
@@ -98,7 +101,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                     "assert", "else", "if", "pass", "yield", "break", "except", "import",
                     "print", "class", "exec", "in", "raise", "continue", "finally", "is",
                     "return", "def", "for", "lambda", "try", "self"));
-        
+
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");
         regexModifiers.put('l', "LOCALE");
@@ -112,6 +115,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue("swagger_client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
                 .defaultValue("1.0.0"));
+        cliOptions.add(new CliOption(PACKAGE_URL, "python package URL."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
@@ -156,6 +160,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
+        if (additionalProperties.containsKey(PACKAGE_URL)) {
+            setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
+        }
+
         String swaggerFolder = packageName;
 
         modelPackage = swaggerFolder + File.separatorChar + "models";
@@ -163,12 +171,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
-        
+
         supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
         supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
         supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
-        
+
         supportingFiles.add(new SupportingFile("api_client.mustache", swaggerFolder, "api_client.py"));
         supportingFiles.add(new SupportingFile("rest.mustache", swaggerFolder, "rest.py"));
         supportingFiles.add(new SupportingFile("configuration.mustache", swaggerFolder, "configuration.py"));
@@ -187,7 +195,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     private static String dropDots(String str) {
         return str.replaceAll("\\.", "_");
     }
-    
+
     @Override
     public void postProcessParameter(CodegenParameter parameter){
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
@@ -267,7 +275,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toApiDocFilename(String name) {
         return toApiName(name);
     }
- 
+
 
     @Override
     public String apiFileFolder() {
@@ -278,7 +286,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String modelFileFolder() {
         return outputFolder + File.separatorChar + modelPackage().replace('.', File.separatorChar);
     }
-    
+
     @Override
     public String apiTestFileFolder() {
     	return outputFolder + File.separatorChar + testFolder;
@@ -419,7 +427,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // PhoneNumber => phone_number
         return underscore(dropDots(name));
     }
-    
+
     @Override
     public String toModelTestFilename(String name) {
     	return "test_" + toModelFilename(name);
@@ -433,7 +441,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // e.g. PhoneNumberApi.py => phone_number_api.py
         return underscore(name) + "_api";
     }
-    
+
     @Override
     public String toApiTestFilename(String name) {
     	return "test_" + toApiFilename(name);
@@ -478,6 +486,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
+    }
+
+    public void setPackageUrl(String packageUrl) {
+        this.packageUrl = packageUrl;
     }
 
     /**

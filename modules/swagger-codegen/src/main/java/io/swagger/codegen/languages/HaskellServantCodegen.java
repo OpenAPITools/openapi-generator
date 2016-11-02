@@ -158,6 +158,26 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         return name + "_";
     }
 
+    public String firstLetterToUpper(String word) {
+        if (word.length() == 0) {
+            return word;
+        } else if (word.length() == 1) {
+            return word.substring(0, 1).toUpperCase();
+        } else {
+            return word.substring(0, 1).toUpperCase() + word.substring(1);
+        }
+    }
+
+    public String firstLetterToLower(String word) {
+        if (word.length() == 0) {
+            return word;
+        } else if (word.length() == 1) {
+            return word.substring(0, 1).toLowerCase();
+        } else {
+            return word.substring(0, 1).toLowerCase() + word.substring(1);
+        }
+    }
+
     @Override
     public void preprocessSwagger(Swagger swagger) {
         // From the title, compute a reasonable name for the package and the API
@@ -185,7 +205,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // The API name is made by appending the capitalized words of the title
         List<String> wordsCaps = new ArrayList<String>();
         for (String word : words) {
-            wordsCaps.add(word.substring(0, 1).toUpperCase() + word.substring(1));
+            wordsCaps.add(firstLetterToUpper(word));
         }
         String apiName = joinStrings("", wordsCaps);
 
@@ -196,7 +216,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
         additionalProperties.put("title", apiName);
-        additionalProperties.put("titleLower", apiName.substring(0, 1).toLowerCase() + apiName.substring(1));
+        additionalProperties.put("titleLower", firstLetterToLower(apiName));
         additionalProperties.put("package", cabalName);
 
         // Due to the way servant resolves types, we need a high context stack limit

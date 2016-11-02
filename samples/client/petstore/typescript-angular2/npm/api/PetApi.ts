@@ -51,6 +51,21 @@ export class PetApi {
             this.configuration = configuration;
         }
     }
+	
+	/**
+     * 
+     * Extends object by coping non-existing properties.
+     * @param objA object to be extended
+     * @param objB source object
+     */
+    private extendObj<T1,T2>(objA: T1, objB: T2) {
+        for(let key in objB){
+            if(objB.hasOwnProperty(key)){
+                objA[key] = objB[key];
+            }
+        }
+        return <T1&T2>objA;
+    }
 
     /**
      * Add a new pet to the store
@@ -225,9 +240,13 @@ export class PetApi {
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }
@@ -272,9 +291,13 @@ export class PetApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }
@@ -317,9 +340,13 @@ export class PetApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }
@@ -362,9 +389,13 @@ export class PetApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }
@@ -395,16 +426,16 @@ export class PetApi {
             'application/xml'
         ];
         
-        // authentication (api_key) required
-        if (this.configuration.apiKey)
-        {
-            headers.set('api_key', this.configuration.apiKey);
-        }
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken)
         {
             headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+        }
+        // authentication (api_key) required
+        if (this.configuration.apiKey)
+        {
+            headers.set('api_key', this.configuration.apiKey);
         }
             
 
@@ -413,9 +444,13 @@ export class PetApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }
@@ -459,9 +494,13 @@ export class PetApi {
             method: RequestMethod.Put,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }
@@ -518,9 +557,13 @@ export class PetApi {
             method: RequestMethod.Post,
             headers: headers,
             body: formParams.toString(),
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }
@@ -577,9 +620,13 @@ export class PetApi {
             method: RequestMethod.Post,
             headers: headers,
             body: formParams.toString(),
-            search: queryParameters,
-            responseType: ResponseContentType.Json
+            search: queryParameters
         });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
 
         return this.http.request(path, requestOptions);
     }

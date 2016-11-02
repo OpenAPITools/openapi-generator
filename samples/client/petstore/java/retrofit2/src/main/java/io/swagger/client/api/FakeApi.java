@@ -10,8 +10,8 @@ import okhttp3.RequestBody;
 
 import io.swagger.client.model.Client;
 import org.joda.time.LocalDate;
-import org.joda.time.DateTime;
 import java.math.BigDecimal;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +26,9 @@ public interface FakeApi {
    * @return Call&lt;Client&gt;
    */
   
+  @Headers({
+  	"Content-Type:application/json" 
+  })
   @PATCH("fake")
   Call<Client> testClientModel(
     @retrofit2.http.Body Client body
