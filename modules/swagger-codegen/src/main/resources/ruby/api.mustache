@@ -50,9 +50,16 @@ module {{moduleName}}
       {{/required}}
       {{^required}}
       {{#isEnum}}
+      {{#collectionFormat}}
+      if opts[:'{{{paramName}}}'] && !opts[:'{{{paramName}}}'].all?{|item| [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(item)}
+        fail ArgumentError, 'invalid value for "{{{paramName}}}", must include one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}'
+      end
+      {{/collectionFormat}}
+      {{^collectionFormat}}
       if opts[:'{{{paramName}}}'] && ![{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}].include?(opts[:'{{{paramName}}}'])
         fail ArgumentError, 'invalid value for "{{{paramName}}}", must be one of {{#allowableValues}}{{#values}}{{{this}}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}'
       end
+      {{/collectionFormat}}
       {{/isEnum}}
       {{/required}}
       {{#hasValidation}}
