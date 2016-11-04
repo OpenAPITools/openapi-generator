@@ -141,7 +141,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.additionalProperties().put("generatedDate", DateTime.now().toString());
         config.additionalProperties().put("generatorClass", config.getClass().toString());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
-        
+
         if (swagger.getInfo() != null) {
             Info info = swagger.getInfo();
             if (info.getTitle() != null) {
@@ -405,6 +405,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("classname", config.toApiName(tag));
                     operation.put("classVarName", config.toApiVarName(tag));
                     operation.put("importPath", config.toApiImport(tag));
+                    operation.put("classFilename", config.toApiFilename(tag));
 
                     if(!config.vendorExtensions().isEmpty()) {
                     	operation.put("vendorExtensions", config.vendorExtensions());
