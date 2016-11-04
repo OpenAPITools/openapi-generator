@@ -62,7 +62,7 @@ public class SwaggerUiConfiguration extends WebMvcConfigurerAdapter {
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
         .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .dateFormat( new RFC3339DateFormat())
+        .dateFormat(new RFC3339DateFormat())
         .build();
     converters.add(new MappingJackson2HttpMessageConverter(objectMapper));
     super.configureMessageConverters(converters);

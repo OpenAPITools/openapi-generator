@@ -35,12 +35,11 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-
 /**
  * FormatTest
  */
 
-public class FormatTest   {
+public class FormatTest {
   @JsonProperty("integer")
   private Integer integer = null;
 
@@ -386,5 +385,6 @@ public class FormatTest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

@@ -162,8 +162,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
 
-        if (additionalProperties.containsKey("jackson") ) {
+        if (additionalProperties.containsKey("jackson")) {
             supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
+            if ("threetenbp".equals(dateLibrary)) {
+                supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+            }
         }
     }
 

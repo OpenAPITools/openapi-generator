@@ -37,7 +37,7 @@ import android.os.Parcel;
  */
 @ApiModel(description = "Model for testing model name starting with number")
 
-public class Model200Response  implements Parcelable {
+public class Model200Response implements Parcelable {
   @SerializedName("name")
   private Integer name = null;
 
@@ -125,7 +125,7 @@ public class Model200Response  implements Parcelable {
      
     out.writeValue(name);
 
-    out.writeValue(PropertyClass);
+    out.writeValue(propertyClass);
   }
 
   public Model200Response() {
@@ -135,7 +135,7 @@ public class Model200Response  implements Parcelable {
   Model200Response(Parcel in) {
     
     name = (Integer)in.readValue(null);
-    PropertyClass = (String)in.readValue(null);
+    propertyClass = (String)in.readValue(null);
   }
   
   public int describeContents() {

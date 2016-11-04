@@ -39,7 +39,7 @@ import android.os.Parcel;
  * ArrayOfNumberOnly
  */
 
-public class ArrayOfNumberOnly  implements Parcelable {
+public class ArrayOfNumberOnly implements Parcelable {
   @SerializedName("ArrayNumber")
   private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
 

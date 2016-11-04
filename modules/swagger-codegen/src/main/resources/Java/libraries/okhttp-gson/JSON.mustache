@@ -15,6 +15,11 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 {{/joda}}
+{{#threetenbp}}
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+{{/threetenbp}}
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -38,10 +43,10 @@ public class JSON {
     private DateTimeTypeAdapter dateTimeTypeAdapter = new DateTimeTypeAdapter();
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
     {{/joda}}
-    {{#java8}}
+    {{#jsr310}}
     private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
-    {{/java8}}
+    {{/jsr310}}
 
     public JSON() {
         gson = new GsonBuilder()
@@ -51,10 +56,10 @@ public class JSON {
             .registerTypeAdapter(DateTime.class, dateTimeTypeAdapter)
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             {{/joda}}
-            {{#java8}}
+            {{#jsr310}}
             .registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
-            {{/java8}}
+            {{/jsr310}}
             .create();
     }
 
@@ -215,7 +220,7 @@ public class JSON {
     }
 
     {{/joda}}
-    {{#java8}}
+    {{#jsr310}}
     /**
      * Gson TypeAdapter for JSR310 OffsetDateTime type
      */
@@ -311,7 +316,7 @@ public class JSON {
         return this;
     }
 
-    {{/java8}}
+    {{/jsr310}}
     /**
      * Gson TypeAdapter for java.sql.Date type
      * If the dateFormat is null, a simple "yyyy-MM-dd" format will be used

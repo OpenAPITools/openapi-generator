@@ -35,12 +35,11 @@ import io.swagger.client.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Pet
  */
 
-public class Pet   {
+public class Pet {
   @JsonProperty("id")
   private Long id = null;
 
@@ -257,5 +256,6 @@ public class Pet   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

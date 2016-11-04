@@ -36,7 +36,7 @@ import android.os.Parcel;
  * EnumTest
  */
 
-public class EnumTest  implements Parcelable {
+public class EnumTest implements Parcelable {
   /**
    * Gets or Sets enumString
    */

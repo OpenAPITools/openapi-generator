@@ -40,7 +40,7 @@ import android.os.Parcel;
  * Pet
  */
 
-public class Pet  implements Parcelable {
+public class Pet implements Parcelable {
   @SerializedName("id")
   private Long id = null;
 

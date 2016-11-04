@@ -37,12 +37,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-public class MixedPropertiesAndAdditionalPropertiesClass   {
+public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty("uuid")
   private UUID uuid = null;
 
@@ -153,5 +152,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

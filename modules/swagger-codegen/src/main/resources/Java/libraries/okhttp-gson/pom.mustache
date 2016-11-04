@@ -124,14 +124,21 @@
       <artifactId>gson</artifactId>
       <version>${gson-version}</version>
     </dependency>
-    {{^java8}}
+    {{#joda}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
     </dependency>
-    {{/java8}}
-    {{#useBeanValidation}}    
+    {{/joda}}
+    {{#threetenbp}}
+    <dependency>
+      <groupId>org.threeten</groupId>
+      <artifactId>threetenbp</artifactId>
+      <version>${threetenbp-version}</version>
+    </dependency>
+    {{/threetenbp}}
+    {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
         <groupId>javax.validation</groupId>
@@ -139,7 +146,7 @@
         <version>1.1.0.Final</version>
         <scope>provided</scope>
     </dependency>
-    {{/useBeanValidation}}    
+    {{/useBeanValidation}}
 
     <!-- test dependencies -->
     <dependency>
@@ -156,7 +163,12 @@
     <swagger-core-version>1.5.9</swagger-core-version>
     <okhttp-version>2.7.5</okhttp-version>
     <gson-version>2.6.2</gson-version>
+    {{#joda}}
     <jodatime-version>2.9.3</jodatime-version>
+    {{/joda}}
+    {{#threetenbp}}
+    <threetenbp-version>1.3.2</threetenbp-version>
+    {{/threetenbp}}
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

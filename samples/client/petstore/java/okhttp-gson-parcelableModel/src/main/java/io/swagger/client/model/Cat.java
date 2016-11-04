@@ -38,13 +38,6 @@ import android.os.Parcel;
  */
 
 public class Cat extends Animal implements Parcelable {
-  @SerializedName("className")
-  private String className = null;
-
-  @SerializedName("color")
-  private String color = "red";
-
->>>>>>> fix bug with parcelable:samples/client/petstore/java/okhttp-gson-parcelableModel/src/main/java/io/swagger/client/model/Cat.java
   @SerializedName("declawed")
   private Boolean declawed = null;
 
@@ -108,10 +101,6 @@ public class Cat extends Animal implements Parcelable {
   
   public void writeToParcel(Parcel out, int flags) {
      super.writeToParcel(out, flags);  
-    out.writeValue(className);
-
-    out.writeValue(color);
-
     out.writeValue(declawed);
   }
 
@@ -121,8 +110,6 @@ public class Cat extends Animal implements Parcelable {
 
   Cat(Parcel in) {
      super(in); 
-    className = (String)in.readValue(null);
-    color = (String)in.readValue(null);
     declawed = (Boolean)in.readValue(null);
   }
   

@@ -13,16 +13,18 @@ lazy val root = (project in file(".")).
       "org.glassfish.jersey.core" % "jersey-client" % "2.22.2",
       "org.glassfish.jersey.media" % "jersey-media-multipart" % "2.22.2",
       "org.glassfish.jersey.media" % "jersey-media-json-jackson" % "2.22.2",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.7.5",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.5",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.7.5",
+      "com.fasterxml.jackson.core" % "jackson-core" % "{{^threetenbp}}2.7.5{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "{{^threetenbp}}2.7.5{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "{{^threetenbp}}2.7.5{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}" % "compile",
+      {{#joda}}
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5" % "compile",
+      {{/joda}}
       {{#java8}}
-	  "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.7.5",
-	  {{/java8}}
-	  {{^java8}}
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5",
-      "joda-time" % "joda-time" % "2.9.4",
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.7.5" % "compile",
       {{/java8}}
+      {{#threetenbp}}
+      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.6.4" % "compile",
+      {{/threetenbp}}
       "com.brsanthu" % "migbase64" % "2.2",
       {{#supportJava6}}
       "org.apache.commons" % "commons-lang3" % "3.5",

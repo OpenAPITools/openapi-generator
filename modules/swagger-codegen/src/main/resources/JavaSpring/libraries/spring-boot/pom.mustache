@@ -62,16 +62,20 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
         {{/java8}}
-        {{^java8}}
+        {{#joda}}
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
+        {{/joda}}
+        {{#threetenbp}}
+
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
+            <groupId>com.github.joschi.jackson</groupId>
+            <artifactId>jackson-datatype-threetenbp</artifactId>
+            <version>2.6.4</version>
         </dependency>
-        {{/java8}}
+        {{/threetenbp}}
     </dependencies>
 </project>

@@ -13,10 +13,18 @@ lazy val root = (project in file(".")).
       "com.netflix.feign" % "feign-core" % "8.16.0" % "compile",
       "com.netflix.feign" % "feign-jackson" % "8.17.0" % "compile",
       "com.netflix.feign" % "feign-slf4j" % "8.16.0" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.7.5" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.5" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.7.5" % "compile",
-      "com.fasterxml.jackson.datatype" % "jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}" % "2.7.5" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-core" % "{{^threetenbp}}2.7.5{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "{{^threetenbp}}2.7.5{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "{{^threetenbp}}2.7.5{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}" % "compile",
+      {{#joda}}
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5" % "compile",
+      {{/joda}}
+      {{#java8}}
+      "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.7.5" % "compile",
+      {{/java8}}
+      {{#threetenbp}}
+      "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.6.4" % "compile",
+      {{/threetenbp}}
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       "com.brsanthu" % "migbase64" % "2.2" % "compile",
       "junit" % "junit" % "4.12" % "test",

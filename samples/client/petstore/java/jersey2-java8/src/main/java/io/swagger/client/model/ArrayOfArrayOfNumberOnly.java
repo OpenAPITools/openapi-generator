@@ -34,12 +34,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * ArrayOfArrayOfNumberOnly
  */
 
-public class ArrayOfArrayOfNumberOnly   {
+public class ArrayOfArrayOfNumberOnly {
   @JsonProperty("ArrayArrayNumber")
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
@@ -104,5 +103,6 @@ public class ArrayOfArrayOfNumberOnly   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
