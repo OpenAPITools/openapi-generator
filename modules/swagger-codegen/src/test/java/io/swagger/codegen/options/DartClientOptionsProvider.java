@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 public class DartClientOptionsProvider implements OptionsProvider {
-    public static final String SORT_PARAMS_VALUE = "false";
+    public static final String SORT_PARAMS_VALUE = "true";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String BROWSER_CLIENT_VALUE = "true";
     public static final String PUB_NAME_VALUE = "swagger";

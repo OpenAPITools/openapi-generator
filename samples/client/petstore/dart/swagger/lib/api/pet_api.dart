@@ -10,11 +10,7 @@ class PetApi {
   /// Add a new pet to the store
   ///
   /// 
-  Future addPet(Pet body,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future addPet(Pet body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -65,11 +61,7 @@ class PetApi {
   /// Deletes a pet
   ///
   /// 
-  Future deletePet(int petId,  {  String apiKey,  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future deletePet(int petId, { String apiKey }) async {
     Object postBody = null;
 
     // verify required params are set
@@ -121,11 +113,7 @@ class PetApi {
   /// Finds Pets by status
   ///
   /// Multiple status values can be provided with comma separated strings
-  Future<List<Pet>> findPetsByStatus(List<String> status,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<List<Pet>> findPetsByStatus(List<String> status) async {
     Object postBody = null;
 
     // verify required params are set
@@ -177,11 +165,7 @@ class PetApi {
   /// Finds Pets by tags
   ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  Future<List<Pet>> findPetsByTags(List<String> tags,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<List<Pet>> findPetsByTags(List<String> tags) async {
     Object postBody = null;
 
     // verify required params are set
@@ -233,11 +217,7 @@ class PetApi {
   /// Find pet by ID
   ///
   /// Returns a single pet
-  Future<Pet> getPetById(int petId,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<Pet> getPetById(int petId) async {
     Object postBody = null;
 
     // verify required params are set
@@ -288,11 +268,7 @@ class PetApi {
   /// Update an existing pet
   ///
   /// 
-  Future updatePet(Pet body,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future updatePet(Pet body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -343,11 +319,7 @@ class PetApi {
   /// Updates a pet in the store with form data
   ///
   /// 
-  Future updatePetWithForm(int petId,  {  String name,  String status,  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future updatePetWithForm(int petId, { String name, String status }) async {
     Object postBody = null;
 
     // verify required params are set
@@ -412,11 +384,7 @@ if (status != null)
   /// uploads an image
   ///
   /// 
-  Future<ApiResponse> uploadFile(int petId,  {  String additionalMetadata,  MultipartFile file,  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
     Object postBody = null;
 
     // verify required params are set
