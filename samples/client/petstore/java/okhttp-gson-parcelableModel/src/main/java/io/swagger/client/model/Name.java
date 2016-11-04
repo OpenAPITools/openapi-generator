@@ -37,7 +37,7 @@ import android.os.Parcel;
  */
 @ApiModel(description = "Model for testing model name same as property name")
 
-public class Name  implements Parcelable {
+public class Name implements Parcelable {
   @SerializedName("name")
   private Integer name = null;
 

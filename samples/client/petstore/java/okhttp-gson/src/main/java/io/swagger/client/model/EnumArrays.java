@@ -32,12 +32,11 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * EnumArrays
  */
 
-public class EnumArrays   {
+public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
@@ -169,5 +168,6 @@ public class EnumArrays   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

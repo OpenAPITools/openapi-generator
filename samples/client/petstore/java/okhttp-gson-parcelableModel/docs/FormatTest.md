@@ -14,8 +14,8 @@ Name | Type | Description | Notes
 **_byte** | **byte[]** |  | 
 **binary** | **byte[]** |  |  [optional]
 **date** | [**LocalDate**](LocalDate.md) |  | 
-**dateTime** | [**DateTime**](DateTime.md) |  |  [optional]
-**uuid** | **String** |  |  [optional]
+**dateTime** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
+**uuid** | [**UUID**](UUID.md) |  |  [optional]
 **password** | **String** |  | 
 
 

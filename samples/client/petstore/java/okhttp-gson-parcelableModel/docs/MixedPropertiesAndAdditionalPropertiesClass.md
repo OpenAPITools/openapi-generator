@@ -4,8 +4,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**uuid** | **String** |  |  [optional]
-**dateTime** | [**DateTime**](DateTime.md) |  |  [optional]
+**uuid** | [**UUID**](UUID.md) |  |  [optional]
+**dateTime** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
 **map** | [**Map&lt;String, Animal&gt;**](Animal.md) |  |  [optional]
 
 

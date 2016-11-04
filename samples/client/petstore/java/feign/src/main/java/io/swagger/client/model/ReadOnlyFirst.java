@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * ReadOnlyFirst
  */
 
-public class ReadOnlyFirst   {
+public class ReadOnlyFirst {
   @JsonProperty("bar")
   private String bar = null;
 
@@ -110,5 +109,6 @@ public class ReadOnlyFirst   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

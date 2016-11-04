@@ -25,43 +25,24 @@
 
 package io.swagger.client;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.*;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
+import okio.BufferedSink;
+import okio.Okio;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
-import java.lang.reflect.Type;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import java.net.URLEncoder;
-import java.net.URLConnection;
-
+import javax.net.ssl.*;
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
+import java.lang.reflect.Type;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
@@ -69,22 +50,12 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
-import okio.BufferedSink;
-import okio.Okio;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.swagger.client.auth.Authentication;
 import io.swagger.client.auth.HttpBasicAuth;
@@ -92,50 +63,13 @@ import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
 public class ApiClient {
-    public static final double JAVA_VERSION;
-    public static final boolean IS_ANDROID;
-    public static final int ANDROID_SDK_VERSION;
-
-    static {
-        JAVA_VERSION = Double.parseDouble(System.getProperty("java.specification.version"));
-        boolean isAndroid;
-        try {
-            Class.forName("android.app.Activity");
-            isAndroid = true;
-        } catch (ClassNotFoundException e) {
-            isAndroid = false;
-        }
-        IS_ANDROID = isAndroid;
-        int sdkVersion = 0;
-        if (IS_ANDROID) {
-            try {
-                sdkVersion = Class.forName("android.os.Build$VERSION").getField("SDK_INT").getInt(null);
-            } catch (Exception e) {
-                try {
-                    sdkVersion = Integer.parseInt((String) Class.forName("android.os.Build$VERSION").getField("SDK").get(null));
-                } catch (Exception e2) { }
-            }
-        }
-        ANDROID_SDK_VERSION = sdkVersion;
-    }
-
-    /**
-     * The datetime format to be used when <code>lenientDatetimeFormat</code> is enabled.
-     */
-    public static final String LENIENT_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     private String basePath = "http://petstore.swagger.io/v2";
-    private boolean lenientOnJson = false;
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private String tempFolderPath = null;
 
     private Map<String, Authentication> authentications;
-
-    private DateFormat dateFormat;
-    private DateFormat datetimeFormat;
-    private boolean lenientDatetimeFormat;
-    private int dateLength;
 
     private InputStream sslCaCert;
     private boolean verifyingSsl;
@@ -150,23 +84,8 @@ public class ApiClient {
      */
     public ApiClient() {
         httpClient = new OkHttpClient();
-
         verifyingSsl = true;
-
-        json = new JSON(this);
-
-        /*
-         * Use RFC3339 format for date and datetime.
-         * See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
-         */
-        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        // Always use UTC as the default time zone when dealing with date (without time).
-        this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        initDatetimeFormat();
-
-        // Be lenient on datetime formats when parsing datetime from string.
-        // See <code>parseDatetime</code>.
-        this.lenientDatetimeFormat = true;
+        json = new JSON();
 
         // Set default User-Agent.
         setUserAgent("Swagger-Codegen/1.0.0/java");
@@ -285,143 +204,29 @@ public class ApiClient {
         return this;
     }
 
-    public DateFormat getDateFormat() {
-        return dateFormat;
-    }
-
     public ApiClient setDateFormat(DateFormat dateFormat) {
-        this.dateFormat = dateFormat;
-        this.dateLength = this.dateFormat.format(new Date()).length();
+        this.json.setDateFormat(dateFormat);
         return this;
     }
 
-    public DateFormat getDatetimeFormat() {
-        return datetimeFormat;
-    }
-
-    public ApiClient setDatetimeFormat(DateFormat datetimeFormat) {
-        this.datetimeFormat = datetimeFormat;
+    public ApiClient setSqlDateFormat(DateFormat dateFormat) {
+        this.json.setSqlDateFormat(dateFormat);
         return this;
     }
 
-    /**
-     * Whether to allow various ISO 8601 datetime formats when parsing a datetime string.
-     * @see #parseDatetime(String)
-     * @return True if lenientDatetimeFormat flag is set to true
-     */
-    public boolean isLenientDatetimeFormat() {
-        return lenientDatetimeFormat;
-    }
-
-    public ApiClient setLenientDatetimeFormat(boolean lenientDatetimeFormat) {
-        this.lenientDatetimeFormat = lenientDatetimeFormat;
+    public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
+        this.json.setOffsetDateTimeFormat(dateFormat);
         return this;
     }
 
-    /**
-     * Parse the given date string into Date object.
-     * The default <code>dateFormat</code> supports these ISO 8601 date formats:
-     *   2015-08-16
-     *   2015-8-16
-     * @param str String to be parsed
-     * @return Date
-     */
-    public Date parseDate(String str) {
-        if (str == null)
-            return null;
-        try {
-            return dateFormat.parse(str);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
+        this.json.setLocalDateFormat(dateFormat);
+        return this;
     }
 
-    /**
-     * Parse the given datetime string into Date object.
-     * When lenientDatetimeFormat is enabled, the following ISO 8601 datetime formats are supported:
-     *   2015-08-16T08:20:05Z
-     *   2015-8-16T8:20:05Z
-     *   2015-08-16T08:20:05+00:00
-     *   2015-08-16T08:20:05+0000
-     *   2015-08-16T08:20:05.376Z
-     *   2015-08-16T08:20:05.376+00:00
-     *   2015-08-16T08:20:05.376+00
-     * Note: The 3-digit milli-seconds is optional. Time zone is required and can be in one of
-     *   these formats:
-     *   Z (same with +0000)
-     *   +08:00 (same with +0800)
-     *   -02 (same with -0200)
-     *   -0200
-     * @see <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>
-     * @param str Date time string to be parsed
-     * @return Date representation of the string
-     */
-    public Date parseDatetime(String str) {
-        if (str == null)
-            return null;
-
-        DateFormat format;
-        if (lenientDatetimeFormat) {
-            /*
-             * When lenientDatetimeFormat is enabled, normalize the date string
-             * into <code>LENIENT_DATETIME_FORMAT</code> to support various formats
-             * defined by ISO 8601.
-             */
-            // normalize time zone
-            //   trailing "Z": 2015-08-16T08:20:05Z => 2015-08-16T08:20:05+0000
-            str = str.replaceAll("[zZ]\\z", "+0000");
-            //   remove colon in time zone: 2015-08-16T08:20:05+00:00 => 2015-08-16T08:20:05+0000
-            str = str.replaceAll("([+-]\\d{2}):(\\d{2})\\z", "$1$2");
-            //   expand time zone: 2015-08-16T08:20:05+00 => 2015-08-16T08:20:05+0000
-            str = str.replaceAll("([+-]\\d{2})\\z", "$100");
-            // add milliseconds when missing
-            //   2015-08-16T08:20:05+0000 => 2015-08-16T08:20:05.000+0000
-            str = str.replaceAll("(:\\d{1,2})([+-]\\d{4})\\z", "$1.000$2");
-            format = new SimpleDateFormat(LENIENT_DATETIME_FORMAT);
-        } else {
-            format = this.datetimeFormat;
-        }
-
-        try {
-            return format.parse(str);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /*
-     * Parse date or date time in string format into Date object.
-     *
-     * @param str Date time string to be parsed
-     * @return Date representation of the string
-     */
-    public Date parseDateOrDatetime(String str) {
-        if (str == null)
-            return null;
-        else if (str.length() <= dateLength)
-            return parseDate(str);
-        else
-            return parseDatetime(str);
-    }
-
-    /**
-     * Format the given Date object into string (Date format).
-     *
-     * @param date Date object
-     * @return Formatted date in string representation
-     */
-    public String formatDate(Date date) {
-        return dateFormat.format(date);
-    }
-
-    /**
-     * Format the given Date object into string (Datetime format).
-     *
-     * @param date Date object
-     * @return Formatted datetime in string representation
-     */
-    public String formatDatetime(Date date) {
-        return datetimeFormat.format(date);
+    public ApiClient setLenientOnJson(boolean lenientOnJson) {
+        this.json.setLenientOnJson(lenientOnJson);
+        return this;
     }
 
     /**
@@ -542,26 +347,6 @@ public class ApiClient {
     }
 
     /**
-     * @see <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)">setLenient</a>
-     *
-     * @return True if lenientOnJson is enabled, false otherwise.
-     */
-    public boolean isLenientOnJson() {
-        return lenientOnJson;
-    }
-
-    /**
-     * Set LenientOnJson
-     *
-     * @param lenient True to enable lenientOnJson
-     * @return ApiClient
-     */
-    public ApiClient setLenientOnJson(boolean lenient) {
-        this.lenientOnJson = lenient;
-        return this;
-    }
-
-    /**
      * Check that whether debugging is enabled for this API client.
      *
      * @return True if debugging is enabled, false otherwise.
@@ -644,8 +429,10 @@ public class ApiClient {
     public String parameterToString(Object param) {
         if (param == null) {
             return "";
-        } else if (param instanceof Date) {
-            return formatDatetime((Date) param);
+        } else if (param instanceof Date || param instanceof OffsetDateTime || param instanceof LocalDate) {
+            //Serialize to json string and remove the " enclosing characters
+            String jsonStr = json.serialize(param);
+            return jsonStr.substring(1, jsonStr.length() - 1);
         } else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
             for (Object o : (Collection)param) {
@@ -1232,31 +1019,6 @@ public class ApiClient {
             return "application/octet-stream";
         } else {
             return contentType;
-        }
-    }
-
-    /**
-     * Initialize datetime format according to the current environment, e.g. Java 1.7 and Android.
-     */
-    private void initDatetimeFormat() {
-        String formatWithTimeZone = null;
-        if (IS_ANDROID) {
-            if (ANDROID_SDK_VERSION >= 18) {
-                // The time zone format "ZZZZZ" is available since Android 4.3 (SDK version 18)
-                formatWithTimeZone = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ";
-            }
-        } else if (JAVA_VERSION >= 1.7) {
-            // The time zone format "XXX" is available since Java 1.7
-            formatWithTimeZone = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
-        }
-        if (formatWithTimeZone != null) {
-            this.datetimeFormat = new SimpleDateFormat(formatWithTimeZone);
-            // NOTE: Use the system's default time zone (mainly for datetime formatting).
-        } else {
-            // Use a common format that works across all systems.
-            this.datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            // Always use the UTC time zone as we are using a constant trailing "Z" here.
-            this.datetimeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         }
     }
 

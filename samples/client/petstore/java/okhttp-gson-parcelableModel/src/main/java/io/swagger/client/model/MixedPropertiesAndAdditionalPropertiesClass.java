@@ -33,7 +33,8 @@ import io.swagger.client.model.Animal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.joda.time.DateTime;
+import java.util.UUID;
+import org.threeten.bp.OffsetDateTime;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -41,17 +42,17 @@ import android.os.Parcel;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-public class MixedPropertiesAndAdditionalPropertiesClass  implements Parcelable {
+public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   @SerializedName("uuid")
-  private String uuid = null;
+  private UUID uuid = null;
 
   @SerializedName("dateTime")
-  private DateTime dateTime = null;
+  private OffsetDateTime dateTime = null;
 
   @SerializedName("map")
   private Map<String, Animal> map = new HashMap<String, Animal>();
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(String uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -61,15 +62,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Parcelable 
    * @return uuid
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(DateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -79,11 +80,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Parcelable 
    * @return dateTime
   **/
   @ApiModelProperty(example = "null", value = "")
-  public DateTime getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(DateTime dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -168,8 +169,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Parcelable 
 
   MixedPropertiesAndAdditionalPropertiesClass(Parcel in) {
     
-    uuid = (String)in.readValue(null);
-    dateTime = (DateTime)in.readValue(null);
+    uuid = (UUID)in.readValue(null);
+    dateTime = (OffsetDateTime)in.readValue(null);
     map = (Map<String, Animal>)in.readValue(Animal.class.getClassLoader());
   }
   

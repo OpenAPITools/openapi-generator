@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -141,6 +141,11 @@ public class Pet {
     return this;
   }
 
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
    /**
    * Get photoUrls
    * @return photoUrls
@@ -156,6 +161,11 @@ public class Pet {
 
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
+    return this;
+  }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    this.tags.add(tagsItem);
     return this;
   }
 

@@ -31,13 +31,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
 
-public class Name   {
+public class Name {
   @JsonProperty("name")
   private Integer name = null;
 
@@ -148,5 +147,6 @@ public class Name   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

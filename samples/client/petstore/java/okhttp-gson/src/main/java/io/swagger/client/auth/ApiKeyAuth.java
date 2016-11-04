@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -78,9 +78,9 @@ public class ApiKeyAuth implements Authentication {
     } else {
       value = apiKey;
     }
-    if (location == "query") {
+    if ("query".equals(location)) {
       queryParams.add(new Pair(paramName, value));
-    } else if (location == "header") {
+    } else if ("header".equals(location)) {
       headerParams.put(paramName, value);
     }
   }

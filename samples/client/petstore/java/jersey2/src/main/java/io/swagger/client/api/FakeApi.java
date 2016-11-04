@@ -8,9 +8,9 @@ import io.swagger.client.Pair;
 import javax.ws.rs.core.GenericType;
 
 import io.swagger.client.model.Client;
-import org.joda.time.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.LocalDate;
 import java.math.BigDecimal;
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +97,7 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, DateTime dateTime, String password, String paramCallback) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set

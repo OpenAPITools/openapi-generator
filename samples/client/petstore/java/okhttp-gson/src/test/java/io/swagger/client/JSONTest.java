@@ -13,18 +13,19 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.junit.*;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZoneOffset;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import static org.junit.Assert.*;
 
 public class JSONTest {
-    ApiClient apiClient = null;
-    JSON json = null;
-    Order order = null;
+    private ApiClient apiClient = null;
+    private JSON json = null;
+    private Order order = null;
 
     @Before
     public void setup() {
@@ -103,19 +104,19 @@ public class JSONTest {
     }
 
     @Test
-    public void testDateTimeTypeAdapter() {
+    public void testOffsetDateTimeTypeAdapter() {
         final String str = "\"2016-09-09T08:02:03.123-03:00\"";
-        DateTime date = new DateTime(2016, 9, 9, 8, 2, 3, 123, DateTimeZone.forID("Etc/GMT+3"));
+        OffsetDateTime date = OffsetDateTime.of(2016, 9, 9, 8, 2, 3, 123000000, ZoneOffset.of("-3"));
 
         assertEquals(str, json.serialize(date));
         //Use toString() instead of isEqual to verify that the offset is preserved
-        assertEquals(json.deserialize(str, DateTime.class).toString(), date.toString());
+        assertEquals(json.deserialize(str, OffsetDateTime.class).toString(), date.toString());
     }
 
     @Test
     public void testLocalDateTypeAdapter() {
         final String str = "\"2016-09-09\"";
-        final LocalDate date = new LocalDate(2016, 9, 9);
+        final LocalDate date = LocalDate.of(2016, 9, 9);
 
         assertEquals(str, json.serialize(date));
         assertEquals(json.deserialize(str, LocalDate.class), date);
@@ -124,25 +125,25 @@ public class JSONTest {
 
     @Test
     public void testDefaultDate() throws Exception {
-        final DateTimeFormatter datetimeFormat = ISODateTimeFormat.dateTime().withZone(DateTimeZone.UTC);
+        final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         final String dateStr = "2015-11-07T14:11:05.267Z";
-        order.setShipDate(datetimeFormat.parseDateTime(dateStr));
+        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
 
         String str = json.serialize(order);
         Type type = new TypeToken<Order>() { }.getType();
         Order o = json.deserialize(str, type);
-        assertEquals(dateStr, datetimeFormat.print(o.getShipDate()));
+        assertEquals(dateStr, datetimeFormat.format(o.getShipDate()));
     }
 
     @Test
     public void testCustomDate() throws Exception {
-        final DateTimeFormatter datetimeFormat = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.forID("Etc/GMT+2"));
+        final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of("Etc/GMT+2"));
         final String dateStr = "2015-11-07T14:11:05-02:00";
-        order.setShipDate(datetimeFormat.parseDateTime(dateStr));
+        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
 
         String str = json.serialize(order);
         Type type = new TypeToken<Order>() { }.getType();
         Order o = json.deserialize(str, type);
-        assertEquals(dateStr, datetimeFormat.print(o.getShipDate()));
+        assertEquals(dateStr, datetimeFormat.format(o.getShipDate()));
     }
 }

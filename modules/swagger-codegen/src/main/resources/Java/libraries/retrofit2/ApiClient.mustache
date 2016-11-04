@@ -11,6 +11,9 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 {{#joda}}
 import org.joda.time.format.DateTimeFormatter;
 {{/joda}}
+{{#threetenbp}}
+import org.threeten.bp.format.DateTimeFormatter;
+{{/threetenbp}}
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 {{#useRxJava}}
@@ -156,7 +159,7 @@ public class ApiClient {
     }
 
     {{/joda}}
-    {{#java8}}
+    {{#jsr310}}
     public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         this.json.setOffsetDateTimeFormat(dateFormat);
         return this;
@@ -167,7 +170,7 @@ public class ApiClient {
         return this;
     }
 
-    {{/java8}}
+    {{/jsr310}}
 
     /**
      * Helper method to configure the first api key found

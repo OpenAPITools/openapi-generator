@@ -38,13 +38,6 @@ import android.os.Parcel;
  */
 
 public class Dog extends Animal implements Parcelable {
-  @SerializedName("className")
-  private String className = null;
-
-  @SerializedName("color")
-  private String color = "red";
-
->>>>>>> fix bug with parcelable:samples/client/petstore/java/okhttp-gson-parcelableModel/src/main/java/io/swagger/client/model/Dog.java
   @SerializedName("breed")
   private String breed = null;
 
@@ -108,10 +101,6 @@ public class Dog extends Animal implements Parcelable {
   
   public void writeToParcel(Parcel out, int flags) {
      super.writeToParcel(out, flags);  
-    out.writeValue(className);
-
-    out.writeValue(color);
-
     out.writeValue(breed);
   }
 
@@ -121,8 +110,6 @@ public class Dog extends Animal implements Parcelable {
 
   Dog(Parcel in) {
      super(in); 
-    className = (String)in.readValue(null);
-    color = (String)in.readValue(null);
     breed = (String)in.readValue(null);
   }
   

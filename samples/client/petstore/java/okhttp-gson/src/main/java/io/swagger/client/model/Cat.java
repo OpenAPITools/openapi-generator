@@ -1,4 +1,4 @@
-/**
+/*
  * Swagger Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
@@ -36,50 +36,8 @@ import io.swagger.client.model.Animal;
  */
 
 public class Cat extends Animal {
-  @SerializedName("className")
-  private String className = null;
-
-  @SerializedName("color")
-  private String color = "red";
-
   @SerializedName("declawed")
   private Boolean declawed = null;
-
-  public Cat className(String className) {
-    this.className = className;
-    return this;
-  }
-
-   /**
-   * Get className
-   * @return className
-  **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public String getClassName() {
-    return className;
-  }
-
-  public void setClassName(String className) {
-    this.className = className;
-  }
-
-  public Cat color(String color) {
-    this.color = color;
-    return this;
-  }
-
-   /**
-   * Get color
-   * @return color
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getColor() {
-    return color;
-  }
-
-  public void setColor(String color) {
-    this.color = color;
-  }
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -109,15 +67,13 @@ public class Cat extends Animal {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(this.className, cat.className) &&
-        Objects.equals(this.color, cat.color) &&
-        Objects.equals(this.declawed, cat.declawed) &&
+    return Objects.equals(this.declawed, cat.declawed) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(className, color, declawed, super.hashCode());
+    return Objects.hash(declawed, super.hashCode());
   }
 
   @Override
@@ -125,8 +81,6 @@ public class Cat extends Animal {
     StringBuilder sb = new StringBuilder();
     sb.append("class Cat {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    className: ").append(toIndentedString(className)).append("\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();
