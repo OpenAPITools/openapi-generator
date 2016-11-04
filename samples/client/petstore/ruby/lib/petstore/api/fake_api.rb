@@ -275,20 +275,20 @@ module Petstore
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: FakeApi.test_enum_parameters ..."
       end
-      if opts[:'enum_form_string_array'] && !['>', '$'].include?(opts[:'enum_form_string_array'])
-        fail ArgumentError, 'invalid value for "enum_form_string_array", must be one of >, $'
+      if opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all?{|item| ['>', '$'].include?(item)}
+        fail ArgumentError, 'invalid value for "enum_form_string_array", must include one of >, $'
       end
       if opts[:'enum_form_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_form_string'])
         fail ArgumentError, 'invalid value for "enum_form_string", must be one of _abc, -efg, (xyz)'
       end
-      if opts[:'enum_header_string_array'] && !['>', '$'].include?(opts[:'enum_header_string_array'])
-        fail ArgumentError, 'invalid value for "enum_header_string_array", must be one of >, $'
+      if opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all?{|item| ['>', '$'].include?(item)}
+        fail ArgumentError, 'invalid value for "enum_header_string_array", must include one of >, $'
       end
       if opts[:'enum_header_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_header_string'])
         fail ArgumentError, 'invalid value for "enum_header_string", must be one of _abc, -efg, (xyz)'
       end
-      if opts[:'enum_query_string_array'] && !['>', '$'].include?(opts[:'enum_query_string_array'])
-        fail ArgumentError, 'invalid value for "enum_query_string_array", must be one of >, $'
+      if opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all?{|item| ['>', '$'].include?(item)}
+        fail ArgumentError, 'invalid value for "enum_query_string_array", must include one of >, $'
       end
       if opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
         fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
