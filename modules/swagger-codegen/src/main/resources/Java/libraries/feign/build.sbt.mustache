@@ -13,6 +13,7 @@ lazy val root = (project in file(".")).
       "com.netflix.feign" % "feign-core" % "8.16.0" % "compile",
       "com.netflix.feign" % "feign-jackson" % "8.17.0" % "compile",
       "com.netflix.feign" % "feign-slf4j" % "8.16.0" % "compile",
+      "io.github.openfeign.form" % "feign-form" % "2.0.2" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.7.5" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.5" % "compile",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.7.5" % "compile",

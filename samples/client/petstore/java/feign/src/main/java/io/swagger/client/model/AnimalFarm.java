@@ -30,12 +30,11 @@ import io.swagger.client.model.Animal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * AnimalFarm
  */
 
-public class AnimalFarm extends ArrayList<Animal>  {
+public class AnimalFarm extends ArrayList<Animal> {
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -52,6 +51,7 @@ public class AnimalFarm extends ArrayList<Animal>  {
   public int hashCode() {
     return Objects.hash(super.hashCode());
   }
+
 
   @Override
   public String toString() {
@@ -72,5 +72,6 @@ public class AnimalFarm extends ArrayList<Animal>  {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

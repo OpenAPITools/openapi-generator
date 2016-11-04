@@ -34,12 +34,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * MapTest
  */
 
-public class MapTest   {
+public class MapTest {
   @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
@@ -141,6 +140,7 @@ public class MapTest   {
     return Objects.hash(mapMapOfString, mapOfEnumString);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -162,5 +162,6 @@ public class MapTest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

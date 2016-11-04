@@ -34,12 +34,11 @@ import java.math.BigDecimal;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-
 /**
  * FormatTest
  */
 
-public class FormatTest   {
+public class FormatTest {
   @JsonProperty("integer")
   private Integer integer = null;
 
@@ -353,6 +352,7 @@ public class FormatTest   {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -385,5 +385,6 @@ public class FormatTest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

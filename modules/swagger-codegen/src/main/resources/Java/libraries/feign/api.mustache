@@ -1,6 +1,9 @@
 package {{package}};
 
 import {{invokerPackage}}.ApiClient;
+{{#legacyDates}}
+import {{invokerPackage}}.ParamExpander;
+{{/legacyDates}}
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -25,12 +28,12 @@ public interface {{classname}} extends ApiClient.Api {
    */
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#hasMore}}&{{/hasMore}}{{/queryParams}}")
   @Headers({
-    "Content-type: {{vendorExtensions.x-contentType}}",
+    "Content-Type: {{vendorExtensions.x-contentType}}",
     "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
     {{/hasMore}}{{/headerParams}}
   })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}@Param("{{paramName}}") {{/isBodyParam}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   {{/operation}}
 {{/operations}}
 }
