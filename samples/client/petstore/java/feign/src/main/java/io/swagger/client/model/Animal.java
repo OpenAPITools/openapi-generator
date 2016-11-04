@@ -31,12 +31,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * Animal
  */
 
-public class Animal   {
+public class Animal {
   @JsonProperty("className")
   private String className = null;
 
@@ -98,6 +97,7 @@ public class Animal   {
     return Objects.hash(className, color);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -119,5 +119,6 @@ public class Animal   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 

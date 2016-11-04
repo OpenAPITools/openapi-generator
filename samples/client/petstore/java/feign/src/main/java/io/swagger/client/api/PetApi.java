@@ -24,7 +24,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("POST /pet")
   @Headers({
-    "Content-type: application/json",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   void addPet(Pet body);
@@ -38,7 +38,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("DELETE /pet/{petId}")
   @Headers({
-    "Content-type: application/json",
+    "Content-Type: application/json",
     "Accept: application/json",
     "api_key: {apiKey}"
   })
@@ -52,7 +52,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/findByStatus?status={status}")
   @Headers({
-    "Content-type: application/json",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   List<Pet> findPetsByStatus(@Param("status") List<String> status);
@@ -65,7 +65,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
-    "Content-type: application/json",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   List<Pet> findPetsByTags(@Param("tags") List<String> tags);
@@ -78,7 +78,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("GET /pet/{petId}")
   @Headers({
-    "Content-type: application/json",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   Pet getPetById(@Param("petId") Long petId);
@@ -91,7 +91,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("PUT /pet")
   @Headers({
-    "Content-type: application/json",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   void updatePet(Pet body);
@@ -106,7 +106,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("POST /pet/{petId}")
   @Headers({
-    "Content-type: application/x-www-form-urlencoded",
+    "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
   void updatePetWithForm(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status);
@@ -121,7 +121,7 @@ public interface PetApi extends ApiClient.Api {
    */
   @RequestLine("POST /pet/{petId}/uploadImage")
   @Headers({
-    "Content-type: multipart/form-data",
+    "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
   ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
