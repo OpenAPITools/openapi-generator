@@ -10,11 +10,7 @@ class StoreApi {
   /// Delete purchase order by ID
   ///
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-  Future deleteOrder(String orderId,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future deleteOrder(String orderId) async {
     Object postBody = null;
 
     // verify required params are set
@@ -65,11 +61,7 @@ class StoreApi {
   /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
-  Future<Map<String, int>> getInventory( {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<Map<String, int>> getInventory() async {
     Object postBody = null;
 
     // verify required params are set
@@ -117,11 +109,7 @@ class StoreApi {
   /// Find purchase order by ID
   ///
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-  Future<Order> getOrderById(int orderId,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<Order> getOrderById(int orderId) async {
     Object postBody = null;
 
     // verify required params are set
@@ -172,11 +160,7 @@ class StoreApi {
   /// Place an order for a pet
   ///
   /// 
-  Future<Order> placeOrder(Order body,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<Order> placeOrder(Order body) async {
     Object postBody = body;
 
     // verify required params are set
