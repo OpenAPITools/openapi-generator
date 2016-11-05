@@ -122,7 +122,7 @@
 /**
  * Sets the prefix for API key
  *
- * @param apiKeyPrefix API key prefix.
+ * @param prefix API key prefix.
  * @param identifier   API key identifier.
  */
 - (void) setApiKeyPrefix:(NSString *)prefix forApiKeyPrefixIdentifier:(NSString *)identifier;
@@ -162,7 +162,7 @@
 /**
 * Removes header from defaultHeaders
 *
-* @param Header name.
+* @param key Header name.
 */
 -(void) removeDefaultHeaderForKey:(NSString*)key;
 
@@ -175,7 +175,7 @@
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key;
 
 /**
-* @param Header key name.
+* @param key Header key name.
 */
 -(NSString*) defaultHeaderForKey:(NSString*)key;
 
