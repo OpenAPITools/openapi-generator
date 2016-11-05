@@ -792,6 +792,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Plexxi](http://www.plexxi.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
+- [QAdept](http://qadept.com/)
 - [QuantiModo](https://quantimo.do/)
 - [Rapid7](https://rapid7.com/)
 - [Reload! A/S](https://reload.dk/) 
