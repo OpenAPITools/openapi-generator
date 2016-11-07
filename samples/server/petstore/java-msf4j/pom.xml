@@ -66,16 +66,6 @@
             <artifactId>jackson-datatype-joda</artifactId>
             <version>2.4.1</version>
         </dependency> 
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet-core</artifactId>
-      <version>${jersey2-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-multipart</artifactId>
-      <version>${jersey2-version}</version>
-    </dependency> 
 </dependencies>
  
   <repositories>
