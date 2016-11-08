@@ -8,7 +8,7 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen;
 import io.swagger.codegen.testutils.IntegrationTestPathsConfig;
 
-public class TypescriptAngular2ArrayAndObjectTest extends AbstractIntegrationTest {
+public class TypescriptAngular2PestoreIntegrationTest extends AbstractIntegrationTest {
 
     @Override
     protected CodegenConfig getCodegenConfig() {
@@ -18,8 +18,8 @@ public class TypescriptAngular2ArrayAndObjectTest extends AbstractIntegrationTes
     @Override
     protected Map<String, String> configProperties() {
         Map<String, String> properties = new HashMap<>();
-        properties.put("npmName", "arrayAndAnyTest");
-        properties.put("npmVersion", "1.0.2");
+        properties.put("npmName", "petstore-integration-test");
+        properties.put("npmVersion", "1.0.3");
         properties.put("snapshot", "false");
 
         return properties;
@@ -27,6 +27,6 @@ public class TypescriptAngular2ArrayAndObjectTest extends AbstractIntegrationTes
 
     @Override
     protected IntegrationTestPathsConfig getIntegrationTestPathsConfig() {
-        return new IntegrationTestPathsConfig("typescript/array-and-object");
+        return new IntegrationTestPathsConfig("typescript/petstore");
     }
 }

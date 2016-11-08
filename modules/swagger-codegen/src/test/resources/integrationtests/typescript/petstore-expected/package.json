@@ -1,7 +1,7 @@
 {
-  "name": "arrayAndAnyTest",
-  "version": "1.0.2",
-  "description": "swagger client for arrayAndAnyTest",
+  "name": "petstore-integration-test",
+  "version": "1.0.3",
+  "description": "swagger client for petstore-integration-test",
   "author": "Swagger Codegen Contributors",
   "keywords": [
     "swagger-client"

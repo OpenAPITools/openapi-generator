@@ -1,4 +1,4 @@
-## @swagger/angular2-typescript-petstore@0.0.1-SNAPSHOT.201610271623
+## @swagger/angular2-typescript-petstore@0.0.1-SNAPSHOT.201611081538
 
 ### Building
 
@@ -19,7 +19,7 @@ navigate to the folder of your consuming project and run one of next commando's.
 _published:_
 
 ```
-npm install @swagger/angular2-typescript-petstore@0.0.1-SNAPSHOT.201610271623 --save
+npm install @swagger/angular2-typescript-petstore@0.0.1-SNAPSHOT.201611081538 --save
 ```
 
 _unPublished (not recommended):_
@@ -41,4 +41,4 @@ import { BASE_PATH } from './path-to-swagger-gen-service/index';
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
 ]);
-```  
+```
