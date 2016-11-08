@@ -10,6 +10,8 @@ public class AspNet5ServerCodegen extends AspNetCoreServerCodegen {
 
     public AspNet5ServerCodegen() {
         super();
+
+        embeddedTemplateDir = templateDir = "aspnetcore";
     }
 
     @Override

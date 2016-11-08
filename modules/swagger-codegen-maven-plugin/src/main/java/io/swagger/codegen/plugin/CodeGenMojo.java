@@ -310,7 +310,10 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         if (addCompileSourceRoot) {
-            String sourceJavaFolder = output.toString() + "/" + configOptions.get(CodegenConstants.SOURCE_FOLDER);
+            final Object sourceFolderObject = configOptions.get(CodegenConstants.SOURCE_FOLDER);
+            final String sourceFolder =  sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
+
+            String sourceJavaFolder = output.toString() + "/" + sourceFolder;
             project.addCompileSourceRoot(sourceJavaFolder);
         }
     }
