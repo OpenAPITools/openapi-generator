@@ -11,7 +11,8 @@ import io.swagger.api.NotFoundException;
 
 import java.io.InputStream;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.wso2.msf4j.formparam.FormDataParam;
+import org.wso2.msf4j.formparam.FileInfo;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -19,7 +20,8 @@ import javax.ws.rs.core.SecurityContext;
 
 public class StoreApiServiceImpl extends StoreApiService {
     @Override
-    public Response deleteOrder(String orderId ) throws NotFoundException {
+    public Response deleteOrder(String orderId
+ ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -29,12 +31,14 @@ public class StoreApiServiceImpl extends StoreApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response getOrderById(Long orderId ) throws NotFoundException {
+    public Response getOrderById(Long orderId
+ ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response placeOrder(Order body ) throws NotFoundException {
+    public Response placeOrder(Order body
+ ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

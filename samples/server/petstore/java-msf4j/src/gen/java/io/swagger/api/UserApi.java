@@ -15,8 +15,8 @@ import io.swagger.api.NotFoundException;
 
 import java.io.InputStream;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.wso2.msf4j.formparam.FormDataParam;
+import org.wso2.msf4j.formparam.FileInfo;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
