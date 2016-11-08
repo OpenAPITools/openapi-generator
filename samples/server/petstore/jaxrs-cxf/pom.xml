@@ -1,18 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-jaxrs-cxf-server</artifactId>
-  <packaging>jar</packaging>
-  <name>swagger-jaxrs-cxf-server</name>
+  <artifactId>swagger-cxf-server</artifactId>
+  <packaging>war</packaging>
+  <name>swagger-cxf-server</name>
   <version>1.0.0</version>
   <build>
-    <sourceDirectory>gen/main/java</sourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.1.1</version>
-      </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.6</version>
@@ -25,7 +20,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
+      <!--plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${jetty-version}</version>
@@ -36,7 +31,6 @@
           <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
-          <stopWait>10</stopWait>
           <httpConnector>
             <port>8080</port>
             <idleTimeout>60000</idleTimeout>
@@ -62,7 +56,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -76,143 +70,87 @@
             </goals>
             <configuration>
               <sources>
-                <source>gen/java</source>
+                <source>src/gen/java</source>
               </sources>
             </configuration>
           </execution>
         </executions>
       </plugin>
+      
+      <!-- build WAR file -->
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+           <failOnMissingWebXml>true</failOnMissingWebXml>
+        </configuration>
+    </plugin>
     </plugins>
   </build>
   <dependencies>
-
-    <!-- Spring -->
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${springframework-version}</version>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-jaxrs</artifactId>
+      <scope>compile</scope>
+      <version>${swagger-core-version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
-      <version>${springframework-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <version>${springframework-version}</version>
-    </dependency>
-
-    <!-- CXF -->
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-      <version>${cxf-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-transports-http</artifactId>
-      <version>${cxf-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-rs-extension-providers</artifactId>
-      <version>${cxf-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>jsr311-api</artifactId>
-      <version>1.1.1</version>
-    </dependency>
-
-    <!-- Logging -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j-version}</version>
-    </dependency>
-
-    <!-- Bridges for Legacy Logging -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
-      <version>${slf4j-version}</version>
-      <scope>runtime</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>${slf4j-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jul-to-slf4j</artifactId>
-      <version>${slf4j-version}</version>
-    </dependency>
-
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.0.9</version>
-      <scope>runtime</scope>
-    </dependency>
-
-    <!-- Swagger Stuff -->
-    <!--<dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-jaxrs</artifactId>
-      <version>${swagger-version}</version>
+      <version>${logback-version}</version>
       <scope>compile</scope>
-    </dependency>-->
-
-    <!-- Runtime dependencies provided by Tomcat -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
-      <scope>provided</scope>
     </dependency>
-
-    <!-- TEST dependencies -->
     <dependency>
-      <groupId>org.scala-lang</groupId>
-      <artifactId>scala-library</artifactId>
-      <version>${scala-version}</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback-version}</version>
+      <scope>compile</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>${springframework-version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-transports-http-jetty</artifactId>
-      <version>${cxf-version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.10</artifactId>
-      <version>${scala-test-version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
-
+    <!-- CXF Client -->
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-client</artifactId>
+        <version>${cxf-version}</version>
+        <scope>test</scope>
+    </dependency>
+    
+     <!-- CXF server -->
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        <version>${cxf-version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-service-description</artifactId>
+        <version>${cxf-version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
+        <version>${cxf-version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-ws-policy</artifactId>
+        <version>${cxf-version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-wsdl</artifactId>
+        <version>${cxf-version}</version>
+        <scope>compile</scope>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
@@ -229,37 +167,11 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.9</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
-    <jersey-version>1.19.1</jersey-version>
-    <slf4j-version>1.7.21</slf4j-version>
+    <jersey2-version>2.22.2</jersey2-version>
     <junit-version>4.12</junit-version>
+    <logback-version>1.1.7</logback-version>
     <servlet-api-version>2.5</servlet-api-version>
+    <cxf-version>3.1.7</cxf-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <springframework-version>3.2.1.RELEASE</springframework-version>
-    <cxf-version>2.7.15</cxf-version>
-
-    <joda-version>1.2</joda-version>
-    <joda-time-version>2.2</joda-time-version>
-    <swagger-version>1.5.10</swagger-version>
-    <swagger-ui-version>2.1.4</swagger-ui-version>
-    <scala-version>2.10.4</scala-version>
-    <felix-version>2.3.4</felix-version>
-    <servlet-api-version>2.5</servlet-api-version>
-    <jersey-version>1.13</jersey-version>
-    <jersey2-version>2.1</jersey2-version>
-    <jackson-version>2.4.2</jackson-version>
-    <jackson-guava-version>2.4.2</jackson-guava-version>
-    <logback-version>1.0.1</logback-version>
-
-    <junit-version>4.8.1</junit-version>
-    <maven-plugin-version>1.0.0</maven-plugin-version>
-    <commons-lang-version>3.2.1</commons-lang-version>
-    <slf4j-version>1.6.3</slf4j-version>
-    <scala-test-version>2.1.3</scala-test-version>
-    <jetty-version>8.1.11.v20130520</jetty-version>
-    <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
-    <coverage.complexity.minimum>0.90</coverage.complexity.minimum>
-    <coverage.line.minimum>0.90</coverage.line.minimum>
-    <coverage.missed.classes>0</coverage.missed.classes>
-
   </properties>
 </project>

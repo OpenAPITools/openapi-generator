@@ -25,7 +25,7 @@ public class {{classname}}ServiceImpl implements {{classname}} {
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         // TODO: Implement...
         
-        {{#returnType}}return null;{{/returnType}}
+        {{^vendorExtensions.x-java-is-response-void}}return null;{{/vendorExtensions.x-java-is-response-void}}
     }
     
 {{/operation}}
