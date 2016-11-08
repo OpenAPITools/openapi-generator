@@ -1892,7 +1892,11 @@ public class DefaultCodegen {
             for (String key : consumes) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 // escape quotation to avoid code injection
-                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+                if ("*/*".equals(key)) { // "*/*" is a special case, do nothing
+                    mediaType.put("mediaType", key);
+                } else {
+                    mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+                }
                 count += 1;
                 if (count < consumes.size()) {
                     mediaType.put("hasMore", "true");
@@ -1926,7 +1930,11 @@ public class DefaultCodegen {
             for (String key : produces) {
                 Map<String, String> mediaType = new HashMap<String, String>();
                 // escape quotation to avoid code injection
-                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+                if ("*/*".equals(key)) { // "*/*" is a special case, do nothing
+                    mediaType.put("mediaType", key);
+                } else {
+                    mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+                }
                 count += 1;
                 if (count < produces.size()) {
                     mediaType.put("hasMore", "true");
