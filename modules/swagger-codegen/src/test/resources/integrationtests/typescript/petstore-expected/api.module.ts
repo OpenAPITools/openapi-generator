@@ -3,17 +3,15 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { Configuration } from './configuration';
 
-{{#apiInfo}}
-{{#apis}}
-import { {{classname}} } from './{{importPath}}';
-{{/apis}}
-{{/apiInfo}}
+import { PetService } from './api/pet.service';
+import { StoreService } from './api/store.service';
+import { UserService } from './api/user.service';
 
 @NgModule({
   imports:      [ CommonModule, HttpModule ],
   declarations: [],
   exports:      [],
-  providers:    [ {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}} ]
+  providers:    [ PetService, StoreService, UserService ]
 })
 export class ApiModule {
     public static forConfig(configuration: Configuration): ModuleWithProviders {

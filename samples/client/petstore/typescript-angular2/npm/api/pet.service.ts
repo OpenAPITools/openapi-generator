@@ -28,9 +28,10 @@ import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http
 import { Response, ResponseContentType }                     from '@angular/http';
 
 import { Observable }                                        from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import '../rxjs-operators';
 
-import * as models                                           from '../model/models';
+import { Pet } from '../model/pet';
+
 import { BASE_PATH }                                         from '../variables';
 import { Configuration }                                     from '../configuration';
 
@@ -38,7 +39,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class PetApi {
+export class PetService {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
@@ -72,7 +73,7 @@ export class PetApi {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public addPet(body?: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+    public addPet(body?: Pet, extraHttpRequestParams?: any): Observable<{}> {
         return this.addPetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -105,7 +106,7 @@ export class PetApi {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+    public findPetsByStatus(status?: Array<string>, extraHttpRequestParams?: any): Observable<Array<Pet>> {
         return this.findPetsByStatusWithHttpInfo(status, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -121,7 +122,7 @@ export class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    public findPetsByTags(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+    public findPetsByTags(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Array<Pet>> {
         return this.findPetsByTagsWithHttpInfo(tags, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -137,7 +138,7 @@ export class PetApi {
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param petId ID of pet that needs to be fetched
      */
-    public getPetById(petId: number, extraHttpRequestParams?: any): Observable<models.Pet> {
+    public getPetById(petId: number, extraHttpRequestParams?: any): Observable<Pet> {
         return this.getPetByIdWithHttpInfo(petId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -153,7 +154,7 @@ export class PetApi {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public updatePet(body?: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+    public updatePet(body?: Pet, extraHttpRequestParams?: any): Observable<{}> {
         return this.updatePetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -206,7 +207,7 @@ export class PetApi {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public addPetWithHttpInfo(body?: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
+    public addPetWithHttpInfo(body?: Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet`;
 
         let queryParameters = new URLSearchParams();
@@ -460,7 +461,7 @@ export class PetApi {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public updatePetWithHttpInfo(body?: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
+    public updatePetWithHttpInfo(body?: Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet`;
 
         let queryParameters = new URLSearchParams();

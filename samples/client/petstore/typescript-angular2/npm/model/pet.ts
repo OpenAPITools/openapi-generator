@@ -22,26 +22,31 @@
  * limitations under the License.
  */
 
-import * as models from './models';
+import { Category } from './category';
+import { Tag } from './tag';
 
-export interface User {
+
+export interface Pet {
     id?: number;
 
-    username?: string;
+    category?: Category;
 
-    firstName?: string;
+    name: string;
 
-    lastName?: string;
+    photoUrls: Array<string>;
 
-    email?: string;
-
-    password?: string;
-
-    phone?: string;
+    tags?: Array<Tag>;
 
     /**
-     * User Status
+     * pet status in the store
      */
-    userStatus?: number;
+    status?: Pet.StatusEnum;
 
+}
+export namespace Pet {
+    export enum StatusEnum {
+        Available = <any> 'available',
+        Pending = <any> 'pending',
+        Sold = <any> 'sold'
+    }
 }

@@ -1,3 +1,3 @@
-export * from './ProjectEntity';
-export * from './ProjectEntityLocation';
-export * from './ProjectList';
+export * from './projectEntity';
+export * from './projectEntityLocation';
+export * from './projectList';

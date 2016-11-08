@@ -28,9 +28,10 @@ import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http
 import { Response, ResponseContentType }                     from '@angular/http';
 
 import { Observable }                                        from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import '../rxjs-operators';
 
-import * as models                                           from '../model/models';
+import { Order } from '../model/order';
+
 import { BASE_PATH }                                         from '../variables';
 import { Configuration }                                     from '../configuration';
 
@@ -38,7 +39,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class StoreApi {
+export class StoreService {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
@@ -103,7 +104,7 @@ export class StoreApi {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: string, extraHttpRequestParams?: any): Observable<models.Order> {
+    public getOrderById(orderId: string, extraHttpRequestParams?: any): Observable<Order> {
         return this.getOrderByIdWithHttpInfo(orderId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -119,7 +120,7 @@ export class StoreApi {
      * 
      * @param body order placed for purchasing the pet
      */
-    public placeOrder(body?: models.Order, extraHttpRequestParams?: any): Observable<models.Order> {
+    public placeOrder(body?: Order, extraHttpRequestParams?: any): Observable<Order> {
         return this.placeOrderWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -268,7 +269,7 @@ export class StoreApi {
      * 
      * @param body order placed for purchasing the pet
      */
-    public placeOrderWithHttpInfo(body?: models.Order, extraHttpRequestParams?: any): Observable<Response> {
+    public placeOrderWithHttpInfo(body?: Order, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/store/order`;
 
         let queryParameters = new URLSearchParams();

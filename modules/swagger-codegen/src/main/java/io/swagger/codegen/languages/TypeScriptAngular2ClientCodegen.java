@@ -2,10 +2,12 @@ package io.swagger.codegen.languages;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenModel;
@@ -224,18 +226,24 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
-            Map<String, String> tsImports = new HashMap<String, String>();
-            for(String im : cm.imports) {
-                tsImports.put("classname", im);
-                tsImports.put("filename", toModelFilename(im));
-                mo.put("tsImports", tsImports);
-            }
+			mo.put("tsImports", toTsImports(cm.imports));
         }
         
         return result;
     }
 
-    @Override
+	private List<Map<String, String>> toTsImports(Set<String> imports) {
+		List<Map<String, String>> tsImports = new ArrayList<>();
+		for(String im : imports) {
+			HashMap<String, String> tsImport = new HashMap<>();
+			tsImport.put("classname", im);
+			tsImport.put("filename", toModelFilename(im));
+			tsImports.add(tsImport);
+		}
+		return tsImports;
+	}
+
+	@Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultService";
