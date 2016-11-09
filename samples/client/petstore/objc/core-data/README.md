@@ -123,6 +123,12 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
+## api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
 ## petstore_auth
 
 - **Type**: OAuth
@@ -131,12 +137,6 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
-
-## api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
 
 
 ## Author

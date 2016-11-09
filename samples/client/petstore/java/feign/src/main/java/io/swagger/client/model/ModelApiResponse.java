@@ -119,6 +119,7 @@ public class ModelApiResponse {
     return Objects.hash(code, type, message);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

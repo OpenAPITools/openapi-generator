@@ -613,9 +613,9 @@ paths:
       descriptions: To test enum parameters
       operationId: testEnumParameters
       consumes:
-        - application/json
+        - "*/*"
       produces:
-        - application/json
+        - "*/*"
       parameters:
         - name: enum_form_string_array
           type: array

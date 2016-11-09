@@ -5,9 +5,7 @@ import java.util.Map;
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.*;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +14,7 @@ import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 
 import feign.Feign;
 import feign.RequestInterceptor;
+import feign.form.FormEncoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
@@ -35,7 +34,7 @@ public class ApiClient {
     objectMapper = createObjectMapper();
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
     feignBuilder = Feign.builder()
-                .encoder(new FormAwareEncoder(new JacksonEncoder(objectMapper)))
+                .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new JacksonDecoder(objectMapper))
                 .logger(new Slf4jLogger());
   }

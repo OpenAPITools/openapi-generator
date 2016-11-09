@@ -54,7 +54,49 @@ extern NSString *const SWGResponseObjectErrorKey;
 
 
 /**
- * Updates header parameters and query parameters for authentication
+ * Gets if the client is unreachable
+ *
+ * @return The client offline state
+ */
++(BOOL) getOfflineState;
+
+/**
+ * Sets the client reachability, this may be overridden by the reachability manager if reachability changes
+ *
+ * @param status The client reachability status.
+ */
++(void) setReachabilityStatus:(AFNetworkReachabilityStatus) status;
+
+/**
+ * Gets the client reachability
+ *
+ * @return The client reachability.
+ */
++(AFNetworkReachabilityStatus) getReachabilityStatus;
+
+/**
+ * Gets the next request id
+ *
+ * @return The next executed request id.
+ */
++(NSNumber*) nextRequestId;
+
+/**
+ * Generates request id and add it to the queue
+ *
+ * @return The next executed request id.
+ */
++(NSNumber*) queueRequest;
+
+/**
+ * Removes request id from the queue
+ *
+ * @param requestId The request which will be removed.
+ */
++(void) cancelRequest:(NSNumber*)requestId;
+
+/**
+ * Customizes the behavior when the reachability changed
  *
  * @param headers The header parameter will be udpated, passed by pointer to pointer.
  * @param querys The query parameters will be updated, passed by pointer to pointer.

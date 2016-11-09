@@ -3,8 +3,8 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 
 import io.swagger.client.model.Client;
-import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("PATCH /fake")
   @Headers({
-    "Content-type: application/json",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   Client testClientModel(Client body);
@@ -51,7 +51,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake")
   @Headers({
-    "Content-type: application/xml; charset&#x3D;utf-8",
+    "Content-Type: application/xml; charset&#x3D;utf-8",
     "Accept: application/xml; charset&#x3D;utf-8,application/json; charset&#x3D;utf-8",
   })
   void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") byte[] binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
@@ -71,8 +71,8 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}")
   @Headers({
-    "Content-type: application/json",
-    "Accept: application/json",
+    "Content-Type: */*",
+    "Accept: */*",
     "enum_header_string_array: {enumHeaderStringArray}",
     
     "enum_header_string: {enumHeaderString}"

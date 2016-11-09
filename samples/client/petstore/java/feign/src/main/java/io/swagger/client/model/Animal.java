@@ -97,6 +97,7 @@ public class Animal {
     return Objects.hash(className, color);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

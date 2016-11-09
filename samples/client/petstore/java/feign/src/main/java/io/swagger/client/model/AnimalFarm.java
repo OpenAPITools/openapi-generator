@@ -52,6 +52,7 @@ public class AnimalFarm extends ArrayList<Animal> {
     return Objects.hash(super.hashCode());
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

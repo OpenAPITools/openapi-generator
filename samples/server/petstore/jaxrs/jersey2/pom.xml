@@ -124,6 +124,14 @@
       <artifactId>jersey-media-multipart</artifactId>
       <version>${jersey2-version}</version>
     </dependency>
+      <!-- Base64 encoding that works in both JVM and Android -->
+    <dependency>
+      <groupId>com.brsanthu</groupId>
+      <artifactId>migbase64</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+
   </dependencies>
   <repositories>
     <repository>

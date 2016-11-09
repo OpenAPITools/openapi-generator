@@ -62,6 +62,15 @@
      */
     "(xyz)": "(xyz)"  };
 
+  /**
+   * Returns a <code>EnumClass</code> enum value from a Javascript object name.
+   * @param {Object} data The plain JavaScript object containing the name of the enum value.
+   * @return {module:model/EnumClass} The enum <code>EnumClass</code> value.
+   */
+  exports.constructFromObject = function(object) {
+    return exports[object];
+  }
+
   return exports;
 }));
 

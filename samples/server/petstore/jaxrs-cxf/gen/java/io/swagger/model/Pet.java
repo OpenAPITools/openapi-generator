@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
  @XmlType(name = "Pet", propOrder =
@@ -38,10 +39,10 @@ public class Pet  {
   private List<Tag> tags = new ArrayList<Tag>();
 
 @XmlType(name="StatusEnum")
-@XmlEnum
+@XmlEnum(String.class)
 public enum StatusEnum {
 
-    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
+    @XmlEnumValue("available") AVAILABLE(String.valueOf("available")), @XmlEnumValue("pending") PENDING(String.valueOf("pending")), @XmlEnumValue("sold") SOLD(String.valueOf("sold"));
 
 
     private String value;
@@ -54,8 +55,18 @@ public enum StatusEnum {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
     public static StatusEnum fromValue(String v) {
-        return valueOf(v);
+        for (StatusEnum b : StatusEnum.values()) {
+            if (String.valueOf(b.value).equals(v)) {
+                return b;
+            }
+        }
+        return null;
     }
 }
 

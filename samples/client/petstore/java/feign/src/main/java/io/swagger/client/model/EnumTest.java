@@ -209,6 +209,7 @@ public class EnumTest {
     return Objects.hash(enumString, enumInteger, enumNumber);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

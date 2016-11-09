@@ -464,6 +464,18 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-cxf-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-cxf</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-resteasy-server</id>
             <activation>
                 <property>
