@@ -83,6 +83,7 @@ public class ArrayOfArrayOfNumberOnly {
     return Objects.hash(arrayArrayNumber);
   }
 
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

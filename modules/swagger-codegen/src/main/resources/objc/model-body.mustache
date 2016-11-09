@@ -43,7 +43,7 @@
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ {{#vars}}@"{{baseName}}": @"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ {{#vars}}@"{{name}}": @"{{baseName}}"{{#hasMore}}, {{/hasMore}}{{/vars}} }];
 }
 
 /**

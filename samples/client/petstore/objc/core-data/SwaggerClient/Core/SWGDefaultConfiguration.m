@@ -32,7 +32,6 @@
         _username = @"";
         _password = @"";
         _accessToken= @"";
-        _verifySSL = YES;
         _mutableApiKey = [NSMutableDictionary dictionary];
         _mutableApiKeyPrefix = [NSMutableDictionary dictionary];
         _mutableDefaultHeaders = [NSMutableDictionary dictionary];
@@ -104,19 +103,19 @@
 
 - (NSDictionary *) authSettings {
     return @{
-               @"petstore_auth":
-                   @{
-                       @"type": @"oauth",
-                       @"in": @"header",
-                       @"key": @"Authorization",
-                       @"value": [self getAccessToken]
-                   },
                @"api_key":
                    @{
                        @"type": @"api_key",
                        @"in": @"header",
                        @"key": @"api_key",
                        @"value": [self getApiKeyWithPrefix:@"api_key"]
+                   },
+               @"petstore_auth":
+                   @{
+                       @"type": @"oauth",
+                       @"in": @"header",
+                       @"key": @"Authorization",
+                       @"value": [self getAccessToken]
                    },
                };
 }

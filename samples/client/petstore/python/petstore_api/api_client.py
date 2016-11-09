@@ -462,7 +462,7 @@ class ApiClient(object):
 
         content_types = list(map(lambda x: x.lower(), content_types))
 
-        if 'application/json' in content_types:
+        if 'application/json' in content_types or '*/*' in content_types:
             return 'application/json'
         else:
             return content_types[0]

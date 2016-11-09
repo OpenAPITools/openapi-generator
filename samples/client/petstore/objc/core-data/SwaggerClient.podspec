@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
     s.resources      = 'SwaggerClient/**/*.{xcdatamodeld,xcdatamodel}'
 
     s.dependency 'AFNetworking', '~> 3'
-    s.dependency 'JSONModel', '~> 1.2'
+    s.dependency 'JSONModel', '~> 1.4'
     s.dependency 'ISO8601', '~> 0.6'
 end
 

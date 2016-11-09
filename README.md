@@ -792,6 +792,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Plexxi](http://www.plexxi.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
+- [QAdept](http://qadept.com/)
 - [QuantiModo](https://quantimo.do/)
 - [Rapid7](https://rapid7.com/)
 - [Reload! A/S](https://reload.dk/) 
@@ -912,6 +913,15 @@ Here are the requirements to become a core team member:
  To join the core team, please reach out to wing328hk@gmail.com (@wing328) for more information.
  
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
+
+## License information on Generated Code
+
+The Swagger Codegen project is intended as a benefit for users of the Swagger / Open API Specification.  The project itself has the [License](#license) as specified.  In addition, please understand the following points:
+
+* The templates included with this project are subject to the [License](#license).
+* Generated code is intentionally _not_ subject to the parent project license
+
+When code is generated from this project, it shall be considered **AS IS** and owned by the user of the software.  There are no warranties--expressed or implied--for generated code.  You can do what you wish with it, and once generated, the code is your responsibility and subject to the licensing terms that you deem appropriate.
 
 License
 -------
