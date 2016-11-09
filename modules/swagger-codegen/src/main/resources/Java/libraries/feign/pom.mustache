@@ -103,95 +103,96 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 </plugins>
 </build>
 <dependencies>
-<dependency>
-  <groupId>io.swagger</groupId>
-  <artifactId>swagger-annotations</artifactId>
-  <version>${swagger-core-version}</version>
-</dependency>
-
-<!-- HTTP client: Netflix Feign -->
-<dependency>
-    <groupId>com.netflix.feign</groupId>
-    <artifactId>feign-core</artifactId>
-    <version>${feign-version}</version>
-</dependency>
-<dependency>
-    <groupId>com.netflix.feign</groupId>
-    <artifactId>feign-jackson</artifactId>
-    <version>${feign-version}</version>
-</dependency>
-<dependency>
-    <groupId>com.netflix.feign</groupId>
-    <artifactId>feign-slf4j</artifactId>
-    <version>${feign-version}</version>
-</dependency>
-<dependency>
-    <groupId>io.github.openfeign.form</groupId>
-    <artifactId>feign-form</artifactId>
-    <version>${feign-form-version}</version>
-</dependency>
-
-<!-- JSON processing: jackson -->
-<dependency>
-  <groupId>com.fasterxml.jackson.core</groupId>
-  <artifactId>jackson-core</artifactId>
-  <version>${jackson-version}</version>
-</dependency>
-<dependency>
-  <groupId>com.fasterxml.jackson.core</groupId>
-  <artifactId>jackson-annotations</artifactId>
-  <version>${jackson-version}</version>
-</dependency>
-<dependency>
-  <groupId>com.fasterxml.jackson.core</groupId>
-  <artifactId>jackson-databind</artifactId>
-  <version>${jackson-version}</version>
-</dependency>
-{{#joda}}
-<dependency>
-  <groupId>com.fasterxml.jackson.datatype</groupId>
-  <artifactId>jackson-datatype-joda</artifactId>
-  <version>${jackson-version}</version>
-</dependency>
-{{/joda}}
-{{#java8}}
-<dependency>
-  <groupId>com.fasterxml.jackson.datatype</groupId>
-  <artifactId>jackson-datatype-jsr310</artifactId>
-  <version>${jackson-version}</version>
-</dependency>
-{{/java8}}
-{{#threetenbp}}
-<dependency>
-  <groupId>com.github.joschi.jackson</groupId>
-  <artifactId>jackson-datatype-threetenbp</artifactId>
-  <version>${jackson-version}</version>
-</dependency>
-{{/threetenbp}}
-<dependency>
-  <groupId>org.apache.oltu.oauth2</groupId>
-  <artifactId>org.apache.oltu.oauth2.client</artifactId>
-  <version>${oltu-version}</version>
-</dependency>
-
-<!-- test dependencies -->
-<dependency>
-  <groupId>junit</groupId>
-  <artifactId>junit</artifactId>
-  <version>${junit-version}</version>
-  <scope>test</scope>
-</dependency>
+  <dependency>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-annotations</artifactId>
+    <version>${swagger-core-version}</version>
+  </dependency>
+  
+  <!-- HTTP client: Netflix Feign -->
+  <dependency>
+      <groupId>com.netflix.feign</groupId>
+      <artifactId>feign-core</artifactId>
+      <version>${feign-version}</version>
+  </dependency>
+  <dependency>
+      <groupId>com.netflix.feign</groupId>
+      <artifactId>feign-jackson</artifactId>
+      <version>${feign-version}</version>
+  </dependency>
+  <dependency>
+      <groupId>com.netflix.feign</groupId>
+      <artifactId>feign-slf4j</artifactId>
+      <version>${feign-version}</version>
+  </dependency>
+  <dependency>
+      <groupId>io.github.openfeign.form</groupId>
+      <artifactId>feign-form</artifactId>
+      <version>${feign-form-version}</version>
+  </dependency>
+  
+  <!-- JSON processing: jackson -->
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>${jackson-version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>${jackson-version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>${jackson-version}</version>
+  </dependency>
+  {{#joda}}
+  <dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-joda</artifactId>
+    <version>${jackson-version}</version>
+  </dependency>
+  {{/joda}}
+  {{#java8}}
+  <dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-jsr310</artifactId>
+    <version>${jackson-version}</version>
+  </dependency>
+  {{/java8}}
+  {{#threetenbp}}
+  <dependency>
+    <groupId>com.github.joschi.jackson</groupId>
+    <artifactId>jackson-datatype-threetenbp</artifactId>
+    <version>${threepane-version}</version>
+  </dependency>
+  {{/threetenbp}}
+  <dependency>
+    <groupId>org.apache.oltu.oauth2</groupId>
+    <artifactId>org.apache.oltu.oauth2.client</artifactId>
+    <version>${oltu-version}</version>
+  </dependency>
+  
+  <!-- test dependencies -->
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>${junit-version}</version>
+    <scope>test</scope>
+  </dependency>
 </dependencies>
 <properties>
-<java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
-<maven.compiler.source>${java.version}</maven.compiler.source>
-<maven.compiler.target>${java.version}</maven.compiler.target>
-<swagger-core-version>1.5.9</swagger-core-version>
-<feign-version>8.17.0</feign-version>
-    <feign-form-version>2.0.2</feign-form-version>
-    <jackson-version>2.7.5</jackson-version>
-    <junit-version>4.12</junit-version>
-    <maven-plugin-version>1.0.0</maven-plugin-version>
-    <oltu-version>1.0.1</oltu-version>
-  </properties>
+  <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+  <maven.compiler.source>${java.version}</maven.compiler.source>
+  <maven.compiler.target>${java.version}</maven.compiler.target>
+  <swagger-core-version>1.5.9</swagger-core-version>
+  <feign-version>8.17.0</feign-version>
+  <feign-form-version>2.0.2</feign-form-version>
+  <jackson-version>2.7.5</jackson-version>
+  <threepane-version>2.6.4</threepane-version>
+  <junit-version>4.12</junit-version>
+  <maven-plugin-version>1.0.0</maven-plugin-version>
+  <oltu-version>1.0.1</oltu-version>
+</properties>
 </project>
