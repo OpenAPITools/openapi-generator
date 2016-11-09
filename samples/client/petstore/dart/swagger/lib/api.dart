@@ -6,7 +6,6 @@ import 'package:http/browser_client.dart';
 import 'package:http/http.dart';
 import 'package:dartson/dartson.dart';
 import 'package:dartson/transformers/date_time.dart';
-import 'package:intl/intl.dart';
 
 part 'api_client.dart';
 part 'api_helper.dart';
