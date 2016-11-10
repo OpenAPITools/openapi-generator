@@ -96,7 +96,7 @@ class ApiClient(object):
                    path_params=None, query_params=None, header_params=None,
                    body=None, post_params=None, files=None,
                    response_type=None, auth_settings=None, callback=None,
-                   _return_http_data_only=None, collection_formats=None):
+                   _return_http_data_only=None, collection_formats=None, _preload_content=True):
 
         # header parameters
         header_params = header_params or {}
@@ -144,22 +144,24 @@ class ApiClient(object):
         response_data = self.request(method, url,
                                      query_params=query_params,
                                      headers=header_params,
-                                     post_params=post_params, body=body)
+                                     post_params=post_params, body=body, _preload_content=_preload_content)
 
         self.last_response = response_data
 
-        # deserialize response data
-        if response_type:
-            deserialized_data = self.deserialize(response_data, response_type)
-        else:
-            deserialized_data = None
+        return_data = response_data
+        if _preload_content:
+            # deserialize response data
+            if response_type:
+                return_data = self.deserialize(response_data, response_type)
+            else:
+                return_data = None
 
         if callback:
-            callback(deserialized_data) if _return_http_data_only else callback((deserialized_data, response_data.status, response_data.getheaders()))
+            callback(return_data) if _return_http_data_only else callback((return_data, response_data.status, response_data.getheaders()))
         elif _return_http_data_only:
-            return (deserialized_data)
+            return (return_data)
         else:
-            return (deserialized_data, response_data.status, response_data.getheaders())
+            return (return_data, response_data.status, response_data.getheaders())
 
     def sanitize_for_serialization(self, obj):
         """
@@ -277,7 +279,7 @@ class ApiClient(object):
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
                  response_type=None, auth_settings=None, callback=None,
-                 _return_http_data_only=None, collection_formats=None):
+                 _return_http_data_only=None, collection_formats=None, _preload_content=True):
         """
         Makes the HTTP request (synchronous) and return the deserialized data.
         To make an async request, define a function for callback.
@@ -307,13 +309,15 @@ class ApiClient(object):
             The method will return the request thread.
             If parameter callback is None,
             then the method will return the response directly.
+        :param _preload_content: if False, the urllib3.HTTPResponse object will be returned without
+                                 reading/decoding response data. Default is True.
         """
         if callback is None:
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
                                    response_type, auth_settings, callback,
-                                   _return_http_data_only, collection_formats)
+                                   _return_http_data_only, collection_formats, _preload_content)
         else:
             thread = threading.Thread(target=self.__call_api,
                                       args=(resource_path, method,
@@ -322,51 +326,58 @@ class ApiClient(object):
                                             post_params, files,
                                             response_type, auth_settings,
                                             callback, _return_http_data_only,
-                                            collection_formats))
+                                            collection_formats, _preload_content))
         thread.start()
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
-                post_params=None, body=None):
+                post_params=None, body=None, _preload_content=True):
         """
         Makes the HTTP request using RESTClient.
         """
         if method == "GET":
             return self.rest_client.GET(url,
                                         query_params=query_params,
+                                        _preload_content=_preload_content,
                                         headers=headers)
         elif method == "HEAD":
             return self.rest_client.HEAD(url,
                                          query_params=query_params,
+                                         _preload_content=_preload_content,
                                          headers=headers)
         elif method == "OPTIONS":
             return self.rest_client.OPTIONS(url,
                                             query_params=query_params,
                                             headers=headers,
                                             post_params=post_params,
+                                            _preload_content=_preload_content,
                                             body=body)
         elif method == "POST":
             return self.rest_client.POST(url,
                                          query_params=query_params,
                                          headers=headers,
                                          post_params=post_params,
+                                         _preload_content=_preload_content,
                                          body=body)
         elif method == "PUT":
             return self.rest_client.PUT(url,
                                         query_params=query_params,
                                         headers=headers,
                                         post_params=post_params,
+                                        _preload_content=_preload_content,
                                         body=body)
         elif method == "PATCH":
             return self.rest_client.PATCH(url,
                                           query_params=query_params,
                                           headers=headers,
                                           post_params=post_params,
+                                          _preload_content=_preload_content,
                                           body=body)
         elif method == "DELETE":
             return self.rest_client.DELETE(url,
                                            query_params=query_params,
                                            headers=headers,
+                                           _preload_content=_preload_content,
                                            body=body)
         else:
             raise ValueError(
