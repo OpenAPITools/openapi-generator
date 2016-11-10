@@ -102,6 +102,7 @@ class FakeApi(object):
         all_params = ['body']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -157,6 +158,7 @@ class FakeApi(object):
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
+                                            _preload_content=params.get('_preload_content', True),
                                             collection_formats=collection_formats)
 
     def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):
@@ -236,6 +238,7 @@ class FakeApi(object):
         all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -352,6 +355,7 @@ class FakeApi(object):
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
+                                            _preload_content=params.get('_preload_content', True),
                                             collection_formats=collection_formats)
 
     def test_enum_parameters(self, **kwargs):
@@ -419,6 +423,7 @@ class FakeApi(object):
         all_params = ['enum_form_string_array', 'enum_form_string', 'enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -466,13 +471,13 @@ class FakeApi(object):
 
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json'])
+            select_header_accept(['*/*'])
         if not header_params['Accept']:
             del header_params['Accept']
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['application/json'])
+            select_header_content_type(['*/*'])
 
         # Authentication setting
         auth_settings = []
@@ -488,4 +493,5 @@ class FakeApi(object):
                                             auth_settings=auth_settings,
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
+                                            _preload_content=params.get('_preload_content', True),
                                             collection_formats=collection_formats)
