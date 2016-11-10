@@ -45,6 +45,26 @@ class PetApiTests(unittest.TestCase):
         self.test_file_dir = os.path.realpath(self.test_file_dir)
         self.foo = os.path.join(self.test_file_dir, "foo.png")
 
+    def test_preload_content_flag(self):
+        self.pet_api.add_pet(body=self.pet)
+
+        resp = self.pet_api.find_pets_by_status(status=[self.pet.status], _preload_content=False)
+
+        # return response should at least have read and close methods.
+        self.assertTrue(hasattr(resp, 'read'))
+        self.assertTrue(hasattr(resp, 'close'))
+
+        # Also we need to make sure we can release the connection to a pool (if exists) when we are done with it.
+        self.assertTrue(hasattr(resp, 'release_conn'))
+
+        # Right now, the client returns urllib3.HTTPResponse. If that changed in future, it is probably a breaking
+        # change, however supporting above methods should be enough for most usecases. Remove this test case if
+        # we followed the breaking change procedure for python client (e.g. increasing major version).
+        self.assertTrue(resp.__class__, 'urllib3.response.HTTPResponse')
+
+        resp.close()
+        resp.release_conn()
+
     def test_create_api_instance(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
