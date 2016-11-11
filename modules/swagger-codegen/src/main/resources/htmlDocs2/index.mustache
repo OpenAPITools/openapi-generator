@@ -389,6 +389,21 @@ curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#authMet
                                                 </table>
                                             {{/hasBodyParam}}
 
+                                            {{#hasFormParams}}
+                                                <div class="methodsubtabletitle">Form parameters</div>
+                                                <table id="methodsubtable">
+                                                    <tr>
+                                                        <th width="150px">Name</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    <!---->
+                                                    {{#formParams}}
+                                                        {{>param}}
+                                                    {{/formParams}}
+
+                                                </table>
+                                            {{/hasFormParams}}
+
                                             {{#hasQueryParams}}
                                                 <div class="methodsubtabletitle">Query parameters</div>
                                                 <table id="methodsubtable">
