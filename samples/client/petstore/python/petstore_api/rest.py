@@ -105,7 +105,7 @@ class RESTClientObject(object):
         )
 
     def request(self, method, url, query_params=None, headers=None,
-                body=None, post_params=None, _preload_content=True):
+                body=None, post_params=None, _preload_content=True, _request_timeout=None):
         """
         :param method: http request method
         :param url: http request url
@@ -117,6 +117,8 @@ class RESTClientObject(object):
                             and `multipart/form-data`
         :param _preload_content: if False, the urllib3.HTTPResponse object will be returned without
                                  reading/decoding response data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of (connection, read) timeouts.
         """
         method = method.upper()
         assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH', 'OPTIONS']
@@ -128,6 +130,13 @@ class RESTClientObject(object):
 
         post_params = post_params or {}
         headers = headers or {}
+
+        timeout = None
+        if _request_timeout:
+            if isinstance(_request_timeout, (int, ) if PY3 else (int, long)):
+                timeout = urllib3.Timeout(total=_request_timeout)
+            elif isinstance(_request_timeout, tuple) and len(_request_timeout) == 2:
+                timeout = urllib3.Timeout(connect=_request_timeout[0], read=_request_timeout[1])
 
         if 'Content-Type' not in headers:
             headers['Content-Type'] = 'application/json'
@@ -144,12 +153,14 @@ class RESTClientObject(object):
                     r = self.pool_manager.request(method, url,
                                                   body=request_body,
                                                   preload_content=_preload_content,
+                                                  timeout=timeout,
                                                   headers=headers)
                 elif headers['Content-Type'] == 'application/x-www-form-urlencoded':
                     r = self.pool_manager.request(method, url,
                                                   fields=post_params,
                                                   encode_multipart=False,
                                                   preload_content=_preload_content,
+                                                  timeout=timeout,
                                                   headers=headers)
                 elif headers['Content-Type'] == 'multipart/form-data':
                     # must del headers['Content-Type'], or the correct Content-Type
@@ -159,6 +170,7 @@ class RESTClientObject(object):
                                                   fields=post_params,
                                                   encode_multipart=True,
                                                   preload_content=_preload_content,
+                                                  timeout=timeout,
                                                   headers=headers)
                 # Pass a `string` parameter directly in the body to support
                 # other content types than Json when `body` argument is provided
@@ -168,6 +180,7 @@ class RESTClientObject(object):
                     r = self.pool_manager.request(method, url,
                                                   body=request_body,
                                                   preload_content=_preload_content,
+                                                  timeout=timeout,
                                                   headers=headers)
                 else:
                     # Cannot generate the request from given parameters
@@ -179,6 +192,7 @@ class RESTClientObject(object):
                 r = self.pool_manager.request(method, url,
                                               fields=query_params,
                                               preload_content=_preload_content,
+                                              timeout=timeout,
                                               headers=headers)
         except urllib3.exceptions.SSLError as e:
             msg = "{0}\n{1}".format(type(e).__name__, str(e))
@@ -200,55 +214,66 @@ class RESTClientObject(object):
 
         return r
 
-    def GET(self, url, headers=None, query_params=None, _preload_content=True):
+    def GET(self, url, headers=None, query_params=None, _preload_content=True, _request_timeout=None):
         return self.request("GET", url,
                             headers=headers,
                             _preload_content=_preload_content,
+                            _request_timeout=_request_timeout,
                             query_params=query_params)
 
-    def HEAD(self, url, headers=None, query_params=None, _preload_content=True):
+    def HEAD(self, url, headers=None, query_params=None, _preload_content=True, _request_timeout=None):
         return self.request("HEAD", url,
                             headers=headers,
                             _preload_content=_preload_content,
+                            _request_timeout=_request_timeout,
                             query_params=query_params)
 
-    def OPTIONS(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True):
+    def OPTIONS(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
+                _request_timeout=None):
         return self.request("OPTIONS", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
+                            _request_timeout=_request_timeout,
                             body=body)
 
-    def DELETE(self, url, headers=None, query_params=None, body=None, _preload_content=True):
+    def DELETE(self, url, headers=None, query_params=None, body=None, _preload_content=True, _request_timeout=None):
         return self.request("DELETE", url,
                             headers=headers,
                             query_params=query_params,
                             _preload_content=_preload_content,
+                            _request_timeout=_request_timeout,
                             body=body)
 
-    def POST(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True):
+    def POST(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
+             _request_timeout=None):
         return self.request("POST", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
+                            _request_timeout=_request_timeout,
                             body=body)
 
-    def PUT(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True):
+    def PUT(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
+            _request_timeout=None):
         return self.request("PUT", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
+                            _request_timeout=_request_timeout,
                             body=body)
 
-    def PATCH(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True):
+    def PATCH(self, url, headers=None, query_params=None, post_params=None, body=None, _preload_content=True,
+              _request_timeout=None):
         return self.request("PATCH", url,
                             headers=headers,
                             query_params=query_params,
                             post_params=post_params,
                             _preload_content=_preload_content,
+                            _request_timeout=_request_timeout,
                             body=body)
 
 

@@ -96,7 +96,8 @@ class ApiClient(object):
                    path_params=None, query_params=None, header_params=None,
                    body=None, post_params=None, files=None,
                    response_type=None, auth_settings=None, callback=None,
-                   _return_http_data_only=None, collection_formats=None, _preload_content=True):
+                   _return_http_data_only=None, collection_formats=None, _preload_content=True,
+                   _request_timeout=None):
 
         # header parameters
         header_params = header_params or {}
@@ -144,7 +145,9 @@ class ApiClient(object):
         response_data = self.request(method, url,
                                      query_params=query_params,
                                      headers=header_params,
-                                     post_params=post_params, body=body, _preload_content=_preload_content)
+                                     post_params=post_params, body=body,
+                                     _preload_content=_preload_content,
+                                     _request_timeout=_request_timeout)
 
         self.last_response = response_data
 
@@ -279,7 +282,8 @@ class ApiClient(object):
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
                  response_type=None, auth_settings=None, callback=None,
-                 _return_http_data_only=None, collection_formats=None, _preload_content=True):
+                 _return_http_data_only=None, collection_formats=None, _preload_content=True,
+                 _request_timeout=None):
         """
         Makes the HTTP request (synchronous) and return the deserialized data.
         To make an async request, define a function for callback.
@@ -303,21 +307,23 @@ class ApiClient(object):
         :param _return_http_data_only: response data without head status code and headers
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
+        :param _preload_content: if False, the urllib3.HTTPResponse object will be returned without
+                                 reading/decoding response data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of (connection, read) timeouts.
         :return:
             If provide parameter callback,
             the request will be called asynchronously.
             The method will return the request thread.
             If parameter callback is None,
             then the method will return the response directly.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will be returned without
-                                 reading/decoding response data. Default is True.
         """
         if callback is None:
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
                                    response_type, auth_settings, callback,
-                                   _return_http_data_only, collection_formats, _preload_content)
+                                   _return_http_data_only, collection_formats, _preload_content, _request_timeout)
         else:
             thread = threading.Thread(target=self.__call_api,
                                       args=(resource_path, method,
@@ -326,12 +332,12 @@ class ApiClient(object):
                                             post_params, files,
                                             response_type, auth_settings,
                                             callback, _return_http_data_only,
-                                            collection_formats, _preload_content))
+                                            collection_formats, _preload_content, _request_timeout))
         thread.start()
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
-                post_params=None, body=None, _preload_content=True):
+                post_params=None, body=None, _preload_content=True, _request_timeout=None):
         """
         Makes the HTTP request using RESTClient.
         """
@@ -339,11 +345,13 @@ class ApiClient(object):
             return self.rest_client.GET(url,
                                         query_params=query_params,
                                         _preload_content=_preload_content,
+                                        _request_timeout=_request_timeout,
                                         headers=headers)
         elif method == "HEAD":
             return self.rest_client.HEAD(url,
                                          query_params=query_params,
                                          _preload_content=_preload_content,
+                                         _request_timeout=_request_timeout,
                                          headers=headers)
         elif method == "OPTIONS":
             return self.rest_client.OPTIONS(url,
@@ -351,6 +359,7 @@ class ApiClient(object):
                                             headers=headers,
                                             post_params=post_params,
                                             _preload_content=_preload_content,
+                                            _request_timeout=_request_timeout,
                                             body=body)
         elif method == "POST":
             return self.rest_client.POST(url,
@@ -358,6 +367,7 @@ class ApiClient(object):
                                          headers=headers,
                                          post_params=post_params,
                                          _preload_content=_preload_content,
+                                         _request_timeout=_request_timeout,
                                          body=body)
         elif method == "PUT":
             return self.rest_client.PUT(url,
@@ -365,6 +375,7 @@ class ApiClient(object):
                                         headers=headers,
                                         post_params=post_params,
                                         _preload_content=_preload_content,
+                                        _request_timeout=_request_timeout,
                                         body=body)
         elif method == "PATCH":
             return self.rest_client.PATCH(url,
@@ -372,12 +383,14 @@ class ApiClient(object):
                                           headers=headers,
                                           post_params=post_params,
                                           _preload_content=_preload_content,
+                                          _request_timeout=_request_timeout,
                                           body=body)
         elif method == "DELETE":
             return self.rest_client.DELETE(url,
                                            query_params=query_params,
                                            headers=headers,
                                            _preload_content=_preload_content,
+                                           _request_timeout=_request_timeout,
                                            body=body)
         else:
             raise ValueError(
