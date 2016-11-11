@@ -15,7 +15,37 @@ from petstore_api.rest import ApiException
 
 from .util import id_gen
 
+import json
+
+import urllib3
+
 HOST = 'http://petstore.swagger.io/v2'
+
+
+class TimeoutWithEqual(urllib3.Timeout):
+    def __init__(self, *arg, **kwargs):
+        super(TimeoutWithEqual, self).__init__(*arg, **kwargs)
+
+    def __eq__(self, other):
+        return self._read == other._read and self._connect == other._connect and self.total == other.total
+
+
+class MockPoolManager(object):
+    def __init__(self, tc):
+        self._tc = tc
+        self._reqs = []
+
+    def expect_request(self, *args, **kwargs):
+        self._reqs.append((args, kwargs))
+
+    def request(self, *args, **kwargs):
+        self._tc.assertTrue(len(self._reqs)>0)
+        r = self._reqs.pop(0)
+        self._tc.maxDiff = None
+        self._tc.assertEqual(r[0], args)
+        self._tc.assertEqual(r[1], kwargs)
+        return urllib3.HTTPResponse(status=200, body=b'test')
+
 
 class PetApiTests(unittest.TestCase):
 
@@ -64,6 +94,28 @@ class PetApiTests(unittest.TestCase):
 
         resp.close()
         resp.release_conn()
+
+    def test_timeout(self):
+        mock_pool = MockPoolManager(self)
+        self.api_client.rest_client.pool_manager = mock_pool
+
+        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ',
+                                          'Accept': 'application/json',
+                                          'User-Agent': 'Swagger-Codegen/1.0.0/python'},
+                                 preload_content=True, timeout=TimeoutWithEqual(total=5))
+        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ',
+                                          'Accept': 'application/json',
+                                          'User-Agent': 'Swagger-Codegen/1.0.0/python'},
+                                 preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
+
+        self.pet_api.add_pet(body=self.pet, _request_timeout=5)
+        self.pet_api.add_pet(body=self.pet, _request_timeout=(1, 2))
 
     def test_create_api_instance(self):
         pet_api = petstore_api.PetApi()

@@ -103,6 +103,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -159,6 +160,7 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
 
     def delete_pet(self, pet_id, **kwargs):
@@ -215,6 +217,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -273,6 +276,7 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
 
     def find_pets_by_status(self, status, **kwargs):
@@ -327,6 +331,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -384,6 +389,7 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
 
     def find_pets_by_tags(self, tags, **kwargs):
@@ -438,6 +444,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -495,6 +502,7 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
 
     def get_pet_by_id(self, pet_id, **kwargs):
@@ -549,6 +557,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -605,6 +614,7 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
 
     def update_pet(self, body, **kwargs):
@@ -659,6 +669,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -715,6 +726,7 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
 
     def update_pet_with_form(self, pet_id, **kwargs):
@@ -773,6 +785,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -833,6 +846,7 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
 
     def upload_file(self, pet_id, **kwargs):
@@ -891,6 +905,7 @@ class PetApi(object):
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
+        all_params.append('_request_timeout')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -951,4 +966,5 @@ class PetApi(object):
                                             callback=params.get('callback'),
                                             _return_http_data_only=params.get('_return_http_data_only'),
                                             _preload_content=params.get('_preload_content', True),
+                                            _request_timeout=params.get('_request_timeout'),
                                             collection_formats=collection_formats)
