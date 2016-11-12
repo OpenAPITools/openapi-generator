@@ -1,18 +1,29 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.codegen.languages.features.BeanValidationFeatures;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-import java.util.regex.Pattern;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
+import io.swagger.codegen.languages.features.PerformBeanValidationFeatures;
 
-public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
+public class JavaClientCodegen extends AbstractJavaCodegen
+        implements BeanValidationFeatures, PerformBeanValidationFeatures {
     static final String MEDIA_TYPE = "mediaType";
 
 	@SuppressWarnings("hiding")
@@ -28,6 +39,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
     protected boolean useRxJava = false;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
+    protected boolean performBeanValidation = false;
 
     public JavaClientCodegen() {
         super();
@@ -42,6 +54,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library."));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+        cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
 
         supportedLibraries.put("jersey1", "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0. Enable Java6 support using '-DsupportJava6=true'.");
         supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.16.0. JSON processing: Jackson 2.7.0");
@@ -88,11 +101,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
         additionalProperties.put(PARCELABLE_MODEL, parcelableModel);
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            boolean useBeanValidationProp = Boolean.valueOf(additionalProperties.get(USE_BEANVALIDATION).toString());
-            this.setUseBeanValidation(useBeanValidationProp);
+            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
+        }
 
-            // write back as boolean
-            additionalProperties.put(USE_BEANVALIDATION, useBeanValidationProp);
+        if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
+            this.setPerformBeanValidation(convertPropertyToBooleanAndWriteBack(PERFORM_BEANVALIDATION));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -121,6 +134,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
                 gradleWrapperPackage.replace( ".", File.separator ), "gradle-wrapper.jar") );
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
+        if (performBeanValidation) {
+            supportingFiles.add(new SupportingFile("BeanValidationException.mustache", invokerFolder,
+                    "BeanValidationException.java"));
+        }
 
         //TODO: add doc to retrofit1 and feign
         if ( "feign".equals(getLibrary()) || "retrofit".equals(getLibrary()) ){
@@ -300,6 +318,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen implements BeanValida
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setPerformBeanValidation(boolean performBeanValidation) {
+        this.performBeanValidation = performBeanValidation;
     }
 
     final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
