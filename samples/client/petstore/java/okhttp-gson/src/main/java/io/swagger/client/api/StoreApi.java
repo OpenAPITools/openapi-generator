@@ -33,7 +33,6 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody;
 import io.swagger.client.ProgressResponseBody;
-import io.swagger.client.BeanValidationException;
 
 import com.google.gson.reflect.TypeToken;
 

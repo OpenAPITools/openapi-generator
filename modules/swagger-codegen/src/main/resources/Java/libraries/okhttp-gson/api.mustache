@@ -10,7 +10,9 @@ import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 import {{invokerPackage}}.ProgressRequestBody;
 import {{invokerPackage}}.ProgressResponseBody;
+{{#performBeanValidation}}
 import {{invokerPackage}}.BeanValidationException;
+{{/performBeanValidation}}
 
 import com.google.gson.reflect.TypeToken;
 

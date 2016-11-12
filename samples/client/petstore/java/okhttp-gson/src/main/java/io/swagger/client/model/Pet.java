@@ -38,7 +38,7 @@ import java.util.List;
  * A pet for sale in the pet store
  */
 @ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:18:03.999+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:31:10.007+01:00")
 public class Pet {
   @SerializedName("id")
   private Long id = null;

@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
  * A tag for a pet
  */
 @ApiModel(description = "A tag for a pet")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:18:03.999+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:31:10.007+01:00")
 public class Tag {
   @SerializedName("id")
   private Long id = null;
