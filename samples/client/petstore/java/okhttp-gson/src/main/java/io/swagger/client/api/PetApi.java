@@ -1,6 +1,6 @@
-/**
+/*
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -33,14 +33,16 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody;
 import io.swagger.client.ProgressResponseBody;
+import io.swagger.client.BeanValidationException;
 
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+
 import io.swagger.client.model.Pet;
-import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
+import java.io.File;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -71,12 +73,6 @@ public class PetApi {
     private com.squareup.okhttp.Call addPetCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling addPet(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet".replaceAll("\\{format\\}","json");
 
@@ -113,6 +109,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call addPetValidateBeforeCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling addPet(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = addPetCall(body, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * Add a new pet to the store
@@ -132,7 +145,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-        com.squareup.okhttp.Call call = addPetCall(body, null, null);
+        com.squareup.okhttp.Call call = addPetValidateBeforeCall(body, null, null);
         return apiClient.execute(call);
     }
 
@@ -165,7 +178,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = addPetCall(body, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = addPetValidateBeforeCall(body, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
@@ -173,12 +186,6 @@ public class PetApi {
     private com.squareup.okhttp.Call deletePetCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
-        // verify the required parameter 'petId' is set
-        if (petId == null) {
-            throw new ApiException("Missing the required parameter 'petId' when calling deletePet(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -218,6 +225,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call deletePetValidateBeforeCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new ApiException("Missing the required parameter 'petId' when calling deletePet(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = deletePetCall(petId, apiKey, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * Deletes a pet
@@ -239,7 +263,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
-        com.squareup.okhttp.Call call = deletePetCall(petId, apiKey, null, null);
+        com.squareup.okhttp.Call call = deletePetValidateBeforeCall(petId, apiKey, null, null);
         return apiClient.execute(call);
     }
 
@@ -273,7 +297,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = deletePetCall(petId, apiKey, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = deletePetValidateBeforeCall(petId, apiKey, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
@@ -281,12 +305,6 @@ public class PetApi {
     private com.squareup.okhttp.Call findPetsByStatusCall(List<String> status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
-        // verify the required parameter 'status' is set
-        if (status == null) {
-            throw new ApiException("Missing the required parameter 'status' when calling findPetsByStatus(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
@@ -325,6 +343,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call findPetsByStatusValidateBeforeCall(List<String> status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'status' is set
+        if (status == null) {
+            throw new ApiException("Missing the required parameter 'status' when calling findPetsByStatus(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = findPetsByStatusCall(status, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * Finds Pets by status
@@ -346,7 +381,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
-        com.squareup.okhttp.Call call = findPetsByStatusCall(status, null, null);
+        com.squareup.okhttp.Call call = findPetsByStatusValidateBeforeCall(status, null, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -380,7 +415,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = findPetsByStatusCall(status, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = findPetsByStatusValidateBeforeCall(status, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -389,12 +424,6 @@ public class PetApi {
     private com.squareup.okhttp.Call findPetsByTagsCall(List<String> tags, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
-        // verify the required parameter 'tags' is set
-        if (tags == null) {
-            throw new ApiException("Missing the required parameter 'tags' when calling findPetsByTags(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
@@ -433,6 +462,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call findPetsByTagsValidateBeforeCall(List<String> tags, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'tags' is set
+        if (tags == null) {
+            throw new ApiException("Missing the required parameter 'tags' when calling findPetsByTags(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = findPetsByTagsCall(tags, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * Finds Pets by tags
@@ -454,7 +500,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
-        com.squareup.okhttp.Call call = findPetsByTagsCall(tags, null, null);
+        com.squareup.okhttp.Call call = findPetsByTagsValidateBeforeCall(tags, null, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -488,7 +534,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = findPetsByTagsCall(tags, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = findPetsByTagsValidateBeforeCall(tags, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -497,12 +543,6 @@ public class PetApi {
     private com.squareup.okhttp.Call getPetByIdCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
-        // verify the required parameter 'petId' is set
-        if (petId == null) {
-            throw new ApiException("Missing the required parameter 'petId' when calling getPetById(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -540,6 +580,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "api_key" };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call getPetByIdValidateBeforeCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new ApiException("Missing the required parameter 'petId' when calling getPetById(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = getPetByIdCall(petId, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * Find pet by ID
@@ -561,7 +618,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
-        com.squareup.okhttp.Call call = getPetByIdCall(petId, null, null);
+        com.squareup.okhttp.Call call = getPetByIdValidateBeforeCall(petId, null, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -595,7 +652,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPetByIdCall(petId, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPetByIdValidateBeforeCall(petId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -604,12 +661,6 @@ public class PetApi {
     private com.squareup.okhttp.Call updatePetCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling updatePet(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet".replaceAll("\\{format\\}","json");
 
@@ -646,6 +697,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call updatePetValidateBeforeCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling updatePet(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = updatePetCall(body, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * Update an existing pet
@@ -665,7 +733,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-        com.squareup.okhttp.Call call = updatePetCall(body, null, null);
+        com.squareup.okhttp.Call call = updatePetValidateBeforeCall(body, null, null);
         return apiClient.execute(call);
     }
 
@@ -698,7 +766,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = updatePetCall(body, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updatePetValidateBeforeCall(body, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
@@ -706,12 +774,6 @@ public class PetApi {
     private com.squareup.okhttp.Call updatePetWithFormCall(Long petId, String name, String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
-        // verify the required parameter 'petId' is set
-        if (petId == null) {
-            throw new ApiException("Missing the required parameter 'petId' when calling updatePetWithForm(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -753,6 +815,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new ApiException("Missing the required parameter 'petId' when calling updatePetWithForm(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = updatePetWithFormCall(petId, name, status, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * Updates a pet in the store with form data
@@ -776,7 +855,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
-        com.squareup.okhttp.Call call = updatePetWithFormCall(petId, name, status, null, null);
+        com.squareup.okhttp.Call call = updatePetWithFormValidateBeforeCall(petId, name, status, null, null);
         return apiClient.execute(call);
     }
 
@@ -811,7 +890,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = updatePetWithFormCall(petId, name, status, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updatePetWithFormValidateBeforeCall(petId, name, status, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
@@ -819,12 +898,6 @@ public class PetApi {
     private com.squareup.okhttp.Call uploadFileCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
-        // verify the required parameter 'petId' is set
-        if (petId == null) {
-            throw new ApiException("Missing the required parameter 'petId' when calling uploadFile(Async)");
-        }
-        
-
         // create path and map variables
         String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -866,6 +939,23 @@ public class PetApi {
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    private com.squareup.okhttp.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new ApiException("Missing the required parameter 'petId' when calling uploadFile(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = uploadFileCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * uploads an image
@@ -891,7 +981,7 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
-        com.squareup.okhttp.Call call = uploadFileCall(petId, additionalMetadata, file, null, null);
+        com.squareup.okhttp.Call call = uploadFileValidateBeforeCall(petId, additionalMetadata, file, null, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -927,7 +1017,7 @@ public class PetApi {
             };
         }
 
-        com.squareup.okhttp.Call call = uploadFileCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = uploadFileValidateBeforeCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

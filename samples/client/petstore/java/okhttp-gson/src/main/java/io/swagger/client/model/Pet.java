@@ -1,6 +1,6 @@
-/**
+/*
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -35,9 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Pet
+ * A pet for sale in the pet store
  */
-
+@ApiModel(description = "A pet for sale in the pet store")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:18:03.999+01:00")
 public class Pet {
   @SerializedName("id")
   private Long id = null;
@@ -141,6 +142,11 @@ public class Pet {
     return this;
   }
 
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
    /**
    * Get photoUrls
    * @return photoUrls
@@ -156,6 +162,11 @@ public class Pet {
 
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
+    return this;
+  }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    this.tags.add(tagsItem);
     return this;
   }
 
@@ -212,6 +223,7 @@ public class Pet {
   public int hashCode() {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
+
 
   @Override
   public String toString() {
