@@ -1,6 +1,6 @@
-/**
+/*
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -31,9 +31,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * ModelApiResponse
+ * Describes the result of uploading an image resource
  */
-
+@ApiModel(description = "Describes the result of uploading an image resource")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:18:03.999+01:00")
 public class ModelApiResponse {
   @SerializedName("code")
   private Integer code = null;
@@ -117,6 +118,7 @@ public class ModelApiResponse {
   public int hashCode() {
     return Objects.hash(code, type, message);
   }
+
 
   @Override
   public String toString() {

@@ -1,6 +1,6 @@
-/**
+/*
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -100,7 +100,7 @@ public class JSON {
      *
      * @param <T> Type
      * @param body The JSON string
-     * @param returnType The type to deserialize inot
+     * @param returnType The type to deserialize into
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
@@ -162,10 +162,9 @@ class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
      *
      * @param json Json element
      * @param date Type
-     * @param typeOfSrc Type
      * @param context Json Serialization Context
      * @return Date
-     * @throw JsonParseException if fail to parse
+     * @throws JsonParseException if fail to parse
      */
     @Override
     public Date deserialize(JsonElement json, Type date, JsonDeserializationContext context) throws JsonParseException {

@@ -1,6 +1,6 @@
-/**
+/*
  * Swagger Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -30,7 +30,7 @@ import io.swagger.client.Pair;
 import java.util.Map;
 import java.util.List;
 
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:18:03.999+01:00")
 public class ApiKeyAuth implements Authentication {
   private final String location;
   private final String paramName;
@@ -78,9 +78,9 @@ public class ApiKeyAuth implements Authentication {
     } else {
       value = apiKey;
     }
-    if (location == "query") {
+    if ("query".equals(location)) {
       queryParams.add(new Pair(paramName, value));
-    } else if (location == "header") {
+    } else if ("header".equals(location)) {
       headerParams.put(paramName, value);
     }
   }
