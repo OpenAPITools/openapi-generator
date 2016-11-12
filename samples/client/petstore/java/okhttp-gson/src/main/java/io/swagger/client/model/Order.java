@@ -35,7 +35,7 @@ import org.joda.time.DateTime;
  * An order for a pets from the pet store
  */
 @ApiModel(description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:18:03.999+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-12T23:31:10.007+01:00")
 public class Order {
   @SerializedName("id")
   private Long id = null;
