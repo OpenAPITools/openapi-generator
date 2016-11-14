@@ -10,8 +10,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "typings install && tsc --outDir dist/",
-    "postinstall": "npm run build"
+    "build": "typings install && tsc --outDir dist/"
   },
   "peerDependencies": {
     "@angular/core": "^2.0.0",
