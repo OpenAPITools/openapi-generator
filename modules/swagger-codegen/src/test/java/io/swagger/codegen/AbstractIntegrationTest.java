@@ -1,16 +1,16 @@
 package io.swagger.codegen;
 
-import org.testng.annotations.Test;
-import org.testng.reporters.Files;
+import static io.swagger.codegen.testutils.AssertFile.assertPathEqualsRecursively;
 
 import java.io.IOException;
 import java.util.Map;
 
+import org.testng.annotations.Test;
+import org.testng.reporters.Files;
+
 import io.swagger.codegen.testutils.IntegrationTestPathsConfig;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
-
-import static io.swagger.codegen.testutils.AssertFile.assertPathEqualsRecursively;
 
 public abstract class AbstractIntegrationTest {
 
@@ -21,7 +21,7 @@ public abstract class AbstractIntegrationTest {
     protected abstract Map<String, String> configProperties();
 
     // @wing328: ignore for the time being until we fix the error with the integration test
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void generatesCorrectDirectoryStructure() throws IOException {
         DefaultGenerator codeGen = new DefaultGenerator();
         IntegrationTestPathsConfig integrationTestPathsConfig = getIntegrationTestPathsConfig();

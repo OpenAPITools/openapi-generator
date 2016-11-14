@@ -51,6 +51,7 @@ export class ProjectService {
         }
         if (configuration) {
             this.configuration = configuration;
+			this.basePath = basePath || configuration.basePath || this.basePath;
         }
     }
 
