@@ -227,52 +227,30 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public void preprocessSwagger(Swagger swagger) {
-        if (swagger != null && swagger.getPaths() != null) {
-            for(String pathname : swagger.getPaths().keySet()) {
-                Path path = swagger.getPath(pathname);
-                if (path.getOperations() != null) {
-                    for(Map.Entry<HttpMethod, Operation> entry : path.getOperationMap().entrySet()) {
-                        // Normalize `operationId` and add package/class path in front, e.g.
-                        //     controllers.default_controller.add_pet
-                        String httpMethod = entry.getKey().name().toLowerCase();
-                        Operation operation = entry.getValue();
-                        String operationId = getOrGenerateOperationId(operation, pathname, httpMethod);
-                        String controllerName;
-
-                        if (operation.getTags() != null) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-                            for(String tag : operation.getTags()) {
-                                Map<String, String> value = new HashMap<String, String>();
-                                value.put("tag", tag);
-                                value.put("hasMore", "true");
-                                tags.add(value);
-                            }
-                            
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
-                            }
-
-                            // use only the first tag
-                            if (operation.getTags().size() > 0) {
-                                String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
-                                controllerName = tag + "_controller";
-                            } else {
-                                controllerName = "default_controller";
-                            }
-
-                            operation.setVendorExtension("x-tags", tags);
+        // need vendor extensions for x-swagger-router-controller
+        Map<String, Path> paths = swagger.getPaths();
+        if(paths != null) {
+            for(String pathname : paths.keySet()) {
+                Path path = paths.get(pathname);
+                Map<HttpMethod, Operation> operationMap = path.getOperationMap();
+                if(operationMap != null) {
+                    for(HttpMethod method : operationMap.keySet()) {
+                        Operation operation = operationMap.get(method);
+                        String tag = "default";
+                        if(operation.getTags() != null && operation.getTags().size() > 0) {
+                            tag = operation.getTags().get(0);
                         }
-                        else {
-                            // no tag found, use "default_controller" as the default
-                            String tag = "default";
-                            operation.setTags(Arrays.asList(tag));
-                            controllerName = tag + "_controller";
+                        String operationId = operation.getOperationId();
+                        if(operationId == null) {
+                            operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         }
-
-                        operationId = underscore(sanitizeName(operationId));
-                        operationId = controllerPackage + "." + controllerName + "." + operationId;
-                        operation.setOperationId(operationId);
+                        operation.setOperationId(toOperationId(operationId));
+                        if(operation.getVendorExtensions().get("x-swagger-router-controller") == null) {
+                            operation.getVendorExtensions().put(
+                                    "x-swagger-router-controller",
+                                    controllerPackage + "." + toApiFilename(tag)
+                            );
+                        }
                     }
                 }
             }
