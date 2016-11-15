@@ -221,27 +221,31 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        String basePath = resourcePath;
-        if (basePath.startsWith("/")) {
-            basePath = basePath.substring(1);
-        }
-        int pos = basePath.indexOf("/");
-        if (pos > 0) {
-            basePath = basePath.substring(0, pos);
-        }
+        if(library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_MVC_LIBRARY)) {
+            String basePath = resourcePath;
+            if (basePath.startsWith("/")) {
+                basePath = basePath.substring(1);
+            }
+            int pos = basePath.indexOf("/");
+            if (pos > 0) {
+                basePath = basePath.substring(0, pos);
+            }
 
-        if (basePath == "") {
-            basePath = "default";
+            if (basePath.equals("")) {
+                basePath = "default";
+            } else {
+                co.subresourceOperation = !co.path.isEmpty();
+            }
+            List<CodegenOperation> opList = operations.get(basePath);
+            if (opList == null) {
+                opList = new ArrayList<CodegenOperation>();
+                operations.put(basePath, opList);
+            }
+            opList.add(co);
+            co.baseName = basePath;
         } else {
-            co.subresourceOperation = !co.path.isEmpty();
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         }
-        List<CodegenOperation> opList = operations.get(basePath);
-        if (opList == null) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(basePath, opList);
-        }
-        opList.add(co);
-        co.baseName = basePath;
     }
 
     @Override
