@@ -8,18 +8,14 @@
 import Foundation
 
 
-open class Dog: JSONEncodable {
-    public var className: String?
-    public var color: String?
+open class Dog: Animal {
     public var breed: String?
 
-    public init() {}
+    
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
-        nillableDictionary["className"] = self.className
-        nillableDictionary["color"] = self.color
+    override open func encodeToJSON() -> Any {
+        var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["breed"] = self.breed
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

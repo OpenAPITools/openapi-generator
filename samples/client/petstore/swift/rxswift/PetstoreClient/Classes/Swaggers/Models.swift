@@ -139,7 +139,7 @@ class Decoders {
                     return NSDate(timeIntervalSince1970: Double(sourceInt / 1000) )
                 }
                 fatalError("formatter failed to parse \(source)")
-            } 
+            }
 
             // Decoder for ISOFullDate
             Decoders.addDecoder(clazz: ISOFullDate.self, decoder: { (source: AnyObject) -> ISOFullDate in

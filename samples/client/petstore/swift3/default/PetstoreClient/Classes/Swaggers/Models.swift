@@ -146,6 +146,15 @@ class Decoders {
                 return Date(timeIntervalSince1970: Double(sourceInt / 1000) )
             }
             fatalError("formatter failed to parse \(source)")
+        }
+
+        // Decoder for ISOFullDate
+        Decoders.addDecoder(clazz: ISOFullDate.self) { (source: AnyObject) -> ISOFullDate in
+            if let string = source as? String,
+               let isoDate = ISOFullDate.from(string: string) {
+                return isoDate
+            }
+            fatalError("formatter failed to parse \(source)")
         } 
 
         // Decoder for [AdditionalPropertiesClass]

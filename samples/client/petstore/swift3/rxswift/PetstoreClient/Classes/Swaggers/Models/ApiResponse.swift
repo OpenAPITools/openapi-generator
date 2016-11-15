@@ -16,7 +16,7 @@ open class ApiResponse: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["code"] = self.code?.encodeToJSON()
         nillableDictionary["type"] = self.type
