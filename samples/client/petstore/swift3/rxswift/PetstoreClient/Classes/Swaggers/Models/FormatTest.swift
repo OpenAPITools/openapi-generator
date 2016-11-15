@@ -26,7 +26,7 @@ open class FormatTest: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["integer"] = self.integer?.encodeToJSON()
         nillableDictionary["int32"] = self.int32?.encodeToJSON()

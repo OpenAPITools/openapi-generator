@@ -16,7 +16,7 @@ open class Model200Response: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["name"] = self.name?.encodeToJSON()
         nillableDictionary["class"] = self._class
