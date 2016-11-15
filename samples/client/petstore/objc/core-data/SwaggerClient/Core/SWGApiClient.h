@@ -98,7 +98,7 @@ extern NSString *const SWGResponseObjectErrorKey;
 /**
  * Sets the client reachability, this may be overridden by the reachability manager if reachability changes
  *
- * @param The client reachability.
+ * @param status The client reachability status.
  */
 +(void) setReachabilityStatus:(AFNetworkReachabilityStatus) status;
 
