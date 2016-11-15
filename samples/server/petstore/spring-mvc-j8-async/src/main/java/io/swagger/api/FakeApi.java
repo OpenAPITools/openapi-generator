@@ -1,8 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.model.Client;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.math.BigDecimal;
 
 import io.swagger.annotations.*;
@@ -71,8 +71,8 @@ public interface FakeApi {
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
     @RequestMapping(value = "/fake",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
+        produces = { "*/*" }, 
+        consumes = { "*/*" },
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<Void>> testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)" , allowableValues="GREATER_THAN, DOLLAR") @RequestPart(value="enumFormStringArray", required=false)  List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)" , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestPart(value="enumFormString", required=false)  String enumFormString,
