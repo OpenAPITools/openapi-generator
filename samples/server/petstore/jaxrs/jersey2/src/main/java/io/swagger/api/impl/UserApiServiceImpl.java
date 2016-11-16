@@ -3,8 +3,8 @@ package io.swagger.api.impl;
 import io.swagger.api.*;
 import io.swagger.model.*;
 
-import io.swagger.model.User;
 import java.util.List;
+import io.swagger.model.User;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;

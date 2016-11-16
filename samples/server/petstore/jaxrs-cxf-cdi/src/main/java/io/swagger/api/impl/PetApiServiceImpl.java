@@ -1,63 +1,72 @@
 package io.swagger.api.impl;
 
 import io.swagger.api.*;
-import io.swagger.model.*;
-
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
-
-import io.swagger.model.Pet;
-import io.swagger.model.ModelApiResponse;
 import java.io.File;
-
-import java.util.List;
+import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 
 import java.io.InputStream;
-
-import javax.enterprise.context.RequestScoped;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import org.apache.cxf.jaxrs.model.wadl.Description;
+import org.apache.cxf.jaxrs.model.wadl.DocTarget;
 
-@RequestScoped
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-10-11T07:40:42.070+01:00")
-public class PetApiServiceImpl implements PetApiService {
-      @Override
-      public Response addPet(Pet body, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
-      @Override
-      public Response deletePet(Long petId, String apiKey, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
-      @Override
-      public Response findPetsByStatus(List<String> status, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
-      @Override
-      public Response findPetsByTags(List<String> tags, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
-      @Override
-      public Response getPetById(Long petId, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
-      @Override
-      public Response updatePet(Pet body, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
-      @Override
-      public Response updatePetWithForm(Long petId, String name, String status, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
-      @Override
-      public Response uploadFile(Long petId, String additionalMetadata, InputStream fileInputStream, Attachment fileDetail, SecurityContext securityContext) {
-      // do some magic!
-      return Response.ok().entity("magic!").build();
-  }
+import org.apache.cxf.jaxrs.ext.multipart.*;
+
+import io.swagger.annotations.Api;
+
+public class PetApiServiceImpl implements PetApi {
+    public void  addPet(Pet body) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    public void  deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key") String apiKey) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    public Pet  findPetsByStatus(List<String> status) {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
+    public Pet  findPetsByTags(List<String> tags) {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
+    public Pet  getPetById(@PathParam("petId") Long petId) {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
+    public void  updatePet(Pet body) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    public void  updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    public ModelApiResponse  uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file", required = false) InputStream fileInputStream,
+   @Multipart(value = "file" , required = false) Attachment fileDetail) {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
 }
+
