@@ -53,7 +53,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testEndpointParameters**
-> testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password)
+> testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
@@ -82,9 +82,10 @@ $binary = "B"; // string | None
 $date = new \DateTime(); // \DateTime | None
 $date_time = new \DateTime(); // \DateTime | None
 $password = "password_example"; // string | None
+$callback = "callback_example"; // string | None
 
 try {
-    $api_instance->testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password);
+    $api_instance->testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEndpointParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -108,6 +109,7 @@ Name | Type | Description  | Notes
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
  **password** | **string**| None | [optional]
+ **callback** | **string**| None | [optional]
 
 ### Return type
 
@@ -175,8 +177,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: */*
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -10,7 +10,7 @@
     "clean": "rm -Rf node_modules/ typings/ *.js"
   },
   "author": "Swagger Codegen Contributors & Mads M. Tandrup",
-  "license": "Apache-2.0",
+  "license": "Unlicense",
   "dependencies": {
     "request": "^2.60.0",
     "angular": "^1.4.3"

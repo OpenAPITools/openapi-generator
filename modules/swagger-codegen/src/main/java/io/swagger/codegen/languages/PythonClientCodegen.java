@@ -170,7 +170,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         apiPackage = swaggerFolder + File.separatorChar + "apis";
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
 
         supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));

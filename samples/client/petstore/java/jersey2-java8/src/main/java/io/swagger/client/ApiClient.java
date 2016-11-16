@@ -22,6 +22,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,7 +40,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,14 +70,7 @@ public class ApiClient {
     json = new JSON();
     httpClient = buildHttpClient(debugging);
 
-    // Use RFC3339 format for date and datetime.
-    // See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
-    this.dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-
-    // Use UTC as the default time zone.
-    this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-    this.json.setDateFormat((DateFormat) dateFormat.clone());
+    this.dateFormat = new RFC3339DateFormat();
 
     // Set default User-Agent.
     setUserAgent("Swagger-Codegen/1.0.0/java");
@@ -631,6 +624,8 @@ public class ApiClient {
       response = invocationBuilder.put(entity);
     } else if ("DELETE".equals(method)) {
       response = invocationBuilder.delete();
+    } else if ("PATCH".equals(method)) {
+      response = invocationBuilder.header("X-HTTP-Method-Override", "PATCH").post(entity);
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }

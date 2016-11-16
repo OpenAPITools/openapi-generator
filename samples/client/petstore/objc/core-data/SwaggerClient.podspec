@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
     s.frameworks = 'SystemConfiguration', 'CoreData'
 
     s.homepage     = "https://github.com/swagger-api/swagger-codegen"
-    s.license      = "Apache License, Version 2.0"
+    s.license      = "Proprietary"
     s.source       = { :git => "https://github.com/swagger-api/swagger-codegen.git", :tag => "#{s.version}" }
     s.author       = { "Swagger" => "apiteam@swagger.io" }
 

@@ -263,7 +263,7 @@ open class UserAPI: APIBase {
      Get user by user name
      - GET /user/{username}
      - 
-     - examples: [{contentType=application/xml, example=<User>
+     - examples: [{example=<User>
   <id>123456</id>
   <username>string</username>
   <firstName>string</firstName>
@@ -272,17 +272,17 @@ open class UserAPI: APIBase {
   <password>string</password>
   <phone>string</phone>
   <userStatus>0</userStatus>
-</User>}, {contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
+</User>, contentType=application/xml}, {example={
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
-}}]
-     - examples: [{contentType=application/xml, example=<User>
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}]
+     - examples: [{example=<User>
   <id>123456</id>
   <username>string</username>
   <firstName>string</firstName>
@@ -291,16 +291,16 @@ open class UserAPI: APIBase {
   <password>string</password>
   <phone>string</phone>
   <userStatus>0</userStatus>
-</User>}, {contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
+</User>, contentType=application/xml}, {example={
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
-}}]
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}]
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
 
@@ -362,8 +362,8 @@ open class UserAPI: APIBase {
      - 
      - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
      - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
-     - examples: [{contentType=application/xml, example=string}, {contentType=application/json, example="aeiou"}]
-     - examples: [{contentType=application/xml, example=string}, {contentType=application/json, example="aeiou"}]
+     - examples: [{example=string, contentType=application/xml}, {example="aeiou", contentType=application/json}]
+     - examples: [{example=string, contentType=application/xml}, {example="aeiou", contentType=application/json}]
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 

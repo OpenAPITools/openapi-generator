@@ -8,10 +8,10 @@ import retrofit2.http.*;
 
 import okhttp3.RequestBody;
 
-import io.swagger.client.model.Client;
-import org.joda.time.LocalDate;
 import java.math.BigDecimal;
+import io.swagger.client.model.Client;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.HashMap;

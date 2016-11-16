@@ -7,10 +7,10 @@ import io.swagger.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import io.swagger.client.model.Client;
-import java.time.OffsetDateTime;
-import java.time.LocalDate;
 import java.math.BigDecimal;
+import io.swagger.client.model.Client;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,9 +94,10 @@ public class FakeApi {
    * @param date None (optional)
    * @param dateTime None (optional)
    * @param password None (optional)
+   * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
@@ -155,6 +156,8 @@ if (dateTime != null)
       localVarFormParams.put("dateTime", dateTime);
 if (password != null)
       localVarFormParams.put("password", password);
+if (paramCallback != null)
+      localVarFormParams.put("callback", paramCallback);
 
     final String[] localVarAccepts = {
       "application/xml; charset=utf-8", "application/json; charset=utf-8"
@@ -212,12 +215,12 @@ if (enumQueryDouble != null)
       localVarFormParams.put("enum_query_double", enumQueryDouble);
 
     final String[] localVarAccepts = {
-      "application/json"
+      "*/*"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      "*/*"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
