@@ -1,7 +1,7 @@
 {
   "name": "@swagger/typescript-fetch-petstore",
   "version": "0.0.1",
-  "license": "Apache-2.0",
+  "license": "Unlicense",
   "main": "./dist/api.js",
   "browser": "./dist/api.js",
   "typings": "./dist/api.d.ts",

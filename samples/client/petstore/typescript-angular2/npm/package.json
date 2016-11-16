@@ -1,12 +1,12 @@
 {
   "name": "@swagger/angular2-typescript-petstore",
-  "version": "0.0.1-SNAPSHOT.201610271623",
+  "version": "0.0.1-SNAPSHOT.201611161801",
   "description": "swagger client for @swagger/angular2-typescript-petstore",
   "author": "Swagger Codegen Contributors",
   "keywords": [
     "swagger-client"
   ],
-  "license": "Apache-2.0",
+  "license": "Unlicense",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {

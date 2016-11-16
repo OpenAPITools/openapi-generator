@@ -16,7 +16,7 @@ open class MixedPropertiesAndAdditionalPropertiesClass: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["uuid"] = self.uuid?.encodeToJSON()
         nillableDictionary["dateTime"] = self.dateTime?.encodeToJSON()

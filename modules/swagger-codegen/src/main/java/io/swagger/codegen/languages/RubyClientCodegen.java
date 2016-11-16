@@ -42,7 +42,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String gemVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String libFolder = "lib";
-    protected String gemLicense = "Apache-2.0";
+    protected String gemLicense = "proprietary";
     protected String gemRequiredRubyVersion = ">= 1.9";
     protected String gemHomepage = "http://swagger.io";
     protected String gemSummary = "A ruby wrapper for the swagger APIs";
@@ -143,7 +143,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(GEM_VERSION, "gem version.").defaultValue("1.0.0"));
 
         cliOptions.add(new CliOption(GEM_LICENSE, "gem license. ").
-                defaultValue("Apache-2.0"));
+                defaultValue("proprietary"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
                 defaultValue(">= 1.9"));
