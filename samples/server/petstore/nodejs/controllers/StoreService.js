@@ -39,7 +39,7 @@ exports.getOrderById = function(args, res, next) {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -63,7 +63,7 @@ exports.placeOrder = function(args, res, next) {
   "complete" : true,
   "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+0000"
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
 };
   if(Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');

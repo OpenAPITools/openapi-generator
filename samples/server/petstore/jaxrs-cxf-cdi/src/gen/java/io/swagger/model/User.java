@@ -4,113 +4,131 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 
+import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
  @XmlType(name = "User", propOrder =
-	{ "id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"
+    { "id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"
 })
 
 @XmlRootElement(name="User")
+@ApiModel(description="A User who is purchasing from the pet store")
 public class User  {
   
 
   @XmlElement(name="id")
+  @ApiModelProperty(example = "null", value = "")
   private Long id = null;
 
   @XmlElement(name="username")
+  @ApiModelProperty(example = "null", value = "")
   private String username = null;
 
   @XmlElement(name="firstName")
+  @ApiModelProperty(example = "null", value = "")
   private String firstName = null;
 
   @XmlElement(name="lastName")
+  @ApiModelProperty(example = "null", value = "")
   private String lastName = null;
 
   @XmlElement(name="email")
+  @ApiModelProperty(example = "null", value = "")
   private String email = null;
 
   @XmlElement(name="password")
+  @ApiModelProperty(example = "null", value = "")
   private String password = null;
 
   @XmlElement(name="phone")
+  @ApiModelProperty(example = "null", value = "")
   private String phone = null;
 
   @XmlElement(name="userStatus")
+  @ApiModelProperty(example = "null", value = "User Status")
   private Integer userStatus = null;
 
-  /**
-   **/
-  
+ /**
+   * Get id
+   * @return id
+  **/
   public Long getId() {
     return id;
   }
   public void setId(Long id) {
     this.id = id;
   }
-  /**
-   **/
-  
+ /**
+   * Get username
+   * @return username
+  **/
   public String getUsername() {
     return username;
   }
   public void setUsername(String username) {
     this.username = username;
   }
-  /**
-   **/
-  
+ /**
+   * Get firstName
+   * @return firstName
+  **/
   public String getFirstName() {
     return firstName;
   }
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
-  /**
-   **/
-  
+ /**
+   * Get lastName
+   * @return lastName
+  **/
   public String getLastName() {
     return lastName;
   }
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-  /**
-   **/
-  
+ /**
+   * Get email
+   * @return email
+  **/
   public String getEmail() {
     return email;
   }
   public void setEmail(String email) {
     this.email = email;
   }
-  /**
-   **/
-  
+ /**
+   * Get password
+   * @return password
+  **/
   public String getPassword() {
     return password;
   }
   public void setPassword(String password) {
     this.password = password;
   }
-  /**
-   **/
-  
+ /**
+   * Get phone
+   * @return phone
+  **/
   public String getPhone() {
     return phone;
   }
   public void setPhone(String phone) {
     this.phone = phone;
   }
-  /**
+ /**
    * User Status
-   **/
-  
+   * @return userStatus
+  **/
   public Integer getUserStatus() {
     return userStatus;
   }

@@ -8,42 +8,50 @@ import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
  @XmlType(name = "Pet", propOrder =
-	{ "id", "category", "name", "photoUrls", "tags", "status"
+    { "id", "category", "name", "photoUrls", "tags", "status"
 })
 
 @XmlRootElement(name="Pet")
+@ApiModel(description="A pet for sale in the pet store")
 public class Pet  {
   
 
   @XmlElement(name="id")
+  @ApiModelProperty(example = "null", value = "")
   private Long id = null;
 
   @XmlElement(name="category")
+  @ApiModelProperty(example = "null", value = "")
   private Category category = null;
 
   @XmlElement(name="name")
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   private String name = null;
 
   @XmlElement(name="photoUrls")
+  @ApiModelProperty(example = "null", required = true, value = "")
   private List<String> photoUrls = new ArrayList<String>();
 
   @XmlElement(name="tags")
+  @ApiModelProperty(example = "null", value = "")
   private List<Tag> tags = new ArrayList<Tag>();
 
 @XmlType(name="StatusEnum")
-@XmlEnum
+@XmlEnum(String.class)
 public enum StatusEnum {
 
-    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
+    @XmlEnumValue("available") AVAILABLE(String.valueOf("available")), @XmlEnumValue("pending") PENDING(String.valueOf("pending")), @XmlEnumValue("sold") SOLD(String.valueOf("sold"));
 
 
     private String value;
@@ -56,64 +64,80 @@ public enum StatusEnum {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
     public static StatusEnum fromValue(String v) {
-        return valueOf(v);
+        for (StatusEnum b : StatusEnum.values()) {
+            if (String.valueOf(b.value).equals(v)) {
+                return b;
+            }
+        }
+        return null;
     }
 }
 
 
   @XmlElement(name="status")
+  @ApiModelProperty(example = "null", value = "pet status in the store")
   private StatusEnum status = null;
 
-  /**
-   **/
-  
+ /**
+   * Get id
+   * @return id
+  **/
   public Long getId() {
     return id;
   }
   public void setId(Long id) {
     this.id = id;
   }
-  /**
-   **/
-  
+ /**
+   * Get category
+   * @return category
+  **/
   public Category getCategory() {
     return category;
   }
   public void setCategory(Category category) {
     this.category = category;
   }
-  /**
-   **/
-  
+ /**
+   * Get name
+   * @return name
+  **/
   public String getName() {
     return name;
   }
   public void setName(String name) {
     this.name = name;
   }
-  /**
-   **/
-  
+ /**
+   * Get photoUrls
+   * @return photoUrls
+  **/
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
-  /**
-   **/
-  
+ /**
+   * Get tags
+   * @return tags
+  **/
   public List<Tag> getTags() {
     return tags;
   }
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-  /**
+ /**
    * pet status in the store
-   **/
-  
+   * @return status
+  **/
   public StatusEnum getStatus() {
     return status;
   }
