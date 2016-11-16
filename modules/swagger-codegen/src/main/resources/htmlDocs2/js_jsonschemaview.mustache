@@ -251,10 +251,10 @@ var JSONSchemaView = (function () {
       }
 
       if (this.schema['enum']) {
-        var formatter = new JSONFormatter(this.schema['enum'], this.open - 1);
-        var formatterEl = formatter.render();
-        formatterEl.classList.add('inner');
-        element.querySelector('.enums.inner').appendChild(formatterEl);
+        var tempDiv = document.createElement('span');;
+        tempDiv.classList.add('inner');
+        tempDiv.innerHTML = '<code>' + this.schema['enum'].join('</code>, <code>') + '</code>';
+        element.querySelector('.enums.inner').appendChild(tempDiv);
       }
 
       if (this.isArray) {
