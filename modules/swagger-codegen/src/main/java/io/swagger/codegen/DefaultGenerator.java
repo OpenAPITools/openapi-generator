@@ -840,7 +840,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         operations.put("package", config.apiPackage());
 
 
-        Set<String> allImports = new LinkedHashSet<String>();
+        Set<String> allImports = new TreeSet<String>();
         for (CodegenOperation op : ops) {
             allImports.addAll(op.imports);
         }
