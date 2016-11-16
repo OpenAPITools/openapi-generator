@@ -12,70 +12,84 @@
 
 {{>js_prettify}}
 {{>js_bootstrap}}
+{{>marked}}
 
 <script>
 
 $( document ).ready(function() {
+  marked.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false
+  });
 
-var textFile = null;
+  var textFile = null;
 
-/// Function to be used to download a text json schema
-function makeTextFile(text) {
+  /// Function to be used to download a text json schema
+  function makeTextFile(text) {
 
-  var data = new Blob([text], {type: 'text/plain'});
+    var data = new Blob([text], {type: 'text/plain'});
 
-  // If we are replacing a previously generated file we need to
-  // manually revoke the object URL to avoid memory leaks.
-  if (textFile !== null) {
-    window.URL.revokeObjectURL(textFile);
+    // If we are replacing a previously generated file we need to
+    // manually revoke the object URL to avoid memory leaks.
+    if (textFile !== null) {
+      window.URL.revokeObjectURL(textFile);
+    }
+
+    textFile = window.URL.createObjectURL(data);
+
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    a.href = textFile;
+    a.download = 'schema.txt';
+    a.click();
+
+    return textFile;
+  };
+
+  /// TODO: Implement resizing for expanding within iframe
+  function callResize() {
+    window.parent.postMessage('resize', "*");
   }
 
-  textFile = window.URL.createObjectURL(data);
-
-  var a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-
-   a.href = textFile;
-   a.download = 'schema.txt';
-      a.click();
-
-  return textFile;
-};
-
-/// TODO: Implement resizing for expanding within iframe
-function callResize() {
-window.parent.postMessage('resize', "*");
-
-}
+  function processMarked() {
+    $(".marked").each(function() {
+      $(this).html(marked($(this).html()));
+    });
+  }
 
 
-// load google web fonts
-loadGoogleFontCss();
+  // load google web fonts
+  loadGoogleFontCss();
 
 
-// Bootstrap Scrollspy
-$(this).scrollspy({ target: '#scrollingNav', offset: 18 });
+  // Bootstrap Scrollspy
+  $(this).scrollspy({ target: '#scrollingNav', offset: 18 });
 
-// Content-Scroll on Navigation click.
-$('.sidenav').find('a').on('click', function(e) {
-    e.preventDefault();
-    var id = $(this).attr('href');
-    if ($(id).length > 0)
-        $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 400);
-    window.location.hash = $(this).attr('href');
-});
+  // Content-Scroll on Navigation click.
+  $('.sidenav').find('a').on('click', function(e) {
+      e.preventDefault();
+      var id = $(this).attr('href');
+      if ($(id).length > 0)
+          $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 400);
+      window.location.hash = $(this).attr('href');
+  });
 
-// Quickjump on Pageload to hash position.
-if(window.location.hash) {
-    var id = window.location.hash;
-    if ($(id).length > 0)
-        $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 0);
-}
+  // Quickjump on Pageload to hash position.
+  if(window.location.hash) {
+      var id = window.location.hash;
+      if ($(id).length > 0)
+          $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 0);
+  }
 
 
-function initDynamic() {
-
+  function initDynamic() {
     // tabs
     $('.nav-tabs-examples a').click(function (e) {
         e.preventDefault();
@@ -83,35 +97,35 @@ function initDynamic() {
     });
 
 
-$('.nav-tabs-examples').find('a:first').tab('show');
+    $('.nav-tabs-examples').find('a:first').tab('show');
 
     // call scrollspy refresh method
     $(window).scrollspy('refresh');
+  }
 
-}
-initDynamic();
+  initDynamic();
 
-// Pre- / Code-Format
-prettyPrint();
+  // Pre- / Code-Format
+  prettyPrint();
 
+  //Convert elements with "marked" class to markdown
+  processMarked();
 
-/**
- * Load google fonts.
- */
-function loadGoogleFontCss() {
+  /**
+   * Load google fonts.
+   */
+  function loadGoogleFontCss() {
     WebFont.load({
-        active: function() {
-            // Update scrollspy
-            $(window).scrollspy('refresh')
-        },
-        google: {
-            families: ['Source Code Pro', 'Source Sans Pro:n4,n6,n7']
-        }
+      active: function() {
+        // Update scrollspy
+        $(window).scrollspy('refresh')
+      },
+      google: {
+        families: ['Source Code Pro', 'Source Sans Pro:n4,n6,n7']
+      }
     });
-}
+  }
 });
-
-
 </script>
 
 <style type="text/css">
@@ -192,7 +206,7 @@ function loadGoogleFontCss() {
 
                     <hr>
 
-                    <p>{{{appDescription}}}</p>
+                    <p class="marked">{{appDescription}}</p>
                 </div>
             </div>
             <div id="sections">
@@ -224,7 +238,7 @@ function loadGoogleFontCss() {
                                             <div class="clearfix"></div>
 
                                             <p></p>
-                                            <p>{{notes}}</p>
+                                            <p class="marked">{{notes}}</p>
                                             <p></p>
                                             <br />
 
@@ -374,6 +388,21 @@ curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#authMet
 
                                                 </table>
                                             {{/hasBodyParam}}
+
+                                            {{#hasFormParams}}
+                                                <div class="methodsubtabletitle">Form parameters</div>
+                                                <table id="methodsubtable">
+                                                    <tr>
+                                                        <th width="150px">Name</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    <!---->
+                                                    {{#formParams}}
+                                                        {{>param}}
+                                                    {{/formParams}}
+
+                                                </table>
+                                            {{/hasFormParams}}
 
                                             {{#hasQueryParams}}
                                                 <div class="methodsubtabletitle">Query parameters</div>
