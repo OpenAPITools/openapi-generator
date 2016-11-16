@@ -631,7 +631,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 files.add(ignoreFile);
             }
 
-            // Add default LICENSE (Apache-2.0) for all generators
+            /* 
+             * The following code adds default LICENSE (Apache-2.0) for all generators
+             * To use license other than Apache2.0, update the following file:
+             *   modules/swagger-codegen/src/main/resources/_common/LICENSE
+             *
             final String apache2License = "LICENSE";
             String licenseFileNameTarget = config.outputFolder() + File.separator + apache2License;
             File licenseFile = new File(licenseFileNameTarget);
@@ -643,6 +647,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 throw new RuntimeException("Could not generate LICENSE file '" + apache2License + "'", e);
             }
             files.add(licenseFile);
+             */
         }
         config.processSwagger(swagger);
         return files;
