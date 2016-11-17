@@ -804,6 +804,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
+- [TaskData](http://www.taskdata.com/) 
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [uShip](https://www.uship.com/)
 - [W.UP](http://wup.hu/?siteLang=en)
