@@ -21,14 +21,14 @@ def add_pet(body):
     return 'do some magic!'
 
 
-def delete_pet(petId, apiKey=None):
+def delete_pet(petId, api_key=None):
     """
     Deletes a pet
     
     :param petId: Pet id to delete
     :type petId: int
-    :param apiKey: 
-    :type apiKey: str
+    :param api_key: 
+    :type api_key: str
 
     :rtype: None
     """
