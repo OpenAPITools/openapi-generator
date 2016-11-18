@@ -2234,6 +2234,7 @@ public class DefaultCodegen {
                     collectionFormat = "csv";
                 }
                 CodegenProperty pr = fromProperty("inner", inner);
+                p.items = pr;
                 p.baseType = pr.datatype;
                 p.isContainer = true;
                 p.isListContainer = true;
@@ -2247,6 +2248,7 @@ public class DefaultCodegen {
                 property = new MapProperty(inner);
                 collectionFormat = qp.getCollectionFormat();
                 CodegenProperty pr = fromProperty("inner", inner);
+                p.items = pr;
                 p.baseType = pr.datatype;
                 p.isContainer = true;
                 p.isMapContainer = true;
@@ -2360,6 +2362,7 @@ public class DefaultCodegen {
                     imports.add(cp.complexType);
                 }
                 imports.add(cp.baseType);
+                p.items = cp;
                 p.dataType = cp.datatype;
                 p.baseType = cp.complexType;
                 p.isPrimitiveType = cp.isPrimitiveType;

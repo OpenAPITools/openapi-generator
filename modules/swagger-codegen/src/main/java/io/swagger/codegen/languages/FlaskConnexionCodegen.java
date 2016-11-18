@@ -5,17 +5,18 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
-import config.ConfigParser;
 import io.swagger.codegen.*;
 import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+import io.swagger.models.properties.*;
 import io.swagger.util.Yaml;
 
 import java.io.File;
 import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,11 +40,13 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("float");
-        languageSpecificPrimitives.add("list");
+        languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("Dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
         languageSpecificPrimitives.add("date");
+        languageSpecificPrimitives.add("file");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -51,8 +54,8 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "float");
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
-        typeMapping.put("array", "list");
-        typeMapping.put("map", "dict");
+        typeMapping.put("array", "List");
+        typeMapping.put("map", "Dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "date");
@@ -63,9 +66,8 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         // set the output folder here
         outputFolder = "generated-code/connexion";
 
-        modelTemplateFiles.clear();
-
         apiTemplateFiles.put("controller.mustache", ".py");
+        modelTemplateFiles.put("model.mustache", ".py");
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -102,11 +104,15 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                         "",
                         "app.py")
         );
+        supportingFiles.add(new SupportingFile("util.mustache",
+                "",
+                "util.py")
+        );
         supportingFiles.add(new SupportingFile("README.mustache",
                         "",
                         "README.md")
         );
-        supportingFiles.add(new SupportingFile("__init__.mustache",
+        supportingFiles.add(new SupportingFile("__init__controller.mustache",
                         "",
                         "__init__.py")
         );
@@ -142,14 +148,29 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
         if (Boolean.TRUE.equals(additionalProperties.get(SUPPORT_PYTHON2))) {
             additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
+            typeMapping.put("long", "long");
         }
 
         if(!new java.io.File(controllerPackage + File.separator + defaultController + ".py").exists()) {
-            supportingFiles.add(new SupportingFile("__init__.mustache",
+            supportingFiles.add(new SupportingFile("__init__controller.mustache",
                             controllerPackage,
                             "__init__.py")
             );
         }
+
+        supportingFiles.add(new SupportingFile("__init__model.mustache",
+                modelPackage,
+                "__init__.py")
+        );
+
+        supportingFiles.add(new SupportingFile("base_model_.mustache",
+                modelPackage,
+                "base_model_.py")
+        );
+    }
+
+    private static String dropDots(String str) {
+        return str.replaceAll("\\.", "_");
     }
 
     @Override
@@ -222,6 +243,36 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String getTypeDeclaration(Property p) {
+        if (p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            Property inner = ap.getItems();
+            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (p instanceof MapProperty) {
+            MapProperty mp = (MapProperty) p;
+            Property inner = mp.getAdditionalProperties();
+
+            return getSwaggerType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String getSwaggerType(Property p) {
+        String swaggerType = super.getSwaggerType(p);
+        String type = null;
+        if (typeMapping.containsKey(swaggerType)) {
+            type = typeMapping.get(swaggerType);
+            if (languageSpecificPrimitives.contains(type)) {
+                return type;
+            }
+        } else {
+            type = toModelName(swaggerType);
+        }
+        return type;
     }
 
 
@@ -334,6 +385,96 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
+        // if it's all uppper case, convert to lower case
+        if (name.matches("^[A-Z_]*$")) {
+            name = name.toLowerCase();
+        }
+
+        // underscore the variable name
+        // petId => pet_id
+        name = underscore(name);
+
+        // remove leading underscore
+        name = name.replaceAll("^_*", "");
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + underscore(dropDots("model_" + name)));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + underscore("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        // underscore the model file name
+        // PhoneNumber => phone_number
+        return underscore(dropDots(name));
+    }
+
+    @Override
+    public String toModelName(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        return camelize(name);
+    }
+
+    @Override
     public String toOperationId(String operationId) {
         operationId = super.toOperationId(operationId); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // Use the part after the last dot, e.g.
@@ -342,6 +483,56 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         // Need to underscore it since it has been processed via removeNonNameElementToCamelCase, e.g.
         //     addPet => add_pet
         return underscore(operationId);
+    }
+
+    /**
+     * Return the default value of the property
+     *
+     * @param p Swagger property object
+     * @return string presentation of the default value of the property
+     */
+    @Override
+    public String toDefaultValue(Property p) {
+        if (p instanceof StringProperty) {
+            StringProperty dp = (StringProperty) p;
+            if (dp.getDefault() != null) {
+                return "'" + dp.getDefault() + "'";
+            }
+        } else if (p instanceof BooleanProperty) {
+            BooleanProperty dp = (BooleanProperty) p;
+            if (dp.getDefault() != null) {
+                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+                    return "False";
+                else
+                    return "True";
+            }
+        } else if (p instanceof DateProperty) {
+            // TODO
+        } else if (p instanceof DateTimeProperty) {
+            // TODO
+        } else if (p instanceof DoubleProperty) {
+            DoubleProperty dp = (DoubleProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof FloatProperty) {
+            FloatProperty dp = (FloatProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof IntegerProperty) {
+            IntegerProperty dp = (IntegerProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        } else if (p instanceof LongProperty) {
+            LongProperty dp = (LongProperty) p;
+            if (dp.getDefault() != null) {
+                return dp.getDefault().toString();
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -354,5 +545,15 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     public String escapeUnsafeCharacters(String input) {
         // remove multiline comment
         return input.replace("'''", "'_'_'");
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        String modelImport = "from ";
+        if (!"".equals(modelPackage())) {
+            modelImport += modelPackage() + ".";
+        }
+        modelImport += toModelFilename(name)+ " import " + name;
+        return modelImport;
     }
 }
