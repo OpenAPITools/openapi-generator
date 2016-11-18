@@ -122,7 +122,9 @@ public class CodegenParameter {
         if (this.items != null) {
             output.items = this.items;
         }
-        output.vendorExtensions = this.vendorExtensions;
+        if(this.vendorExtensions != null){
+            output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+        }
         output.hasValidation = this.hasValidation;
         output.isBinary = this.isBinary;
         output.isByteArray = this.isByteArray;

@@ -1,5 +1,7 @@
 package io.swagger.codegen;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -283,9 +285,24 @@ public class CodegenProperty implements Cloneable {
     @Override
     public CodegenProperty clone() {
         try {
-            return (CodegenProperty) super.clone();
+        	CodegenProperty cp = (CodegenProperty) super.clone();
+        	if (this._enum != null) {
+                cp._enum = new ArrayList<String>(this._enum);
+            }
+            if (this.allowableValues != null) {
+                cp.allowableValues = new HashMap<String, Object>(this.allowableValues);
+            }
+            if (this.items != null) {
+                cp.items = this.items;
+            }
+        	if(this.vendorExtensions != null){
+                cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+            }
+        	return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
         }
     }
+    
+    
 }
