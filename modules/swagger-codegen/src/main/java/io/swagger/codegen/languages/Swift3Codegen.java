@@ -506,6 +506,11 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase()), true);
         }
 
+        // Reserved Name
+        if (isReservedWord(name)) {
+            return escapeReservedWord(name);
+        }
+
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "number" + camelize(name);
