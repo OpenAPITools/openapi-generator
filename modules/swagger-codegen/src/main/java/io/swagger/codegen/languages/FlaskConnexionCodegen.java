@@ -10,8 +10,7 @@ import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
-import io.swagger.models.parameters.BodyParameter;
-import io.swagger.models.parameters.FormParameter;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.*;
 import io.swagger.util.Yaml;
 
@@ -317,6 +316,15 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                                     controllerPackage + "." + toApiFilename(tag)
                             );
                         }
+                        for (Parameter param: operation.getParameters()) {
+                            // sanitize the param name but don't underscore it since it's used for request mapping
+                            String name = param.getName();
+                            String paramName = sanitizeName(name);
+                            if (!paramName.equals(name)) {
+                                LOGGER.warn(name + " cannot be used as parameter name with flask-connexion and was sanitized as " + paramName);
+                            }
+                            param.setName(paramName);
+                        }
                     }
                 }
             }
@@ -402,6 +410,12 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
             name = escapeReservedWord(name);
         }
 
+        return name;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // Param name is already sanitized in swagger spec processing
         return name;
     }
 

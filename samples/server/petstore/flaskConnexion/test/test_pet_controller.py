@@ -31,7 +31,7 @@ class TestPetController(BaseTestCase):
 
         Deletes a pet
         """
-        headers = [('apiKey', 'apiKey_example')]
+        headers = [('api_key', 'api_key_example')]
         response = self.client.open('/v2/pet/{petId}'.format(petId=789),
                                     method='DELETE',
                                     headers=headers)
