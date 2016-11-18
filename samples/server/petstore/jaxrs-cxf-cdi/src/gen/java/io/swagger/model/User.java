@@ -4,136 +4,186 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "User", propOrder =
-    { "id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"
-})
+/**
+ * A User who is purchasing from the pet store
+ **/
 
-@XmlRootElement(name="User")
-@ApiModel(description="A User who is purchasing from the pet store")
-public class User  {
+import io.swagger.annotations.*;
+import java.util.Objects;
+@ApiModel(description = "A User who is purchasing from the pet store")
+
+public class User   {
   
-
-  @XmlElement(name="id")
-  @ApiModelProperty(example = "null", value = "")
   private Long id = null;
-
-  @XmlElement(name="username")
-  @ApiModelProperty(example = "null", value = "")
   private String username = null;
-
-  @XmlElement(name="firstName")
-  @ApiModelProperty(example = "null", value = "")
   private String firstName = null;
-
-  @XmlElement(name="lastName")
-  @ApiModelProperty(example = "null", value = "")
   private String lastName = null;
-
-  @XmlElement(name="email")
-  @ApiModelProperty(example = "null", value = "")
   private String email = null;
-
-  @XmlElement(name="password")
-  @ApiModelProperty(example = "null", value = "")
   private String password = null;
-
-  @XmlElement(name="phone")
-  @ApiModelProperty(example = "null", value = "")
   private String phone = null;
-
-  @XmlElement(name="userStatus")
-  @ApiModelProperty(example = "null", value = "User Status")
   private Integer userStatus = null;
 
- /**
-   * Get id
-   * @return id
-  **/
+  /**
+   **/
+  public User id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
   public void setId(Long id) {
     this.id = id;
   }
- /**
-   * Get username
-   * @return username
-  **/
+
+  /**
+   **/
+  public User username(String username) {
+    this.username = username;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
   public void setUsername(String username) {
     this.username = username;
   }
- /**
-   * Get firstName
-   * @return firstName
-  **/
+
+  /**
+   **/
+  public User firstName(String firstName) {
+    this.firstName = firstName;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
- /**
-   * Get lastName
-   * @return lastName
-  **/
+
+  /**
+   **/
+  public User lastName(String lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
- /**
-   * Get email
-   * @return email
-  **/
+
+  /**
+   **/
+  public User email(String email) {
+    this.email = email;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
   public void setEmail(String email) {
     this.email = email;
   }
- /**
-   * Get password
-   * @return password
-  **/
+
+  /**
+   **/
+  public User password(String password) {
+    this.password = password;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
   public void setPassword(String password) {
     this.password = password;
   }
- /**
-   * Get phone
-   * @return phone
-  **/
+
+  /**
+   **/
+  public User phone(String phone) {
+    this.phone = phone;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
   public void setPhone(String phone) {
     this.phone = phone;
   }
- /**
+
+  /**
    * User Status
-   * @return userStatus
-  **/
+   **/
+  public User userStatus(Integer userStatus) {
+    this.userStatus = userStatus;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "User Status")
+  @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(id, user.id) &&
+        Objects.equals(username, user.username) &&
+        Objects.equals(firstName, user.firstName) &&
+        Objects.equals(lastName, user.lastName) &&
+        Objects.equals(email, user.email) &&
+        Objects.equals(password, user.password) &&
+        Objects.equals(phone, user.phone) &&
+        Objects.equals(userStatus, user.userStatus);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
   }
 
   @Override
@@ -157,7 +207,7 @@ public class User  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

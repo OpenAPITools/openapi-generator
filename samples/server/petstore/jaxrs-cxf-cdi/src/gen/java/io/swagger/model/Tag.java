@@ -4,52 +4,71 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "Tag", propOrder =
-    { "id", "name"
-})
+/**
+ * A tag for a pet
+ **/
 
-@XmlRootElement(name="Tag")
-@ApiModel(description="A tag for a pet")
-public class Tag  {
+import io.swagger.annotations.*;
+import java.util.Objects;
+@ApiModel(description = "A tag for a pet")
+
+public class Tag   {
   
-
-  @XmlElement(name="id")
-  @ApiModelProperty(example = "null", value = "")
   private Long id = null;
-
-  @XmlElement(name="name")
-  @ApiModelProperty(example = "null", value = "")
   private String name = null;
 
- /**
-   * Get id
-   * @return id
-  **/
+  /**
+   **/
+  public Tag id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
   public void setId(Long id) {
     this.id = id;
   }
- /**
-   * Get name
-   * @return name
-  **/
+
+  /**
+   **/
+  public Tag name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
   public void setName(String name) {
     this.name = name;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tag tag = (Tag) o;
+    return Objects.equals(id, tag.id) &&
+        Objects.equals(name, tag.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
   }
 
   @Override
@@ -67,7 +86,7 @@ public class Tag  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
