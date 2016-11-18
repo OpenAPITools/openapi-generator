@@ -773,6 +773,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
+- [Intent HQ](http://www.intenthq.com)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
 - [Lascaux](http://www.lascaux.it/)
