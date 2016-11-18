@@ -37,7 +37,7 @@ paths:
       - "pet"
       summary: "Add a new pet to the store"
       description: ""
-      operationId: "controllers.pet_controller.add_pet"
+      operationId: "add_pet"
       consumes:
       - "application/json"
       - "application/xml"
@@ -58,14 +58,13 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
     put:
       tags:
       - "pet"
       summary: "Update an existing pet"
       description: ""
-      operationId: "controllers.pet_controller.update_pet"
+      operationId: "update_pet"
       consumes:
       - "application/json"
       - "application/xml"
@@ -90,15 +89,14 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
   /pet/findByStatus:
     get:
       tags:
       - "pet"
       summary: "Finds Pets by status"
       description: "Multiple status values can be provided with comma separated strings"
-      operationId: "controllers.pet_controller.find_pets_by_status"
+      operationId: "find_pets_by_status"
       produces:
       - "application/xml"
       - "application/json"
@@ -129,8 +127,7 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
   /pet/findByTags:
     get:
       tags:
@@ -138,7 +135,7 @@ paths:
       summary: "Finds Pets by tags"
       description: "Multiple tags can be provided with comma separated strings. Use\
         \ tag1, tag2, tag3 for testing."
-      operationId: "controllers.pet_controller.find_pets_by_tags"
+      operationId: "find_pets_by_tags"
       produces:
       - "application/xml"
       - "application/json"
@@ -164,15 +161,14 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
   /pet/{petId}:
     get:
       tags:
       - "pet"
       summary: "Find pet by ID"
       description: "Returns a single pet"
-      operationId: "controllers.pet_controller.get_pet_by_id"
+      operationId: "get_pet_by_id"
       produces:
       - "application/xml"
       - "application/json"
@@ -194,14 +190,13 @@ paths:
           description: "Pet not found"
       security:
       - api_key: []
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
     post:
       tags:
       - "pet"
       summary: "Updates a pet in the store with form data"
       description: ""
-      operationId: "controllers.pet_controller.update_pet_with_form"
+      operationId: "update_pet_with_form"
       consumes:
       - "application/x-www-form-urlencoded"
       produces:
@@ -231,14 +226,13 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
     delete:
       tags:
       - "pet"
       summary: "Deletes a pet"
       description: ""
-      operationId: "controllers.pet_controller.delete_pet"
+      operationId: "delete_pet"
       produces:
       - "application/xml"
       - "application/json"
@@ -260,15 +254,14 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
   /pet/{petId}/uploadImage:
     post:
       tags:
       - "pet"
       summary: "uploads an image"
       description: ""
-      operationId: "controllers.pet_controller.upload_file"
+      operationId: "upload_file"
       consumes:
       - "multipart/form-data"
       produces:
@@ -299,15 +292,14 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-      x-tags:
-      - tag: "pet"
+      x-swagger-router-controller: "controllers.pet_controller"
   /store/inventory:
     get:
       tags:
       - "store"
       summary: "Returns pet inventories by status"
       description: "Returns a map of status codes to quantities"
-      operationId: "controllers.store_controller.get_inventory"
+      operationId: "get_inventory"
       produces:
       - "application/json"
       parameters: []
@@ -321,15 +313,14 @@ paths:
               format: "int32"
       security:
       - api_key: []
-      x-tags:
-      - tag: "store"
+      x-swagger-router-controller: "controllers.store_controller"
   /store/order:
     post:
       tags:
       - "store"
       summary: "Place an order for a pet"
       description: ""
-      operationId: "controllers.store_controller.place_order"
+      operationId: "place_order"
       produces:
       - "application/xml"
       - "application/json"
@@ -347,8 +338,7 @@ paths:
             $ref: "#/definitions/Order"
         400:
           description: "Invalid Order"
-      x-tags:
-      - tag: "store"
+      x-swagger-router-controller: "controllers.store_controller"
   /store/order/{orderId}:
     get:
       tags:
@@ -356,7 +346,7 @@ paths:
       summary: "Find purchase order by ID"
       description: "For valid response try integer IDs with value <= 5 or > 10. Other\
         \ values will generated exceptions"
-      operationId: "controllers.store_controller.get_order_by_id"
+      operationId: "get_order_by_id"
       produces:
       - "application/xml"
       - "application/json"
@@ -378,15 +368,14 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-tags:
-      - tag: "store"
+      x-swagger-router-controller: "controllers.store_controller"
     delete:
       tags:
       - "store"
       summary: "Delete purchase order by ID"
       description: "For valid response try integer IDs with value < 1000. Anything\
         \ above 1000 or nonintegers will generate API errors"
-      operationId: "controllers.store_controller.delete_order"
+      operationId: "delete_order"
       produces:
       - "application/xml"
       - "application/json"
@@ -402,15 +391,14 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Order not found"
-      x-tags:
-      - tag: "store"
+      x-swagger-router-controller: "controllers.store_controller"
   /user:
     post:
       tags:
       - "user"
       summary: "Create user"
       description: "This can only be done by the logged in user."
-      operationId: "controllers.user_controller.create_user"
+      operationId: "create_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -424,15 +412,14 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
   /user/createWithArray:
     post:
       tags:
       - "user"
       summary: "Creates list of users with given input array"
       description: ""
-      operationId: "controllers.user_controller.create_users_with_array_input"
+      operationId: "create_users_with_array_input"
       produces:
       - "application/xml"
       - "application/json"
@@ -448,15 +435,14 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
   /user/createWithList:
     post:
       tags:
       - "user"
       summary: "Creates list of users with given input array"
       description: ""
-      operationId: "controllers.user_controller.create_users_with_list_input"
+      operationId: "create_users_with_list_input"
       produces:
       - "application/xml"
       - "application/json"
@@ -472,15 +458,14 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
   /user/login:
     get:
       tags:
       - "user"
       summary: "Logs user into the system"
       description: ""
-      operationId: "controllers.user_controller.login_user"
+      operationId: "login_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -511,15 +496,14 @@ paths:
               description: "date in UTC when toekn expires"
         400:
           description: "Invalid username/password supplied"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
   /user/logout:
     get:
       tags:
       - "user"
       summary: "Logs out current logged in user session"
       description: ""
-      operationId: "controllers.user_controller.logout_user"
+      operationId: "logout_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -527,15 +511,14 @@ paths:
       responses:
         default:
           description: "successful operation"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
   /user/{username}:
     get:
       tags:
       - "user"
       summary: "Get user by user name"
       description: ""
-      operationId: "controllers.user_controller.get_user_by_name"
+      operationId: "get_user_by_name"
       produces:
       - "application/xml"
       - "application/json"
@@ -554,14 +537,13 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
     put:
       tags:
       - "user"
       summary: "Updated user"
       description: "This can only be done by the logged in user."
-      operationId: "controllers.user_controller.update_user"
+      operationId: "update_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -582,14 +564,13 @@ paths:
           description: "Invalid user supplied"
         404:
           description: "User not found"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
     delete:
       tags:
       - "user"
       summary: "Delete user"
       description: "This can only be done by the logged in user."
-      operationId: "controllers.user_controller.delete_user"
+      operationId: "delete_user"
       produces:
       - "application/xml"
       - "application/json"
@@ -604,8 +585,7 @@ paths:
           description: "Invalid username supplied"
         404:
           description: "User not found"
-      x-tags:
-      - tag: "user"
+      x-swagger-router-controller: "controllers.user_controller"
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
