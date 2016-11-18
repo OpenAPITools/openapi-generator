@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
-@Api(value = "user", description = "the user API")
+@Api(value = "User", description = "the User API")
 public interface UserApi {
 
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
