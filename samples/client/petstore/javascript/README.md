@@ -125,6 +125,7 @@ Class | Method | HTTP request | Description
  - [SwaggerPetstore.Name](docs/Name.md)
  - [SwaggerPetstore.NumberOnly](docs/NumberOnly.md)
  - [SwaggerPetstore.Order](docs/Order.md)
+ - [SwaggerPetstore.OuterEnum](docs/OuterEnum.md)
  - [SwaggerPetstore.Pet](docs/Pet.md)
  - [SwaggerPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SwaggerPetstore.SpecialModelName](docs/SpecialModelName.md)
