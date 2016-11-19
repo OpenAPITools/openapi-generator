@@ -17,6 +17,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
      */
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
     protected String implFolder = "src/main/java";
+    protected String testResourcesFolder = "src/test/resources";
     protected String title = "Swagger Server";
     static Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 

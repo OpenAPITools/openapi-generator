@@ -16,13 +16,19 @@ import org.apache.cxf.jaxrs.model.wadl.DocTarget;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.annotations.Api;
+{{#useSpringAnnotationConfig}}
+import org.springframework.stereotype.Service;
+{{/useSpringAnnotationConfig}}
 
+{{#useSpringAnnotationConfig}}
+@Service("{{classname}}")
+{{/useSpringAnnotationConfig}}
 {{#description}}
 {{/description}}
 public class {{classname}}ServiceImpl implements {{classname}} {
 {{#operations}}
 {{#operation}}
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParams}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         // TODO: Implement...
         
         {{^vendorExtensions.x-java-is-response-void}}return null;{{/vendorExtensions.x-java-is-response-void}}

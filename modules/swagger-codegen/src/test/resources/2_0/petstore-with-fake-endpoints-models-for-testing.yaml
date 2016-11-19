@@ -1074,6 +1074,9 @@ definitions:
         enum:
           - 1.1
           - -1.2
+      outerEnum:
+        type: string
+        $ref: '#/definitions/OuterEnum'
   AdditionalPropertiesClass:
     type: object
     properties:
@@ -1228,6 +1231,12 @@ definitions:
       #      enum:
       #        - Cat
       #        - Dog
+  OuterEnum:
+    type: "string"
+    enum:
+    - "placed"
+    - "approved"
+    - "delivered"
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
