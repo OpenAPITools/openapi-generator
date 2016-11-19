@@ -75,7 +75,7 @@ export class ApiKeyAuth implements Authentication {
     applyToRequest(requestOptions: request.Options): void {
         if (this.location == "query") {
             (<any>requestOptions.qs)[this.paramName] = this.apiKey;
-        } else if (this.location == "header") {
+        } else if (this.location == "header" && requestOptions && requestOptions.headers) {
             requestOptions.headers[this.paramName] = this.apiKey;
         }
     }
@@ -85,14 +85,16 @@ export class OAuth implements Authentication {
     public accessToken: string;
 
     applyToRequest(requestOptions: request.Options): void {
-        requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
+        if (requestOptions && requestOptions.headers) {
+            requestOptions.headers["Authorization"] = "Bearer " + this.accessToken;
+        }
     }
 }
 
 export class VoidAuth implements Authentication {
     public username: string;
     public password: string;
-    applyToRequest(requestOptions: request.Options): void {
+    applyToRequest(_: request.Options): void {
         // Do nothing
     }
 }
