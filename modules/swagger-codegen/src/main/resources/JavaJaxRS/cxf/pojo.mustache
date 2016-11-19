@@ -7,12 +7,14 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
+{{#useJaxbAnnotations}}
 @XmlAccessorType(XmlAccessType.FIELD)
 {{#hasVars}} @XmlType(name = "{{classname}}", propOrder =
     { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
 }){{/hasVars}}
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
 {{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
+{{/useJaxbAnnotations}}
 {{#description}}
 @ApiModel(description="{{{description}}}")
 {{/description}}
@@ -22,8 +24,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 {{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 
 {{>enumClass}}{{/items}}{{/items.isEnum}}
-
+{{#useJaxbAnnotations}}
   @XmlElement(name="{{baseName}}")
+{{/useJaxbAnnotations}}  
   @ApiModelProperty({{#example}}example = "{{example}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
