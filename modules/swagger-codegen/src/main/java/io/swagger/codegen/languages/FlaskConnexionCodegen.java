@@ -10,6 +10,8 @@ import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.BodyParameter;
+import io.swagger.models.parameters.FormParameter;
 import io.swagger.models.properties.*;
 import io.swagger.util.Yaml;
 
@@ -36,6 +38,8 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
     public FlaskConnexionCodegen() {
         super();
+        modelPackage = "models";
+        testPackage = "test";
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -68,6 +72,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
         apiTemplateFiles.put("controller.mustache", ".py");
         modelTemplateFiles.put("model.mustache", ".py");
+        apiTestTemplateFiles().put("controller_test.mustache", ".py");
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -167,6 +172,11 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                 modelPackage,
                 "base_model_.py")
         );
+
+        supportingFiles.add(new SupportingFile("__init__test.mustache",
+                testPackage,
+                "__init__.py")
+        );
     }
 
     private static String dropDots(String str) {
@@ -177,6 +187,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     public String apiPackage() {
         return controllerPackage;
     }
+
 
     /**
      * Configures the type of generator.
@@ -223,6 +234,11 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toApiFilename(String name) {
         return underscore(toApiName(name));
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return "test_" + toApiFilename(name);
     }
 
     /**
@@ -274,7 +290,6 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         }
         return type;
     }
-
 
     @Override
     public void preprocessSwagger(Swagger swagger) {
@@ -512,6 +527,93 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
         return null;
     }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            example = p.defaultValue;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("Integer".equals(type) || "int".equals(type)) {
+            if(p.minimum != null) {
+                example = "" + (p.minimum.intValue() + 1);
+            }
+            if(p.maximum != null) {
+                example = "" + p.maximum.intValue();
+            } else if (example == null) {
+                example = "56";
+            }
+
+        } else if ("Long".equalsIgnoreCase(type)) {
+            if(p.minimum != null) {
+                example = "" + (p.minimum.longValue() + 1);
+            }
+            if(p.maximum != null) {
+                example = "" + p.maximum.longValue();
+            } else if (example == null) {
+                example = "789";
+            }
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+            if(p.minimum != null) {
+                example = "" + p.minimum;
+            } else if(p.maximum != null) {
+                example = "" + p.maximum;
+            } else if (example == null) {
+                example = "3.4";
+            }
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "True";
+            }
+        } else if ("file".equalsIgnoreCase(type)) {
+            example = "(BytesIO(b'some file data'), 'file.txt')";
+        } else if ("Date".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("DateTime".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = type + "()";
+        } else {
+            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
+
+        if(p.items != null && p.items.defaultValue != null) {
+            example = p.items.defaultValue;
+        }
+        if (example == null) {
+            example = "None";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            if (Boolean.TRUE.equals(p.isBodyParam)) {
+                example = "[" + example + "]";
+            }
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key': " + example + "}";
+        }
+
+        p.example = example;
+    }
+
 
     @Override
     public String escapeQuotationMark(String input) {

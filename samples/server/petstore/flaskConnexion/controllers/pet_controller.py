@@ -1,6 +1,6 @@
 import connexion
-from models.pet import Pet
 from models.api_response import ApiResponse
+from models.pet import Pet
 from datetime import date, datetime
 from typing import List, Dict
 from six import iteritems

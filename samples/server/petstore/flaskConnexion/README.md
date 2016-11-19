@@ -10,7 +10,7 @@ This example uses the [Connexion](https://github.com/zalando/connexion) library 
 To run the server, please execute the following:
 
 ```
-sudo pip3 install -U connexion # install Connexion from PyPI
+sudo pip3 install -U connexion flask_testing # install Connexion from PyPI
 python3 app.py
 ```
 
