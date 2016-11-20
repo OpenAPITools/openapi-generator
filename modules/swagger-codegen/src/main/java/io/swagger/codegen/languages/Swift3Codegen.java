@@ -102,14 +102,18 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         );
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
-                        "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
-                        "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
-                        "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
-                        "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
-                        "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
-                        "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
-                        "required", "right", "set", "Type", "unowned", "weak")
+                    // name used by swift client
+                    "ErrorResponse",
+
+                    // swift keywords
+                    "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
+                    "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
+                    "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
+                    "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
+                    "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
+                    "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
+                    "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
+                    "required", "right", "set", "Type", "unowned", "weak")
         );
 
         typeMapping = new HashMap<>();
