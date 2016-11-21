@@ -253,6 +253,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
+        importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
+        importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
         importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
@@ -627,6 +629,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
         if(codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
+        }
+        if (codegenModel.discriminator != null && additionalProperties.containsKey("jackson")) {
+            codegenModel.imports.add("JsonSubTypes");
+            codegenModel.imports.add("JsonTypeInfo");
         }
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Model parentModel = allDefinitions.get(codegenModel.parentSchema);

@@ -17,6 +17,7 @@ public class CodegenModel {
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
     public CodegenModel parentModel;
     public List<CodegenModel> interfaceModels;
+    public List<CodegenModel> children;
 
     public String name, classname, title, description, classVarName, modelJson, dataType;
     public String classFilename; // store the class file name, mainly used for import
