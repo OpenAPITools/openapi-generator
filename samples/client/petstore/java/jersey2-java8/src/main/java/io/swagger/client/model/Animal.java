@@ -16,13 +16,18 @@ package io.swagger.client.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Animal
  */
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className" )
+@JsonSubTypes({ 
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),@JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+})
 public class Animal {
   @JsonProperty("className")
   private String className = null;
