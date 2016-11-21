@@ -49,7 +49,7 @@ export class PetApi {
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
+                (objA as any)[key] = (objB as any)[key];
             }
         }
         return <T1&T2>objA;
@@ -414,16 +414,16 @@ export class PetApi {
             'application/xml'
         ];
         
-        // authentication (api_key) required
-        if (this.configuration.apiKey)
-        {
-            headers.set('api_key', this.configuration.apiKey);
-        }
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken)
         {
             headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+        }
+        // authentication (api_key) required
+        if (this.configuration.apiKey)
+        {
+            headers.set('api_key', this.configuration.apiKey);
         }
             
 
