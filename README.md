@@ -128,7 +128,8 @@ cd /vagrant
 
 #### Public Docker image
 
-https://hub.docker.com/r/swaggerapi/swagger-generator/
+ - https://hub.docker.com/r/swaggerapi/swagger-generator/ (official)
+ - https://hub.docker.com/r/jimschubert/swagger-codegen-cli/ (unofficial)
 
 ### Homebrew
 To install, run `brew install swagger-codegen`
