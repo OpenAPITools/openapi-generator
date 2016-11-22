@@ -43,12 +43,10 @@ class Model200Response(object):
         self._name = name
         self.__class = _class
 
-
     @property
     def name(self):
         """
         Gets the name of this Model200Response.
-
 
         :return: The name of this Model200Response.
         :rtype: int
@@ -59,7 +57,6 @@ class Model200Response(object):
     def name(self, name):
         """
         Sets the name of this Model200Response.
-
 
         :param name: The name of this Model200Response.
         :type: int
@@ -72,7 +69,6 @@ class Model200Response(object):
         """
         Gets the _class of this Model200Response.
 
-
         :return: The _class of this Model200Response.
         :rtype: str
         """
@@ -82,7 +78,6 @@ class Model200Response(object):
     def _class(self, _class):
         """
         Sets the _class of this Model200Response.
-
 
         :param _class: The _class of this Model200Response.
         :type: str

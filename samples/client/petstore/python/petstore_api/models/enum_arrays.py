@@ -43,12 +43,10 @@ class EnumArrays(object):
         self._just_symbol = just_symbol
         self._array_enum = array_enum
 
-
     @property
     def just_symbol(self):
         """
         Gets the just_symbol of this EnumArrays.
-
 
         :return: The just_symbol of this EnumArrays.
         :rtype: str
@@ -59,7 +57,6 @@ class EnumArrays(object):
     def just_symbol(self, just_symbol):
         """
         Sets the just_symbol of this EnumArrays.
-
 
         :param just_symbol: The just_symbol of this EnumArrays.
         :type: str
@@ -78,7 +75,6 @@ class EnumArrays(object):
         """
         Gets the array_enum of this EnumArrays.
 
-
         :return: The array_enum of this EnumArrays.
         :rtype: list[str]
         """
@@ -88,7 +84,6 @@ class EnumArrays(object):
     def array_enum(self, array_enum):
         """
         Sets the array_enum of this EnumArrays.
-
 
         :param array_enum: The array_enum of this EnumArrays.
         :type: list[str]

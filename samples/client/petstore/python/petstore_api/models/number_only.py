@@ -40,12 +40,10 @@ class NumberOnly(object):
 
         self._just_number = just_number
 
-
     @property
     def just_number(self):
         """
         Gets the just_number of this NumberOnly.
-
 
         :return: The just_number of this NumberOnly.
         :rtype: float
@@ -56,7 +54,6 @@ class NumberOnly(object):
     def just_number(self, just_number):
         """
         Sets the just_number of this NumberOnly.
-
 
         :param just_number: The just_number of this NumberOnly.
         :type: float

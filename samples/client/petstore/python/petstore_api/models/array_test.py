@@ -46,12 +46,10 @@ class ArrayTest(object):
         self._array_array_of_integer = array_array_of_integer
         self._array_array_of_model = array_array_of_model
 
-
     @property
     def array_of_string(self):
         """
         Gets the array_of_string of this ArrayTest.
-
 
         :return: The array_of_string of this ArrayTest.
         :rtype: list[str]
@@ -62,7 +60,6 @@ class ArrayTest(object):
     def array_of_string(self, array_of_string):
         """
         Sets the array_of_string of this ArrayTest.
-
 
         :param array_of_string: The array_of_string of this ArrayTest.
         :type: list[str]
@@ -75,7 +72,6 @@ class ArrayTest(object):
         """
         Gets the array_array_of_integer of this ArrayTest.
 
-
         :return: The array_array_of_integer of this ArrayTest.
         :rtype: list[list[int]]
         """
@@ -85,7 +81,6 @@ class ArrayTest(object):
     def array_array_of_integer(self, array_array_of_integer):
         """
         Sets the array_array_of_integer of this ArrayTest.
-
 
         :param array_array_of_integer: The array_array_of_integer of this ArrayTest.
         :type: list[list[int]]
@@ -98,7 +93,6 @@ class ArrayTest(object):
         """
         Gets the array_array_of_model of this ArrayTest.
 
-
         :return: The array_array_of_model of this ArrayTest.
         :rtype: list[list[ReadOnlyFirst]]
         """
@@ -108,7 +102,6 @@ class ArrayTest(object):
     def array_array_of_model(self, array_array_of_model):
         """
         Sets the array_array_of_model of this ArrayTest.
-
 
         :param array_array_of_model: The array_array_of_model of this ArrayTest.
         :type: list[list[ReadOnlyFirst]]

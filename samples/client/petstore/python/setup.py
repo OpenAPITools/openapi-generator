@@ -16,7 +16,6 @@ from setuptools import setup, find_packages
 
 NAME = "petstore_api"
 VERSION = "1.0.0"
-
 # To install the library, run the following
 #
 # python setup.py install
@@ -40,4 +39,3 @@ setup(
     This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\
     """
 )
-

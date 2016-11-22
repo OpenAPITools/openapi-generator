@@ -175,7 +175,7 @@ class ApiClient(object):
                     for sub_obj in obj]
         elif isinstance(obj, tuple):
             return tuple(self.sanitize_for_serialization(sub_obj)
-                for sub_obj in obj)
+                         for sub_obj in obj)
         elif isinstance(obj, (datetime, date)):
             return obj.isoformat()
         else:

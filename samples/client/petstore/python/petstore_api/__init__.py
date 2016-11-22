@@ -38,6 +38,7 @@ from .models.model_return import ModelReturn
 from .models.name import Name
 from .models.number_only import NumberOnly
 from .models.order import Order
+from .models.outer_enum import OuterEnum
 from .models.pet import Pet
 from .models.read_only_first import ReadOnlyFirst
 from .models.special_model_name import SpecialModelName

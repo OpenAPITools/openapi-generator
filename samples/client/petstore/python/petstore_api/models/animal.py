@@ -43,12 +43,10 @@ class Animal(object):
         self._class_name = class_name
         self._color = color
 
-
     @property
     def class_name(self):
         """
         Gets the class_name of this Animal.
-
 
         :return: The class_name of this Animal.
         :rtype: str
@@ -59,7 +57,6 @@ class Animal(object):
     def class_name(self, class_name):
         """
         Sets the class_name of this Animal.
-
 
         :param class_name: The class_name of this Animal.
         :type: str
@@ -74,7 +71,6 @@ class Animal(object):
         """
         Gets the color of this Animal.
 
-
         :return: The color of this Animal.
         :rtype: str
         """
@@ -84,7 +80,6 @@ class Animal(object):
     def color(self, color):
         """
         Sets the color of this Animal.
-
 
         :param color: The color of this Animal.
         :type: str

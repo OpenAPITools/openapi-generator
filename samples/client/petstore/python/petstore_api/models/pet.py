@@ -55,12 +55,10 @@ class Pet(object):
         self._tags = tags
         self._status = status
 
-
     @property
     def id(self):
         """
         Gets the id of this Pet.
-
 
         :return: The id of this Pet.
         :rtype: int
@@ -71,7 +69,6 @@ class Pet(object):
     def id(self, id):
         """
         Sets the id of this Pet.
-
 
         :param id: The id of this Pet.
         :type: int
@@ -84,7 +81,6 @@ class Pet(object):
         """
         Gets the category of this Pet.
 
-
         :return: The category of this Pet.
         :rtype: Category
         """
@@ -94,7 +90,6 @@ class Pet(object):
     def category(self, category):
         """
         Sets the category of this Pet.
-
 
         :param category: The category of this Pet.
         :type: Category
@@ -107,7 +102,6 @@ class Pet(object):
         """
         Gets the name of this Pet.
 
-
         :return: The name of this Pet.
         :rtype: str
         """
@@ -117,7 +111,6 @@ class Pet(object):
     def name(self, name):
         """
         Sets the name of this Pet.
-
 
         :param name: The name of this Pet.
         :type: str
@@ -132,7 +125,6 @@ class Pet(object):
         """
         Gets the photo_urls of this Pet.
 
-
         :return: The photo_urls of this Pet.
         :rtype: list[str]
         """
@@ -142,7 +134,6 @@ class Pet(object):
     def photo_urls(self, photo_urls):
         """
         Sets the photo_urls of this Pet.
-
 
         :param photo_urls: The photo_urls of this Pet.
         :type: list[str]
@@ -157,7 +148,6 @@ class Pet(object):
         """
         Gets the tags of this Pet.
 
-
         :return: The tags of this Pet.
         :rtype: list[Tag]
         """
@@ -167,7 +157,6 @@ class Pet(object):
     def tags(self, tags):
         """
         Sets the tags of this Pet.
-
 
         :param tags: The tags of this Pet.
         :type: list[Tag]

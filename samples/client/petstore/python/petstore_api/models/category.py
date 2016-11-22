@@ -43,12 +43,10 @@ class Category(object):
         self._id = id
         self._name = name
 
-
     @property
     def id(self):
         """
         Gets the id of this Category.
-
 
         :return: The id of this Category.
         :rtype: int
@@ -59,7 +57,6 @@ class Category(object):
     def id(self, id):
         """
         Sets the id of this Category.
-
 
         :param id: The id of this Category.
         :type: int
@@ -72,7 +69,6 @@ class Category(object):
         """
         Gets the name of this Category.
 
-
         :return: The name of this Category.
         :rtype: str
         """
@@ -82,7 +78,6 @@ class Category(object):
     def name(self, name):
         """
         Sets the name of this Category.
-
 
         :param name: The name of this Category.
         :type: str

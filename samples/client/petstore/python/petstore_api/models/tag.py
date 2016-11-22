@@ -43,12 +43,10 @@ class Tag(object):
         self._id = id
         self._name = name
 
-
     @property
     def id(self):
         """
         Gets the id of this Tag.
-
 
         :return: The id of this Tag.
         :rtype: int
@@ -59,7 +57,6 @@ class Tag(object):
     def id(self, id):
         """
         Sets the id of this Tag.
-
 
         :param id: The id of this Tag.
         :type: int
@@ -72,7 +69,6 @@ class Tag(object):
         """
         Gets the name of this Tag.
 
-
         :return: The name of this Tag.
         :rtype: str
         """
@@ -82,7 +78,6 @@ class Tag(object):
     def name(self, name):
         """
         Sets the name of this Tag.
-
 
         :param name: The name of this Tag.
         :type: str

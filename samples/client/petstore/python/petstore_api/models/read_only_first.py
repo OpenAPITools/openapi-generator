@@ -43,12 +43,10 @@ class ReadOnlyFirst(object):
         self._bar = bar
         self._baz = baz
 
-
     @property
     def bar(self):
         """
         Gets the bar of this ReadOnlyFirst.
-
 
         :return: The bar of this ReadOnlyFirst.
         :rtype: str
@@ -59,7 +57,6 @@ class ReadOnlyFirst(object):
     def bar(self, bar):
         """
         Sets the bar of this ReadOnlyFirst.
-
 
         :param bar: The bar of this ReadOnlyFirst.
         :type: str
@@ -72,7 +69,6 @@ class ReadOnlyFirst(object):
         """
         Gets the baz of this ReadOnlyFirst.
 
-
         :return: The baz of this ReadOnlyFirst.
         :rtype: str
         """
@@ -82,7 +78,6 @@ class ReadOnlyFirst(object):
     def baz(self, baz):
         """
         Sets the baz of this ReadOnlyFirst.
-
 
         :param baz: The baz of this ReadOnlyFirst.
         :type: str
