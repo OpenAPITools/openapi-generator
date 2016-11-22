@@ -46,12 +46,10 @@ class ApiResponse(object):
         self._type = type
         self._message = message
 
-
     @property
     def code(self):
         """
         Gets the code of this ApiResponse.
-
 
         :return: The code of this ApiResponse.
         :rtype: int
@@ -62,7 +60,6 @@ class ApiResponse(object):
     def code(self, code):
         """
         Sets the code of this ApiResponse.
-
 
         :param code: The code of this ApiResponse.
         :type: int
@@ -75,7 +72,6 @@ class ApiResponse(object):
         """
         Gets the type of this ApiResponse.
 
-
         :return: The type of this ApiResponse.
         :rtype: str
         """
@@ -85,7 +81,6 @@ class ApiResponse(object):
     def type(self, type):
         """
         Sets the type of this ApiResponse.
-
 
         :param type: The type of this ApiResponse.
         :type: str
@@ -98,7 +93,6 @@ class ApiResponse(object):
         """
         Gets the message of this ApiResponse.
 
-
         :return: The message of this ApiResponse.
         :rtype: str
         """
@@ -108,7 +102,6 @@ class ApiResponse(object):
     def message(self, message):
         """
         Sets the message of this ApiResponse.
-
 
         :param message: The message of this ApiResponse.
         :type: str

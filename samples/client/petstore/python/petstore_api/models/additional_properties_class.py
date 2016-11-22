@@ -43,12 +43,10 @@ class AdditionalPropertiesClass(object):
         self._map_property = map_property
         self._map_of_map_property = map_of_map_property
 
-
     @property
     def map_property(self):
         """
         Gets the map_property of this AdditionalPropertiesClass.
-
 
         :return: The map_property of this AdditionalPropertiesClass.
         :rtype: dict(str, str)
@@ -59,7 +57,6 @@ class AdditionalPropertiesClass(object):
     def map_property(self, map_property):
         """
         Sets the map_property of this AdditionalPropertiesClass.
-
 
         :param map_property: The map_property of this AdditionalPropertiesClass.
         :type: dict(str, str)
@@ -72,7 +69,6 @@ class AdditionalPropertiesClass(object):
         """
         Gets the map_of_map_property of this AdditionalPropertiesClass.
 
-
         :return: The map_of_map_property of this AdditionalPropertiesClass.
         :rtype: dict(str, dict(str, str))
         """
@@ -82,7 +78,6 @@ class AdditionalPropertiesClass(object):
     def map_of_map_property(self, map_of_map_property):
         """
         Sets the map_of_map_property of this AdditionalPropertiesClass.
-
 
         :param map_of_map_property: The map_of_map_property of this AdditionalPropertiesClass.
         :type: dict(str, dict(str, str))

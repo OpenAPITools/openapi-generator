@@ -40,12 +40,10 @@ class ModelReturn(object):
 
         self.__return = _return
 
-
     @property
     def _return(self):
         """
         Gets the _return of this ModelReturn.
-
 
         :return: The _return of this ModelReturn.
         :rtype: int
@@ -56,7 +54,6 @@ class ModelReturn(object):
     def _return(self, _return):
         """
         Sets the _return of this ModelReturn.
-
 
         :param _return: The _return of this ModelReturn.
         :type: int

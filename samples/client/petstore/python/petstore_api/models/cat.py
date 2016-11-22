@@ -46,12 +46,10 @@ class Cat(object):
         self._color = color
         self._declawed = declawed
 
-
     @property
     def class_name(self):
         """
         Gets the class_name of this Cat.
-
 
         :return: The class_name of this Cat.
         :rtype: str
@@ -62,7 +60,6 @@ class Cat(object):
     def class_name(self, class_name):
         """
         Sets the class_name of this Cat.
-
 
         :param class_name: The class_name of this Cat.
         :type: str
@@ -77,7 +74,6 @@ class Cat(object):
         """
         Gets the color of this Cat.
 
-
         :return: The color of this Cat.
         :rtype: str
         """
@@ -87,7 +83,6 @@ class Cat(object):
     def color(self, color):
         """
         Sets the color of this Cat.
-
 
         :param color: The color of this Cat.
         :type: str
@@ -100,7 +95,6 @@ class Cat(object):
         """
         Gets the declawed of this Cat.
 
-
         :return: The declawed of this Cat.
         :rtype: bool
         """
@@ -110,7 +104,6 @@ class Cat(object):
     def declawed(self, declawed):
         """
         Sets the declawed of this Cat.
-
 
         :param declawed: The declawed of this Cat.
         :type: bool

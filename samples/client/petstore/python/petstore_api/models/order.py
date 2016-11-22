@@ -55,12 +55,10 @@ class Order(object):
         self._status = status
         self._complete = complete
 
-
     @property
     def id(self):
         """
         Gets the id of this Order.
-
 
         :return: The id of this Order.
         :rtype: int
@@ -71,7 +69,6 @@ class Order(object):
     def id(self, id):
         """
         Sets the id of this Order.
-
 
         :param id: The id of this Order.
         :type: int
@@ -84,7 +81,6 @@ class Order(object):
         """
         Gets the pet_id of this Order.
 
-
         :return: The pet_id of this Order.
         :rtype: int
         """
@@ -94,7 +90,6 @@ class Order(object):
     def pet_id(self, pet_id):
         """
         Sets the pet_id of this Order.
-
 
         :param pet_id: The pet_id of this Order.
         :type: int
@@ -107,7 +102,6 @@ class Order(object):
         """
         Gets the quantity of this Order.
 
-
         :return: The quantity of this Order.
         :rtype: int
         """
@@ -117,7 +111,6 @@ class Order(object):
     def quantity(self, quantity):
         """
         Sets the quantity of this Order.
-
 
         :param quantity: The quantity of this Order.
         :type: int
@@ -130,7 +123,6 @@ class Order(object):
         """
         Gets the ship_date of this Order.
 
-
         :return: The ship_date of this Order.
         :rtype: datetime
         """
@@ -140,7 +132,6 @@ class Order(object):
     def ship_date(self, ship_date):
         """
         Sets the ship_date of this Order.
-
 
         :param ship_date: The ship_date of this Order.
         :type: datetime
@@ -182,7 +173,6 @@ class Order(object):
         """
         Gets the complete of this Order.
 
-
         :return: The complete of this Order.
         :rtype: bool
         """
@@ -192,7 +182,6 @@ class Order(object):
     def complete(self, complete):
         """
         Sets the complete of this Order.
-
 
         :param complete: The complete of this Order.
         :type: bool

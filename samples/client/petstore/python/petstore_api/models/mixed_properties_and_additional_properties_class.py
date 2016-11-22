@@ -46,12 +46,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         self._date_time = date_time
         self._map = map
 
-
     @property
     def uuid(self):
         """
         Gets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
-
 
         :return: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.
         :rtype: str
@@ -62,7 +60,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     def uuid(self, uuid):
         """
         Sets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
-
 
         :param uuid: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.
         :type: str
@@ -75,7 +72,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """
         Gets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
 
-
         :return: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.
         :rtype: datetime
         """
@@ -85,7 +81,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     def date_time(self, date_time):
         """
         Sets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
-
 
         :param date_time: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.
         :type: datetime
@@ -98,7 +93,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """
         Gets the map of this MixedPropertiesAndAdditionalPropertiesClass.
 
-
         :return: The map of this MixedPropertiesAndAdditionalPropertiesClass.
         :rtype: dict(str, Animal)
         """
@@ -108,7 +102,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     def map(self, map):
         """
         Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
-
 
         :param map: The map of this MixedPropertiesAndAdditionalPropertiesClass.
         :type: dict(str, Animal)

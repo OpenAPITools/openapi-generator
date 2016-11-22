@@ -40,12 +40,10 @@ class Client(object):
 
         self._client = client
 
-
     @property
     def client(self):
         """
         Gets the client of this Client.
-
 
         :return: The client of this Client.
         :rtype: str
@@ -56,7 +54,6 @@ class Client(object):
     def client(self, client):
         """
         Sets the client of this Client.
-
 
         :param client: The client of this Client.
         :type: str

@@ -39,7 +39,7 @@ class MockPoolManager(object):
         self._reqs.append((args, kwargs))
 
     def request(self, *args, **kwargs):
-        self._tc.assertTrue(len(self._reqs)>0)
+        self._tc.assertTrue(len(self._reqs) > 0)
         r = self._reqs.pop(0)
         self._tc.maxDiff = None
         self._tc.assertEqual(r[0], args)
@@ -169,7 +169,7 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(body=self.pet)
 
         def callback_function(data):
-            #fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+            # fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
             self.assertIsNotNone(data)
             self.assertEqual(self.pet.id, data.id)
             self.assertIsNotNone(data.category)
@@ -193,7 +193,7 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(body=self.pet)
 
         def callback_function(data):
-            #fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+            # fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
             self.assertIsNotNone(data)
             self.assertEqual(self.pet.id, data[0].id)
             self.assertIsNotNone(data[0].category)

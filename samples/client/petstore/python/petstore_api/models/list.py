@@ -40,12 +40,10 @@ class List(object):
 
         self.__123_list = _123_list
 
-
     @property
     def _123_list(self):
         """
         Gets the _123_list of this List.
-
 
         :return: The _123_list of this List.
         :rtype: str
@@ -56,7 +54,6 @@ class List(object):
     def _123_list(self, _123_list):
         """
         Sets the _123_list of this List.
-
 
         :param _123_list: The _123_list of this List.
         :type: str

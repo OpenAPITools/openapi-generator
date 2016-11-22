@@ -40,12 +40,10 @@ class SpecialModelName(object):
 
         self._special_property_name = special_property_name
 
-
     @property
     def special_property_name(self):
         """
         Gets the special_property_name of this SpecialModelName.
-
 
         :return: The special_property_name of this SpecialModelName.
         :rtype: int
@@ -56,7 +54,6 @@ class SpecialModelName(object):
     def special_property_name(self, special_property_name):
         """
         Sets the special_property_name of this SpecialModelName.
-
 
         :param special_property_name: The special_property_name of this SpecialModelName.
         :type: int

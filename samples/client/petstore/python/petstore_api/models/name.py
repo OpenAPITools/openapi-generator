@@ -49,12 +49,10 @@ class Name(object):
         self.__property = _property
         self.__123_number = _123_number
 
-
     @property
     def name(self):
         """
         Gets the name of this Name.
-
 
         :return: The name of this Name.
         :rtype: int
@@ -65,7 +63,6 @@ class Name(object):
     def name(self, name):
         """
         Sets the name of this Name.
-
 
         :param name: The name of this Name.
         :type: int
@@ -80,7 +77,6 @@ class Name(object):
         """
         Gets the snake_case of this Name.
 
-
         :return: The snake_case of this Name.
         :rtype: int
         """
@@ -90,7 +86,6 @@ class Name(object):
     def snake_case(self, snake_case):
         """
         Sets the snake_case of this Name.
-
 
         :param snake_case: The snake_case of this Name.
         :type: int
@@ -103,7 +98,6 @@ class Name(object):
         """
         Gets the _property of this Name.
 
-
         :return: The _property of this Name.
         :rtype: str
         """
@@ -113,7 +107,6 @@ class Name(object):
     def _property(self, _property):
         """
         Sets the _property of this Name.
-
 
         :param _property: The _property of this Name.
         :type: str
@@ -126,7 +119,6 @@ class Name(object):
         """
         Gets the _123_number of this Name.
 
-
         :return: The _123_number of this Name.
         :rtype: int
         """
@@ -136,7 +128,6 @@ class Name(object):
     def _123_number(self, _123_number):
         """
         Sets the _123_number of this Name.
-
 
         :param _123_number: The _123_number of this Name.
         :type: int

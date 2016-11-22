@@ -61,12 +61,10 @@ class User(object):
         self._phone = phone
         self._user_status = user_status
 
-
     @property
     def id(self):
         """
         Gets the id of this User.
-
 
         :return: The id of this User.
         :rtype: int
@@ -77,7 +75,6 @@ class User(object):
     def id(self, id):
         """
         Sets the id of this User.
-
 
         :param id: The id of this User.
         :type: int
@@ -90,7 +87,6 @@ class User(object):
         """
         Gets the username of this User.
 
-
         :return: The username of this User.
         :rtype: str
         """
@@ -100,7 +96,6 @@ class User(object):
     def username(self, username):
         """
         Sets the username of this User.
-
 
         :param username: The username of this User.
         :type: str
@@ -113,7 +108,6 @@ class User(object):
         """
         Gets the first_name of this User.
 
-
         :return: The first_name of this User.
         :rtype: str
         """
@@ -123,7 +117,6 @@ class User(object):
     def first_name(self, first_name):
         """
         Sets the first_name of this User.
-
 
         :param first_name: The first_name of this User.
         :type: str
@@ -136,7 +129,6 @@ class User(object):
         """
         Gets the last_name of this User.
 
-
         :return: The last_name of this User.
         :rtype: str
         """
@@ -146,7 +138,6 @@ class User(object):
     def last_name(self, last_name):
         """
         Sets the last_name of this User.
-
 
         :param last_name: The last_name of this User.
         :type: str
@@ -159,7 +150,6 @@ class User(object):
         """
         Gets the email of this User.
 
-
         :return: The email of this User.
         :rtype: str
         """
@@ -169,7 +159,6 @@ class User(object):
     def email(self, email):
         """
         Sets the email of this User.
-
 
         :param email: The email of this User.
         :type: str
@@ -182,7 +171,6 @@ class User(object):
         """
         Gets the password of this User.
 
-
         :return: The password of this User.
         :rtype: str
         """
@@ -192,7 +180,6 @@ class User(object):
     def password(self, password):
         """
         Sets the password of this User.
-
 
         :param password: The password of this User.
         :type: str
@@ -205,7 +192,6 @@ class User(object):
         """
         Gets the phone of this User.
 
-
         :return: The phone of this User.
         :rtype: str
         """
@@ -215,7 +201,6 @@ class User(object):
     def phone(self, phone):
         """
         Sets the phone of this User.
-
 
         :param phone: The phone of this User.
         :type: str

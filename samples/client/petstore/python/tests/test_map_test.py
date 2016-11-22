@@ -16,7 +16,6 @@ import petstore_api
 
 class MapTestTests(unittest.TestCase):
 
-
     def test_maptest_init(self):
       #
       # Test MapTest construction with valid values

@@ -40,12 +40,10 @@ class ArrayOfArrayOfNumberOnly(object):
 
         self._array_array_number = array_array_number
 
-
     @property
     def array_array_number(self):
         """
         Gets the array_array_number of this ArrayOfArrayOfNumberOnly.
-
 
         :return: The array_array_number of this ArrayOfArrayOfNumberOnly.
         :rtype: list[list[float]]
@@ -56,7 +54,6 @@ class ArrayOfArrayOfNumberOnly(object):
     def array_array_number(self, array_array_number):
         """
         Sets the array_array_number of this ArrayOfArrayOfNumberOnly.
-
 
         :param array_array_number: The array_array_number of this ArrayOfArrayOfNumberOnly.
         :type: list[list[float]]

@@ -43,12 +43,10 @@ class MapTest(object):
         self._map_map_of_string = map_map_of_string
         self._map_of_enum_string = map_of_enum_string
 
-
     @property
     def map_map_of_string(self):
         """
         Gets the map_map_of_string of this MapTest.
-
 
         :return: The map_map_of_string of this MapTest.
         :rtype: dict(str, dict(str, str))
@@ -59,7 +57,6 @@ class MapTest(object):
     def map_map_of_string(self, map_map_of_string):
         """
         Sets the map_map_of_string of this MapTest.
-
 
         :param map_map_of_string: The map_map_of_string of this MapTest.
         :type: dict(str, dict(str, str))
@@ -72,7 +69,6 @@ class MapTest(object):
         """
         Gets the map_of_enum_string of this MapTest.
 
-
         :return: The map_of_enum_string of this MapTest.
         :rtype: dict(str, str)
         """
@@ -82,7 +78,6 @@ class MapTest(object):
     def map_of_enum_string(self, map_of_enum_string):
         """
         Sets the map_of_enum_string of this MapTest.
-
 
         :param map_of_enum_string: The map_of_enum_string of this MapTest.
         :type: dict(str, str)

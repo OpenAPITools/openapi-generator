@@ -43,12 +43,10 @@ class HasOnlyReadOnly(object):
         self._bar = bar
         self._foo = foo
 
-
     @property
     def bar(self):
         """
         Gets the bar of this HasOnlyReadOnly.
-
 
         :return: The bar of this HasOnlyReadOnly.
         :rtype: str
@@ -59,7 +57,6 @@ class HasOnlyReadOnly(object):
     def bar(self, bar):
         """
         Sets the bar of this HasOnlyReadOnly.
-
 
         :param bar: The bar of this HasOnlyReadOnly.
         :type: str
@@ -72,7 +69,6 @@ class HasOnlyReadOnly(object):
         """
         Gets the foo of this HasOnlyReadOnly.
 
-
         :return: The foo of this HasOnlyReadOnly.
         :rtype: str
         """
@@ -82,7 +78,6 @@ class HasOnlyReadOnly(object):
     def foo(self, foo):
         """
         Sets the foo of this HasOnlyReadOnly.
-
 
         :param foo: The foo of this HasOnlyReadOnly.
         :type: str
