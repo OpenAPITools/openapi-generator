@@ -958,9 +958,14 @@ definitions:
         type: integer
         format: int32
       class:
-        type: string 
+        type: string
     xml:
       name: Name
+  ClassModel:
+    description: Model for testing model with "_class" property
+    properties:
+      _class:
+        type: string
   Dog:
     allOf:
       - $ref: '#/definitions/Animal'

@@ -522,4 +522,29 @@ public class JavaModelTest {
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
     }
+
+    @DataProvider(name = "classProperties")
+    public static Object[][] classProperties() {
+        return new Object[][] {
+                {"class", "getPropertyClass", "setPropertyClass", "propertyClass"},
+                {"_class", "getPropertyClass", "setPropertyClass", "propertyClass"},
+                {"__class", "getPropertyClass", "setPropertyClass", "propertyClass"}
+        };
+    }
+
+    @Test(dataProvider = "classProperties", description = "handle 'class' properties")
+    public void classPropertyTest(String baseName, String getter, String setter, String name) {
+        final Model model = new ModelImpl()
+                .description("a sample model")
+                .property(baseName, new StringProperty());
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, baseName);
+        Assert.assertEquals(property.getter, getter);
+        Assert.assertEquals(property.setter, setter);
+        Assert.assertEquals(property.name, name);
+    }
+
 }
