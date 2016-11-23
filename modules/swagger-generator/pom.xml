@@ -119,6 +119,14 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>net.revelc.code</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Point at the eclipse-formatter.xml in the swagger-codegen parent project directory -->
+                    <configFile>${project.basedir}${file.separator}${project.parent.relativePath}${file.separator}eclipse-formatter.xml</configFile>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
