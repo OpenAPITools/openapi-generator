@@ -53,7 +53,17 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     utility::string_t responseHttpContentType;
     
     // use JSON if possible
-    if ( responseHttpContentTypes.size() == 0 || responseHttpContentTypes.find(U("application/json")) != responseHttpContentTypes.end() )
+    if ( responseHttpContentTypes.size() == 0 )
+    {
+        {{#vendorExtensions.x-codegen-response.isString}}
+        responseHttpContentType = U("text/plain");
+        {{/vendorExtensions.x-codegen-response.isString}}
+        {{^vendorExtensions.x-codegen-response.isString}}
+        responseHttpContentType = U("application/json");
+        {{/vendorExtensions.x-codegen-response.isString}}
+    }
+    // JSON
+    else if ( responseHttpContentTypes.find(U("application/json")) != responseHttpContentTypes.end() )
     {
         responseHttpContentType = U("application/json");
     }
@@ -62,6 +72,13 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     {
         responseHttpContentType = U("multipart/form-data");
     }
+    {{#vendorExtensions.x-codegen-response.isString}}
+    // plain text 
+    else if( responseHttpContentTypes.find(U("text/plain")) != responseHttpContentTypes.end() )
+    {
+        responseHttpContentType = U("text/plain");
+    }
+    {{/vendorExtensions.x-codegen-response.isString}}
     {{#vendorExtensions.x-codegen-response-ishttpcontent}}
     else
     {
@@ -266,7 +283,11 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
             {{/isMapContainer}}{{^isMapContainer}}{{#vendorExtensions.x-codegen-response.isPrimitiveType}}result = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(json);
             {{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.isString}}result = ModelBase::stringFromJson(json);
             {{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}result->fromJson(json);{{/vendorExtensions.x-codegen-response.isString}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{/isMapContainer}}{{/isListContainer}}
-        }
+        }{{#vendorExtensions.x-codegen-response.isString}}
+        else if(responseHttpContentType == U("text/plain"))
+        {
+            result = response;
+        }{{/vendorExtensions.x-codegen-response.isString}}
         // else if(responseHttpContentType == U("multipart/form-data"))
         // {
         // TODO multipart response parsing    
