@@ -1,13 +1,6 @@
 from pprint import pformat
-{{^supportPython2}}
-from typing import TypeVar, Type
-{{/supportPython2}}
 from six import iteritems
 from ..util import deserialize_model
-{{^supportPython2}}
-
-T = TypeVar('T')
-{{/supportPython2}}
 
 
 class Model(object):
@@ -18,7 +11,7 @@ class Model(object):
     attribute_map = {}
 
     @classmethod
-    def from_dict(cls{{^supportPython2}}: Type[T]{{/supportPython2}}, dikt){{^supportPython2}} -> T{{/supportPython2}}:
+    def from_dict(cls, dikt):
         """
         Returns the dict as a model
         """
