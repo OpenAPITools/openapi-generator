@@ -70,6 +70,14 @@
      * @default 60000
      */
     this.timeout = 60000;
+
+    /**
+     * If set to false an additional timestamp parameter is added to all API GET calls to
+     * prevent browser caching
+     * @type {Boolean}
+     * @default true
+     */
+    this.cache = true;
   };
 
   /**
@@ -356,6 +364,9 @@
     this.applyAuthToRequest(request, authNames);
 
     // set query parameters
+    if (httpMethod.toUpperCase() === 'GET' && this.cache === false) {
+        queryParams['_'] = new Date().getTime();
+    }
     request.query(this.normalizeParams(queryParams));
 
     // set header parameters
