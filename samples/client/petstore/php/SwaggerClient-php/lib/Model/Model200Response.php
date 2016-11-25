@@ -43,6 +43,8 @@ use \ArrayAccess;
  */
 class Model200Response implements ArrayAccess
 {
+    const DISCRIMINATOR = null;
+
     /**
       * The original name of the model.
       * @var string
