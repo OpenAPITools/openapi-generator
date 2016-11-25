@@ -284,7 +284,7 @@ use \{{invokerPackage}}\ObjectSerializer;
             );
 
             {{#returnType}}
-            return [$this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader{{#discriminator}}, '{{discriminator}}'{{/discriminator}}), $statusCode, $httpHeader];
+            return [$this->apiClient->getSerializer()->deserialize($response, '{{returnType}}', $httpHeader), $statusCode, $httpHeader];
             {{/returnType}}
             {{^returnType}}
             return [null, $statusCode, $httpHeader];

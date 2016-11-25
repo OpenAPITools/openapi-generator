@@ -42,6 +42,8 @@ use \ArrayAccess;
  */
 class Dog extends Animal implements ArrayAccess
 {
+    const DISCRIMINATOR = null;
+
     /**
       * The original name of the model.
       * @var string
