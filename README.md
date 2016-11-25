@@ -780,6 +780,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [LANDR Audio](https://www.landr.com/)
 - [Lascaux](http://www.lascaux.it/)
+- [Leica Geosystems AG](http://leica-geosystems.com)
 - [LiveAgent](https://www.ladesk.com/)
 - [Kabuku](http://www.kabuku.co.jp/en)
 - [Kuroi](http://kuroiwebdesign.com/)
