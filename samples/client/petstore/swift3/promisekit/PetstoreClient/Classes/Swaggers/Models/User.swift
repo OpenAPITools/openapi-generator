@@ -22,7 +22,7 @@ open class User: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["username"] = self.username

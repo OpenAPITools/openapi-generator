@@ -14,7 +14,7 @@ open class ArrayOfArrayOfNumberOnly: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["ArrayArrayNumber"] = self.arrayArrayNumber?.encodeToJSON()
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]

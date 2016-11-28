@@ -100,7 +100,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if stringResponse.result.isFailure {
                     completion(
                         nil,
-                        ErrorResponse.Error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error!)
+                        ErrorResponse.Error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error as Error!)
                     )
                     return
                 }
@@ -159,6 +159,13 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if response.result.isFailure {
                     completion(nil, ErrorResponse.Error(response.response?.statusCode ?? 500, response.data, response.result.error!))
                     return
+                }
+
+                // handle HTTP 204 No Content
+                // NSNull would crash decoders
+                if response.response?.statusCode == 204 && response.result.value is NSNull{
+                    completion(nil, nil)
+                    return;
                 }
 
                 if () is T {
