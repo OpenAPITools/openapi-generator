@@ -14,7 +14,7 @@ const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, '');
 
 export interface FetchArgs {
     url: string;
-    options: any; 
+    options: any;
 }
 
 export class BaseAPI {
@@ -25,7 +25,7 @@ export class BaseAPI {
         this.basePath = basePath;
         this.fetch = fetch;
     }
-}
+};
 
 {{#models}}
 {{#model}}
@@ -118,7 +118,7 @@ export const {{classname}}FetchParamCreactor = {
         };
     },
 {{/operation}}
-}
+};
 
 /**
  * {{classname}} - functional programming interface{{#description}}
@@ -179,7 +179,7 @@ export const {{classname}}Factory = function (fetch?: FetchAPI, basePath?: strin
             return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}})(fetch, basePath);
         },
 {{/operation}}
-    }
+    };
 };
 
 {{/operations}}
