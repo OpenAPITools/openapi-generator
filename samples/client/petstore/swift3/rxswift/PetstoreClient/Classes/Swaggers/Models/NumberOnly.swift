@@ -14,7 +14,7 @@ open class NumberOnly: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["JustNumber"] = self.justNumber
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]

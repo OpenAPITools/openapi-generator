@@ -28,7 +28,7 @@ open class EnumTest: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["enum_string"] = self.enumString?.rawValue
         nillableDictionary["enum_integer"] = self.enumInteger?.rawValue
