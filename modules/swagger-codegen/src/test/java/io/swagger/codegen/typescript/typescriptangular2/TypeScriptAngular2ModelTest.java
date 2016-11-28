@@ -1,9 +1,9 @@
 package io.swagger.codegen.typescript.typescriptangular2;
 
-import com.google.common.collect.Sets;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.google.common.collect.Sets;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
@@ -119,10 +119,10 @@ public class TypeScriptAngular2ModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "models.Children");
+        Assert.assertEquals(property1.datatype, "Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "null");
-        Assert.assertEquals(property1.baseType, "models.Children");
+        Assert.assertEquals(property1.baseType, "Children");
         Assert.assertNull(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
@@ -143,8 +143,8 @@ public class TypeScriptAngular2ModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "models.Children");
-        Assert.assertEquals(property1.datatype, "Array<models.Children>");
+        Assert.assertEquals(property1.complexType, "Children");
+        Assert.assertEquals(property1.datatype, "Array<Children>");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
         Assert.assertNull(property1.required);
@@ -178,7 +178,7 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(cm.additionalPropertiesType, "models.Children");
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("models.Children")).size(), 1);
+        Assert.assertEquals(cm.additionalPropertiesType, "Children");
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 }

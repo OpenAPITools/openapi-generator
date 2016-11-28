@@ -1,0 +1,192 @@
+{{>licenseInfo}}
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Http, Headers, URLSearchParams }                    from '@angular/http';
+import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { Response, ResponseContentType }                     from '@angular/http';
+
+import { Observable }                                        from 'rxjs/Observable';
+import '../rxjs-operators';
+
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+
+import { BASE_PATH }                                         from '../variables';
+import { Configuration }                                     from '../configuration';
+
+/* tslint:disable:no-unused-variable member-ordering */
+
+{{#operations}}
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+@Injectable()
+export class {{classname}} {
+    protected basePath = '{{basePath}}';
+    public defaultHeaders: Headers = new Headers();
+    public configuration: Configuration = new Configuration();
+
+    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+        if (basePath) {
+            this.basePath = basePath;
+        }
+        if (configuration) {
+            this.configuration = configuration;
+			this.basePath = basePath || configuration.basePath || this.basePath;
+        }
+    }
+	
+	/**
+     * 
+     * Extends object by coping non-existing properties.
+     * @param objA object to be extended
+     * @param objB source object
+     */
+    private extendObj<T1,T2>(objA: T1, objB: T2) {
+        for(let key in objB){
+            if(objB.hasOwnProperty(key)){
+                objA[key] = objB[key];
+            }
+        }
+        return <T1&T2>objA;
+    }
+
+{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+        return this.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
+{{/operation}}
+
+{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + `{{path}}`;
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+{{#hasFormParams}}
+        let formParams = new URLSearchParams();
+
+{{/hasFormParams}}
+{{#allParams}}
+{{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+{{/required}}
+{{/allParams}}
+{{#queryParams}}
+        if ({{paramName}} !== undefined) {
+            queryParameters.set('{{baseName}}', <any>{{paramName}});
+        }
+{{/queryParams}}
+
+{{#headers}}
+        headers.set('{{baseName}}', String({{paramName}}));
+
+{{/headers}}
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            {{/consumes}}
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            {{#produces}}
+            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            {{/produces}}
+        ];
+        
+{{#authMethods}}
+        // authentication ({{name}}) required
+{{#isApiKey}}
+{{#isKeyInHeader}}
+        if (this.configuration.apiKey)
+        {
+            headers.set('{{keyParamName}}', this.configuration.apiKey);
+        }
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+        if (this.configuration.apiKey)
+        {
+            formParams.set('{{keyParamName}}', this.configuration.apiKey);
+        }
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasic}}
+        // http basic authentication required
+        if (this.configuration.username || this.configuration.password)
+        {
+            headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
+        }
+{{/isBasic}}
+{{#isOAuth}}
+        // oauth required
+        if (this.configuration.accessToken)
+        {
+            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+        }
+{{/isOAuth}}
+{{/authMethods}}
+            
+{{#hasFormParams}}
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
+{{/hasFormParams}}
+
+{{#bodyParam}}
+        headers.set('Content-Type', 'application/json');
+{{/bodyParam}}
+
+{{#formParams}}
+        if ({{paramName}} !== undefined) {
+            formParams.set('{{baseName}}', <any>{{paramName}}); 
+        }
+{{/formParams}}
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: {{httpMethod}},
+            headers: headers,
+{{#bodyParam}}
+            body: {{paramName}} == null ? '' : JSON.stringify({{paramName}}), // https://github.com/angular/angular/issues/10612
+{{/bodyParam}}
+{{#hasFormParams}}
+            body: formParams.toString(),
+{{/hasFormParams}}
+            search: queryParameters
+        });
+        
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+{{/operation}}
+}
+{{/operations}}
