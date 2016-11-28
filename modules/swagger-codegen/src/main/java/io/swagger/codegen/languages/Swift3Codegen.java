@@ -431,10 +431,18 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         if(codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
-        if (allDefinitions != null && codegenModel.parentSchema != null) {
-            final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+        if (allDefinitions != null) {
+          String parentSchema = codegenModel.parentSchema;
+
+          // multilevel inheritance: reconcile properties of all the parents
+          while (parentSchema != null) {
+            final Model parentModel = allDefinitions.get(parentSchema);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
             codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
+
+            // get the next parent
+            parentSchema = parentCodegenModel.parentSchema;
+          }
         }
 
         return codegenModel;
@@ -591,7 +599,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
           Iterator<CodegenProperty> iterator = codegenProperties.iterator();
           while (iterator.hasNext()) {
               CodegenProperty codegenProperty = iterator.next();
-              if (codegenProperty.equals(parentModelCodegenProperty)) {
+              if (codegenProperty.baseName == parentModelCodegenProperty.baseName) {
                   // We found a property in the child class that is
                   // a duplicate of the one in the parent, so remove it.
                   iterator.remove();
