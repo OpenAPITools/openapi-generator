@@ -1,1 +1,1 @@
-export * from './ProjectApi';
+export * from './project.service';
