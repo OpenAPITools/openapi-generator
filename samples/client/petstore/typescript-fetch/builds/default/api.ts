@@ -23,7 +23,7 @@ const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, '');
 
 export interface FetchArgs {
     url: string;
-    options: any; 
+    options: any;
 }
 
 export class BaseAPI {
@@ -34,7 +34,7 @@ export class BaseAPI {
         this.basePath = basePath;
         this.fetch = fetch;
     }
-}
+};
 
 export interface Category {
     "id"?: number;
@@ -293,7 +293,7 @@ export const PetApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
-}
+};
 
 /**
  * PetApi - functional programming interface
@@ -591,7 +591,7 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }) {
             return PetApiFp.uploadFile(params)(fetch, basePath);
         },
-    }
+    };
 };
 
 
@@ -688,7 +688,7 @@ export const StoreApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
-}
+};
 
 /**
  * StoreApi - functional programming interface
@@ -836,7 +836,7 @@ export const StoreApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         placeOrder(params: {  body?: Order; }) {
             return StoreApiFp.placeOrder(params)(fetch, basePath);
         },
-    }
+    };
 };
 
 
@@ -1032,7 +1032,7 @@ export const UserApiFetchParamCreactor = {
             options: fetchOptions,
         };
     },
-}
+};
 
 /**
  * UserApi - functional programming interface
@@ -1318,6 +1318,6 @@ export const UserApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         updateUser(params: {  username: string; body?: User; }) {
             return UserApiFp.updateUser(params)(fetch, basePath);
         },
-    }
+    };
 };
 
