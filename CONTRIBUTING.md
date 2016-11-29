@@ -28,7 +28,7 @@ For a list of variables available in the template, please refer to this [page](h
 
 
 ### Style guide
-Code change should conform to the programming style guide of the respective langauages:
+Code change should conform to the programming style guide of the respective languages:
 - Android: https://source.android.com/source/code-style.html
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - C++: https://google.github.io/styleguide/cppguide.html
@@ -52,8 +52,8 @@ You may find the current code base not 100% conform to the coding style and we w
 
 For [Vendor Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#vendorExtensions), please follow the naming convention below:
 - For general vendor extension, use lower case and hyphen. e.g. `x-is-unique`, `x-content-type`
-- For language-specified vendor extension, put it in the form of `x-{lang}-{extension-name}`. e.g. `x-objc-operation-id`, `x-java-feign-retry-limit` 
-- For a list of existing vendor extensions in use, please refer to https://github.com/swagger-api/swagger-codegen/wiki/Vendor-Extensions. If you've addaed new vendor extensions as part of your PR, please update the wiki page.
+- For language-specified vendor extension, put it in the form of `x-{lang}-{extension-name}`. e.g. `x-objc-operation-id`, `x-java-feign-retry-limit`
+- For a list of existing vendor extensions in use, please refer to https://github.com/swagger-api/swagger-codegen/wiki/Vendor-Extensions. If you've added new vendor extensions as part of your PR, please update the wiki page.
 
 ### Testing
 
