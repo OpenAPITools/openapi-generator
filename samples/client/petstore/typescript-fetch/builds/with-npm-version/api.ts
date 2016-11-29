@@ -23,7 +23,7 @@ const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, '');
 
 export interface FetchArgs {
     url: string;
-    options: any; 
+    options: any;
 }
 
 export class BaseAPI {
@@ -97,10 +97,10 @@ export const PetApiFetchParamCreactor = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    addPet(params: {  body?: Pet; }): FetchArgs {
+    addPet(params: {  body?: Pet; }, options?: any): FetchArgs {
         const baseUrl = `/pet`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "POST" };
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
@@ -121,7 +121,7 @@ export const PetApiFetchParamCreactor = {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    deletePet(params: {  petId: number; apiKey?: string; }): FetchArgs {
+    deletePet(params: {  petId: number; apiKey?: string; }, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling deletePet");
@@ -129,7 +129,7 @@ export const PetApiFetchParamCreactor = {
         const baseUrl = `/pet/{petId}`
             .replace(`{${"petId"}}`, `${ params.petId }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "DELETE" };
+        let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         fetchOptions.headers = assign({ 
@@ -145,13 +145,13 @@ export const PetApiFetchParamCreactor = {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    findPetsByStatus(params: {  status?: Array<string>; }): FetchArgs {
+    findPetsByStatus(params: {  status?: Array<string>; }, options?: any): FetchArgs {
         const baseUrl = `/pet/findByStatus`;
         let urlObj = url.parse(baseUrl, true);
         urlObj.query = assign({}, urlObj.query, { 
             "status": params.status,
         });
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -167,13 +167,13 @@ export const PetApiFetchParamCreactor = {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    findPetsByTags(params: {  tags?: Array<string>; }): FetchArgs {
+    findPetsByTags(params: {  tags?: Array<string>; }, options?: any): FetchArgs {
         const baseUrl = `/pet/findByTags`;
         let urlObj = url.parse(baseUrl, true);
         urlObj.query = assign({}, urlObj.query, { 
             "tags": params.tags,
         });
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -189,7 +189,7 @@ export const PetApiFetchParamCreactor = {
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param petId ID of pet that needs to be fetched
      */
-    getPetById(params: {  petId: number; }): FetchArgs {
+    getPetById(params: {  petId: number; }, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling getPetById");
@@ -197,7 +197,7 @@ export const PetApiFetchParamCreactor = {
         const baseUrl = `/pet/{petId}`
             .replace(`{${"petId"}}`, `${ params.petId }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -213,10 +213,10 @@ export const PetApiFetchParamCreactor = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    updatePet(params: {  body?: Pet; }): FetchArgs {
+    updatePet(params: {  body?: Pet; }, options?: any): FetchArgs {
         const baseUrl = `/pet`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "PUT" };
+        let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
@@ -238,7 +238,7 @@ export const PetApiFetchParamCreactor = {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    updatePetWithForm(params: {  petId: string; name?: string; status?: string; }): FetchArgs {
+    updatePetWithForm(params: {  petId: string; name?: string; status?: string; }, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling updatePetWithForm");
@@ -246,7 +246,7 @@ export const PetApiFetchParamCreactor = {
         const baseUrl = `/pet/{petId}`
             .replace(`{${"petId"}}`, `${ params.petId }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "POST" };
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
@@ -269,7 +269,7 @@ export const PetApiFetchParamCreactor = {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }): FetchArgs {
+    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling uploadFile");
@@ -277,7 +277,7 @@ export const PetApiFetchParamCreactor = {
         const baseUrl = `/pet/{petId}/uploadImage`
             .replace(`{${"petId"}}`, `${ params.petId }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "POST" };
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
@@ -304,8 +304,8 @@ export const PetApiFp = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    addPet(params: { body?: Pet;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.addPet(params);
+    addPet(params: { body?: Pet;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = PetApiFetchParamCreactor.addPet(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -322,8 +322,8 @@ export const PetApiFp = {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    deletePet(params: { petId: number; apiKey?: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.deletePet(params);
+    deletePet(params: { petId: number; apiKey?: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = PetApiFetchParamCreactor.deletePet(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -339,8 +339,8 @@ export const PetApiFp = {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    findPetsByStatus(params: { status?: Array<string>;  }): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-        const fetchArgs = PetApiFetchParamCreactor.findPetsByStatus(params);
+    findPetsByStatus(params: { status?: Array<string>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
+        const fetchArgs = PetApiFetchParamCreactor.findPetsByStatus(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -356,8 +356,8 @@ export const PetApiFp = {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    findPetsByTags(params: { tags?: Array<string>;  }): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-        const fetchArgs = PetApiFetchParamCreactor.findPetsByTags(params);
+    findPetsByTags(params: { tags?: Array<string>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
+        const fetchArgs = PetApiFetchParamCreactor.findPetsByTags(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -373,8 +373,8 @@ export const PetApiFp = {
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param petId ID of pet that needs to be fetched
      */
-    getPetById(params: { petId: number;  }): (fetch: FetchAPI, basePath?: string) => Promise<Pet> {
-        const fetchArgs = PetApiFetchParamCreactor.getPetById(params);
+    getPetById(params: { petId: number;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Pet> {
+        const fetchArgs = PetApiFetchParamCreactor.getPetById(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -390,8 +390,8 @@ export const PetApiFp = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    updatePet(params: { body?: Pet;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.updatePet(params);
+    updatePet(params: { body?: Pet;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = PetApiFetchParamCreactor.updatePet(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -409,8 +409,8 @@ export const PetApiFp = {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    updatePetWithForm(params: { petId: string; name?: string; status?: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.updatePetWithForm(params);
+    updatePetWithForm(params: { petId: string; name?: string; status?: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = PetApiFetchParamCreactor.updatePetWithForm(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -428,8 +428,8 @@ export const PetApiFp = {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    uploadFile(params: { petId: number; additionalMetadata?: string; file?: any;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreactor.uploadFile(params);
+    uploadFile(params: { petId: number; additionalMetadata?: string; file?: any;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = PetApiFetchParamCreactor.uploadFile(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -451,8 +451,8 @@ export class PetApi extends BaseAPI {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    addPet(params: {  body?: Pet; }) {
-        return PetApiFp.addPet(params)(this.fetch, this.basePath);
+    addPet(params: {  body?: Pet; }, options?: any) {
+        return PetApiFp.addPet(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Deletes a pet
@@ -460,40 +460,40 @@ export class PetApi extends BaseAPI {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    deletePet(params: {  petId: number; apiKey?: string; }) {
-        return PetApiFp.deletePet(params)(this.fetch, this.basePath);
+    deletePet(params: {  petId: number; apiKey?: string; }, options?: any) {
+        return PetApiFp.deletePet(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    findPetsByStatus(params: {  status?: Array<string>; }) {
-        return PetApiFp.findPetsByStatus(params)(this.fetch, this.basePath);
+    findPetsByStatus(params: {  status?: Array<string>; }, options?: any) {
+        return PetApiFp.findPetsByStatus(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    findPetsByTags(params: {  tags?: Array<string>; }) {
-        return PetApiFp.findPetsByTags(params)(this.fetch, this.basePath);
+    findPetsByTags(params: {  tags?: Array<string>; }, options?: any) {
+        return PetApiFp.findPetsByTags(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Find pet by ID
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param petId ID of pet that needs to be fetched
      */
-    getPetById(params: {  petId: number; }) {
-        return PetApiFp.getPetById(params)(this.fetch, this.basePath);
+    getPetById(params: {  petId: number; }, options?: any) {
+        return PetApiFp.getPetById(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store
      */
-    updatePet(params: {  body?: Pet; }) {
-        return PetApiFp.updatePet(params)(this.fetch, this.basePath);
+    updatePet(params: {  body?: Pet; }, options?: any) {
+        return PetApiFp.updatePet(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Updates a pet in the store with form data
@@ -502,8 +502,8 @@ export class PetApi extends BaseAPI {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    updatePetWithForm(params: {  petId: string; name?: string; status?: string; }) {
-        return PetApiFp.updatePetWithForm(params)(this.fetch, this.basePath);
+    updatePetWithForm(params: {  petId: string; name?: string; status?: string; }, options?: any) {
+        return PetApiFp.updatePetWithForm(params, options)(this.fetch, this.basePath);
     }
     /** 
      * uploads an image
@@ -512,8 +512,8 @@ export class PetApi extends BaseAPI {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }) {
-        return PetApiFp.uploadFile(params)(this.fetch, this.basePath);
+    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, options?: any) {
+        return PetApiFp.uploadFile(params, options)(this.fetch, this.basePath);
     }
 };
 
@@ -527,8 +527,8 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * 
          * @param body Pet object that needs to be added to the store
          */
-        addPet(params: {  body?: Pet; }) {
-            return PetApiFp.addPet(params)(fetch, basePath);
+        addPet(params: {  body?: Pet; }, options?: any) {
+            return PetApiFp.addPet(params, options)(fetch, basePath);
         },
         /** 
          * Deletes a pet
@@ -536,40 +536,40 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * @param petId Pet id to delete
          * @param apiKey 
          */
-        deletePet(params: {  petId: number; apiKey?: string; }) {
-            return PetApiFp.deletePet(params)(fetch, basePath);
+        deletePet(params: {  petId: number; apiKey?: string; }, options?: any) {
+            return PetApiFp.deletePet(params, options)(fetch, basePath);
         },
         /** 
          * Finds Pets by status
          * Multiple status values can be provided with comma separated strings
          * @param status Status values that need to be considered for filter
          */
-        findPetsByStatus(params: {  status?: Array<string>; }) {
-            return PetApiFp.findPetsByStatus(params)(fetch, basePath);
+        findPetsByStatus(params: {  status?: Array<string>; }, options?: any) {
+            return PetApiFp.findPetsByStatus(params, options)(fetch, basePath);
         },
         /** 
          * Finds Pets by tags
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @param tags Tags to filter by
          */
-        findPetsByTags(params: {  tags?: Array<string>; }) {
-            return PetApiFp.findPetsByTags(params)(fetch, basePath);
+        findPetsByTags(params: {  tags?: Array<string>; }, options?: any) {
+            return PetApiFp.findPetsByTags(params, options)(fetch, basePath);
         },
         /** 
          * Find pet by ID
          * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
          * @param petId ID of pet that needs to be fetched
          */
-        getPetById(params: {  petId: number; }) {
-            return PetApiFp.getPetById(params)(fetch, basePath);
+        getPetById(params: {  petId: number; }, options?: any) {
+            return PetApiFp.getPetById(params, options)(fetch, basePath);
         },
         /** 
          * Update an existing pet
          * 
          * @param body Pet object that needs to be added to the store
          */
-        updatePet(params: {  body?: Pet; }) {
-            return PetApiFp.updatePet(params)(fetch, basePath);
+        updatePet(params: {  body?: Pet; }, options?: any) {
+            return PetApiFp.updatePet(params, options)(fetch, basePath);
         },
         /** 
          * Updates a pet in the store with form data
@@ -578,8 +578,8 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * @param name Updated name of the pet
          * @param status Updated status of the pet
          */
-        updatePetWithForm(params: {  petId: string; name?: string; status?: string; }) {
-            return PetApiFp.updatePetWithForm(params)(fetch, basePath);
+        updatePetWithForm(params: {  petId: string; name?: string; status?: string; }, options?: any) {
+            return PetApiFp.updatePetWithForm(params, options)(fetch, basePath);
         },
         /** 
          * uploads an image
@@ -588,8 +588,8 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * @param additionalMetadata Additional data to pass to server
          * @param file file to upload
          */
-        uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }) {
-            return PetApiFp.uploadFile(params)(fetch, basePath);
+        uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, options?: any) {
+            return PetApiFp.uploadFile(params, options)(fetch, basePath);
         },
     }
 };
@@ -604,7 +604,7 @@ export const StoreApiFetchParamCreactor = {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
      */
-    deleteOrder(params: {  orderId: string; }): FetchArgs {
+    deleteOrder(params: {  orderId: string; }, options?: any): FetchArgs {
         // verify required parameter "orderId" is set
         if (params["orderId"] == null) {
             throw new Error("Missing required parameter orderId when calling deleteOrder");
@@ -612,7 +612,7 @@ export const StoreApiFetchParamCreactor = {
         const baseUrl = `/store/order/{orderId}`
             .replace(`{${"orderId"}}`, `${ params.orderId }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "DELETE" };
+        let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -627,10 +627,10 @@ export const StoreApiFetchParamCreactor = {
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    getInventory(): FetchArgs {
+    getInventory(options?: any): FetchArgs {
         const baseUrl = `/store/inventory`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -646,7 +646,7 @@ export const StoreApiFetchParamCreactor = {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    getOrderById(params: {  orderId: string; }): FetchArgs {
+    getOrderById(params: {  orderId: string; }, options?: any): FetchArgs {
         // verify required parameter "orderId" is set
         if (params["orderId"] == null) {
             throw new Error("Missing required parameter orderId when calling getOrderById");
@@ -654,7 +654,7 @@ export const StoreApiFetchParamCreactor = {
         const baseUrl = `/store/order/{orderId}`
             .replace(`{${"orderId"}}`, `${ params.orderId }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -670,10 +670,10 @@ export const StoreApiFetchParamCreactor = {
      * 
      * @param body order placed for purchasing the pet
      */
-    placeOrder(params: {  body?: Order; }): FetchArgs {
+    placeOrder(params: {  body?: Order; }, options?: any): FetchArgs {
         const baseUrl = `/store/order`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "POST" };
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
@@ -699,8 +699,8 @@ export const StoreApiFp = {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
      */
-    deleteOrder(params: { orderId: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = StoreApiFetchParamCreactor.deleteOrder(params);
+    deleteOrder(params: { orderId: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = StoreApiFetchParamCreactor.deleteOrder(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -715,8 +715,8 @@ export const StoreApiFp = {
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    getInventory(): (fetch: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
-        const fetchArgs = StoreApiFetchParamCreactor.getInventory();
+    getInventory(options?: any): (fetch: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
+        const fetchArgs = StoreApiFetchParamCreactor.getInventory(options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -732,8 +732,8 @@ export const StoreApiFp = {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    getOrderById(params: { orderId: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
-        const fetchArgs = StoreApiFetchParamCreactor.getOrderById(params);
+    getOrderById(params: { orderId: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
+        const fetchArgs = StoreApiFetchParamCreactor.getOrderById(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -749,8 +749,8 @@ export const StoreApiFp = {
      * 
      * @param body order placed for purchasing the pet
      */
-    placeOrder(params: { body?: Order;  }): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
-        const fetchArgs = StoreApiFetchParamCreactor.placeOrder(params);
+    placeOrder(params: { body?: Order;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
+        const fetchArgs = StoreApiFetchParamCreactor.placeOrder(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -772,31 +772,31 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
      */
-    deleteOrder(params: {  orderId: string; }) {
-        return StoreApiFp.deleteOrder(params)(this.fetch, this.basePath);
+    deleteOrder(params: {  orderId: string; }, options?: any) {
+        return StoreApiFp.deleteOrder(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    getInventory() {
-        return StoreApiFp.getInventory()(this.fetch, this.basePath);
+    getInventory(options?: any) {
+        return StoreApiFp.getInventory(options)(this.fetch, this.basePath);
     }
     /** 
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    getOrderById(params: {  orderId: string; }) {
-        return StoreApiFp.getOrderById(params)(this.fetch, this.basePath);
+    getOrderById(params: {  orderId: string; }, options?: any) {
+        return StoreApiFp.getOrderById(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Place an order for a pet
      * 
      * @param body order placed for purchasing the pet
      */
-    placeOrder(params: {  body?: Order; }) {
-        return StoreApiFp.placeOrder(params)(this.fetch, this.basePath);
+    placeOrder(params: {  body?: Order; }, options?: any) {
+        return StoreApiFp.placeOrder(params, options)(this.fetch, this.basePath);
     }
 };
 
@@ -810,31 +810,31 @@ export const StoreApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
          * @param orderId ID of the order that needs to be deleted
          */
-        deleteOrder(params: {  orderId: string; }) {
-            return StoreApiFp.deleteOrder(params)(fetch, basePath);
+        deleteOrder(params: {  orderId: string; }, options?: any) {
+            return StoreApiFp.deleteOrder(params, options)(fetch, basePath);
         },
         /** 
          * Returns pet inventories by status
          * Returns a map of status codes to quantities
          */
-        getInventory() {
-            return StoreApiFp.getInventory()(fetch, basePath);
+        getInventory(options?: any) {
+            return StoreApiFp.getInventory(options)(fetch, basePath);
         },
         /** 
          * Find purchase order by ID
          * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
          * @param orderId ID of pet that needs to be fetched
          */
-        getOrderById(params: {  orderId: string; }) {
-            return StoreApiFp.getOrderById(params)(fetch, basePath);
+        getOrderById(params: {  orderId: string; }, options?: any) {
+            return StoreApiFp.getOrderById(params, options)(fetch, basePath);
         },
         /** 
          * Place an order for a pet
          * 
          * @param body order placed for purchasing the pet
          */
-        placeOrder(params: {  body?: Order; }) {
-            return StoreApiFp.placeOrder(params)(fetch, basePath);
+        placeOrder(params: {  body?: Order; }, options?: any) {
+            return StoreApiFp.placeOrder(params, options)(fetch, basePath);
         },
     }
 };
@@ -849,10 +849,10 @@ export const UserApiFetchParamCreactor = {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    createUser(params: {  body?: User; }): FetchArgs {
+    createUser(params: {  body?: User; }, options?: any): FetchArgs {
         const baseUrl = `/user`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "POST" };
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
@@ -872,10 +872,10 @@ export const UserApiFetchParamCreactor = {
      * 
      * @param body List of user object
      */
-    createUsersWithArrayInput(params: {  body?: Array<User>; }): FetchArgs {
+    createUsersWithArrayInput(params: {  body?: Array<User>; }, options?: any): FetchArgs {
         const baseUrl = `/user/createWithArray`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "POST" };
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
@@ -895,10 +895,10 @@ export const UserApiFetchParamCreactor = {
      * 
      * @param body List of user object
      */
-    createUsersWithListInput(params: {  body?: Array<User>; }): FetchArgs {
+    createUsersWithListInput(params: {  body?: Array<User>; }, options?: any): FetchArgs {
         const baseUrl = `/user/createWithList`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "POST" };
+        let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
@@ -918,7 +918,7 @@ export const UserApiFetchParamCreactor = {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    deleteUser(params: {  username: string; }): FetchArgs {
+    deleteUser(params: {  username: string; }, options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling deleteUser");
@@ -926,7 +926,7 @@ export const UserApiFetchParamCreactor = {
         const baseUrl = `/user/{username}`
             .replace(`{${"username"}}`, `${ params.username }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "DELETE" };
+        let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -942,7 +942,7 @@ export const UserApiFetchParamCreactor = {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    getUserByName(params: {  username: string; }): FetchArgs {
+    getUserByName(params: {  username: string; }, options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling getUserByName");
@@ -950,7 +950,7 @@ export const UserApiFetchParamCreactor = {
         const baseUrl = `/user/{username}`
             .replace(`{${"username"}}`, `${ params.username }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -967,14 +967,14 @@ export const UserApiFetchParamCreactor = {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    loginUser(params: {  username?: string; password?: string; }): FetchArgs {
+    loginUser(params: {  username?: string; password?: string; }, options?: any): FetchArgs {
         const baseUrl = `/user/login`;
         let urlObj = url.parse(baseUrl, true);
         urlObj.query = assign({}, urlObj.query, { 
             "username": params.username,
             "password": params.password,
         });
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -989,10 +989,10 @@ export const UserApiFetchParamCreactor = {
      * Logs out current logged in user session
      * 
      */
-    logoutUser(): FetchArgs {
+    logoutUser(options?: any): FetchArgs {
         const baseUrl = `/user/logout`;
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "GET" };
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         if (contentTypeHeader) {
@@ -1009,7 +1009,7 @@ export const UserApiFetchParamCreactor = {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    updateUser(params: {  username: string; body?: User; }): FetchArgs {
+    updateUser(params: {  username: string; body?: User; }, options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling updateUser");
@@ -1017,7 +1017,7 @@ export const UserApiFetchParamCreactor = {
         const baseUrl = `/user/{username}`
             .replace(`{${"username"}}`, `${ params.username }`);
         let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = { method: "PUT" };
+        let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/json" };
@@ -1043,8 +1043,8 @@ export const UserApiFp = {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    createUser(params: { body?: User;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.createUser(params);
+    createUser(params: { body?: User;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = UserApiFetchParamCreactor.createUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1060,8 +1060,8 @@ export const UserApiFp = {
      * 
      * @param body List of user object
      */
-    createUsersWithArrayInput(params: { body?: Array<User>;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.createUsersWithArrayInput(params);
+    createUsersWithArrayInput(params: { body?: Array<User>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = UserApiFetchParamCreactor.createUsersWithArrayInput(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1077,8 +1077,8 @@ export const UserApiFp = {
      * 
      * @param body List of user object
      */
-    createUsersWithListInput(params: { body?: Array<User>;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.createUsersWithListInput(params);
+    createUsersWithListInput(params: { body?: Array<User>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = UserApiFetchParamCreactor.createUsersWithListInput(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1094,8 +1094,8 @@ export const UserApiFp = {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    deleteUser(params: { username: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.deleteUser(params);
+    deleteUser(params: { username: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = UserApiFetchParamCreactor.deleteUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1111,8 +1111,8 @@ export const UserApiFp = {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    getUserByName(params: { username: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<User> {
-        const fetchArgs = UserApiFetchParamCreactor.getUserByName(params);
+    getUserByName(params: { username: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<User> {
+        const fetchArgs = UserApiFetchParamCreactor.getUserByName(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1129,8 +1129,8 @@ export const UserApiFp = {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    loginUser(params: { username?: string; password?: string;  }): (fetch: FetchAPI, basePath?: string) => Promise<string> {
-        const fetchArgs = UserApiFetchParamCreactor.loginUser(params);
+    loginUser(params: { username?: string; password?: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<string> {
+        const fetchArgs = UserApiFetchParamCreactor.loginUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1145,8 +1145,8 @@ export const UserApiFp = {
      * Logs out current logged in user session
      * 
      */
-    logoutUser(): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.logoutUser();
+    logoutUser(options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = UserApiFetchParamCreactor.logoutUser(options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1163,8 +1163,8 @@ export const UserApiFp = {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    updateUser(params: { username: string; body?: User;  }): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreactor.updateUser(params);
+    updateUser(params: { username: string; body?: User;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = UserApiFetchParamCreactor.updateUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
@@ -1186,40 +1186,40 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    createUser(params: {  body?: User; }) {
-        return UserApiFp.createUser(params)(this.fetch, this.basePath);
+    createUser(params: {  body?: User; }, options?: any) {
+        return UserApiFp.createUser(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Creates list of users with given input array
      * 
      * @param body List of user object
      */
-    createUsersWithArrayInput(params: {  body?: Array<User>; }) {
-        return UserApiFp.createUsersWithArrayInput(params)(this.fetch, this.basePath);
+    createUsersWithArrayInput(params: {  body?: Array<User>; }, options?: any) {
+        return UserApiFp.createUsersWithArrayInput(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Creates list of users with given input array
      * 
      * @param body List of user object
      */
-    createUsersWithListInput(params: {  body?: Array<User>; }) {
-        return UserApiFp.createUsersWithListInput(params)(this.fetch, this.basePath);
+    createUsersWithListInput(params: {  body?: Array<User>; }, options?: any) {
+        return UserApiFp.createUsersWithListInput(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    deleteUser(params: {  username: string; }) {
-        return UserApiFp.deleteUser(params)(this.fetch, this.basePath);
+    deleteUser(params: {  username: string; }, options?: any) {
+        return UserApiFp.deleteUser(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    getUserByName(params: {  username: string; }) {
-        return UserApiFp.getUserByName(params)(this.fetch, this.basePath);
+    getUserByName(params: {  username: string; }, options?: any) {
+        return UserApiFp.getUserByName(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Logs user into the system
@@ -1227,15 +1227,15 @@ export class UserApi extends BaseAPI {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    loginUser(params: {  username?: string; password?: string; }) {
-        return UserApiFp.loginUser(params)(this.fetch, this.basePath);
+    loginUser(params: {  username?: string; password?: string; }, options?: any) {
+        return UserApiFp.loginUser(params, options)(this.fetch, this.basePath);
     }
     /** 
      * Logs out current logged in user session
      * 
      */
-    logoutUser() {
-        return UserApiFp.logoutUser()(this.fetch, this.basePath);
+    logoutUser(options?: any) {
+        return UserApiFp.logoutUser(options)(this.fetch, this.basePath);
     }
     /** 
      * Updated user
@@ -1243,8 +1243,8 @@ export class UserApi extends BaseAPI {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    updateUser(params: {  username: string; body?: User; }) {
-        return UserApiFp.updateUser(params)(this.fetch, this.basePath);
+    updateUser(params: {  username: string; body?: User; }, options?: any) {
+        return UserApiFp.updateUser(params, options)(this.fetch, this.basePath);
     }
 };
 
@@ -1258,40 +1258,40 @@ export const UserApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * This can only be done by the logged in user.
          * @param body Created user object
          */
-        createUser(params: {  body?: User; }) {
-            return UserApiFp.createUser(params)(fetch, basePath);
+        createUser(params: {  body?: User; }, options?: any) {
+            return UserApiFp.createUser(params, options)(fetch, basePath);
         },
         /** 
          * Creates list of users with given input array
          * 
          * @param body List of user object
          */
-        createUsersWithArrayInput(params: {  body?: Array<User>; }) {
-            return UserApiFp.createUsersWithArrayInput(params)(fetch, basePath);
+        createUsersWithArrayInput(params: {  body?: Array<User>; }, options?: any) {
+            return UserApiFp.createUsersWithArrayInput(params, options)(fetch, basePath);
         },
         /** 
          * Creates list of users with given input array
          * 
          * @param body List of user object
          */
-        createUsersWithListInput(params: {  body?: Array<User>; }) {
-            return UserApiFp.createUsersWithListInput(params)(fetch, basePath);
+        createUsersWithListInput(params: {  body?: Array<User>; }, options?: any) {
+            return UserApiFp.createUsersWithListInput(params, options)(fetch, basePath);
         },
         /** 
          * Delete user
          * This can only be done by the logged in user.
          * @param username The name that needs to be deleted
          */
-        deleteUser(params: {  username: string; }) {
-            return UserApiFp.deleteUser(params)(fetch, basePath);
+        deleteUser(params: {  username: string; }, options?: any) {
+            return UserApiFp.deleteUser(params, options)(fetch, basePath);
         },
         /** 
          * Get user by user name
          * 
          * @param username The name that needs to be fetched. Use user1 for testing. 
          */
-        getUserByName(params: {  username: string; }) {
-            return UserApiFp.getUserByName(params)(fetch, basePath);
+        getUserByName(params: {  username: string; }, options?: any) {
+            return UserApiFp.getUserByName(params, options)(fetch, basePath);
         },
         /** 
          * Logs user into the system
@@ -1299,15 +1299,15 @@ export const UserApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * @param username The user name for login
          * @param password The password for login in clear text
          */
-        loginUser(params: {  username?: string; password?: string; }) {
-            return UserApiFp.loginUser(params)(fetch, basePath);
+        loginUser(params: {  username?: string; password?: string; }, options?: any) {
+            return UserApiFp.loginUser(params, options)(fetch, basePath);
         },
         /** 
          * Logs out current logged in user session
          * 
          */
-        logoutUser() {
-            return UserApiFp.logoutUser()(fetch, basePath);
+        logoutUser(options?: any) {
+            return UserApiFp.logoutUser(options)(fetch, basePath);
         },
         /** 
          * Updated user
@@ -1315,8 +1315,8 @@ export const UserApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * @param username name that need to be deleted
          * @param body Updated user object
          */
-        updateUser(params: {  username: string; body?: User; }) {
-            return UserApiFp.updateUser(params)(fetch, basePath);
+        updateUser(params: {  username: string; body?: User; }, options?: any) {
+            return UserApiFp.updateUser(params, options)(fetch, basePath);
         },
     }
 };
