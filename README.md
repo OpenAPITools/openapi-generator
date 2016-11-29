@@ -56,7 +56,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
 
 
 ## Compatibility
-The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the OpenAPI Specification:
+The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilities with the OpenAPI Specification:
 
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
@@ -665,7 +665,7 @@ You can use the [swagger-codegen-maven-plugin](modules/swagger-codegen-maven-plu
 To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline the process. For example:
 
  1) Create a new repository in GitHub (Ref: https://help.github.com/articles/creating-a-new-repository/)
- 
+
  2) Generate the SDK
 ```
  java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
@@ -786,7 +786,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Kuroi](http://kuroiwebdesign.com/)
 - [Kuary](https://kuary.com/)
 - [Mindera](http://mindera.com/)
-- [Mporium](http://mporium.com/) 
+- [Mporium](http://mporium.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [Onedata](http://onedata.org)
@@ -800,7 +800,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [QAdept](http://qadept.com/)
 - [QuantiModo](https://quantimo.do/)
 - [Rapid7](https://rapid7.com/)
-- [Reload! A/S](https://reload.dk/) 
+- [Reload! A/S](https://reload.dk/)
 - [REstore](https://www.restore.eu)
 - [Revault Sàrl](http://revault.ch)
 - [Riffyn](https://riffyn.com)
@@ -810,7 +810,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
-- [TaskData](http://www.taskdata.com/) 
+- [TaskData](http://www.taskdata.com/)
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [uShip](https://www.uship.com/)
 - [W.UP](http://wup.hu/?siteLang=en)
@@ -825,8 +825,8 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 Swagger Codegen core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ## API Clients
-| Languages     | Core Team (join date) | 
-|:-------------|:-------------| 
+| Languages     | Core Team (join date) |
+|:-------------|:-------------|
 | ActionScript | |
 | C++      |  |  
 | C#      | @jimschubert (2016/05/01) |  |
@@ -836,7 +836,7 @@ Swagger Codegen core team members are contributors who have been making signific
 | Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
 | Java      | @cbornet (2016/05/01) @xhh (2016/05/01) @epaul (2016/06/04) |
 | Java (Spring Cloud) | @cbornet (2016/07/19) |
-| NodeJS/Javascript | @xhh (2016/05/01) | 
+| NodeJS/Javascript | @xhh (2016/05/01) |
 | ObjC      | @mateuszmackowiak (2016/05/09) |
 | Perl      | @wing328 (2016/05/01) |
 | PHP      | @arnested (2016/05/01) |
@@ -844,13 +844,13 @@ Swagger Codegen core team members are contributors who have been making signific
 | Ruby      | @wing328 (2016/05/01) @zlx (2016/05/22) |
 | Scala     |  |
 | Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
-| TypeScript (Node) | @Vrolijkx (2016/05/01) | 
-| TypeScript (Angular1) | @Vrolijkx (2016/05/01) | 
+| TypeScript (Node) | @Vrolijkx (2016/05/01) |
+| TypeScript (Angular1) | @Vrolijkx (2016/05/01) |
 | TypeScript (Angular2) | @Vrolijkx (2016/05/01) |
 | TypeScript (Fetch) |  |
 ## Server Stubs
-| Languages     | Core Team (date joined) | 
-|:------------- |:-------------| 
+| Languages     | Core Team (date joined) |
+|:------------- |:-------------|
 | C# ASP.NET5 |  @jimschubert (2016/05/01) |
 | Go Server | @guohuang (2016/06/13) |
 | Haskell Servant |  |
@@ -869,7 +869,7 @@ Swagger Codegen core team members are contributors who have been making signific
 ## Template Creator
 Here is a list of template creators:
  * API Clients:
-   * Akka-Scala: @cchafer 
+   * Akka-Scala: @cchafer
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * Clojure: @xhh
@@ -878,15 +878,15 @@ Here is a list of template creators:
    * Go: @wing328  
    * Java (Retrofit): @0legg
    * Java (Retrofi2): @emilianobonassi
-   * Java (Jersey2): @xhh 
+   * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
    * Javascript/NodeJS: @jfiala  
    * Javascript (Closure-annotated Angular) @achew22
    * Perl: @wing328
    * Swift: @tkqubo
    * Swift 3: @hexelon
-   * TypeScript (Node):  @mhardorf 
-   * TypeScript (Angular1):  @mhardorf 
+   * TypeScript (Node):  @mhardorf
+   * TypeScript (Angular1):  @mhardorf
    * TypeScript (Fetch): @leonyu
    * TypeScript (Angular2): @roni-frantchi
  * Server Stubs
@@ -903,7 +903,7 @@ Here is a list of template creators:
    * JAX-RS CXF (CDI): @nickcmaynard
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
-   * Ruby on Rails 5: @zlx 
+   * Ruby on Rails 5: @zlx
  * Documentation
    * HTML Doc 2: @jhitchcock
    * Confluence Wiki: @jhitchcock
@@ -912,13 +912,13 @@ Here is a list of template creators:
 
 Here are the requirements to become a core team member:
 - rank within top 50 in https://github.com/swagger-api/swagger-codegen/graphs/contributors
-  - to contribute, here are some good [starting points](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22) 
+  - to contribute, here are some good [starting points](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22)
 - regular contributions to the project
   - about 3 hours per week
   - for contribution, it can be addressing issues, reviewing PRs submitted by others, submitting PR to fix bugs or make enhancements, etc
 
  To join the core team, please reach out to wing328hk@gmail.com (@wing328) for more information.
- 
+
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
 ## License information on Generated Code
