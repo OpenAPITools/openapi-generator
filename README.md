@@ -875,15 +875,17 @@ Here is a list of template creators:
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * Clojure: @xhh
-   * Dart: @yissachar  
-   * Groovy: @victorgit  
-   * Go: @wing328  
+   * Dart: @yissachar
+   * Groovy: @victorgit
+   * Go: @wing328
+   * Java (Feign): @davidkiss
    * Java (Retrofit): @0legg
    * Java (Retrofi2): @emilianobonassi
    * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
-   * Javascript/NodeJS: @jfiala  
+   * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
+   * JMeter @davidkiss
    * Perl: @wing328
    * Swift: @tkqubo
    * Swift 3: @hexelon
