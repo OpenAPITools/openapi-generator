@@ -815,6 +815,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [TaskData](http://www.taskdata.com/)
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [uShip](https://www.uship.com/)
+- [VMware](https://vmware.com/)
 - [W.UP](http://wup.hu/?siteLang=en)
 - [Wealthfront](https://www.wealthfront.com/)
 - [WEXO A/S](https://www.wexo.dk/)
