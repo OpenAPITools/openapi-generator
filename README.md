@@ -52,6 +52,7 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
   - [Swagger Codegen Core Team](#swagger-codegen-core-team)
+  - [Swagger Codegen Evangelist](#swagger-codegen-evangelist)
   - [License](#license)
 
 
@@ -922,7 +923,21 @@ Here are the requirements to become a core team member:
 
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
-## License information on Generated Code
+# Swagger Codegen Evangelist
+
+Swagger Codegen Evangelist shoulders one or more of the following responsibilities:
+
+- publishes articles on the benefit of Swagger Codegen
+- organizes local Meetups
+- presents the benefits of Swagger Codegen in local Meetups or conferences
+- actively answers questions from others in [Github](https://github.com/swagger-api/swagger-codegen/issues), [StackOverflow](stackoverflow.com/search?q=%5Bswagger%5D)
+- submits PRs to improve Swagger Codegen
+- reviews PRs submitted by the others
+- ranks within top 100 in the [contributor list](https://github.com/swagger-api/swagger-codegen/graphs/contributors)
+
+If you want to be a Swagger Codegen Evangelist, please kindly apply by sending an email to wing328hk@gmail.com (@wing328)
+
+# License information on Generated Code
 
 The Swagger Codegen project is intended as a benefit for users of the Swagger / Open API Specification.  The project itself has the [License](#license) as specified.  In addition, please understand the following points:
 
