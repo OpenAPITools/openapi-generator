@@ -28,8 +28,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var body = new User(); // User | Created user object
@@ -71,8 +70,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var body = [new List&lt;User&gt;()]; // List<User> | List of user object
@@ -114,8 +112,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var body = [new List&lt;User&gt;()]; // List<User> | List of user object
@@ -157,8 +154,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var username = username_example; // String | The name that needs to be deleted
@@ -200,8 +196,7 @@ Get user by user name
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var username = username_example; // String | The name that needs to be fetched. Use user1 for testing. 
@@ -244,8 +239,7 @@ Logs user into the system
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var username = username_example; // String | The user name for login
@@ -290,8 +284,7 @@ Logs out current logged in user session
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 
@@ -329,8 +322,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new UserApi();
 var username = username_example; // String | name that need to be deleted

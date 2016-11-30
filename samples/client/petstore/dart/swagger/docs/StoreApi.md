@@ -24,8 +24,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new StoreApi();
 var orderId = orderId_example; // String | ID of the order that needs to be deleted
@@ -67,8 +66,7 @@ Returns a map of status codes to quantities
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure API key authorization: api_key
 //swagger.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -111,8 +109,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new StoreApi();
 var orderId = 789; // int | ID of pet that needs to be fetched
@@ -155,8 +152,7 @@ Place an order for a pet
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 
 var api_instance = new StoreApi();
 var body = new Order(); // Order | order placed for purchasing the pet

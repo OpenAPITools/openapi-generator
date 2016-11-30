@@ -28,8 +28,7 @@ Add a new pet to the store
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
@@ -73,8 +72,7 @@ Deletes a pet
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
@@ -120,8 +118,7 @@ Multiple status values can be provided with comma separated strings
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
@@ -166,8 +163,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
@@ -212,8 +208,7 @@ Returns a single pet
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure API key authorization: api_key
 //swagger.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -260,8 +255,7 @@ Update an existing pet
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
@@ -305,8 +299,7 @@ Updates a pet in the store with form data
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
@@ -354,8 +347,7 @@ uploads an image
 
 ### Example 
 ```dart
-import 'swagger.api';
-import 'swagger.model';
+import 'package:swagger/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
 //swagger.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
