@@ -54,6 +54,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                     "localVarFormParams", "localVarContentTypes", "localVarContentType",
                     "localVarResponse", "localVarBuilder", "authNames", "basePath", "apiInvoker",
 
+                    // due to namespace collusion
+                    "Object",
+
                     // android reserved words
                     "abstract", "continue", "for", "new", "switch", "assert",
                     "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
