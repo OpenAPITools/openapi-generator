@@ -22,7 +22,7 @@ import { Configuration }                                     from '../configurat
 {{/description}}
 @Injectable()
 export class {{classname}} {
-    protected basePath = '{{basePath}}';
+    protected basePath = '{{{basePath}}}';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -34,8 +34,8 @@ export class {{classname}} {
             this.configuration = configuration;
         }
     }
-	
-	/**
+
+    /**
      * 
      * Extends object by coping non-existing properties.
      * @param objA object to be extended

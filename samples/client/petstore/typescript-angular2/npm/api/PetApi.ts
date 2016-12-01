@@ -39,8 +39,8 @@ export class PetApi {
             this.configuration = configuration;
         }
     }
-	
-	/**
+
+    /**
      * 
      * Extends object by coping non-existing properties.
      * @param objA object to be extended
@@ -414,16 +414,16 @@ export class PetApi {
             'application/xml'
         ];
         
+        // authentication (api_key) required
+        if (this.configuration.apiKey)
+        {
+            headers.set('api_key', this.configuration.apiKey);
+        }
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken)
         {
             headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
-        }
-        // authentication (api_key) required
-        if (this.configuration.apiKey)
-        {
-            headers.set('api_key', this.configuration.apiKey);
         }
             
 
