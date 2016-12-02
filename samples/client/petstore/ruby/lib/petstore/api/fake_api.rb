@@ -48,14 +48,10 @@ module Petstore
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
       # HTTP header 'Content-Type'
-      local_header_content_type = ['application/json']
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = {}
@@ -189,14 +185,10 @@ module Petstore
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml; charset=utf-8', 'application/json; charset=utf-8']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
       # HTTP header 'Content-Type'
-      local_header_content_type = ['application/xml; charset=utf-8', 'application/json; charset=utf-8']
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
 
       # form parameters
       form_params = {}
@@ -292,14 +284,10 @@ module Petstore
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['*/*']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
+      header_params['Accept'] = @api_client.select_header_accept(['*/*'])
       # HTTP header 'Content-Type'
-      local_header_content_type = ['*/*']
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(['*/*'])
       header_params[:'enum_header_string_array'] = @api_client.build_collection_param(opts[:'enum_header_string_array'], :csv) if !opts[:'enum_header_string_array'].nil?
       header_params[:'enum_header_string'] = opts[:'enum_header_string'] if !opts[:'enum_header_string'].nil?
 
