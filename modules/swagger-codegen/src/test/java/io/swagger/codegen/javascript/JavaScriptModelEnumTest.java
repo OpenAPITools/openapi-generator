@@ -3,7 +3,6 @@ package io.swagger.codegen.javascript;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.codegen.languages.JavascriptClientCodegen;
 import io.swagger.models.ComposedModel;
 import io.swagger.models.Model;
@@ -74,7 +73,7 @@ public class JavaScriptModelEnumTest {
                 .child(subModel)
                 .interfaces(new ArrayList<RefModel>());
 
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final DefaultCodegen codegen = new JavascriptClientCodegen();
         final Map<String, Model> allModels = new HashMap<String, Model>();
         allModels.put(parentModel.getName(), parentModel);
         allModels.put(subModel.getName(), subModel);
