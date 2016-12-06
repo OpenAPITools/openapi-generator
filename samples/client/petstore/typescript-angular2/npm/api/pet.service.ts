@@ -50,6 +50,7 @@ export class PetService {
         }
         if (configuration) {
             this.configuration = configuration;
+			this.basePath = basePath || configuration.basePath || this.basePath;
         }
     }
 	
@@ -268,6 +269,7 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
 
+        headers.set('api_key', String(apiKey));
 
         // to determine the Content-Type header
         let consumes: string[] = [
@@ -427,16 +429,16 @@ export class PetService {
             'application/xml'
         ];
         
+        // authentication (api_key) required
+        if (this.configuration.apiKey)
+        {
+            headers.set('api_key', this.configuration.apiKey);
+        }
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken)
         {
             headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
-        }
-        // authentication (api_key) required
-        if (this.configuration.apiKey)
-        {
-            headers.set('api_key', this.configuration.apiKey);
         }
             
 
