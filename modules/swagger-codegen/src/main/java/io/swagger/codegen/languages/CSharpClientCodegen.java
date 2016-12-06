@@ -199,6 +199,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             } else {
                 setGeneratePropertyChanged(Boolean.valueOf(additionalProperties.get(CodegenConstants.GENERATE_PROPERTY_CHANGED).toString()));
             }
+
+            if(Boolean.FALSE.equals(this.generatePropertyChanged)) {
+                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
+            }
         }
 
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
