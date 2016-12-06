@@ -102,10 +102,9 @@ export class {{classname}} {
         }
 {{/queryParams}}
 
-{{#headers}}
+{{#headerParams}}
         headers.set('{{baseName}}', String({{paramName}}));
-
-{{/headers}}
+{{/headerParams}}
 
         // to determine the Content-Type header
         let consumes: string[] = [
