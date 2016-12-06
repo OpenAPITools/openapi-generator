@@ -255,6 +255,7 @@ export class PetApi {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
 
+        headers.set('api_key', String(apiKey));
 
         // to determine the Content-Type header
         let consumes: string[] = [
