@@ -156,7 +156,7 @@ opts = {
   enum_header_string: "-efg", # String | Header parameter enum test (string)
   enum_query_string_array: ["enum_query_string_array_example"], # Array<String> | Query parameter enum test (string array)
   enum_query_string: "-efg", # String | Query parameter enum test (string)
-  enum_query_integer: 3.4, # Float | Query parameter enum test (double)
+  enum_query_integer: 56, # Integer | Query parameter enum test (double)
   enum_query_double: 1.2 # Float | Query parameter enum test (double)
 }
 
@@ -178,7 +178,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **String**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**Array&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
  **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to -efg]
- **enum_query_integer** | **Float**| Query parameter enum test (double) | [optional] 
+ **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
 
 ### Return type

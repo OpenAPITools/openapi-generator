@@ -225,3 +225,4 @@ class SpecialModelName implements ArrayAccess
     }
 }
 
+
