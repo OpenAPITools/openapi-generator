@@ -145,20 +145,20 @@ module Petstore
     # @return Array for valid properies with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@integer.nil? && @integer > 100.0
-        invalid_properties.push("invalid value for 'integer', must be smaller than or equal to 100.0.")
+      if !@integer.nil? && @integer > 100
+        invalid_properties.push("invalid value for 'integer', must be smaller than or equal to 100.")
       end
 
-      if !@integer.nil? && @integer < 10.0
-        invalid_properties.push("invalid value for 'integer', must be greater than or equal to 10.0.")
+      if !@integer.nil? && @integer < 10
+        invalid_properties.push("invalid value for 'integer', must be greater than or equal to 10.")
       end
 
-      if !@int32.nil? && @int32 > 200.0
-        invalid_properties.push("invalid value for 'int32', must be smaller than or equal to 200.0.")
+      if !@int32.nil? && @int32 > 200
+        invalid_properties.push("invalid value for 'int32', must be smaller than or equal to 200.")
       end
 
-      if !@int32.nil? && @int32 < 20.0
-        invalid_properties.push("invalid value for 'int32', must be greater than or equal to 20.0.")
+      if !@int32.nil? && @int32 < 20
+        invalid_properties.push("invalid value for 'int32', must be greater than or equal to 20.")
       end
 
       if @number.nil?
@@ -219,10 +219,10 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@integer.nil? && @integer > 100.0
-      return false if !@integer.nil? && @integer < 10.0
-      return false if !@int32.nil? && @int32 > 200.0
-      return false if !@int32.nil? && @int32 < 20.0
+      return false if !@integer.nil? && @integer > 100
+      return false if !@integer.nil? && @integer < 10
+      return false if !@int32.nil? && @int32 > 200
+      return false if !@int32.nil? && @int32 < 20
       return false if @number.nil?
       return false if @number > 543.2
       return false if @number < 32.1
@@ -243,12 +243,12 @@ module Petstore
     # @param [Object] integer Value to be assigned
     def integer=(integer)
 
-      if !integer.nil? && integer > 100.0
-        fail ArgumentError, "invalid value for 'integer', must be smaller than or equal to 100.0."
+      if !integer.nil? && integer > 100
+        fail ArgumentError, "invalid value for 'integer', must be smaller than or equal to 100."
       end
 
-      if !integer.nil? && integer < 10.0
-        fail ArgumentError, "invalid value for 'integer', must be greater than or equal to 10.0."
+      if !integer.nil? && integer < 10
+        fail ArgumentError, "invalid value for 'integer', must be greater than or equal to 10."
       end
 
       @integer = integer
@@ -258,12 +258,12 @@ module Petstore
     # @param [Object] int32 Value to be assigned
     def int32=(int32)
 
-      if !int32.nil? && int32 > 200.0
-        fail ArgumentError, "invalid value for 'int32', must be smaller than or equal to 200.0."
+      if !int32.nil? && int32 > 200
+        fail ArgumentError, "invalid value for 'int32', must be smaller than or equal to 200."
       end
 
-      if !int32.nil? && int32 < 20.0
-        fail ArgumentError, "invalid value for 'int32', must be greater than or equal to 20.0."
+      if !int32.nil? && int32 < 20
+        fail ArgumentError, "invalid value for 'int32', must be greater than or equal to 20."
       end
 
       @int32 = int32

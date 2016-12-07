@@ -32,7 +32,7 @@ public class CodegenParameter {
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
 	 */
-    public Number maximum;
+    public String maximum;
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor17
 	 */
@@ -40,7 +40,7 @@ public class CodegenParameter {
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor21
 	 */
-    public Number minimum;
+    public String minimum;
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor21
 	 */

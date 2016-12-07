@@ -30,8 +30,8 @@ public class CodegenProperty implements Cloneable {
     public String example;
 
     public String jsonSchema;
-    public Double minimum;
-    public Double maximum;
+    public String minimum;
+    public String maximum;
     public Boolean exclusiveMinimum;
     public Boolean exclusiveMaximum;
     public Boolean hasMore, required, secondaryParam;
