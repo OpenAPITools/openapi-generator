@@ -1444,8 +1444,28 @@ public class DefaultCodegen {
         String type = getSwaggerType(p);
         if (p instanceof AbstractNumericProperty) {
             AbstractNumericProperty np = (AbstractNumericProperty) p;
-            property.minimum = np.getMinimum();
-            property.maximum = np.getMaximum();
+            if (np.getMinimum() != null) {
+                if (p instanceof BaseIntegerProperty) { // int, long
+                    property.minimum = String.valueOf(np.getMinimum().longValue());
+                } else { // double, decimal
+                    property.minimum = String.valueOf(np.getMinimum());
+                }
+            } else {
+                // set to null (empty) in mustache
+                property.minimum =  null;
+            }
+
+            if (np.getMaximum() != null) {
+                if (p instanceof BaseIntegerProperty) { // int, long
+                    property.maximum = String.valueOf(np.getMaximum().longValue());
+                } else { // double, decimal
+                    property.maximum = String.valueOf(np.getMaximum());
+                }
+            } else {
+                // set to null (empty) in mustache
+                property.maximum =  null;
+            }
+
             property.exclusiveMinimum = np.getExclusiveMinimum();
             property.exclusiveMaximum = np.getExclusiveMaximum();
 
@@ -2314,9 +2334,15 @@ public class DefaultCodegen {
             }
 
             // validation
-            p.maximum = qp.getMaximum();
+            // handle maximum, minimum properly for int/long by removing the trailing ".0"
+            if ("integer".equals(type)) {
+                p.maximum = qp.getMaximum() == null ? null : String.valueOf(qp.getMaximum().longValue());
+                p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum().longValue());
+            } else {
+                p.maximum = qp.getMaximum() == null ? null : String.valueOf(qp.getMaximum());
+                p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum());
+            }
             p.exclusiveMaximum = qp.isExclusiveMaximum();
-            p.minimum = qp.getMinimum();
             p.exclusiveMinimum = qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
             p.minLength = qp.getMinLength();
