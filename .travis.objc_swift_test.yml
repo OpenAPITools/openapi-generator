@@ -31,7 +31,8 @@ before_install:
    - gem install xcpretty -N --no-ri --no-rdoc
    - pod --version
    - pod setup --silent > /dev/null
-   - brew install xctool
+   # xctool already pre-installed
+   #- brew install xctool
    - git clone https://github.com/wing328/swagger-samples
    - cd swagger-samples/java/java-jersey-jaxrs && sudo mvn -q jetty:run &
 
