@@ -251,3 +251,4 @@ class AdditionalPropertiesClass implements ArrayAccess
     }
 }
 
+

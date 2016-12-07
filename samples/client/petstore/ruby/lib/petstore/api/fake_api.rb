@@ -231,7 +231,7 @@ module Petstore
     # @option opts [String] :enum_header_string Header parameter enum test (string) (default to -efg)
     # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
     # @option opts [String] :enum_query_string Query parameter enum test (string) (default to -efg)
-    # @option opts [Float] :enum_query_integer Query parameter enum test (double)
+    # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
     # @return [nil]
     def test_enum_parameters(opts = {})
@@ -248,7 +248,7 @@ module Petstore
     # @option opts [String] :enum_header_string Header parameter enum test (string)
     # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
     # @option opts [String] :enum_query_string Query parameter enum test (string)
-    # @option opts [Float] :enum_query_integer Query parameter enum test (double)
+    # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_enum_parameters_with_http_info(opts = {})

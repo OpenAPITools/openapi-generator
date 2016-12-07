@@ -277,3 +277,4 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ArrayAccess
     }
 }
 
+

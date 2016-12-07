@@ -57,7 +57,8 @@ class EnumTest implements ArrayAccess
     protected static $swaggerTypes = [
         'enum_string' => 'string',
         'enum_integer' => 'int',
-        'enum_number' => 'double'
+        'enum_number' => 'double',
+        'outer_enum' => '\Swagger\Client\Model\OuterEnum'
     ];
 
     public static function swaggerTypes()
@@ -72,7 +73,8 @@ class EnumTest implements ArrayAccess
     protected static $attributeMap = [
         'enum_string' => 'enum_string',
         'enum_integer' => 'enum_integer',
-        'enum_number' => 'enum_number'
+        'enum_number' => 'enum_number',
+        'outer_enum' => 'outerEnum'
     ];
 
 
@@ -83,7 +85,8 @@ class EnumTest implements ArrayAccess
     protected static $setters = [
         'enum_string' => 'setEnumString',
         'enum_integer' => 'setEnumInteger',
-        'enum_number' => 'setEnumNumber'
+        'enum_number' => 'setEnumNumber',
+        'outer_enum' => 'setOuterEnum'
     ];
 
 
@@ -94,7 +97,8 @@ class EnumTest implements ArrayAccess
     protected static $getters = [
         'enum_string' => 'getEnumString',
         'enum_integer' => 'getEnumInteger',
-        'enum_number' => 'getEnumNumber'
+        'enum_number' => 'getEnumNumber',
+        'outer_enum' => 'getOuterEnum'
     ];
 
     public static function attributeMap()
@@ -173,6 +177,7 @@ class EnumTest implements ArrayAccess
         $this->container['enum_string'] = isset($data['enum_string']) ? $data['enum_string'] : null;
         $this->container['enum_integer'] = isset($data['enum_integer']) ? $data['enum_integer'] : null;
         $this->container['enum_number'] = isset($data['enum_number']) ? $data['enum_number'] : null;
+        $this->container['outer_enum'] = isset($data['outer_enum']) ? $data['outer_enum'] : null;
     }
 
     /**
@@ -299,6 +304,27 @@ class EnumTest implements ArrayAccess
 
         return $this;
     }
+
+    /**
+     * Gets outer_enum
+     * @return \Swagger\Client\Model\OuterEnum
+     */
+    public function getOuterEnum()
+    {
+        return $this->container['outer_enum'];
+    }
+
+    /**
+     * Sets outer_enum
+     * @param \Swagger\Client\Model\OuterEnum $outer_enum
+     * @return $this
+     */
+    public function setOuterEnum($outer_enum)
+    {
+        $this->container['outer_enum'] = $outer_enum;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      * @param  integer $offset Offset
@@ -357,4 +383,5 @@ class EnumTest implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
 

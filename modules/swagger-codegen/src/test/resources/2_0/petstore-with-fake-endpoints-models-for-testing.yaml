@@ -652,7 +652,7 @@ paths:
           in: query 
           description: Query parameter enum test (string)
         - name: enum_query_integer
-          type: number
+          type: integer
           format: int32 
           enum:
             - 1
