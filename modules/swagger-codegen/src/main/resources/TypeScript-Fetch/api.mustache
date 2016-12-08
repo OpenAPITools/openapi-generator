@@ -94,8 +94,10 @@ export const {{classname}}FetchParamCreactor = {
         let contentTypeHeader: Dictionary<string>;
 {{#hasFormParams}}
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({ {{#formParams}}
-            "{{baseName}}": params["{{paramName}}"],{{/formParams}}
+        fetchOptions.body = querystring.stringify({
+        {{#formParams}}
+            "{{baseName}}": params["{{paramName}}"],
+        {{/formParams}}
         });
 {{/hasFormParams}}
 {{#hasBodyParam}}
