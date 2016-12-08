@@ -18,7 +18,7 @@ import * as isomorphicFetch from "isomorphic-fetch";
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
-const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, '');
+const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
 export interface FetchArgs {
     url: string;
@@ -131,7 +131,7 @@ export const PetApiFetchParamCreactor = {
         let fetchOptions: RequestInit = Object.assign({}, { method: "DELETE" }, options);
 
         let contentTypeHeader: Dictionary<string>;
-        fetchOptions.headers = Object.assign({ 
+        fetchOptions.headers = Object.assign({
             "api_key": params["apiKey"],
         }, contentTypeHeader);
         return {
@@ -147,7 +147,7 @@ export const PetApiFetchParamCreactor = {
     findPetsByStatus(params: {  "status"?: Array<string>; }, options?: any): FetchArgs {
         const baseUrl = `/pet/findByStatus`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = Object.assign({}, urlObj.query, { 
+        urlObj.query = Object.assign({}, urlObj.query, {
             "status": params["status"],
         });
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
@@ -169,7 +169,7 @@ export const PetApiFetchParamCreactor = {
     findPetsByTags(params: {  "tags"?: Array<string>; }, options?: any): FetchArgs {
         const baseUrl = `/pet/findByTags`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = Object.assign({}, urlObj.query, { 
+        urlObj.query = Object.assign({}, urlObj.query, {
             "tags": params["tags"],
         });
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
@@ -969,7 +969,7 @@ export const UserApiFetchParamCreactor = {
     loginUser(params: {  "username"?: string; "password"?: string; }, options?: any): FetchArgs {
         const baseUrl = `/user/login`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = Object.assign({}, urlObj.query, { 
+        urlObj.query = Object.assign({}, urlObj.query, {
             "username": params["username"],
             "password": params["password"],
         });
