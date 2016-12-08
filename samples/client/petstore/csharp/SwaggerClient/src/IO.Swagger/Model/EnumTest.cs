@@ -110,13 +110,20 @@ namespace IO.Swagger.Model
         /// <param name="EnumString">EnumString.</param>
         /// <param name="EnumInteger">EnumInteger.</param>
         /// <param name="EnumNumber">EnumNumber.</param>
-        public EnumTest(EnumStringEnum? EnumString = null, EnumIntegerEnum? EnumInteger = null, EnumNumberEnum? EnumNumber = null)
+        /// <param name="OuterEnum">OuterEnum.</param>
+        public EnumTest(EnumStringEnum? EnumString = null, EnumIntegerEnum? EnumInteger = null, EnumNumberEnum? EnumNumber = null, OuterEnum? OuterEnum = null)
         {
             this.EnumString = EnumString;
             this.EnumInteger = EnumInteger;
             this.EnumNumber = EnumNumber;
+            this.OuterEnum = OuterEnum;
         }
         
+        /// <summary>
+        /// Gets or Sets OuterEnum
+        /// </summary>
+        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
+        public OuterEnum? OuterEnum { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -128,6 +135,7 @@ namespace IO.Swagger.Model
             sb.Append("  EnumString: ").Append(EnumString).Append("\n");
             sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
             sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
+            sb.Append("  OuterEnum: ").Append(OuterEnum).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -178,6 +186,11 @@ namespace IO.Swagger.Model
                     this.EnumNumber == other.EnumNumber ||
                     this.EnumNumber != null &&
                     this.EnumNumber.Equals(other.EnumNumber)
+                ) && 
+                (
+                    this.OuterEnum == other.OuterEnum ||
+                    this.OuterEnum != null &&
+                    this.OuterEnum.Equals(other.OuterEnum)
                 );
         }
 
@@ -198,6 +211,8 @@ namespace IO.Swagger.Model
                     hash = hash * 59 + this.EnumInteger.GetHashCode();
                 if (this.EnumNumber != null)
                     hash = hash * 59 + this.EnumNumber.GetHashCode();
+                if (this.OuterEnum != null)
+                    hash = hash * 59 + this.OuterEnum.GetHashCode();
                 return hash;
             }
         }
