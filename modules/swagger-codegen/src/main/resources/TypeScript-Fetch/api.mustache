@@ -10,7 +10,7 @@ import * as assign from "core-js/library/fn/object/assign";
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
-const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, '');
+const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
 
 export interface FetchArgs {
     url: string;
@@ -83,8 +83,10 @@ export const {{classname}}FetchParamCreactor = {
             .replace(`{${"{{baseName}}"}}`, `${ params["{{paramName}}"] }`){{/pathParams}};
         let urlObj = url.parse(baseUrl, true);
 {{#hasQueryParams}}
-        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, { {{#queryParams}}
-            "{{baseName}}": params["{{paramName}}"],{{/queryParams}}
+        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, {
+            {{#queryParams}}
+            "{{baseName}}": params["{{paramName}}"],
+            {{/queryParams}}
         });
 {{/hasQueryParams}}
         let fetchOptions: RequestInit = {{#supportsES6}}Object.{{/supportsES6}}assign({}, { method: "{{httpMethod}}" }, options);
@@ -103,8 +105,8 @@ export const {{classname}}FetchParamCreactor = {
         }{{/bodyParam}}
 {{/hasBodyParam}}
 {{#hasHeaderParams}}
-        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({ {{#headerParams}}
-            "{{baseName}}": params["{{paramName}}"],{{/headerParams}}
+        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
+            {{#headerParams}}"{{baseName}}": params["{{paramName}}"],{{/headerParams}}
         }, contentTypeHeader);
 {{/hasHeaderParams}}
 {{^hasHeaderParams}}
