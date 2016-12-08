@@ -332,27 +332,27 @@ namespace IO.Swagger.Model
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         { 
             // Integer (int?) maximum
-            if(this.Integer > (int?)100.0)
+            if(this.Integer > (int?)100)
             {
-                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.0.", new [] { "Integer" });
+                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
             // Integer (int?) minimum
-            if(this.Integer < (int?)10.0)
+            if(this.Integer < (int?)10)
             {
-                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.0.", new [] { "Integer" });
+                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
             // Int32 (int?) maximum
-            if(this.Int32 > (int?)200.0)
+            if(this.Int32 > (int?)200)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.0.", new [] { "Int32" });
+                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int?) minimum
-            if(this.Int32 < (int?)20.0)
+            if(this.Int32 < (int?)20)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.0.", new [] { "Int32" });
+                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
             // Number (decimal?) maximum

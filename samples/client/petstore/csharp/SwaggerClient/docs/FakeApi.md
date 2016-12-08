@@ -162,7 +162,7 @@ void (empty response body)
 
 <a name="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+> void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
 
 To test enum parameters
 
@@ -188,7 +188,7 @@ namespace Example
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryInteger = 3.4;  // decimal? | Query parameter enum test (double) (optional) 
+            var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
 
             try
@@ -215,7 +215,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enumQueryStringArray** | [**List<string>**](string.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
- **enumQueryInteger** | **decimal?**| Query parameter enum test (double) | [optional] 
+ **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
 
 ### Return type
