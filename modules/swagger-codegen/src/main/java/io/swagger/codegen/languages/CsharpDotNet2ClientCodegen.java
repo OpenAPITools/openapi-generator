@@ -65,6 +65,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
                         "Integer",
                         "Long",
                         "Float",
+                        "Guid?",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
@@ -86,6 +87,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
+        typeMapping.put("uuid", "Guid?");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "C# package name (convention: Camel.Case).")
