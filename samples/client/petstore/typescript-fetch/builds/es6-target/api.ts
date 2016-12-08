@@ -249,7 +249,7 @@ export const PetApiFetchParamCreactor = {
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({ 
+        fetchOptions.body = querystring.stringify({
             "name": params["name"],
             "status": params["status"],
         });
@@ -280,7 +280,7 @@ export const PetApiFetchParamCreactor = {
 
         let contentTypeHeader: Dictionary<string>;
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({ 
+        fetchOptions.body = querystring.stringify({
             "additionalMetadata": params["additionalMetadata"],
             "file": params["file"],
         });
