@@ -941,6 +941,12 @@ Swagger Codegen Evangelist shoulders one or more of the following responsibiliti
 
 If you want to be a Swagger Codegen Evangelist, please kindly apply by sending an email to wing328hk@gmail.com (@wing328)
 
+### List of Swagger Codegen Evangelists
+
+- Cliffano Subagio (@cliffano from Australia joined on Dec 9, 2016)
+  - [Building An AEM API Clients Ecosystem](http://www.slideshare.net/cliffano/building-an-aem-api-clients-ecosystem)
+  - [Adobe Marketing Cloud Community Expo](http://blog.cliffano.com/2016/11/10/adobe-marketing-cloud-community-expo/)
+
 # License information on Generated Code
 
 The Swagger Codegen project is intended as a benefit for users of the Swagger / Open API Specification.  The project itself has the [License](#license) as specified.  In addition, please understand the following points:
