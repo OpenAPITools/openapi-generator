@@ -105,6 +105,7 @@ Class | Method | HTTP request | Description
  - [ArrayTest](docs/ArrayTest.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
+ - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
  - [EnumArrays](docs/EnumArrays.md)
