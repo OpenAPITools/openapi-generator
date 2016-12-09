@@ -870,7 +870,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
             if (os != null && os.size() > 0) {
                 CodegenOperation op = os.get(os.size() - 1);
-                op.hasMore = null;
+                op.hasMore = false;
             }
         }
         return operations;

@@ -36,7 +36,7 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
     
@@ -87,8 +87,8 @@ public class ObjcModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -125,9 +125,9 @@ public class ObjcModelTest {
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSArray");
-        Assert.assertNull(property2.hasMore);
+        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
-        Assert.assertNull(property2.required);
+        Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertTrue(property2.isContainer);
     }
@@ -153,7 +153,7 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
         Assert.assertTrue(property1.isPrimitiveType);
     }
@@ -177,7 +177,7 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.datatype, "SWGChildren*");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "SWGChildren");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
 
@@ -202,7 +202,7 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSArray");
         Assert.assertEquals(property1.containerType, "array");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 
@@ -228,9 +228,9 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "NSDictionary");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertNull(property1.isNotContainer);
+        Assert.assertFalse(property1.isNotContainer);
     }
 
     @Test(description = "convert an array model")
@@ -299,7 +299,7 @@ public class ObjcModelTest {
         final Model definition = model.getDefinitions().get("AnimalFarm");
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm",definition);
 
-        Assert.assertEquals(codegenModel.isArrayModel,Boolean.TRUE);
+        Assert.assertEquals(codegenModel.isArrayModel, true);
         Assert.assertEquals(codegenModel.arrayModelType,"SWGAnimal");
     }
 
