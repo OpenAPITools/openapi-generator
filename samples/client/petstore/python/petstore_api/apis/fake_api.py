@@ -258,14 +258,14 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")
         if 'pattern_without_delimiter' in params and not re.search('^[A-Z].*', params['pattern_without_delimiter']):
             raise ValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")
-        if 'integer' in params and params['integer'] > 100.0:
-            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100.0`")
-        if 'integer' in params and params['integer'] < 10.0:
-            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10.0`")
-        if 'int32' in params and params['int32'] > 200.0:
-            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200.0`")
-        if 'int32' in params and params['int32'] < 20.0:
-            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20.0`")
+        if 'integer' in params and params['integer'] > 100:
+            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")
+        if 'integer' in params and params['integer'] < 10:
+            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")
+        if 'int32' in params and params['int32'] > 200:
+            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")
+        if 'int32' in params and params['int32'] < 20:
+            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")
         if 'float' in params and params['float'] > 987.6:
             raise ValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")
         if 'string' in params and not re.search('[a-z]', params['string'], flags=re.IGNORECASE):
@@ -364,7 +364,7 @@ class FakeApi(object):
         :param str enum_header_string: Header parameter enum test (string)
         :param list[str] enum_query_string_array: Query parameter enum test (string array)
         :param str enum_query_string: Query parameter enum test (string)
-        :param float enum_query_integer: Query parameter enum test (double)
+        :param int enum_query_integer: Query parameter enum test (double)
         :param float enum_query_double: Query parameter enum test (double)
         :return: None
                  If the method is called asynchronously,
@@ -396,7 +396,7 @@ class FakeApi(object):
         :param str enum_header_string: Header parameter enum test (string)
         :param list[str] enum_query_string_array: Query parameter enum test (string array)
         :param str enum_query_string: Query parameter enum test (string)
-        :param float enum_query_integer: Query parameter enum test (double)
+        :param int enum_query_integer: Query parameter enum test (double)
         :param float enum_query_double: Query parameter enum test (double)
         :return: None
                  If the method is called asynchronously,

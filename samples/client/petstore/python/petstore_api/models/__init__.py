@@ -23,6 +23,7 @@ from .array_of_number_only import ArrayOfNumberOnly
 from .array_test import ArrayTest
 from .cat import Cat
 from .category import Category
+from .class_model import ClassModel
 from .client import Client
 from .dog import Dog
 from .enum_arrays import EnumArrays
