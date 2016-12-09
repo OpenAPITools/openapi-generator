@@ -69,8 +69,8 @@ public class GoModelTest {
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "time.Time");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -106,9 +106,9 @@ public class GoModelTest {
         Assert.assertEquals(property2.datatype, "[]string");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertEquals(property2.baseType, "array");
-        Assert.assertNull(property2.hasMore);
+        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
-        Assert.assertNull(property2.required);
+        Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertTrue(property2.isContainer);
     }
@@ -134,7 +134,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Translations");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
         Assert.assertTrue(property1.isPrimitiveType);
     }
@@ -157,7 +157,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.datatype, "Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
 
@@ -181,7 +181,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "array");
         Assert.assertEquals(property1.containerType, "array");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 
@@ -207,9 +207,9 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "map");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertNull(property1.isNotContainer);
+        Assert.assertFalse(property1.isNotContainer);
     }
 
     @Test(description = "convert an array model")

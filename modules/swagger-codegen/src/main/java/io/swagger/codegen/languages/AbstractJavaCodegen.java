@@ -863,7 +863,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             int count = 0, numVars = codegenProperties.size();
             for(CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : null;
+                codegenProperty.hasMore = (count < numVars) ? true : false;
             }
             codegenModel.vars = codegenProperties;
         }
