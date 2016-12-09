@@ -81,8 +81,8 @@ public class JavaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -111,7 +111,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "new ArrayList<String>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -139,7 +139,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "new HashMap<String, String>()");
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -167,7 +167,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "new HashMap<String, List<Pet>>()");
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -189,7 +189,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "new ArrayList<List<Pet>>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -213,7 +213,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "children");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "Children");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
 
@@ -240,7 +240,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "new ArrayList<Children>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -268,9 +268,9 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "new HashMap<String, Children>()");
         Assert.assertEquals(property.baseType, "Map");
         Assert.assertEquals(property.containerType, "map");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
-        Assert.assertNull(property.isNotContainer);
+        Assert.assertFalse(property.isNotContainer);
 
     }
 
@@ -329,7 +329,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "NAME");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
+        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
@@ -355,7 +355,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
+        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
@@ -381,7 +381,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "atTName");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
+        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
@@ -443,8 +443,8 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "byte[]");
-        Assert.assertNull(property.hasMore);
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
 
@@ -468,7 +468,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.name, "u");
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
+        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.isNotContainer);
     }
 

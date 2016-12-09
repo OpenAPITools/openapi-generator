@@ -1241,7 +1241,6 @@ public class DefaultCodegen {
         if (model instanceof ArrayModel) {
             ArrayModel am = (ArrayModel) model;
             ArrayProperty arrayProperty = new ArrayProperty(am.getItems());
-            m.hasEnums = false; // Otherwise there will be a NullPointerException in JavaClientCodegen.fromModel
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, arrayProperty).complexType;
             addParentContainer(m, name, arrayProperty);
@@ -1438,36 +1437,35 @@ public class DefaultCodegen {
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
-        property.isReadOnly = p.getReadOnly();
+        if (p.getReadOnly() != null) {
+            property.isReadOnly = p.getReadOnly();
+        }
         property.vendorExtensions = p.getVendorExtensions();
 
         String type = getSwaggerType(p);
         if (p instanceof AbstractNumericProperty) {
             AbstractNumericProperty np = (AbstractNumericProperty) p;
             if (np.getMinimum() != null) {
-                if (p instanceof BaseIntegerProperty) { // int, long
-                    property.minimum = String.valueOf(np.getMinimum().longValue());
-                } else { // double, decimal
-                    property.minimum = String.valueOf(np.getMinimum());
-                }
-            } else {
-                // set to null (empty) in mustache
-                property.minimum =  null;
+               if (p instanceof BaseIntegerProperty) { // int, long
+                 property.minimum = String.valueOf(np.getMinimum().longValue());
+               } else { // double, decimal
+                 property.minimum = String.valueOf(np.getMinimum());
+               }
             }
-
             if (np.getMaximum() != null) {
-                if (p instanceof BaseIntegerProperty) { // int, long
-                    property.maximum = String.valueOf(np.getMaximum().longValue());
-                } else { // double, decimal
-                    property.maximum = String.valueOf(np.getMaximum());
-                }
-            } else {
-                // set to null (empty) in mustache
-                property.maximum =  null;
+               if (p instanceof BaseIntegerProperty) { // int, long
+                  property.maximum = String.valueOf(np.getMaximum().longValue());
+               } else { // double, decimal
+                  property.maximum = String.valueOf(np.getMaximum());
+               }
             }
 
-            property.exclusiveMinimum = np.getExclusiveMinimum();
-            property.exclusiveMaximum = np.getExclusiveMaximum();
+            if (np.getExclusiveMinimum() != null) {
+                property.exclusiveMinimum = np.getExclusiveMinimum();
+            }
+            if (np.getExclusiveMaximum() != null) {
+                property.exclusiveMaximum = np.getExclusiveMaximum();
+            }
 
             // check if any validation rule defined
             // exclusive* are noop without corresponding min/max
@@ -2030,14 +2028,14 @@ public class DefaultCodegen {
                         }
                     }
 
-                    if (cm.isContainer != null) {
+                    if (cm.isContainer) {
                         op.returnContainer = cm.containerType;
                         if ("map".equals(cm.containerType)) {
-                            op.isMapContainer = Boolean.TRUE;
+                            op.isMapContainer = true;
                         } else if ("list".equalsIgnoreCase(cm.containerType)) {
-                            op.isListContainer = Boolean.TRUE;
+                            op.isListContainer = true;
                         } else if ("array".equalsIgnoreCase(cm.containerType)) {
-                            op.isListContainer = Boolean.TRUE;
+                            op.isListContainer = true;
                         }
                     } else {
                         op.returnSimpleType = true;
@@ -2195,7 +2193,7 @@ public class DefaultCodegen {
             }
             r.dataType = cm.datatype;
             r.isBinary = isDataTypeBinary(cm.datatype);
-            if (cm.isContainer != null) {
+            if (cm.isContainer) {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
                 r.isMapContainer = "map".equals(cm.containerType);
@@ -2342,6 +2340,7 @@ public class DefaultCodegen {
                 p.maximum = qp.getMaximum() == null ? null : String.valueOf(qp.getMaximum());
                 p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum());
             }
+
             p.exclusiveMaximum = qp.isExclusiveMaximum();
             p.exclusiveMinimum = qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
@@ -2371,7 +2370,7 @@ public class DefaultCodegen {
             if (model instanceof ModelImpl) {
                 ModelImpl impl = (ModelImpl) model;
                 CodegenModel cm = fromModel(bp.getName(), impl);
-                if (cm.emptyVars != null && cm.emptyVars == false) {
+                if (!cm.emptyVars) {
                     p.dataType = getTypeDeclaration(cm.classname);
                     imports.add(p.dataType);
                 } else {
@@ -2848,8 +2847,8 @@ public class DefaultCodegen {
                 LOGGER.warn("null property for " + key);
             } else {
                 final CodegenProperty cp = fromProperty(key, prop);
-                cp.required = mandatory.contains(key) ? true : null;
-                m.hasRequired = Boolean.TRUE.equals(m.hasRequired) || Boolean.TRUE.equals(cp.required);
+                cp.required = mandatory.contains(key) ? true : false;
+                m.hasRequired = m.hasRequired || cp.required;
                 if (cp.isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
@@ -2869,7 +2868,7 @@ public class DefaultCodegen {
                     }
                 }
 
-                if (cp.isContainer != null) {
+                if (cp.isContainer) {
                     addImport(m, typeMapping.get("array"));
                 }
 
