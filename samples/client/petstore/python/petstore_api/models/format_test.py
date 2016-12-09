@@ -94,10 +94,10 @@ class FormatTest(object):
         :param integer: The integer of this FormatTest.
         :type: int
         """
-        if integer is not None and integer > 100.0:
-            raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100.0`")
-        if integer is not None and integer < 10.0:
-            raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10.0`")
+        if integer is not None and integer > 100:
+            raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100`")
+        if integer is not None and integer < 10:
+            raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")
 
         self._integer = integer
 
@@ -119,10 +119,10 @@ class FormatTest(object):
         :param int32: The int32 of this FormatTest.
         :type: int
         """
-        if int32 is not None and int32 > 200.0:
-            raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200.0`")
-        if int32 is not None and int32 < 20.0:
-            raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20.0`")
+        if int32 is not None and int32 > 200:
+            raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200`")
+        if int32 is not None and int32 < 20:
+            raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")
 
         self._int32 = int32
 
