@@ -137,7 +137,7 @@ public class JavaScriptModelEnumTest {
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
         Assert.assertTrue(prope.isEnum);
-        Assert.assertNull(prope.isContainer);
+        Assert.assertFalse(prope.isContainer);
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 

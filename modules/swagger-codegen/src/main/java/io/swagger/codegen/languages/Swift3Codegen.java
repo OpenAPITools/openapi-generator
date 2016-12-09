@@ -621,7 +621,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             int count = 0, numVars = codegenProperties.size();
             for(CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : null;
+                codegenProperty.hasMore = (count < numVars) ? true : false;
             }
             codegenModel.vars = codegenProperties;
         }
