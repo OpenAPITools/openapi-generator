@@ -143,7 +143,10 @@ export class {{classname}} {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
 {{/isOAuth}}
 {{/authMethods}}
