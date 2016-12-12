@@ -111,6 +111,7 @@ public class {{classname}} {
         return {{localVariablePrefix}}apiClient.buildCall({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAuthNames, progressRequestListener);
     }
     
+    @SuppressWarnings("rawtypes")
     private com.squareup.okhttp.Call {{operationId}}ValidateBeforeCall({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         {{^performBeanValidation}}
         {{#allParams}}{{#required}}
@@ -131,7 +132,7 @@ public class {{classname}} {
 
             Object[] parameterValues = { {{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} };
             Method method = this.getClass().getMethod("{{operationId}}WithHttpInfo"{{#allParams}}, {{#isListContainer}}java.util.List{{/isListContainer}}{{#isMapContainer}}java.util.Map{{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}{{/isMapContainer}}{{/isListContainer}}.class{{/allParams}});
-            Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(this, method,
+            Set<ConstraintViolation<{{classname}}>> violations = executableValidator.validateParameters(this, method,
                     parameterValues);
 
             if (violations.size() == 0) {
@@ -139,8 +140,7 @@ public class {{classname}} {
                 return {{localVariablePrefix}}call;
             
             } else {
-                Set<ConstraintViolation<Object>> violationsObj = (Set<ConstraintViolation<Object>>) violations;
-                throw new BeanValidationException(violationsObj);
+                throw new BeanValidationException((Set) violations);
             }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
