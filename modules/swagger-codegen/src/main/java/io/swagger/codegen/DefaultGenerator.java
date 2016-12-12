@@ -113,7 +113,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.processOpts();
         config.preprocessSwagger(swagger);
         config.additionalProperties().put("generatedDate", DateTime.now().toString());
-        config.additionalProperties().put("generatorClass", config.getClass().toString());
+        config.additionalProperties().put("generatorClass", config.getClass().getName());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
         if (swagger.getVendorExtensions() != null) {
             config.vendorExtensions().putAll(swagger.getVendorExtensions());
