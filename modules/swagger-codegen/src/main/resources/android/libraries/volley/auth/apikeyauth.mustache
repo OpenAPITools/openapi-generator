@@ -46,7 +46,7 @@ public class ApiKeyAuth implements Authentication {
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
     String value;
     if (apiKey == null) {
-        return;
+      return;
     }
     if (apiKeyPrefix != null) {
       value = apiKeyPrefix + " " + apiKey;
