@@ -52,6 +52,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java";
     protected String artifactVersion = "1.0.0";
+    protected String licenseName = "Apache License, Version 2.0";
+    protected String licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0";
     protected String projectFolder = "src" + File.separator + "main";
     protected String projectTestFolder = "src" + File.separator + "test";
     protected String sourceFolder = projectFolder + File.separator + "java";
@@ -117,6 +119,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
@@ -185,6 +189,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             //not set, use to be passed to template
             additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            this.setLicenseName((String) additionalProperties.get(CodegenConstants.LICENSE_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_URL)) {
+            this.setLicenseUrl((String) additionalProperties.get(CodegenConstants.LICENSE_URL));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_URL, licenseUrl);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
@@ -821,7 +837,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         op.path = sanitizePath(op.path);
         return op;
     }
-    
+
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
@@ -895,6 +911,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.artifactVersion = artifactVersion;
     }
 
+    public void setLicenseName(String licenseName) {
+        this.licenseName = licenseName;
+    }
+
+    public void setLicenseUrl(String licenseUrl) {
+        this.licenseUrl = licenseUrl;
+    }
+
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
@@ -957,7 +981,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return sb.toString();
     }
-    
+
     public void setSupportJava6(boolean value) {
         this.supportJava6 = value;
     }

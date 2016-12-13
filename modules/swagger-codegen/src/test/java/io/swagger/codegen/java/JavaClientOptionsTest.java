@@ -32,36 +32,38 @@ public class JavaClientOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
-                clientCodegen.setModelPackage(JavaClientOptionsProvider.MODEL_PACKAGE_VALUE);
+            clientCodegen.setModelPackage(JavaClientOptionsProvider.MODEL_PACKAGE_VALUE);
             times = 1;
-                clientCodegen.setApiPackage(JavaClientOptionsProvider.API_PACKAGE_VALUE);
+            clientCodegen.setApiPackage(JavaClientOptionsProvider.API_PACKAGE_VALUE);
             times = 1;
-                clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(JavaClientOptionsProvider.SORT_PARAMS_VALUE));
+            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(JavaClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
-                clientCodegen.setInvokerPackage(JavaClientOptionsProvider.INVOKER_PACKAGE_VALUE);
+            clientCodegen.setInvokerPackage(JavaClientOptionsProvider.INVOKER_PACKAGE_VALUE);
             times = 1;
-                clientCodegen.setGroupId(JavaClientOptionsProvider.GROUP_ID_VALUE);
+            clientCodegen.setGroupId(JavaClientOptionsProvider.GROUP_ID_VALUE);
             times = 1;
-                clientCodegen.setArtifactId(JavaClientOptionsProvider.ARTIFACT_ID_VALUE);
+            clientCodegen.setArtifactId(JavaClientOptionsProvider.ARTIFACT_ID_VALUE);
             times = 1;
-                clientCodegen.setArtifactVersion(JavaClientOptionsProvider.ARTIFACT_VERSION_VALUE);
+            clientCodegen.setArtifactVersion(JavaClientOptionsProvider.ARTIFACT_VERSION_VALUE);
             times = 1;
-                clientCodegen.setSourceFolder(JavaClientOptionsProvider.SOURCE_FOLDER_VALUE);
+            clientCodegen.setLicenseName(JavaOptionsProvider.LICENSE_NAME_VALUE);
             times = 1;
-                clientCodegen.setLocalVariablePrefix(JavaClientOptionsProvider.LOCAL_PREFIX_VALUE);
+            clientCodegen.setLicenseUrl(JavaOptionsProvider.LICENSE_URL_VALUE);
             times = 1;
-                clientCodegen.setSerializableModel(Boolean.valueOf(JavaClientOptionsProvider.SERIALIZABLE_MODEL_VALUE));
+            clientCodegen.setSourceFolder(JavaOptionsProvider.SOURCE_FOLDER_VALUE);
+            times = 1;
+            clientCodegen.setLocalVariablePrefix(JavaClientOptionsProvider.LOCAL_PREFIX_VALUE);
+            times = 1;
+            clientCodegen.setSerializableModel(Boolean.valueOf(JavaClientOptionsProvider.SERIALIZABLE_MODEL_VALUE));
             times = 1;
             clientCodegen.setLibrary(JavaClientOptionsProvider.DEFAULT_LIBRARY_VALUE);
             times = 1;
-                clientCodegen.setFullJavaUtil(Boolean.valueOf(JavaClientOptionsProvider.FULL_JAVA_UTIL_VALUE));
+            clientCodegen.setFullJavaUtil(Boolean.valueOf(JavaClientOptionsProvider.FULL_JAVA_UTIL_VALUE));
             times = 1;
-                // clientCodegen.setSupportJava6(Boolean.valueOf(JavaClientOptionsProvider.SUPPORT_JAVA6));
-            //times = 1;
-                clientCodegen.setUseBeanValidation(Boolean.valueOf(JavaClientOptionsProvider.USE_BEANVALIDATION));
+            clientCodegen.setUseBeanValidation(Boolean.valueOf(JavaClientOptionsProvider.USE_BEANVALIDATION));
             times = 1;
-                clientCodegen.setUseBeanValidation(Boolean.valueOf(JavaClientOptionsProvider.PERFORM_BEANVALIDATION));
-                times = 1;
+            clientCodegen.setUseBeanValidation(Boolean.valueOf(JavaClientOptionsProvider.PERFORM_BEANVALIDATION));
+            times = 1;
         }};
     }
 }
