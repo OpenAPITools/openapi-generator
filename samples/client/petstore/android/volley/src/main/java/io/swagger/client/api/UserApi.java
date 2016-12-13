@@ -63,61 +63,54 @@ public class UserApi {
    * @return void
   */
   public void createUser (User body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = body;
-  
+    Object postBody = body;
 
-  // create path and map variables
-  String path = "/user".replaceAll("\\{format\\}","json");
+    // create path and map variables
+    String path = "/user".replaceAll("\\{format\\}","json");
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return ;
+      } else {
+         return ;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -184,61 +177,54 @@ public class UserApi {
    * @return void
   */
   public void createUsersWithArrayInput (List<User> body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = body;
-  
+    Object postBody = body;
 
-  // create path and map variables
-  String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
+    // create path and map variables
+    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return ;
+      } else {
+         return ;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -305,61 +291,54 @@ public class UserApi {
    * @return void
   */
   public void createUsersWithListInput (List<User> body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = body;
-  
+    Object postBody = body;
 
-  // create path and map variables
-  String path = "/user/createWithList".replaceAll("\\{format\\}","json");
+    // create path and map variables
+    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return ;
+      } else {
+         return ;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -426,67 +405,59 @@ public class UserApi {
    * @return void
   */
   public void deleteUser (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'username' is set
-      if (username == null) {
+    Object postBody = null;
+    // verify the required parameter 'username' is set
+    if (username == null) {
       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling deleteUser",
-      new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"));
-      }
-  
+        new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"));
+    }
 
-  // create path and map variables
-  String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return ;
+      } else {
+         return ;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -559,67 +530,59 @@ public class UserApi {
    * @return User
   */
   public User getUserByName (String username) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'username' is set
-      if (username == null) {
+    Object postBody = null;
+    // verify the required parameter 'username' is set
+    if (username == null) {
       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling getUserByName",
-      new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
-      }
-  
+        new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
+    }
 
-  // create path and map variables
-  String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
-        } else {
-           return null;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (User) ApiInvoker.deserialize(localVarResponse, "", User.class);
+      } else {
+         return null;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -697,63 +660,56 @@ public class UserApi {
    * @return String
   */
   public String loginUser (String username, String password) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
+    Object postBody = null;
 
-  // create path and map variables
-  String path = "/user/login".replaceAll("\\{format\\}","json");
+    // create path and map variables
+    String path = "/user/login".replaceAll("\\{format\\}","json");
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-          queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
-          queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return (String) ApiInvoker.deserialize(localVarResponse, "", String.class);
-        } else {
-           return null;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (String) ApiInvoker.deserialize(localVarResponse, "", String.class);
+      } else {
+         return null;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -825,61 +781,54 @@ public class UserApi {
    * @return void
   */
   public void logoutUser () throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
+    Object postBody = null;
 
-  // create path and map variables
-  String path = "/user/logout".replaceAll("\\{format\\}","json");
+    // create path and map variables
+    String path = "/user/logout".replaceAll("\\{format\\}","json");
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return ;
+      } else {
+         return ;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -947,67 +896,59 @@ public class UserApi {
    * @return void
   */
   public void updateUser (String username, User body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = body;
-  
-      // verify the required parameter 'username' is set
-      if (username == null) {
+    Object postBody = body;
+    // verify the required parameter 'username' is set
+    if (username == null) {
       VolleyError error = new VolleyError("Missing the required parameter 'username' when calling updateUser",
-      new ApiException(400, "Missing the required parameter 'username' when calling updateUser"));
-      }
-  
+        new ApiException(400, "Missing the required parameter 'username' when calling updateUser"));
+    }
 
-  // create path and map variables
-  String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    // create path and map variables
+    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return ;
+      } else {
+         return ;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
