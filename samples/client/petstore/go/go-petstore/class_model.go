@@ -10,13 +10,8 @@
 
 package petstore
 
-type EnumTest struct {
+// Model for testing model with \"_class\" property
+type ClassModel struct {
 
-	EnumString string `json:"enum_string,omitempty"`
-
-	EnumInteger int32 `json:"enum_integer,omitempty"`
-
-	EnumNumber float64 `json:"enum_number,omitempty"`
-
-	OuterEnum OuterEnum `json:"outerEnum,omitempty"`
+	Class string `json:"_class,omitempty"`
 }
