@@ -34,7 +34,7 @@ ApiResponse::~ApiResponse()
 {
 }
 
-void ApiResponse::validate() 
+void ApiResponse::validate()
 {
     // TODO: implement validation
 }
@@ -42,7 +42,7 @@ void ApiResponse::validate()
 web::json::value ApiResponse::toJson() const
 {
     web::json::value val = web::json::value::object();
-     
+
     if(m_CodeIsSet)
     {
         val[U("code")] = ModelBase::toJson(m_Code);
@@ -69,12 +69,12 @@ void ApiResponse::fromJson(web::json::value& val)
     if(val.has_field(U("type")))
     {
         setType(ModelBase::stringFromJson(val[U("type")]));
-                
+        
     }
     if(val.has_field(U("message")))
     {
         setMessage(ModelBase::stringFromJson(val[U("message")]));
-                
+        
     }
     
 }
@@ -94,12 +94,12 @@ void ApiResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
     if(m_TypeIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("type"), m_Type));
-                
+        
     }
     if(m_MessageIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("message"), m_Message));
-                
+        
     }
     
 }
@@ -119,17 +119,17 @@ void ApiResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
     if(multipart->hasContent(U("type")))
     {
         setType(ModelBase::stringFromHttpContent(multipart->getContent(U("type"))));
-                
+        
     }
     if(multipart->hasContent(U("message")))
     {
         setMessage(ModelBase::stringFromHttpContent(multipart->getContent(U("message"))));
-                
+        
     }
     
 }
-    
-   
+
+
 int32_t ApiResponse::getCode() const
 {
     return m_Code;
@@ -143,7 +143,7 @@ bool ApiResponse::codeIsSet() const
 {
     return m_CodeIsSet;
 }
-void ApiResponse::unsetCode() 
+void ApiResponse::unsetCode()
 {
     m_CodeIsSet = false;
 }
@@ -160,7 +160,7 @@ bool ApiResponse::typeIsSet() const
 {
     return m_TypeIsSet;
 }
-void ApiResponse::unsetType() 
+void ApiResponse::unsetType()
 {
     m_TypeIsSet = false;
 }
@@ -177,7 +177,7 @@ bool ApiResponse::messageIsSet() const
 {
     return m_MessageIsSet;
 }
-void ApiResponse::unsetMessage() 
+void ApiResponse::unsetMessage()
 {
     m_MessageIsSet = false;
 }
