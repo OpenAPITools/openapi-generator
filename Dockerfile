@@ -1,4 +1,5 @@
-FROM maven:3.3-jdk-7
+
+FROM maven:3-jdk-7-alpine
 
 WORKDIR /src
 VOLUME  /src
