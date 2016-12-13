@@ -366,8 +366,8 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-		localVarQueryParams.Add("username", a.Configuration.APIClient.ParameterToString(username, ""))
-		localVarQueryParams.Add("password", a.Configuration.APIClient.ParameterToString(password, ""))
+	localVarQueryParams.Add("username", a.Configuration.APIClient.ParameterToString(username, ""))
+	localVarQueryParams.Add("password", a.Configuration.APIClient.ParameterToString(password, ""))
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
