@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>{{groupId}}</groupId>
-  <artifactId>{{artifactId}}</artifactId>
+  <groupId>io.swagger</groupId>
+  <artifactId>swagger-java-client</artifactId>
   <packaging>jar</packaging>
-  <name>{{artifactId}}</name>
-  <version>{{artifactVersion}}</version>
+  <name>swagger-java-client</name>
+  <version>1.0.0</version>
   <scm>
     <connection>scm:git:git@github.com:swagger-api/swagger-mustache.git</connection>
     <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
@@ -129,27 +129,12 @@
       <artifactId>org.apache.oltu.oauth2.client</artifactId>
       <version>${oltu-version}</version>
     </dependency>
-    {{^java8}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
     </dependency>
-    {{/java8}}
-    {{#useRxJava}}
-    <dependency>
-      <groupId>io.reactivex</groupId>
-      <artifactId>rxjava</artifactId>
-      <version>${rxjava-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.retrofit2</groupId>
-      <artifactId>adapter-rxjava</artifactId>
-      <version>${retrofit-version}</version>
-    </dependency>
-    {{/useRxJava}}
     
-    {{#usePlay24WS}}
     <!-- JSON processing: jackson -->
     <dependency>
       <groupId>com.squareup.retrofit2</groupId>
@@ -173,7 +158,7 @@
     </dependency>   
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}</artifactId>
+      <artifactId>jackson-datatype-joda</artifactId>
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
@@ -181,7 +166,6 @@
         <artifactId>play-java-ws_2.10</artifactId>
         <version>2.4.6</version>
     </dependency>
-    {{/usePlay24WS}}
 
     <!-- test dependencies -->
     <dependency>
@@ -193,20 +177,13 @@
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+    <java.version>1.7</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.9</swagger-core-version>
     <retrofit-version>2.1.0</retrofit-version>
-    {{#usePlay24WS}}
     <jackson-version>2.7.5</jackson-version>
-    {{/usePlay24WS}}
-    {{#useRxJava}}
-    <rxjava-version>1.1.6</rxjava-version>
-    {{/useRxJava}}
-    {{^java8}}
     <jodatime-version>2.9.4</jodatime-version>
-    {{/java8}}
     <oltu-version>1.0.1</oltu-version>
     <junit-version>4.12</junit-version>
   </properties>
