@@ -26,7 +26,7 @@ import javax.validation.constraints.*;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-09T01:19:10.790+04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
 public class MapTest {
   @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
