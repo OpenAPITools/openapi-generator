@@ -237,7 +237,12 @@ export class {{classname}} {
             headers: headerParams,
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
+{{^isResponseFile}}
             json: true,
+{{/isResponseFile}}
+{{#isResponseFile}}
+            encoding: null,
+{{/isResponseFile}}
 {{#bodyParam}}
             body: {{paramName}},
 {{/bodyParam}}
