@@ -1,26 +1,16 @@
 package io.swagger.codegen.languages;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
+import io.swagger.codegen.*;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
+import io.swagger.codegen.languages.features.PerformBeanValidationFeatures;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
-import io.swagger.codegen.languages.features.BeanValidationFeatures;
-import io.swagger.codegen.languages.features.PerformBeanValidationFeatures;
+import java.io.File;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures {
@@ -30,6 +20,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
+    public static final String USE_PLAY24_WS = "usePlay24WS";
     public static final String PARCELABLE_MODEL = "parcelableModel";
 
     public static final String RETROFIT_1 = "retrofit";
@@ -37,6 +28,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
+    protected boolean usePlay24WS = false;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
@@ -52,6 +44,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
+        cliOptions.add(CliOption.newBoolean(USE_PLAY24_WS, "Use Play! 2.4 Async HTTP client (Play WS API)"));
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library."));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
@@ -94,6 +87,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_RX_JAVA)) {
             this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
         }
+        if (additionalProperties.containsKey(USE_PLAY24_WS)) {
+            this.setUsePlay24WS(Boolean.valueOf(additionalProperties.get(USE_PLAY24_WS).toString()));
+        }
+        additionalProperties.put(USE_PLAY24_WS, usePlay24WS);
+
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
             this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
         }
@@ -175,6 +173,33 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put("jackson", "true");
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
+        }
+
+        if (Boolean.TRUE.equals(additionalProperties.get(USE_PLAY24_WS))) {
+            // remove unsupported auth
+            Iterator<SupportingFile> iter = supportingFiles.iterator();
+            while (iter.hasNext()) {
+                SupportingFile sf = iter.next();
+                if (sf.templateFile.startsWith("auth/")) {
+                    iter.remove();
+                }
+            }
+
+            // auth
+            supportingFiles.add(new SupportingFile("play24/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+            supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
+
+            // api client
+            supportingFiles.add(new SupportingFile("play24/ApiClient.mustache", invokerFolder, "ApiClient.java"));
+
+            // adapters
+            supportingFiles
+                    .add(new SupportingFile("play24/Play24CallFactory.mustache", invokerFolder, "Play24CallFactory.java"));
+            supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory.mustache", invokerFolder,
+                    "Play24CallAdapterFactory.java"));
+            additionalProperties.put("jackson", "true");
+            additionalProperties.remove("gson");
         }
 
         if (additionalProperties.containsKey("jackson") ) {
@@ -311,6 +336,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void setUseRxJava(boolean useRxJava) {
         this.useRxJava = useRxJava;
     }
+
+    public void setUsePlay24WS(boolean usePlay24WS) {
+        this.usePlay24WS = usePlay24WS;
+    }
+
 
     public void setParcelableModel(boolean parcelableModel) {
         this.parcelableModel = parcelableModel;
