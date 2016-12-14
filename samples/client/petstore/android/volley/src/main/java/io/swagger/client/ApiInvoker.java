@@ -190,39 +190,39 @@ public class ApiInvoker {
   }
 
   public static void initializeInstance() {
-     initializeInstance(null);
+    initializeInstance(null);
   }
 
   public static void initializeInstance(Cache cache) {
-     initializeInstance(cache, null, 0, null, 30);
+    initializeInstance(cache, null, 0, null, 30);
   }
 
   public static void initializeInstance(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery, int connectionTimeout) {
-     INSTANCE = new ApiInvoker(cache, network, threadPoolSize, delivery, connectionTimeout);
-     setUserAgent("Swagger-Codegen/1.0.0/android");
+    INSTANCE = new ApiInvoker(cache, network, threadPoolSize, delivery, connectionTimeout);
+    setUserAgent("Swagger-Codegen/1.0.0/android");
 
-     // Setup authentications (key: authentication name, value: authentication).
-     INSTANCE.authentications = new HashMap<String, Authentication>();
-     INSTANCE.authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-     // TODO: comment out below as OAuth does not exist
-     //INSTANCE.authentications.put("petstore_auth", new OAuth());
-     // Prevent the authentications from being modified.
-     INSTANCE.authentications = Collections.unmodifiableMap(INSTANCE.authentications);
+    // Setup authentications (key: authentication name, value: authentication).
+    INSTANCE.authentications = new HashMap<String, Authentication>();
+    INSTANCE.authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    // TODO: comment out below as OAuth does not exist
+    //INSTANCE.authentications.put("petstore_auth", new OAuth());
+    // Prevent the authentications from being modified.
+    INSTANCE.authentications = Collections.unmodifiableMap(INSTANCE.authentications);
   }
 
   private ApiInvoker(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery, int connectionTimeout) {
-     if(cache == null) cache = new NoCache();
-     if(network == null) {
-        HttpStack stack = new HurlStack();
-        network = new BasicNetwork(stack);
-     }
+    if(cache == null) cache = new NoCache();
+    if(network == null) {
+       HttpStack stack = new HurlStack();
+       network = new BasicNetwork(stack);
+    }
 
-     if(delivery == null) {
-        initConnectionRequest(cache, network);
-     } else {
-        initConnectionRequest(cache, network, threadPoolSize, delivery);
-     }
-     this.connectionTimeout = connectionTimeout;
+    if(delivery == null) {
+       initConnectionRequest(cache, network);
+    } else {
+       initConnectionRequest(cache, network, threadPoolSize, delivery);
+    }
+    this.connectionTimeout = connectionTimeout;
   }
 
   public static ApiInvoker getInstance() {
@@ -275,25 +275,25 @@ public class ApiInvoker {
   }
 
   /**
-    * Get authentications (key: authentication name, value: authentication).
-  */
+   * Get authentications (key: authentication name, value: authentication).
+   */
   public Map<String, Authentication> getAuthentications() {
     return authentications;
   }
 
   /**
-  * Get authentication for the given name.
-  *
-  * @param authName The authentication name
-  * @return The authentication, null if not found
-  */
+   * Get authentication for the given name.
+   *
+   * @param authName The authentication name
+   * @return The authentication, null if not found
+   */
   public Authentication getAuthentication(String authName) {
     return authentications.get(authName);
   }
 
   /**
-  * Helper method to set username for the first HTTP basic authentication.
-  */
+   * Helper method to set username for the first HTTP basic authentication.
+   */
   public void setUsername(String username) {
     for (Authentication auth : authentications.values()) {
        if (auth instanceof HttpBasicAuth) {
@@ -305,21 +305,21 @@ public class ApiInvoker {
   }
 
   /**
-  * Helper method to set password for the first HTTP basic authentication.
-  */
+   * Helper method to set password for the first HTTP basic authentication.
+   */
   public void setPassword(String password) {
-     for (Authentication auth : authentications.values()) {
-        if (auth instanceof HttpBasicAuth) {
-           ((HttpBasicAuth) auth).setPassword(password);
-           return;
-        }
-     }
-     throw new RuntimeException("No HTTP basic authentication configured!");
+    for (Authentication auth : authentications.values()) {
+       if (auth instanceof HttpBasicAuth) {
+          ((HttpBasicAuth) auth).setPassword(password);
+          return;
+       }
+    }
+    throw new RuntimeException("No HTTP basic authentication configured!");
   }
 
   /**
-  * Helper method to set API key value for the first API key authentication.
-  */
+   * Helper method to set API key value for the first API key authentication.
+   */
   public void setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
@@ -331,8 +331,8 @@ public class ApiInvoker {
   }
 
   /**
-  * Helper method to set API key prefix for the first API key authentication.
-  */
+   * Helper method to set API key prefix for the first API key authentication.
+   */
   public void setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
@@ -344,18 +344,18 @@ public class ApiInvoker {
   }
 
   public void setConnectionTimeout(int connectionTimeout){
-     this.connectionTimeout = connectionTimeout;
+    this.connectionTimeout = connectionTimeout;
   }
 
   public int getConnectionTimeout() {
-     return connectionTimeout;
+    return connectionTimeout;
   }
 
   /**
-  * Update query and header parameters based on authentication settings.
-  *
-  * @param authNames The authentications to apply
-  */
+   * Update query and header parameters based on authentication settings.
+   *
+   * @param authNames The authentications to apply
+   */
   private void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams) {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
@@ -365,17 +365,21 @@ public class ApiInvoker {
   }
 
   public String invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames) throws ApiException, InterruptedException, ExecutionException, TimeoutException {
-     RequestFuture<String> future = RequestFuture.newFuture();
-     Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, future, future);
-     if(request != null) {
-        mRequestQueue.add(request);
-        return future.get(connectionTimeout, TimeUnit.SECONDS);
-     } else return "no data";
+    RequestFuture<String> future = RequestFuture.newFuture();
+    Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, future, future);
+    if(request != null) {
+       mRequestQueue.add(request);
+       return future.get(connectionTimeout, TimeUnit.SECONDS);
+    } else {
+      return "no data";
+    }
   }
 
   public void invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
-     Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, stringRequest, errorListener);
-     if (request != null) mRequestQueue.add(request);
+    Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, stringRequest, errorListener);
+    if (request != null) {
+      mRequestQueue.add(request);
+    }
   }
 
   public Request<String> createRequest(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
@@ -505,16 +509,16 @@ public class ApiInvoker {
   }
 
   private void initConnectionRequest(Cache cache, Network network) {
-     mRequestQueue = new RequestQueue(cache, network);
-     mRequestQueue.start();
+    mRequestQueue = new RequestQueue(cache, network);
+    mRequestQueue.start();
   }
 
   private void initConnectionRequest(Cache cache, Network network, int threadPoolSize, ResponseDelivery delivery) {
-     mRequestQueue = new RequestQueue(cache, network, threadPoolSize, delivery);
-     mRequestQueue.start();
+    mRequestQueue = new RequestQueue(cache, network, threadPoolSize, delivery);
+    mRequestQueue.start();
   }
 
   public void stopQueue() {
-     mRequestQueue.stop();
+    mRequestQueue.stop();
   }
 }
