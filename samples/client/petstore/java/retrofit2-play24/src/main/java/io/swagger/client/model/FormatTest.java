@@ -26,7 +26,7 @@ import javax.validation.constraints.*;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-09T01:19:10.790+04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
 public class FormatTest {
   @JsonProperty("integer")
   private Integer integer = null;
@@ -74,12 +74,12 @@ public class FormatTest {
 
    /**
    * Get integer
-   * minimum: 10.0
-   * maximum: 100.0
+   * minimum: 10
+   * maximum: 100
    * @return integer
   **/
-  //@Min(10.0)
-  //@Max(100.0)
+  @Min(10)
+  @Max(100)
   @ApiModelProperty(example = "null", value = "")
   public Integer getInteger() {
     return integer;
@@ -96,12 +96,12 @@ public class FormatTest {
 
    /**
    * Get int32
-   * minimum: 20.0
-   * maximum: 200.0
+   * minimum: 20
+   * maximum: 200
    * @return int32
   **/
-  //@Min(20.0)
-  //@Max(200.0)
+  @Min(20)
+  @Max(200)
   @ApiModelProperty(example = "null", value = "")
   public Integer getInt32() {
     return int32;
@@ -141,8 +141,6 @@ public class FormatTest {
    * @return number
   **/
   @NotNull
-  //@Min(32.1)
-  //@Max(543.2)
   @ApiModelProperty(example = "null", required = true, value = "")
   public BigDecimal getNumber() {
     return number;
@@ -163,8 +161,6 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
-  //@Min(54.3)
-  //@Max(987.6)
   @ApiModelProperty(example = "null", value = "")
   public Float getFloat() {
     return _float;
@@ -185,8 +181,6 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
-  //@Min(67.8)
-  //@Max(123.4)
   @ApiModelProperty(example = "null", value = "")
   public Double getDouble() {
     return _double;
