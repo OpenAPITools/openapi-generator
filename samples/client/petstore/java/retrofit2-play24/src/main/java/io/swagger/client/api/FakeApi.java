@@ -24,7 +24,7 @@ import retrofit2.Response;
 public interface FakeApi {
   /**
    * To test \&quot;client\&quot; model
-   * 
+   * To test \&quot;client\&quot; model
    * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
@@ -65,7 +65,7 @@ public interface FakeApi {
 
   /**
    * To test enum parameters
-   * 
+   * To test enum parameters
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
@@ -80,7 +80,7 @@ public interface FakeApi {
   @retrofit2.http.FormUrlEncoded
   @GET("fake")
   F.Promise<Response<Void>> testEnumParameters(
-    @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString, @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") BigDecimal enumQueryInteger, @retrofit2.http.Field("enum_query_double") Double enumQueryDouble
+    @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString, @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit2.http.Field("enum_query_double") Double enumQueryDouble
   );
 
 }

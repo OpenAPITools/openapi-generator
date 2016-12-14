@@ -35,8 +35,18 @@
   {{/maxItems}}
   {{/minItems}}
 {{#minimum}}
+  {{#isInteger}}
   @Min({{minimum}})
+  {{/isInteger}}
+  {{#isLong}}
+  @Min({{minimum}})
+  {{/isLong}}
 {{/minimum}}
 {{#maximum}}
+  {{#isInteger}}
   @Max({{maximum}})
+  {{/isInteger}}
+  {{#isLong}}
+  @Max({{maximum}})
+  {{/isLong}}
 {{/maximum}}

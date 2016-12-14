@@ -24,7 +24,7 @@ import javax.validation.constraints.*;
  * Model for testing model with \&quot;_class\&quot; property
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-09T01:19:10.790+04:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
 public class ClassModel {
   @JsonProperty("_class")
   private String propertyClass = null;
