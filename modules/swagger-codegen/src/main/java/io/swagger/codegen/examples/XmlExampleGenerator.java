@@ -180,7 +180,7 @@ public class XmlExampleGenerator {
             if (property.getExample() != null) {
                 return property.getExample().toString();
             } else {
-                return "2000-01-23T04:56:07.000Z";
+                return "2000-01-23";
             }
         } else if (property instanceof IntegerProperty) {
             if (property.getExample() != null) {
