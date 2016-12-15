@@ -427,11 +427,6 @@ export class PetApi {
             'application/xml'
         ];
         
-        // authentication (api_key) required
-        if (this.configuration.apiKey)
-        {
-            headers.set('api_key', this.configuration.apiKey);
-        }
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken)
@@ -440,6 +435,11 @@ export class PetApi {
                 ? this.configuration.accessToken()
                 : this.configuration.accessToken;
             headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+        // authentication (api_key) required
+        if (this.configuration.apiKey)
+        {
+            headers.set('api_key', this.configuration.apiKey);
         }
             
 
