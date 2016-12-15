@@ -26,7 +26,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l java -c bin/java-petstore-retrofit2-play24.json -o samples/client/petstore/java/retrofit2-play24"
+ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -l java -c bin/java-petstore-retrofit2-play24.json -o samples/client/petstore/java/retrofit2-play24 -DhideGenerationTimestamp=true"
 
 echo "Removing files and folders under samples/client/petstore/java/retrofit2-play24/src/main"
 rm -rf samples/client/petstore/java/retrofit2-play24/src/main
