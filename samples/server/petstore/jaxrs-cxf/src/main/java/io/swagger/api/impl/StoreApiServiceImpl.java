@@ -18,25 +18,25 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.swagger.annotations.Api;
 
 public class StoreApiServiceImpl implements StoreApi {
-    public void  deleteOrder(String orderId) {
+    public void deleteOrder(String orderId) {
         // TODO: Implement...
         
         
     }
     
-    public Integer  getInventory() {
-        // TODO: Implement...
-        
-        return null;
-    }
-    
-    public Order  getOrderById(Long orderId) {
+    public Map<String, Integer> getInventory() {
         // TODO: Implement...
         
         return null;
     }
     
-    public Order  placeOrder(Order body) {
+    public Order getOrderById(Long orderId) {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
+    public Order placeOrder(Order body) {
         // TODO: Implement...
         
         return null;

@@ -12,8 +12,8 @@
 
 /*
  * JsonBody.h
- * 
- * This is a JSON http body which can be submitted via http 
+ *
+ * This is a JSON http body which can be submitted via http
  */
 
 #ifndef JsonBody_H_
@@ -22,7 +22,7 @@
 
 #include "IHttpBody.h"
 
-#include <cpprest/json.h> 
+#include <cpprest/json.h>
 
 namespace io {
 namespace swagger {
@@ -37,7 +37,7 @@ public:
     virtual ~JsonBody();
 
     void writeTo( std::ostream& target ) override;
-    
+
 protected:
     web::json::value m_Json;
 };

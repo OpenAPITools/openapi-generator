@@ -35,7 +35,7 @@ Pet::~Pet()
 {
 }
 
-void Pet::validate() 
+void Pet::validate()
 {
     // TODO: implement validation
 }
@@ -43,7 +43,7 @@ void Pet::validate()
 web::json::value Pet::toJson() const
 {
     web::json::value val = web::json::value::object();
-     
+
     if(m_IdIsSet)
     {
         val[U("id")] = ModelBase::toJson(m_Id);
@@ -68,7 +68,7 @@ web::json::value Pet::toJson() const
             jsonArray.push_back(ModelBase::toJson(item));
         }
         
-        if(jsonArray.size() > 0) 
+        if(jsonArray.size() > 0)
         {
             val[U("tags")] = web::json::value::array(jsonArray);
         }
@@ -90,13 +90,13 @@ void Pet::fromJson(web::json::value& val)
     }
     if(val.has_field(U("category")))
     {
-        if(!val[U("category")].is_null()) 
+        if(!val[U("category")].is_null())
         {
             std::shared_ptr<Category> newItem(new Category());
             newItem->fromJson(val[U("category")]);
             setCategory( newItem );
         }
-                
+        
     }
     setName(ModelBase::stringFromJson(val[U("name")]));
     {
@@ -116,7 +116,7 @@ void Pet::fromJson(web::json::value& val)
         for( auto& item : val[U("tags")].as_array() )
         {
             
-            if(item.is_null()) 
+            if(item.is_null())
             {
                 m_Tags.push_back( std::shared_ptr<Tag>(nullptr) );
             }
@@ -133,7 +133,7 @@ void Pet::fromJson(web::json::value& val)
     if(val.has_field(U("status")))
     {
         setStatus(ModelBase::stringFromJson(val[U("status")]));
-                
+        
     }
     
 }
@@ -156,7 +156,7 @@ void Pet::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
         {
             m_Category->toMultipart(multipart, U("category."));
         }
-                
+        
     }
     multipart->add(ModelBase::toHttpContent(namePrefix + U("name"), m_Name));
     {
@@ -174,7 +174,7 @@ void Pet::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
             jsonArray.push_back(ModelBase::toJson(item));
         }
         
-        if(jsonArray.size() > 0) 
+        if(jsonArray.size() > 0)
         {
             multipart->add(ModelBase::toHttpContent(namePrefix + U("tags"), web::json::value::array(jsonArray), U("application/json")));
         }
@@ -182,7 +182,7 @@ void Pet::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("status"), m_Status));
-                
+        
     }
     
 }
@@ -207,12 +207,12 @@ void Pet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
             newItem->fromMultiPart(multipart, U("category."));
             setCategory( newItem );
         }
-                
+        
     }
     setName(ModelBase::stringFromHttpContent(multipart->getContent(U("name"))));
     {
         m_PhotoUrls.clear();
-                
+        
         web::json::value jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(U("photoUrls"))));
         for( auto& item : jsonArray.as_array() )
         {
@@ -223,13 +223,13 @@ void Pet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
     {
         m_Tags.clear();
         if(multipart->hasContent(U("tags")))
-        {            
-        
+        {
+
         web::json::value jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(U("tags"))));
         for( auto& item : jsonArray.as_array() )
         {
             
-            if(item.is_null()) 
+            if(item.is_null())
             {
                 m_Tags.push_back( std::shared_ptr<Tag>(nullptr) );
             }
@@ -246,12 +246,12 @@ void Pet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
     if(multipart->hasContent(U("status")))
     {
         setStatus(ModelBase::stringFromHttpContent(multipart->getContent(U("status"))));
-                
+        
     }
     
 }
-    
-   
+
+
 int64_t Pet::getId() const
 {
     return m_Id;
@@ -265,7 +265,7 @@ bool Pet::idIsSet() const
 {
     return m_IdIsSet;
 }
-void Pet::unsetId() 
+void Pet::unsetId()
 {
     m_IdIsSet = false;
 }
@@ -282,7 +282,7 @@ bool Pet::categoryIsSet() const
 {
     return m_CategoryIsSet;
 }
-void Pet::unsetCategory() 
+void Pet::unsetCategory()
 {
     m_CategoryIsSet = false;
 }
@@ -307,7 +307,7 @@ bool Pet::tagsIsSet() const
 {
     return m_TagsIsSet;
 }
-void Pet::unsetTags() 
+void Pet::unsetTags()
 {
     m_TagsIsSet = false;
 }
@@ -324,7 +324,7 @@ bool Pet::statusIsSet() const
 {
     return m_StatusIsSet;
 }
-void Pet::unsetStatus() 
+void Pet::unsetStatus()
 {
     m_StatusIsSet = false;
 }

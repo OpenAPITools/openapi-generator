@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace IO.Swagger.Model {
 
   /// <summary>
-  /// 
+  /// A category for a pet
   /// </summary>
   [DataContract]
   public class Category {

@@ -12,10 +12,10 @@
 
 /*
  * StoreApi.h
- * 
+ *
  * 
  */
- 
+
 #ifndef StoreApi_H_
 #define StoreApi_H_
 
@@ -70,11 +70,11 @@ public:
     /// </remarks>
     /// <param name="body">order placed for purchasing the pet</param>
     pplx::task<std::shared_ptr<Order>> placeOrder(std::shared_ptr<Order> body);
-    
+
 protected:
-    std::shared_ptr<ApiClient> m_ApiClient;    
+    std::shared_ptr<ApiClient> m_ApiClient;
 };
-    
+
 }
 }
 }

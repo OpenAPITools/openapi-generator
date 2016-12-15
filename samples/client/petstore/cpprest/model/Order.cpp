@@ -40,7 +40,7 @@ Order::~Order()
 {
 }
 
-void Order::validate() 
+void Order::validate()
 {
     // TODO: implement validation
 }
@@ -48,7 +48,7 @@ void Order::validate()
 web::json::value Order::toJson() const
 {
     web::json::value val = web::json::value::object();
-     
+
     if(m_IdIsSet)
     {
         val[U("id")] = ModelBase::toJson(m_Id);
@@ -95,12 +95,12 @@ void Order::fromJson(web::json::value& val)
     if(val.has_field(U("shipDate")))
     {
         setShipDate(ModelBase::dateFromJson(val[U("shipDate")]));
-                
+        
     }
     if(val.has_field(U("status")))
     {
         setStatus(ModelBase::stringFromJson(val[U("status")]));
-                
+        
     }
     if(val.has_field(U("complete")))
     {
@@ -132,12 +132,12 @@ void Order::toMultipart(std::shared_ptr<MultipartFormData> multipart, const util
     if(m_ShipDateIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("shipDate"), m_ShipDate));
-                
+        
     }
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("status"), m_Status));
-                
+        
     }
     if(m_CompleteIsSet)
     {
@@ -169,12 +169,12 @@ void Order::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const ut
     if(multipart->hasContent(U("shipDate")))
     {
         setShipDate(ModelBase::dateFromHttpContent(multipart->getContent(U("shipDate"))));
-                
+        
     }
     if(multipart->hasContent(U("status")))
     {
         setStatus(ModelBase::stringFromHttpContent(multipart->getContent(U("status"))));
-                
+        
     }
     if(multipart->hasContent(U("complete")))
     {
@@ -182,8 +182,8 @@ void Order::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const ut
     }
     
 }
-    
-   
+
+
 int64_t Order::getId() const
 {
     return m_Id;
@@ -197,7 +197,7 @@ bool Order::idIsSet() const
 {
     return m_IdIsSet;
 }
-void Order::unsetId() 
+void Order::unsetId()
 {
     m_IdIsSet = false;
 }
@@ -214,7 +214,7 @@ bool Order::petIdIsSet() const
 {
     return m_PetIdIsSet;
 }
-void Order::unsetPetId() 
+void Order::unsetPetId()
 {
     m_PetIdIsSet = false;
 }
@@ -231,7 +231,7 @@ bool Order::quantityIsSet() const
 {
     return m_QuantityIsSet;
 }
-void Order::unsetQuantity() 
+void Order::unsetQuantity()
 {
     m_QuantityIsSet = false;
 }
@@ -248,7 +248,7 @@ bool Order::shipDateIsSet() const
 {
     return m_ShipDateIsSet;
 }
-void Order::unsetShipDate() 
+void Order::unsetShipDate()
 {
     m_ShipDateIsSet = false;
 }
@@ -265,7 +265,7 @@ bool Order::statusIsSet() const
 {
     return m_StatusIsSet;
 }
-void Order::unsetStatus() 
+void Order::unsetStatus()
 {
     m_StatusIsSet = false;
 }
@@ -282,7 +282,7 @@ bool Order::completeIsSet() const
 {
     return m_CompleteIsSet;
 }
-void Order::unsetComplete() 
+void Order::unsetComplete()
 {
     m_CompleteIsSet = false;
 }

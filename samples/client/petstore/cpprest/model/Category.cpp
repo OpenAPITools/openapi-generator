@@ -32,7 +32,7 @@ Category::~Category()
 {
 }
 
-void Category::validate() 
+void Category::validate()
 {
     // TODO: implement validation
 }
@@ -40,7 +40,7 @@ void Category::validate()
 web::json::value Category::toJson() const
 {
     web::json::value val = web::json::value::object();
-     
+
     if(m_IdIsSet)
     {
         val[U("id")] = ModelBase::toJson(m_Id);
@@ -63,7 +63,7 @@ void Category::fromJson(web::json::value& val)
     if(val.has_field(U("name")))
     {
         setName(ModelBase::stringFromJson(val[U("name")]));
-                
+        
     }
     
 }
@@ -83,7 +83,7 @@ void Category::toMultipart(std::shared_ptr<MultipartFormData> multipart, const u
     if(m_NameIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("name"), m_Name));
-                
+        
     }
     
 }
@@ -103,12 +103,12 @@ void Category::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
     if(multipart->hasContent(U("name")))
     {
         setName(ModelBase::stringFromHttpContent(multipart->getContent(U("name"))));
-                
+        
     }
     
 }
-    
-   
+
+
 int64_t Category::getId() const
 {
     return m_Id;
@@ -122,7 +122,7 @@ bool Category::idIsSet() const
 {
     return m_IdIsSet;
 }
-void Category::unsetId() 
+void Category::unsetId()
 {
     m_IdIsSet = false;
 }
@@ -139,7 +139,7 @@ bool Category::nameIsSet() const
 {
     return m_NameIsSet;
 }
-void Category::unsetName() 
+void Category::unsetName()
 {
     m_NameIsSet = false;
 }

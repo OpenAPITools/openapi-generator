@@ -63,67 +63,59 @@ public class StoreApi {
    * @return void
   */
   public void deleteOrder (String orderId) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'orderId' is set
-      if (orderId == null) {
+    Object postBody = null;
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
       VolleyError error = new VolleyError("Missing the required parameter 'orderId' when calling deleteOrder",
-      new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder"));
-      }
-  
+        new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder"));
+    }
 
-  // create path and map variables
-  String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+    // create path and map variables
+    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return ;
-        } else {
-           return ;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return ;
+      } else {
+         return ;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -195,61 +187,54 @@ public class StoreApi {
    * @return Map<String, Integer>
   */
   public Map<String, Integer> getInventory () throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
+    Object postBody = null;
 
-  // create path and map variables
-  String path = "/store/inventory".replaceAll("\\{format\\}","json");
+    // create path and map variables
+    String path = "/store/inventory".replaceAll("\\{format\\}","json");
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] { "api_key" };
+    String[] authNames = new String[] { "api_key" };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return (Map<String, Integer>) ApiInvoker.deserialize(localVarResponse, "map", Map.class);
-        } else {
-           return null;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (Map<String, Integer>) ApiInvoker.deserialize(localVarResponse, "map", Map.class);
+      } else {
+         return null;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -320,67 +305,59 @@ public class StoreApi {
    * @return Order
   */
   public Order getOrderById (String orderId) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = null;
-  
-      // verify the required parameter 'orderId' is set
-      if (orderId == null) {
+    Object postBody = null;
+    // verify the required parameter 'orderId' is set
+    if (orderId == null) {
       VolleyError error = new VolleyError("Missing the required parameter 'orderId' when calling getOrderById",
-      new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById"));
-      }
-  
+        new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById"));
+    }
 
-  // create path and map variables
-  String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+    // create path and map variables
+    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return (Order) ApiInvoker.deserialize(localVarResponse, "", Order.class);
-        } else {
-           return null;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (Order) ApiInvoker.deserialize(localVarResponse, "", Order.class);
+      } else {
+         return null;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**
@@ -457,61 +434,54 @@ public class StoreApi {
    * @return Order
   */
   public Order placeOrder (Order body) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
-     Object postBody = body;
-  
+    Object postBody = body;
 
-  // create path and map variables
-  String path = "/store/order".replaceAll("\\{format\\}","json");
+    // create path and map variables
+    String path = "/store/order".replaceAll("\\{format\\}","json");
 
-  // query params
-  List<Pair> queryParams = new ArrayList<Pair>();
-      // header params
-      Map<String, String> headerParams = new HashMap<String, String>();
-      // form params
-      Map<String, String> formParams = new HashMap<String, String>();
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-
-
-      String[] contentTypes = {
-  
-      };
-      String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-      if (contentType.startsWith("multipart/form-data")) {
+    if (contentType.startsWith("multipart/form-data")) {
       // file uploading
       MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
-  
-
       HttpEntity httpEntity = localVarBuilder.build();
       postBody = httpEntity;
-      } else {
+    } else {
       // normal form params
-        }
+    }
 
-      String[] authNames = new String[] {  };
+    String[] authNames = new String[] {  };
 
-      try {
-        String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
-        if(localVarResponse != null){
-           return (Order) ApiInvoker.deserialize(localVarResponse, "", Order.class);
-        } else {
-           return null;
-        }
-      } catch (ApiException ex) {
-         throw ex;
-      } catch (InterruptedException ex) {
-         throw ex;
-      } catch (ExecutionException ex) {
-         if(ex.getCause() instanceof VolleyError) {
-	    VolleyError volleyError = (VolleyError)ex.getCause();
-	    if (volleyError.networkResponse != null) {
-	       throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-	    }
-         }
-         throw ex;
-      } catch (TimeoutException ex) {
-         throw ex;
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (Order) ApiInvoker.deserialize(localVarResponse, "", Order.class);
+      } else {
+         return null;
       }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+       if (ex.getCause() instanceof VolleyError) {
+         VolleyError volleyError = (VolleyError)ex.getCause();
+         if (volleyError.networkResponse != null) {
+           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+         }
+       }
+       throw ex;
+    } catch (TimeoutException ex) {
+       throw ex;
+    }
   }
 
       /**

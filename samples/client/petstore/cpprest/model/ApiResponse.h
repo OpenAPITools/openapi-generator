@@ -12,7 +12,7 @@
 
 /*
  * ApiResponse.h
- * 
+ *
  * Describes the result of uploading an image resource
  */
 
@@ -33,15 +33,15 @@ namespace model {
 /// Describes the result of uploading an image resource
 /// </summary>
 class  ApiResponse
-	: public ModelBase
+    : public ModelBase
 {
 public:
     ApiResponse();
     virtual ~ApiResponse();
 
-	/////////////////////////////////////////////
-	/// ModelBase overrides
-	
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
     void validate() override;
 
     web::json::value toJson() const override;
@@ -49,10 +49,10 @@ public:
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
-    
- 	/////////////////////////////////////////////
-	/// ApiResponse members
-	   
+
+    /////////////////////////////////////////////
+    /// ApiResponse members
+
     /// <summary>
     /// 
     /// </summary>
@@ -74,7 +74,7 @@ public:
     void setMessage(utility::string_t value);
     bool messageIsSet() const;
     void unsetMessage();
-    
+
 protected:
     int32_t m_Code;
     bool m_CodeIsSet;

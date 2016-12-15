@@ -217,7 +217,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
 
@@ -271,7 +274,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
 
@@ -320,7 +326,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
 
@@ -369,7 +378,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
 
@@ -419,7 +431,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
         // authentication (api_key) required
         if (this.configuration.apiKey)
@@ -472,7 +487,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
 
@@ -529,7 +547,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
         headers.set('Content-Type', 'application/x-www-form-urlencoded');
@@ -592,7 +613,10 @@ export class PetApi {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
         headers.set('Content-Type', 'application/x-www-form-urlencoded');
