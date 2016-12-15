@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
 /**
  * AnimalFarm
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
+
 public class AnimalFarm extends ArrayList<Animal> {
 
   @Override

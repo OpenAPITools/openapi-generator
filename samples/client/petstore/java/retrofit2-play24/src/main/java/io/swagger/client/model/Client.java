@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
 /**
  * Client
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
+
 public class Client {
   @JsonProperty("client")
   private String client = null;
