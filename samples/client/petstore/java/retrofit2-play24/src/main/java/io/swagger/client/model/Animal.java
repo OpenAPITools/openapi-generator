@@ -25,7 +25,7 @@ import javax.validation.constraints.*;
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className" )
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className" )
 @JsonSubTypes({ 
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),@JsonSubTypes.Type(value = Cat.class, name = "Cat"),
 })

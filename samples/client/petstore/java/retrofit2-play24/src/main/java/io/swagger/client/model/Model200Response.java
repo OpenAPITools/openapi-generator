@@ -24,7 +24,7 @@ import javax.validation.constraints.*;
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
+
 public class Model200Response {
   @JsonProperty("name")
   private Integer name = null;
