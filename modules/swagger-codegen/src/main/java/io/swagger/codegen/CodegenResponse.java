@@ -16,6 +16,7 @@ public class CodegenResponse {
     public Boolean isMapContainer;
     public Boolean isListContainer;
     public Boolean isBinary = Boolean.FALSE;
+    public Boolean isFile = Boolean.FALSE;
     public Object schema;
     public String jsonSchema;
 
@@ -63,6 +64,8 @@ public class CodegenResponse {
             return false;
         if (isBinary != null ? !isBinary.equals(that.isBinary) : that.isBinary != null)
             return false;
+        if (isFile != null ? !isFile.equals(that.isFile) : that.isFile != null)
+            return false;
         if (schema != null ? !schema.equals(that.schema) : that.schema != null)
             return false;
         return jsonSchema != null ? jsonSchema.equals(that.jsonSchema) : that.jsonSchema == null;
@@ -85,6 +88,7 @@ public class CodegenResponse {
         result = 31 * result + (isMapContainer != null ? isMapContainer.hashCode() : 0);
         result = 31 * result + (isListContainer != null ? isListContainer.hashCode() : 0);
         result = 31 * result + (isBinary != null ? isBinary.hashCode() : 0);
+        result = 31 * result + (isFile != null ? isFile.hashCode() : 0);
         result = 31 * result + (schema != null ? schema.hashCode() : 0);
         result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
         return result;

@@ -14,7 +14,7 @@ public class CodegenOperation {
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
             isListContainer, isMultipart, hasMore = true,
-            isResponseBinary = false, hasReference = false,
+            isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful;
     public String path, operationId, returnType, httpMethod, returnBaseType,
@@ -217,6 +217,8 @@ public class CodegenOperation {
             return false;
         if (hasReference != that.hasReference)
             return false;
+        if (isResponseFile != that.isResponseFile)
+            return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
         if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
@@ -297,6 +299,7 @@ public class CodegenOperation {
         result = 31 * result + (isMultipart ? 13:31);
         result = 31 * result + (hasMore ? 13:31);
         result = 31 * result + (isResponseBinary ? 13:31);
+        result = 31 * result + (isResponseFile ? 13:31);
         result = 31 * result + (hasReference ? 13:31);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);

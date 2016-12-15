@@ -12,10 +12,10 @@
 
 /*
  * PetApi.h
- * 
+ *
  * 
  */
- 
+
 #ifndef PetApi_H_
 #define PetApi_H_
 
@@ -103,11 +103,11 @@ public:
     /// </remarks>
     /// <param name="petId">ID of pet to update</param>/// <param name="additionalMetadata">Additional data to pass to server (optional)</param>/// <param name="file">file to upload (optional)</param>
     pplx::task<std::shared_ptr<ApiResponse>> uploadFile(int64_t petId, utility::string_t additionalMetadata, std::shared_ptr<HttpContent> file);
-    
+
 protected:
-    std::shared_ptr<ApiClient> m_ApiClient;    
+    std::shared_ptr<ApiClient> m_ApiClient;
 };
-    
+
 }
 }
 }

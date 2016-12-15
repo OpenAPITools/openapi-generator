@@ -11,10 +11,10 @@
  */
 
 #include "MultipartFormData.h"
-#include "ModelBase.h" 
+#include "ModelBase.h"
 
 #include <boost/uuid/random_generator.hpp>
-#include <boost/uuid/uuid_io.hpp> 
+#include <boost/uuid/uuid_io.hpp>
 
 namespace io {
 namespace swagger {
@@ -94,7 +94,7 @@ void MultipartFormData::writeTo( std::ostream& target )
 
         // body
         std::shared_ptr<std::istream> data = content->getData();
-        
+
 		data->seekg( 0, data->end );
 		std::vector<char> dataBytes( data->tellg() );
 		

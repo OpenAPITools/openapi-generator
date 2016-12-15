@@ -1,0 +1,44 @@
+# work in progress: the goal is to move all the existing tests
+# handled by travis-ci to circle CI so that travis-ci can test
+# objc/swift API client instead
+machine:
+  environment:
+    _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+  java:
+    # TODO we also need to test oraclejdk8
+    version: oraclejdk7
+  node:
+    version: 5.0.0
+  services:
+    - docker
+  # Override /etc/hosts
+  hosts:
+    petstore.swagger.io: 127.0.0.1
+
+dependencies:
+  cache_directories:
+    - ~/.jspm
+    - ~/.npm
+    - ~/builder
+    - ~/.m2
+  pre:
+    - export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=256m"
+    - gem install bundler
+    - npm install -g typescript
+    - sudo pip install virtualenv
+    # to run petstore server locally via docker
+    - docker pull swaggerapi/petstore
+    - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - docker ps -a
+    # show host table to confirm petstore.swagger.io is mapped to localhost
+    - cat /etc/hosts
+  override:
+    #- rvm --default use 2.1.0
+    #- ruby -v
+
+test:
+  override:
+    - mvn verify -Psamples
+    #- mvn -q clean install
+    #- jdk_switcher use oraclejdk8
+    #- mvn -q clean install

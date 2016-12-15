@@ -15,6 +15,14 @@
     <maven>2.2.0</maven>
   </prerequisites>
 
+  <licenses>
+    <license>
+      <name>{{licenseName}}</name>
+      <url>{{licenseUrl}}</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
   <build>
     <plugins>
       <plugin>
@@ -148,6 +156,40 @@
       <version>${retrofit-version}</version>
     </dependency>
     {{/useRxJava}}
+    
+    {{#usePlay24WS}}
+    <!-- JSON processing: jackson -->
+    <dependency>
+      <groupId>com.squareup.retrofit2</groupId>
+        <artifactId>converter-jackson</artifactId>
+        <version>${retrofit-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>   
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.typesafe.play</groupId>
+        <artifactId>play-java-ws_2.10</artifactId>
+        <version>2.4.6</version>
+    </dependency>
+    {{/usePlay24WS}}
 
     <!-- test dependencies -->
     <dependency>
@@ -164,6 +206,9 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.9</swagger-core-version>
     <retrofit-version>2.1.0</retrofit-version>
+    {{#usePlay24WS}}
+    <jackson-version>2.7.5</jackson-version>
+    {{/usePlay24WS}}
     {{#useRxJava}}
     <rxjava-version>1.1.6</rxjava-version>
     {{/useRxJava}}

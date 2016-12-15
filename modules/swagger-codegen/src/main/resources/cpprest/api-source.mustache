@@ -35,23 +35,24 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         throw ApiException(400, U("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}"));
     }
     {{/isContainer}}{{/isPrimitiveType}}{{/required}}{{/allParams}}
-    
+
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("{{path}}");
     {{#pathParams}}boost::replace_all(path, U("{") U("{{baseName}}") U("}"), ApiClient::parameterToString({{{paramName}}}));
     {{/pathParams}}
-    
+
     std::map<utility::string_t, utility::string_t> queryParams;
     std::map<utility::string_t, utility::string_t> headerParams( apiConfiguration->getDefaultHeaders() );
     std::map<utility::string_t, utility::string_t> formParams;
     std::map<utility::string_t, std::shared_ptr<HttpContent>> fileParams;
 
     std::unordered_set<utility::string_t> responseHttpContentTypes;
-    {{#produces}}responseHttpContentTypes.insert( U("{{mediaType}}") );
+    {{#produces}}
+    responseHttpContentTypes.insert( U("{{mediaType}}") );
     {{/produces}}
-    
+
     utility::string_t responseHttpContentType;
-    
+
     // use JSON if possible
     if ( responseHttpContentTypes.size() == 0 )
     {
@@ -67,13 +68,13 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     {
         responseHttpContentType = U("application/json");
     }
-    // multipart formdata 
+    // multipart formdata
     else if( responseHttpContentTypes.find(U("multipart/form-data")) != responseHttpContentTypes.end() )
     {
         responseHttpContentType = U("multipart/form-data");
     }
     {{#vendorExtensions.x-codegen-response.isString}}
-    // plain text 
+    // plain text
     else if( responseHttpContentTypes.find(U("text/plain")) != responseHttpContentTypes.end() )
     {
         responseHttpContentType = U("text/plain");
@@ -90,41 +91,70 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     else
     {
         throw ApiException(400, U("{{classname}}->{{operationId}} does not produce any supported media type"));
-    }    
-    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
-    
-    headerParams[U("Accept")] = responseHttpContentType;
-    
-    std::unordered_set<utility::string_t> consumeHttpContentTypes;
-    {{#consumes}}consumeHttpContentTypes.insert( U("{{mediaType}}") );
-    {{/consumes}}
-    
-    {{#allParams}}{{^isBodyParam}}{{^isPrimitiveType}}{{^isContainer}}if ({{paramName}} != nullptr){{/isContainer}}{{/isPrimitiveType}}
-    {
-        {{#isContainer}}{{#isQueryParam}}queryParams[U("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
-        {{/isQueryParam}}{{#isHeaderParam}}headerParams[U("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
-        {{/isHeaderParam}}{{#isFormParam}}{{^isFile}}formParams[ U("{{baseName}}") ] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
-        {{/isFile}}{{/isFormParam}}{{/isContainer}}{{^isContainer}}{{#isQueryParam}}queryParams[U("{{baseName}}")] = ApiClient::parameterToString({{paramName}});
-        {{/isQueryParam}}{{#isHeaderParam}}headerParams[U("{{baseName}}")] = ApiClient::parameterToString({{paramName}});
-        {{/isHeaderParam}}{{#isFormParam}}{{#isFile}}fileParams[ U("{{baseName}}") ] = {{paramName}};
-        {{/isFile}}{{^isFile}}formParams[ U("{{baseName}}") ] = ApiClient::parameterToString({{paramName}});
-        {{/isFile}}{{/isFormParam}}{{/isContainer}}
     }
-    {{/isBodyParam}}{{/allParams}}
+    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+
+    headerParams[U("Accept")] = responseHttpContentType;
+
+    std::unordered_set<utility::string_t> consumeHttpContentTypes;
+    {{#consumes}}
+    consumeHttpContentTypes.insert( U("{{mediaType}}") );
+    {{/consumes}}
+
+    {{#allParams}}
+    {{^isBodyParam}}
+    {{^isPathParam}}
+    {{^isPrimitiveType}}{{^isContainer}}if ({{paramName}} != nullptr){{/isContainer}}{{/isPrimitiveType}}
+    {
+        {{#isContainer}}
+        {{#isQueryParam}}
+        queryParams[U("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
+        {{/isQueryParam}}
+        {{#isHeaderParam}}
+        headerParams[U("{{baseName}}")] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
+        {{/isHeaderParam}}
+        {{#isFormParam}}
+        {{^isFile}}
+        formParams[ U("{{baseName}}") ] = ApiClient::parameterToArrayString<{{items.datatype}}>({{paramName}});
+        {{/isFile}}
+        {{/isFormParam}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isQueryParam}}
+        queryParams[U("{{baseName}}")] = ApiClient::parameterToString({{paramName}});
+        {{/isQueryParam}}
+        {{#isHeaderParam}}
+        headerParams[U("{{baseName}}")] = ApiClient::parameterToString({{paramName}});
+        {{/isHeaderParam}}
+        {{#isFormParam}}
+        {{#isFile}}
+        fileParams[ U("{{baseName}}") ] = {{paramName}};
+        {{/isFile}}
+        {{^isFile}}
+        formParams[ U("{{baseName}}") ] = ApiClient::parameterToString({{paramName}});
+        {{/isFile}}
+        {{/isFormParam}}
+        {{/isContainer}}
+    }
+    {{/isPathParam}}
+    {{/isBodyParam}}
+    {{/allParams}}
 
     std::shared_ptr<IHttpBody> httpBody;
     utility::string_t requestHttpContentType;
-   
+
     // use JSON if possible
     if ( consumeHttpContentTypes.size() == 0 || consumeHttpContentTypes.find(U("application/json")) != consumeHttpContentTypes.end() )
     {
         requestHttpContentType = U("application/json");
-
         {{#bodyParam}}
         web::json::value json;
- 
-        {{#isPrimitiveType}} json = ModelBase::toJson({{paramName}});
-        {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isListContainer}}
+
+        {{#isPrimitiveType}}
+        json = ModelBase::toJson({{paramName}});
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isListContainer}}
         {
             std::vector<web::json::value> jsonArray;
             for( auto& item : {{paramName}} )
@@ -137,22 +167,26 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
             }
             json = web::json::value::array(jsonArray);
         }
-        {{/isListContainer}}{{^isListContainer}}json = ModelBase::toJson({{paramName}});
-        {{/isListContainer}}{{/isPrimitiveType}}
-        
+        {{/isListContainer}}
+        {{^isListContainer}}
+        json = ModelBase::toJson({{paramName}});
+        {{/isListContainer}}
+        {{/isPrimitiveType}}
+
         httpBody = std::shared_ptr<IHttpBody>( new JsonBody( json ) );
-        
         {{/bodyParam}}
     }
-    // multipart formdata 
+    // multipart formdata
     else if( consumeHttpContentTypes.find(U("multipart/form-data")) != consumeHttpContentTypes.end() )
     {
         requestHttpContentType = U("multipart/form-data");
-        
         {{#bodyParam}}
         std::shared_ptr<MultipartFormData> multipart(new MultipartFormData);
-        {{#isPrimitiveType}} multipart->add(ModelBase::toHttpContent("{{paramName}}", {{paramName}}));
-        {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isListContainer}}
+        {{#isPrimitiveType}}
+        multipart->add(ModelBase::toHttpContent("{{paramName}}", {{paramName}}));
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isListContainer}}
         {
             std::vector<web::json::value> jsonArray;
             for( auto& item : {{paramName}} )
@@ -165,13 +199,18 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
             }
             multipart->add(ModelBase::toHttpContent(U("{{paramName}}"), web::json::value::array(jsonArray), U("application/json")));
         }
-        {{/isListContainer}}{{^isListContainer}}{{#isString}}multipart->add(ModelBase::toHttpContent(U("{{paramName}}"), {{paramName}}));
-        {{/isString}}{{^isString}}
+        {{/isListContainer}}
+        {{^isListContainer}}
+        {{#isString}}multipart->add(ModelBase::toHttpContent(U("{{paramName}}"), {{paramName}}));
+        {{/isString}}
+        {{^isString}}
         if({{paramName}}.get())
         {
             {{paramName}}->toMultipart(multipart, U("{{paramName}}"));
         }
-        {{/isString}}{{/isListContainer}}{{/isPrimitiveType}}
+        {{/isString}}
+        {{/isListContainer}}
+        {{/isPrimitiveType}}
 
         httpBody = multipart;
         requestHttpContentType += U("; boundary=") + multipart->getBoundary();
@@ -180,8 +219,11 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     else
     {
         throw ApiException(415, U("{{classname}}->{{operationId}} does not consume any supported media type"));
-    }    
-    
+    }
+
+    //Set the request content type in the header.
+    headerParams[U("Content-Type")] = requestHttpContentType;
+
     {{#authMethods}}
     // authentication ({{name}}) required
     {{#isApiKey}}
@@ -211,13 +253,13 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     // oauth2 authentication is added automatically as part of the http_client_config
     {{/isOAuth}}
     {{/authMethods}}
-    
+
     return m_ApiClient->callApi(path, U("{{httpMethod}}"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
     {
         // 1xx - informational : OK
         // 2xx - successful       : OK
-        // 3xx - redirection   : OK 
+        // 3xx - redirection   : OK
         // 4xx - client error  : not OK
         // 5xx - client error  : not OK
         if (response.status_code() >= 400)
@@ -226,7 +268,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 , U("error calling {{operationId}}: ") + response.reason_phrase()
                 , std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
         }
-        
+
         // check response content type
         if(response.headers().has(U("Content-Type")))
         {
@@ -238,7 +280,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                     , std::make_shared<std::stringstream>(response.extract_utf8string(true).get()));
             }
         }
-        
+
         {{#vendorExtensions.x-codegen-response-ishttpcontent}}
         return response.extract_vector();
     })
@@ -254,21 +296,28 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     })
     .then([=](utility::string_t response)
     {
-        {{^returnType}}return void();
-        {{/returnType}}{{#returnType}}{{#returnContainer}}{{{returnType}}} result;
-        {{/returnContainer}}{{^returnContainer}}{{{returnType}}} result({{{defaultResponse}}});{{/returnContainer}}
-        
+        {{^returnType}}
+        return void();
+        {{/returnType}}
+        {{#returnType}}
+        {{#returnContainer}}
+        {{{returnType}}} result;
+        {{/returnContainer}}
+        {{^returnContainer}}
+        {{{returnType}}} result({{{defaultResponse}}});
+        {{/returnContainer}}
+
         if(responseHttpContentType == U("application/json"))
         {
             web::json::value json = web::json::value::parse(response);
-            
+
             {{#isListContainer}}for( auto& item : json.as_array() )
             {
-                {{#vendorExtensions.x-codegen-response.items.isPrimitiveType}}result.push_back(ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(item));                
-                {{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.isString}}result.push_back(ModelBase::stringFromJson(item));   
+                {{#vendorExtensions.x-codegen-response.items.isPrimitiveType}}result.push_back(ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(item));
+                {{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.isString}}result.push_back(ModelBase::stringFromJson(item));
                 {{/vendorExtensions.x-codegen-response.items.isString}}{{^vendorExtensions.x-codegen-response.items.isString}}{{{vendorExtensions.x-codegen-response.items.datatype}}} itemObj({{{vendorExtensions.x-codegen-response.items.defaultValue}}});
                 itemObj->fromJson(item);
-                result.push_back(itemObj);                
+                result.push_back(itemObj);
                 {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
             }
             {{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}for( auto& item : json.as_object() )
@@ -279,7 +328,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 itemObj->fromJson(item);
                 result[item.first] = itemObj;
                 {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
-            }                       
+            }
             {{/isMapContainer}}{{^isMapContainer}}{{#vendorExtensions.x-codegen-response.isPrimitiveType}}result = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(json);
             {{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.isString}}result = ModelBase::stringFromJson(json);
             {{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}result->fromJson(json);{{/vendorExtensions.x-codegen-response.isString}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{/isMapContainer}}{{/isListContainer}}
@@ -290,18 +339,18 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         }{{/vendorExtensions.x-codegen-response.isString}}
         // else if(responseHttpContentType == U("multipart/form-data"))
         // {
-        // TODO multipart response parsing    
+        // TODO multipart response parsing
         // }
-        else 
+        else
         {
             throw ApiException(500
                 , U("error calling findPetsByStatus: unsupported response type"));
         }
-        
+
         return result;
         {{/returnType}}
         {{/vendorExtensions.x-codegen-response-ishttpcontent}}
-    });            
+    });
 }
 {{/operation}}
 

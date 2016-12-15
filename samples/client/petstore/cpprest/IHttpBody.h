@@ -12,8 +12,8 @@
 
 /*
  * IHttpBody.h
- * 
- * This is the interface for contents that can be sent to a remote HTTP server. 
+ *
+ * This is the interface for contents that can be sent to a remote HTTP server.
  */
 
 #ifndef IHttpBody_H_

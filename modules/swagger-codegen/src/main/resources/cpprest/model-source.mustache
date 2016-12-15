@@ -20,7 +20,7 @@ namespace {{this}} {
 {
 }
 
-void {{classname}}::validate() 
+void {{classname}}::validate()
 {
     // TODO: implement validation
 }
@@ -28,7 +28,7 @@ void {{classname}}::validate()
 web::json::value {{classname}}::toJson() const
 {
     web::json::value val = web::json::value::object();
-     
+
     {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
     {
         val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
@@ -42,7 +42,7 @@ web::json::value {{classname}}::toJson() const
         }
         {{#required}}val[U("{{baseName}}")] = web::json::value::array(jsonArray);
         {{/required}}{{^required}}
-        if(jsonArray.size() > 0) 
+        if(jsonArray.size() > 0)
         {
             val[U("{{baseName}}")] = web::json::value::array(jsonArray);
         }
@@ -77,7 +77,7 @@ void {{classname}}::fromJson(web::json::value& val)
             {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(ModelBase::stringFromJson(item));
             {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(ModelBase::dateFromJson(item));
             {{/items.isDateTime}}{{^items.isDateTime}}
-            if(item.is_null()) 
+            if(item.is_null())
             {
                 m_{{name}}.push_back( {{{items.datatype}}}(nullptr) );
             }
@@ -89,7 +89,7 @@ void {{classname}}::fromJson(web::json::value& val)
             }
             {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
         }
-        {{^required}} 
+        {{^required}}
         }
         {{/required}}
     }
@@ -97,13 +97,13 @@ void {{classname}}::fromJson(web::json::value& val)
     {
         {{#isString}}{{setter}}(ModelBase::stringFromJson(val[U("{{baseName}}")]));
         {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(ModelBase::dateFromJson(val[U("{{baseName}}")]));
-        {{/isDateTime}}{{^isDateTime}}if(!val[U("{{baseName}}")].is_null()) 
+        {{/isDateTime}}{{^isDateTime}}if(!val[U("{{baseName}}")].is_null())
         {
             {{{datatype}}} newItem({{{defaultValue}}});
             newItem->fromJson(val[U("{{baseName}}")]);
             {{setter}}( newItem );
         }
-        {{/isDateTime}}{{/isString}}        
+        {{/isDateTime}}{{/isString}}
     }
     {{/required}}{{#required}}{{#isString}}{{setter}}(ModelBase::stringFromJson(val[U("{{baseName}}")]));
     {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(ModelBase::dateFromJson(val[U("{{baseName}}")]));
@@ -135,7 +135,7 @@ void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
         }
         {{#required}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), web::json::value::array(jsonArray), U("application/json")));
         {{/required}}{{^required}}
-        if(jsonArray.size() > 0) 
+        if(jsonArray.size() > 0)
         {
             multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), web::json::value::array(jsonArray), U("application/json")));
         }
@@ -149,7 +149,7 @@ void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
         {
             m_{{name}}->toMultipart(multipart, U("{{baseName}}."));
         }
-        {{/isDateTime}}{{/isString}}        
+        {{/isDateTime}}{{/isString}}
     }
     {{/required}}{{#required}}{{#isString}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
     {{/isString}}{{^isString}}{{#isDateTime}}multipart->add(ModelBase::toHttpContent(namePrefix + U("{{baseName}}"), m_{{name}}));
@@ -174,9 +174,9 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
         m_{{name}}.clear();
         {{^required}}if(multipart->hasContent(U("{{baseName}}")))
-        {            
+        {
         {{/required}}
-        
+
         web::json::value jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(U("{{baseName}}"))));
         for( auto& item : jsonArray.as_array() )
         {
@@ -184,7 +184,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
             {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(ModelBase::stringFromJson(item));
             {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(ModelBase::dateFromJson(item));
             {{/items.isDateTime}}{{^items.isDateTime}}
-            if(item.is_null()) 
+            if(item.is_null())
             {
                 m_{{name}}.push_back( {{{items.datatype}}}(nullptr) );
             }
@@ -196,7 +196,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
             }
             {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
         }
-        {{^required}} 
+        {{^required}}
         }
         {{/required}}
     }
@@ -210,7 +210,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
             newItem->fromMultiPart(multipart, U("{{baseName}}."));
             {{setter}}( newItem );
         }
-        {{/isDateTime}}{{/isString}}        
+        {{/isDateTime}}{{/isString}}
     }
     {{/required}}{{#required}}{{#isString}}{{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(U("{{baseName}}"))));
     {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(ModelBase::dateFromHttpContent(multipart->getContent(U("{{baseName}}"))));
@@ -220,8 +220,8 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
 }
-    
-   
+
+
 {{#vars}}{{^isNotContainer}}{{{datatype}}}& {{classname}}::{{getter}}()
 {
     return m_{{name}};
@@ -235,12 +235,12 @@ void {{classname}}::{{setter}}({{{datatype}}} value)
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
-{{/isNotContainer}} 
+{{/isNotContainer}}
 {{^required}}bool {{classname}}::{{baseName}}IsSet() const
 {
     return m_{{name}}IsSet;
 }
-void {{classname}}::unset{{name}}() 
+void {{classname}}::unset{{name}}()
 {
     m_{{name}}IsSet = false;
 }

@@ -12,7 +12,7 @@
 
 /*
  * ApiException.h
- * 
+ *
  * This is the exception being thrown in case the api call was not successful
  */
 
@@ -21,7 +21,7 @@
 
 
 
-#include <memory> 
+#include <memory>
 #include <map>
 
 #include <cpprest/details/basic_types.h>
@@ -45,12 +45,12 @@ public:
         , std::map<utility::string_t, utility::string_t>& headers
         , std::shared_ptr<std::istream> content = nullptr );
     virtual ~ApiException();
-    
+
     std::map<utility::string_t, utility::string_t>& getHeaders();
     std::shared_ptr<std::istream> getContent() const;
-        
+
 protected:
-    std::shared_ptr<std::istream> m_Content;    
+    std::shared_ptr<std::istream> m_Content;
     std::map<utility::string_t, utility::string_t> m_Headers;
 };
 

@@ -12,10 +12,10 @@
 
 /*
  * UserApi.h
- * 
+ *
  * 
  */
- 
+
 #ifndef UserApi_H_
 #define UserApi_H_
 
@@ -102,11 +102,11 @@ public:
     /// </remarks>
     /// <param name="username">name that need to be deleted</param>/// <param name="body">Updated user object</param>
     pplx::task<void> updateUser(utility::string_t username, std::shared_ptr<User> body);
-    
+
 protected:
-    std::shared_ptr<ApiClient> m_ApiClient;    
+    std::shared_ptr<ApiClient> m_ApiClient;
 };
-    
+
 }
 }
 }
