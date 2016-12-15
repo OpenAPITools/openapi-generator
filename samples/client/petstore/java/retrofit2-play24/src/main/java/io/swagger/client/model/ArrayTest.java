@@ -26,7 +26,7 @@ import javax.validation.constraints.*;
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
+
 public class ArrayTest {
   @JsonProperty("array_of_string")
   private List<String> arrayOfString = new ArrayList<String>();

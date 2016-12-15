@@ -52,8 +52,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java";
     protected String artifactVersion = "1.0.0";
-    protected String licenseName = "Apache License, Version 2.0";
-    protected String licenseUrl = "http://www.apache.org/licenses/LICENSE-2.0";
+    protected String licenseName = "Unlicense";
+    protected String licenseUrl = "http://unlicense.org";
     protected String projectFolder = "src" + File.separator + "main";
     protected String projectTestFolder = "src" + File.separator + "test";
     protected String sourceFolder = projectFolder + File.separator + "java";

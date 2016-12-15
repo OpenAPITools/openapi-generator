@@ -24,7 +24,7 @@ import javax.validation.constraints.*;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
+
 public class ModelReturn {
   @JsonProperty("return")
   private Integer _return = null;

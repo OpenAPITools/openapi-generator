@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Holds ApiKey auth info
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-14T17:41:48.242+08:00")
+
 public class ApiKeyAuth implements Authentication {
   private final String location;
   private final String paramName;
