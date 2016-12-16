@@ -35,7 +35,7 @@ Code change should conform to the programming style guide of the respective lang
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
-- JavaScript: https://github.com/airbnb/javascript/tree/master/es5
+- JavaScript: https://github.com/airbnb/javascript/
 - Groovy: http://groovy-lang.org/style-guide.html
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
