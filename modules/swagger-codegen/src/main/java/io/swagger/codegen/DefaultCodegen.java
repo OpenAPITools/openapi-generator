@@ -2208,7 +2208,7 @@ public class DefaultCodegen {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
                 r.isMapContainer = "map".equals(cm.containerType);
-                r.isListContainer = "list".equals(cm.containerType);
+                r.isListContainer = "list".equalsIgnoreCase(cm.containerType) || "array".equalsIgnoreCase(cm.containerType);
             } else {
                 r.simpleType = true;
             }
