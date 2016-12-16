@@ -57,7 +57,7 @@ public class CodegenConfigurator {
     private Map<String, String> systemProperties = new HashMap<String, String>();
     private Map<String, String> instantiationTypes = new HashMap<String, String>();
     private Map<String, String> typeMappings = new HashMap<String, String>();
-    private Map<String, String> additionalProperties = new HashMap<String, String>();
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
     private String gitUserId="GIT_USER_ID";
@@ -65,7 +65,7 @@ public class CodegenConfigurator {
     private String releaseNote="Minor update";
     private String httpUserAgent;
 
-    private final Map<String, String> dynamicProperties = new HashMap<String, String>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
+    private final Map<String, Object> dynamicProperties = new HashMap<String, Object>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
     public CodegenConfigurator() {
         this.setOutputDir(".");
@@ -255,16 +255,16 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public Map<String, String> getAdditionalProperties() {
+    public Map<String, Object> getAdditionalProperties() {
         return additionalProperties;
     }
 
-    public CodegenConfigurator setAdditionalProperties(Map<String, String> additionalProperties) {
+    public CodegenConfigurator setAdditionalProperties(Map<String, Object> additionalProperties) {
         this.additionalProperties = additionalProperties;
         return this;
     }
 
-    public CodegenConfigurator addAdditionalProperty(String key, String value) {
+    public CodegenConfigurator addAdditionalProperty(String key, Object value) {
         this.additionalProperties.put(key, value);
         return this;
     }
@@ -398,12 +398,12 @@ public class CodegenConfigurator {
 
     @JsonAnySetter
     public CodegenConfigurator addDynamicProperty(String name, Object value) {
-        dynamicProperties.put(name, value.toString());
+        dynamicProperties.put(name, value);
         return this;
     }
 
     @JsonAnyGetter
-    public Map<String, String> getDynamicProperties() {
+    public Map<String, Object> getDynamicProperties() {
         return dynamicProperties;
     }
 

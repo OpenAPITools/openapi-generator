@@ -103,7 +103,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
-            setSupportsES6(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SUPPORTS_ES6)));
+            setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
             additionalProperties.put("supportsES6", getSupportsES6());
         }
     }
