@@ -16,6 +16,9 @@ public class CodegenConstants {
     public static final String INVOKER_PACKAGE = "invokerPackage";
     public static final String INVOKER_PACKAGE_DESC = "root package for generated code";
 
+    public static final String PHP_INVOKER_PACKAGE = "phpInvokerPackage";
+    public static final String PHP_INVOKER_PACKAGE_DESC = "root package for generated php code";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 

@@ -1010,16 +1010,13 @@ margin-bottom: 20px;
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-addPet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-addPet-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1042,14 +1039,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-addPet-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -1063,21 +1057,17 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-addPet-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-addPet-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 
 Pet *body = ; // Pet object that needs to be added to the store
 
@@ -1090,20 +1080,18 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-addPet-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var body = ; // {Pet} Pet object that needs to be added to the store
 
@@ -1116,20 +1104,18 @@ var callback = function(error, data, response) {
   }
 };
 api.addPet(body, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-addPet-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-addPet-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -1155,20 +1141,17 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-addPet-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-io.swagger.client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $body = ; // Pet | Pet object that needs to be added to the store
 
 try {
@@ -1176,8 +1159,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -1275,16 +1257,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-deletePet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/pet/{petId}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-deletePet-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1308,14 +1287,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-deletePet-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -1330,21 +1306,17 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-deletePet-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-deletePet-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 
 Long *petId = 789; // Pet id to delete
 String *apiKey = apiKey_example; //  (optional)
@@ -1359,20 +1331,18 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-deletePet-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Long} Pet id to delete
 
@@ -1388,20 +1358,18 @@ var callback = function(error, data, response) {
   }
 };
 api.deletePet(petId, opts, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-deletePet-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-deletePet-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -1428,20 +1396,17 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-deletePet-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-io.swagger.client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $petId = 789; // Long | Pet id to delete
 $apiKey = apiKey_example; // String | 
 
@@ -1450,8 +1415,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->deletePet: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -1578,16 +1542,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-findPetsByStatus-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/pet/findByStatus?status="
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/pet/findByStatus?status="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1611,14 +1572,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -1633,21 +1591,17 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 
 array[String] *status = ; // Status values that need to be considered for filter
 
@@ -1663,20 +1617,18 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var status = ; // {array[String]} Status values that need to be considered for filter
 
@@ -1689,20 +1641,18 @@ var callback = function(error, data, response) {
   }
 };
 api.findPetsByStatus(status, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-findPetsByStatus-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -1729,20 +1679,17 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-io.swagger.client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $status = ; // array[String] | Status values that need to be considered for filter
 
 try {
@@ -1751,8 +1698,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->findPetsByStatus: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -1890,16 +1836,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-findPetsByTags-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/pet/findByTags?tags="
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/pet/findByTags?tags="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -1923,14 +1866,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -1945,21 +1885,17 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-findPetsByTags-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 
 array[String] *tags = ; // Tags to filter by
 
@@ -1975,20 +1911,18 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var tags = ; // {array[String]} Tags to filter by
 
@@ -2001,20 +1935,18 @@ var callback = function(error, data, response) {
   }
 };
 api.findPetsByTags(tags, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-findPetsByTags-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -2041,20 +1973,17 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-io.swagger.client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $tags = ; // array[String] | Tags to filter by
 
 try {
@@ -2063,8 +1992,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->findPetsByTags: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -2200,16 +2128,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-getPetById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]"  "http://petstore.swagger.io/v2/pet/{petId}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]"  "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-getPetById-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -2235,14 +2160,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-getPetById-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -2257,23 +2179,19 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-getPetById-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-getPetById-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
-
 
 Long *petId = 789; // ID of pet to return
 
@@ -2289,14 +2207,12 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-getPetById-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
@@ -2304,7 +2220,7 @@ api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix['api_key'] = "Token"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Long} ID of pet to return
 
@@ -2317,20 +2233,18 @@ var callback = function(error, data, response) {
   }
 };
 api.getPetById(petId, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-getPetById-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-getPetById-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -2359,22 +2273,19 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-getPetById-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: api_key
-io.swagger.client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// io.swagger.client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet to return
 
 try {
@@ -2383,8 +2294,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->getPetById: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -2516,16 +2426,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-updatePet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">put</span> "http://petstore.swagger.io/v2/pet"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">put</span> "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePet-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -2548,14 +2455,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePet-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -2569,21 +2473,17 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-updatePet-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-updatePet-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 
 Pet *body = ; // Pet object that needs to be added to the store
 
@@ -2596,20 +2496,18 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-updatePet-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var body = ; // {Pet} Pet object that needs to be added to the store
 
@@ -2622,20 +2520,18 @@ var callback = function(error, data, response) {
   }
 };
 api.updatePet(body, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-updatePet-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-updatePet-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -2661,20 +2557,17 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-updatePet-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-io.swagger.client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $body = ; // Pet | Pet object that needs to be added to the store
 
 try {
@@ -2682,8 +2575,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -2785,16 +2677,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-updatePetWithForm-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet/{petId}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -2819,14 +2708,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -2842,21 +2728,17 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 
 Long *petId = 789; // ID of pet that needs to be updated
 String *name = name_example; // Updated name of the pet (optional)
@@ -2873,20 +2755,18 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Long} ID of pet that needs to be updated
 
@@ -2903,20 +2783,18 @@ var callback = function(error, data, response) {
   }
 };
 api.updatePetWithForm(petId, opts, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-updatePetWithForm-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -2944,20 +2822,17 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-io.swagger.client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet that needs to be updated
 $name = name_example; // String | Updated name of the pet
 $status = status_example; // String | Updated status of the pet
@@ -2967,8 +2842,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePetWithForm: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -3129,16 +3003,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-uploadFile-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet/{petId}/uploadImage"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet/{petId}/uploadImage"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .PetApi;
+import io.swagger.client.api.PetApi;
 
 import java.io.File;
 import java.util.*;
@@ -3164,14 +3035,11 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .PetApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.PetApi;
 
 public class PetApiExample {
 
@@ -3188,21 +3056,17 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Pet-uploadFile-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-
 
 Long *petId = 789; // ID of pet to update
 String *additionalMetadata = additionalMetadata_example; // Additional data to pass to server (optional)
@@ -3222,20 +3086,18 @@ PetApi *apiInstance = [[PetApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = "YOUR ACCESS TOKEN"
 
-var api = new .PetApi()
+var api = new SwaggerPetstore.PetApi()
 
 var petId = 789; // {Long} ID of pet to update
 
@@ -3252,20 +3114,18 @@ var callback = function(error, data, response) {
   }
 };
 api.uploadFile(petId, opts, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Pet-uploadFile-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -3294,20 +3154,17 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure OAuth2 access token for authorization: petstore_auth
-io.swagger.client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new io.swagger.client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet to update
 $additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 $file = /path/to/file.txt; // file | file to upload
@@ -3318,8 +3175,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -3523,16 +3379,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-deleteOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/store/order/{orderId}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .StoreApi;
+import io.swagger.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -3550,14 +3403,11 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
 
 public class StoreApiExample {
 
@@ -3571,18 +3421,14 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Store-deleteOrder-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-String *orderId = orderId_example; // ID of the order that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">String *orderId = orderId_example; // ID of the order that needs to be deleted
 
 StoreApi *apiInstance = [[StoreApi alloc] init];
 
@@ -3593,15 +3439,13 @@ StoreApi *apiInstance = [[StoreApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .StoreApi()
+var api = new SwaggerPetstore.StoreApi()
 
 var orderId = orderId_example; // {String} ID of the order that needs to be deleted
 
@@ -3614,20 +3458,18 @@ var callback = function(error, data, response) {
   }
 };
 api.deleteOrder(orderId, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Store-deleteOrder-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -3650,17 +3492,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi();
 $orderId = orderId_example; // String | ID of the order that needs to be deleted
 
 try {
@@ -3668,8 +3507,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling StoreApi->deleteOrder: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -3759,16 +3597,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-getInventory-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]"  "http://petstore.swagger.io/v2/store/inventory"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]"  "http://petstore.swagger.io/v2/store/inventory"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getInventory-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .StoreApi;
+import io.swagger.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -3793,14 +3628,11 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getInventory-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
 
 public class StoreApiExample {
 
@@ -3814,23 +3646,19 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Store-getInventory-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-getInventory-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  Configuration *apiConfig = [Configuration sharedConfig];
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
-
 
 
 StoreApi *apiInstance = [[StoreApi alloc] init];
@@ -3845,14 +3673,12 @@ StoreApi *apiInstance = [[StoreApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-getInventory-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
-var defaultClient = .ApiClient.instance;
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
@@ -3860,7 +3686,7 @@ api_key.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix['api_key'] = "Token"
 
-var api = new .StoreApi()
+var api = new SwaggerPetstore.StoreApi()
 
 var callback = function(error, data, response) {
   if (error) {
@@ -3870,20 +3696,18 @@ var callback = function(error, data, response) {
   }
 };
 api.getInventory(callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Store-getInventory-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Store-getInventory-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -3911,22 +3735,19 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-getInventory-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
 // Configure API key authorization: api_key
-io.swagger.client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// io.swagger.client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
-$api_instance = new io.swagger.client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi();
 
 try {
     $result = $api_instance->getInventory();
@@ -3934,8 +3755,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling StoreApi->getInventory: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -4026,16 +3846,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-getOrderById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/store/order/{orderId}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getOrderById-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .StoreApi;
+import io.swagger.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -4054,14 +3871,11 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getOrderById-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
 
 public class StoreApiExample {
 
@@ -4076,18 +3890,14 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Store-getOrderById-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-getOrderById-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-Long *orderId = 789; // ID of pet that needs to be fetched
+                              <pre class="prettyprint"><code class="language-cpp">Long *orderId = 789; // ID of pet that needs to be fetched
 
 StoreApi *apiInstance = [[StoreApi alloc] init];
 
@@ -4101,15 +3911,13 @@ StoreApi *apiInstance = [[StoreApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-getOrderById-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .StoreApi()
+var api = new SwaggerPetstore.StoreApi()
 
 var orderId = 789; // {Long} ID of pet that needs to be fetched
 
@@ -4122,20 +3930,18 @@ var callback = function(error, data, response) {
   }
 };
 api.getOrderById(orderId, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Store-getOrderById-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Store-getOrderById-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -4159,17 +3965,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-getOrderById-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi();
 $orderId = 789; // Long | ID of pet that needs to be fetched
 
 try {
@@ -4178,8 +3981,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling StoreApi->getOrderById: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -4313,16 +4115,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-placeOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/store/order"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/store/order"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-placeOrder-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .StoreApi;
+import io.swagger.client.api.StoreApi;
 
 import java.io.File;
 import java.util.*;
@@ -4341,14 +4140,11 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-placeOrder-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .StoreApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.StoreApi;
 
 public class StoreApiExample {
 
@@ -4363,18 +4159,14 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-Store-placeOrder-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-placeOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-Order *body = ; // order placed for purchasing the pet
+                              <pre class="prettyprint"><code class="language-cpp">Order *body = ; // order placed for purchasing the pet
 
 StoreApi *apiInstance = [[StoreApi alloc] init];
 
@@ -4388,15 +4180,13 @@ StoreApi *apiInstance = [[StoreApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-placeOrder-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .StoreApi()
+var api = new SwaggerPetstore.StoreApi()
 
 var body = ; // {Order} order placed for purchasing the pet
 
@@ -4409,20 +4199,18 @@ var callback = function(error, data, response) {
   }
 };
 api.placeOrder(body, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-Store-placeOrder-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-Store-placeOrder-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -4446,17 +4234,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-placeOrder-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi();
 $body = ; // Order | order placed for purchasing the pet
 
 try {
@@ -4465,8 +4250,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -4609,16 +4393,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -4636,14 +4417,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -4657,18 +4435,14 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-createUser-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-User *body = ; // Created user object
+                              <pre class="prettyprint"><code class="language-cpp">User *body = ; // Created user object
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -4679,15 +4453,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var body = ; // {User} Created user object
 
@@ -4700,20 +4472,18 @@ var callback = function(error, data, response) {
   }
 };
 api.createUser(body, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-createUser-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-createUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -4736,17 +4506,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUser-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 $body = ; // User | Created user object
 
 try {
@@ -4754,8 +4521,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -4853,16 +4619,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithArrayInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user/createWithArray"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -4880,14 +4643,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -4901,18 +4661,14 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-array[User] *body = ; // List of user object
+                              <pre class="prettyprint"><code class="language-cpp">array[User] *body = ; // List of user object
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -4923,15 +4679,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var body = ; // {array[User]} List of user object
 
@@ -4944,20 +4698,18 @@ var callback = function(error, data, response) {
   }
 };
 api.createUsersWithArrayInput(body, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -4980,17 +4732,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 $body = ; // array[User] | List of user object
 
 try {
@@ -4998,8 +4747,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -5100,16 +4848,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithListInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user/createWithList"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5127,14 +4872,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5148,18 +4890,14 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-createUsersWithListInput-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-array[User] *body = ; // List of user object
+                              <pre class="prettyprint"><code class="language-cpp">array[User] *body = ; // List of user object
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -5170,15 +4908,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var body = ; // {array[User]} List of user object
 
@@ -5191,20 +4927,18 @@ var callback = function(error, data, response) {
   }
 };
 api.createUsersWithListInput(body, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-createUsersWithListInput-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -5227,17 +4961,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 $body = ; // array[User] | List of user object
 
 try {
@@ -5245,8 +4976,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -5347,16 +5077,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-deleteUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/user/{username}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-deleteUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5374,14 +5101,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-deleteUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5395,18 +5119,14 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-deleteUser-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-deleteUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-String *username = username_example; // The name that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The name that needs to be deleted
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -5417,15 +5137,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-deleteUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var username = username_example; // {String} The name that needs to be deleted
 
@@ -5438,20 +5156,18 @@ var callback = function(error, data, response) {
   }
 };
 api.deleteUser(username, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-deleteUser-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-deleteUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -5474,17 +5190,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-deleteUser-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be deleted
 
 try {
@@ -5492,8 +5205,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->deleteUser: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -5582,16 +5294,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-getUserByName-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/{username}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-getUserByName-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5610,14 +5319,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-getUserByName-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5632,18 +5338,14 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-getUserByName-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-getUserByName-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-String *username = username_example; // The name that needs to be fetched. Use user1 for testing. 
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The name that needs to be fetched. Use user1 for testing. 
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -5657,15 +5359,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-getUserByName-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var username = username_example; // {String} The name that needs to be fetched. Use user1 for testing. 
 
@@ -5678,20 +5378,18 @@ var callback = function(error, data, response) {
   }
 };
 api.getUserByName(username, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-getUserByName-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-getUserByName-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -5715,17 +5413,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-getUserByName-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be fetched. Use user1 for testing. 
 
 try {
@@ -5734,8 +5429,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->getUserByName: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -5866,16 +5560,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-loginUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/login?username=&password="
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/login?username=&password="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-loginUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -5895,14 +5586,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-loginUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -5918,18 +5606,14 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-loginUser-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-loginUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-String *username = username_example; // The user name for login
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The user name for login
 String *password = password_example; // The password for login in clear text
 
 UserApi *apiInstance = [[UserApi alloc] init];
@@ -5945,15 +5629,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-loginUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var username = username_example; // {String} The user name for login
 
@@ -5968,20 +5650,18 @@ var callback = function(error, data, response) {
   }
 };
 api.loginUser(username, password, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-loginUser-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-loginUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -6006,17 +5686,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-loginUser-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 $username = username_example; // String | The user name for login
 $password = password_example; // String | The password for login in clear text
 
@@ -6026,8 +5703,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -6201,16 +5877,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-logoutUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/logout"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/logout"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-logoutUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -6227,14 +5900,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-logoutUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -6247,9 +5917,7 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-logoutUser-0-groovy">
@@ -6257,8 +5925,6 @@ public class UserApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-User-logoutUser-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">
-  
-
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Logs out current logged in user session
@@ -6268,15 +5934,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-logoutUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var callback = function(error, data, response) {
   if (error) {
@@ -6286,20 +5950,18 @@ var callback = function(error, data, response) {
   }
 };
 api.logoutUser(callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-logoutUser-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-logoutUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -6321,25 +5983,21 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-logoutUser-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 
 try {
     $api_instance->logoutUser();
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -6386,16 +6044,13 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-updateUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">put</span> "http://petstore.swagger.io/v2/user/{username}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">put</span> "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-updateUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  import io.swagger.client.*;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import .UserApi;
+import io.swagger.client.api.UserApi;
 
 import java.io.File;
 import java.util.*;
@@ -6414,14 +6069,11 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-updateUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  import .UserApi;
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
 
 public class UserApiExample {
 
@@ -6436,18 +6088,14 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}
-
-                            </code></pre>
+}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-User-updateUser-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-updateUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  
-String *username = username_example; // name that need to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // name that need to be deleted
 User *body = ; // Updated user object
 
 UserApi *apiInstance = [[UserApi alloc] init];
@@ -6460,15 +6108,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
                                 NSLog(@"Error: %@", error);
                             }
                         }];
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-updateUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  var  = require('');
+                              <pre class="prettyprint"><code class="language-js">var SwaggerPetstore = require('swagger_petstore');
 
-var api = new .UserApi()
+var api = new SwaggerPetstore.UserApi()
 
 var username = username_example; // {String} name that need to be deleted
 
@@ -6483,20 +6129,18 @@ var callback = function(error, data, response) {
   }
 };
 api.updateUser(username, body, callback);
-
-                              </code></pre>
+</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-User-updateUser-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-User-updateUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  using System;
+                              <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
-using .Api;
-using .Client;
-using ;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
 
 namespace Example
 {
@@ -6520,17 +6164,14 @@ namespace Example
             }
         }
     }
-}
-
-                              </code></pre>
+}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-updateUser-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  <?php
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new io.swagger.client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi();
 $username = username_example; // String | name that need to be deleted
 $body = ; // User | Updated user object
 
@@ -6539,8 +6180,7 @@ try {
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), PHP_EOL;
 }
-
-                              </code></pre>
+?></code></pre>
                             </div>
                           </div>
 
@@ -6663,7 +6303,7 @@ try {
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2016-11-16T15:33:43.134-08:00
+              Generated 2016-12-12T15:29:18.279-08:00
             </div>
           </div>
       </div>

@@ -222,50 +222,36 @@
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">
-  curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}} -H "{{keyParamName}}: [[apiKey]]" {{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}} -H "Authorization: Basic [[basicHash]]" {{/isBasic}}{{/authMethods}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{paramName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"
-  </code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}} -H "{{keyParamName}}: [[apiKey]]" {{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}} -H "Authorization: Basic [[basicHash]]" {{/isBasic}}{{/authMethods}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{paramName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-java">
-                            <pre class="prettyprint"><code class="language-java">
-  {{>sample_java}}
-                            </code></pre>
+                            <pre class="prettyprint"><code class="language-java">{{>sample_java}}</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-android">
-                            <pre class="prettyprint"><code class="language-java">
-  {{>sample_android}}
-                            </code></pre>
+                            <pre class="prettyprint"><code class="language-java">{{>sample_android}}</code></pre>
                           </div>
   <!--
   <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-  {{>sample_objc}}
-                              </code></pre>
+                              <pre class="prettyprint"><code class="language-cpp">{{>sample_objc}}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">
-  {{>sample_js}}
-                              </code></pre>
+                              <pre class="prettyprint"><code class="language-js">{{>sample_js}}</code></pre>
                             </div>
 
                             <!--<div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
                             <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">
-  {{>sample_csharp}}
-                              </code></pre>
+                              <pre class="prettyprint"><code class="language-cs">{{>sample_csharp}}</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-php">
-                              <pre class="prettyprint"><code class="language-php">
-  {{>sample_php}}
-                              </code></pre>
+                              <pre class="prettyprint"><code class="language-php">{{>sample_php}}</code></pre>
                             </div>
                           </div>
 
