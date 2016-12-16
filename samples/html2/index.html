@@ -3026,7 +3026,7 @@ public class PetApiExample {
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet to update
         String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
-        file file = /path/to/file.txt; // file | file to upload
+        File file = /path/to/file.txt; // File | file to upload
         try {
             ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
             System.out.println(result);
@@ -3047,7 +3047,7 @@ public class PetApiExample {
         PetApi apiInstance = new PetApi();
         Long petId = 789; // Long | ID of pet to update
         String additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
-        file file = /path/to/file.txt; // file | file to upload
+        File file = /path/to/file.txt; // File | file to upload
         try {
             ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
             System.out.println(result);
@@ -3070,7 +3070,7 @@ public class PetApiExample {
 
 Long *petId = 789; // ID of pet to update
 String *additionalMetadata = additionalMetadata_example; // Additional data to pass to server (optional)
-file *file = /path/to/file.txt; // file to upload (optional)
+File *file = /path/to/file.txt; // file to upload (optional)
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -3103,7 +3103,7 @@ var petId = 789; // {Long} ID of pet to update
 
 var opts = { 
   'additionalMetadata': additionalMetadata_example, // {String} Additional data to pass to server
-  'file': /path/to/file.txt // {file} file to upload
+  'file': /path/to/file.txt // {File} file to upload
 };
 
 var callback = function(error, data, response) {
@@ -3140,7 +3140,7 @@ namespace Example
             var apiInstance = new PetApi();
             var petId = 789;  // Long | ID of pet to update
             var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional) 
-            var file = new file(); // file | file to upload (optional) 
+            var file = /path/to/file.txt;  // File | file to upload (optional) 
 
             try
             {
@@ -3167,7 +3167,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_AC
 $api_instance = new Swagger\Client\Api\PetApi();
 $petId = 789; // Long | ID of pet to update
 $additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
-$file = /path/to/file.txt; // file | file to upload
+$file = /path/to/file.txt; // File | file to upload
 
 try {
     $result = $api_instance->uploadFile($petId, $additionalMetadata, $file);
@@ -6303,7 +6303,7 @@ try {
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2016-12-12T15:29:18.279-08:00
+              Generated 2016-12-16T18:07:47.864+08:00
             </div>
           </div>
       </div>
