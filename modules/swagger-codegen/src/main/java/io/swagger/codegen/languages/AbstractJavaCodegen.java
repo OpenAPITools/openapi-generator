@@ -461,6 +461,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
+            if (inner == null) {
+              return null;
+            }
             return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
@@ -479,6 +482,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new java.util.ArrayList<%s>()";
             } else {
                 pattern = "new ArrayList<%s>()";
+            }
+            if (ap.getItems() == null) {
+              return null;
             }
             return String.format(pattern, getTypeDeclaration(ap.getItems()));
         } else if (p instanceof MapProperty) {
