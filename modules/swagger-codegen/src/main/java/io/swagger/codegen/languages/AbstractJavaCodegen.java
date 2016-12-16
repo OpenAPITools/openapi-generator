@@ -462,12 +462,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             ArrayProperty ap = (ArrayProperty) p;
             Property inner = ap.getItems();
             if (inner == null) {
-              return null;
+                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined");
+                // TODO maybe better defaulting to StringProperty than returning null
+                return null;
             }
             return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (p instanceof MapProperty) {
             MapProperty mp = (MapProperty) p;
             Property inner = mp.getAdditionalProperties();
+            if (inner == null) {
+                LOGGER.warn(mp.getName() + "(map property) does not have a proper inner type defined");
+                // TODO maybe better defaulting to StringProperty than returning null
+                return null;
+            }
             return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -484,7 +491,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new ArrayList<%s>()";
             }
             if (ap.getItems() == null) {
-              return null;
+                return null;
             }
             return String.format(pattern, getTypeDeclaration(ap.getItems()));
         } else if (p instanceof MapProperty) {
@@ -494,6 +501,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 pattern = "new java.util.HashMap<String, %s>()";
             } else {
                 pattern = "new HashMap<String, %s>()";
+            }
+            if (ap.getAdditionalProperties() == null) {
+                return null;
             }
             return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()));
         } else if (p instanceof IntegerProperty) {
