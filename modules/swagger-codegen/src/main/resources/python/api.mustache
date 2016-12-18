@@ -196,17 +196,18 @@ class {{classname}}(object):
         if '{{paramName}}' in params:
             body_params = params['{{paramName}}']
 {{/bodyParam}}
-
+        {{#hasProduces}}
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
             select_header_accept([{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}])
-        if not header_params['Accept']:
-            del header_params['Accept']
 
+        {{/hasProduces}}
+        {{#hasConsumes}}
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
             select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}])
 
+        {{/hasConsumes}}
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
 
