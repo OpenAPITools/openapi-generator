@@ -43,6 +43,7 @@ class FakeApi(object):
     def test_client_model(self, body, **kwargs):
         """
         To test \"client\" model
+        To test \"client\" model
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
@@ -67,6 +68,7 @@ class FakeApi(object):
 
     def test_client_model_with_http_info(self, body, **kwargs):
         """
+        To test \"client\" model
         To test \"client\" model
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
@@ -119,12 +121,9 @@ class FakeApi(object):
         body_params = None
         if 'body' in params:
             body_params = params['body']
-
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
             select_header_accept(['application/json'])
-        if not header_params['Accept']:
-            del header_params['Accept']
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
@@ -316,12 +315,9 @@ class FakeApi(object):
             form_params.append(('callback', params['param_callback']))
 
         body_params = None
-
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
             select_header_accept(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
-        if not header_params['Accept']:
-            del header_params['Accept']
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
@@ -347,6 +343,7 @@ class FakeApi(object):
 
     def test_enum_parameters(self, **kwargs):
         """
+        To test enum parameters
         To test enum parameters
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
@@ -379,6 +376,7 @@ class FakeApi(object):
 
     def test_enum_parameters_with_http_info(self, **kwargs):
         """
+        To test enum parameters
         To test enum parameters
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
@@ -452,12 +450,9 @@ class FakeApi(object):
             form_params.append(('enum_query_double', params['enum_query_double']))
 
         body_params = None
-
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
             select_header_accept(['*/*'])
-        if not header_params['Accept']:
-            del header_params['Accept']
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.\
