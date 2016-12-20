@@ -526,6 +526,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         if (in != null) {
                             LOGGER.info("writing file " + outputFile);
                             IOUtils.copy(in, out);
+                            out.close();
                         } else {
                             LOGGER.error("can't open " + templateFile + " for input");
                         }
