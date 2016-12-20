@@ -54,7 +54,7 @@ func NewUserApiWithBasePath(basePath string) *UserApi {
  * This can only be done by the logged in user.
  *
  * @param body Created user object
- * @return void
+ * @return 
  */
 func (a UserApi) CreateUser(body User) (*APIResponse, error) {
 
@@ -115,7 +115,7 @@ func (a UserApi) CreateUser(body User) (*APIResponse, error) {
  * 
  *
  * @param body List of user object
- * @return void
+ * @return 
  */
 func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
 
@@ -176,7 +176,7 @@ func (a UserApi) CreateUsersWithArrayInput(body []User) (*APIResponse, error) {
  * 
  *
  * @param body List of user object
- * @return void
+ * @return 
  */
 func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
 
@@ -237,7 +237,7 @@ func (a UserApi) CreateUsersWithListInput(body []User) (*APIResponse, error) {
  * This can only be done by the logged in user.
  *
  * @param username The name that needs to be deleted
- * @return void
+ * @return 
  */
 func (a UserApi) DeleteUser(username string) (*APIResponse, error) {
 
@@ -378,8 +378,8 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-		localVarQueryParams.Add("username", a.Configuration.APIClient.ParameterToString(username, ""))
-		localVarQueryParams.Add("password", a.Configuration.APIClient.ParameterToString(password, ""))
+	localVarQueryParams.Add("username", a.Configuration.APIClient.ParameterToString(username, ""))
+	localVarQueryParams.Add("password", a.Configuration.APIClient.ParameterToString(password, ""))
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -422,7 +422,7 @@ func (a UserApi) LoginUser(username string, password string) (*string, *APIRespo
  * Logs out current logged in user session
  * 
  *
- * @return void
+ * @return 
  */
 func (a UserApi) LogoutUser() (*APIResponse, error) {
 
@@ -482,7 +482,7 @@ func (a UserApi) LogoutUser() (*APIResponse, error) {
  *
  * @param username name that need to be deleted
  * @param body Updated user object
- * @return void
+ * @return 
  */
 func (a UserApi) UpdateUser(username string, body User) (*APIResponse, error) {
 

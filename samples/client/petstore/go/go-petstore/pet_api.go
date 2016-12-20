@@ -56,7 +56,7 @@ func NewPetApiWithBasePath(basePath string) *PetApi {
  * 
  *
  * @param body Pet object that needs to be added to the store
- * @return void
+ * @return 
  */
 func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
 
@@ -122,10 +122,11 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
  * 
  *
  * @param petId Pet id to delete
- * @param apiKey 
- * @return void
+ * @param optional (nil or map[string]interface{}) with one or more of:
+ *     @param "apiKey" (string) 
+ * @return 
  */
-func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
+func (a PetApi) DeletePet(petId int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Delete")
 	// create path and map variables
@@ -167,8 +168,9 @@ func (a PetApi) DeletePet(petId int64, apiKey string) (*APIResponse, error) {
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	// header params "api_key"
-	localVarHeaderParams["api_key"] = a.Configuration.APIClient.ParameterToString(apiKey, "")
+	if localVarTempParam, localVarOk := localVarOptionals["apiKey"].(string); localVarOptionals != nil && localVarOk {
+		localVarHeaderParams["api_key"] = a.Configuration.APIClient.ParameterToString(localVarTempParam, "")
+	}
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)
@@ -213,14 +215,7 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-	var collectionFormat = "csv"
-	if collectionFormat == "multi" {
-		for _, value := range status {
-			localVarQueryParams.Add("status", value)
-		}
-	} else {
-		localVarQueryParams.Add("status", a.Configuration.APIClient.ParameterToString(status, collectionFormat))
-	}
+	localVarQueryParams.Add("status", a.Configuration.APIClient.ParameterToString(status, "csv"))
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -287,14 +282,7 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-	var collectionFormat = "csv"
-	if collectionFormat == "multi" {
-		for _, value := range tags {
-			localVarQueryParams.Add("tags", value)
-		}
-	} else {
-		localVarQueryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags, collectionFormat))
-	}
+	localVarQueryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags, "csv"))
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -403,7 +391,7 @@ func (a PetApi) GetPetById(petId int64) (*Pet, *APIResponse, error) {
  * 
  *
  * @param body Pet object that needs to be added to the store
- * @return void
+ * @return 
  */
 func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
 
@@ -469,11 +457,12 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
  * 
  *
  * @param petId ID of pet that needs to be updated
- * @param name Updated name of the pet
- * @param status Updated status of the pet
- * @return void
+ * @param optional (nil or map[string]interface{}) with one or more of:
+ *     @param "name" (string) Updated name of the pet
+ *     @param "status" (string) Updated status of the pet
+ * @return 
  */
-func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*APIResponse, error) {
+func (a PetApi) UpdatePetWithForm(petId int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
@@ -515,8 +504,12 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	localVarFormParams["name"] = a.Configuration.APIClient.ParameterToString(name, "")
-	localVarFormParams["status"] = a.Configuration.APIClient.ParameterToString(status, "")
+	if localVarTempParam, localVarOk := localVarOptionals["name"].(string); localVarOptionals != nil && localVarOk {
+		localVarFormParams["name"] = a.Configuration.APIClient.ParameterToString(localVarTempParam, "")
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["status"].(string); localVarOptionals != nil && localVarOk {
+		localVarFormParams["status"] = a.Configuration.APIClient.ParameterToString(localVarTempParam, "")
+	}
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 
 	var localVarURL, _ = url.Parse(localVarPath)
@@ -538,11 +531,12 @@ func (a PetApi) UpdatePetWithForm(petId int64, name string, status string) (*API
  * 
  *
  * @param petId ID of pet to update
- * @param additionalMetadata Additional data to pass to server
- * @param file file to upload
+ * @param optional (nil or map[string]interface{}) with one or more of:
+ *     @param "additionalMetadata" (string) Additional data to pass to server
+ *     @param "file" (*os.File) file to upload
  * @return *ModelApiResponse
  */
-func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File) (*ModelApiResponse, *APIResponse, error) {
+func (a PetApi) UploadFile(petId int64, localVarOptionals map[string]interface{}) (*ModelApiResponse, *APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Post")
 	// create path and map variables
@@ -583,10 +577,18 @@ func (a PetApi) UploadFile(petId int64, additionalMetadata string, file *os.File
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	localVarFormParams["additionalMetadata"] = a.Configuration.APIClient.ParameterToString(additionalMetadata, "")
-	fbs, _ := ioutil.ReadAll(file)
-	localVarFileBytes = fbs
-	localVarFileName = file.Name()
+	if localVarTempParam, localVarOk := localVarOptionals["additionalMetadata"].(string); localVarOptionals != nil && localVarOk {
+		localVarFormParams["additionalMetadata"] = a.Configuration.APIClient.ParameterToString(localVarTempParam, "")
+	}
+	var file (*os.File)
+	if localVarTempParam, localVarOk := localVarOptionals["file"].(*os.File); localVarOptionals != nil && localVarOk {
+		file = localVarTempParam
+	}
+	if file != nil {
+		fbs, _ := ioutil.ReadAll(file)
+		localVarFileBytes = fbs
+		localVarFileName = file.Name()
+	}
 	var successPayload = new(ModelApiResponse)
 	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 

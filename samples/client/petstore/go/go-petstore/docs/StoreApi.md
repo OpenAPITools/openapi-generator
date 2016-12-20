@@ -26,7 +26,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+(empty response body)
 
 ### Authorization
 
