@@ -518,19 +518,20 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase()), true);
         }
 
-	// Camelize only when we have a structure defined below
-	Boolean camelized = false;
-	if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-	    name = camelize(name, true);
-	    camelized = true;
-	}
-
-        // Reserved Name
-        if (isReservedWord(name)) {
-            return escapeReservedWord(name);
+        // Camelize only when we have a structure defined below
+        Boolean camelized = false;
+        if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
+            name = camelize(name, true);
+            camelized = true;
         }
 
-	// Check for numerical conversions
+        // Reserved Name
+        String nameLowercase = StringUtils.lowerCase(name);
+        if (isReservedWord(nameLowercase)) {
+            return escapeReservedWord(nameLowercase);
+        }
+
+        // Check for numerical conversions
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype) ||
                 "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "number" + camelize(name);
@@ -540,11 +541,11 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             return varName;
         }
 
-	// If we have already camelized the word, don't progress
-	// any further
-	if (camelized) {
-	    return name;
-	}
+        // If we have already camelized the word, don't progress
+        // any further
+        if (camelized) {
+            return name;
+        }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
         return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators).replaceAll("[-_ :\\(\\)]", ""), true);
