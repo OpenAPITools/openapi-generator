@@ -14,6 +14,8 @@ Method | HTTP request | Description
 
 To test \"client\" model
 
+To test \"client\" model
+
 ### Example
 ```php
 <?php
@@ -131,6 +133,8 @@ void (empty response body)
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example
 ```php
 <?php
@@ -143,7 +147,7 @@ $enum_header_string_array = array("enum_header_string_array_example"); // string
 $enum_header_string = "-efg"; // string | Header parameter enum test (string)
 $enum_query_string_array = array("enum_query_string_array_example"); // string[] | Query parameter enum test (string array)
 $enum_query_string = "-efg"; // string | Query parameter enum test (string)
-$enum_query_integer = 3.4; // float | Query parameter enum test (double)
+$enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 1.2; // double | Query parameter enum test (double)
 
 try {
@@ -164,7 +168,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
- **enum_query_integer** | **float**| Query parameter enum test (double) | [optional]
+ **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
 
 ### Return type

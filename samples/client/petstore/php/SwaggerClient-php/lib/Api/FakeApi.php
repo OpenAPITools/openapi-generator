@@ -256,18 +256,18 @@ class FakeApi
         if ($byte === null) {
             throw new \InvalidArgumentException('Missing the required parameter $byte when calling testEndpointParameters');
         }
-        if (!is_null($integer) && ($integer > 100.0)) {
-            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.0.');
+        if (!is_null($integer) && ($integer > 100)) {
+            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.');
         }
-        if (!is_null($integer) && ($integer < 10.0)) {
-            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.0.');
+        if (!is_null($integer) && ($integer < 10)) {
+            throw new \InvalidArgumentException('invalid value for "$integer" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
 
-        if (!is_null($int32) && ($int32 > 200.0)) {
-            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.0.');
+        if (!is_null($int32) && ($int32 > 200)) {
+            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
         }
-        if (!is_null($int32) && ($int32 < 20.0)) {
-            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.0.');
+        if (!is_null($int32) && ($int32 < 20)) {
+            throw new \InvalidArgumentException('invalid value for "$int32" when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
         }
 
         if (!is_null($float) && ($float > 987.6)) {
@@ -399,7 +399,7 @@ class FakeApi
      * @param string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
      * @param string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
-     * @param float $enum_query_integer Query parameter enum test (double) (optional)
+     * @param int $enum_query_integer Query parameter enum test (double) (optional)
      * @param double $enum_query_double Query parameter enum test (double) (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return void
@@ -421,7 +421,7 @@ class FakeApi
      * @param string $enum_header_string Header parameter enum test (string) (optional, default to -efg)
      * @param string[] $enum_query_string_array Query parameter enum test (string array) (optional)
      * @param string $enum_query_string Query parameter enum test (string) (optional, default to -efg)
-     * @param float $enum_query_integer Query parameter enum test (double) (optional)
+     * @param int $enum_query_integer Query parameter enum test (double) (optional)
      * @param double $enum_query_double Query parameter enum test (double) (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
