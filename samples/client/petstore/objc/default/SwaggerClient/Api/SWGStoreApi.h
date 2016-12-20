@@ -31,7 +31,6 @@ extern NSInteger kSWGStoreApiMissingParamErrorCode;
 ///  code:400 message:"Invalid ID supplied",
 ///  code:404 message:"Order not found"
 ///
-/// @return 
 -(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(NSError* error)) handler;
 

@@ -30,7 +30,6 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 /// 
 ///  code:0 message:"successful operation"
 ///
-/// @return 
 -(NSNumber*) createUserWithBody: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
@@ -42,7 +41,6 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 /// 
 ///  code:0 message:"successful operation"
 ///
-/// @return 
 -(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
@@ -54,7 +52,6 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 /// 
 ///  code:0 message:"successful operation"
 ///
-/// @return 
 -(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
@@ -67,7 +64,6 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:400 message:"Invalid username supplied",
 ///  code:404 message:"User not found"
 ///
-/// @return 
 -(NSNumber*) deleteUserWithUsername: (NSString*) username
     completionHandler: (void (^)(NSError* error)) handler;
 
@@ -107,7 +103,6 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 /// 
 ///  code:0 message:"successful operation"
 ///
-/// @return 
 -(NSNumber*) logoutUserWithCompletionHandler: 
     (void (^)(NSError* error)) handler;
 
@@ -121,7 +116,6 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:400 message:"Invalid user supplied",
 ///  code:404 message:"User not found"
 ///
-/// @return 
 -(NSNumber*) updateUserWithUsername: (NSString*) username
     body: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler;
