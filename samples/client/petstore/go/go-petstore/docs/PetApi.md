@@ -30,7 +30,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+(empty response body)
 
 ### Authorization
 
@@ -58,9 +58,11 @@ Name | Type | Description  | Notes
  **petId** | **int64**| Pet id to delete | 
  **apiKey** | **string**|  | [optional] 
 
+Note: Optional parameters are passed through a map[string]interface{}
+
 ### Return type
 
-void (empty response body)
+(empty response body)
 
 ### Authorization
 
@@ -176,7 +178,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+(empty response body)
 
 ### Authorization
 
@@ -205,9 +207,11 @@ Name | Type | Description  | Notes
  **name** | **string**| Updated name of the pet | [optional] 
  **status** | **string**| Updated status of the pet | [optional] 
 
+Note: Optional parameters are passed through a map[string]interface{}
+
 ### Return type
 
-void (empty response body)
+(empty response body)
 
 ### Authorization
 
@@ -235,6 +239,8 @@ Name | Type | Description  | Notes
  **petId** | **int64**| ID of pet to update | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
  **file** | ***os.File**| file to upload | [optional] 
+
+Note: Optional parameters are passed through a map[string]interface{}
 
 ### Return type
 

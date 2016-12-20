@@ -54,7 +54,7 @@ func NewStoreApiWithBasePath(basePath string) *StoreApi {
  * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
  *
  * @param orderId ID of the order that needs to be deleted
- * @return void
+ * @return 
  */
 func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 
