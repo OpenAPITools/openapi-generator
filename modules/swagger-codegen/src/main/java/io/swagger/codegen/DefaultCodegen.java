@@ -1193,7 +1193,8 @@ public class DefaultCodegen {
     }
 
     /**
-     * Output the proper model name (capitalized)
+     * Output the proper model name (capitalized).
+     * In case the name belongs to the TypeSystem it won't be renamed.
      *
      * @param name the name of the model
      * @return capitalized model name
