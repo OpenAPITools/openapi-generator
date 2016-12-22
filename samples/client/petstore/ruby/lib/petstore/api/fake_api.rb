@@ -20,7 +20,7 @@ module Petstore
     end
 
     # To test \"client\" model
-    # 
+    # To test \"client\" model
     # @param body client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
@@ -30,7 +30,7 @@ module Petstore
     end
 
     # To test \&quot;client\&quot; model
-    # 
+    # To test \&quot;client\&quot; model
     # @param body client model
     # @param [Hash] opts the optional parameters
     # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
@@ -223,7 +223,7 @@ module Petstore
     end
 
     # To test enum parameters
-    # 
+    # To test enum parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to -efg)
@@ -240,7 +240,7 @@ module Petstore
     end
 
     # To test enum parameters
-    # 
+    # To test enum parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
     # @option opts [String] :enum_form_string Form parameter enum test (string)

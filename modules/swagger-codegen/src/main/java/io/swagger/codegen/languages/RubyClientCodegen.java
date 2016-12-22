@@ -250,6 +250,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("Rakefile.mustache", "", "Rakefile"));
+        supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
 
         // test files should not be overwritten
         writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
