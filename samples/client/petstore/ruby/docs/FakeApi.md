@@ -14,6 +14,8 @@ Method | HTTP request | Description
 
 To test \"client\" model
 
+To test \"client\" model
+
 ### Example
 ```ruby
 # load the gem
@@ -139,6 +141,8 @@ nil (empty response body)
 
 # **test_enum_parameters**
 > test_enum_parameters(opts)
+
+To test enum parameters
 
 To test enum parameters
 
