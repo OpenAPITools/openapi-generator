@@ -474,7 +474,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (!of.isDirectory()) {
                     of.mkdirs();
                 }
-                String outputFilename = outputFolder + File.separator + support.destinationFilename;
+                String outputFilename = outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
                 if (!config.shouldOverwrite(outputFilename)) {
                     LOGGER.info("Skipped overwriting " + outputFilename);
                     continue;
@@ -657,7 +657,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
-        if(ignoreProcessor.allowsFile(new File(outputFilename.replaceAll("//", "/")))) {
+        String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
+        if(ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
             String templateFile = getFullTemplateFile(config, templateName);
             String template = readTemplate(templateFile);
             Mustache.Compiler compiler = Mustache.compiler();
@@ -672,11 +673,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     .defaultValue("")
                     .compile(template);
 
-            writeToFile(outputFilename, tmpl.execute(templateData));
-            return new File(outputFilename);
+            writeToFile(adjustedOutputFilename, tmpl.execute(templateData));
+            return new File(adjustedOutputFilename);
         }
 
-        LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .swagger-codegen-ignore");
+        LOGGER.info("Skipped generation of " + adjustedOutputFilename + " due to rule in .swagger-codegen-ignore");
         return null;
     }
 
