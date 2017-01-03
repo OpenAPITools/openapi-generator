@@ -2247,11 +2247,20 @@ public class DefaultCodegen {
 
         // move the defaultValue for headers, forms and params
         if (param instanceof QueryParameter) {
-            p.defaultValue = ((QueryParameter) param).getDefaultValue();
+            QueryParameter qp = (QueryParameter) param;
+            if(qp.getDefaultValue() != null) {
+                p.defaultValue = qp.getDefaultValue().toString();
+            }
         } else if (param instanceof HeaderParameter) {
-            p.defaultValue = ((HeaderParameter) param).getDefaultValue();
+            HeaderParameter hp = (HeaderParameter) param;
+            if(hp.getDefaultValue() != null) {
+                p.defaultValue = hp.getDefaultValue().toString();
+            }
         } else if (param instanceof FormParameter) {
-            p.defaultValue = ((FormParameter) param).getDefaultValue();
+            FormParameter fp = (FormParameter) param;
+            if(fp.getDefaultValue() != null) {
+                p.defaultValue = fp.getDefaultValue().toString();
+            }
         }
 
         p.vendorExtensions = param.getVendorExtensions();
