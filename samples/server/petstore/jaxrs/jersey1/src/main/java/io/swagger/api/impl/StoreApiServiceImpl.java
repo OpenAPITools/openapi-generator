@@ -34,7 +34,7 @@ public class StoreApiServiceImpl extends StoreApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response getOrderById(Long orderId, SecurityContext securityContext)
+    public Response getOrderById(String orderId, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

@@ -2242,7 +2242,7 @@ public class DefaultCodegen {
         p.jsonSchema = Json.pretty(param);
 
         if (System.getProperty("debugParser") != null) {
-            LOGGER.info("working on Parameter " + param);
+            LOGGER.info("working on Parameter " + param.getName());
         }
 
         // move the defaultValue for headers, forms and params
@@ -2271,7 +2271,7 @@ public class DefaultCodegen {
             String collectionFormat = null;
             String type = qp.getType();
             if (null == type) {
-                LOGGER.warn("Type is NULL for Serializable Parameter: " + param);
+                LOGGER.warn("Type is NULL for Serializable Parameter: " + param.getName());
             }
             if ("array".equals(type)) { // for array parameter
                 Property inner = qp.getItems();

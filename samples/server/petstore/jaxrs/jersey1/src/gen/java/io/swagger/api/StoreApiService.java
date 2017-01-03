@@ -25,7 +25,7 @@ public abstract class StoreApiService {
       throws NotFoundException;
       public abstract Response getInventory(SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response getOrderById(Long orderId,SecurityContext securityContext)
+      public abstract Response getOrderById(String orderId,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response placeOrder(Order body,SecurityContext securityContext)
       throws NotFoundException;
