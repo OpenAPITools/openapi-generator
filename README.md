@@ -820,6 +820,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Shine Solutions](https://shinesolutions.com/)
 - [Skurt](http://www.skurt.com)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
+- [snapCX](https://snapcx.io)
 - [SRC](https://www.src.si/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
