@@ -32,7 +32,7 @@ public class CodegenParameter {
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
 	 */
-    public Number maximum;
+    public String maximum;
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor17
 	 */
@@ -40,7 +40,7 @@ public class CodegenParameter {
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor21
 	 */
-    public Number minimum;
+    public String minimum;
 	/**
 	 * See http://json-schema.org/latest/json-schema-validation.html#anchor21
 	 */
@@ -122,7 +122,9 @@ public class CodegenParameter {
         if (this.items != null) {
             output.items = this.items;
         }
-        output.vendorExtensions = this.vendorExtensions;
+        if(this.vendorExtensions != null){
+            output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+        }
         output.hasValidation = this.hasValidation;
         output.isBinary = this.isBinary;
         output.isByteArray = this.isByteArray;

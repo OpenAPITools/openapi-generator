@@ -36,7 +36,7 @@ func New{{classname}}WithBasePath(basePath string) *{{classname}} {
  *
 {{#allParams}}{{#required}} * @param {{paramName}} {{description}}
 {{/required}}{{/allParams}}{{#hasOptionalParams}} * @param optional (nil or map[string]interface{}) with one or more of:
-{{#allParams}}{{^required}} *     @param "{{paramName}}" ({{dataType}}) {{description}}
+{{#allParams}}{{^required}} *	 @param "{{paramName}}" ({{dataType}}) {{description}}
 {{/required}}{{/allParams}}{{/hasOptionalParams}} * @return {{#returnType}}{{^isListContainer}}*{{/isListContainer}}{{{returnType}}}{{/returnType}}
  */
 func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals map[string]interface{}{{/hasOptionalParams}}) ({{#returnType}}{{^isListContainer}}*{{/isListContainer}}{{{returnType}}}, {{/returnType}}*APIResponse, error) {
@@ -66,7 +66,7 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{#required}}{{paramName}}
 {{/isApiKey}}
 {{#isBasic}}
 	// http basic authentication required
-	if a.Configuration.UserName != "" || a.Configuration.Password != ""{
+	if a.Configuration.Username != "" || a.Configuration.Password != ""{
 		localVarHeaderParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
 	}
 {{/isBasic}}
@@ -83,14 +83,27 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{#required}}{{paramName}}
 	}
 	{{#hasQueryParams}}
 	{{#queryParams}}
+	{{#isListContainer}}
+	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
 	{{#required}}
-	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
 	{{/required}}
 	{{^required}}
 	if localVarTempParam, localVarOk := localVarOptionals["{{paramName}}"].({{dataType}}); localVarOptionals != nil && localVarOk {
-		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString(localVarTempParam, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString(localVarTempParam, collectionFormat))
 	}
 	{{/required}}
+	{{/isListContainer}}
+	{{^isListContainer}}
+	{{#required}}
+	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
+	{{/required}}
+	{{^required}}
+	if localVarTempParam, localVarOk := localVarOptionals["{{paramName}}"].({{dataType}}); localVarOptionals != nil && localVarOk {
+		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString(localVarTempParam, ""))
+	}
+	{{/required}}
+	{{/isListContainer}}
 	{{/queryParams}}
 	{{/hasQueryParams}}
 

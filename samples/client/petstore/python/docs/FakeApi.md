@@ -14,6 +14,8 @@ Method | HTTP request | Description
 
 To test \"client\" model
 
+To test \"client\" model
+
 ### Example 
 ```python
 from __future__ import print_statement
@@ -137,6 +139,8 @@ void (empty response body)
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example 
 ```python
 from __future__ import print_statement
@@ -153,7 +157,7 @@ enum_header_string_array = ['enum_header_string_array_example'] # list[str] | He
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to -efg)
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
 enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to -efg)
-enum_query_integer = 3.4 # float | Query parameter enum test (double) (optional)
+enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 1.2 # float | Query parameter enum test (double) (optional)
 
 try: 
@@ -173,7 +177,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
  **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to -efg]
- **enum_query_integer** | **float**| Query parameter enum test (double) | [optional] 
+ **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
 
 ### Return type

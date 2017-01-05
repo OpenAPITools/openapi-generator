@@ -32,4 +32,11 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("_,.", "String"));
     }
 
+    @Test
+    public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
+        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("class"));
+        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("_class"));
+        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("__class"));
+    }
+
 }

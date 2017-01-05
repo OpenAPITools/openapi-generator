@@ -71,7 +71,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null)
+> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -110,11 +110,12 @@ namespace Example
             var date = 2013-10-20;  // DateTime? | None (optional) 
             var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional) 
             var password = password_example;  // string | None (optional) 
+            var callback = callback_example;  // string | None (optional) 
 
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password);
+                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
             }
             catch (Exception e)
             {
@@ -142,6 +143,7 @@ Name | Type | Description  | Notes
  **date** | **DateTime?**| None | [optional] 
  **dateTime** | **DateTime?**| None | [optional] 
  **password** | **string**| None | [optional] 
+ **callback** | **string**| None | [optional] 
 
 ### Return type
 
@@ -160,7 +162,7 @@ void (empty response body)
 
 <a name="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+> void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
 
 To test enum parameters
 
@@ -186,7 +188,7 @@ namespace Example
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryInteger = 3.4;  // decimal? | Query parameter enum test (double) (optional) 
+            var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
 
             try
@@ -213,7 +215,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enumQueryStringArray** | [**List<string>**](string.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
- **enumQueryInteger** | **decimal?**| Query parameter enum test (double) | [optional] 
+ **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
 
 ### Return type
@@ -226,8 +228,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: */*
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -2,9 +2,7 @@
 
 var url = require('url');
 
-
 var User = require('./UserService');
-
 
 module.exports.createUser = function createUser (req, res, next) {
   User.createUser(req.swagger.params, res, next);

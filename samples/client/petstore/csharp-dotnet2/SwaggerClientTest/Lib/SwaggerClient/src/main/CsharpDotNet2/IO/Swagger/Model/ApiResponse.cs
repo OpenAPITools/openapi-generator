@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace IO.Swagger.Model {
 
   /// <summary>
-  /// 
+  /// Describes the result of uploading an image resource
   /// </summary>
   [DataContract]
   public class ApiResponse {

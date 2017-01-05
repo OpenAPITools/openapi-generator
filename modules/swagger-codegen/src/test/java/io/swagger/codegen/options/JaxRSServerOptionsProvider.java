@@ -14,6 +14,8 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String GROUP_ID_VALUE = "io.swagger.test";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
+    public static final String LICENSE_NAME_VALUE = "Apache License, Version 2.0";
+    public static final String LICENSE_URL_VALUE = "http://www.apache.org/licenses/LICENSE-2.0";
     public static final String SOURCE_FOLDER_VALUE = "src/main/java/test";
     public static final String LOCAL_PREFIX_VALUE = "tst";
     public static final String DEFAULT_LIBRARY_VALUE = "jersey2";
@@ -49,6 +51,8 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
             .put(CodegenConstants.GROUP_ID, GROUP_ID_VALUE)
             .put(CodegenConstants.ARTIFACT_ID, ARTIFACT_ID_VALUE)
             .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
+            .put(CodegenConstants.LICENSE_NAME, LICENSE_NAME_VALUE)
+            .put(CodegenConstants.LICENSE_URL, LICENSE_URL_VALUE)
             .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
             .put(CodegenConstants.LOCAL_VARIABLE_PREFIX, LOCAL_PREFIX_VALUE)
             .put(CodegenConstants.SERIALIZABLE_MODEL, SERIALIZABLE_MODEL_VALUE)

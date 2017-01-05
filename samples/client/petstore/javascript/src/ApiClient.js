@@ -9,17 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 (function(root, factory) {
@@ -81,6 +70,14 @@
      * @default 60000
      */
     this.timeout = 60000;
+
+    /**
+     * If set to false an additional timestamp parameter is added to all API GET calls to
+     * prevent browser caching
+     * @type {Boolean}
+     * @default true
+     */
+    this.cache = true;
   };
 
   /**
@@ -323,7 +320,7 @@
     // Rely on SuperAgent for parsing response body.
     // See http://visionmedia.github.io/superagent/#parsing-response-bodies
     var data = response.body;
-    if (data == null) {
+    if (data == null || !Object.keys(data).length) {
       // SuperAgent does not always produce a body; use the unparsed response as a fallback
       data = response.text;
     }
@@ -367,6 +364,9 @@
     this.applyAuthToRequest(request, authNames);
 
     // set query parameters
+    if (httpMethod.toUpperCase() === 'GET' && this.cache === false) {
+        queryParams['_'] = new Date().getTime();
+    }
     request.query(this.normalizeParams(queryParams));
 
     // set header parameters

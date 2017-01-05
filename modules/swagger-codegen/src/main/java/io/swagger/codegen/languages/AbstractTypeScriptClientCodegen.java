@@ -26,6 +26,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     protected String modelPropertyNaming= "camelCase";
     protected Boolean supportsES6 = true;
+    protected HashSet<String> languageGenericTypes;
 
     public AbstractTypeScriptClientCodegen() {
         super();
@@ -60,6 +61,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Error",
                 "Map"
                 ));
+
+        languageGenericTypes = new HashSet<String>(Arrays.asList(
+                "Array"
+        ));
+
         instantiationTypes.put("array", "Array");
 
         typeMapping = new HashMap<String, String>();
@@ -101,7 +107,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
-            setSupportsES6(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.SUPPORTS_ES6)));
+            setSupportsES6(Boolean.valueOf(additionalProperties.get(CodegenConstants.SUPPORTS_ES6).toString()));
             additionalProperties.put("supportsES6", getSupportsES6());
         }
     }
@@ -176,6 +182,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (name.matches("^\\d.*")) {
             String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        if (languageSpecificPrimitives.contains(name)) {
+            String modelName = camelize("model_" + name);
+            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
             return modelName;
         }
 

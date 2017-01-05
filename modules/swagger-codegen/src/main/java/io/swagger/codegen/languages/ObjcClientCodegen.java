@@ -22,7 +22,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String AUTHOR_EMAIL = "authorEmail";
     public static final String LICENSE = "license";
     public static final String GIT_REPO_URL = "gitRepoURL";
-    public static final String DEFAULT_LICENSE = "Apache License, Version 2.0";
+    public static final String DEFAULT_LICENSE = "Proprietary";
     public static final String CORE_DATA = "coreData";
     
     protected Set<String> foundationClasses = new HashSet<String>();

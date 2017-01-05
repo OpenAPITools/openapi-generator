@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.Map;
 {{/fullJavaUtil}}
 
+{{#usePlay24WS}}
+import play.libs.F;
+import retrofit2.Response;
+{{/usePlay24WS}}
+
 {{#operations}}
 public interface {{classname}} {
   {{#operation}}
@@ -39,7 +44,7 @@ public interface {{classname}} {
   {{/prioritizedContentTypes}}
   {{/formParams}}  
   @{{httpMethod}}("{{path}}")
-  {{#useRxJava}}Observable{{/useRxJava}}{{^useRxJava}}Call{{/useRxJava}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}({{^allParams}});{{/allParams}}
+  {{^usePlay24WS}}{{#useRxJava}}Observable{{/useRxJava}}{{^useRxJava}}Call{{/useRxJava}}{{/usePlay24WS}}{{#usePlay24WS}}F.Promise<Response{{/usePlay24WS}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>{{#usePlay24WS}}>{{/usePlay24WS}} {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
 

@@ -49,10 +49,11 @@ class RESTResponse(io.IOBase):
 
 class RESTClientObject(object):
 
-    def __init__(self, pools_size=4):
+    def __init__(self, pools_size=4, maxsize=4):
         # urllib3.PoolManager will pass all kw parameters to connectionpool
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/poolmanager.py#L75
         # https://github.com/shazow/urllib3/blob/f9409436f83aeb79fbaf090181cd81b784f1b8ce/urllib3/connectionpool.py#L680
+        # maxsize is the number of requests to host that are allowed in parallel
         # ca_certs vs cert_file vs key_file
         # http://stackoverflow.com/a/23957365/2985775
 
@@ -78,6 +79,7 @@ class RESTClientObject(object):
         # https pool manager
         self.pool_manager = urllib3.PoolManager(
             num_pools=pools_size,
+            maxsize=maxsize,
             cert_reqs=cert_reqs,
             ca_certs=ca_certs,
             cert_file=cert_file,
