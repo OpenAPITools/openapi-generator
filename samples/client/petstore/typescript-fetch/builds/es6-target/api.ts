@@ -124,7 +124,7 @@ export const PetApiFetchParamCreator = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    addPet(params: {  body: Pet; }, configuration: Configuration): FetchArgs {
+    addPet(params: {  body: Pet; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling addPet");
@@ -160,7 +160,7 @@ export const PetApiFetchParamCreator = {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    deletePet(params: {  petId: number; apiKey?: string; }, configuration: Configuration): FetchArgs {
+    deletePet(params: {  petId: number; apiKey?: string; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling deletePet");
@@ -192,7 +192,7 @@ export const PetApiFetchParamCreator = {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    findPetsByStatus(params: {  status: Array<string>; }, configuration: Configuration): FetchArgs {
+    findPetsByStatus(params: {  status: Array<string>; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "status" is set
         if (params["status"] == null) {
             throw new Error("Missing required parameter status when calling findPetsByStatus");
@@ -226,7 +226,7 @@ export const PetApiFetchParamCreator = {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    findPetsByTags(params: {  tags: Array<string>; }, configuration: Configuration): FetchArgs {
+    findPetsByTags(params: {  tags: Array<string>; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "tags" is set
         if (params["tags"] == null) {
             throw new Error("Missing required parameter tags when calling findPetsByTags");
@@ -260,7 +260,7 @@ export const PetApiFetchParamCreator = {
      * Returns a single pet
      * @param petId ID of pet to return
      */
-    getPetById(params: {  petId: number; }, configuration: Configuration): FetchArgs {
+    getPetById(params: {  petId: number; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling getPetById");
@@ -291,7 +291,7 @@ export const PetApiFetchParamCreator = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    updatePet(params: {  body: Pet; }, configuration: Configuration): FetchArgs {
+    updatePet(params: {  body: Pet; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling updatePet");
@@ -328,7 +328,7 @@ export const PetApiFetchParamCreator = {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    updatePetWithForm(params: {  petId: number; name?: string; status?: string; }, configuration: Configuration): FetchArgs {
+    updatePetWithForm(params: {  petId: number; name?: string; status?: string; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling updatePetWithForm");
@@ -367,7 +367,7 @@ export const PetApiFetchParamCreator = {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, configuration: Configuration): FetchArgs {
+    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, configuration: Configuration, options?: any): FetchArgs {
         // verify required parameter "petId" is set
         if (params["petId"] == null) {
             throw new Error("Missing required parameter petId when calling uploadFile");
@@ -710,7 +710,7 @@ export const StoreApiFetchParamCreator = {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
      */
-    deleteOrder(params: {  orderId: string; }): FetchArgs {
+    deleteOrder(params: {  orderId: string; }options?: any): FetchArgs {
         // verify required parameter "orderId" is set
         if (params["orderId"] == null) {
             throw new Error("Missing required parameter orderId when calling deleteOrder");
@@ -734,7 +734,7 @@ export const StoreApiFetchParamCreator = {
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    getInventory(configuration: Configuration): FetchArgs {
+    getInventory(configuration: Configuration, options?: any): FetchArgs {
         const baseUrl = `/store/inventory`;
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
@@ -760,7 +760,7 @@ export const StoreApiFetchParamCreator = {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    getOrderById(params: {  orderId: number; }): FetchArgs {
+    getOrderById(params: {  orderId: number; }options?: any): FetchArgs {
         // verify required parameter "orderId" is set
         if (params["orderId"] == null) {
             throw new Error("Missing required parameter orderId when calling getOrderById");
@@ -785,7 +785,7 @@ export const StoreApiFetchParamCreator = {
      * 
      * @param body order placed for purchasing the pet
      */
-    placeOrder(params: {  body: Order; }): FetchArgs {
+    placeOrder(params: {  body: Order; }options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling placeOrder");
@@ -969,7 +969,7 @@ export const UserApiFetchParamCreator = {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    createUser(params: {  body: User; }): FetchArgs {
+    createUser(params: {  body: User; }options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling createUser");
@@ -997,7 +997,7 @@ export const UserApiFetchParamCreator = {
      * 
      * @param body List of user object
      */
-    createUsersWithArrayInput(params: {  body: Array<User>; }): FetchArgs {
+    createUsersWithArrayInput(params: {  body: Array<User>; }options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling createUsersWithArrayInput");
@@ -1025,7 +1025,7 @@ export const UserApiFetchParamCreator = {
      * 
      * @param body List of user object
      */
-    createUsersWithListInput(params: {  body: Array<User>; }): FetchArgs {
+    createUsersWithListInput(params: {  body: Array<User>; }options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling createUsersWithListInput");
@@ -1053,7 +1053,7 @@ export const UserApiFetchParamCreator = {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    deleteUser(params: {  username: string; }): FetchArgs {
+    deleteUser(params: {  username: string; }options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling deleteUser");
@@ -1078,7 +1078,7 @@ export const UserApiFetchParamCreator = {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    getUserByName(params: {  username: string; }): FetchArgs {
+    getUserByName(params: {  username: string; }options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling getUserByName");
@@ -1104,7 +1104,7 @@ export const UserApiFetchParamCreator = {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    loginUser(params: {  username: string; password: string; }): FetchArgs {
+    loginUser(params: {  username: string; password: string; }options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling loginUser");
@@ -1135,7 +1135,7 @@ export const UserApiFetchParamCreator = {
      * Logs out current logged in user session
      * 
      */
-    logoutUser(): FetchArgs {
+    logoutUser(options?: any): FetchArgs {
         const baseUrl = `/user/logout`;
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
@@ -1156,7 +1156,7 @@ export const UserApiFetchParamCreator = {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    updateUser(params: {  username: string; body: User; }): FetchArgs {
+    updateUser(params: {  username: string; body: User; }options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling updateUser");
