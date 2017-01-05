@@ -14,6 +14,21 @@ public class Swift3CodegenTest {
     Swift3Codegen swiftCodegen = new Swift3Codegen();
 
     @Test
+    public void testCapitalizedReservedWord() throws Exception {
+        Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
+    }
+
+    @Test
+    public void testReservedWord() throws Exception {
+        Assert.assertEquals(swiftCodegen.toEnumVarName("Public", null), "_public");
+    }
+
+    @Test
+    public void shouldNotBreakNonReservedWord() throws Exception {
+        Assert.assertEquals(swiftCodegen.toEnumVarName("Error", null), "error");
+    }
+
+    @Test
     public void shouldNotBreakCorrectName() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("EntryName", null), "entryName");
     }

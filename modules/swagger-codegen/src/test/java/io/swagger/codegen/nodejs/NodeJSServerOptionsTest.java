@@ -27,6 +27,8 @@ public class NodeJSServerOptionsTest extends AbstractOptionsTest {
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(NodeJSServerOptionsProvider.SORT_PARAMS_VALUE));
+            clientCodegen.setGoogleCloudFunctions(Boolean.valueOf(NodeJSServerOptionsProvider.GOOGLE_CLOUD_FUNCTIONS));
+            clientCodegen.setExportedName(NodeJSServerOptionsProvider.EXPORTED_NAME);
             times = 1;
         }};
     }

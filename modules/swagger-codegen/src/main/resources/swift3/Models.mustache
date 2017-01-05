@@ -126,7 +126,8 @@ class Decoders {
             "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
             "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
             "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            "yyyy-MM-dd'T'HH:mm:ss.SSS",
+            "yyyy-MM-dd HH:mm:ss"
         ].map { (format: String) -> DateFormatter in
             let formatter = DateFormatter()
             formatter.dateFormat = format
@@ -141,7 +142,7 @@ class Decoders {
                     }
                 }
             }
-            if let sourceInt = source as? Int {
+            if let sourceInt = source as? Int64 {
                 // treat as a java date
                 return Date(timeIntervalSince1970: Double(sourceInt / 1000) )
             }

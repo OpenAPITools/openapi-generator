@@ -70,8 +70,8 @@ public class ScalaModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertEquals(property3.baseType, "DateTime");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -100,7 +100,7 @@ public class ScalaModelTest {
         Assert.assertEquals(property1.defaultValue, "new ListBuffer[String]() ");
         Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 
@@ -128,7 +128,7 @@ public class ScalaModelTest {
         Assert.assertEquals(property1.defaultValue, "new HashMap[String, String]() ");
         Assert.assertEquals(property1.baseType, "Map");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 
@@ -153,7 +153,7 @@ public class ScalaModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "Children");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
 
@@ -181,7 +181,7 @@ public class ScalaModelTest {
         Assert.assertEquals(property1.defaultValue, "new ListBuffer[Children]() ");
         Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 
@@ -210,9 +210,9 @@ public class ScalaModelTest {
         Assert.assertEquals(property1.defaultValue, "new HashMap[String, Children]() ");
         Assert.assertEquals(property1.baseType, "Map");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertNull(property1.isNotContainer);
+        Assert.assertFalse(property1.isNotContainer);
     }
 
     @Test(description = "convert an array model")

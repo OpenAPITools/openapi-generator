@@ -13,9 +13,14 @@
 :warning: If the OpenAPI/Swagger spec is obtained from an untrusted source, please make sure you've reviewed the spec before using Swagger Codegen to generate the API client, server stub or documentation as [code injection](https://en.wikipedia.org/wiki/Code_injection) may occur :warning:
 
 ## Overview
-This is the swagger codegen project, which allows generation of API client libraries, server stubs and documentation automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification).
+This is the swagger codegen project, which allows generation of API client libraries (SDK generation), server stubs and documentation automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification). Currently, the following languages/frameworks are supported:
 
-Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the Swagger project, including additional libraries with support for other languages and more.
+- **API clients**: **ActionScript**, **C#** (.net 2.0, 4.0 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart**, **Go**, **Groovy**, **Haskell**, **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign), **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations) **Objective-C**, **Perl**, **PHP**, **Python**, **Ruby**, **Scala**, **Swift** (2.x, 3.x), **Typescript** (Angular1.x, Angular2.x, Fetch, Node)
+- **Server stubs**: **C#** (ASP.NET Core, NancyFx), **Erlang**, **Go**, **Haskell**, **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy), **PHP** (Lumen, Slim, Silex), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Scala** (Scalatra)
+- **API documentation generators**: **HTML**, **Confluence Wiki** 
+- **Others**: **JMeter**
+
+Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the OpenAPI project.
 
 # Table of contents
 
@@ -52,11 +57,12 @@ Check out [Swagger-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
   - [Swagger Codegen Core Team](#swagger-codegen-core-team)
+  - [Swagger Codegen Evangelist](#swagger-codegen-evangelist)
   - [License](#license)
 
 
 ## Compatibility
-The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilies with the OpenAPI Specification:
+The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The swagger-codegen project has the following compatibilities with the OpenAPI Specification:
 
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
@@ -128,7 +134,8 @@ cd /vagrant
 
 #### Public Docker image
 
-https://hub.docker.com/r/swaggerapi/swagger-generator/
+ - https://hub.docker.com/r/swaggerapi/swagger-generator/ (official)
+ - https://hub.docker.com/r/jimschubert/swagger-codegen-cli/ (unofficial)
 
 ### Homebrew
 To install, run `brew install swagger-codegen`
@@ -550,10 +557,10 @@ CONFIG OPTIONS
 
 	library
 	    library template (sub-template) to use:
-	    <default> - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
+	    jersey1 - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
 	    jersey2 - HTTP client: Jersey client 2.6
 	    feign - HTTP client: Netflix Feign 8.1.1.  JSON processing: Jackson 2.6.3
-	    okhttp-gson - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
+	    okhttp-gson (default) - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1
 	    retrofit - HTTP client: OkHttp 2.4.0. JSON processing: Gson 2.3.1 (Retrofit 1.9.0)
         retrofit2 - HTTP client: OkHttp 2.5.0. JSON processing: Gson 2.4 (Retrofit 2.0.0-beta2)
 ```
@@ -664,7 +671,7 @@ You can use the [swagger-codegen-maven-plugin](modules/swagger-codegen-maven-plu
 To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline the process. For example:
 
  1) Create a new repository in GitHub (Ref: https://help.github.com/articles/creating-a-new-repository/)
- 
+
  2) Generate the SDK
 ```
  java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
@@ -747,7 +754,10 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Activehours](https://www.activehours.com/)
 - [Acunetix](https://www.acunetix.com/)
 - [Atlassian](https://www.atlassian.com/)
+- [Autodesk](http://www.autodesk.com/)
 - [Avenida Compras S.A.](https://www.avenida.com.ar)
+- [AYLIEN](http://aylien.com/)
+- [Balance Internet](https://www.balanceinternet.com.au/)
 - [beemo](http://www.beemo.eu)
 - [bitly](https://bitly.com)
 - [Bufferfly Network](https://www.butterflynetinc.com/)
@@ -765,6 +775,8 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
+- [Fastly](https://www.fastly.com/)
+- [Flat](https://flat.io)
 - [Finder](http://en.finder.pl/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [Gear Zero Network](https://www.gearzero.ca)
@@ -773,15 +785,18 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
+- [Intent HQ](http://www.intenthq.com)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
-- [LANDR Audio](https://www.landr.com/)
-- [Lascaux](http://www.lascaux.it/)
-- [LiveAgent](https://www.ladesk.com/)
 - [Kabuku](http://www.kabuku.co.jp/en)
 - [Kuroi](http://kuroiwebdesign.com/)
 - [Kuary](https://kuary.com/)
+- [LANDR Audio](https://www.landr.com/)
+- [Lascaux](http://www.lascaux.it/)
+- [Leica Geosystems AG](http://leica-geosystems.com)
+- [LiveAgent](https://www.ladesk.com/)
+- [LXL Tech](http://lxltech.com)
 - [Mindera](http://mindera.com/)
-- [Mporium](http://mporium.com/) 
+- [Mporium](http://mporium.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [Onedata](http://onedata.org)
@@ -792,20 +807,29 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Plexxi](http://www.plexxi.com)
 - [Pixoneye](http://www.pixoneye.com/)
 - [PostAffiliatePro](https://www.postaffiliatepro.com/)
+- [Prill Tecnologia](http://www.prill.com.br)
 - [QAdept](http://qadept.com/)
 - [QuantiModo](https://quantimo.do/)
 - [Rapid7](https://rapid7.com/)
-- [Reload! A/S](https://reload.dk/) 
+- [Reload! A/S](https://reload.dk/)
 - [REstore](https://www.restore.eu)
 - [Revault Sàrl](http://revault.ch)
+- [Riffyn](https://riffyn.com)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
+- [Saritasa](https://www.saritasa.com/)
 - [SCOOP Software GmbH](http://www.scoop-software.de)
+- [Shine Solutions](https://shinesolutions.com/)
 - [Skurt](http://www.skurt.com)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
+- [snapCX](https://snapcx.io)
+- [SRC](https://www.src.si/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
+- [TaskData](http://www.taskdata.com/)
 - [ThoughtWorks](https://www.thoughtworks.com)
+- [Upwork](http://upwork.com/)
 - [uShip](https://www.uship.com/)
+- [VMware](https://vmware.com/)
 - [W.UP](http://wup.hu/?siteLang=en)
 - [Wealthfront](https://www.wealthfront.com/)
 - [WEXO A/S](https://www.wexo.dk/)
@@ -818,8 +842,8 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 Swagger Codegen core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 ## API Clients
-| Languages     | Core Team (join date) | 
-|:-------------|:-------------| 
+| Languages     | Core Team (join date) |
+|:-------------|:-------------|
 | ActionScript | |
 | C++      |  |  
 | C#      | @jimschubert (2016/05/01) |  |
@@ -829,7 +853,7 @@ Swagger Codegen core team members are contributors who have been making signific
 | Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
 | Java      | @cbornet (2016/05/01) @xhh (2016/05/01) @epaul (2016/06/04) |
 | Java (Spring Cloud) | @cbornet (2016/07/19) |
-| NodeJS/Javascript | @xhh (2016/05/01) | 
+| NodeJS/Javascript | @xhh (2016/05/01) |
 | ObjC      | @mateuszmackowiak (2016/05/09) |
 | Perl      | @wing328 (2016/05/01) |
 | PHP      | @arnested (2016/05/01) |
@@ -837,13 +861,13 @@ Swagger Codegen core team members are contributors who have been making signific
 | Ruby      | @wing328 (2016/05/01) @zlx (2016/05/22) |
 | Scala     |  |
 | Swift     | @jaz-ah (2016/05/01)  @Edubits (2016/05/01) |
-| TypeScript (Node) | @Vrolijkx (2016/05/01) | 
-| TypeScript (Angular1) | @Vrolijkx (2016/05/01) | 
+| TypeScript (Node) | @Vrolijkx (2016/05/01) |
+| TypeScript (Angular1) | @Vrolijkx (2016/05/01) |
 | TypeScript (Angular2) | @Vrolijkx (2016/05/01) |
 | TypeScript (Fetch) |  |
 ## Server Stubs
-| Languages     | Core Team (date joined) | 
-|:------------- |:-------------| 
+| Languages     | Core Team (date joined) |
+|:------------- |:-------------|
 | C# ASP.NET5 |  @jimschubert (2016/05/01) |
 | Go Server | @guohuang (2016/06/13) |
 | Haskell Servant |  |
@@ -862,24 +886,26 @@ Swagger Codegen core team members are contributors who have been making signific
 ## Template Creator
 Here is a list of template creators:
  * API Clients:
-   * Akka-Scala: @cchafer 
+   * Akka-Scala: @cchafer
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * Clojure: @xhh
-   * Dart: @yissachar  
-   * Groovy: @victorgit  
-   * Go: @wing328  
+   * Dart: @yissachar
+   * Groovy: @victorgit
+   * Go: @wing328
+   * Java (Feign): @davidkiss
    * Java (Retrofit): @0legg
    * Java (Retrofi2): @emilianobonassi
-   * Java (Jersey2): @xhh 
+   * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
-   * Javascript/NodeJS: @jfiala  
+   * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
+   * JMeter @davidkiss
    * Perl: @wing328
    * Swift: @tkqubo
    * Swift 3: @hexelon
-   * TypeScript (Node):  @mhardorf 
-   * TypeScript (Angular1):  @mhardorf 
+   * TypeScript (Node):  @mhardorf
+   * TypeScript (Angular1):  @mhardorf
    * TypeScript (Fetch): @leonyu
    * TypeScript (Angular2): @roni-frantchi
  * Server Stubs
@@ -896,7 +922,7 @@ Here is a list of template creators:
    * JAX-RS CXF (CDI): @nickcmaynard
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
-   * Ruby on Rails 5: @zlx 
+   * Ruby on Rails 5: @zlx
  * Documentation
    * HTML Doc 2: @jhitchcock
    * Confluence Wiki: @jhitchcock
@@ -905,16 +931,36 @@ Here is a list of template creators:
 
 Here are the requirements to become a core team member:
 - rank within top 50 in https://github.com/swagger-api/swagger-codegen/graphs/contributors
-  - to contribute, here are some good [starting points](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22) 
+  - to contribute, here are some good [starting points](https://github.com/swagger-api/swagger-codegen/issues?q=is%3Aopen+is%3Aissue+label%3A%22Need+community+contribution%22)
 - regular contributions to the project
   - about 3 hours per week
   - for contribution, it can be addressing issues, reviewing PRs submitted by others, submitting PR to fix bugs or make enhancements, etc
 
  To join the core team, please reach out to wing328hk@gmail.com (@wing328) for more information.
- 
+
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
-## License information on Generated Code
+# Swagger Codegen Evangelist
+
+Swagger Codegen Evangelist shoulders one or more of the following responsibilities:
+
+- publishes articles on the benefit of Swagger Codegen
+- organizes local Meetups
+- presents the benefits of Swagger Codegen in local Meetups or conferences
+- actively answers questions from others in [Github](https://github.com/swagger-api/swagger-codegen/issues), [StackOverflow](stackoverflow.com/search?q=%5Bswagger%5D)
+- submits PRs to improve Swagger Codegen
+- reviews PRs submitted by the others
+- ranks within top 100 in the [contributor list](https://github.com/swagger-api/swagger-codegen/graphs/contributors)
+
+If you want to be a Swagger Codegen Evangelist, please kindly apply by sending an email to wing328hk@gmail.com (@wing328)
+
+### List of Swagger Codegen Evangelists
+
+- Cliffano Subagio (@cliffano from Australia joined on Dec 9, 2016)
+  - [Building An AEM API Clients Ecosystem](http://www.slideshare.net/cliffano/building-an-aem-api-clients-ecosystem)
+  - [Adobe Marketing Cloud Community Expo](http://blog.cliffano.com/2016/11/10/adobe-marketing-cloud-community-expo/)
+
+# License information on Generated Code
 
 The Swagger Codegen project is intended as a benefit for users of the Swagger / Open API Specification.  The project itself has the [License](#license) as specified.  In addition, please understand the following points:
 

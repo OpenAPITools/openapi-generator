@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 {{/description}}
 @Injectable()
 export class {{classname}} {
-    protected basePath = '{{basePath}}';
+    protected basePath = '{{{basePath}}}';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -38,8 +38,8 @@ export class {{classname}} {
 			this.basePath = basePath || configuration.basePath || this.basePath;
         }
     }
-	
-	/**
+
+    /**
      * 
      * Extends object by coping non-existing properties.
      * @param objA object to be extended
@@ -48,7 +48,7 @@ export class {{classname}} {
     private extendObj<T1,T2>(objA: T1, objB: T2) {
         for(let key in objB){
             if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
+                (objA as any)[key] = (objB as any)[key];
             }
         }
         return <T1&T2>objA;
@@ -147,7 +147,10 @@ export class {{classname}} {
         // oauth required
         if (this.configuration.accessToken)
         {
-            headers.set('Authorization', 'Bearer ' + this.configuration.accessToken);
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
         }
 {{/isOAuth}}
 {{/authMethods}}

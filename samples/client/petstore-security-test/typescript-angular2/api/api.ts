@@ -1,1 +1,1 @@
-export * from './FakeApi';
+export * from './fake.service';

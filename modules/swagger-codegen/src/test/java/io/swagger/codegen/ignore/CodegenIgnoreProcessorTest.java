@@ -107,6 +107,8 @@ public class CodegenIgnoreProcessorTest {
         return new Object[] {
                 // Matching filenames
                 new CodegenIgnoreProcessorTest("build.sh", "build.sh", "A file when matching should ignore.").ignored(),
+                new CodegenIgnoreProcessorTest("build.sh", "*.sh", "A file when matching glob should ignore.").ignored(),
+                new CodegenIgnoreProcessorTest("src/build.sh", "*.sh", "A nested file when matching non-nested simple glob should allow.").allowed(),
                 new CodegenIgnoreProcessorTest("src/build.sh", "**/build.sh", "A file when matching nested files should ignore.").ignored(),
                 new CodegenIgnoreProcessorTest("Build.sh", "build.sh", "A file when non-matching should allow.").allowed().skipOnCondition(SystemUtils.IS_OS_WINDOWS),
                 new CodegenIgnoreProcessorTest("build.sh", "/build.sh", "A rooted file when matching should ignore.").ignored(),

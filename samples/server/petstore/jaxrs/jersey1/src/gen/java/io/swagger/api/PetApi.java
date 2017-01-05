@@ -9,9 +9,9 @@ import io.swagger.jaxrs.*;
 
 import com.sun.jersey.multipart.FormDataParam;
 
-import io.swagger.model.Pet;
-import io.swagger.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
