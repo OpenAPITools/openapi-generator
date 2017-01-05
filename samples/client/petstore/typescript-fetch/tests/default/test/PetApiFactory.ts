@@ -34,24 +34,6 @@ describe('PetApiFactory', () => {
           });
       });
 
-  it('should update Pet by ID', () => {
-    return PetApiFactory().getPetById({ petId: fixture.id }, config).then( (result) => {
-      result.name = 'newname';
-      return PetApiFactory().updatePet({ body: result }, config).then(() => {
-        return PetApiFactory().getPetById({ petId: fixture.id }, config).then( (result) => {
-          return expect(result.name).to.deep.equal('newname');
-        });
-      });
-    });
-  });
-  
-  it('should delete Pet', () => {
-    return PetApiFactory().deletePet({ petId: fixture.id }, config);
-  });
-
-  it('should not contain deleted Pet', () => {
-      return PetApiFactory().getPetById({ petId: fixture.id }, config).then((result) => {
-=======
       it('should update Pet by ID', () => {
         return PetApiFactory().getPetById({ petId: fixture.id }, requestOptions).then( (result) => {
           result.name = 'newname';
@@ -69,7 +51,6 @@ describe('PetApiFactory', () => {
 
       it('should not contain deleted Pet', () => {
         return PetApiFactory().getPetById({ petId: fixture.id }, requestOptions).then((result) => {
->>>>>>> origin/master
           return expect(result).to.not.exist;
         }, (err) => {
           return expect(err).to.exist;
