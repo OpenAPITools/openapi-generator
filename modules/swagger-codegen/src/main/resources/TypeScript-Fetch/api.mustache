@@ -74,7 +74,7 @@ export const {{classname}}FetchParamCreator = {
      * {{notes}}{{/notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{/allParams}}
      */
-    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration: Configuration, {{/hasAuthMethods}}options?: any): FetchArgs {
+    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}{{#hasParams}}, {{/hasParams}}{{#hasAuthMethods}}configuration: Configuration, {{/hasAuthMethods}}options?: any): FetchArgs {
 {{#allParams}}
 {{#required}}
         // verify required parameter "{{paramName}}" is set

@@ -710,7 +710,7 @@ export const StoreApiFetchParamCreator = {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
      */
-    deleteOrder(params: {  orderId: string; }options?: any): FetchArgs {
+    deleteOrder(params: {  orderId: string; }, options?: any): FetchArgs {
         // verify required parameter "orderId" is set
         if (params["orderId"] == null) {
             throw new Error("Missing required parameter orderId when calling deleteOrder");
@@ -760,7 +760,7 @@ export const StoreApiFetchParamCreator = {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    getOrderById(params: {  orderId: number; }options?: any): FetchArgs {
+    getOrderById(params: {  orderId: number; }, options?: any): FetchArgs {
         // verify required parameter "orderId" is set
         if (params["orderId"] == null) {
             throw new Error("Missing required parameter orderId when calling getOrderById");
@@ -785,7 +785,7 @@ export const StoreApiFetchParamCreator = {
      * 
      * @param body order placed for purchasing the pet
      */
-    placeOrder(params: {  body: Order; }options?: any): FetchArgs {
+    placeOrder(params: {  body: Order; }, options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling placeOrder");
@@ -969,7 +969,7 @@ export const UserApiFetchParamCreator = {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    createUser(params: {  body: User; }options?: any): FetchArgs {
+    createUser(params: {  body: User; }, options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling createUser");
@@ -997,7 +997,7 @@ export const UserApiFetchParamCreator = {
      * 
      * @param body List of user object
      */
-    createUsersWithArrayInput(params: {  body: Array<User>; }options?: any): FetchArgs {
+    createUsersWithArrayInput(params: {  body: Array<User>; }, options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling createUsersWithArrayInput");
@@ -1025,7 +1025,7 @@ export const UserApiFetchParamCreator = {
      * 
      * @param body List of user object
      */
-    createUsersWithListInput(params: {  body: Array<User>; }options?: any): FetchArgs {
+    createUsersWithListInput(params: {  body: Array<User>; }, options?: any): FetchArgs {
         // verify required parameter "body" is set
         if (params["body"] == null) {
             throw new Error("Missing required parameter body when calling createUsersWithListInput");
@@ -1053,7 +1053,7 @@ export const UserApiFetchParamCreator = {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    deleteUser(params: {  username: string; }options?: any): FetchArgs {
+    deleteUser(params: {  username: string; }, options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling deleteUser");
@@ -1078,7 +1078,7 @@ export const UserApiFetchParamCreator = {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    getUserByName(params: {  username: string; }options?: any): FetchArgs {
+    getUserByName(params: {  username: string; }, options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling getUserByName");
@@ -1104,7 +1104,7 @@ export const UserApiFetchParamCreator = {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    loginUser(params: {  username: string; password: string; }options?: any): FetchArgs {
+    loginUser(params: {  username: string; password: string; }, options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling loginUser");
@@ -1156,7 +1156,7 @@ export const UserApiFetchParamCreator = {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    updateUser(params: {  username: string; body: User; }options?: any): FetchArgs {
+    updateUser(params: {  username: string; body: User; }, options?: any): FetchArgs {
         // verify required parameter "username" is set
         if (params["username"] == null) {
             throw new Error("Missing required parameter username when calling updateUser");
