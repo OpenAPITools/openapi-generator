@@ -158,7 +158,7 @@
     <dependency>
       <groupId>com.github.joschi.jackson</groupId>
       <artifactId>jackson-datatype-threetenbp</artifactId>
-      <version>${jackson-version}</version>
+      <version>${jackson-threetenbp-version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.oltu.oauth2</groupId>
@@ -182,6 +182,7 @@
     <feign-version>8.17.0</feign-version>
     <feign-form-version>2.0.2</feign-form-version>
     <jackson-version>2.7.5</jackson-version>
+    <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
     <junit-version>4.12</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <oltu-version>1.0.1</oltu-version>
