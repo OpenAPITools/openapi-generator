@@ -7,7 +7,7 @@ import * as isomorphicFetch from "isomorphic-fetch";
 import * as assign from "core-js/library/fn/object/assign";
 {{/supportsES6}}
 
-import { Configuration } from './configuration';
+import { Configuration } from "./configuration";
 
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
@@ -126,14 +126,14 @@ export const {{classname}}FetchParamCreator = {
 {{#isKeyInHeader}}
         if (configuration.apiKey && configuration.apiKey.{{keyParamName}}) {
             fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
-                    '{{keyParamName}}': configuration.apiKey.{{keyParamName}},
+                    "{{keyParamName}}": configuration.apiKey.{{keyParamName}},
                     }, contentTypeHeader);
         }
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
         if (configuration.apiKey && configuration.apiKey.{{keyParamName}}) {
             urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, {
-                    '{{keyParamName}}': configuration.apiKey.{{keyParamName}},
+                    "{{keyParamName}}": configuration.apiKey.{{keyParamName}},
                     });
         }
 {{/isKeyInQuery}}
@@ -142,7 +142,7 @@ export const {{classname}}FetchParamCreator = {
         // http basic authentication required
         if (configuration.username || configuration.password) {
             fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
-                    'Authorization': 'Basic ' + btoa(configuration.username + ':' + configuration.password),
+                    "Authorization": "Basic " + btoa(configuration.username + ":" + configuration.password),
                     }, contentTypeHeader);
         }
 {{/isBasic}}
@@ -150,7 +150,7 @@ export const {{classname}}FetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 {{/isOAuth}}
