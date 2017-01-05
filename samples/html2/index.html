@@ -2128,7 +2128,7 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-getPetById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]"  "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-getPetById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3140,7 +3140,7 @@ namespace Example
             var apiInstance = new PetApi();
             var petId = 789;  // Long | ID of pet to update
             var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional) 
-            var file = /path/to/file.txt;  // File | file to upload (optional) 
+            var file = new File(); // File | file to upload (optional) 
 
             try
             {
@@ -3531,7 +3531,7 @@ try {
   "description" : "ID of the order that needs to be deleted",
   "required" : true,
   "type" : "string",
-  "minimum" : 1.0
+  "minimum" : 1
 };
 													var schema = schemaWrapper;
 
@@ -3597,7 +3597,7 @@ try {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-getInventory-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]"  "http://petstore.swagger.io/v2/store/inventory"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/store/inventory"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getInventory-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4005,8 +4005,8 @@ try {
   "description" : "ID of pet that needs to be fetched",
   "required" : true,
   "type" : "integer",
-  "maximum" : 5.0,
-  "minimum" : 1.0,
+  "maximum" : 5,
+  "minimum" : 1,
   "format" : "int64"
 };
 													var schema = schemaWrapper;
@@ -6303,7 +6303,7 @@ try {
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2016-12-16T18:07:47.864+08:00
+              Generated 2017-01-03T10:36:42.650-08:00
             </div>
           </div>
       </div>
