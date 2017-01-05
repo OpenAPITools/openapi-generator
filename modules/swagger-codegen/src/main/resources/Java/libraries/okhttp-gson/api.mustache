@@ -10,10 +10,26 @@ import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 import {{invokerPackage}}.ProgressRequestBody;
 import {{invokerPackage}}.ProgressResponseBody;
+{{#performBeanValidation}}
+import {{invokerPackage}}.BeanValidationException;
+{{/performBeanValidation}}
 
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
+{{#performBeanValidation}}
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
+import javax.validation.executable.ExecutableValidator;
+import java.util.Set;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+{{/performBeanValidation}}
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -50,13 +66,7 @@ public class {{classname}} {
     /* Build call for {{operationId}} */
     private com.squareup.okhttp.Call {{operationId}}Call({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-        {{#allParams}}{{#required}}
-        // verify the required parameter '{{paramName}}' is set
-        if ({{paramName}} == null) {
-            throw new ApiException("Missing the required parameter '{{paramName}}' when calling {{operationId}}(Async)");
-        }
-        {{/required}}{{/allParams}}
-
+        
         // create path and map variables
         String {{localVariablePrefix}}localVarPath = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}
         .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
@@ -100,6 +110,52 @@ public class {{classname}} {
         String[] {{localVariablePrefix}}localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
         return {{localVariablePrefix}}apiClient.buildCall({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAuthNames, progressRequestListener);
     }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call {{operationId}}ValidateBeforeCall({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        {{^performBeanValidation}}
+        {{#allParams}}{{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if ({{paramName}} == null) {
+            throw new ApiException("Missing the required parameter '{{paramName}}' when calling {{operationId}}(Async)");
+        }
+        {{/required}}{{/allParams}}
+        
+        com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}progressListener, progressRequestListener);
+        return {{localVariablePrefix}}call;
+
+        {{/performBeanValidation}}
+        {{#performBeanValidation}}
+        try {
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            ExecutableValidator executableValidator = factory.getValidator().forExecutables();
+
+            Object[] parameterValues = { {{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} };
+            Method method = this.getClass().getMethod("{{operationId}}WithHttpInfo"{{#allParams}}, {{#isListContainer}}java.util.List{{/isListContainer}}{{#isMapContainer}}java.util.Map{{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}{{/isMapContainer}}{{/isListContainer}}.class{{/allParams}});
+            Set<ConstraintViolation<{{classname}}>> violations = executableValidator.validateParameters(this, method,
+                    parameterValues);
+
+            if (violations.size() == 0) {
+                com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}progressListener, progressRequestListener);
+                return {{localVariablePrefix}}call;
+            
+            } else {
+                throw new BeanValidationException((Set) violations);
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            throw new ApiException(e.getMessage());
+        }
+            
+        {{/performBeanValidation}}
+        
+        
+        
+        
+    }
 
     /**
      * {{summary}}
@@ -120,8 +176,8 @@ public class {{classname}} {
      * @return ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-        com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}null, null);
+    public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+        com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}ValidateBeforeCall({{#allParams}}{{paramName}}, {{/allParams}}null, null);
         {{#returnType}}Type {{localVariablePrefix}}localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
         return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call, {{localVariablePrefix}}localVarReturnType);{{/returnType}}{{^returnType}}return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call);{{/returnType}}
     }
@@ -155,7 +211,7 @@ public class {{classname}} {
             };
         }
 
-        com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}progressListener, progressRequestListener);
+        com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}ValidateBeforeCall({{#allParams}}{{paramName}}, {{/allParams}}progressListener, progressRequestListener);
         {{#returnType}}Type {{localVariablePrefix}}localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
         {{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}localVarReturnType, {{localVariablePrefix}}callback);{{/returnType}}{{^returnType}}{{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}callback);{{/returnType}}
         return {{localVariablePrefix}}call;

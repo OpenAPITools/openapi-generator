@@ -5,8 +5,8 @@ import io.swagger.model.*;
 
 import com.sun.jersey.multipart.FormDataParam;
 
-import io.swagger.model.User;
 import java.util.List;
+import io.swagger.model.User;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;

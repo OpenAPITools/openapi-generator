@@ -588,7 +588,7 @@ paths:
       tags:
         - fake
       summary: To test "client" model
-      descriptions: To test "client" model
+      description: To test "client" model
       operationId: testClientModel
       consumes:
         - application/json
@@ -610,7 +610,7 @@ paths:
       tags:
         - fake
       summary: To test enum parameters
-      descriptions: To test enum parameters
+      description: To test enum parameters
       operationId: testEnumParameters
       consumes:
         - "*/*"
@@ -675,7 +675,7 @@ paths:
           in: query 
           description: Query parameter enum test (string)
         - name: enum_query_integer
-          type: number
+          type: integer
           format: int32 
           enum:
             - 1
@@ -981,9 +981,14 @@ definitions:
         type: integer
         format: int32
       class:
-        type: string 
+        type: string
     xml:
       name: Name
+  ClassModel:
+    description: Model for testing model with "_class" property
+    properties:
+      _class:
+        type: string
   Dog:
     allOf:
       - $ref: '#/definitions/Animal'
@@ -1097,6 +1102,8 @@ definitions:
         enum:
           - 1.1
           - -1.2
+      outerEnum:
+        $ref: '#/definitions/OuterEnum'
   AdditionalPropertiesClass:
     type: object
     properties:
@@ -1251,6 +1258,12 @@ definitions:
       #      enum:
       #        - Cat
       #        - Dog
+  OuterEnum:
+    type: "string"
+    enum:
+    - "placed"
+    - "approved"
+    - "delivered"
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

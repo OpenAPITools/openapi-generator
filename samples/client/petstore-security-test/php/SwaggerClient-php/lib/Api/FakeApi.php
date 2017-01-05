@@ -40,9 +40,9 @@
 
 namespace Swagger\Client\Api;
 
-use \Swagger\Client\Configuration;
 use \Swagger\Client\ApiClient;
 use \Swagger\Client\ApiException;
+use \Swagger\Client\Configuration;
 use \Swagger\Client\ObjectSerializer;
 
 /**
@@ -56,7 +56,6 @@ use \Swagger\Client\ObjectSerializer;
  */
 class FakeApi
 {
-
     /**
      * API Client
      *
@@ -71,7 +70,7 @@ class FakeApi
      */
     public function __construct(\Swagger\Client\ApiClient $apiClient = null)
     {
-        if ($apiClient == null) {
+        if ($apiClient === null) {
             $apiClient = new ApiClient();
             $apiClient->getConfig()->setHost('https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r');
         }
@@ -108,8 +107,8 @@ class FakeApi
      * To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      *
      * @param string $test_code_inject____end____rn_n_r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r (optional)
-     * @return void
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return void
      */
     public function testCodeInjectEndRnNR($test_code_inject____end____rn_n_r = null)
     {
@@ -123,22 +122,22 @@ class FakeApi
      * To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      *
      * @param string $test_code_inject____end____rn_n_r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r (optional)
-     * @return Array of null, HTTP status code, HTTP response headers (array of strings)
      * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testCodeInjectEndRnNRWithHttpInfo($test_code_inject____end____rn_n_r = null)
     {
         // parse inputs
         $resourcePath = "/fake";
         $httpBody = '';
-        $queryParams = array();
-        $headerParams = array();
-        $formParams = array();
-        $_header_accept = $this->apiClient->selectHeaderAccept(array('application/json', '*_/  \" =end --'));
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json', '*_/  \" =end --']);
         if (!is_null($_header_accept)) {
             $headerParams['Accept'] = $_header_accept;
         }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(array('application/json','*_/  \" =end --'));
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json', '*_/  \" =end --']);
 
         // default format to json
         $resourcePath = str_replace("{format}", "json", $resourcePath);
@@ -166,7 +165,7 @@ class FakeApi
                 '/fake'
             );
 
-            return array(null, $statusCode, $httpHeader);
+            return [null, $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
@@ -174,5 +173,4 @@ class FakeApi
             throw $e;
         }
     }
-
 }

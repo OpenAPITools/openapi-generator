@@ -24,6 +24,7 @@ open class EnumTest: JSONEncodable {
     public var enumString: EnumString?
     public var enumInteger: EnumInteger?
     public var enumNumber: EnumNumber?
+    public var outerEnum: OuterEnum?
 
     public init() {}
 
@@ -33,6 +34,7 @@ open class EnumTest: JSONEncodable {
         nillableDictionary["enum_string"] = self.enumString?.rawValue
         nillableDictionary["enum_integer"] = self.enumInteger?.rawValue
         nillableDictionary["enum_number"] = self.enumNumber?.rawValue
+        nillableDictionary["outerEnum"] = self.outerEnum?.encodeToJSON()
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

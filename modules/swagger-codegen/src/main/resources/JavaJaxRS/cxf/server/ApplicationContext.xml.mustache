@@ -11,8 +11,6 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-    
-    
     <import resource="classpath:META-INF/cxf/cxf.xml" />
 
     <!-- JAXRS providers -->
@@ -23,18 +21,27 @@
 {{/useMultipartFeature}}    
     
     <!-- Controller -->
+{{#useSpringAnnotationConfig}}  
+    <context:annotation-config/>
+    <context:component-scan base-package="{{apiPackage}}.impl" />
+{{/useSpringAnnotationConfig}}
+{{^useSpringAnnotationConfig}}    
 {{#apiInfo}}
 {{#apis}}
     <bean id="{{classname}}" class="{{package}}.impl.{{classname}}ServiceImpl" />
 {{/apis}}
 {{/apiInfo}}
+{{/useSpringAnnotationConfig}}
 
 {{#useSwaggerFeature}}  
     <!-- CXF Swagger2Feature -->
     {{! http://cxf.apache.org/docs/swagger2feature.html }}  
     <bean id="swagger2Feature" class="org.apache.cxf.jaxrs.swagger.Swagger2Feature">
-        <!--property name="basePath" value="/"/>
-        <property name="contact" value="${swagger.contact}" />
+        <!--property name="basePath" value="/services"/-->
+{{#useSwaggerUI}}        
+        <property name="supportSwaggerUi" value="true" />
+{{/useSwaggerUI}}        
+        <!--property name="contact" value="${swagger.contact}" />
         <property name="title" value="${swagger.title}" />
         <property name="version" value="${swagger.version}" />
         <property name="description" value="${swagger.description}" />

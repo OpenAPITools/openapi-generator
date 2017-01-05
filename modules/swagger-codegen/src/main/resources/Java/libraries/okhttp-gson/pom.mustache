@@ -15,6 +15,14 @@
     <maven>2.2.0</maven>
   </prerequisites>
 
+  <licenses>
+    <license>
+      <name>{{licenseName}}</name>
+      <url>{{licenseUrl}}</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
   <build>
     <plugins>
       <plugin>
@@ -124,20 +132,13 @@
       <artifactId>gson</artifactId>
       <version>${gson-version}</version>
     </dependency>
-    {{#joda}}
+    {{^java8}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
     </dependency>
-    {{/joda}}
-    {{#threetenbp}}
-    <dependency>
-      <groupId>org.threeten</groupId>
-      <artifactId>threetenbp</artifactId>
-      <version>${threetenbp-version}</version>
-    </dependency>
-    {{/threetenbp}}
+    {{/java8}}
     {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
@@ -147,7 +148,19 @@
         <scope>provided</scope>
     </dependency>
     {{/useBeanValidation}}
-
+    {{#performBeanValidation}}
+    <!-- Bean Validation Impl. used to perform BeanValidation -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>5.2.2.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.el</groupId>
+        <artifactId>el-api</artifactId>
+        <version>2.2</version>
+    </dependency> 
+    {{/performBeanValidation}}
     <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>
