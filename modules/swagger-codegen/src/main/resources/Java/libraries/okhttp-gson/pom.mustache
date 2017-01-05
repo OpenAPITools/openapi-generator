@@ -132,13 +132,20 @@
       <artifactId>gson</artifactId>
       <version>${gson-version}</version>
     </dependency>
-    {{^java8}}
+    {{#joda}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
     </dependency>
-    {{/java8}}
+    {{/joda}}
+    {{#threetenbp}}
+    <dependency>
+      <groupId>org.threeten</groupId>
+      <artifactId>threetenbp</artifactId>
+      <version>${threetenbp-version}</version>
+    </dependency>
+    {{/threetenbp}}
     {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
