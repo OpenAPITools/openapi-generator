@@ -1,17 +1,17 @@
 # FakeApi
 
-All URIs are relative to *https://petstore.swagger.io  &#39; \&quot; &#x3D;end/v2  &#39; \&quot; &#x3D;end*
+All URIs are relative to *https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testCodeInjectEnd**](FakeApi.md#testCodeInjectEnd) | **PUT** /fake | To test code injection  &#39; \&quot; &#x3D;end
+[**testCodeInjectEndRnNR**](FakeApi.md#testCodeInjectEndRnNR) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 
-<a name="testCodeInjectEnd"></a>
-# **testCodeInjectEnd**
-> testCodeInjectEnd(testCodeInjectEnd)
+<a name="testCodeInjectEndRnNR"></a>
+# **testCodeInjectEndRnNR**
+> testCodeInjectEndRnNR(testCodeInjectEndRnNR)
 
-To test code injection  &#39; \&quot; &#x3D;end
+To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 ### Example
 ```java
@@ -21,11 +21,11 @@ To test code injection  &#39; \&quot; &#x3D;end
 
 
 FakeApi apiInstance = new FakeApi();
-String testCodeInjectEnd = "testCodeInjectEnd_example"; // String | To test code injection  ' \" =end
+String testCodeInjectEndRnNR = "testCodeInjectEndRnNR_example"; // String | To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 try {
-    apiInstance.testCodeInjectEnd(testCodeInjectEnd);
+    apiInstance.testCodeInjectEndRnNR(testCodeInjectEndRnNR);
 } catch (ApiException e) {
-    System.err.println("Exception when calling FakeApi#testCodeInjectEnd");
+    System.err.println("Exception when calling FakeApi#testCodeInjectEndRnNR");
     e.printStackTrace();
 }
 ```
@@ -34,7 +34,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testCodeInjectEnd** | **String**| To test code injection  &#39; \&quot; &#x3D;end | [optional]
+ **testCodeInjectEndRnNR** | **String**| To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r | [optional]
 
 ### Return type
 
@@ -46,6 +46,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, */ '  =end
- - **Accept**: application/json, */ '  =end
+ - **Content-Type**: application/json, *_/ '  =end --       
+ - **Accept**: application/json, *_/ '  =end --       
 

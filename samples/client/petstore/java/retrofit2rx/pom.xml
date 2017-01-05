@@ -15,6 +15,14 @@
     <maven>2.2.0</maven>
   </prerequisites>
 
+  <licenses>
+    <license>
+      <name>Unlicense</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
   <build>
     <plugins>
       <plugin>
@@ -144,6 +152,7 @@
       <artifactId>adapter-rxjava</artifactId>
       <version>${retrofit-version}</version>
     </dependency>
+    
 
     <!-- test dependencies -->
     <dependency>

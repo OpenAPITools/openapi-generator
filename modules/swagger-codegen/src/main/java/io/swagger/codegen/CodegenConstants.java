@@ -16,6 +16,9 @@ public class CodegenConstants {
     public static final String INVOKER_PACKAGE = "invokerPackage";
     public static final String INVOKER_PACKAGE_DESC = "root package for generated code";
 
+    public static final String PHP_INVOKER_PACKAGE = "phpInvokerPackage";
+    public static final String PHP_INVOKER_PACKAGE_DESC = "root package for generated php code";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
@@ -25,12 +28,18 @@ public class CodegenConstants {
     public static final String ARTIFACT_VERSION = "artifactVersion";
     public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml";
 
+    public static final String LICENSE_NAME = "licenseName";
+    public static final String LICENSE_NAME_DESC = "The name of the license";
+
+    public static final String LICENSE_URL = "licenseUrl";
+    public static final String LICENSE_URL_DESC = "The URL of the license";
+
     public static final String SOURCE_FOLDER = "sourceFolder";
     public static final String SOURCE_FOLDER_DESC = "source folder for generated code";
 
     public static final String IMPL_FOLDER = "implFolder";
     public static final String IMPL_FOLDER_DESC = "folder for generated implementation code";
-    
+
     public static final String LOCAL_VARIABLE_PREFIX = "localVariablePrefix";
     public static final String LOCAL_VARIABLE_PREFIX_DESC = "prefix for generated code members and local variables";
 
@@ -48,13 +57,13 @@ public class CodegenConstants {
 
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
-	
+
     public static final String ENSURE_UNIQUE_PARAMS = "ensureUniqueParams";
     public static final String ENSURE_UNIQUE_PARAMS_DESC = "Whether to ensure parameter names are unique in an operation (rename parameters that are not).";
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
-    
+
     public static final String PACKAGE_TITLE = "packageTitle";
     public static final String PACKAGE_TITLE_DESC = "Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
     public static final String PACKAGE_PRODUCTNAME = "packageProductName";
@@ -65,7 +74,7 @@ public class CodegenConstants {
     public static final String PACKAGE_COMPANY_DESC = "Specifies an AssemblyCompany for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
     public static final String PACKAGE_COPYRIGHT = "packageCopyright";
     public static final String PACKAGE_COPYRIGHT_DESC = "Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
-    
+
     public static final String POD_VERSION = "podVersion";
 
     public static final String OPTIONAL_METHOD_ARGUMENT = "optionalMethodArgument";
@@ -79,13 +88,13 @@ public class CodegenConstants {
 
     public static final String RETURN_ICOLLECTION = "returnICollection";
     public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
-    
+
     public static final String OPTIONAL_PROJECT_FILE = "optionalProjectFile";
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate {PackageName}.csproj.";
-    
+
     public static final String OPTIONAL_PROJECT_GUID = "packageGuid";
     public static final String OPTIONAL_PROJECT_GUID_DESC = "The GUID that will be associated with the C# project";
-    
+
     public static final String MODEL_PROPERTY_NAMING = "modelPropertyNaming";
     public static final String MODEL_PROPERTY_NAMING_DESC = "Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
 
@@ -132,5 +141,4 @@ public class CodegenConstants {
 
     public static final String GENERATE_PROPERTY_CHANGED = "generatePropertyChanged";
     public static final String GENERATE_PROPERTY_CHANGED_DESC = "Specifies that models support raising property changed events.";
-
 }

@@ -389,7 +389,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
  **additional_metadata** | **string**| Additional data to pass to server | [optional]
- **file** | **\SplFileObject**| file to upload | [optional]
+ **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional]
 
 ### Return type
 

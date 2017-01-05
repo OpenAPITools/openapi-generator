@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   {{#podDocsetURL}}
   s.docset_url = '{{podDocsetURL}}'
   {{/podDocsetURL}}
-  s.license = {{#podLicense}}{{& podLicense}}{{/podLicense}}{{^podLicense}}'Apache License, Version 2.0'{{/podLicense}}
+  s.license = {{#podLicense}}{{& podLicense}}{{/podLicense}}{{^podLicense}}'Proprietary'{{/podLicense}}
   s.homepage = '{{podHomepage}}{{^podHomepage}}https://github.com/swagger-api/swagger-codegen{{/podHomepage}}'
   s.summary = '{{podSummary}}{{^podSummary}}{{projectName}} Swift SDK{{/podSummary}}'
   {{#podDescription}}

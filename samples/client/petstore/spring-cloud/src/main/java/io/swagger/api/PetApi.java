@@ -1,8 +1,8 @@
 package io.swagger.api;
 
-import io.swagger.model.Pet;
 import java.io.File;
 import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
-@Api(value = "pet", description = "the pet API")
+@Api(value = "Pet", description = "the Pet API")
 public interface PetApi {
 
     @ApiOperation(value = "Add a new pet to the store", notes = "", response = Void.class, authorizations = {

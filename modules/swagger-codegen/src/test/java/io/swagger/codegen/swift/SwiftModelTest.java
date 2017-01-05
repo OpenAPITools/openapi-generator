@@ -63,7 +63,7 @@ public class SwiftModelTest {
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
         Assert.assertTrue(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
 
         final CodegenProperty property4 = cm.vars.get(3);
@@ -73,7 +73,7 @@ public class SwiftModelTest {
         Assert.assertNull(property4.defaultValue);
         Assert.assertEquals(property4.baseType, "NSData");
         Assert.assertTrue(property4.hasMore);
-        Assert.assertNull(property4.required);
+        Assert.assertFalse(property4.required);
         Assert.assertTrue(property4.isNotContainer);
 
         final CodegenProperty property5 = cm.vars.get(4);
@@ -83,7 +83,7 @@ public class SwiftModelTest {
         Assert.assertNull(property5.defaultValue);
         Assert.assertEquals(property5.baseType, "NSData");
         Assert.assertTrue(property5.hasMore);
-        Assert.assertNull(property5.required);
+        Assert.assertFalse(property5.required);
         Assert.assertTrue(property5.isNotContainer);
 
         final CodegenProperty property6 = cm.vars.get(5);
@@ -93,7 +93,7 @@ public class SwiftModelTest {
         Assert.assertNull(property6.defaultValue);
         Assert.assertEquals(property6.baseType, "NSUUID");
         Assert.assertTrue(property6.hasMore);
-        Assert.assertNull(property6.required);
+        Assert.assertFalse(property6.required);
         Assert.assertTrue(property6.isNotContainer);
 
         final CodegenProperty property7 = cm.vars.get(6);
@@ -102,8 +102,8 @@ public class SwiftModelTest {
         Assert.assertEquals(property7.name, "dateOfBirth");
         Assert.assertNull(property7.defaultValue);
         Assert.assertEquals(property7.baseType, "ISOFullDate");
-        Assert.assertNull(property7.hasMore);
-        Assert.assertNull(property7.required);
+        Assert.assertFalse(property7.hasMore);
+        Assert.assertFalse(property7.required);
         Assert.assertTrue(property7.isNotContainer);
     }
 

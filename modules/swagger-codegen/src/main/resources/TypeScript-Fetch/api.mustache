@@ -7,12 +7,12 @@ import * as isomorphicFetch from "isomorphic-fetch";
 import * as assign from "core-js/library/fn/object/assign";
 {{/supportsES6}}
 
-import { Configuration } from './configuration';
+import { Configuration } from "./configuration";
 
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
-const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, '');
+const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
 
 export interface FetchArgs {
     url: string;
@@ -29,8 +29,7 @@ export class BaseAPI {
         this.fetch = fetch;
         this.configuration = configuration;
     }
-
-}
+};
 
 {{#models}}
 {{#model}}
@@ -75,7 +74,7 @@ export const {{classname}}FetchParamCreator = {
      * {{notes}}{{/notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{/allParams}}
      */
-    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration: Configuration{{/hasAuthMethods}}): FetchArgs {
+    {{nickname}}({{#hasParams}}params: { {{#allParams}} {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};{{/allParams}} }{{/hasParams}}{{#hasParams}}, {{/hasParams}}{{#hasAuthMethods}}configuration: Configuration, {{/hasAuthMethods}}options?: any): FetchArgs {
 {{#allParams}}
 {{#required}}
         // verify required parameter "{{paramName}}" is set
@@ -85,20 +84,24 @@ export const {{classname}}FetchParamCreator = {
 {{/required}}
 {{/allParams}}
         const baseUrl = `{{path}}`{{#pathParams}}
-            .replace(`{${"{{baseName}}"}}`, `${ params.{{paramName}} }`){{/pathParams}};
+            .replace(`{${"{{baseName}}"}}`, `${ params["{{paramName}}"] }`){{/pathParams}};
         let urlObj = url.parse(baseUrl, true);
 {{#hasQueryParams}}
-        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, { {{#queryParams}}
-            "{{baseName}}": params.{{paramName}},{{/queryParams}}
+        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, {
+            {{#queryParams}}
+            "{{baseName}}": params["{{paramName}}"],
+            {{/queryParams}}
         });
 {{/hasQueryParams}}
-        let fetchOptions: RequestInit = { method: "{{httpMethod}}" };
+        let fetchOptions: RequestInit = {{#supportsES6}}Object.{{/supportsES6}}assign({}, { method: "{{httpMethod}}" }, options);
 
         let contentTypeHeader: Dictionary<string>;
 {{#hasFormParams}}
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({ {{#formParams}}
-            "{{baseName}}": params.{{paramName}},{{/formParams}}
+        fetchOptions.body = querystring.stringify({
+        {{#formParams}}
+            "{{baseName}}": params["{{paramName}}"],
+        {{/formParams}}
         });
 {{/hasFormParams}}
 {{#hasBodyParam}}
@@ -108,8 +111,8 @@ export const {{classname}}FetchParamCreator = {
         }{{/bodyParam}}
 {{/hasBodyParam}}
 {{#hasHeaderParams}}
-        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({ {{#headerParams}}
-            "{{baseName}}": params.{{paramName}},{{/headerParams}}
+        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
+            {{#headerParams}}"{{baseName}}": params["{{paramName}}"],{{/headerParams}}
         }, contentTypeHeader);
 {{/hasHeaderParams}}
 {{^hasHeaderParams}}
@@ -123,14 +126,14 @@ export const {{classname}}FetchParamCreator = {
 {{#isKeyInHeader}}
         if (configuration.apiKey && configuration.apiKey.{{keyParamName}}) {
             fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
-                    '{{keyParamName}}': configuration.apiKey.{{keyParamName}},
+                    "{{keyParamName}}": configuration.apiKey.{{keyParamName}},
                     }, contentTypeHeader);
         }
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
         if (configuration.apiKey && configuration.apiKey.{{keyParamName}}) {
             urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, {
-                    '{{keyParamName}}': configuration.apiKey.{{keyParamName}},
+                    "{{keyParamName}}": configuration.apiKey.{{keyParamName}},
                     });
         }
 {{/isKeyInQuery}}
@@ -139,7 +142,7 @@ export const {{classname}}FetchParamCreator = {
         // http basic authentication required
         if (configuration.username || configuration.password) {
             fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
-                    'Authorization': 'Basic ' + btoa(configuration.username + ':' + configuration.password),
+                    "Authorization": "Basic " + btoa(configuration.username + ":" + configuration.password),
                     }, contentTypeHeader);
         }
 {{/isBasic}}
@@ -147,7 +150,7 @@ export const {{classname}}FetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 {{/isOAuth}}
@@ -159,7 +162,7 @@ export const {{classname}}FetchParamCreator = {
         };
     },
 {{/operation}}
-}
+};
 
 /**
  * {{classname}} - functional programming interface{{#description}}
@@ -220,7 +223,7 @@ export const {{classname}}Factory = function (fetch?: FetchAPI, basePath?: strin
             return {{classname}}Fp.{{nickname}}({{#hasParams}}params{{/hasParams}}{{#hasAuthMethods}}{{#hasParams}}, {{/hasParams}}configuration{{/hasAuthMethods}})(fetch, basePath);
         },
 {{/operation}}
-    }
+    };
 };
 
 {{/operations}}

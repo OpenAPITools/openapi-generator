@@ -5,9 +5,9 @@ import io.swagger.model.*;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
-import io.swagger.model.Pet;
-import io.swagger.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-10-11T07:40:42.070+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-11-17T08:53:42.205Z")
 public class PetApiServiceImpl implements PetApiService {
       @Override
       public Response addPet(Pet body, SecurityContext securityContext) {
