@@ -15,7 +15,7 @@ import * as url from "url";
 
 import * as isomorphicFetch from "isomorphic-fetch";
 
-import { Configuration } from './configuration';
+import { Configuration } from "./configuration";
 
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
@@ -145,7 +145,7 @@ export const PetApiFetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = Object.assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 
@@ -178,7 +178,7 @@ export const PetApiFetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = Object.assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 
@@ -212,7 +212,7 @@ export const PetApiFetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = Object.assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 
@@ -246,7 +246,7 @@ export const PetApiFetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = Object.assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 
@@ -277,7 +277,7 @@ export const PetApiFetchParamCreator = {
         // authentication (api_key) required
         if (configuration.apiKey && configuration.apiKey.api_key) {
             fetchOptions.headers = Object.assign({
-                    'api_key': configuration.apiKey.api_key,
+                    "api_key": configuration.apiKey.api_key,
                     }, contentTypeHeader);
         }
 
@@ -312,7 +312,7 @@ export const PetApiFetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = Object.assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 
@@ -351,7 +351,7 @@ export const PetApiFetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = Object.assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 
@@ -390,7 +390,7 @@ export const PetApiFetchParamCreator = {
         // oauth required
         if (configuration.accessToken) {
             fetchOptions.headers = Object.assign({
-                    'Authorization': 'Bearer ' + configuration.accessToken,
+                    "Authorization": "Bearer " + configuration.accessToken,
                     }, contentTypeHeader);
         }
 
@@ -746,7 +746,7 @@ export const StoreApiFetchParamCreator = {
         // authentication (api_key) required
         if (configuration.apiKey && configuration.apiKey.api_key) {
             fetchOptions.headers = Object.assign({
-                    'api_key': configuration.apiKey.api_key,
+                    "api_key": configuration.apiKey.api_key,
                     }, contentTypeHeader);
         }
 
