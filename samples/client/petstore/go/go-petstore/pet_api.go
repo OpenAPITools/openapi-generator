@@ -111,7 +111,7 @@ func (a PetApi) AddPet(body Pet) (*APIResponse, error) {
  *
  * @param petId Pet id to delete
  * @param optional (nil or map[string]interface{}) with one or more of:
- *     @param "apiKey" (string) 
+ *	 @param "apiKey" (string) 
  * @return 
  */
 func (a PetApi) DeletePet(petId int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
@@ -206,7 +206,6 @@ func (a PetApi) FindPetsByStatus(status []string) ([]Pet, *APIResponse, error) {
 	var collectionFormat = "csv"
 	localVarQueryParams.Add("status", a.Configuration.APIClient.ParameterToString(status, collectionFormat))
 
-
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
 
@@ -274,7 +273,6 @@ func (a PetApi) FindPetsByTags(tags []string) ([]Pet, *APIResponse, error) {
 	}
 	var collectionFormat = "csv"
 	localVarQueryParams.Add("tags", a.Configuration.APIClient.ParameterToString(tags, collectionFormat))
-
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -450,8 +448,8 @@ func (a PetApi) UpdatePet(body Pet) (*APIResponse, error) {
  *
  * @param petId ID of pet that needs to be updated
  * @param optional (nil or map[string]interface{}) with one or more of:
- *     @param "name" (string) Updated name of the pet
- *     @param "status" (string) Updated status of the pet
+ *	 @param "name" (string) Updated name of the pet
+ *	 @param "status" (string) Updated status of the pet
  * @return 
  */
 func (a PetApi) UpdatePetWithForm(petId int64, localVarOptionals map[string]interface{}) (*APIResponse, error) {
@@ -524,8 +522,8 @@ func (a PetApi) UpdatePetWithForm(petId int64, localVarOptionals map[string]inte
  *
  * @param petId ID of pet to update
  * @param optional (nil or map[string]interface{}) with one or more of:
- *     @param "additionalMetadata" (string) Additional data to pass to server
- *     @param "file" (*os.File) file to upload
+ *	 @param "additionalMetadata" (string) Additional data to pass to server
+ *	 @param "file" (*os.File) file to upload
  * @return *ModelApiResponse
  */
 func (a PetApi) UploadFile(petId int64, localVarOptionals map[string]interface{}) (*ModelApiResponse, *APIResponse, error) {

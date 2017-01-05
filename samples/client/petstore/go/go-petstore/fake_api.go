@@ -108,16 +108,16 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
  * @param patternWithoutDelimiter None
  * @param byte_ None
  * @param optional (nil or map[string]interface{}) with one or more of:
- *     @param "integer" (int32) None
- *     @param "int32_" (int32) None
- *     @param "int64_" (int64) None
- *     @param "float" (float32) None
- *     @param "string_" (string) None
- *     @param "binary" (string) None
- *     @param "date" (time.Time) None
- *     @param "dateTime" (time.Time) None
- *     @param "password" (string) None
- *     @param "callback" (string) None
+ *	 @param "integer" (int32) None
+ *	 @param "int32_" (int32) None
+ *	 @param "int64_" (int64) None
+ *	 @param "float" (float32) None
+ *	 @param "string_" (string) None
+ *	 @param "binary" (string) None
+ *	 @param "date" (time.Time) None
+ *	 @param "dateTime" (time.Time) None
+ *	 @param "password" (string) None
+ *	 @param "callback" (string) None
  * @return 
  */
 func (a FakeApi) TestEndpointParameters(number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
@@ -216,14 +216,14 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
  * To test enum parameters
  *
  * @param optional (nil or map[string]interface{}) with one or more of:
- *     @param "enumFormStringArray" ([]string) Form parameter enum test (string array)
- *     @param "enumFormString" (string) Form parameter enum test (string)
- *     @param "enumHeaderStringArray" ([]string) Header parameter enum test (string array)
- *     @param "enumHeaderString" (string) Header parameter enum test (string)
- *     @param "enumQueryStringArray" ([]string) Query parameter enum test (string array)
- *     @param "enumQueryString" (string) Query parameter enum test (string)
- *     @param "enumQueryInteger" (int32) Query parameter enum test (double)
- *     @param "enumQueryDouble" (float64) Query parameter enum test (double)
+ *	 @param "enumFormStringArray" ([]string) Form parameter enum test (string array)
+ *	 @param "enumFormString" (string) Form parameter enum test (string)
+ *	 @param "enumHeaderStringArray" ([]string) Header parameter enum test (string array)
+ *	 @param "enumHeaderString" (string) Header parameter enum test (string)
+ *	 @param "enumQueryStringArray" ([]string) Query parameter enum test (string array)
+ *	 @param "enumQueryString" (string) Query parameter enum test (string)
+ *	 @param "enumQueryInteger" (int32) Query parameter enum test (double)
+ *	 @param "enumQueryDouble" (float64) Query parameter enum test (double)
  * @return 
  */
 func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*APIResponse, error) {
@@ -243,10 +243,15 @@ func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
 	var collectionFormat = "csv"
-	localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(enumQueryStringArray, collectionFormat))
-
-	localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(enumQueryString, ""))
-	localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(enumQueryInteger, ""))
+	if localVarTempParam, localVarOk := localVarOptionals["enumQueryStringArray"].([]string); localVarOptionals != nil && localVarOk {
+		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(localVarTempParam, collectionFormat))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["enumQueryString"].(string); localVarOptionals != nil && localVarOk {
+		localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(localVarTempParam, ""))
+	}
+	if localVarTempParam, localVarOk := localVarOptionals["enumQueryInteger"].(int32); localVarOptionals != nil && localVarOk {
+		localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(localVarTempParam, ""))
+	}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "*/*",  }
