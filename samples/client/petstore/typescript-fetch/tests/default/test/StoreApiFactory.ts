@@ -15,12 +15,6 @@ before(function() {
 });
 
 describe('StoreApiFactory', function() {
-<<<<<<< HEAD
-  it('should get inventory', function() {
-    return StoreApiFactory().getInventory(config).then((result) => {
-      expect(Object.keys(result)).to.not.be.empty;
-=======
-
   function runSuite(description: string, requestOptions?: any): void {
 
     describe(description, () => {
@@ -33,7 +27,6 @@ describe('StoreApiFactory', function() {
         });
       });
 
->>>>>>> origin/master
     });
   }
 

@@ -16,16 +16,7 @@ before(function() {
 
 describe('PetApiFactory', () => {
 
-<<<<<<< HEAD
-  it('should add and delete Pet', () => {
-    return PetApiFactory().addPet({ body: fixture }, config).then(() => {
-    });
-  });
 
-  it('should get Pet by ID', () => {
-      return PetApiFactory().getPetById({ petId: fixture.id }, config).then((result) => {
-          return expect(result).to.deep.equal(fixture);
-=======
   function runSuite(description: string, requestOptions?: any): void {
 
     describe(description, () => {
@@ -41,10 +32,8 @@ describe('PetApiFactory', () => {
           return PetApiFactory().getPetById({ petId: fixture.id }, requestOptions).then((result) => {
               return expect(result).to.deep.equal(fixture);
           });
->>>>>>> origin/master
       });
 
-<<<<<<< HEAD
   it('should update Pet by ID', () => {
     return PetApiFactory().getPetById({ petId: fixture.id }, config).then( (result) => {
       result.name = 'newname';
