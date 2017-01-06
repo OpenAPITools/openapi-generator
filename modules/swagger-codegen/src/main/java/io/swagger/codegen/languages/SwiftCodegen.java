@@ -388,6 +388,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
     @SuppressWarnings("static-method")
     public String toSwiftyEnumName(String value) {
+        if (value.length() == 0) {
+            return "Empty";
+        }
+
         if (value.matches("^-?\\d*\\.{0,1}\\d+.*")) { // starts with number
             value = "Number" + value;
             value = value.replaceAll("-", "Minus");

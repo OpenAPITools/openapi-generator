@@ -118,6 +118,7 @@ class EnumTest implements ArrayAccess
 
     const ENUM_STRING_UPPER = 'UPPER';
     const ENUM_STRING_LOWER = 'lower';
+    const ENUM_STRING_EMPTY = '';
     const ENUM_INTEGER_1 = 1;
     const ENUM_INTEGER_MINUS_1 = -1;
     const ENUM_NUMBER_1_DOT_1 = 1.1;
@@ -134,6 +135,7 @@ class EnumTest implements ArrayAccess
         return [
             self::ENUM_STRING_UPPER,
             self::ENUM_STRING_LOWER,
+            self::ENUM_STRING_EMPTY,
         ];
     }
     
@@ -188,7 +190,7 @@ class EnumTest implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
-        $allowed_values = ["UPPER", "lower"];
+        $allowed_values = ["UPPER", "lower", ""];
         if (!in_array($this->container['enum_string'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'enum_string', must be one of #{allowed_values}.";
         }
@@ -214,7 +216,7 @@ class EnumTest implements ArrayAccess
      */
     public function valid()
     {
-        $allowed_values = ["UPPER", "lower"];
+        $allowed_values = ["UPPER", "lower", ""];
         if (!in_array($this->container['enum_string'], $allowed_values)) {
             return false;
         }
@@ -246,9 +248,9 @@ class EnumTest implements ArrayAccess
      */
     public function setEnumString($enum_string)
     {
-        $allowed_values = array('UPPER', 'lower');
+        $allowed_values = array('UPPER', 'lower', '');
         if (!is_null($enum_string) && (!in_array($enum_string, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'enum_string', must be one of 'UPPER', 'lower'");
+            throw new \InvalidArgumentException("Invalid value for 'enum_string', must be one of 'UPPER', 'lower', ''");
         }
         $this->container['enum_string'] = $enum_string;
 

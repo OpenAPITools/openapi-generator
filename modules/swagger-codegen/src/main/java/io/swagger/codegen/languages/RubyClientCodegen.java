@@ -568,6 +568,10 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
         // number
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             String varName = name;

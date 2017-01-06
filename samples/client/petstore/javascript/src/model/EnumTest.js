@@ -111,7 +111,12 @@
      * value: "lower"
      * @const
      */
-    "lower": "lower"  };
+    "lower": "lower",
+    /**
+     * value: ""
+     * @const
+     */
+    "empty": ""  };
 
   /**
    * Allowed values for the <code>enum_integer</code> property.

@@ -292,6 +292,10 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumVarName(final String name, final String datatype) {
+        if (name.length() == 0) {
+            return "Empty";
+        }
+
         final String enumName = camelize(
                 sanitizeName(name)
                 .replaceFirst("^_", "")
