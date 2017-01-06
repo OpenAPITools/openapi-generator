@@ -1691,6 +1691,8 @@ public class DefaultCodegen {
             property.baseType = getSwaggerType(p);
             // handle inner property
             ArrayProperty ap = (ArrayProperty) p;
+            property.maxItems = ap.getMaxItems();
+            property.minItems = ap.getMinItems();
             CodegenProperty cp = fromProperty(property.name, ap.getItems());
             updatePropertyForArray(property, cp);
       	} else if (p instanceof MapProperty) {
