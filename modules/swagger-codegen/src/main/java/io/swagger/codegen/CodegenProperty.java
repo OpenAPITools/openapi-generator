@@ -49,7 +49,10 @@ public class CodegenProperty implements Cloneable {
     public boolean isInherited;
     public String nameInCamelCase; // property name in camel case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
-    public String enumName; 
+    public String enumName;
+    public Integer maxItems;
+    public Integer minItems;
+
 
     @Override
     public String toString() {
@@ -117,6 +120,8 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + Objects.hashCode(isInherited);
         result = prime * result + Objects.hashCode(nameInCamelCase);
         result = prime * result + Objects.hashCode(enumName);
+        result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
+        result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
         return result;
     }
 
@@ -281,6 +286,12 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (!Objects.equals(this.enumName, other.enumName)) {
+            return false;
+        }
+        if (this.maxItems != other.maxItems && (this.maxItems == null || !this.maxItems.equals(other.maxItems))) {
+            return false;
+        }
+        if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
             return false;
         }
         return true;
