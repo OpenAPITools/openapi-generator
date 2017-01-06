@@ -78,8 +78,8 @@ public class FormatTest   {
    * @return integer
   **/
   @ApiModelProperty(value = "")
-//  @Min(10)
-//  @Max(100)
+  @Min(10)
+  @Max(100)
   public Integer getInteger() {
     return integer;
   }
@@ -100,8 +100,8 @@ public class FormatTest   {
    * @return int32
   **/
   @ApiModelProperty(value = "")
-//  @Min(20)
-//  @Max(200)
+  @Min(20)
+  @Max(200)
   public Integer getInt32() {
     return int32;
   }
@@ -141,8 +141,8 @@ public class FormatTest   {
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-//  @Min(32.1)
-//  @Max(543.2)
+  @DecimalMin("32.1")
+  @DecimalMax("543.2")
   public BigDecimal getNumber() {
     return number;
   }
@@ -163,8 +163,8 @@ public class FormatTest   {
    * @return _float
   **/
   @ApiModelProperty(value = "")
-//  @Min(54.3)
-//  @Max(987.6)
+  @DecimalMin("54.3")
+  @DecimalMax("987.6")
   public Float getFloat() {
     return _float;
   }
@@ -185,8 +185,8 @@ public class FormatTest   {
    * @return _double
   **/
   @ApiModelProperty(value = "")
-//  @Min(67.8)
-//  @Max(123.4)
+  @DecimalMin("67.8")
+  @DecimalMax("123.4")
   public Double getDouble() {
     return _double;
   }
