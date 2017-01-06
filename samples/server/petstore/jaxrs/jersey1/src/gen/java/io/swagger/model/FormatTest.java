@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.validation.constraints.*;
 
 /**
  * FormatTest
@@ -72,11 +73,13 @@ public class FormatTest   {
 
    /**
    * Get integer
-   * minimum: 10.0
-   * maximum: 100.0
+   * minimum: 10
+   * maximum: 100
    * @return integer
   **/
   @ApiModelProperty(value = "")
+//  @Min(10)
+//  @Max(100)
   public Integer getInteger() {
     return integer;
   }
@@ -92,11 +95,13 @@ public class FormatTest   {
 
    /**
    * Get int32
-   * minimum: 20.0
-   * maximum: 200.0
+   * minimum: 20
+   * maximum: 200
    * @return int32
   **/
   @ApiModelProperty(value = "")
+//  @Min(20)
+//  @Max(200)
   public Integer getInt32() {
     return int32;
   }
@@ -135,6 +140,9 @@ public class FormatTest   {
    * @return number
   **/
   @ApiModelProperty(required = true, value = "")
+  @NotNull
+//  @Min(32.1)
+//  @Max(543.2)
   public BigDecimal getNumber() {
     return number;
   }
@@ -155,6 +163,8 @@ public class FormatTest   {
    * @return _float
   **/
   @ApiModelProperty(value = "")
+//  @Min(54.3)
+//  @Max(987.6)
   public Float getFloat() {
     return _float;
   }
@@ -175,6 +185,8 @@ public class FormatTest   {
    * @return _double
   **/
   @ApiModelProperty(value = "")
+//  @Min(67.8)
+//  @Max(123.4)
   public Double getDouble() {
     return _double;
   }
@@ -193,6 +205,7 @@ public class FormatTest   {
    * @return string
   **/
   @ApiModelProperty(value = "")
+  @Pattern(regexp="/[a-z]/i")
   public String getString() {
     return string;
   }
@@ -211,6 +224,7 @@ public class FormatTest   {
    * @return _byte
   **/
   @ApiModelProperty(required = true, value = "")
+  @NotNull
   public byte[] getByte() {
     return _byte;
   }
@@ -247,6 +261,7 @@ public class FormatTest   {
    * @return date
   **/
   @ApiModelProperty(required = true, value = "")
+  @NotNull
   public Date getDate() {
     return date;
   }
@@ -301,6 +316,8 @@ public class FormatTest   {
    * @return password
   **/
   @ApiModelProperty(required = true, value = "")
+  @NotNull
+  @Size(min=10,max=64)
   public String getPassword() {
     return password;
   }
