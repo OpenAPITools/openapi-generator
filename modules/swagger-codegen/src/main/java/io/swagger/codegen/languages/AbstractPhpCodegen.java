@@ -589,6 +589,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
             return (getSymbolName(name)).toUpperCase();

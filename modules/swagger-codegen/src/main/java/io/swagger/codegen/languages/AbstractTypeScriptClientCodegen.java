@@ -286,6 +286,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "Empty";
+        }
+
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
             return camelize(getSymbolName(name));

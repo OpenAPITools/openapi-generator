@@ -49,7 +49,13 @@ namespace IO.Swagger.Model
             /// Enum Lower for "lower"
             /// </summary>
             [EnumMember(Value = "lower")]
-            Lower
+            Lower,
+            
+            /// <summary>
+            /// Enum Empty for ""
+            /// </summary>
+            [EnumMember(Value = "")]
+            Empty
         }
 
         /// <summary>
