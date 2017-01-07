@@ -170,14 +170,15 @@ class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
  */
 class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 
-    private final DateTimeFormatter formatter = ISODateTimeFormat.dateTime();
+    private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
+    private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
 
     @Override
     public void write(JsonWriter out, DateTime date) throws IOException {
         if (date == null) {
             out.nullValue();
         } else {
-            out.value(formatter.print(date));
+            out.value(printFormatter.print(date));
         }
     }
 
@@ -189,7 +190,7 @@ class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
                 return null;
             default:
                 String date = in.nextString();
-                return formatter.parseDateTime(date);
+                return parseFormatter.parseDateTime(date);
         }
     }
 }
