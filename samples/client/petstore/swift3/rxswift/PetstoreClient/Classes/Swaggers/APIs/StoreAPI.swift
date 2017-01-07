@@ -11,6 +11,15 @@ import RxSwift
 
 
 open class StoreAPI: APIBase {
+
+    public class func mapValuesToQueryItems(values: [String:Any?]) -> [URLQueryItem] {
+        return values
+            .filter { $0.1 != nil }
+            .map { (item: (_key: String, _value: Any?)) -> URLQueryItem in
+                URLQueryItem(name: item._key, value:"\(item._value!)")
+            }
+    }
+
     /**
      Delete purchase order by ID
      
@@ -60,12 +69,12 @@ open class StoreAPI: APIBase {
         let nillableParameters: [String:Any?] = [:]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
@@ -118,12 +127,12 @@ open class StoreAPI: APIBase {
         let nillableParameters: [String:Any?] = [:]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
@@ -205,12 +214,12 @@ open class StoreAPI: APIBase {
         let nillableParameters: [String:Any?] = [:]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
@@ -288,12 +297,15 @@ open class StoreAPI: APIBase {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
+        let url = NSURLComponents(string: URLString)
+        
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: convertedParameters, isBody: true)
     }
 
 }

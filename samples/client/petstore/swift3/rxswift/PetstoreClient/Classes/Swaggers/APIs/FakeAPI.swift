@@ -11,6 +11,15 @@ import RxSwift
 
 
 open class FakeAPI: APIBase {
+
+    public class func mapValuesToQueryItems(values: [String:Any?]) -> [URLQueryItem] {
+        return values
+            .filter { $0.1 != nil }
+            .map { (item: (_key: String, _value: Any?)) -> URLQueryItem in
+                URLQueryItem(name: item._key, value:"\(item._value!)")
+            }
+    }
+
     /**
      To test \"client\" model
      
@@ -46,6 +55,7 @@ open class FakeAPI: APIBase {
     /**
      To test \"client\" model
      - PATCH /fake
+     - To test \"client\" model
      - examples: [{contentType=application/json, example={
   "client" : "aeiou"
 }}]
@@ -58,12 +68,15 @@ open class FakeAPI: APIBase {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
+        let url = NSURLComponents(string: URLString)
+        
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -171,9 +184,9 @@ open class FakeAPI: APIBase {
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
@@ -224,7 +237,7 @@ open class FakeAPI: APIBase {
      - parameter enumQueryDouble: (form) Query parameter enum test (double) (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testEnumParameters(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Double? = nil, enumQueryDouble: Double? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func testEnumParameters(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Int32? = nil, enumQueryDouble: Double? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
         testEnumParametersWithRequestBuilder(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble).execute { (response, error) -> Void in
             completion(error);
         }
@@ -241,7 +254,7 @@ open class FakeAPI: APIBase {
      - parameter enumQueryDouble: (form) Query parameter enum test (double) (optional)
      - returns: Observable<Void>
      */
-    open class func testEnumParameters(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Double? = nil, enumQueryDouble: Double? = nil) -> Observable<Void> {
+    open class func testEnumParameters(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Int32? = nil, enumQueryDouble: Double? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
             testEnumParameters(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble) { error in
                 if let error = error {
@@ -258,6 +271,7 @@ open class FakeAPI: APIBase {
     /**
      To test enum parameters
      - GET /fake
+     - To test enum parameters
      
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to -efg)
@@ -268,20 +282,20 @@ open class FakeAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    open class func testEnumParametersWithRequestBuilder(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Double? = nil, enumQueryDouble: Double? = nil) -> RequestBuilder<Void> {
+    open class func testEnumParametersWithRequestBuilder(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Int32? = nil, enumQueryDouble: Double? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [
             "enum_query_string_array": enumQueryStringArray,
             "enum_query_string": enumQueryString?.rawValue,
-            "enum_query_integer": enumQueryInteger
+            "enum_query_integer": enumQueryInteger?.encodeToJSON()
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
