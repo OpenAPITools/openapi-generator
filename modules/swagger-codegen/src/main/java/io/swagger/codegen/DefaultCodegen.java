@@ -2190,6 +2190,7 @@ public class DefaultCodegen {
         r.schema = response.getSchema();
         r.examples = toExamples(response.getExamples());
         r.jsonSchema = Json.pretty(response);
+        r.vendorExtensions = response.getVendorExtensions();
         addHeaders(response, r.headers);
 
         if (r.schema != null) {
