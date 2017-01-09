@@ -170,7 +170,10 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 

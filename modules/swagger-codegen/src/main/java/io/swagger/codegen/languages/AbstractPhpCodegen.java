@@ -251,8 +251,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 .replaceAll(regLastPathSeparator+ "$", "");
     }
 
-    @Override
-    public String escapeReservedWord(String name) {
+   @Override
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 

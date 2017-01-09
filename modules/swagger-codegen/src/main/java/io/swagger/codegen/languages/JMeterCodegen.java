@@ -119,10 +119,13 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
    * 
    * @return the escaped term
    */
-  @Override
-  public String escapeReservedWord(String name) {
-    return "_" + name;  // add an underscore to the name
-  }
+    @Override
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
+    }
 
   /**
    * Location to write model files.  You can use the modelPackage() as defined when the class is

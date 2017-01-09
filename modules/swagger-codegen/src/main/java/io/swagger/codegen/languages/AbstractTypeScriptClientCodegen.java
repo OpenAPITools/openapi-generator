@@ -114,10 +114,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	    return CodegenType.CLIENT;
 	}
 
-	@Override
-	public String escapeReservedWord(String name) {
-		return "_" + name;
-	}
+        @Override
+        public String escapeReservedWord(String name) {           
+            if(this.reservedWordsMappings().containsKey(name)) {
+                return this.reservedWordsMappings().get(name);
+            }
+            return "_" + name;
+        }
 
 	@Override
 	public String apiFileFolder() {
