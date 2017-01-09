@@ -92,6 +92,7 @@ public class DefaultCodegen {
     protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiDocTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
@@ -467,6 +468,10 @@ public class DefaultCodegen {
 
     public Map<String, String> modelDocTemplateFiles() {
         return modelDocTemplateFiles;
+    }
+    
+    public Map<String, String> reservedWordsMappings() {
+        return reservedWordsMappings;
     }
 
     public Map<String, String> apiTestTemplateFiles() {

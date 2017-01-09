@@ -289,6 +289,10 @@ OPTIONS
             the format of swaggerType=generatedType,swaggerType=generatedType.
             For example: array=List,map=Map,string=String
 
+        --reserved-words-mappings <import mappings>
+            specifies how a reserved name should be escaped to. Otherwise, the
+            default _<name> is used. For example id=identifier
+            
         -v, --verbose
             verbose mode
 

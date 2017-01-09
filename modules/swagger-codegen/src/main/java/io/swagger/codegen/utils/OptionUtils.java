@@ -1,9 +1,10 @@
 package io.swagger.codegen.utils;
 
 import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import joptsimple.internal.Strings;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -22,10 +23,10 @@ public class OptionUtils {
                 results.add(pair);
             }
         }
-
+        //Strings.isNullOrEmpty(input)
         return results;
     }
-
+   
     public static List<String> splitCommaSeparatedList(String input) {
 
         List<String> results = new ArrayList<String>();
@@ -39,5 +40,4 @@ public class OptionUtils {
 
         return results;
     }
-
 }
