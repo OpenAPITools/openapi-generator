@@ -55,7 +55,7 @@ open class RequestBuilder<T> {
         }
     }
     
-    open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) { }
+    open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: ErrorResponse?) -> Void) { }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {

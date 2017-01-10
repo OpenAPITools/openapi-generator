@@ -10,8 +10,10 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
-public enum ErrorResponse : Error {
-    case Error(Int, Data?, Error)
+public struct ErrorResponse : Error {
+    public let statusCode: Int
+    public let data: Data?
+    public let error: Error
 }
 
 open class Response<T> {

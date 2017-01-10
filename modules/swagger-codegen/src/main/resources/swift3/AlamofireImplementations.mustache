@@ -49,7 +49,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return manager.request(URLString, method: method, parameters: parameters, encoding: encoding)
     }
 
-    override open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) {
+    override open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: ErrorResponse?) -> Void) {
         let managerId:String = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createSessionManager()
@@ -92,7 +92,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     }
                     self.processRequest(request: upload, managerId, completion)
                 case .failure(let encodingError):
-                    completion(nil, ErrorResponse.Error(415, nil, encodingError))
+                    completion(nil, ErrorResponse(statusCode: 415, data: nil, error: encodingError))
                 }
             })
         } else {
@@ -105,7 +105,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
     }
 
-    private func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) {
+    private func processRequest(request: DataRequest, _ managerId: String, _ completion: @escaping (_ response: Response<T>?, _ error: ErrorResponse?) -> Void) {
         if let credential = self.credential {
             request.authenticate(usingCredential: credential)
         }
@@ -124,7 +124,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if stringResponse.result.isFailure {
                     completion(
                         nil,
-                        ErrorResponse.Error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error as Error!)
+                        ErrorResponse(statusCode: stringResponse.response?.statusCode ?? 500, data: stringResponse.data, error: stringResponse.result.error as Error!)
                     )
                     return
                 }
@@ -144,7 +144,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if voidResponse.result.isFailure {
                     completion(
                         nil,
-                        ErrorResponse.Error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.result.error!)
+                        ErrorResponse(statusCode: voidResponse.response?.statusCode ?? 500, data: voidResponse.data, error: voidResponse.result.error!)
                     )
                     return
                 }
@@ -163,7 +163,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if (dataResponse.result.isFailure) {
                     completion(
                         nil,
-                        ErrorResponse.Error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.result.error!)
+                        ErrorResponse(statusCode: dataResponse.response?.statusCode ?? 500, data: dataResponse.data, error: dataResponse.result.error!)
                     )
                     return
                 }
@@ -181,7 +181,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 cleanupRequest()
 
                 if response.result.isFailure {
-                    completion(nil, ErrorResponse.Error(response.response?.statusCode ?? 500, response.data, response.result.error!))
+                    completion(nil, ErrorResponse(statusCode: response.response?.statusCode ?? 500, data: response.data, error: response.result.error!))
                     return
                 }
 
@@ -207,7 +207,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     return
                 }
 
-                completion(nil, ErrorResponse.Error(500, nil, NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"])))
+                completion(nil, ErrorResponse(statusCode: 500, data: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"])))
             }
         }
     }
