@@ -5,6 +5,15 @@
   <packaging>jar</packaging>
   <name>swagger-jaxrs-server</name>
   <version>1.0.0</version>
+
+  <licenses>
+    <license>
+      <name>Unlicense</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
