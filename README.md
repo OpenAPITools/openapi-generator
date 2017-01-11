@@ -976,7 +976,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 License
 -------
 
-Copyright 2016 SmartBear Software
+Copyright 2017 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
