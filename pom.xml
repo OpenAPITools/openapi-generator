@@ -315,6 +315,18 @@
             </modules>
         </profile>
         <profile>
+            <id>bash-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/bash</module>
+            </modules>
+        </profile>
+        <profile>
             <id>clojure-client</id>
             <activation>
                 <property>
@@ -748,6 +760,7 @@
                 <!-- clients -->
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/android/volley</module>
+                <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/go</module>
                 <module>samples/client/petstore/java/feign</module>
