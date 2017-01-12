@@ -15,7 +15,7 @@
 ## Overview
 This is the swagger codegen project, which allows generation of API client libraries (SDK generation), server stubs and documentation automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification). Currently, the following languages/frameworks are supported:
 
-- **API clients**: **ActionScript**, **C#** (.net 2.0, 4.0 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart**, **Go**, **Groovy**, **Haskell**, **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign), **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations) **Objective-C**, **Perl**, **PHP**, **Python**, **Ruby**, **Scala**, **Swift** (2.x, 3.x), **Typescript** (Angular1.x, Angular2.x, Fetch, Node)
+- **API clients**: **ActionScript**, **Bash**,**C#** (.net 2.0, 4.0 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart**, **Go**, **Groovy**, **Haskell**, **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign), **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations) **Objective-C**, **Perl**, **PHP**, **Python**, **Ruby**, **Scala**, **Swift** (2.x, 3.x), **Typescript** (Angular1.x, Angular2.x, Fetch, Node)
 - **Server stubs**: **C#** (ASP.NET Core, NancyFx), **Erlang**, **Go**, **Haskell**, **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy), **PHP** (Lumen, Slim, Silex), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Scala** (Scalatra)
 - **API documentation generators**: **HTML**, **Confluence Wiki** 
 - **Others**: **JMeter**
@@ -463,6 +463,7 @@ AndroidClientCodegen.java
 AspNet5ServerCodegen.java
 AspNetCoreServerCodegen.java
 AsyncScalaClientCodegen.java
+BashClientCodegen.java
 CSharpClientCodegen.java
 ClojureClientCodegen.java
 CsharpDotNet2ClientCodegen.java
@@ -891,6 +892,7 @@ Swagger Codegen core team members are contributors who have been making signific
 Here is a list of template creators:
  * API Clients:
    * Akka-Scala: @cchafer
+   * Bash: @bkryza
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * Clojure: @xhh
