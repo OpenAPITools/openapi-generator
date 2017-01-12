@@ -98,6 +98,13 @@ class Configuration
     protected $curlTimeout = 0;
 
     /**
+     * Timeout (second) of the HTTP connection, by default set to 0, no timeout
+     *
+     * @var string
+     */
+    protected $curlConnectTimeout = 0;
+
+    /**
      * User agent of the HTTP request, set to "PHP-Swagger" by default
      *
      * @var string
@@ -378,6 +385,33 @@ class Configuration
     public function getCurlTimeout()
     {
         return $this->curlTimeout;
+    }
+
+    /**
+     * Sets the HTTP connect timeout value
+     *
+     * @param integer $seconds Number of seconds before connection times out [set to 0 for no timeout]
+     *
+     * @return Configuration
+     */
+    public function setCurlConnectTimeout($seconds)
+    {
+        if (!is_numeric($seconds) || $seconds < 0) {
+            throw new \InvalidArgumentException('Connect timeout value must be numeric and a non-negative number.');
+        }
+
+        $this->curlConnectTimeout = $seconds;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP connect timeout value
+     *
+     * @return string HTTP connect timeout value
+     */
+    public function getCurlConnectTimeout()
+    {
+        return $this->curlConnectTimeout;
     }
 
     /**

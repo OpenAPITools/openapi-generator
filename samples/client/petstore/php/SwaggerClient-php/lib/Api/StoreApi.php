@@ -59,7 +59,6 @@ class StoreApi
     {
         if ($apiClient === null) {
             $apiClient = new ApiClient();
-            $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
         }
 
         $this->apiClient = $apiClient;

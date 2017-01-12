@@ -163,6 +163,11 @@ class ApiClient
         if ($this->config->getCurlTimeout() !== 0) {
             curl_setopt($curl, CURLOPT_TIMEOUT, $this->config->getCurlTimeout());
         }
+        // set connect timeout, if needed
+        if ($this->config->getCurlConnectTimeout() != 0) {
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->config->getCurlConnectTimeout());
+        }
+        
         // return the result on success, rather than just true
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
