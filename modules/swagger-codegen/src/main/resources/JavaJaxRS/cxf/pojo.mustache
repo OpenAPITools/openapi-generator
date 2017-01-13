@@ -47,7 +47,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
    * @return {{name}}
   **/
 {{#vendorExtensions.extraAnnotation}}
-  {{vendorExtensions.extraAnnotation}}
+  {{{vendorExtensions.extraAnnotation}}}
 {{/vendorExtensions.extraAnnotation}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
