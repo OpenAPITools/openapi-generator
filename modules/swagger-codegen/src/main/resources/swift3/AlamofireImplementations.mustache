@@ -92,7 +92,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     }
                     self.processRequest(request: upload, managerId, completion)
                 case .failure(let encodingError):
-                    completion(nil, ErrorResponse(statusCode: 415, data: nil, error: encodingError))
+                    completion(nil, ErrorResponse.HttpError(statusCode: 415, data: nil, error: encodingError))
                 }
             })
         } else {
@@ -124,7 +124,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if stringResponse.result.isFailure {
                     completion(
                         nil,
-                        ErrorResponse(statusCode: stringResponse.response?.statusCode ?? 500, data: stringResponse.data, error: stringResponse.result.error as Error!)
+                        ErrorResponse.HttpError(statusCode: stringResponse.response?.statusCode ?? 500, data: stringResponse.data, error: stringResponse.result.error as Error!)
                     )
                     return
                 }
@@ -144,7 +144,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if voidResponse.result.isFailure {
                     completion(
                         nil,
-                        ErrorResponse(statusCode: voidResponse.response?.statusCode ?? 500, data: voidResponse.data, error: voidResponse.result.error!)
+                        ErrorResponse.HttpError(statusCode: voidResponse.response?.statusCode ?? 500, data: voidResponse.data, error: voidResponse.result.error!)
                     )
                     return
                 }
@@ -163,7 +163,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if (dataResponse.result.isFailure) {
                     completion(
                         nil,
-                        ErrorResponse(statusCode: dataResponse.response?.statusCode ?? 500, data: dataResponse.data, error: dataResponse.result.error!)
+                        ErrorResponse.HttpError(statusCode: dataResponse.response?.statusCode ?? 500, data: dataResponse.data, error: dataResponse.result.error!)
                     )
                     return
                 }
@@ -181,7 +181,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 cleanupRequest()
 
                 if response.result.isFailure {
-                    completion(nil, ErrorResponse(statusCode: response.response?.statusCode ?? 500, data: response.data, error: response.result.error!))
+                    completion(nil, ErrorResponse.HttpError(statusCode: response.response?.statusCode ?? 500, data: response.data, error: response.result.error!))
                     return
                 }
 
@@ -197,8 +197,11 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     return
                 }
                 if let json: Any = response.result.value {
-                    let body = Decoders.decode(clazz: T.self, source: json as AnyObject)
-                    completion(Response(response: response.response!, body: body), nil)
+                    let decoded = Decoders.decode(clazz: T.self, source: json as AnyObject)
+                    switch decoded {
+                    case let .success(object): completion(Response(response: response.response!, body: object), nil)
+                    case let .failure(error): completion(nil, ErrorResponse.DecodeError(response: response.data, decodeError: error))
+                    }
                     return
                 } else if "" is T {
                     // swagger-parser currently doesn't support void, which will be fixed in future swagger-parser release
@@ -207,7 +210,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     return
                 }
 
-                completion(nil, ErrorResponse(statusCode: 500, data: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"])))
+                completion(nil, ErrorResponse.HttpError(statusCode: 500, data: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"])))
             }
         }
     }
