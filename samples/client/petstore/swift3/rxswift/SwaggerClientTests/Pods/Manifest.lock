@@ -10,13 +10,13 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   PetstoreClient:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
-  PetstoreClient: a58edc9541bf0e2a0a7f8464907f26c9b7bafe74
+  PetstoreClient: 81e9a68f53c913eec8685a286d03f5d5116d9977
   RxSwift: 0823e8d7969c23bfa9ddfb2afa4881e424a1a710
 
 PODFILE CHECKSUM: da9f5a7ad6086f2c7abb73cf2c35cefce04a9a30
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1
