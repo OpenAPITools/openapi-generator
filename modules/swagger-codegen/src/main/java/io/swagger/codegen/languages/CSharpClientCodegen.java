@@ -72,6 +72,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
                 null);
 
+        addOption(CodegenConstants.INTERFACE_PREFIX,
+                CodegenConstants.INTERFACE_PREFIX_DESC,
+                interfacePrefix);
+
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
                 CodegenConstants.DOTNET_FRAMEWORK_DESC

@@ -27,6 +27,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String packageCompany = "Swagger";
     protected String packageCopyright = "No Copyright";
 
+    protected String interfacePrefix = "I";
+
     protected String sourceFolder = "src";
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
@@ -253,6 +255,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
             setOptionalEmitDefaultValue(Boolean.valueOf(additionalProperties.get(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
+            String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
+            if("false".equals(useInterfacePrefix)) {
+                setInterfacePrefix("");
+            } else if(!"true".equals(useInterfacePrefix)) {
+                // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
+                setInterfacePrefix(sanitizeName(useInterfacePrefix));
+            }
+
+            additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
         }
     }
 
@@ -614,6 +628,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    public String getInterfacePrefix() {
+        return interfacePrefix;
+    }
+
+    public void setInterfacePrefix(final String interfacePrefix) {
+        this.interfacePrefix = interfacePrefix;
     }
 
     @Override
