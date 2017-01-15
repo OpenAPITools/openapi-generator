@@ -259,15 +259,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
-            if("false".equals(useInterfacePrefix)) {
+            if("false".equals(useInterfacePrefix.toLowerCase())) {
                 setInterfacePrefix("");
-            } else if(!"true".equals(useInterfacePrefix)) {
+            } else if(!"true".equals(useInterfacePrefix.toLowerCase())) {
                 // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
                 setInterfacePrefix(sanitizeName(useInterfacePrefix));
             }
-
-            additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
         }
+
+        // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
+        additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
     }
 
     @Override
