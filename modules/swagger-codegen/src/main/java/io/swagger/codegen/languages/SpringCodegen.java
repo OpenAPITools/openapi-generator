@@ -18,6 +18,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
+    public static final String USE_TAGS = "useTags";
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
 
@@ -29,6 +30,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
     protected boolean java8 = false;
     protected boolean async = false;
     protected String responseWrapper = "";
+    protected boolean useTags = false;
 
     public SpringCodegen() {
         super();
@@ -54,6 +56,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
+        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -122,6 +125,10 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
         if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
             this.setResponseWrapper((String) additionalProperties.get(RESPONSE_WRAPPER));
+        }
+
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            this.setUseTags(Boolean.valueOf(additionalProperties.get(USE_TAGS).toString()));
         }
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -221,7 +228,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if(library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_MVC_LIBRARY)) {
+        if((library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -399,6 +406,10 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public void setAsync(boolean async) { this.async = async; }
 
     public void setResponseWrapper(String responseWrapper) { this.responseWrapper = responseWrapper; }
+
+    public void setUseTags(boolean useTags) {
+        this.useTags = useTags;
+    }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
