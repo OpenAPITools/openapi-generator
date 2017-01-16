@@ -929,6 +929,7 @@ Here is a list of template creators:
    * JAX-RS CXF (CDI): @nickcmaynard
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
+   * PHP Zend Expressive (with Path Handler): @Articus
    * Ruby on Rails 5: @zlx
  * Documentation
    * HTML Doc 2: @jhitchcock
