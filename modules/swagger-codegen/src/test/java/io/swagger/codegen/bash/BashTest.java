@@ -1,4 +1,4 @@
-package io.swagger.codegen.python;
+package io.swagger.codegen.bash;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
