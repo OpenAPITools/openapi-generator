@@ -19,10 +19,8 @@ describe('StoreApiFactory', function() {
 
     describe(description, () => {
 
-      const requestOptions: any = {credentials: 'include', mode: 'cors'};
-
       it('should get inventory', function() {
-        return StoreApiFactory().getInventory(requestOptions).then((result) => {
+        return StoreApiFactory().getInventory(config, requestOptions).then((result: { [key: string]: number }) => {
           expect(Object.keys(result)).to.not.be.empty;
         });
       });
