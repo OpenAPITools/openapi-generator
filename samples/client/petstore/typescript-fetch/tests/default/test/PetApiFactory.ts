@@ -24,21 +24,21 @@ describe('PetApiFactory', () => {
       const fixture: Pet = createTestFixture();
 
       it('should add and delete Pet', () => {
-        return PetApiFactory().addPet({ body: fixture }, requestOptions).then(() => {
+        return PetApiFactory().addPet({ body: fixture }, config, requestOptions).then(() => {
         });
       });
 
       it('should get Pet by ID', () => {
-          return PetApiFactory().getPetById({ petId: fixture.id }, requestOptions).then((result) => {
+          return PetApiFactory().getPetById({ petId: fixture.id }, config, requestOptions).then((result: Pet) => {
               return expect(result).to.deep.equal(fixture);
           });
       });
 
       it('should update Pet by ID', () => {
-        return PetApiFactory().getPetById({ petId: fixture.id }, requestOptions).then( (result) => {
+        return PetApiFactory().getPetById({ petId: fixture.id }, config, requestOptions).then( (result: Pet) => {
           result.name = 'newname';
-          return PetApiFactory().updatePet({ body: result }, requestOptions).then(() => {
-            return PetApiFactory().getPetById({ petId: fixture.id }, requestOptions).then( (result) => {
+          return PetApiFactory().updatePet({ body: result }, config, requestOptions).then(() => {
+            return PetApiFactory().getPetById({ petId: fixture.id }, config, requestOptions).then( (result: Pet) => {
               return expect(result.name).to.deep.equal('newname');
             });
           });
@@ -46,13 +46,13 @@ describe('PetApiFactory', () => {
       });
 
       it('should delete Pet', () => {
-        return PetApiFactory().deletePet({ petId: fixture.id }, requestOptions);
+        return PetApiFactory().deletePet({ petId: fixture.id }, config, requestOptions);
       });
 
       it('should not contain deleted Pet', () => {
-        return PetApiFactory().getPetById({ petId: fixture.id }, requestOptions).then((result) => {
+        return PetApiFactory().getPetById({ petId: fixture.id }, config, requestOptions).then((result: Pet) => {
           return expect(result).to.not.exist;
-        }, (err) => {
+        }, (err: any) => {
           return expect(err).to.exist;
         });
       });

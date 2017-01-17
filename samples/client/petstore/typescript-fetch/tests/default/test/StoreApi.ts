@@ -7,14 +7,13 @@ describe('StoreApi', function() {
 
     describe(description, () => {
       let api: StoreApi;
-      const requestOptions: any = {credentials: 'include', mode: 'cors'}
 
       beforeEach(function() {
         api = new StoreApi();
       });
 
       it('should get inventory', function() {
-        return api.getInventory(requestOptions).then((result) => {
+        return api.getInventory(requestOptions).then((result: { [key: string]: number }) => {
           expect(Object.keys(result)).to.not.be.empty;
         });
       });

@@ -20,16 +20,16 @@ describe('PetApi', () => {
       });
 
       it('should get Pet by ID', () => {
-          return api.getPetById({ petId: fixture.id }, requestOptions).then((result) => {
+          return api.getPetById({ petId: fixture.id }, requestOptions).then((result: Pet) => {
               return expect(result).to.deep.equal(fixture);
           });
       });
 
       it('should update Pet by ID', () => {
-        return api.getPetById({ petId: fixture.id }, requestOptions).then( (result) => {
+        return api.getPetById({ petId: fixture.id }, requestOptions).then( (result: Pet) => {
           result.name = 'newname';
           return api.updatePet({ body: result }, requestOptions).then(() => {
-            return api.getPetById({ petId: fixture.id }, requestOptions).then( (result) => {
+            return api.getPetById({ petId: fixture.id }, requestOptions).then( (result: Pet) => {
               return expect(result.name).to.deep.equal('newname');
             });
           });
@@ -41,9 +41,9 @@ describe('PetApi', () => {
       });
 
       it('should not contain deleted Pet', () => {
-          return api.getPetById({ petId: fixture.id }, requestOptions).then((result) => {
+          return api.getPetById({ petId: fixture.id }, requestOptions).then((result: Pet) => {
               return expect(result).to.not.exist;
-          }, (err) => {
+          }, (err: any) => {
             return expect(err).to.exist;
           });
       });
