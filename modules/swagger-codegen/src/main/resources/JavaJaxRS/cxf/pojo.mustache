@@ -25,8 +25,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
 
 {{>enumClass}}{{/items}}{{/items.isEnum}}
 {{#useJaxbAnnotations}}
-  @XmlElement(name="{{baseName}}")
-{{/useJaxbAnnotations}}  
+  @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
+{{/useJaxbAnnotations}}
   @ApiModelProperty({{#example}}example = "{{example}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
