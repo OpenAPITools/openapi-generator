@@ -29,15 +29,6 @@ namespace API.Client {
             }
         }
 
-        private extendObj<T1,T2>(objA: T1, objB: T2) {
-            for(let key in objB){
-                if(objB.hasOwnProperty(key)){
-                    objA[key] = objB[key];
-                }
-            }
-            return <T1&T2>objA;
-        }
-
         /**
          * Create user
          * This can only be done by the logged in user.
@@ -47,18 +38,17 @@ namespace API.Client {
             const localVarPath = this.basePath + '/user';
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'POST',
                 url: localVarPath,
-                json: true,
                 data: body,
                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -72,18 +62,17 @@ namespace API.Client {
             const localVarPath = this.basePath + '/user/createWithArray';
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'POST',
                 url: localVarPath,
-                json: true,
                 data: body,
                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -97,18 +86,17 @@ namespace API.Client {
             const localVarPath = this.basePath + '/user/createWithList';
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'POST',
                 url: localVarPath,
-                json: true,
                 data: body,
                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -123,21 +111,20 @@ namespace API.Client {
                 .replace('{' + 'username' + '}', String(username));
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new Error('Required parameter username was null or undefined when calling deleteUser.');
             }
-            let httpRequestParams: any = {
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'DELETE',
                 url: localVarPath,
-                json: true,
                                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -152,21 +139,20 @@ namespace API.Client {
                 .replace('{' + 'username' + '}', String(username));
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new Error('Required parameter username was null or undefined when calling getUserByName.');
             }
-            let httpRequestParams: any = {
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'GET',
                 url: localVarPath,
-                json: true,
                                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -181,7 +167,7 @@ namespace API.Client {
             const localVarPath = this.basePath + '/user/login';
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
             if (username !== undefined) {
                 queryParameters['username'] = username;
             }
@@ -190,16 +176,15 @@ namespace API.Client {
                 queryParameters['password'] = password;
             }
 
-            let httpRequestParams: any = {
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'GET',
                 url: localVarPath,
-                json: true,
                                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -212,17 +197,16 @@ namespace API.Client {
             const localVarPath = this.basePath + '/user/logout';
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'GET',
                 url: localVarPath,
-                json: true,
                                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -238,22 +222,21 @@ namespace API.Client {
                 .replace('{' + 'username' + '}', String(username));
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new Error('Required parameter username was null or undefined when calling updateUser.');
             }
-            let httpRequestParams: any = {
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'PUT',
                 url: localVarPath,
-                json: true,
                 data: body,
                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
