@@ -19,6 +19,12 @@ public class CodegenConstants {
     public static final String PHP_INVOKER_PACKAGE = "phpInvokerPackage";
     public static final String PHP_INVOKER_PACKAGE_DESC = "root package for generated php code";
 
+    public static final String PERL_MODULE_NAME = "perlModuleName";
+    public static final String PERL_MODULE_NAME_DESC = "root module name for generated perl code";
+
+    public static final String PYTHON_PACKAGE_NAME = "pythonPackageName";
+    public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 

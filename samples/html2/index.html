@@ -1006,6 +1006,8 @@ margin-bottom: 20px;
                           <!--<li class=""><a href="#examples-Pet-addPet-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-addPet-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-addPet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-addPet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-addPet-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -1161,6 +1163,46 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Pet-addPet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $body = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+
+eval { 
+    $api_instance->addPet(body => $body);
+};
+if ($@) {
+    warn "Exception when calling PetApi->addPet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-addPet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+body =  # Pet | Pet object that needs to be added to the store
+
+try: 
+    # Add a new pet to the store
+    api_instance.addPet(body)
+except ApiException as e:
+    print("Exception when calling PetApi->addPet: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -1253,6 +1295,8 @@ try {
                           <!--<li class=""><a href="#examples-Pet-deletePet-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-deletePet-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-deletePet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-deletePet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-deletePet-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -1417,6 +1461,48 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Pet-deletePet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $petId = 789; # Long | Pet id to delete
+my $apiKey = apiKey_example; # String | 
+
+eval { 
+    $api_instance->deletePet(petId => $petId, apiKey => $apiKey);
+};
+if ($@) {
+    warn "Exception when calling PetApi->deletePet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-deletePet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+petId = 789 # Long | Pet id to delete
+apiKey = apiKey_example # String |  (optional)
+
+try: 
+    # Deletes a pet
+    api_instance.deletePet(petId, apiKey=apiKey)
+except ApiException as e:
+    print("Exception when calling PetApi->deletePet: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -1538,6 +1624,8 @@ try {
                           <!--<li class=""><a href="#examples-Pet-findPetsByStatus-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-findPetsByStatus-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-findPetsByStatus-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-findPetsByStatus-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-findPetsByStatus-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -1700,6 +1788,48 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $status = []; # array[String] | Status values that need to be considered for filter
+
+eval { 
+    my $result = $api_instance->findPetsByStatus(status => $status);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling PetApi->findPetsByStatus: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+status =  # array[String] | Status values that need to be considered for filter
+
+try: 
+    # Finds Pets by status
+    api_response = api_instance.findPetsByStatus(status)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling PetApi->findPetsByStatus: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -1832,6 +1962,8 @@ try {
                           <!--<li class=""><a href="#examples-Pet-findPetsByTags-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-findPetsByTags-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-findPetsByTags-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-findPetsByTags-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-findPetsByTags-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -1994,6 +2126,48 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Pet-findPetsByTags-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $tags = []; # array[String] | Tags to filter by
+
+eval { 
+    my $result = $api_instance->findPetsByTags(tags => $tags);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling PetApi->findPetsByTags: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-findPetsByTags-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+tags =  # array[String] | Tags to filter by
+
+try: 
+    # Finds Pets by tags
+    api_response = api_instance.findPetsByTags(tags)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling PetApi->findPetsByTags: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -2124,6 +2298,8 @@ try {
                           <!--<li class=""><a href="#examples-Pet-getPetById-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-getPetById-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-getPetById-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-getPetById-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-getPetById-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -2296,6 +2472,52 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Pet-getPetById-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure API key authorization: api_key
+$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $petId = 789; # Long | ID of pet to return
+
+eval { 
+    my $result = $api_instance->getPetById(petId => $petId);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling PetApi->getPetById: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-getPetById-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure API key authorization: api_key
+swagger_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# swagger_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+petId = 789 # Long | ID of pet to return
+
+try: 
+    # Find pet by ID
+    api_response = api_instance.getPetById(petId)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling PetApi->getPetById: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -2422,6 +2644,8 @@ try {
                           <!--<li class=""><a href="#examples-Pet-updatePet-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-updatePet-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-updatePet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-updatePet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-updatePet-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -2577,6 +2801,46 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Pet-updatePet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $body = WWW::SwaggerClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
+
+eval { 
+    $api_instance->updatePet(body => $body);
+};
+if ($@) {
+    warn "Exception when calling PetApi->updatePet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-updatePet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+body =  # Pet | Pet object that needs to be added to the store
+
+try: 
+    # Update an existing pet
+    api_instance.updatePet(body)
+except ApiException as e:
+    print("Exception when calling PetApi->updatePet: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -2673,6 +2937,8 @@ try {
                           <!--<li class=""><a href="#examples-Pet-updatePetWithForm-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-updatePetWithForm-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-updatePetWithForm-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-updatePetWithForm-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-updatePetWithForm-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -2844,6 +3110,50 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $petId = 789; # Long | ID of pet that needs to be updated
+my $name = name_example; # String | Updated name of the pet
+my $status = status_example; # String | Updated status of the pet
+
+eval { 
+    $api_instance->updatePetWithForm(petId => $petId, name => $name, status => $status);
+};
+if ($@) {
+    warn "Exception when calling PetApi->updatePetWithForm: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+petId = 789 # Long | ID of pet that needs to be updated
+name = name_example # String | Updated name of the pet (optional)
+status = status_example # String | Updated status of the pet (optional)
+
+try: 
+    # Updates a pet in the store with form data
+    api_instance.updatePetWithForm(petId, name=name, status=status)
+except ApiException as e:
+    print("Exception when calling PetApi->updatePetWithForm: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -2999,6 +3309,8 @@ try {
                           <!--<li class=""><a href="#examples-Pet-uploadFile-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Pet-uploadFile-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Pet-uploadFile-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Pet-uploadFile-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Pet-uploadFile-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -3176,6 +3488,52 @@ try {
     echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
 }
 ?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-uploadFile-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::PetApi;
+
+# Configure OAuth2 access token for authorization: petstore_auth
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::PetApi->new();
+my $petId = 789; # Long | ID of pet to update
+my $additionalMetadata = additionalMetadata_example; # String | Additional data to pass to server
+my $file = /path/to/file.txt; # File | file to upload
+
+eval { 
+    my $result = $api_instance->uploadFile(petId => $petId, additionalMetadata => $additionalMetadata, file => $file);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling PetApi->uploadFile: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Pet-uploadFile-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.PetApi()
+petId = 789 # Long | ID of pet to update
+additionalMetadata = additionalMetadata_example # String | Additional data to pass to server (optional)
+file = /path/to/file.txt # File | file to upload (optional)
+
+try: 
+    # uploads an image
+    api_response = api_instance.uploadFile(petId, additionalMetadata=additionalMetadata, file=file)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling PetApi->uploadFile: %s\n" % e)</code></pre>
                             </div>
                           </div>
 
@@ -3375,6 +3733,8 @@ try {
                           <!--<li class=""><a href="#examples-Store-deleteOrder-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Store-deleteOrder-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Store-deleteOrder-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Store-deleteOrder-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Store-deleteOrder-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -3509,6 +3869,40 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Store-deleteOrder-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::StoreApi;
+
+my $api_instance = WWW::SwaggerClient::StoreApi->new();
+my $orderId = orderId_example; # String | ID of the order that needs to be deleted
+
+eval { 
+    $api_instance->deleteOrder(orderId => $orderId);
+};
+if ($@) {
+    warn "Exception when calling StoreApi->deleteOrder: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Store-deleteOrder-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.StoreApi()
+orderId = orderId_example # String | ID of the order that needs to be deleted
+
+try: 
+    # Delete purchase order by ID
+    api_instance.deleteOrder(orderId)
+except ApiException as e:
+    print("Exception when calling StoreApi->deleteOrder: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -3531,7 +3925,7 @@ try {
   "description" : "ID of the order that needs to be deleted",
   "required" : true,
   "type" : "string",
-  "minimum" : 1
+  "minimum" : 1.0
 };
 													var schema = schemaWrapper;
 
@@ -3593,6 +3987,8 @@ try {
                           <!--<li class=""><a href="#examples-Store-getInventory-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Store-getInventory-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Store-getInventory-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Store-getInventory-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Store-getInventory-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -3757,6 +4153,50 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Store-getInventory-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::StoreApi;
+
+# Configure API key authorization: api_key
+$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+
+my $api_instance = WWW::SwaggerClient::StoreApi->new();
+
+eval { 
+    my $result = $api_instance->getInventory();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling StoreApi->getInventory: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Store-getInventory-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure API key authorization: api_key
+swagger_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# swagger_client.configuration.api_key_prefix['api_key'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = swagger_client.StoreApi()
+
+try: 
+    # Returns pet inventories by status
+    api_response = api_instance.getInventory()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling StoreApi->getInventory: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -3842,6 +4282,8 @@ try {
                           <!--<li class=""><a href="#examples-Store-getOrderById-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Store-getOrderById-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Store-getOrderById-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Store-getOrderById-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Store-getOrderById-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -3983,6 +4425,42 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Store-getOrderById-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::StoreApi;
+
+my $api_instance = WWW::SwaggerClient::StoreApi->new();
+my $orderId = 789; # Long | ID of pet that needs to be fetched
+
+eval { 
+    my $result = $api_instance->getOrderById(orderId => $orderId);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling StoreApi->getOrderById: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Store-getOrderById-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.StoreApi()
+orderId = 789 # Long | ID of pet that needs to be fetched
+
+try: 
+    # Find purchase order by ID
+    api_response = api_instance.getOrderById(orderId)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling StoreApi->getOrderById: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -4005,8 +4483,8 @@ try {
   "description" : "ID of pet that needs to be fetched",
   "required" : true,
   "type" : "integer",
-  "maximum" : 5,
-  "minimum" : 1,
+  "maximum" : 5.0,
+  "minimum" : 1.0,
   "format" : "int64"
 };
 													var schema = schemaWrapper;
@@ -4111,6 +4589,8 @@ try {
                           <!--<li class=""><a href="#examples-Store-placeOrder-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-Store-placeOrder-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-Store-placeOrder-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Store-placeOrder-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Store-placeOrder-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -4252,6 +4732,42 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-Store-placeOrder-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::StoreApi;
+
+my $api_instance = WWW::SwaggerClient::StoreApi->new();
+my $body = WWW::SwaggerClient::Object::Order->new(); # Order | order placed for purchasing the pet
+
+eval { 
+    my $result = $api_instance->placeOrder(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling StoreApi->placeOrder: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Store-placeOrder-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.StoreApi()
+body =  # Order | order placed for purchasing the pet
+
+try: 
+    # Place an order for a pet
+    api_response = api_instance.placeOrder(body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling StoreApi->placeOrder: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -4389,6 +4905,8 @@ try {
                           <!--<li class=""><a href="#examples-User-createUser-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-createUser-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-createUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-createUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-createUser-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -4523,6 +5041,40 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-User-createUser-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $body = WWW::SwaggerClient::Object::User->new(); # User | Created user object
+
+eval { 
+    $api_instance->createUser(body => $body);
+};
+if ($@) {
+    warn "Exception when calling UserApi->createUser: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-createUser-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+body =  # User | Created user object
+
+try: 
+    # Create user
+    api_instance.createUser(body)
+except ApiException as e:
+    print("Exception when calling UserApi->createUser: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -4615,6 +5167,8 @@ try {
                           <!--<li class=""><a href="#examples-User-createUsersWithArrayInput-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-createUsersWithArrayInput-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-createUsersWithArrayInput-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-createUsersWithArrayInput-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-createUsersWithArrayInput-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -4749,6 +5303,40 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $body = [WWW::SwaggerClient::Object::array[User]->new()]; # array[User] | List of user object
+
+eval { 
+    $api_instance->createUsersWithArrayInput(body => $body);
+};
+if ($@) {
+    warn "Exception when calling UserApi->createUsersWithArrayInput: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+body =  # array[User] | List of user object
+
+try: 
+    # Creates list of users with given input array
+    api_instance.createUsersWithArrayInput(body)
+except ApiException as e:
+    print("Exception when calling UserApi->createUsersWithArrayInput: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -4844,6 +5432,8 @@ try {
                           <!--<li class=""><a href="#examples-User-createUsersWithListInput-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-createUsersWithListInput-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-createUsersWithListInput-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-createUsersWithListInput-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-createUsersWithListInput-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -4978,6 +5568,40 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-User-createUsersWithListInput-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $body = [WWW::SwaggerClient::Object::array[User]->new()]; # array[User] | List of user object
+
+eval { 
+    $api_instance->createUsersWithListInput(body => $body);
+};
+if ($@) {
+    warn "Exception when calling UserApi->createUsersWithListInput: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-createUsersWithListInput-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+body =  # array[User] | List of user object
+
+try: 
+    # Creates list of users with given input array
+    api_instance.createUsersWithListInput(body)
+except ApiException as e:
+    print("Exception when calling UserApi->createUsersWithListInput: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -5073,6 +5697,8 @@ try {
                           <!--<li class=""><a href="#examples-User-deleteUser-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-deleteUser-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-deleteUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-deleteUser-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -5207,6 +5833,40 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-User-deleteUser-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $username = username_example; # String | The name that needs to be deleted
+
+eval { 
+    $api_instance->deleteUser(username => $username);
+};
+if ($@) {
+    warn "Exception when calling UserApi->deleteUser: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-deleteUser-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+username = username_example # String | The name that needs to be deleted
+
+try: 
+    # Delete user
+    api_instance.deleteUser(username)
+except ApiException as e:
+    print("Exception when calling UserApi->deleteUser: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -5290,6 +5950,8 @@ try {
                           <!--<li class=""><a href="#examples-User-getUserByName-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-getUserByName-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-getUserByName-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-getUserByName-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-getUserByName-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -5431,6 +6093,42 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-User-getUserByName-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $username = username_example; # String | The name that needs to be fetched. Use user1 for testing. 
+
+eval { 
+    my $result = $api_instance->getUserByName(username => $username);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling UserApi->getUserByName: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-getUserByName-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+username = username_example # String | The name that needs to be fetched. Use user1 for testing. 
+
+try: 
+    # Get user by user name
+    api_response = api_instance.getUserByName(username)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling UserApi->getUserByName: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -5556,6 +6254,8 @@ try {
                           <!--<li class=""><a href="#examples-User-loginUser-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-loginUser-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-loginUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-loginUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-loginUser-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -5704,6 +6404,44 @@ try {
     echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
 }
 ?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-loginUser-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $username = username_example; # String | The user name for login
+my $password = password_example; # String | The password for login in clear text
+
+eval { 
+    my $result = $api_instance->loginUser(username => $username, password => $password);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling UserApi->loginUser: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-loginUser-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+username = username_example # String | The user name for login
+password = password_example # String | The password for login in clear text
+
+try: 
+    # Logs user into the system
+    api_response = api_instance.loginUser(username, password)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling UserApi->loginUser: %s\n" % e)</code></pre>
                             </div>
                           </div>
 
@@ -5873,6 +6611,8 @@ try {
                           <!--<li class=""><a href="#examples-User-logoutUser-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-logoutUser-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-logoutUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-logoutUser-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -5999,6 +6739,38 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-User-logoutUser-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+
+eval { 
+    $api_instance->logoutUser();
+};
+if ($@) {
+    warn "Exception when calling UserApi->logoutUser: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-logoutUser-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+
+try: 
+    # Logs out current logged in user session
+    api_instance.logoutUser()
+except ApiException as e:
+    print("Exception when calling UserApi->logoutUser: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -6040,6 +6812,8 @@ try {
                           <!--<li class=""><a href="#examples-User-updateUser-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-User-updateUser-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-User-updateUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-User-updateUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-User-updateUser-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -6182,6 +6956,42 @@ try {
 }
 ?></code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-User-updateUser-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::UserApi;
+
+my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $username = username_example; # String | name that need to be deleted
+my $body = WWW::SwaggerClient::Object::User->new(); # User | Updated user object
+
+eval { 
+    $api_instance->updateUser(username => $username, body => $body);
+};
+if ($@) {
+    warn "Exception when calling UserApi->updateUser: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-User-updateUser-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.UserApi()
+username = username_example # String | name that need to be deleted
+body =  # User | Updated user object
+
+try: 
+    # Updated user
+    api_instance.updateUser(username, body)
+except ApiException as e:
+    print("Exception when calling UserApi->updateUser: %s\n" % e)</code></pre>
+                            </div>
                           </div>
 
                           <h2>Parameters</h2>
@@ -6303,7 +7113,7 @@ try {
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2017-01-04T12:09:28.510+01:00
+              Generated 2017-01-16T09:17:32.398-08:00
             </div>
           </div>
       </div>
