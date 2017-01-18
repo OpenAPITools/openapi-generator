@@ -7,8 +7,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, datatype, datatypeWithEnum,
-            dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType, containerType;
+    public String baseName, complexType, getter, setter, description, datatype,
+          datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
+          baseType, containerType, title;
 
     public String unescapedDescription;
 
@@ -77,6 +78,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
         result = prime * result + ((defaultValueWithParam == null) ? 0 : defaultValueWithParam.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((example == null) ? 0 : example.hashCode());
         result = prime * result + (exclusiveMaximum ? 13:31);
         result = prime * result + (exclusiveMinimum ? 13:31);
@@ -147,6 +149,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
+            return false;
+        }
+        if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
             return false;
         }
         if ((this.datatype == null) ? (other.datatype != null) : !this.datatype.equals(other.datatype)) {
