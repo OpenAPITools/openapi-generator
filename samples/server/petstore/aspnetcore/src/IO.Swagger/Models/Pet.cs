@@ -20,12 +20,45 @@ using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
 {
+
     /// <summary>
     /// A pet for sale in the pet store
     /// </summary>
     [DataContract]
     public partial class Pet :  IEquatable<Pet>
     {
+                /// <summary>
+        /// pet status in the store
+        /// </summary>
+        /// <value>pet status in the store</value>
+        public enum StatusEnum
+        {
+            
+            /// <summary>
+            /// Enum AvailableEnum for "available"
+            /// </summary>
+            [EnumMember(Value = "available")]
+            AvailableEnum,
+            
+            /// <summary>
+            /// Enum PendingEnum for "pending"
+            /// </summary>
+            [EnumMember(Value = "pending")]
+            PendingEnum,
+            
+            /// <summary>
+            /// Enum SoldEnum for "sold"
+            /// </summary>
+            [EnumMember(Value = "sold")]
+            SoldEnum
+        }
+        /// <summary>
+        /// pet status in the store
+        /// </summary>
+        /// <value>pet status in the store</value>
+        [DataMember(Name="status")]
+        public StatusEnum? Status { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
@@ -35,7 +68,7 @@ namespace IO.Swagger.Models
         /// <param name="PhotoUrls">PhotoUrls (required).</param>
         /// <param name="Tags">Tags.</param>
         /// <param name="Status">pet status in the store.</param>
-        public Pet(long? Id = null, Category Category = null, string Name = null, List<string> PhotoUrls = null, List<Tag> Tags = null, string Status = null)
+        public Pet(long? Id = default(long?), Category Category = default(Category), string Name = default(string), List<string> PhotoUrls = default(List<string>), List<Tag> Tags = default(List<Tag>), StatusEnum? Status = default(StatusEnum?))
         {
             // to ensure "Name" is required (not null)
             if (Name == null)
@@ -67,38 +100,26 @@ namespace IO.Swagger.Models
         /// </summary>
         [DataMember(Name="id")]
         public long? Id { get; set; }
-
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name="category")]
         public Category Category { get; set; }
-
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name")]
         public string Name { get; set; }
-
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [DataMember(Name="photoUrls")]
         public List<string> PhotoUrls { get; set; }
-
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [DataMember(Name="tags")]
         public List<Tag> Tags { get; set; }
-
-        /// <summary>
-        /// pet status in the store
-        /// </summary>
-        /// <value>pet status in the store</value>
-        [DataMember(Name="status")]
-        public string Status { get; set; }
-
 
         /// <summary>
         /// Returns the string presentation of the object
