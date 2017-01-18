@@ -842,6 +842,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [VMware](https://vmware.com/)
 - [W.UP](http://wup.hu/?siteLang=en)
 - [Wealthfront](https://www.wealthfront.com/)
+- [Webever GmbH](http://webever.de/)
 - [WEXO A/S](https://www.wexo.dk/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
