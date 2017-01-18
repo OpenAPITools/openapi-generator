@@ -1463,6 +1463,7 @@ public class DefaultCodegen {
         property.nameInCamelCase = camelize(property.name, false);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
+        property.title = p.getTitle();
         property.getter = "get" + getterAndSetterCapitalize(name);
         property.setter = "set" + getterAndSetterCapitalize(name);
         property.example = toExampleValue(p);
