@@ -109,6 +109,7 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/Model/ArrayTest.md)
+ - [Capitalization](docs/Model/Capitalization.md)
  - [Cat](docs/Model/Cat.md)
  - [Category](docs/Model/Category.md)
  - [ClassModel](docs/Model/ClassModel.md)
