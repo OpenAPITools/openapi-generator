@@ -4,9 +4,9 @@ import io.swagger.model.*;
 import io.swagger.api.PetApiService;
 import io.swagger.api.factories.PetApiServiceFactory;
 
-import io.swagger.model.Pet;
 import java.io.File;
 import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.validation.constraints.*;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 @Path("/pet")
@@ -46,7 +47,7 @@ public class PetApi  {
     @Path("/findByStatus")
     
     @Produces({ "application/xml", "application/json" })
-    public Response findPetsByStatus( @QueryParam("status") List<String> status,@Context SecurityContext securityContext)
+    public Response findPetsByStatus( @NotNull  @QueryParam("status") List<String> status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByStatus(status,securityContext);
     }
@@ -54,7 +55,7 @@ public class PetApi  {
     @Path("/findByTags")
     
     @Produces({ "application/xml", "application/json" })
-    public Response findPetsByTags( @QueryParam("tags") List<String> tags,@Context SecurityContext securityContext)
+    public Response findPetsByTags( @NotNull  @QueryParam("tags") List<String> tags,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByTags(tags,securityContext);
     }

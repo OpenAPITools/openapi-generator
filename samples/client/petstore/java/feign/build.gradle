@@ -97,6 +97,7 @@ ext {
     swagger_annotations_version = "1.5.9"
     jackson_version = "2.7.5"
     feign_version = "8.17.0"
+    feign_form_version = "2.0.2"
     junit_version = "4.12"
     oltu_version = "1.0.1"
 }
@@ -106,6 +107,7 @@ dependencies {
     compile "com.netflix.feign:feign-core:$feign_version"
     compile "com.netflix.feign:feign-jackson:$feign_version"
     compile "com.netflix.feign:feign-slf4j:$feign_version"
+    compile "io.github.openfeign.form:feign-form:$feign_form_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"

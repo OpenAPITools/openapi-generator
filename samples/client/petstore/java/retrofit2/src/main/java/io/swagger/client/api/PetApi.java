@@ -8,14 +8,15 @@ import retrofit2.http.*;
 
 import okhttp3.RequestBody;
 
-import io.swagger.client.model.Pet;
 import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
+import io.swagger.client.model.Pet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public interface PetApi {
   /**
@@ -25,6 +26,9 @@ public interface PetApi {
    * @return Call&lt;Void&gt;
    */
   
+  @Headers({
+  	"Content-Type:application/json" 
+  })
   @POST("pet")
   Call<Void> addPet(
     @retrofit2.http.Body Pet body
@@ -86,6 +90,9 @@ public interface PetApi {
    * @return Call&lt;Void&gt;
    */
   
+  @Headers({
+  	"Content-Type:application/json" 
+  })
   @PUT("pet")
   Call<Void> updatePet(
     @retrofit2.http.Body Pet body

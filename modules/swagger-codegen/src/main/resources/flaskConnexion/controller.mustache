@@ -1,7 +1,105 @@
+import connexion
+{{#imports}}{{import}}
+{{/imports}}
+from datetime import date, datetime
+from typing import List, Dict
+from six import iteritems
+from ..util import deserialize_date, deserialize_datetime
 {{#operations}}
 {{#operation}}
 
-def {{operationId}}({{#allParams}}{{paramName}}{{^required}} = None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{^supportPython2}} -> str{{/supportPython2}}:
+
+def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}):
+    """
+    {{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+    {{#notes}}{{.}}{{/notes}}
+    {{#allParams}}
+    :param {{paramName}}: {{description}}
+        {{^isContainer}}
+            {{#isPrimitiveType}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+                {{#isFile}}
+    :type {{paramName}}: werkzeug.datastructures.FileStorage
+                {{/isFile}}
+                {{^isFile}}
+    :type {{paramName}}: dict | bytes
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isListContainer}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: List[{{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: list | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: Dict[str, {{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: dict | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isMapContainer}}
+    {{/allParams}}
+
+    :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
+    """
+    {{#allParams}}
+        {{^isContainer}}
+            {{#isDate}}
+    {{paramName}} = deserialize_date({{paramName}})
+            {{/isDate}}
+            {{#isDateTime}}
+    {{paramName}} = deserialize_datetime({{paramName}})
+            {{/isDateTime}}
+            {{^isPrimitiveType}}
+                {{^isFile}}
+    if connexion.request.is_json:
+        {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isListContainer}}
+            {{#items}}
+                {{#isDate}}
+    if connexion.request.is_json:
+        {{paramName}} = [deserialize_date(s) for s in connexion.request.get_json()]
+                {{/isDate}}
+                {{#isDateTime}}
+    if connexion.request.is_json:
+        {{paramName}} = [deserialize_datetime(s) for s in connexion.request.get_json()]
+                {{/isDateTime}}
+                {{#complexType}}
+    if connexion.request.is_json:
+        {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]
+                {{/complexType}}
+            {{/items}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+            {{#items}}
+                {{#isDate}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: deserialize_date(v) for k, v in iteritems(connexion.request.get_json())}
+                {{/isDate}}
+                {{#isDateTime}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: deserialize_datetime(v) for k, v in iteritems(connexion.request.get_json())}
+                {{/isDateTime}}
+                {{#complexType}}
+    if connexion.request.is_json:
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in iteritems(connexion.request.get_json())}
+                {{/complexType}}
+            {{/items}}
+        {{/isMapContainer}}
+    {{/allParams}}
     return 'do some magic!'
 {{/operation}}
 {{/operations}}

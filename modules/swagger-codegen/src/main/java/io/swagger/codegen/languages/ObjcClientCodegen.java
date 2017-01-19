@@ -22,7 +22,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String AUTHOR_EMAIL = "authorEmail";
     public static final String LICENSE = "license";
     public static final String GIT_REPO_URL = "gitRepoURL";
-    public static final String DEFAULT_LICENSE = "Apache License, Version 2.0";
+    public static final String DEFAULT_LICENSE = "Proprietary";
     public static final String CORE_DATA = "coreData";
     
     protected Set<String> foundationClasses = new HashSet<String>();
@@ -538,8 +538,17 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toVarName(name);
     }
 
+    /**
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
+     * those terms here.  This logic is only called if a variable matches the reserved words
+     *
+     * @return the escaped term
+     */    
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 

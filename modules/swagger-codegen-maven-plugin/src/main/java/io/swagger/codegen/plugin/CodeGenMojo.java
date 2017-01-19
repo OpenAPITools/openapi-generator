@@ -21,6 +21,7 @@ import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyImportMapp
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvp;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsv;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvp;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvp;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
@@ -69,6 +70,18 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "inputSpec", required = true)
     private String inputSpec;
+
+    /**
+     * Git user ID, e.g. swagger-api.
+     */
+    @Parameter(name = "gitUserId", required = false)
+    private String gitUserId;
+
+    /**
+     * Git repo ID, e.g. swagger-codegen.
+     */
+    @Parameter(name = "gitRepoId", required = false)
+    private String gitRepoId;
 
     /**
      * Folder containing the template files.
@@ -195,6 +208,14 @@ public class CodeGenMojo extends AbstractMojo {
             configurator.setInputSpec(inputSpec);
         }
 
+        if(isNotEmpty(gitUserId)) {
+            configurator.setGitUserId(gitUserId);
+        }
+
+        if(isNotEmpty(gitRepoId)) {
+            configurator.setGitRepoId(gitRepoId);
+        }
+
         configurator.setLang(language);
 
         configurator.setOutputDir(output.getAbsolutePath());
@@ -264,6 +285,10 @@ public class CodeGenMojo extends AbstractMojo {
             if(configOptions.containsKey("additional-properties")) {
                 applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(), configurator);
             }
+            
+            if(configOptions.containsKey("reserved-words-mappings")) {
+                applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings").toString(), configurator);
+            }
         }
 
         if (environmentVariables != null) {
@@ -310,7 +335,10 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         if (addCompileSourceRoot) {
-            String sourceJavaFolder = output.toString() + "/" + configOptions.get(CodegenConstants.SOURCE_FOLDER);
+            final Object sourceFolderObject = configOptions.get(CodegenConstants.SOURCE_FOLDER);
+            final String sourceFolder =  sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
+
+            String sourceJavaFolder = output.toString() + "/" + sourceFolder;
             project.addCompileSourceRoot(sourceJavaFolder);
         }
     }

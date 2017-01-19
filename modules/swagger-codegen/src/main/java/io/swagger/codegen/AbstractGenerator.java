@@ -56,7 +56,7 @@ public abstract class AbstractGenerator {
             if (is == null) {
                 is = new FileInputStream(new File(name)); // May throw but never return a null value
             }
-            return new InputStreamReader(is);
+            return new InputStreamReader(is, "UTF-8");
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

@@ -37,13 +37,14 @@ class {{classname}}(object):
         self._{{name}} = {{name}}
 {{/vars}}
 
-{{#vars}}{{#-first}}
-{{/-first}}
+{{#vars}}
     @property
     def {{name}}(self):
         """
         Gets the {{name}} of this {{classname}}.
-{{#description}}        {{{description}}}{{/description}}
+{{#description}}        
+        {{{description}}}
+{{/description}}
 
         :return: The {{name}} of this {{classname}}.
         :rtype: {{datatype}}
@@ -54,7 +55,9 @@ class {{classname}}(object):
     def {{name}}(self, {{name}}):
         """
         Sets the {{name}} of this {{classname}}.
-{{#description}}        {{{description}}}{{/description}}
+{{#description}}
+        {{{description}}}
+{{/description}}
 
         :param {{name}}: The {{name}} of this {{classname}}.
         :type: {{datatype}}

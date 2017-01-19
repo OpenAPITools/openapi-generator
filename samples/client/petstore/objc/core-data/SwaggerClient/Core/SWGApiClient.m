@@ -483,7 +483,7 @@ static NSString * SWG__fileNameForResponse(NSURLResponse *response) {
 
     if (config.sslCaCert) {
         NSData *certData = [NSData dataWithContentsOfFile:config.sslCaCert];
-        [securityPolicy setPinnedCertificates:@[certData]];
+        [securityPolicy setPinnedCertificates:[NSSet setWithObject:certData]];
     }
 
     if (config.verifySSL) {

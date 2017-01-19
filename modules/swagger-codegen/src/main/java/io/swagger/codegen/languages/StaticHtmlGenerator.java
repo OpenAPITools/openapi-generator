@@ -61,6 +61,12 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
+    public String escapeText(String input) {
+        // newline escaping disabled for HTML documentation for markdown to work correctly
+        return input;
+    }
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }

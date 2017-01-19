@@ -64,7 +64,7 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 {{/isApiKey}}
 {{#isBasic}}
 	// http basic authentication required
-	if a.Configuration.UserName != "" || a.Configuration.Password != ""{
+	if a.Configuration.Username != "" || a.Configuration.Password != ""{
 		localVarHeaderParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
 	}
 {{/isBasic}}
@@ -83,16 +83,11 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	{{#queryParams}}
 	{{#isListContainer}}
 	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
-	if collectionFormat == "multi" {
-		for _, value := range {{paramName}} {
-			localVarQueryParams.Add("{{baseName}}", value)
-		}
-	} else {
-		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
-	}
+	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
+
 	{{/isListContainer}}
 	{{^isListContainer}}
-		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
+	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, ""))
 	{{/isListContainer}}
 	{{/queryParams}}
 	{{/hasQueryParams}}

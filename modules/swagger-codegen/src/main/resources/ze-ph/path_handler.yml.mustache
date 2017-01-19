@@ -1,0 +1,27 @@
+path_handler:
+  routes:
+    routes:
+{{#routes}}{{>route}}{{/routes}}
+    default_params:
+      middleware: ''
+  metadata_cache:
+    adapter:
+      name: blackhole
+#    adapter:
+#      name: filesystem
+#      options:
+#        cache_dir: data/cache/path_handler
+#        namespace: ph
+
+  handlers:
+    invokables:
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+      {{classname}}: {{package}}\{{classname}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+#  consumers:
+#  attributes:
+#  producers:

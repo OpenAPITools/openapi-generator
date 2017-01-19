@@ -28,13 +28,15 @@ For a list of variables available in the template, please refer to this [page](h
 
 
 ### Style guide
-Code change should conform to the programming style guide of the respective langauages:
+Code change should conform to the programming style guide of the respective languages:
 - Android: https://source.android.com/source/code-style.html
+- Bash: https://github.com/bahamas10/bash-style-guide
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - C++: https://google.github.io/styleguide/cppguide.html
+- Clojure: https://github.com/bbatsov/clojure-style-guide
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
-- JavaScript: https://github.com/airbnb/javascript/tree/master/es5
+- JavaScript: https://github.com/airbnb/javascript/
 - Groovy: http://groovy-lang.org/style-guide.html
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
@@ -52,8 +54,8 @@ You may find the current code base not 100% conform to the coding style and we w
 
 For [Vendor Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#vendorExtensions), please follow the naming convention below:
 - For general vendor extension, use lower case and hyphen. e.g. `x-is-unique`, `x-content-type`
-- For language-specified vendor extension, put it in the form of `x-{lang}-{extension-name}`. e.g. `x-objc-operation-id`, `x-java-feign-retry-limit` 
-- For a list of existing vendor extensions in use, please refer to https://github.com/swagger-api/swagger-codegen/wiki/Vendor-Extensions. If you've addaed new vendor extensions as part of your PR, please update the wiki page.
+- For language-specified vendor extension, put it in the form of `x-{lang}-{extension-name}`. e.g. `x-objc-operation-id`, `x-java-feign-retry-limit`
+- For a list of existing vendor extensions in use, please refer to https://github.com/swagger-api/swagger-codegen/wiki/Vendor-Extensions. If you've added new vendor extensions as part of your PR, please update the wiki page.
 
 ### Testing
 
@@ -74,3 +76,5 @@ To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all t
 - Document the fix in the code to make the code more readable
 - Make sure test cases passed after the change (one way is to leverage https://travis-ci.org/ to run the CI tests)
 - File a PR with meaningful title, description and commit messages. A good example is [PR-3306](https://github.com/swagger-api/swagger-codegen/pull/3306)
+- Recommended git settings
+   - `git config --global core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 

@@ -1,0 +1,28 @@
+data_transfer:
+  metadata_cache:
+    adapter:
+      name: blackhole
+#    adapter:
+#      name: filesystem
+#      options:
+#        cache_dir: data/cache/data_transfer
+#        namespace: dt
+
+  strategies:
+    invokables:
+      {{invokerPackage}}\Strategy\Date: {{invokerPackage}}\Strategy\Date
+      {{invokerPackage}}\Strategy\DateTime: {{invokerPackage}}\Strategy\DateTime
+#    factories:
+    aliases:
+      Date: {{invokerPackage}}\Strategy\Date
+      DateTime: {{invokerPackage}}\Strategy\DateTime
+  validators:
+    invokables:
+      {{invokerPackage}}\Validator\Type: {{invokerPackage}}\Validator\Type
+    factories:
+      Articus\DataTransfer\Validator\Dictionary: Articus\DataTransfer\Validator\Factory
+      Articus\DataTransfer\Validator\Collection: Articus\DataTransfer\Validator\Factory
+    aliases:
+      Dictionary: Articus\DataTransfer\Validator\Dictionary
+      Collection: Articus\DataTransfer\Validator\Collection
+      Type: {{invokerPackage}}\Validator\Type

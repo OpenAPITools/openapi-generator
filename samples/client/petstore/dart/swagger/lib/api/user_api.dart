@@ -10,11 +10,7 @@ class UserApi {
   /// Create user
   ///
   /// This can only be done by the logged in user.
-  Future createUser(User body,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future createUser(User body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -65,11 +61,7 @@ class UserApi {
   /// Creates list of users with given input array
   ///
   /// 
-  Future createUsersWithArrayInput(List<User> body,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future createUsersWithArrayInput(List<User> body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -120,11 +112,7 @@ class UserApi {
   /// Creates list of users with given input array
   ///
   /// 
-  Future createUsersWithListInput(List<User> body,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future createUsersWithListInput(List<User> body) async {
     Object postBody = body;
 
     // verify required params are set
@@ -175,11 +163,7 @@ class UserApi {
   /// Delete user
   ///
   /// This can only be done by the logged in user.
-  Future deleteUser(String username,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future deleteUser(String username) async {
     Object postBody = null;
 
     // verify required params are set
@@ -230,11 +214,7 @@ class UserApi {
   /// Get user by user name
   ///
   /// 
-  Future<User> getUserByName(String username,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<User> getUserByName(String username) async {
     Object postBody = null;
 
     // verify required params are set
@@ -285,11 +265,7 @@ class UserApi {
   /// Logs user into the system
   ///
   /// 
-  Future<String> loginUser(String username, String password,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future<String> loginUser(String username, String password) async {
     Object postBody = null;
 
     // verify required params are set
@@ -345,11 +321,7 @@ class UserApi {
   /// Logs out current logged in user session
   ///
   /// 
-  Future logoutUser( {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future logoutUser() async {
     Object postBody = null;
 
     // verify required params are set
@@ -397,11 +369,7 @@ class UserApi {
   /// Updated user
   ///
   /// This can only be done by the logged in user.
-  Future updateUser(String username, User body,  {  bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  Future updateUser(String username, User body) async {
     Object postBody = body;
 
     // verify required params are set

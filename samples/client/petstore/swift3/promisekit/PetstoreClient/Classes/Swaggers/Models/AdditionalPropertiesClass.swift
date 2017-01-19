@@ -15,7 +15,7 @@ open class AdditionalPropertiesClass: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["map_property"] = self.mapProperty?.encodeToJSON()
         nillableDictionary["map_of_map_property"] = self.mapOfMapProperty?.encodeToJSON()

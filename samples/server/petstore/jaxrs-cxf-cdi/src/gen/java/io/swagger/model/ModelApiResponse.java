@@ -4,57 +4,90 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "ModelApiResponse", propOrder =
-	{ "code", "type", "message"
-})
+/**
+ * Describes the result of uploading an image resource
+ **/
 
-@XmlRootElement(name="ModelApiResponse")
-public class ModelApiResponse  {
+import io.swagger.annotations.*;
+import java.util.Objects;
+@ApiModel(description = "Describes the result of uploading an image resource")
+
+public class ModelApiResponse   {
   
-
-  @XmlElement(name="code")
   private Integer code = null;
-
-  @XmlElement(name="type")
   private String type = null;
-
-  @XmlElement(name="message")
   private String message = null;
 
   /**
    **/
+  public ModelApiResponse code(Integer code) {
+    this.code = code;
+    return this;
+  }
+
   
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
   public void setCode(Integer code) {
     this.code = code;
   }
+
   /**
    **/
+  public ModelApiResponse type(String type) {
+    this.type = type;
+    return this;
+  }
+
   
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("type")
   public String getType() {
     return type;
   }
   public void setType(String type) {
     this.type = type;
   }
+
   /**
    **/
+  public ModelApiResponse message(String message) {
+    this.message = message;
+    return this;
+  }
+
   
+  @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("message")
   public String getMessage() {
     return message;
   }
   public void setMessage(String message) {
     this.message = message;
+  }
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(code, _apiResponse.code) &&
+        Objects.equals(type, _apiResponse.type) &&
+        Objects.equals(message, _apiResponse.message);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(code, type, message);
   }
 
   @Override
@@ -73,7 +106,7 @@ public class ModelApiResponse  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

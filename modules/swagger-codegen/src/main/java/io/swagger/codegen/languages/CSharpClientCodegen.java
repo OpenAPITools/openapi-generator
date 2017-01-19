@@ -45,6 +45,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected Map<Character, String> regexModifiers;
     protected final Map<String, String> frameworks;
 
+    // By default, generated code is considered public
+    protected boolean nonPublicApi = Boolean.FALSE;
+
     public CSharpClientCodegen() {
         super();
         modelTemplateFiles.put("model.mustache", ".cs");
@@ -71,6 +74,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
                 null);
+
+        addOption(CodegenConstants.INTERFACE_PREFIX,
+                CodegenConstants.INTERFACE_PREFIX_DESC,
+                interfacePrefix);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -125,6 +132,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
                 CodegenConstants.PACKAGE_DESCRIPTION_DESC,
                 this.generatePropertyChanged);
+
+        // NOTE: This will reduce visibility of all public members in templates. Users can use InternalsVisibleTo
+        // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.internalsvisibletoattribute(v=vs.110).aspx
+        // to expose to shared code if the generated code is not embedded into another project. Otherwise, users of codegen
+        // should rely on default public visibility.
+        addSwitch(CodegenConstants.NON_PUBLIC_API,
+                CodegenConstants.NON_PUBLIC_API_DESC,
+                this.nonPublicApi);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
@@ -199,6 +214,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             } else {
                 setGeneratePropertyChanged(Boolean.valueOf(additionalProperties.get(CodegenConstants.GENERATE_PROPERTY_CHANGED).toString()));
             }
+
+            if(Boolean.FALSE.equals(this.generatePropertyChanged)) {
+                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
+            }
         }
 
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
@@ -222,6 +241,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_ASSEMBLY_INFO)) {
             setOptionalAssemblyInfoFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.OPTIONAL_ASSEMBLY_INFO).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
+            setNonPublicApi(Boolean.valueOf(additionalProperties.get(CodegenConstants.NON_PUBLIC_API).toString()));
         }
 
         final String testPackageName = testPackageName();
@@ -289,6 +312,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
             supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
+            supportingFiles.add(new SupportingFile("nuspec.mustache", packageFolder, packageName + ".nuspec"));
 
             if(Boolean.FALSE.equals(excludeTests)) {
                 // NOTE: This exists here rather than previous excludeTests block because the test project is considered an optional project file.
@@ -490,6 +514,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return "Empty";
+        }
+
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
             return camelize(getSymbolName(value));
@@ -541,6 +569,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setGeneratePropertyChanged(final Boolean generatePropertyChanged){
         this.generatePropertyChanged = generatePropertyChanged;
+    }
+
+    public boolean isNonPublicApi() {
+        return nonPublicApi;
+    }
+
+    public void setNonPublicApi(final boolean nonPublicApi) {
+        this.nonPublicApi = nonPublicApi;
     }
 
     @Override

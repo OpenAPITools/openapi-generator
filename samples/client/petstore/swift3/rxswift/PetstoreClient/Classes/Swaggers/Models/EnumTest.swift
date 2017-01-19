@@ -12,6 +12,7 @@ open class EnumTest: JSONEncodable {
     public enum EnumString: String { 
         case upper = "UPPER"
         case lower = "lower"
+        case empty = ""
     }
     public enum EnumInteger: Int32 { 
         case number1 = 1
@@ -24,15 +25,17 @@ open class EnumTest: JSONEncodable {
     public var enumString: EnumString?
     public var enumInteger: EnumInteger?
     public var enumNumber: EnumNumber?
+    public var outerEnum: OuterEnum?
 
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["enum_string"] = self.enumString?.rawValue
         nillableDictionary["enum_integer"] = self.enumInteger?.rawValue
         nillableDictionary["enum_number"] = self.enumNumber?.rawValue
+        nillableDictionary["outerEnum"] = self.outerEnum?.encodeToJSON()
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

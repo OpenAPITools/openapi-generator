@@ -15,7 +15,7 @@ open class ReadOnlyFirst: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["bar"] = self.bar
         nillableDictionary["baz"] = self.baz

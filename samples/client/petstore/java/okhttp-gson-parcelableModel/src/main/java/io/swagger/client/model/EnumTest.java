@@ -45,7 +45,10 @@ public class EnumTest  implements Parcelable {
     UPPER("UPPER"),
     
     @SerializedName("lower")
-    LOWER("lower");
+    LOWER("lower"),
+    
+    @SerializedName("")
+    EMPTY("");
 
     private String value;
 

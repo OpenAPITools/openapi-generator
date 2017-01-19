@@ -7,7 +7,9 @@ from setuptools import setup, find_packages
 
 NAME = "{{packageName}}"
 VERSION = "{{packageVersion}}"
-{{#apiInfo}}{{#apis}}{{^hasMore}}
+{{#apiInfo}}
+{{#apis}}
+{{^hasMore}}
 # To install the library, run the following
 #
 # python setup.py install
@@ -22,7 +24,7 @@ setup(
     version=VERSION,
     description="{{appName}}",
     author_email="{{infoEmail}}",
-    url="{{infoUrl}}",
+    url="{{packageUrl}}",
     keywords=["Swagger", "{{appName}}"],
     install_requires=REQUIRES,
     packages=find_packages(),
@@ -31,4 +33,6 @@ setup(
     {{appDescription}}
     """
 )
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{/hasMore}}
+{{/apis}}
+{{/apiInfo}}
