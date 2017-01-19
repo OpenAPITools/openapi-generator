@@ -142,6 +142,42 @@ class Configuration
     protected $sslVerification = true;
 
     /**
+     * Curl proxy host
+     *
+     * @var string
+     */
+    protected $proxyHost;
+
+    /**
+     * Curl proxy port
+     *
+     * @var integer
+     */
+    protected $proxyPort;
+
+    /**
+     * Curl proxy type, e.g. CURLPROXY_HTTP or CURLPROXY_SOCKS5
+     *
+     * @see https://secure.php.net/manual/en/function.curl-setopt.php
+     * @var integer
+     */
+    protected $proxyType;
+
+    /**
+     * Curl proxy username
+     *
+     * @var string
+     */
+    protected $proxyUser;
+
+    /**
+     * Curl proxy password
+     *
+     * @var string
+     */
+    protected $proxyPassword;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -412,6 +448,122 @@ class Configuration
     public function getCurlConnectTimeout()
     {
         return $this->curlConnectTimeout;
+    }
+
+
+    /**
+     * Sets the HTTP Proxy Host
+     *
+     * @param string $proxyHost HTTP Proxy URL
+     *
+     * @return ApiClient
+     */
+    public function setCurlProxyHost($proxyHost)
+    {
+        $this->proxyHost = $proxyHost;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Host
+     *
+     * @return string
+     */
+    public function getCurlProxyHost()
+    {
+        return $this->proxyHost;
+    }
+
+    /**
+     * Sets the HTTP Proxy Port
+     *
+     * @param integer $proxyPort HTTP Proxy Port
+     *
+     * @return ApiClient
+     */
+    public function setCurlProxyPort($proxyPort)
+    {
+        $this->proxyPort = $proxyPort;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Port
+     *
+     * @return integer
+     */
+    public function getCurlProxyPort()
+    {
+        return $this->proxyPort;
+    }
+
+    /**
+     * Sets the HTTP Proxy Type
+     *
+     * @param integer $proxyType HTTP Proxy Type
+     *
+     * @return ApiClient
+     */
+    public function setCurlProxyType($proxyType)
+    {
+        $this->proxyType = $proxyType;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Type
+     *
+     * @return integer
+     */
+    public function getCurlProxyType()
+    {
+        return $this->proxyType;
+    }
+
+    /**
+     * Sets the HTTP Proxy User
+     *
+     * @param string $proxyUser HTTP Proxy User
+     *
+     * @return ApiClient
+     */
+    public function setCurlProxyUser($proxyUser)
+    {
+        $this->proxyUser = $proxyUser;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy User
+     *
+     * @return string
+     */
+    public function getCurlProxyUser()
+    {
+        return $this->proxyUser;
+    }
+
+    /**
+     * Sets the HTTP Proxy Password
+     *
+     * @param string $proxyPassword HTTP Proxy Password
+     *
+     * @return ApiClient
+     */
+    public function setCurlProxyPassword($proxyPassword)
+    {
+        $this->proxyPassword = $proxyPassword;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Password
+     *
+     * @return string
+     */
+    public function getCurlProxyPassword()
+    {
+        return $this->proxyPassword;
     }
 
     /**
