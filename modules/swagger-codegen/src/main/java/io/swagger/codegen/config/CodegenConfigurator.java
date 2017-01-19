@@ -54,6 +54,7 @@ public class CodegenConfigurator {
     private String artifactId;
     private String artifactVersion;
     private String library;
+    private String ignoreFileOverride;
     private Map<String, String> systemProperties = new HashMap<String, String>();
     private Map<String, String> instantiationTypes = new HashMap<String, String>();
     private Map<String, String> typeMappings = new HashMap<String, String>();
@@ -356,7 +357,16 @@ public class CodegenConfigurator {
     public CodegenConfigurator addAdditionalReservedWordMapping(String key, String value) {
         this.reservedWordMappings.put(key, value);
         return this;
-    }    
+    }
+
+    public String getIgnoreFileOverride() {
+        return ignoreFileOverride;
+    }
+
+    public CodegenConfigurator setIgnoreFileOverride(final String ignoreFileOverride) {
+        this.ignoreFileOverride = ignoreFileOverride;
+        return this;
+    }
     
     public ClientOptInput toClientOptInput() {
 
@@ -371,6 +381,7 @@ public class CodegenConfigurator {
         config.setInputSpec(inputSpec);
         config.setOutputDir(outputDir);
         config.setSkipOverwrite(skipOverwrite);
+        config.setIgnoreFilePathOverride(ignoreFileOverride);
 
         config.instantiationTypes().putAll(instantiationTypes);
         config.typeMapping().putAll(typeMappings);

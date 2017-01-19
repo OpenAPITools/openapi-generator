@@ -49,6 +49,7 @@ mvn clean compile
 - `useJaxbAnnotations` - enable Jaxb annotations inside the generated models
 - `configOptions` - a map of language-specific parameters (see below)
 - `configHelp` - dumps the configuration help for the specified library (generates no sources)
+- `ignoreFileOverride` - specifies the full path to a `.swagger-codegen-ignore` used for pattern based overrides of generated outputs
 
 ### Custom Generator
 

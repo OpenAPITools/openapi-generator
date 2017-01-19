@@ -115,6 +115,8 @@ public class DefaultCodegen {
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
 
+    protected String ignoreFilePathOverride;
+
     public List<CliOption> cliOptions() {
         return cliOptions;
     }
@@ -3454,7 +3456,26 @@ public class DefaultCodegen {
 
         return booleanValue;
     }
-    
+
+    /**
+     * Provides an override location, if any is specified, for the .swagger-codegen-ignore.
+     *
+     * This is originally intended for the first generation only.
+     *
+     * @return a string of the full path to an override ignore file.
+     */
+    public String getIgnoreFilePathOverride() {
+        return ignoreFilePathOverride;
+    }
+
+    /**
+     * Sets an override location for the .swagger-codegen.ignore location for the first code generation.
+     *
+     * @param ignoreFileOverride The full path to an ignore file
+     */
+    public void setIgnoreFilePathOverride(final String ignoreFileOverride) {
+        this.ignoreFilePathOverride = ignoreFileOverride;
+    }
 
     public boolean convertPropertyToBoolean(String propertyKey) {
         boolean booleanValue = false;
