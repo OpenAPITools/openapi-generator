@@ -18,7 +18,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public abstract class StoreApiService {
-    public abstract Response deleteOrder( @Min(1.0)String orderId,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response deleteOrder(String orderId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response getInventory(SecurityContext securityContext) throws NotFoundException;
     public abstract Response getOrderById( @Min(1) @Max(5)Long orderId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response placeOrder(Order body,SecurityContext securityContext) throws NotFoundException;
