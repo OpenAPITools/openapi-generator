@@ -1,16 +1,10 @@
 package io.swagger.codegen.options;
 
-import static io.swagger.codegen.CodegenConstants.PACKAGE_NAME;
-import static io.swagger.codegen.CodegenConstants.PACKAGE_VERSION;
-import static io.swagger.codegen.CodegenConstants.RETURN_ICOLLECTION;
-import static io.swagger.codegen.CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG;
-import static io.swagger.codegen.CodegenConstants.SOURCE_FOLDER;
-import static io.swagger.codegen.CodegenConstants.USE_COLLECTION;
-import static io.swagger.codegen.CodegenConstants.USE_DATETIME_OFFSET;
-
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+
+import static io.swagger.codegen.CodegenConstants.*;
 
 public class NancyFXServerOptionsProvider implements OptionsProvider {
     public static final String PACKAGE_NAME_VALUE = "swagger_server_nancyfx";
@@ -32,6 +26,7 @@ public class NancyFXServerOptionsProvider implements OptionsProvider {
                 .put(USE_DATETIME_OFFSET, "true")
                 .put(USE_COLLECTION, "false")
                 .put(RETURN_ICOLLECTION, "false")
+                .put(INTERFACE_PREFIX, "X")
                 .build();
     }
 

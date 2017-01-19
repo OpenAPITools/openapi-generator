@@ -19,6 +19,12 @@ public class CodegenConstants {
     public static final String PHP_INVOKER_PACKAGE = "phpInvokerPackage";
     public static final String PHP_INVOKER_PACKAGE_DESC = "root package for generated php code";
 
+    public static final String PERL_MODULE_NAME = "perlModuleName";
+    public static final String PERL_MODULE_NAME_DESC = "root module name for generated perl code";
+
+    public static final String PYTHON_PACKAGE_NAME = "pythonPackageName";
+    public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
@@ -86,6 +92,9 @@ public class CodegenConstants {
     public static final String USE_COLLECTION = "useCollection";
     public static final String USE_COLLECTION_DESC = "Deserialize array types to Collection<T> instead of List<T>.";
 
+    public static final String INTERFACE_PREFIX = "interfacePrefix";
+    public static final String INTERFACE_PREFIX_DESC = "Prefix interfaces with a community standard or widely accepted prefix.";
+
     public static final String RETURN_ICOLLECTION = "returnICollection";
     public static final String RETURN_ICOLLECTION_DESC = "Return ICollection<T> instead of the concrete type.";
 
@@ -141,4 +150,7 @@ public class CodegenConstants {
 
     public static final String GENERATE_PROPERTY_CHANGED = "generatePropertyChanged";
     public static final String GENERATE_PROPERTY_CHANGED_DESC = "Specifies that models support raising property changed events.";
+
+    public static final String NON_PUBLIC_API = "nonPublicApi";
+    public static final String NON_PUBLIC_API_DESC = "Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.";
 }

@@ -177,8 +177,11 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        return name + "_";
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
     }
 
     @Override

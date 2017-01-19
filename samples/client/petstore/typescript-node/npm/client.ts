@@ -34,7 +34,7 @@ petApi.addPet(pet)
     })
     .then((res) => {
         console.log('Updated pet using POST form');
-        return petApi.uploadFile(petId, undefined, fs.createReadStream('sample.png'));
+        return petApi.uploadFile(petId, undefined, fs.readFileSync('sample.png'));
     })
     .then((res) => {
         console.log('Uploaded image');

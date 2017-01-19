@@ -85,10 +85,10 @@ object ApiInvoker {
 
   case object DateTimeSerializer extends CustomSerializer[DateTime](format => ( {
     case JString(s) =>
-      ISODateTimeFormat.dateTimeParser().parseDateTime(s)
+      ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s)
   }, {
     case d: DateTime =>
-      JString(ISODateTimeFormat.dateTimeParser().print(d))
+      JString(ISODateTimeFormat.dateTime().print(d))
   }))
 }
 

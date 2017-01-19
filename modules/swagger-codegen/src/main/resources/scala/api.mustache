@@ -113,7 +113,7 @@ class {{classname}}(val defBasePath: String = "{{basePath}}",
     try {
       apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
-          {{#returnType}} Some(ApiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
+          {{#returnType}} Some(apiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
         {{/returnType}} 
         case _ => None
       }

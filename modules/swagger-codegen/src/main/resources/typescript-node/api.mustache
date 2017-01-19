@@ -183,14 +183,6 @@ export class {{classname}} {
     }
 {{/isOAuth}}
 {{/authMethods}}
-    private extendObj<T1,T2>(objA: T1, objB: T2) {
-        for(let key in objB){
-            if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
-            }
-        }
-        return <T1&T2>objA;
-    }
 {{#operation}}
     /**
      * {{summary}}
@@ -201,7 +193,7 @@ export class {{classname}} {
         const localVarPath = this.basePath + '{{path}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 {{#allParams}}{{#required}}

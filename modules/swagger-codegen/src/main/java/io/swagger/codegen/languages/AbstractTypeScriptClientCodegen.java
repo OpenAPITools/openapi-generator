@@ -114,10 +114,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 	    return CodegenType.CLIENT;
 	}
 
-	@Override
-	public String escapeReservedWord(String name) {
-		return "_" + name;
-	}
+        @Override
+        public String escapeReservedWord(String name) {           
+            if(this.reservedWordsMappings().containsKey(name)) {
+                return this.reservedWordsMappings().get(name);
+            }
+            return "_" + name;
+        }
 
 	@Override
 	public String apiFileFolder() {
@@ -286,6 +289,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "Empty";
+        }
+
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
             return camelize(getSymbolName(name));

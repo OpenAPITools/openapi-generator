@@ -67,7 +67,7 @@ class EnumTest(object):
         :param enum_string: The enum_string of this EnumTest.
         :type: str
         """
-        allowed_values = ["UPPER", "lower"]
+        allowed_values = ["UPPER", "lower", ""]
         if enum_string not in allowed_values:
             raise ValueError(
                 "Invalid value for `enum_string` ({0}), must be one of {1}"
