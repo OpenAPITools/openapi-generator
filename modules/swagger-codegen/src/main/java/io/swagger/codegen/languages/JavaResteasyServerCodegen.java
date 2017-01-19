@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.codegen.languages.features.JbossFeature;
 import io.swagger.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
@@ -9,10 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.util.*;
 
-public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
+public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature, BeanValidationFeatures {
 
+    protected boolean useBeanValidation = true;
     protected boolean generateJbossDeploymentDescriptor = true;
-
+    
     public JavaResteasyServerCodegen() {
 
         super();
@@ -35,6 +37,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
         embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy";
 
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(
                 CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor"));
     }
@@ -57,6 +60,14 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
             boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(
                     GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
+        }
+        
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (useBeanValidation) {
+            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
         }
 
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -213,6 +224,10 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         }
 
         return objs;
+    }
+    
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
     }
 
     public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {

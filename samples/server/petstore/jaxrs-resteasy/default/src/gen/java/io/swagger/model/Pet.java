@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.List;
-
+import javax.validation.constraints.*;
 
 public class Pet   {
   
@@ -69,6 +69,7 @@ public class Pet   {
    **/
   
   @JsonProperty("name")
+  @NotNull
   public String getName() {
     return name;
   }
@@ -80,6 +81,7 @@ public class Pet   {
    **/
   
   @JsonProperty("photoUrls")
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
