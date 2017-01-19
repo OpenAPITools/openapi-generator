@@ -15,6 +15,8 @@ Method | HTTP request | Description
 
 To test \&quot;client\&quot; model
 
+To test \&quot;client\&quot; model
+
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
@@ -136,6 +138,8 @@ null (empty response body)
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
@@ -149,7 +153,7 @@ var opts = {
   'enumHeaderString': "-efg", // String | Header parameter enum test (string)
   'enumQueryStringArray': ["enumQueryStringArray_example"], // [String] | Query parameter enum test (string array)
   'enumQueryString': "-efg", // String | Query parameter enum test (string)
-  'enumQueryInteger': 3.4, // Number | Query parameter enum test (double)
+  'enumQueryInteger': 56, // Number | Query parameter enum test (double)
   'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
 };
 apiInstance.testEnumParameters(opts).then(function() {
