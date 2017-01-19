@@ -2,6 +2,7 @@ package io.swagger.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.languages.JavaCXFServerCodegen;
 import io.swagger.codegen.languages.JavaClientCodegen;
 
 import java.util.Map;
@@ -25,6 +26,8 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
     public static final String JODA_DATE_LIBRARY = "joda";
     public static final String IMPL_FOLDER_VALUE = "src/main/java/impl";
     public static final String JAXRS_DEFAULT_LIBRARY_VALUE = "jersey1";
+    public static final String USE_BEANVALIDATION = "true";
+    
 
     @Override
     public boolean isServer() {
@@ -60,7 +63,8 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
             .put(CodegenConstants.LIBRARY, JAXRS_DEFAULT_LIBRARY_VALUE)
             .put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true")
             //.put(JavaClientCodegen.DATE_LIBRARY, "joda")
-            .put("hideGenerationTimestamp", "true");
+            .put("hideGenerationTimestamp", "true")
+            .put(JavaCXFServerCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION);
 
         return builder.build();
     }

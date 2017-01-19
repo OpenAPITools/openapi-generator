@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.models.Operation;
 
 import java.util.*;
@@ -8,11 +9,12 @@ import java.util.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
-public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
+public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen implements BeanValidationFeatures {
 
     protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
-
+    protected boolean useBeanValidation = true;
+    
     /**
      * Default library template to use. (Default:{@value #DEFAULT_LIBRARY})
      */
@@ -45,6 +47,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
     }
 
     @Override
@@ -83,6 +86,14 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         // use default library if unset
         if (StringUtils.isEmpty(library)) {
             setLibrary(DEFAULT_LIBRARY);
+        }
+        
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (useBeanValidation) {
+            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
         }
 
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
@@ -159,6 +170,10 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         opList.add(co);
         co.baseName = basePath;
+    }
+    
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
     }
 
 }
