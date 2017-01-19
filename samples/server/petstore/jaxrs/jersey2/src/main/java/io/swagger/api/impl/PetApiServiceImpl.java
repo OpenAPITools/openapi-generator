@@ -16,7 +16,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
+import javax.validation.constraints.*;
 
 public class PetApiServiceImpl extends PetApiService {
     @Override
@@ -30,12 +30,12 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response findPetsByStatus(List<String> status, SecurityContext securityContext) throws NotFoundException {
+    public Response findPetsByStatus( @NotNull List<String> status, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response findPetsByTags(List<String> tags, SecurityContext securityContext) throws NotFoundException {
+    public Response findPetsByTags( @NotNull List<String> tags, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

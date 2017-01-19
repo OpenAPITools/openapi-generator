@@ -2385,7 +2385,7 @@ public class DefaultCodegen {
 
             // validation
             // handle maximum, minimum properly for int/long by removing the trailing ".0"
-            if ("integer".equals(type)) {
+            if ("integer".equals(qp.getType())) {
                 p.maximum = qp.getMaximum() == null ? null : String.valueOf(qp.getMaximum().longValue());
                 p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum().longValue());
             } else {
