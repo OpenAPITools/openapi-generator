@@ -55,6 +55,7 @@
 
     /**
      * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
      * @param {module:model/Client} body client model
      * @param {module:api/FakeApi~testClientModelCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
@@ -186,6 +187,7 @@
      */
 
     /**
+     * To test enum parameters
      * To test enum parameters
      * @param {Object} opts Optional parameters
      * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array)
