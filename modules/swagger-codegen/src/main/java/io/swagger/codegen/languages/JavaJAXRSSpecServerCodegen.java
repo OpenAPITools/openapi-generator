@@ -2,11 +2,12 @@ package io.swagger.codegen.languages;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConstants;
@@ -14,15 +15,18 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
+import io.swagger.models.properties.Property;
 import io.swagger.util.Json;
-import org.apache.commons.io.FileUtils;
 
-public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
-{	
-	public JavaJAXRSSpecServerCodegen()
-	{
+public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen implements BeanValidationFeatures
+{    
+    protected boolean useBeanValidation = true;
+    
+    public JavaJAXRSSpecServerCodegen()
+    {
         super();
         invokerPackage = "io.swagger.api";
         artifactId = "swagger-jaxrs-server";
@@ -67,26 +71,37 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
-	}
-	
-	@Override
-	public void processOpts()
-	{
-		super.processOpts();
+        
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+    }
+    
+    @Override
+    public void processOpts()
+    {
+        super.processOpts();
+        
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
 
-		supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
+        if (useBeanValidation) {
+            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        }
+        
+        supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         
         writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
         
-	} 
+    } 
+    
 
-	@Override
-	public String getName()
-	{
-		return "jaxrs-spec";
-	}
+    @Override
+    public String getName()
+    {
+        return "jaxrs-spec";
+    }
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
@@ -127,16 +142,16 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("JsonProperty");
     }
     
-	@Override
+    @Override
     public void preprocessSwagger(Swagger swagger) {
-		//copy input swagger to output folder 
-    	try {
-			String swaggerJson = Json.pretty(swagger);
+        //copy input swagger to output folder 
+        try {
+            String swaggerJson = Json.pretty(swagger);
             FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
-		} catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e.getCause());
-		}
-		super.preprocessSwagger(swagger);
+        }
+        super.preprocessSwagger(swagger);
 
     }
     @Override
@@ -144,4 +159,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
+    
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
+    }
+    
 }
