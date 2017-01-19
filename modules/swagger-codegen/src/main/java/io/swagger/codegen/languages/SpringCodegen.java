@@ -14,6 +14,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
@@ -26,6 +27,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
     protected String configPackage = "io.swagger.configuration";
     protected String basePackage = "io.swagger";
     protected boolean interfaceOnly = false;
+    protected boolean delegatePattern = false;
     protected boolean singleContentTypes = false;
     protected boolean java8 = false;
     protected boolean async = false;
@@ -52,6 +54,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
+        cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern"));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
@@ -111,6 +114,10 @@ public class SpringCodegen extends AbstractJavaCodegen {
             this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
 
+        if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
+            this.setDelegatePattern(Boolean.valueOf(additionalProperties.get(DELEGATE_PATTERN).toString()));
+        }
+
         if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
             this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
         }
@@ -133,6 +140,11 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        if (this.interfaceOnly && this.delegatePattern) {
+            throw new IllegalArgumentException(
+                    String.format("Can not generate code with `%s` and `%s` both true.", DELEGATE_PATTERN, INTERFACE_ONLY));
+        }
 
         if (!this.interfaceOnly) {
             if (library.equals(DEFAULT_LIBRARY)) {
@@ -182,6 +194,16 @@ public class SpringCodegen extends AbstractJavaCodegen {
                 supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));
             }
+        }
+
+        if (!this.delegatePattern && this.java8) {
+            additionalProperties.put("jdk8-no-delegate", true);
+        }
+
+
+        if (this.delegatePattern) {
+            additionalProperties.put("isDelegate", "true");
+            apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
         }
 
         if (this.java8) {
@@ -396,6 +418,8 @@ public class SpringCodegen extends AbstractJavaCodegen {
     }
 
     public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
+
+    public void setDelegatePattern(boolean delegatePattern) { this.delegatePattern = delegatePattern; }
 
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;

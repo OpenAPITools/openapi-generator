@@ -1,7 +1,7 @@
 package io.swagger.api;
 
-import io.swagger.model.User;
 import java.util.List;
+import io.swagger.model.User;
 
 import io.swagger.annotations.*;
 
@@ -21,6 +21,8 @@ import java.util.List;
 
 @Controller
 public class UserApiController implements UserApi {
+
+
 
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body) {
         // do some magic!
