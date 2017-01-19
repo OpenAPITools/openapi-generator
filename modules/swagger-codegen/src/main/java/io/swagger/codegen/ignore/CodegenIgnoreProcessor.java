@@ -8,34 +8,71 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+/**
+ * Presents a processing utility for parsing and evaluating files containing common ignore patterns. (.swagger-codegen-ignore)
+ */
 public class CodegenIgnoreProcessor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CodegenIgnoreProcessor.class);
-    private final String outputPath;
+
+    private File ignoreFile = null;
+
     private List<Rule> exclusionRules = new ArrayList<>();
     private List<Rule> inclusionRules = new ArrayList<>();
 
-    public CodegenIgnoreProcessor(String outputPath) {
-        this.outputPath = outputPath;
-        final File directory = new File(outputPath);
-        if(directory.exists() && directory.isDirectory()){
-            final File codegenIgnore = new File(directory, ".swagger-codegen-ignore");
-            if(codegenIgnore.exists() && codegenIgnore.isFile()){
-                try {
-                    loadCodegenRules(codegenIgnore);
-                } catch (IOException e) {
-                    LOGGER.error("Could not process .swagger-codegen-ignore.", e.getMessage());
-                }
-            } else {
-                // log info message
-                LOGGER.info("No .swagger-codegen-ignore file found.");
-            }
+    /**
+     * Loads the default ignore file (.swagger-codegen-ignore) from the specified path.
+     *
+     * @param baseDirectory The base directory of the files to be processed. This contains the ignore file.
+     */
+    public CodegenIgnoreProcessor(final String baseDirectory) {
+        this(baseDirectory, ".swagger-codegen-ignore");
+    }
+
+    /**
+     * Loads the specified ignore file by name ([ignoreFile]) from the specified path.
+     *
+     * @param baseDirectory The base directory of the files to be processed. This contains the ignore file.
+     * @param ignoreFile    The file containing ignore patterns.
+     */
+    @SuppressWarnings("WeakerAccess")
+    public CodegenIgnoreProcessor(final String baseDirectory, final String ignoreFile) {
+        final File directory = new File(baseDirectory);
+        final File targetIgnoreFile = new File(directory, ignoreFile);
+        if (directory.exists() && directory.isDirectory()) {
+            loadFromFile(targetIgnoreFile);
+        } else {
+            LOGGER.warn("Directory does not exist, or is inaccessible. No file will be evaluated.");
         }
     }
 
-    void loadCodegenRules(File codegenIgnore) throws IOException {
+    /**
+     * Constructs an instance of {@link CodegenIgnoreProcessor} from an ignore file defined by {@code targetIgnoreFile}.
+     *
+     * @param targetIgnoreFile The ignore file location.
+     */
+    public CodegenIgnoreProcessor(final File targetIgnoreFile) {
+        loadFromFile(targetIgnoreFile);
+    }
+
+    private void loadFromFile(File targetIgnoreFile) {
+        if (targetIgnoreFile.exists() && targetIgnoreFile.isFile()) {
+            try {
+                loadCodegenRules(targetIgnoreFile);
+                this.ignoreFile = targetIgnoreFile;
+            } catch (IOException e) {
+                LOGGER.error(String.format("Could not process %s.", targetIgnoreFile.getName()), e.getMessage());
+            }
+        } else {
+            // log info message
+            LOGGER.info(String.format("No %s file found.", targetIgnoreFile.getName()));
+        }
+    }
+
+    void loadCodegenRules(final File codegenIgnore) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(codegenIgnore))) {
             String line;
 
@@ -61,8 +98,17 @@ public class CodegenIgnoreProcessor {
         }
     }
 
-    public boolean allowsFile(File targetFile) {
-        File file = new File(new File(this.outputPath).toURI().relativize(targetFile.toURI()).getPath());
+    /**
+     * Determines whether or not a file defined by {@code toEvaluate} is allowed,
+     * under the exclusion rules from the ignore file being processed.
+     *
+     * @param targetFile The file to check against exclusion rules from the ignore file.
+     * @return {@code false} if file matches any pattern in the ignore file (disallowed), otherwise {@code true} (allowed).
+     */
+    public boolean allowsFile(final File targetFile) {
+        if(this.ignoreFile == null) return true;
+
+        File file = new File(this.ignoreFile.getParentFile().toURI().relativize(targetFile.toURI()).getPath());
         Boolean directoryExcluded = false;
         Boolean exclude = false;
         if(exclusionRules.size() == 0 && inclusionRules.size() == 0) {
@@ -124,10 +170,23 @@ public class CodegenIgnoreProcessor {
         return Boolean.FALSE.equals(exclude);
     }
 
+    /**
+     * Allows a consumer to manually inspect explicit "inclusion rules". That is, patterns in the ignore file which have been negated.
+     *
+     * @return A {@link ImmutableList#copyOf(Collection)} of rules which possibly negate exclusion rules in the ignore file.
+     */
     public List<Rule> getInclusionRules() {
         return ImmutableList.copyOf(inclusionRules);
     }
 
+    /**
+     * Allows a consumer to manually inspect all "exclusion rules". That is, patterns in the ignore file which represent
+     * files and directories to be excluded, unless explicitly overridden by {@link CodegenIgnoreProcessor#getInclusionRules()} rules.
+     *
+     * NOTE: Existence in this list doesn't mean a file is excluded. The rule can be overridden by {@link CodegenIgnoreProcessor#getInclusionRules()} rules.
+     *
+     * @return A {@link ImmutableList#copyOf(Collection)} of rules which define exclusions by patterns in the ignore file.
+     */
     public List<Rule> getExclusionRules() {
         return ImmutableList.copyOf(exclusionRules);
     }

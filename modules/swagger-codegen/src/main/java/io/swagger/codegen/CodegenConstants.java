@@ -153,4 +153,7 @@ public class CodegenConstants {
 
     public static final String NON_PUBLIC_API = "nonPublicApi";
     public static final String NON_PUBLIC_API_DESC = "Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.";
+
+    public static final String IGNORE_FILE_OVERRIDE = "ignoreFileOverride";
+    public static final String IGNORE_FILE_OVERRIDE_DESC = "Specifies an override location for the .swagger-codegen-ignore file. Most useful on initial generation.";
 }

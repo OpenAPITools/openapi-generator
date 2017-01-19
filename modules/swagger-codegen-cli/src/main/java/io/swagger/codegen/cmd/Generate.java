@@ -121,6 +121,9 @@ public class Generate implements Runnable {
     @Option(name = {"--reserved-words-mappings"}, title = "import mappings",
             description = "specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier")
     private String reservedWordsMappings;
+
+    @Option(name = {"--ignore-file-override"}, title = "ignore file override location", description = CodegenConstants.IGNORE_FILE_OVERRIDE_DESC)
+    private String ignoreFileOverride;
     
     @Override
     public void run() {
@@ -213,6 +216,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(httpUserAgent)) {
             configurator.setHttpUserAgent(httpUserAgent);
+        }
+
+        if (isNotEmpty(ignoreFileOverride)) {
+            configurator.setIgnoreFileOverride(ignoreFileOverride);
         }
 
         applySystemPropertiesKvp(systemProperties, configurator);
