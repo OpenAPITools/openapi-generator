@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.*;
 
 /**
  * Animal
@@ -43,6 +44,7 @@ public class Animal   {
   **/
   @JsonProperty("className")
   @ApiModelProperty(required = true, value = "")
+  @NotNull
   public String getClassName() {
     return className;
   }

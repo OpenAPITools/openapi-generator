@@ -23,6 +23,7 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 /**
  * Pet
@@ -129,6 +130,7 @@ public class Pet   {
   **/
   @JsonProperty("name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @NotNull
   public String getName() {
     return name;
   }
@@ -153,6 +155,7 @@ public class Pet   {
   **/
   @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }

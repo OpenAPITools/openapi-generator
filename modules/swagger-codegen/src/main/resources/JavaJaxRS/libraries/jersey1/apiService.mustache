@@ -18,7 +18,9 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 {{>generatedAnnotation}}
 {{#operations}}
 public abstract class {{classname}}Service {
