@@ -313,7 +313,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 
@@ -1021,6 +1024,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return "empty";
+        }
+
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
             return (getSymbolName(value)).toUpperCase();

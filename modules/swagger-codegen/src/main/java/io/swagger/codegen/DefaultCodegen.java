@@ -92,6 +92,7 @@ public class DefaultCodegen {
     protected Map<String, String> modelTestTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> apiDocTemplateFiles = new HashMap<String, String>();
     protected Map<String, String> modelDocTemplateFiles = new HashMap<String, String>();
+    protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
     protected String commonTemplateDir = "_common";
@@ -185,12 +186,18 @@ public class DefaultCodegen {
             for (String name : allModels.keySet()) {
                 CodegenModel cm = allModels.get(name);
                 CodegenModel parent = allModels.get(cm.parent);
+                // if a discriminator exists on the parent, don't add this child to the inheritance heirarchy
+                // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
                 while (parent != null) {
                     if (parent.children == null) {
-                        parent.children = new ArrayList<CodegenModel>();
+                       parent.children = new ArrayList<CodegenModel>();
                     }
                     parent.children.add(cm);
-                    parent = allModels.get(parent.parent);
+                    if (parent.discriminator == null) {
+                        parent = allModels.get(parent.parent);
+                    } else {
+                        parent = null;
+                    }
                 }
             }
         }
@@ -303,6 +310,10 @@ public class DefaultCodegen {
      * @return the sanitized variable name for enum
      */
     public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return "EMPTY";
+        }
+
         String var = value.replaceAll("\\W+", "_").toUpperCase();
         if (var.matches("\\d.*")) {
             return "_" + var;
@@ -346,7 +357,7 @@ public class DefaultCodegen {
     // override with any special handling of the JMustache compiler
     @SuppressWarnings("unused")
     public Compiler processCompiler(Compiler compiler) {
-    	return compiler;
+        return compiler;
     }
 
     // override with any special text escaping logic
@@ -463,6 +474,10 @@ public class DefaultCodegen {
 
     public Map<String, String> modelDocTemplateFiles() {
         return modelDocTemplateFiles;
+    }
+    
+    public Map<String, String> reservedWordsMappings() {
+        return reservedWordsMappings;
     }
 
     public Map<String, String> apiTestTemplateFiles() {
@@ -1261,6 +1276,18 @@ public class DefaultCodegen {
                 allProperties = new LinkedHashMap<String, Property>();
                 allRequired = new ArrayList<String>();
                 m.allVars = new ArrayList<CodegenProperty>();
+                int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
+                for (Model innerModel: ((ComposedModel)model).getAllOf()) {
+                    if (innerModel instanceof ModelImpl) {
+                        if (m.discriminator == null) {
+                            m.discriminator = ((ModelImpl) innerModel).getDiscriminator();
+                        }
+                        if (modelImplCnt++ > 1) {
+                            LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
+                            break; // only one ModelImpl with discriminator allowed in allOf
+                        }
+                    }
+                }
             } else {
                 allProperties = null;
                 allRequired = null;
@@ -1436,6 +1463,7 @@ public class DefaultCodegen {
         property.nameInCamelCase = camelize(property.name, false);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
+        property.title = p.getTitle();
         property.getter = "get" + getterAndSetterCapitalize(name);
         property.setter = "set" + getterAndSetterCapitalize(name);
         property.example = toExampleValue(p);
@@ -1680,16 +1708,18 @@ public class DefaultCodegen {
 
         property.baseType = getSwaggerType(p);
 
-      	if (p instanceof ArrayProperty) {
+          if (p instanceof ArrayProperty) {
             property.isContainer = true;
             property.isListContainer = true;
             property.containerType = "array";
             property.baseType = getSwaggerType(p);
             // handle inner property
             ArrayProperty ap = (ArrayProperty) p;
+            property.maxItems = ap.getMaxItems();
+            property.minItems = ap.getMinItems();
             CodegenProperty cp = fromProperty(property.name, ap.getItems());
             updatePropertyForArray(property, cp);
-      	} else if (p instanceof MapProperty) {
+          } else if (p instanceof MapProperty) {
             property.isContainer = true;
             property.isMapContainer = true;
             property.containerType = "map";
@@ -1876,7 +1906,7 @@ public class DefaultCodegen {
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions) {
-    	return fromOperation(path, httpMethod, operation, definitions, null);
+        return fromOperation(path, httpMethod, operation, definitions, null);
     }
 
     /**
@@ -2184,6 +2214,7 @@ public class DefaultCodegen {
         r.schema = response.getSchema();
         r.examples = toExamples(response.getExamples());
         r.jsonSchema = Json.pretty(response);
+        r.vendorExtensions = response.getVendorExtensions();
         addHeaders(response, r.headers);
 
         if (r.schema != null) {
@@ -2242,16 +2273,25 @@ public class DefaultCodegen {
         p.jsonSchema = Json.pretty(param);
 
         if (System.getProperty("debugParser") != null) {
-            LOGGER.info("working on Parameter " + param);
+            LOGGER.info("working on Parameter " + param.getName());
         }
 
         // move the defaultValue for headers, forms and params
         if (param instanceof QueryParameter) {
-            p.defaultValue = ((QueryParameter) param).getDefaultValue();
+            QueryParameter qp = (QueryParameter) param;
+            if(qp.getDefaultValue() != null) {
+                p.defaultValue = qp.getDefaultValue().toString();
+            }
         } else if (param instanceof HeaderParameter) {
-            p.defaultValue = ((HeaderParameter) param).getDefaultValue();
+            HeaderParameter hp = (HeaderParameter) param;
+            if(hp.getDefaultValue() != null) {
+                p.defaultValue = hp.getDefaultValue().toString();
+            }
         } else if (param instanceof FormParameter) {
-            p.defaultValue = ((FormParameter) param).getDefaultValue();
+            FormParameter fp = (FormParameter) param;
+            if(fp.getDefaultValue() != null) {
+                p.defaultValue = fp.getDefaultValue().toString();
+            }
         }
 
         p.vendorExtensions = param.getVendorExtensions();
@@ -2262,7 +2302,7 @@ public class DefaultCodegen {
             String collectionFormat = null;
             String type = qp.getType();
             if (null == type) {
-                LOGGER.warn("Type is NULL for Serializable Parameter: " + param);
+                LOGGER.warn("Type is NULL for Serializable Parameter: " + param.getName());
             }
             if ("array".equals(type)) { // for array parameter
                 Property inner = qp.getItems();
@@ -2522,7 +2562,7 @@ public class DefaultCodegen {
     @SuppressWarnings("static-method")
     public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
         if (schemes == null) {
-        	return Collections.emptyList();
+            return Collections.emptyList();
         }
 
         List<CodegenSecurity> secs = new ArrayList<CodegenSecurity>(schemes.size());
@@ -2546,8 +2586,8 @@ public class DefaultCodegen {
                 sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isOAuth = false;
                 sec.isBasic = true;
             } else {
-            	final OAuth2Definition oauth2Definition = (OAuth2Definition) schemeDefinition;
-            	sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
+                final OAuth2Definition oauth2Definition = (OAuth2Definition) schemeDefinition;
+                sec.isKeyInHeader = sec.isKeyInQuery = sec.isApiKey = sec.isBasic = false;
                 sec.isOAuth = true;
                 sec.flow = oauth2Definition.getFlow();
                 if (sec.flow == null) {
@@ -3182,11 +3222,11 @@ public class DefaultCodegen {
         // encountered so far and hopefully make it easier for others to add more special
         // cases in the future.
 
-    	// better error handling when map/array type is invalid
-    	if (name == null) {
-    	    LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
-    	    return "ERROR_UNKNOWN";
-    	}
+        // better error handling when map/array type is invalid
+        if (name == null) {
+            LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
+            return "ERROR_UNKNOWN";
+        }
 
         // if the name is just '$', map it to 'value' for the time being.
         if ("$".equals(name)) {
@@ -3407,11 +3447,25 @@ public class DefaultCodegen {
     public boolean convertPropertyToBooleanAndWriteBack(String propertyKey) {
         boolean booleanValue = false;
         if (additionalProperties.containsKey(propertyKey)) {
-            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
+            booleanValue = convertPropertyToBoolean(propertyKey);
             // write back as boolean
-            additionalProperties.put(propertyKey, booleanValue);
+            writePropertyBack(propertyKey, booleanValue);
         }
 
         return booleanValue;
+    }
+    
+
+    public boolean convertPropertyToBoolean(String propertyKey) {
+        boolean booleanValue = false;
+        if (additionalProperties.containsKey(propertyKey)) {
+            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
+        }
+
+        return booleanValue;
+    }
+    
+    public void writePropertyBack(String propertyKey, boolean value) {
+        additionalProperties.put(propertyKey, value);
     }
 }

@@ -22,9 +22,9 @@
 
 #include "ApiClient.h"
 
-#include "Order.h"
-#include <map>
 #include <cpprest/details/basic_types.h>
+#include <map>
+#include "Order.h"
 
 namespace io {
 namespace swagger {

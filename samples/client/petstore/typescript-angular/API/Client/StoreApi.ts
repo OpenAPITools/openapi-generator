@@ -29,15 +29,6 @@ namespace API.Client {
             }
         }
 
-        private extendObj<T1,T2>(objA: T1, objB: T2) {
-            for(let key in objB){
-                if(objB.hasOwnProperty(key)){
-                    objA[key] = objB[key];
-                }
-            }
-            return <T1&T2>objA;
-        }
-
         /**
          * Delete purchase order by ID
          * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -48,21 +39,20 @@ namespace API.Client {
                 .replace('{' + 'orderId' + '}', String(orderId));
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
             // verify required parameter 'orderId' is not null or undefined
             if (orderId === null || orderId === undefined) {
                 throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
             }
-            let httpRequestParams: any = {
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'DELETE',
                 url: localVarPath,
-                json: true,
                                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -75,17 +65,16 @@ namespace API.Client {
             const localVarPath = this.basePath + '/store/inventory';
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'GET',
                 url: localVarPath,
-                json: true,
                                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -100,21 +89,20 @@ namespace API.Client {
                 .replace('{' + 'orderId' + '}', String(orderId));
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
             // verify required parameter 'orderId' is not null or undefined
             if (orderId === null || orderId === undefined) {
                 throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
             }
-            let httpRequestParams: any = {
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'GET',
                 url: localVarPath,
-                json: true,
                                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);
@@ -128,18 +116,17 @@ namespace API.Client {
             const localVarPath = this.basePath + '/store/order';
 
             let queryParameters: any = {};
-            let headerParams: any = this.extendObj({}, this.defaultHeaders);
-            let httpRequestParams: any = {
+            let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+            let httpRequestParams: ng.IRequestConfig = {
                 method: 'POST',
                 url: localVarPath,
-                json: true,
                 data: body,
                                 params: queryParameters,
                 headers: headerParams
             };
 
             if (extraHttpRequestParams) {
-                httpRequestParams = this.extendObj(httpRequestParams, extraHttpRequestParams);
+                httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
             }
 
             return this.$http(httpRequestParams);

@@ -60,6 +60,8 @@ public class CodegenConfigurator {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
+    private Map<String, String>  reservedWordMappings = new HashMap<String, String>();
+    
     private String gitUserId="GIT_USER_ID";
     private String gitRepoId="GIT_REPO_ID";
     private String releaseNote="Minor update";
@@ -263,7 +265,7 @@ public class CodegenConfigurator {
         this.additionalProperties = additionalProperties;
         return this;
     }
-
+    
     public CodegenConfigurator addAdditionalProperty(String key, Object value) {
         this.additionalProperties.put(key, value);
         return this;
@@ -341,7 +343,21 @@ public class CodegenConfigurator {
         this.httpUserAgent= httpUserAgent;
         return this;
     }
-
+    
+    public  Map<String, String> getReservedWordsMappings() {
+        return reservedWordMappings;
+    }
+    
+    public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordsMappings) {
+        this.reservedWordMappings = reservedWordsMappings;
+        return this;
+    }
+    
+    public CodegenConfigurator addAdditionalReservedWordMapping(String key, String value) {
+        this.reservedWordMappings.put(key, value);
+        return this;
+    }    
+    
     public ClientOptInput toClientOptInput() {
 
         Validate.notEmpty(lang, "language must be specified");
@@ -360,7 +376,8 @@ public class CodegenConfigurator {
         config.typeMapping().putAll(typeMappings);
         config.importMapping().putAll(importMappings);
         config.languageSpecificPrimitives().addAll(languageSpecificPrimitives);
-
+        config.reservedWordsMappings().putAll(reservedWordMappings);
+        
         checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
         checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
         checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);

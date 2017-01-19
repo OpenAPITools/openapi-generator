@@ -21,6 +21,7 @@ import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyImportMapp
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvp;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsv;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvp;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvp;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
@@ -283,6 +284,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if(configOptions.containsKey("additional-properties")) {
                 applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(), configurator);
+            }
+            
+            if(configOptions.containsKey("reserved-words-mappings")) {
+                applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings").toString(), configurator);
             }
         }
 

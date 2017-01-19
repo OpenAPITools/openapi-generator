@@ -15,8 +15,8 @@
 ## Overview
 This is the swagger codegen project, which allows generation of API client libraries (SDK generation), server stubs and documentation automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification). Currently, the following languages/frameworks are supported:
 
-- **API clients**: **ActionScript**, **C#** (.net 2.0, 4.0 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart**, **Go**, **Groovy**, **Haskell**, **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign), **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations) **Objective-C**, **Perl**, **PHP**, **Python**, **Ruby**, **Scala**, **Swift** (2.x, 3.x), **Typescript** (Angular1.x, Angular2.x, Fetch, Node)
-- **Server stubs**: **C#** (ASP.NET Core, NancyFx), **Erlang**, **Go**, **Haskell**, **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy), **PHP** (Lumen, Slim, Silex), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Scala** (Scalatra)
+- **API clients**: **ActionScript**, **Bash**, **C#** (.net 2.0, 4.0 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart**, **Go**, **Groovy**, **Haskell**, **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign), **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations) **Objective-C**, **Perl**, **PHP**, **Python**, **Ruby**, **Scala**, **Swift** (2.x, 3.x), **Typescript** (Angular1.x, Angular2.x, Fetch, Node)
+- **Server stubs**: **C#** (ASP.NET Core, NancyFx), **Erlang**, **Go**, **Haskell**, **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy), **PHP** (Lumen, Slim, Silex, [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Scala** (Scalatra)
 - **API documentation generators**: **HTML**, **Confluence Wiki** 
 - **Others**: **JMeter**
 
@@ -289,6 +289,10 @@ OPTIONS
             the format of swaggerType=generatedType,swaggerType=generatedType.
             For example: array=List,map=Map,string=String
 
+        --reserved-words-mappings <import mappings>
+            specifies how a reserved name should be escaped to. Otherwise, the
+            default _<name> is used. For example id=identifier
+            
         -v, --verbose
             verbose mode
 
@@ -330,6 +334,10 @@ You would then compile your library in the `output/myLibrary` folder with `mvn p
 
 ```
 java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar:modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.SwaggerCodegen
+```
+For Windows users, you will need to use `;` instead of `:` in the classpath, e.g.
+```
+java -cp output/myLibrary/target/myClientCodegen-swagger-codegen-1.0.0.jar;modules/swagger-codegen-cli/target/swagger-codegen-cli.jar io.swagger.codegen.SwaggerCodegen
 ```
 
 Note the `myClientCodegen` is an option now, and you can use the usual arguments for generating your library:
@@ -459,6 +467,7 @@ AndroidClientCodegen.java
 AspNet5ServerCodegen.java
 AspNetCoreServerCodegen.java
 AsyncScalaClientCodegen.java
+BashClientCodegen.java
 CSharpClientCodegen.java
 ClojureClientCodegen.java
 CsharpDotNet2ClientCodegen.java
@@ -775,6 +784,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [eureka](http://eure.jp/)
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
+- [Fastly](https://www.fastly.com/)
 - [Flat](https://flat.io)
 - [Finder](http://en.finder.pl/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
@@ -783,6 +793,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [goTransverse](http://www.gotransverse.com/api)
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
+- [High Technologies Center](http://htc-cs.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
 - [Intent HQ](http://www.intenthq.com)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
@@ -820,6 +831,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Shine Solutions](https://shinesolutions.com/)
 - [Skurt](http://www.skurt.com)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
+- [snapCX](https://snapcx.io)
 - [SRC](https://www.src.si/)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
@@ -830,6 +842,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [VMware](https://vmware.com/)
 - [W.UP](http://wup.hu/?siteLang=en)
 - [Wealthfront](https://www.wealthfront.com/)
+- [Webever GmbH](https://www.webever.de/)
 - [WEXO A/S](https://www.wexo.dk/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
@@ -885,6 +898,7 @@ Swagger Codegen core team members are contributors who have been making signific
 Here is a list of template creators:
  * API Clients:
    * Akka-Scala: @cchafer
+   * Bash: @bkryza
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * Clojure: @xhh
@@ -920,6 +934,7 @@ Here is a list of template creators:
    * JAX-RS CXF (CDI): @nickcmaynard
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
+   * PHP Zend Expressive (with Path Handler): @Articus
    * Ruby on Rails 5: @zlx
  * Documentation
    * HTML Doc 2: @jhitchcock
@@ -970,7 +985,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 License
 -------
 
-Copyright 2016 SmartBear Software
+Copyright 2017 SmartBear Software
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
