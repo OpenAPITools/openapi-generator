@@ -1,7 +1,7 @@
 package io.swagger.api;
 
-import io.swagger.model.User;
 import java.util.List;
+import io.swagger.model.User;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
