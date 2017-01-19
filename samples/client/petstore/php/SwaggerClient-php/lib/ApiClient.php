@@ -179,6 +179,22 @@ class ApiClient
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         }
 
+        if ($this->config->getCurlProxyHost()) {
+            curl_setopt($curl, CURLOPT_PROXY, $this->config->getCurlProxyHost());
+        }
+
+        if ($this->config->getCurlProxyPort()) {
+            curl_setopt($curl, CURLOPT_PROXYPORT, $this->config->getCurlProxyPort());
+        }
+
+        if ($this->config->getCurlProxyType()) {
+            curl_setopt($curl, CURLOPT_PROXYTYPE, $this->config->getCurlProxyType());
+        }
+
+        if ($this->config->getCurlProxyUser()) {
+            curl_setopt($curl, CURLOPT_PROXYUSERPWD, $this->config->getCurlProxyUser() . ':' .$this->config->getCurlProxyPassword());
+        }
+
         if (!empty($queryParams)) {
             $url = ($url . '?' . http_build_query($queryParams));
         }
