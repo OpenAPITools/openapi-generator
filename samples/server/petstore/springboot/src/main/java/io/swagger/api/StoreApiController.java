@@ -22,6 +22,8 @@ import java.util.List;
 @Controller
 public class StoreApiController implements StoreApi {
 
+
+
     public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);

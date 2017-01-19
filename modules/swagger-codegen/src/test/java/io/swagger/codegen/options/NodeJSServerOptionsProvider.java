@@ -1,7 +1,7 @@
 package io.swagger.codegen.options;
 
 import io.swagger.codegen.CodegenConstants;
-
+import io.swagger.codegen.languages.NodeJSServerCodegen;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
@@ -9,6 +9,8 @@ import java.util.Map;
 public class NodeJSServerOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
+    public static final String GOOGLE_CLOUD_FUNCTIONS = "false";
+    public static final String EXPORTED_NAME = "exported";
 
     @Override
     public String getLanguage() {
@@ -20,6 +22,8 @@ public class NodeJSServerOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
+                .put(NodeJSServerCodegen.GOOGLE_CLOUD_FUNCTIONS, GOOGLE_CLOUD_FUNCTIONS)
+                .put(NodeJSServerCodegen.EXPORTED_NAME, EXPORTED_NAME)
                 .build();
     }
 

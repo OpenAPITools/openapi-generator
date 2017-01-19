@@ -479,4 +479,20 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('red', $dog->getColor());
         $this->assertSame('red', $animal->getColor());
     }
+
+    // Ensure that API Classes pickup ApiClient defaults to prevent regressions of PR #4525
+    public function testHostOverride()
+    {
+        $orig_default = Configuration::getDefaultConfiguration();
+        $new_default  = new Configuration();
+        
+        $new_default->setHost("http://localhost/whatever");
+        Configuration::setDefaultConfiguration($new_default);
+
+        $pet_api  = new Api\PetApi();
+        $pet_host = $pet_api->getApiClient()->getConfig()->getHost();
+        $this->assertSame($pet_host, $new_default->getHost());
+
+        Configuration::setDefaultConfiguration($orig_default); // Reset to original to prevent failure of other tests that rely on this state
+    }
 }

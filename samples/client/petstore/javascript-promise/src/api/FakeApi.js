@@ -9,17 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 (function(root, factory) {
@@ -58,6 +47,7 @@
 
 
     /**
+     * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
      * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
@@ -176,6 +166,7 @@
 
     /**
      * To test enum parameters
+     * To test enum parameters
      * @param {Object} opts Optional parameters
      * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array)
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to -efg)
@@ -210,8 +201,8 @@
       };
 
       var authNames = [];
-      var contentTypes = ['application/json'];
-      var accepts = ['application/json'];
+      var contentTypes = ['*/*'];
+      var accepts = ['*/*'];
       var returnType = null;
 
       return this.apiClient.callApi(

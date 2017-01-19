@@ -15,6 +15,8 @@ Method | HTTP request | Description
 
 To test \&quot;client\&quot; model
 
+To test \&quot;client\&quot; model
+
 ### Example
 ```java
 // Import classes:
@@ -54,7 +56,7 @@ No authorization required
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**
-> testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password)
+> testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -90,8 +92,9 @@ byte[] binary = B; // byte[] | None
 LocalDate date = new LocalDate(); // LocalDate | None
 OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
 String password = "password_example"; // String | None
+String paramCallback = "paramCallback_example"; // String | None
 try {
-    apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password);
+    apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testEndpointParameters");
     e.printStackTrace();
@@ -115,6 +118,7 @@ Name | Type | Description  | Notes
  **date** | **LocalDate**| None | [optional]
  **dateTime** | **OffsetDateTime**| None | [optional]
  **password** | **String**| None | [optional]
+ **paramCallback** | **String**| None | [optional]
 
 ### Return type
 
@@ -135,6 +139,8 @@ null (empty response body)
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example
 ```java
 // Import classes:
@@ -149,7 +155,7 @@ List<String> enumHeaderStringArray = Arrays.asList("enumHeaderStringArray_exampl
 String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
 List<String> enumQueryStringArray = Arrays.asList("enumQueryStringArray_example"); // List<String> | Query parameter enum test (string array)
 String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-BigDecimal enumQueryInteger = new BigDecimal(); // BigDecimal | Query parameter enum test (double)
+Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
 Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
 try {
     apiInstance.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
@@ -169,7 +175,7 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryInteger** | **BigDecimal**| Query parameter enum test (double) | [optional]
+ **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional]
 
 ### Return type
@@ -182,6 +188,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: */*
+ - **Accept**: */*
 

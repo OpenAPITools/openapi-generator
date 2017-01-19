@@ -23,7 +23,7 @@ open class EnumArrays: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["just_symbol"] = self.justSymbol?.rawValue
         nillableDictionary["array_enum"] = self.arrayEnum?.map({$0.rawValue}).encodeToJSON()

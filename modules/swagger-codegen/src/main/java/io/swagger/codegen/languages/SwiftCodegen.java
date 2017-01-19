@@ -101,6 +101,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
                 );
         reservedWords = new HashSet<String>(
                 Arrays.asList(
+                    // name used by swift client
+                    "ErrorResponse",
+
+                    // swift keywords
                     "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject",
                     "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
                     "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
@@ -228,11 +232,14 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean isReservedWord(String word) {
         return word != null && reservedWords.contains(word); //don't lowercase as super does
     }
-
+    
     @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name;  // add an underscore to the name
-    }
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name; // add an underscore to the name
+    }    
 
     @Override
     public String modelFileFolder() {
@@ -384,6 +391,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
     @SuppressWarnings("static-method")
     public String toSwiftyEnumName(String value) {
+        if (value.length() == 0) {
+            return "Empty";
+        }
+
         if (value.matches("^-?\\d*\\.{0,1}\\d+.*")) { // starts with number
             value = "Number" + value;
             value = value.replaceAll("-", "Minus");

@@ -8,9 +8,10 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import com.sun.jersey.multipart.FormDataParam;
+import javax.validation.constraints.*;
 
-import io.swagger.model.Client;
 import java.math.BigDecimal;
+import io.swagger.model.Client;
 import java.util.Date;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class FakeApi  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "", response = Client.class, tags={ "fake",  })
+    @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake",  })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Response testClientModel(
@@ -71,15 +72,16 @@ public class FakeApi  {
         @ApiParam(value = "None")  @FormParam("date")  Date date,
         @ApiParam(value = "None")  @FormParam("dateTime")  Date dateTime,
         @ApiParam(value = "None")  @FormParam("password")  String password,
+        @ApiParam(value = "None")  @FormParam("callback")  String paramCallback,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,integer,int32,int64,_float,string,binary,date,dateTime,password,securityContext);
+        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,integer,int32,int64,_float,string,binary,date,dateTime,password,paramCallback,securityContext);
     }
     @GET
     
-    @Consumes({ "application/json" })
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "", response = void.class, tags={ "fake" })
+    @Consumes({ "*/*" })
+    @Produces({ "*/*" })
+    @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = void.class, tags={ "fake" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = void.class) })
@@ -90,7 +92,7 @@ public class FakeApi  {
         @ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,
         @ApiParam(value = "Query parameter enum test (string array)", allowableValues=">, $") @QueryParam("enum_query_string_array") List<String> enumQueryStringArray,
         @ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @QueryParam("enum_query_string") String enumQueryString,
-        @ApiParam(value = "Query parameter enum test (double)") @QueryParam("enum_query_integer") BigDecimal enumQueryInteger,
+        @ApiParam(value = "Query parameter enum test (double)") @QueryParam("enum_query_integer") Integer enumQueryInteger,
         @ApiParam(value = "Query parameter enum test (double)")  @FormParam("enum_query_double")  Double enumQueryDouble,
         @Context SecurityContext securityContext)
     throws NotFoundException {

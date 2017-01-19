@@ -12,11 +12,7 @@ class {{classname}} {
   /// {{summary}}
   ///
   /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}, {{/required}}{{/allParams}} { {{#allParams}}{{^required}} {{{dataType}}} {{paramName}}, {{/required}}{{/allParams}} bool justIgnoreThisFlag: true}) async {
-    if (!justIgnoreThisFlag) {
-      print('Why???   Just trust me, I only need this variable inside the mustache codegen template.');
-      // This code may be removed as soon as dart accepts trailing spaces (has already been implemented).
-    }
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
 
     // verify required params are set

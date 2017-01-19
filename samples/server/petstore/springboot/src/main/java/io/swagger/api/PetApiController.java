@@ -1,8 +1,8 @@
 package io.swagger.api;
 
-import io.swagger.model.Pet;
-import io.swagger.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 
 import io.swagger.annotations.*;
 
@@ -22,6 +22,8 @@ import java.util.List;
 
 @Controller
 public class PetApiController implements PetApi {
+
+
 
     public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body) {
         // do some magic!

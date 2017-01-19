@@ -30,6 +30,25 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return Alamofire.SessionManager(configuration: configuration)
     }
 
+    /**
+     May be overridden by a subclass if you want to control the Content-Type
+     that is given to an uploaded form part.
+
+     Return nil to use the default behavior (inferring the Content-Type from
+     the file extension).  Return the desired Content-Type otherwise.
+     */
+    open func contentTypeForFormPart(fileURL: URL) -> String? {
+        return nil
+    }
+
+    /**
+     May be overridden by a subclass if you want to control the request
+     configuration (e.g. to override the cache policy).
+     */
+    open func makeRequest(manager: SessionManager, method: HTTPMethod, encoding: ParameterEncoding) -> DataRequest {
+        return manager.request(URLString, method: method, parameters: parameters, encoding: encoding)
+    }
+
     override open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) {
         let managerId:String = UUID().uuidString
         // Create a new manager for each request to customize its request header
@@ -47,7 +66,12 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 for (k, v) in self.parameters! {
                     switch v {
                     case let fileURL as URL:
-                        mpForm.append(fileURL, withName: k)
+                        if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
+                            mpForm.append(fileURL, withName: k, fileName: fileURL.lastPathComponent, mimeType: mimeType)
+                        }
+                        else {
+                            mpForm.append(fileURL, withName: k)
+                        }
                         break
                     case let string as String:
                         mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
@@ -72,7 +96,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 }
             })
         } else {
-            let request = manager.request(URLString, method: xMethod!, parameters: parameters, encoding: encoding)
+            let request = makeRequest(manager: manager, method: xMethod!, encoding: encoding)
             if let onProgressReady = self.onProgressReady {
                 onProgressReady(request.progress)
             }
@@ -100,7 +124,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if stringResponse.result.isFailure {
                     completion(
                         nil,
-                        ErrorResponse.Error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error!)
+                        ErrorResponse.Error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error as Error!)
                     )
                     return
                 }
@@ -159,6 +183,13 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 if response.result.isFailure {
                     completion(nil, ErrorResponse.Error(response.response?.statusCode ?? 500, response.data, response.result.error!))
                     return
+                }
+
+                // handle HTTP 204 No Content
+                // NSNull would crash decoders
+                if response.response?.statusCode == 204 && response.result.value is NSNull{
+                    completion(nil, nil)
+                    return;
                 }
 
                 if () is T {

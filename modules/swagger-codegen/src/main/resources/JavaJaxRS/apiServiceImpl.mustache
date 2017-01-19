@@ -15,7 +15,9 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}ServiceImpl extends {{classname}}Service {

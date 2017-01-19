@@ -16,18 +16,23 @@ extern NSInteger k{{classname}}MissingParamErrorCode;
 {{#operations}}
 {{#operation}}
 /// {{{summary}}}
-/// {{#notes}}{{{notes}}}{{/notes}}
+{{#notes}}
+/// {{{notes}}}
+{{/notes}}
 ///
-/// {{#allParams}}@param {{paramName}} {{description}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-/// {{/allParams}}{{#responses}}
-///  code:{{{code}}} message:"{{{message}}}"{{#hasMore}},{{/hasMore}}{{/responses}}
-///
+{{#allParams}}
+/// @param {{paramName}} {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/allParams}}
+{{#responses}}
+///  code:{{{code}}} message:"{{{message}}}"{{#hasMore}},{{/hasMore}}
+{{/responses}}
+{{#returnType}}
 /// @return {{{returnType}}}
--(NSNumber*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
+{{/returnType}}
+-(NSNumber*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{operationId}}{{#hasParams}}With{{vendorExtensions.firstParamAltName}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
     {{paramName}}{{/secondaryParam}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
     {{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) handler;
 
-{{newline}}
 {{/operation}}
 {{/operations}}
 

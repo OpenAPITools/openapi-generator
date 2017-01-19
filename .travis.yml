@@ -24,6 +24,12 @@ before_install:
   - docker pull swaggerapi/petstore
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   - docker ps -a
+  # Add bats test framework and cURL for Bash script integration tests
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats
+  - sudo apt-get install -qq curl
+
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
 
@@ -34,7 +40,15 @@ install:
    - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
 
 script:
+  # fail fast
+  - set -e
+  # fail if templates/generators contain carriage return '\r'
+  - /bin/bash ./bin/utils/detect_carriage_return.sh
+  # fail if generators contain tab '\t'
+  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
+  # run integration tests defined in maven pom.xml
   - mvn verify -Psamples
+  # docker test
   - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi && docker push $DOCKER_IMAGE_NAME; fi
 
 env:

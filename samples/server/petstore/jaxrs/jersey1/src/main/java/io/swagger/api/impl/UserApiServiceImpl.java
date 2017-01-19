@@ -5,8 +5,8 @@ import io.swagger.model.*;
 
 import com.sun.jersey.multipart.FormDataParam;
 
-import io.swagger.model.User;
 import java.util.List;
+import io.swagger.model.User;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -18,7 +18,7 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
+import javax.validation.constraints.*;
 
 public class UserApiServiceImpl extends UserApiService {
     @Override
@@ -52,7 +52,7 @@ public class UserApiServiceImpl extends UserApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response loginUser(String username, String password, SecurityContext securityContext)
+    public Response loginUser( @NotNull String username,  @NotNull String password, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

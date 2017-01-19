@@ -1,19 +1,24 @@
+{{>licenseInfo}}
+
 package {{package}};
 
+{{^supportJava6}}
 import java.util.Objects;
+{{/supportJava6}}
+{{#supportJava6}}
+import org.apache.commons.lang3.ObjectUtils;
+{{/supportJava6}}
 {{#imports}}import {{import}};
 {{/imports}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 
 {{#models}}
 {{#model}}
-{{#isEnum}}
-{{>enumOuterClass}}
-{{/isEnum}}
-{{^isEnum}}
-{{>pojo}}
-{{/isEnum}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}
 {{/model}}
 {{/models}}

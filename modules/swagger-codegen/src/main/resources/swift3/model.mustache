@@ -26,7 +26,7 @@ public enum {{classname}}: {{dataType}} {
 public typealias {{classname}} = {{dataType}}
 {{/vars.isEmpty}}
 {{^vars.isEmpty}}
-open class {{classname}}: JSONEncodable {
+open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}JSONEncodable{{/parent}} {
 {{#vars}}
 {{#isEnum}}
     public enum {{enumName}}: {{^isContainer}}{{datatype}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} { {{#allowableValues}}{{#enumVars}}
@@ -46,19 +46,20 @@ open class {{classname}}: JSONEncodable {
 {{/vars}}
 
 {{^unwrapRequired}}
-    public init() {}
+    {{^parent}}public init() {}{{/parent}}
 {{/unwrapRequired}}
 {{#unwrapRequired}}
     public init({{#allVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{^required}}?=nil{{/required}}{{/allVars}}) {
-        {{#allVars}}
+        {{#vars}}
         self.{{name}} = {{name}}
-        {{/allVars}}
+        {{/vars}}
+        {{#parent}}super.init({{#parentVars}}{{^-first}}, {{/-first}}{{name}}: {{name}}{{/parentVars}}){{/parent}}
     }
 {{/unwrapRequired}}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}{{#isInteger}}
+    {{#parent}}override {{/parent}}open func encodeToJSON() -> Any {
+        var nillableDictionary = {{#parent}}super.encodeToJSON() as? [String:Any?] ?? {{/parent}}[String:Any?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}{{#isInteger}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isInteger}}{{#isLong}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isLong}}{{^isLong}}{{^isInteger}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{/isInteger}}{{/isLong}}{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}

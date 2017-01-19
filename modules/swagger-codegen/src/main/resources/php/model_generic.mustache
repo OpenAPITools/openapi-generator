@@ -1,5 +1,7 @@
 class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}implements ArrayAccess
 {
+    const DISCRIMINATOR = {{#discriminator}}'{{discriminator}}'{{/discriminator}}{{^discriminator}}null{{/discriminator}};
+
     /**
       * The original name of the model.
       * @var string
@@ -103,8 +105,8 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{#discriminator}}
 
         // Initialize discriminator property with the model name.
-        $discrimintor = array_search('{{discriminator}}', self::$attributeMap);
-        $this->container[$discrimintor] = static::$swaggerModelName;
+        $discriminator = array_search('{{discriminator}}', self::$attributeMap);
+        $this->container[$discriminator] = static::$swaggerModelName;
         {{/discriminator}}
     }
 
