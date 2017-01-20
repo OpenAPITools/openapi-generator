@@ -43,7 +43,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-        templateDir = "go";
+        embeddedTemplateDir = templateDir = "go";
 
         setReservedWordsLowerCase(
             Arrays.asList(

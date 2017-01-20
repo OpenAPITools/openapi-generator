@@ -106,7 +106,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Templates location for client script and bash completion template.
      */
-    templateDir = "bash";
+    embeddedTemplateDir = templateDir = "bash";
 
 
     /**
