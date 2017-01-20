@@ -26,6 +26,7 @@ public class Swift3OptionsProvider implements OptionsProvider {
     public static final String POD_SCREENSHOTS_VALUE = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL_VALUE = "podDocumentationURL";
     public static final String SWIFT_USE_API_NAMESPACE_VALUE = "swiftUseApiNamespace";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -53,6 +54,7 @@ public class Swift3OptionsProvider implements OptionsProvider {
                 .put(Swift3Codegen.POD_DOCUMENTATION_URL, POD_DOCUMENTATION_URL_VALUE)
                 .put(Swift3Codegen.SWIFT_USE_API_NAMESPACE, SWIFT_USE_API_NAMESPACE_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

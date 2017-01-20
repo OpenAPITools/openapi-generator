@@ -107,6 +107,7 @@ public class DefaultCodegen {
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
+    protected Boolean allowUnicodeIdentifiers = false;
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
@@ -144,6 +145,11 @@ public class DefaultCodegen {
                     .get(CodegenConstants.ENSURE_UNIQUE_PARAMS).toString()));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS)) {
+            this.setAllowUnicodeIdentifiers(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS).toString()));
+        }
+
         if(additionalProperties.containsKey(CodegenConstants.MODEL_NAME_PREFIX)){
             this.setModelNamePrefix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_PREFIX));
         }
@@ -151,7 +157,6 @@ public class DefaultCodegen {
         if(additionalProperties.containsKey(CodegenConstants.MODEL_NAME_SUFFIX)){
             this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
         }
-
     }
 
     // override with any special post-processing for all models
@@ -582,6 +587,10 @@ public class DefaultCodegen {
         this.ensureUniqueParams = ensureUniqueParams;
     }
 
+    public void setAllowUnicodeIdentifiers(Boolean allowUnicodeIdentifiers) {
+        this.allowUnicodeIdentifiers = allowUnicodeIdentifiers;
+    }
+
     /**
      * Return the regular expression/JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
      *
@@ -835,6 +844,10 @@ public class DefaultCodegen {
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
+
+        //name formatting options
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, CodegenConstants
+                .ALLOW_UNICODE_IDENTIFIERS_DESC).defaultValue(Boolean.FALSE.toString()));
 
         // initialize special character mapping
         initalizeSpecialCharacterMapping();
@@ -3257,7 +3270,14 @@ public class DefaultCodegen {
 
         // remove everything else other than word, number and _
         // $php_variable => php_variable
-        return name.replaceAll("[^a-zA-Z0-9_]", "");
+        if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
+            name = Pattern.compile("\\W", Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
+        }
+        else {
+            name = name.replaceAll("\\W", "");
+        }
+
+        return name;
     }
 
     /**

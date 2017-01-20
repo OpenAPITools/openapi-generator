@@ -23,6 +23,8 @@ public class JavaOptionsProvider implements OptionsProvider {
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     //public static final String SUPPORT_JAVA6 = "true";
     public static final String USE_BEANVALIDATION = "false";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+
 
     private ImmutableMap<String, String> options;
 
@@ -48,7 +50,8 @@ public class JavaOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true")
                 .put(JavaClientCodegen.DATE_LIBRARY, "joda")
                 .put("hideGenerationTimestamp", "true")
-                //.put("supportJava6", "true")
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
+                        //.put("supportJava6", "true")
                 .build();
     }
 

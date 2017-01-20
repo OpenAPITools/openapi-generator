@@ -29,6 +29,8 @@ public class JavaScriptOptionsProvider implements OptionsProvider {
     public static final String USE_INHERITANCE_VALUE = "false";
     public static final String EMIT_MODEL_METHODS_VALUE = "true";
     public static final String EMIT_JS_DOC_VALUE = "false";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+
 
     private ImmutableMap<String, String> options;
 
@@ -59,6 +61,7 @@ public class JavaScriptOptionsProvider implements OptionsProvider {
                 .put(JavascriptClientCodegen.EMIT_MODEL_METHODS, EMIT_MODEL_METHODS_VALUE)
                 .put(JavascriptClientCodegen.EMIT_JS_DOC, EMIT_JS_DOC_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

@@ -11,6 +11,8 @@ public class NodeJSServerOptionsProvider implements OptionsProvider {
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String GOOGLE_CLOUD_FUNCTIONS = "false";
     public static final String EXPORTED_NAME = "exported";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+
 
     @Override
     public String getLanguage() {
@@ -24,6 +26,7 @@ public class NodeJSServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(NodeJSServerCodegen.GOOGLE_CLOUD_FUNCTIONS, GOOGLE_CLOUD_FUNCTIONS)
                 .put(NodeJSServerCodegen.EXPORTED_NAME, EXPORTED_NAME)
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

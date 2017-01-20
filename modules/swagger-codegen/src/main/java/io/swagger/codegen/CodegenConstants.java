@@ -12,6 +12,8 @@ public class CodegenConstants {
 
     public static final String TEMPLATE_DIR = "templateDir";
 
+    public static final String ALLOW_UNICODE_IDENTIFIERS = "allowUnicodeIdentifiers";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_DESC = "boolean, toggles whether unicode identifiers are allowed in names or not, default is false";
 
     public static final String INVOKER_PACKAGE = "invokerPackage";
     public static final String INVOKER_PACKAGE_DESC = "root package for generated code";

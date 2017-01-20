@@ -50,6 +50,9 @@ public class BashClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setApiKeyAuthEnvironmentVariable(
                 BashClientOptionsProvider.APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME);
             times = 1;
+            clientCodegen.setAllowUnicodeIdentifiers(Boolean.valueOf(BashClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
+            times = 1;
+
         }};
     }
 }
