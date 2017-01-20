@@ -1,6 +1,9 @@
 package io.swagger.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+
+import com.sun.org.apache.bcel.internal.classfile.Code;
+
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.CodegenModel;
@@ -140,6 +143,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.NON_PUBLIC_API,
                 CodegenConstants.NON_PUBLIC_API_DESC,
                 this.nonPublicApi);
+
+        addSwitch(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS,
+                CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC,
+                this.allowUnicodeIdentifiers);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");

@@ -10,6 +10,8 @@ public class NancyFXServerOptionsProvider implements OptionsProvider {
     public static final String PACKAGE_NAME_VALUE = "swagger_server_nancyfx";
     public static final String PACKAGE_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SOURCE_FOLDER_VALUE = "src_nancyfx";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+
 
     @Override
     public String getLanguage() {
@@ -27,6 +29,8 @@ public class NancyFXServerOptionsProvider implements OptionsProvider {
                 .put(USE_COLLECTION, "false")
                 .put(RETURN_ICOLLECTION, "false")
                 .put(INTERFACE_PREFIX, "X")
+                .put(ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
+
                 .build();
     }
 
