@@ -62,7 +62,7 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
 
-        templateDir = "cpprest";
+        embeddedTemplateDir = templateDir = "cpprest";
 
         cliOptions.clear();
 
