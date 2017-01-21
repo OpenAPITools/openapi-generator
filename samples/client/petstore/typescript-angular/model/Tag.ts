@@ -10,16 +10,10 @@
  * Do not edit the class manually.
  */
 
-/// <reference path="api.d.ts" />
+import * as models from './models';
 
-namespace API.Client {
-    'use strict';
-
-    export interface Category {
-        "id"?: number;
-
-        "name"?: string;
-
-    }
-
+export interface Tag {
+    "id"?: number;
+    "name"?: string;
 }
+

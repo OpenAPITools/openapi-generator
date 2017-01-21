@@ -10,34 +10,24 @@
  * Do not edit the class manually.
  */
 
-/// <reference path="api.d.ts" />
+import * as models from './models';
 
-namespace API.Client {
-    'use strict';
+export interface Order {
+    "id"?: number;
+    "petId"?: number;
+    "quantity"?: number;
+    "shipDate"?: Date;
+    /**
+     * Order Status
+     */
+    "status"?: Order.StatusEnum;
+    "complete"?: boolean;
+}
 
-    export interface Order {
-        "id"?: number;
-
-        "petId"?: number;
-
-        "quantity"?: number;
-
-        "shipDate"?: Date;
-
-        /**
-         * Order Status
-         */
-        "status"?: Order.StatusEnum;
-
-        "complete"?: boolean;
-
-    }
-
-    export namespace Order {
-        export enum StatusEnum {
-            Placed = <any> 'placed',
-            Approved = <any> 'approved',
-            Delivered = <any> 'delivered'
-        }
+export namespace Order {
+    export enum StatusEnum {
+        Placed = <any> 'placed',
+        Approved = <any> 'approved',
+        Delivered = <any> 'delivered'
     }
 }

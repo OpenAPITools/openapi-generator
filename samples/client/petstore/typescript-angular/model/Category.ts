@@ -10,31 +10,10 @@
  * Do not edit the class manually.
  */
 
-/// <reference path="api.d.ts" />
+import * as models from './models';
 
-namespace API.Client {
-    'use strict';
-
-    export interface User {
-        "id"?: number;
-
-        "username"?: string;
-
-        "firstName"?: string;
-
-        "lastName"?: string;
-
-        "email"?: string;
-
-        "password"?: string;
-
-        "phone"?: string;
-
-        /**
-         * User Status
-         */
-        "userStatus"?: number;
-
-    }
-
+export interface Category {
+    "id"?: number;
+    "name"?: string;
 }
+
