@@ -32,7 +32,6 @@ public interface UserApi {
    * Async method
    * @param body Created user object (required)
    * @param cb callback method
-   * @return void
    */
   
   @POST("/user")
@@ -57,7 +56,6 @@ public interface UserApi {
    * Async method
    * @param body List of user object (required)
    * @param cb callback method
-   * @return void
    */
   
   @POST("/user/createWithArray")
@@ -82,7 +80,6 @@ public interface UserApi {
    * Async method
    * @param body List of user object (required)
    * @param cb callback method
-   * @return void
    */
   
   @POST("/user/createWithList")
@@ -107,7 +104,6 @@ public interface UserApi {
    * Async method
    * @param username The name that needs to be deleted (required)
    * @param cb callback method
-   * @return void
    */
   
   @DELETE("/user/{username}")
@@ -132,7 +128,6 @@ public interface UserApi {
    * Async method
    * @param username The name that needs to be fetched. Use user1 for testing.  (required)
    * @param cb callback method
-   * @return void
    */
   
   @GET("/user/{username}")
@@ -159,7 +154,6 @@ public interface UserApi {
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @param cb callback method
-   * @return void
    */
   
   @GET("/user/login")
@@ -181,7 +175,6 @@ public interface UserApi {
    * Logs out current logged in user session
    * Async method
    * @param cb callback method
-   * @return void
    */
   
   @GET("/user/logout")
@@ -208,7 +201,6 @@ public interface UserApi {
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
    * @param cb callback method
-   * @return void
    */
   
   @PUT("/user/{username}")
