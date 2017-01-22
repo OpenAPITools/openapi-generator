@@ -6,10 +6,12 @@
   <packaging>jar</packaging>
   <name>{{artifactId}}</name>
   <version>{{artifactVersion}}</version>
+  <url>{{artifactUrl}}</url>
+  <description>{{artifactDescription}}</description>
   <scm>
-    <connection>scm:git:git@github.com:swagger-api/swagger-mustache.git</connection>
-    <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
-    <url>https://github.com/swagger-api/swagger-codegen</url>
+    <connection>{{scmConnection}}</connection>
+    <developerConnection>{{scmDeveloperConnection}}</developerConnection>
+    <url>{{scmUrl}}</url>
   </scm>
   <prerequisites>
     <maven>2.2.0</maven>
@@ -22,7 +24,16 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
+  <developers>
+    <developer>
+      <name>{{developerName}}</name>
+      <email>{{developerEmail}}</email>
+      <organization>{{developerOrganization}}</organization>
+      <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
+    </developer>
+  </developers>
+
   <build>
     <plugins>
       <plugin>
@@ -108,9 +119,55 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.4</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>sign-artifacts</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>io.swagger</groupId>
@@ -156,7 +213,7 @@
       <version>${retrofit-version}</version>
     </dependency>
     {{/useRxJava}}
-    
+
     {{#usePlay24WS}}
     <!-- JSON processing: jackson -->
     <dependency>
@@ -178,7 +235,7 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>${jackson-version}</version>
-    </dependency>   
+    </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}</artifactId>

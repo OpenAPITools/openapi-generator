@@ -69,7 +69,7 @@ public class ApiClient {
 
     /**
      * Basic constructor for single auth name
-     * @param authName
+     * @param authName Authentication name
      */
     public ApiClient(String authName) {
         this(new String[]{authName});
@@ -77,8 +77,8 @@ public class ApiClient {
 
     /**
      * Helper constructor for single api key
-     * @param authName
-     * @param apiKey
+     * @param authName Authentication name
+     * @param apiKey API key
      */
     public ApiClient(String authName, String apiKey) {
         this(authName);
@@ -87,9 +87,9 @@ public class ApiClient {
 
     /**
      * Helper constructor for single basic auth or password oauth2
-     * @param authName
-     * @param username
-     * @param password
+     * @param authName Authentication name
+     * @param username Username
+     * @param password Password
      */
     public ApiClient(String authName, String username, String password) {
         this(authName);
@@ -98,11 +98,11 @@ public class ApiClient {
 
     /**
      * Helper constructor for single password oauth2
-     * @param authName
-     * @param clientId
-     * @param secret
-     * @param username
-     * @param password
+     * @param authName Authentication name
+     * @param clientId Client ID
+     * @param secret Client secret
+     * @param username Username
+     * @param password Password
      */
     public ApiClient(String authName, String clientId, String secret, String username, String password) {
         this(authName);
@@ -136,7 +136,7 @@ public class ApiClient {
 
     /**
      * Helper method to configure the first api key found
-     * @param apiKey
+     * @param apiKey API key
      */
     private void setApiKey(String apiKey) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -150,8 +150,8 @@ public class ApiClient {
 
     /**
      * Helper method to configure the username/password for basic auth or password oauth
-     * @param username
-     * @param password
+     * @param username Username
+     * @param password Password
      */
     private void setCredentials(String username, String password) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -170,7 +170,7 @@ public class ApiClient {
 
     /**
      * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-     * @return
+     * @return Token request builder
      */
     public TokenRequestBuilder getTokenEndPoint() {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -184,7 +184,7 @@ public class ApiClient {
 
     /**
      * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-     * @return
+     * @return Authentication request builder
      */
     public AuthenticationRequestBuilder getAuthorizationEndPoint() {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -198,7 +198,7 @@ public class ApiClient {
 
     /**
      * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
-     * @param accessToken
+     * @param accessToken Access token
      */
     public void setAccessToken(String accessToken) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -212,9 +212,9 @@ public class ApiClient {
     
     /**
      * Helper method to configure the oauth accessCode/implicit flow parameters
-     * @param clientId
-     * @param clientSecret
-     * @param redirectURI
+     * @param clientId Client ID
+     * @param clientSecret Client secret
+     * @param redirectURI Redirect URI
      */
     public void configureAuthorizationFlow(String clientId, String clientSecret, String redirectURI) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -234,7 +234,7 @@ public class ApiClient {
     
     /**
      * Configures a listener which is notified when a new access token is received.
-     * @param accessTokenListener
+     * @param accessTokenListener Access token listener
      */
     public void registerAccessTokenListener(AccessTokenListener accessTokenListener) {
         for(Interceptor apiAuthorization : apiAuthorizations.values()) {
@@ -248,8 +248,8 @@ public class ApiClient {
 
     /**
      * Adds an authorization to be used by the client
-     * @param authName
-     * @param authorization
+     * @param authName Authentication name
+     * @param authorization Authorization
      */
     public void addAuthorization(String authName, Interceptor authorization) {
         if (apiAuthorizations.containsKey(authName)) {
@@ -287,7 +287,7 @@ public class ApiClient {
 
     /**
      * Clones the okClient given in parameter, adds the auth interceptors and uses it to configure the RestAdapter
-     * @param okClient
+     * @param okClient OkHttp client
      */
     public void configureFromOkclient(OkHttpClient okClient) {
         OkHttpClient clone = okClient.clone();
@@ -355,14 +355,15 @@ class GsonConverterWrapper implements Converter {
  */
 class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 
-    private final DateTimeFormatter formatter = ISODateTimeFormat.dateTime();
+    private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
+    private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
 
     @Override
     public void write(JsonWriter out, DateTime date) throws IOException {
         if (date == null) {
             out.nullValue();
         } else {
-            out.value(formatter.print(date));
+            out.value(printFormatter.print(date));
         }
     }
 
@@ -374,7 +375,7 @@ class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
                 return null;
             default:
                 String date = in.nextString();
-                return formatter.parseDateTime(date);
+                return parseFormatter.parseDateTime(date);
         }
     }
 }
