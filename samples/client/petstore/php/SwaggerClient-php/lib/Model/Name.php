@@ -34,9 +34,8 @@ use \ArrayAccess;
 /**
  * Name Class Doc Comment
  *
- * @category    Class */
- // @description Model for testing model name same as property name
-/**
+ * @category    Class
+ * @description Model for testing model name same as property name
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen

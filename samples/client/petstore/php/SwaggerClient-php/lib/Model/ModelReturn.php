@@ -34,9 +34,8 @@ use \ArrayAccess;
 /**
  * ModelReturn Class Doc Comment
  *
- * @category    Class */
- // @description Model for testing reserved words
-/**
+ * @category    Class
+ * @description Model for testing reserved words
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen

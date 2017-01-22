@@ -502,11 +502,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
-        final String sanitizedName = sanitizeName(modelNamePrefix + name + modelNameSuffix);
+        final String sanitizedName = sanitizeName(name);
+
+        String nameWithPrefixSuffix = sanitizedName;
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+        }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = camelize(sanitizedName);
+        final String camelizedName = camelize(nameWithPrefixSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
@@ -516,7 +527,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // model name starts with number
-        if (name.matches("^\\d.*")) {
+        if (camelizedName.matches("^\\d.*")) {
             final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;

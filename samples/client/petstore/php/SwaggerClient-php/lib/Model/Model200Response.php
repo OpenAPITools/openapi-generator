@@ -34,9 +34,8 @@ use \ArrayAccess;
 /**
  * Model200Response Class Doc Comment
  *
- * @category    Class */
- // @description Model for testing model name starting with number
-/**
+ * @category    Class
+ * @description Model for testing model name starting with number
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
