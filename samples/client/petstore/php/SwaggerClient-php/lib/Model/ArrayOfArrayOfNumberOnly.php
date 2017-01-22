@@ -34,8 +34,7 @@ use \ArrayAccess;
 /**
  * ArrayOfArrayOfNumberOnly Class Doc Comment
  *
- * @category    Class */
-/**
+ * @category    Class
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
