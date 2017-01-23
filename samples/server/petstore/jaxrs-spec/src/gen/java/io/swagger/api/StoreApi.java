@@ -28,7 +28,7 @@ public class StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = void.class),
         @ApiResponse(code = 404, message = "Order not found", response = void.class) })
-    public Response deleteOrder(@PathParam("orderId") @Min(1) @ApiParam("ID of the order that needs to be deleted") String orderId) {
+    public Response deleteOrder(@PathParam("orderId") @ApiParam("ID of the order that needs to be deleted") String orderId) {
     	return Response.ok().entity("magic!").build();
     }
 

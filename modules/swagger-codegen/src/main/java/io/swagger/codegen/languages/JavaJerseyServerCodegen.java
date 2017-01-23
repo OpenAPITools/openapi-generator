@@ -9,11 +9,10 @@ import java.util.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
-public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen implements BeanValidationFeatures {
+public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
-    protected boolean useBeanValidation = true;
     
     /**
      * Default library template to use. (Default:{@value #DEFAULT_LIBRARY})
@@ -47,7 +46,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen impl
 
         cliOptions.add(library);
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
     }
 
     @Override
@@ -88,14 +86,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen impl
             setLibrary(DEFAULT_LIBRARY);
         }
         
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-
-        if (useBeanValidation) {
-            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-        }
-
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
@@ -172,8 +162,4 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen impl
         co.baseName = basePath;
     }
     
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
 }

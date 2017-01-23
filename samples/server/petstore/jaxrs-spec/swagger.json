@@ -405,8 +405,7 @@
           "in" : "path",
           "description" : "ID of the order that needs to be deleted",
           "required" : true,
-          "type" : "string",
-          "minimum" : 1
+          "type" : "string"
         } ],
         "responses" : {
           "400" : {

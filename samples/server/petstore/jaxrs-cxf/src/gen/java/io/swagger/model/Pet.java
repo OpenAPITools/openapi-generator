@@ -5,6 +5,7 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -88,6 +89,7 @@ public enum StatusEnum {
    * Get name
    * @return name
   **/
+  @NotNull
   public String getName() {
     return name;
   }
@@ -98,6 +100,7 @@ public enum StatusEnum {
    * Get photoUrls
    * @return photoUrls
   **/
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
