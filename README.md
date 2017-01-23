@@ -807,6 +807,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [LXL Tech](http://lxltech.com)
 - [Mindera](http://mindera.com/)
 - [Mporium](http://mporium.com/)
+- [Neverfail](https://neverfail.com/)
 - [nViso](http://www.nviso.ch/)
 - [Okiok](https://www.okiok.com)
 - [Onedata](http://onedata.org)
