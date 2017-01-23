@@ -54,6 +54,20 @@ export class {{classname}} {
         return <T1&T2>objA;
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (let consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 {{#operation}}
     /**
      * {{summary}}
@@ -66,7 +80,12 @@ export class {{classname}} {
                 if (response.status === 204) {
                     return undefined;
                 } else {
+{{^isResponseFile}}
                     return response.json();
+{{/isResponseFile}}
+{{#isResponseFile}}
+                    return response.blob();
+{{/isResponseFile}}
                 }
             });
     }
@@ -84,10 +103,7 @@ export class {{classname}} {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-{{#hasFormParams}}
-        let formParams = new URLSearchParams();
 
-{{/hasFormParams}}
 {{#allParams}}
 {{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
@@ -106,12 +122,24 @@ export class {{classname}} {
         headers.set('{{baseName}}', String({{paramName}}));
 {{/headerParams}}
 
+{{#hasFormParams}}
         // to determine the Content-Type header
         let consumes: string[] = [
             {{#consumes}}
             '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
             {{/consumes}}
         ];
+        let canConsumeForm = this.canConsumeForm(consumes);
+        let useForm = false;
+{{#formParams}}
+{{#isFile}}
+        useForm = canConsumeForm;
+{{/isFile}}
+{{/formParams}}
+        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
+          set(param: string, value: any): void;
+        };
+{{/hasFormParams}}
 
         // to determine the Accept header
         let produces: string[] = [
@@ -155,17 +183,13 @@ export class {{classname}} {
 {{/isOAuth}}
 {{/authMethods}}
             
-{{#hasFormParams}}
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
-{{/hasFormParams}}
-
 {{#bodyParam}}
         headers.set('Content-Type', 'application/json');
 {{/bodyParam}}
 
 {{#formParams}}
         if ({{paramName}} !== undefined) {
-            formParams.set('{{baseName}}', <any>{{paramName}}); 
+            formParams.set('{{baseName}}', {{paramName}}); 
         }
 {{/formParams}}
 
@@ -176,8 +200,11 @@ export class {{classname}} {
             body: {{paramName}} == null ? '' : JSON.stringify({{paramName}}), // https://github.com/angular/angular/issues/10612
 {{/bodyParam}}
 {{#hasFormParams}}
-            body: formParams.toString(),
+            body: formParams,
 {{/hasFormParams}}
+{{#isResponseFile}}
+            responseType: ResponseContentType.Blob,
+{{/isResponseFile}}
             search: queryParameters
         });
         

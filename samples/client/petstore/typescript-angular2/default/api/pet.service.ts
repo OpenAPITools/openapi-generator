@@ -58,6 +58,20 @@ export class PetService {
     }
 
     /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (let consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store
@@ -179,7 +193,7 @@ export class PetService {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<{}> {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: any): Observable<{}> {
         return this.uploadFileWithHttpInfo(petId, additionalMetadata, file, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -203,11 +217,7 @@ export class PetService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json', 
-            'application/xml'
-        ];
+
 
         // to determine the Accept header
         let produces: string[] = [
@@ -225,7 +235,6 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
-
         headers.set('Content-Type', 'application/json');
 
 
@@ -255,6 +264,7 @@ export class PetService {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
@@ -262,9 +272,6 @@ export class PetService {
 
         headers.set('api_key', String(apiKey));
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
@@ -282,7 +289,6 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
-
 
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -309,14 +315,12 @@ export class PetService {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         if (status !== undefined) {
             queryParameters.set('status', <any>status);
         }
 
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
@@ -334,7 +338,6 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
-
 
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -361,14 +364,12 @@ export class PetService {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         if (tags !== undefined) {
             queryParameters.set('tags', <any>tags);
         }
 
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
@@ -386,7 +387,6 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
-
 
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -413,15 +413,13 @@ export class PetService {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
@@ -443,8 +441,12 @@ export class PetService {
         {
             headers.set('api_key', this.configuration.apiKey);
         }
+        // authentication (api_key) required
+        if (this.configuration.apiKey)
+        {
+            headers.set('api_key', this.configuration.apiKey);
+        }
             
-
 
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -473,11 +475,7 @@ export class PetService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json', 
-            'application/xml'
-        ];
+
 
         // to determine the Accept header
         let produces: string[] = [
@@ -495,7 +493,6 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
-
         headers.set('Content-Type', 'application/json');
 
 
@@ -526,7 +523,6 @@ export class PetService {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new URLSearchParams();
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -538,6 +534,11 @@ export class PetService {
         let consumes: string[] = [
             'application/x-www-form-urlencoded'
         ];
+        let canConsumeForm = this.canConsumeForm(consumes);
+        let useForm = false;
+        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
+          set(param: string, value: any): void;
+        };
 
         // to determine the Accept header
         let produces: string[] = [
@@ -555,20 +556,18 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
-
 
         if (name !== undefined) {
-            formParams.set('name', <any>name); 
+            formParams.set('name', name); 
         }
         if (status !== undefined) {
-            formParams.set('status', <any>status); 
+            formParams.set('status', status); 
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams.toString(),
+            body: formParams,
             search: queryParameters
         });
         
@@ -587,12 +586,11 @@ export class PetService {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<Response> {
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + `/pet/${petId}/uploadImage`;
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new URLSearchParams();
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -604,6 +602,12 @@ export class PetService {
         let consumes: string[] = [
             'multipart/form-data'
         ];
+        let canConsumeForm = this.canConsumeForm(consumes);
+        let useForm = false;
+        useForm = canConsumeForm;
+        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
+          set(param: string, value: any): void;
+        };
 
         // to determine the Accept header
         let produces: string[] = [
@@ -621,20 +625,18 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
             
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
-
 
         if (additionalMetadata !== undefined) {
-            formParams.set('additionalMetadata', <any>additionalMetadata); 
+            formParams.set('additionalMetadata', additionalMetadata); 
         }
         if (file !== undefined) {
-            formParams.set('file', <any>file); 
+            formParams.set('file', file); 
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams.toString(),
+            body: formParams,
             search: queryParameters
         });
         
