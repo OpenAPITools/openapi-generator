@@ -314,7 +314,7 @@
    * @returns A value of the specified type.
    */
   exports.prototype.deserialize = function deserialize(response, returnType) {
-    if (response == null || returnType == null) {
+    if (response == null || returnType == null || response.status == 204) {
       return null;
     }
     // Rely on SuperAgent for parsing response body.
@@ -404,8 +404,12 @@
         if (error) {
           reject(error);
         } else {
-          var data = _this.deserialize(response, returnType);
-          resolve(data);
+          try {
+            var data = _this.deserialize(response, returnType);
+            resolve(data);
+          } catch (err) {
+            reject(err);
+          }
         }
       });
     });
