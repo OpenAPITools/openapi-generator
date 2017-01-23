@@ -27,8 +27,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean addConsumesProducesJson = true;
 
     protected boolean useJaxbAnnotations = true;
-
-    protected boolean useBeanValidation = false;
     
     protected boolean generateSpringApplication = false;
     
@@ -41,7 +39,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean useWadlFeature = false;
     
     protected boolean useMultipartFeature = false;
-    
+
     protected boolean useBeanValidationFeature = false;
     
     protected boolean generateSpringBootApplication= false;
@@ -84,7 +82,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         cliOptions.add(CliOption.newBoolean(USE_JAXB_ANNOTATIONS, "Use JAXB annotations for XML"));
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(GENERATE_SPRING_APPLICATION, "Generate Spring application"));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_ANNOTATION_CONFIG, "Use Spring Annotation Config"));
         
@@ -119,11 +116,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         if (additionalProperties.containsKey(USE_JAXB_ANNOTATIONS)) {
             boolean useJaxbAnnotationsProp = convertPropertyToBooleanAndWriteBack(USE_JAXB_ANNOTATIONS);
             this.setUseJaxbAnnotations(useJaxbAnnotationsProp);
-        }
-        
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            boolean useBeanValidationProp = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION);
-            this.setUseBeanValidation(useBeanValidationProp);
         }
         
         if (additionalProperties.containsKey(ADD_CONSUMES_PRODUCES_JSON)) {
@@ -222,10 +214,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     public String getHelp()
     {
         return "Generates a Java JAXRS Server application based on Apache CXF framework.";
-    }
-    
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
     }
     
     public void setGenerateSpringApplication(boolean generateSpringApplication) {

@@ -14,6 +14,7 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javax.validation.constraints.*;
 
 @Path("/")
 @Api(value = "/", description = "")

@@ -29,7 +29,7 @@ public class StoreApi  {
     @Path("/order/{orderId}")
     
     @Produces({ "application/xml", "application/json" })
-    public Response deleteOrder( @Min(1) @PathParam("orderId") String orderId,@Context SecurityContext securityContext)
+    public Response deleteOrder( @PathParam("orderId") String orderId,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteOrder(orderId,securityContext);
     }
