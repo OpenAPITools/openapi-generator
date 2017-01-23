@@ -232,17 +232,25 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+
+            // Update the invokerPackage for the default apiPackage and modelPackage
+            apiPackage = invokerPackage + "\\" + apiDirName;
+            modelPackage = invokerPackage + "\\" + modelDirName;
         } else {
             additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
 
-        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            // Update model package to contain the specified model package name and the invoker package
+            modelPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
         }
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            // Update model package to contain the specified model package name and the invoker package
+            apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
         }
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
 
         if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
             this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
