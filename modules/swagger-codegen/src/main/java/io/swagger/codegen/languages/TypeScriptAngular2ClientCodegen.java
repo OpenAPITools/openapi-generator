@@ -41,7 +41,9 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         embeddedTemplateDir = templateDir = "typescript-angular2";
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.service.mustache", ".ts");
+        languageSpecificPrimitives.add("Blob");
         typeMapping.put("Date","Date");
+        typeMapping.put("file","Blob");
         apiPackage = "api";
         modelPackage = "model";
 
@@ -117,6 +119,11 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     }
 
     @Override
+    public boolean isDataTypeFile(final String dataType) {
+        return dataType != null && dataType.equals("Blob");
+    }
+    
+    @Override
     public String getTypeDeclaration(Property p) {
         Property inner;
         if(p instanceof ArrayProperty) {
@@ -127,7 +134,9 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             MapProperty mp = (MapProperty)p;
             inner = mp.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if(p instanceof FileProperty || p instanceof ObjectProperty) {
+        } else if(p instanceof FileProperty) {
+            return "Blob";
+        } else if(p instanceof ObjectProperty) {
             return "any";
         } else {
             return super.getTypeDeclaration(p);
