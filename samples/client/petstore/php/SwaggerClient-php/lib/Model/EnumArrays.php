@@ -165,7 +165,7 @@ class EnumArrays implements ArrayAccess
         $invalid_properties = [];
         $allowed_values = [">=", "$"];
         if (!in_array($this->container['just_symbol'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'just_symbol', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'just_symbol', must be one of '>=', '$'.";
         }
 
         return $invalid_properties;
