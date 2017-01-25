@@ -179,7 +179,7 @@ class Pet implements ArrayAccess
         }
         $allowed_values = ["available", "pending", "sold"];
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'status', must be one of 'available', 'pending', 'sold'.";
         }
 
         return $invalid_properties;
