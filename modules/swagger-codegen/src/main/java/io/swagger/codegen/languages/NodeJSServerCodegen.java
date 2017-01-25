@@ -310,7 +310,12 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             if (info.getTitle() != null) {
                 // when info.title is defined, use it for projectName
                 // used in package.json
-                projectName = dashize(info.getTitle());
+                projectName = info.getTitle()
+                        .replaceAll("[^a-zA-Z0-9]", "-")
+                        .replaceAll("^[-]*", "")
+                        .replaceAll("[-]*$", "")
+                        .replaceAll("[-]{2,}", "-")
+                        .toLowerCase();
                 this.additionalProperties.put("projectName", projectName);
             }
         }
