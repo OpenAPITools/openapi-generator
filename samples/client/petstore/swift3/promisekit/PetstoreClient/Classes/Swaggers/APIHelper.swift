@@ -39,4 +39,17 @@ class APIHelper {
         return destination
     }
 
+
+    static func mapValuesToQueryItems(values: [String:Any?]) -> [URLQueryItem]? {
+        let returnValues = values
+            .filter { $0.1 != nil }
+            .map { (item: (_key: String, _value: Any?)) -> URLQueryItem in
+                URLQueryItem(name: item._key, value:"\(item._value!)")
+            }
+        if returnValues.count == 0 {
+            return nil
+        }
+        return returnValues
+    }
+
 }

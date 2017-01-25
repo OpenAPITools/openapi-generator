@@ -129,9 +129,9 @@ open class {{classname}}: APIBase {
         let url = NSURLComponents(string: URLString)
         {{#hasQueryParams}}
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
-        {{#queryParams}}
-                "{{paramName}}": {{paramName}}{{#hasMore}}, {{/hasMore}}
-        {{/queryParams}}
+            {{#queryParams}}
+            {{> _param}}{{#hasMore}}, {{/hasMore}}
+            {{/queryParams}}
         ])
         {{/hasQueryParams}}
 

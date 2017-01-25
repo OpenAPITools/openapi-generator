@@ -208,9 +208,9 @@ open class FakeAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
-                "enumQueryStringArray": enumQueryStringArray, 
-                "enumQueryString": enumQueryString, 
-                "enumQueryInteger": enumQueryInteger
+            "enum_query_string_array": enumQueryStringArray, 
+            "enum_query_string": enumQueryString?.rawValue, 
+            "enum_query_integer": enumQueryInteger?.encodeToJSON()
         ])
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
