@@ -21,6 +21,7 @@ from .models.api_response import ApiResponse
 from .models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from .models.array_of_number_only import ArrayOfNumberOnly
 from .models.array_test import ArrayTest
+from .models.capitalization import Capitalization
 from .models.cat import Cat
 from .models.category import Category
 from .models.class_model import ClassModel
