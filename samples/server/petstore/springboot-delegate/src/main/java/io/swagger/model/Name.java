@@ -51,7 +51,7 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(readOnly = true, value = "")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -87,7 +87,7 @@ public class Name   {
    * Get _123Number
    * @return _123Number
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(readOnly = true, value = "")
   public Integer get123Number() {
     return _123Number;
   }
