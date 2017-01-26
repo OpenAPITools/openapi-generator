@@ -10,6 +10,9 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.List;
 
+import io.swagger.annotations.*;
+
+@ApiModel(description="A pet for sale in the pet store")
 
 public class Pet   {
   
@@ -46,6 +49,7 @@ public class Pet   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -57,6 +61,7 @@ public class Pet   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -68,6 +73,7 @@ public class Pet   {
   /**
    **/
   
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -79,6 +85,7 @@ public class Pet   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", required = true, value = "")
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -90,6 +97,7 @@ public class Pet   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
@@ -102,6 +110,7 @@ public class Pet   {
    * pet status in the store
    **/
   
+  @ApiModelProperty(example = "null", value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
