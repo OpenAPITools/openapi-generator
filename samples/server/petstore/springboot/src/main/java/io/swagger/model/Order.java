@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
-
+import javax.validation.constraints.*;
 /**
  * Order
  */
@@ -62,7 +62,7 @@ public class Order   {
   private StatusEnum status = null;
 
   @JsonProperty("complete")
-  private Boolean complete = false;
+  private Boolean complete = null;
 
   public Order id(Long id) {
     this.id = id;

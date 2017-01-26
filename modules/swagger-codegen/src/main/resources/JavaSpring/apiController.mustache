@@ -22,7 +22,9 @@ import java.util.List;
 {{#async}}
 import java.util.concurrent.Callable;
 {{/async}}{{/jdk8-no-delegate}}
-
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 {{>generatedAnnotation}}
 @Controller
 {{#operations}}
