@@ -1,4 +1,4 @@
-# swagger-petstore-spring-cloud
+# swagger-spring
 
 ## Requirements
 
@@ -27,7 +27,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-petstore-spring-cloud</artifactId>
+    <artifactId>swagger-spring</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "io.swagger:swagger-petstore-spring-cloud:1.0.0"
+compile "io.swagger:swagger-spring:1.0.0"
 ```
 
 ### Others
@@ -49,5 +49,5 @@ mvn package
 
 Then manually install the following JARs:
 
-* target/swagger-petstore-spring-cloud-1.0.0.jar
+* target/swagger-spring-1.0.0.jar
 * target/lib/*.jar

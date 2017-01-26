@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
+import javax.validation.constraints.*;
 
 @Controller
 public class FakeApiController implements FakeApi {

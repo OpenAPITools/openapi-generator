@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
+import javax.validation.constraints.*;
 
 @Controller
 public class StoreApiController implements StoreApi {
@@ -34,12 +34,12 @@ public class StoreApiController implements StoreApi {
         return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId) {
+    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") String orderId) {
         // do some magic!
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body) {
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet"  ) @RequestBody Order body) {
         // do some magic!
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
