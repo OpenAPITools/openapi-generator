@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 
+import io.swagger.annotations.*;
+
+@ApiModel(description="A tag for a pet")
 
 public class Tag   {
   
@@ -15,6 +18,7 @@ public class Tag   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -26,6 +30,7 @@ public class Tag   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("name")
   public String getName() {
     return name;

@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 
+import io.swagger.annotations.*;
+
+@ApiModel(description="Describes the result of uploading an image resource")
 
 public class ModelApiResponse   {
   
@@ -16,6 +19,7 @@ public class ModelApiResponse   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -27,6 +31,7 @@ public class ModelApiResponse   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -38,6 +43,7 @@ public class ModelApiResponse   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;
