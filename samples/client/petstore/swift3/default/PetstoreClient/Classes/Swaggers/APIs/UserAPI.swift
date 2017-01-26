@@ -255,8 +255,8 @@ open class UserAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
-                "username": username, 
-                "password": password
+            "username": username, 
+            "password": password
         ])
 
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()

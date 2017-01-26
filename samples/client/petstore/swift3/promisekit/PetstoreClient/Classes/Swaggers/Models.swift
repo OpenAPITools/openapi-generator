@@ -254,6 +254,25 @@ class Decoders {
         }
 
 
+        // Decoder for [Capitalization]
+        Decoders.addDecoder(clazz: [Capitalization].self) { (source: AnyObject) -> [Capitalization] in
+            return Decoders.decode(clazz: [Capitalization].self, source: source)
+        }
+        // Decoder for Capitalization
+        Decoders.addDecoder(clazz: Capitalization.self) { (source: AnyObject) -> Capitalization in
+            let sourceDictionary = source as! [AnyHashable: Any]
+
+            let instance = Capitalization()
+            instance.smallCamel = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["smallCamel"] as AnyObject?)
+            instance.capitalCamel = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["CapitalCamel"] as AnyObject?)
+            instance.smallSnake = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["small_Snake"] as AnyObject?)
+            instance.capitalSnake = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["Capital_Snake"] as AnyObject?)
+            instance.sCAETHFlowPoints = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["SCA_ETH_Flow_Points"] as AnyObject?)
+            instance.ATT_NAME = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ATT_NAME"] as AnyObject?)
+            return instance
+        }
+
+
         // Decoder for [Cat]
         Decoders.addDecoder(clazz: [Cat].self) { (source: AnyObject) -> [Cat] in
             return Decoders.decode(clazz: [Cat].self, source: source)
