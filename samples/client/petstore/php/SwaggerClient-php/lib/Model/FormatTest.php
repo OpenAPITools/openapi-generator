@@ -190,6 +190,7 @@ class FormatTest implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
+
         if (!is_null($this->container['integer']) && ($this->container['integer'] > 100)) {
             $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.";
         }
@@ -261,10 +262,11 @@ class FormatTest implements ArrayAccess
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properteis are valid
+     * @return bool True if all properties are valid
      */
     public function valid()
     {
+
         if ($this->container['integer'] > 100) {
             return false;
         }

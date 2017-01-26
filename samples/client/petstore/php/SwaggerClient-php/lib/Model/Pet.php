@@ -171,6 +171,7 @@ class Pet implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
+
         if ($this->container['name'] === null) {
             $invalid_properties[] = "'name' can't be null";
         }
@@ -189,10 +190,11 @@ class Pet implements ArrayAccess
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properteis are valid
+     * @return bool True if all properties are valid
      */
     public function valid()
     {
+
         if ($this->container['name'] === null) {
             return false;
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * MapTest
+ * Capitalization
  *
  * PHP version 5
  *
@@ -32,14 +32,14 @@ namespace Swagger\Client\Model;
 use \ArrayAccess;
 
 /**
- * MapTest Class Doc Comment
+ * Capitalization Class Doc Comment
  *
  * @category    Class
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class MapTest implements ArrayAccess
+class Capitalization implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,15 +47,19 @@ class MapTest implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'MapTest';
+    protected static $swaggerModelName = 'Capitalization';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'map_map_of_string' => 'map[string,map[string,string]]',
-        'map_of_enum_string' => 'map[string,string]'
+        'small_camel' => 'string',
+        'capital_camel' => 'string',
+        'small_snake' => 'string',
+        'capital_snake' => 'string',
+        'sca_eth_flow_points' => 'string',
+        'att_name' => 'string'
     ];
 
     public static function swaggerTypes()
@@ -68,8 +72,12 @@ class MapTest implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'map_map_of_string' => 'map_map_of_string',
-        'map_of_enum_string' => 'map_of_enum_string'
+        'small_camel' => 'smallCamel',
+        'capital_camel' => 'CapitalCamel',
+        'small_snake' => 'small_Snake',
+        'capital_snake' => 'Capital_Snake',
+        'sca_eth_flow_points' => 'SCA_ETH_Flow_Points',
+        'att_name' => 'ATT_NAME'
     ];
 
 
@@ -78,8 +86,12 @@ class MapTest implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'map_map_of_string' => 'setMapMapOfString',
-        'map_of_enum_string' => 'setMapOfEnumString'
+        'small_camel' => 'setSmallCamel',
+        'capital_camel' => 'setCapitalCamel',
+        'small_snake' => 'setSmallSnake',
+        'capital_snake' => 'setCapitalSnake',
+        'sca_eth_flow_points' => 'setScaEthFlowPoints',
+        'att_name' => 'setAttName'
     ];
 
 
@@ -88,8 +100,12 @@ class MapTest implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'map_map_of_string' => 'getMapMapOfString',
-        'map_of_enum_string' => 'getMapOfEnumString'
+        'small_camel' => 'getSmallCamel',
+        'capital_camel' => 'getCapitalCamel',
+        'small_snake' => 'getSmallSnake',
+        'capital_snake' => 'getCapitalSnake',
+        'sca_eth_flow_points' => 'getScaEthFlowPoints',
+        'att_name' => 'getAttName'
     ];
 
     public static function attributeMap()
@@ -107,22 +123,8 @@ class MapTest implements ArrayAccess
         return self::$getters;
     }
 
-    const MAP_OF_ENUM_STRING_UPPER = 'UPPER';
-    const MAP_OF_ENUM_STRING_LOWER = 'lower';
     
 
-    
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public function getMapOfEnumStringAllowableValues()
-    {
-        return [
-            self::MAP_OF_ENUM_STRING_UPPER,
-            self::MAP_OF_ENUM_STRING_LOWER,
-        ];
-    }
     
 
     /**
@@ -137,8 +139,12 @@ class MapTest implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['map_map_of_string'] = isset($data['map_map_of_string']) ? $data['map_map_of_string'] : null;
-        $this->container['map_of_enum_string'] = isset($data['map_of_enum_string']) ? $data['map_of_enum_string'] : null;
+        $this->container['small_camel'] = isset($data['small_camel']) ? $data['small_camel'] : null;
+        $this->container['capital_camel'] = isset($data['capital_camel']) ? $data['capital_camel'] : null;
+        $this->container['small_snake'] = isset($data['small_snake']) ? $data['small_snake'] : null;
+        $this->container['capital_snake'] = isset($data['capital_snake']) ? $data['capital_snake'] : null;
+        $this->container['sca_eth_flow_points'] = isset($data['sca_eth_flow_points']) ? $data['sca_eth_flow_points'] : null;
+        $this->container['att_name'] = isset($data['att_name']) ? $data['att_name'] : null;
     }
 
     /**
@@ -167,47 +173,127 @@ class MapTest implements ArrayAccess
 
 
     /**
-     * Gets map_map_of_string
-     * @return map[string,map[string,string]]
+     * Gets small_camel
+     * @return string
      */
-    public function getMapMapOfString()
+    public function getSmallCamel()
     {
-        return $this->container['map_map_of_string'];
+        return $this->container['small_camel'];
     }
 
     /**
-     * Sets map_map_of_string
-     * @param map[string,map[string,string]] $map_map_of_string
+     * Sets small_camel
+     * @param string $small_camel
      * @return $this
      */
-    public function setMapMapOfString($map_map_of_string)
+    public function setSmallCamel($small_camel)
     {
-        $this->container['map_map_of_string'] = $map_map_of_string;
+        $this->container['small_camel'] = $small_camel;
 
         return $this;
     }
 
     /**
-     * Gets map_of_enum_string
-     * @return map[string,string]
+     * Gets capital_camel
+     * @return string
      */
-    public function getMapOfEnumString()
+    public function getCapitalCamel()
     {
-        return $this->container['map_of_enum_string'];
+        return $this->container['capital_camel'];
     }
 
     /**
-     * Sets map_of_enum_string
-     * @param map[string,string] $map_of_enum_string
+     * Sets capital_camel
+     * @param string $capital_camel
      * @return $this
      */
-    public function setMapOfEnumString($map_of_enum_string)
+    public function setCapitalCamel($capital_camel)
     {
-        $allowed_values = array('UPPER', 'lower');
-        if (!is_null($map_of_enum_string) && (array_diff($map_of_enum_string, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'map_of_enum_string', must be one of 'UPPER', 'lower'");
-        }
-        $this->container['map_of_enum_string'] = $map_of_enum_string;
+        $this->container['capital_camel'] = $capital_camel;
+
+        return $this;
+    }
+
+    /**
+     * Gets small_snake
+     * @return string
+     */
+    public function getSmallSnake()
+    {
+        return $this->container['small_snake'];
+    }
+
+    /**
+     * Sets small_snake
+     * @param string $small_snake
+     * @return $this
+     */
+    public function setSmallSnake($small_snake)
+    {
+        $this->container['small_snake'] = $small_snake;
+
+        return $this;
+    }
+
+    /**
+     * Gets capital_snake
+     * @return string
+     */
+    public function getCapitalSnake()
+    {
+        return $this->container['capital_snake'];
+    }
+
+    /**
+     * Sets capital_snake
+     * @param string $capital_snake
+     * @return $this
+     */
+    public function setCapitalSnake($capital_snake)
+    {
+        $this->container['capital_snake'] = $capital_snake;
+
+        return $this;
+    }
+
+    /**
+     * Gets sca_eth_flow_points
+     * @return string
+     */
+    public function getScaEthFlowPoints()
+    {
+        return $this->container['sca_eth_flow_points'];
+    }
+
+    /**
+     * Sets sca_eth_flow_points
+     * @param string $sca_eth_flow_points
+     * @return $this
+     */
+    public function setScaEthFlowPoints($sca_eth_flow_points)
+    {
+        $this->container['sca_eth_flow_points'] = $sca_eth_flow_points;
+
+        return $this;
+    }
+
+    /**
+     * Gets att_name
+     * @return string
+     */
+    public function getAttName()
+    {
+        return $this->container['att_name'];
+    }
+
+    /**
+     * Sets att_name
+     * @param string $att_name Name of the pet
+     * @return $this
+     */
+    public function setAttName($att_name)
+    {
+        $this->container['att_name'] = $att_name;
 
         return $this;
     }

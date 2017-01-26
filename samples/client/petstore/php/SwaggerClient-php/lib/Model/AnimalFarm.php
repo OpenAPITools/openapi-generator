@@ -128,7 +128,8 @@ class AnimalFarm implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalid_properties = [];
+        $invalid_properties = parent::listInvalidProperties();
+
         return $invalid_properties;
     }
 
@@ -136,10 +137,14 @@ class AnimalFarm implements ArrayAccess
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properteis are valid
+     * @return bool True if all properties are valid
      */
     public function valid()
     {
+        if (!parent::valid()) {
+            return false;
+        }
+
         return true;
     }
 
