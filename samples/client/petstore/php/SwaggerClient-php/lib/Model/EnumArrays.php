@@ -163,6 +163,7 @@ class EnumArrays implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
+
         $allowed_values = [">=", "$"];
         if (!in_array($this->container['just_symbol'], $allowed_values)) {
             $invalid_properties[] = "invalid value for 'just_symbol', must be one of '>=', '$'.";
@@ -175,10 +176,11 @@ class EnumArrays implements ArrayAccess
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properteis are valid
+     * @return bool True if all properties are valid
      */
     public function valid()
     {
+
         $allowed_values = [">=", "$"];
         if (!in_array($this->container['just_symbol'], $allowed_values)) {
             return false;
