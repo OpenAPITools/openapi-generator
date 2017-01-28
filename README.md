@@ -798,6 +798,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Intent HQ](http://www.intenthq.com)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [Kabuku](http://www.kabuku.co.jp/en)
+- [Kurio](https://kurio.co.id)
 - [Kuroi](http://kuroiwebdesign.com/)
 - [Kuary](https://kuary.com/)
 - [Kubernetes](https://kubernetes.io/)
