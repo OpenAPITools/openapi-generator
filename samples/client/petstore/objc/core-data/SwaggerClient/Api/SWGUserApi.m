@@ -1,11 +1,12 @@
 #import "SWGUserApi.h"
 #import "SWGQueryParamCollection.h"
+#import "SWGApiClient.h"
 #import "SWGUser.h"
 
 
 @interface SWGUserApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -19,52 +20,31 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        SWGConfiguration *config = [SWGConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[SWGApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[SWGApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(SWGApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static SWGUserApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [SWGApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -72,10 +52,11 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 /// Create user
 /// This can only be done by the logged in user.
-/// @param body Created user object (optional)
+///  @param body Created user object (optional)
 ///
-///  code:0 message:"successful operation"
--(NSNumber*) createUserWithBody: (SWGUser*) body
+///  @returns void
+///
+-(NSURLSessionTask*) createUserWithBody: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user"];
 
@@ -123,17 +104,17 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Creates list of users with given input array
 /// 
-/// @param body List of user object (optional)
+///  @param body List of user object (optional)
 ///
-///  code:0 message:"successful operation"
--(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+///  @returns void
+///
+-(NSURLSessionTask*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithArray"];
 
@@ -181,17 +162,17 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Creates list of users with given input array
 /// 
-/// @param body List of user object (optional)
+///  @param body List of user object (optional)
 ///
-///  code:0 message:"successful operation"
--(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+///  @returns void
+///
+-(NSURLSessionTask*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithList"];
 
@@ -239,18 +220,17 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Delete user
 /// This can only be done by the logged in user.
-/// @param username The name that needs to be deleted 
+///  @param username The name that needs to be deleted 
 ///
-///  code:400 message:"Invalid username supplied",
-///  code:404 message:"User not found"
--(NSNumber*) deleteUserWithUsername: (NSString*) username
+///  @returns void
+///
+-(NSURLSessionTask*) deleteUserWithUsername: (NSString*) username
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
@@ -311,20 +291,17 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Get user by user name
 /// 
-/// @param username The name that needs to be fetched. Use user1 for testing.  
+///  @param username The name that needs to be fetched. Use user1 for testing.  
 ///
-///  code:200 message:"successful operation",
-///  code:400 message:"Invalid username supplied",
-///  code:404 message:"User not found"
-/// @return SWGUser*
--(NSNumber*) getUserByNameWithUsername: (NSString*) username
+///  @returns SWGUser*
+///
+-(NSURLSessionTask*) getUserByNameWithUsername: (NSString*) username
     completionHandler: (void (^)(SWGUser* output, NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
@@ -385,21 +362,19 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((SWGUser*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Logs user into the system
 /// 
-/// @param username The user name for login (optional)
+///  @param username The user name for login (optional)
 ///
-/// @param password The password for login in clear text (optional)
+///  @param password The password for login in clear text (optional)
 ///
-///  code:200 message:"successful operation",
-///  code:400 message:"Invalid username/password supplied"
-/// @return NSString*
--(NSNumber*) loginUserWithUsername: (NSString*) username
+///  @returns NSString*
+///
+-(NSURLSessionTask*) loginUserWithUsername: (NSString*) username
     password: (NSString*) password
     completionHandler: (void (^)(NSString* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/login"];
@@ -453,15 +428,15 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((NSString*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Logs out current logged in user session
 /// 
-///  code:0 message:"successful operation"
--(NSNumber*) logoutUserWithCompletionHandler: 
+///  @returns void
+///
+-(NSURLSessionTask*) logoutUserWithCompletionHandler: 
     (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/logout"];
 
@@ -508,20 +483,19 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
 /// Updated user
 /// This can only be done by the logged in user.
-/// @param username name that need to be deleted 
+///  @param username name that need to be deleted 
 ///
-/// @param body Updated user object (optional)
+///  @param body Updated user object (optional)
 ///
-///  code:400 message:"Invalid user supplied",
-///  code:404 message:"User not found"
--(NSNumber*) updateUserWithUsername: (NSString*) username
+///  @returns void
+///
+-(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
     body: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
@@ -584,9 +558,9 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
+
 
 
 @end
