@@ -898,6 +898,8 @@ Swagger Codegen core team members are contributors who have been making signific
 | Python Flask  |  |
 | Ruby Sinatra     | @wing328 (2016/05/01) |  |
 | Scala Scalatra |  |  |
+| Scala Finch | @jimschubert (2017/01/28) |
+
 
 ## Template Creator
 Here is a list of template creators:
