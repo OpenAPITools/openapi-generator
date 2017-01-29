@@ -30,14 +30,7 @@
         if (!output) {
             XCTFail(@"response can't be nil");
         }
-        
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"logged in user"
-                                                                               options:0
-                                                                                 error:nil];
-        NSTextCheckingResult *match = [regex firstMatchInString:output
-                                                        options:0
-                                                          range:NSMakeRange(0, [output length])];
-        XCTAssertNotNil(match);
+        XCTAssertTrue([output rangeOfString:@"logged in user"].location != NSNotFound);
         [expectation fulfill];
     }];
     
