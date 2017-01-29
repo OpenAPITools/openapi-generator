@@ -91,7 +91,7 @@ export const {{classname}}FetchParamCreator = {
 {{/hasQueryParams}}
         let fetchOptions: RequestInit = {{#supportsES6}}Object.{{/supportsES6}}assign({}, { method: "{{httpMethod}}" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
 {{#hasFormParams}}
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
         fetchOptions.body = querystring.stringify({
@@ -135,7 +135,7 @@ export const {{classname}}Fp = {
      * {{notes}}{{/notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{/allParams}}
      */
-    {{nickname}}({{#hasParams}}params: { {{#allParams}}"{{paramName}}"{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }, {{/hasParams}}options?: any): (fetch: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+    {{nickname}}({{#hasParams}}params: { {{#allParams}}"{{paramName}}"{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }, {{/hasParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
         const fetchArgs = {{classname}}FetchParamCreator.{{nickname}}({{#hasParams}}params, {{/hasParams}}options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
