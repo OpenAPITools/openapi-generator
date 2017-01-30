@@ -7,6 +7,7 @@ io.swagger.codegen.languages.ConfluenceWikiGenerator
 io.swagger.codegen.languages.CSharpClientCodegen
 io.swagger.codegen.languages.CppRestClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
+io.swagger.codegen.languages.ElixirClientCodegen
 io.swagger.codegen.languages.FlashClientCodegen
 io.swagger.codegen.languages.FlaskConnexionCodegen
 io.swagger.codegen.languages.GoClientCodegen
