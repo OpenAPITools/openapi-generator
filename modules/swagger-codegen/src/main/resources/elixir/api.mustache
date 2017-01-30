@@ -1,0 +1,28 @@
+defmodule {{#modulized}}{{appName}}{{/modulized}}.Api.{{classname}} do
+  @moduledoc """
+  Documentation for {{#modulized}}{{appName}}{{/modulized}}.Api.{{classname}}.
+  """
+
+  use Tesla
+
+  plug Tesla.Middleware.BaseUrl, "{{basePath}}"
+  plug Tesla.Middleware.JSON
+{{#operations}}
+    {{#operation}}
+
+  def {{#underscored}}{{operationId}}{{/underscored}}({{#allParams}}{{^-first}}, {{/-first}}{{#underscored}}{{paramName}}{{/underscored}}{{/allParams}}) do
+    method = [method: :{{#underscored}}{{httpMethod}}{{/underscored}}]
+    url = [url: "{{replacedPathName}}"]
+    query_params = [{{^queryParams.isEmpty}}query: [{{#queryParams}}{{^-first}}, {{/-first}}{:"{{paramName}}", {{#underscored}}{{paramName}}{{/underscored}}}{{/queryParams}}]{{/queryParams.isEmpty}}]
+    header_params = [{{^headerParams.isEmpty}}header: [{{#headerParams}}{{^-first}}, {{/-first}}{:"{{paramName}}", {{#underscored}}{{paramName}}{{/underscored}}}{{/headerParams}}]{{/headerParams.isEmpty}}]
+    body_params = [{{^bodyParams.isEmpty}}body: {{#bodyParams}}{{#underscored}}{{paramName}}{{/underscored}}{{/bodyParams}}{{/bodyParams.isEmpty}}]
+    form_params = [{{^formParams.isEmpty}}body: Enum.map_join([{{#formParams}}{{^-first}}, {{/-first}}{:"{{paramName}}", {{#underscored}}{{paramName}}{{/underscored}}}{{/formParams}}], "&", &("#{elem(&1, 0)}=#{elem(&1, 1)}")){{/formParams.isEmpty}}]
+    params = query_params ++ header_params ++ body_params ++ form_params
+    opts = []
+    options = method ++ url ++ params ++ opts
+
+    request(options)
+  end
+    {{/operation}}
+{{/operations}}
+end
