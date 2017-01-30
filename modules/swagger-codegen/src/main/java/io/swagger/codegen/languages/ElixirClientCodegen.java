@@ -374,4 +374,15 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.replacedPathName = replacedPathName;
         }
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // no need to escape as Elixir does not support multi-line comments
+        return input;
+    }
 }
