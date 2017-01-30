@@ -910,6 +910,7 @@ Here is a list of template creators:
    * C# (.NET 2.0): @who
    * Clojure: @xhh
    * Dart: @yissachar
+   * Elixir: @niku
    * Groovy: @victorgit
    * Go: @wing328
    * Java (Feign): @davidkiss
