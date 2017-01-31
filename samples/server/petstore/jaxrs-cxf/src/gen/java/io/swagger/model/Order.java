@@ -67,9 +67,16 @@ public enum StatusEnum {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
+
+  public Order id(Long id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get petId
    * @return petId
@@ -77,9 +84,16 @@ public enum StatusEnum {
   public Long getPetId() {
     return petId;
   }
+
   public void setPetId(Long petId) {
     this.petId = petId;
   }
+
+  public Order petId(Long petId) {
+    this.petId = petId;
+    return this;
+  }
+
  /**
    * Get quantity
    * @return quantity
@@ -87,9 +101,16 @@ public enum StatusEnum {
   public Integer getQuantity() {
     return quantity;
   }
+
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
+
+  public Order quantity(Integer quantity) {
+    this.quantity = quantity;
+    return this;
+  }
+
  /**
    * Get shipDate
    * @return shipDate
@@ -97,9 +118,16 @@ public enum StatusEnum {
   public javax.xml.datatype.XMLGregorianCalendar getShipDate() {
     return shipDate;
   }
+
   public void setShipDate(javax.xml.datatype.XMLGregorianCalendar shipDate) {
     this.shipDate = shipDate;
   }
+
+  public Order shipDate(javax.xml.datatype.XMLGregorianCalendar shipDate) {
+    this.shipDate = shipDate;
+    return this;
+  }
+
  /**
    * Order Status
    * @return status
@@ -107,9 +135,16 @@ public enum StatusEnum {
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
+
+  public Order status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
  /**
    * Get complete
    * @return complete
@@ -117,9 +152,16 @@ public enum StatusEnum {
   public Boolean getComplete() {
     return complete;
   }
+
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
+
+  public Order complete(Boolean complete) {
+    this.complete = complete;
+    return this;
+  }
+
 
   @Override
   public String toString() {

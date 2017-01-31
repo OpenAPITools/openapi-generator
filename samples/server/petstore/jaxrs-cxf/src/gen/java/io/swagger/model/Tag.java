@@ -26,9 +26,16 @@ public class Tag  {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
+
+  public Tag id(Long id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get name
    * @return name
@@ -36,9 +43,16 @@ public class Tag  {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
+
+  public Tag name(String name) {
+    this.name = name;
+    return this;
+  }
+
 
   @Override
   public String toString() {
