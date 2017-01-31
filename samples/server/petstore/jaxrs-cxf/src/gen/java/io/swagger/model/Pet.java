@@ -71,9 +71,16 @@ public enum StatusEnum {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
+
+  public Pet id(Long id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get category
    * @return category
@@ -81,9 +88,16 @@ public enum StatusEnum {
   public Category getCategory() {
     return category;
   }
+
   public void setCategory(Category category) {
     this.category = category;
   }
+
+  public Pet category(Category category) {
+    this.category = category;
+    return this;
+  }
+
  /**
    * Get name
    * @return name
@@ -91,9 +105,16 @@ public enum StatusEnum {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
+
+  public Pet name(String name) {
+    this.name = name;
+    return this;
+  }
+
  /**
    * Get photoUrls
    * @return photoUrls
@@ -101,9 +122,21 @@ public enum StatusEnum {
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
+
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
+
+  public Pet photoUrls(List<String> photoUrls) {
+    this.photoUrls = photoUrls;
+    return this;
+  }
+
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
  /**
    * Get tags
    * @return tags
@@ -111,9 +144,21 @@ public enum StatusEnum {
   public List<Tag> getTags() {
     return tags;
   }
+
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
+
+  public Pet tags(List<Tag> tags) {
+    this.tags = tags;
+    return this;
+  }
+
+  public Pet addTagsItem(Tag tagsItem) {
+    this.tags.add(tagsItem);
+    return this;
+  }
+
  /**
    * pet status in the store
    * @return status
@@ -121,9 +166,16 @@ public enum StatusEnum {
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
+
+  public Pet status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
 
   @Override
   public String toString() {
