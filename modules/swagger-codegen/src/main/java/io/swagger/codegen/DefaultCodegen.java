@@ -1759,6 +1759,7 @@ public class DefaultCodegen {
             LOGGER.warn("skipping invalid array property " + Json.pretty(property));
             return;
         }
+        property.dataFormat = innerProperty.dataFormat;
         if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
             property.complexType = innerProperty.baseType;
         } else {
@@ -1795,6 +1796,7 @@ public class DefaultCodegen {
             property.isPrimitiveType = true;
         }
         property.items = innerProperty;
+        property.dataFormat = innerProperty.dataFormat;
         // inner item is Enum
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
