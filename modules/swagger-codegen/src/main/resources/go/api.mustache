@@ -82,8 +82,8 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{paramName}} {{{dataType}
 	{{#hasQueryParams}}
 	{{#queryParams}}
 	{{#isListContainer}}
-	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
-	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
+	var {{paramName}}CollectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
+	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, {{paramName}}CollectionFormat))
 
 	{{/isListContainer}}
 	{{^isListContainer}}
