@@ -22,7 +22,7 @@ type FormatTest struct {
 
 	Int64_ int64 `json:"int64,omitempty"`
 
-	Number float32 `json:"number,omitempty"`
+	Number float32 `json:"number"`
 
 	Float float32 `json:"float,omitempty"`
 
@@ -30,15 +30,15 @@ type FormatTest struct {
 
 	String_ string `json:"string,omitempty"`
 
-	Byte_ string `json:"byte,omitempty"`
+	Byte_ string `json:"byte"`
 
 	Binary string `json:"binary,omitempty"`
 
-	Date time.Time `json:"date,omitempty"`
+	Date time.Time `json:"date"`
 
 	DateTime time.Time `json:"dateTime,omitempty"`
 
 	Uuid string `json:"uuid,omitempty"`
 
-	Password string `json:"password,omitempty"`
+	Password string `json:"password"`
 }

@@ -18,7 +18,7 @@ import (
 
 
 type Configuration struct {
-	UserName      string            `json:"userName,omitempty"`
+	Username      string            `json:"userName,omitempty"`
 	Password      string            `json:"password,omitempty"`
 	APIKeyPrefix  map[string]string `json:"APIKeyPrefix,omitempty"`
 	APIKey        map[string]string `json:"APIKey,omitempty"`
@@ -51,7 +51,7 @@ func NewConfiguration() *Configuration {
 }
 
 func (c *Configuration) GetBasicAuthEncodedString() string {
-	return base64.StdEncoding.EncodeToString([]byte(c.UserName + ":" + c.Password))
+	return base64.StdEncoding.EncodeToString([]byte(c.Username + ":" + c.Password))
 }
 
 func (c *Configuration) AddDefaultHeader(key string, value string) {

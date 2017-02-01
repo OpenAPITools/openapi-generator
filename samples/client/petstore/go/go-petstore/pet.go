@@ -16,9 +16,9 @@ type Pet struct {
 
 	Category Category `json:"category,omitempty"`
 
-	Name string `json:"name,omitempty"`
+	Name string `json:"name"`
 
-	PhotoUrls []string `json:"photoUrls,omitempty"`
+	PhotoUrls []string `json:"photoUrls"`
 
 	Tags []Tag `json:"tags,omitempty"`
 
