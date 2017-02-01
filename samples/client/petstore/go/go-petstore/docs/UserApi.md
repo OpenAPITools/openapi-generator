@@ -1,6 +1,6 @@
 # \UserApi
 
-All URIs are relative to **
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
