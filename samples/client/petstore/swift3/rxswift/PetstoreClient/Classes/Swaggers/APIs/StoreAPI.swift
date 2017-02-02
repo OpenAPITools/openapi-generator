@@ -60,6 +60,7 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -114,6 +115,7 @@ open class StoreAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -199,6 +201,7 @@ open class StoreAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
+
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -281,6 +284,7 @@ open class StoreAPI: APIBase {
         let parameters = body.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
