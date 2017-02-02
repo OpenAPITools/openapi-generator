@@ -21,6 +21,16 @@ class APIHelper {
         return destination
     }
 
+    static func rejectNilHeaders(_ source: [String:Any?]) -> [String:String] {
+        var destination = [String:String]()
+        for (key, nillableValue) in source {
+            if let value: Any = nillableValue {
+                destination[key] = "\(value)"
+            }
+        }
+        return destination
+    }
+
     static func convertBoolToString(_ source: [String: Any]?) -> [String:Any]? {
         guard let source = source else {
             return nil
