@@ -133,11 +133,15 @@ open class {{classname}}: APIBase {
             {{> _param}}{{#hasMore}}, {{/hasMore}}
             {{/queryParams}}
         ])
-        {{/hasQueryParams}}
+        {{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
+        let nillableHeaders: [String: Any?] = [{{/secondaryParam}}
+            {{> _param}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+        ]
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders){{/hasMore}}{{/headerParams}}
 
         let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, isBody: {{hasBodyParam}})
+        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, isBody: {{hasBodyParam}}{{#headerParams}}{{^secondaryParam}}, headers: headerParameters{{/secondaryParam}}{{/headerParams}})
     }
 
 {{/operation}}
