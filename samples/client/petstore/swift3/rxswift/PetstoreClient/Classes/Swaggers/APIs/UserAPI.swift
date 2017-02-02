@@ -59,6 +59,7 @@ open class UserAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -111,6 +112,7 @@ open class UserAPI: APIBase {
         let parameters = body.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -165,6 +167,7 @@ open class UserAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
@@ -218,6 +221,7 @@ open class UserAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -311,6 +315,7 @@ open class UserAPI: APIBase {
 
         let url = NSURLComponents(string: URLString)
 
+
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
@@ -374,6 +379,7 @@ open class UserAPI: APIBase {
             "username": username, 
             "password": password
         ])
+        
 
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -423,6 +429,7 @@ open class UserAPI: APIBase {
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
@@ -480,6 +487,7 @@ open class UserAPI: APIBase {
         let parameters = body.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 

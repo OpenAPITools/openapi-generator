@@ -119,11 +119,15 @@ public class {{classname}}: APIBase {
  
         let parameters = APIHelper.rejectNil(nillableParameters){{/bodyParam}}
  
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
+        let convertedParameters = APIHelper.convertBoolToString(parameters){{#headerParams}}{{^secondaryParam}}
+        let nillableHeaders: [String: AnyObject?] = [{{/secondaryParam}}
+            {{> _param}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
+        ]
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders){{/hasMore}}{{/headerParams}}
  
         let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: URLString, parameters: convertedParameters, isBody: {{^queryParams}}{{^formParams}}true{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/queryParams}}{{#formParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/formParams}})
+        return requestBuilder.init(method: "{{httpMethod}}", URLString: URLString, parameters: convertedParameters, isBody: {{^queryParams}}{{^formParams}}true{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/queryParams}}{{#formParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/formParams}}{{#headerParams}}{{^secondaryParam}}, headers: headerParameters{{/secondaryParam}}{{/headerParams}})
     }
 
 {{/operation}}
