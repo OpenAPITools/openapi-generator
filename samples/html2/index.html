@@ -1858,8 +1858,8 @@ except ApiException as e:
   "type" : "array",
   "items" : {
     "type" : "string",
-    "default" : "available",
-    "enum" : [ "available", "pending", "sold" ]
+    "enum" : [ "available", "pending", "sold" ],
+    "default" : "available"
   },
   "collectionFormat" : "csv"
 };
@@ -3924,8 +3924,7 @@ except ApiException as e:
   "in" : "path",
   "description" : "ID of the order that needs to be deleted",
   "required" : true,
-  "type" : "string",
-  "minimum" : 1.0
+  "type" : "string"
 };
 													var schema = schemaWrapper;
 
@@ -7113,7 +7112,7 @@ except ApiException as e:
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2017-01-16T09:17:32.398-08:00
+              Generated 2017-01-24T11:58:21.560-05:00
             </div>
           </div>
       </div>
