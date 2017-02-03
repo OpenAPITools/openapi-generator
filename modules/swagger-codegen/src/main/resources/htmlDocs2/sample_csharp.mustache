@@ -25,10 +25,10 @@ namespace Example
             var apiInstance = new {{classname}}();
             {{#allParams}}
             {{#isPrimitiveType}}
-            var {{paramName}} = {{example}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = {{example}};  // {{{dataType}}} | {{{unescapedDescription}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
-            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{unescapedDescription}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{/allParams}}
 

@@ -11,6 +11,7 @@ public class CodegenProperty implements Cloneable {
           datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
           baseType, containerType, title;
 
+    /** The 'description' string without escape charcters needed by some programming languages/targets */
     public String unescapedDescription;
 
     /**
@@ -323,6 +324,6 @@ public class CodegenProperty implements Cloneable {
             throw new IllegalStateException(e);
         }
     }
-    
-    
+
+
 }
