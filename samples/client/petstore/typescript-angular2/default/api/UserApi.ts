@@ -189,7 +189,7 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -198,7 +198,7 @@ export class UserApi {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -206,7 +206,7 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Creates list of users with given input array
      * 
@@ -226,7 +226,7 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -235,7 +235,7 @@ export class UserApi {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -243,7 +243,7 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Creates list of users with given input array
      * 
@@ -263,7 +263,7 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -272,7 +272,7 @@ export class UserApi {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -280,7 +280,7 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -304,13 +304,13 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -318,7 +318,7 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Get user by user name
      * 
@@ -342,13 +342,13 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -356,7 +356,7 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Logs user into the system
      * 
@@ -393,13 +393,13 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -407,7 +407,7 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Logs out current logged in user session
      * 
@@ -426,13 +426,13 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -440,7 +440,7 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -465,7 +465,7 @@ export class UserApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -474,7 +474,7 @@ export class UserApi {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -482,5 +482,5 @@ export class UserApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
 }
