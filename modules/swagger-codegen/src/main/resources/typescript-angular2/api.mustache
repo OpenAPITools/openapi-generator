@@ -125,7 +125,7 @@ export class {{classname}} {
             '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
             {{/produces}}
         ];
-        
+
 {{#authMethods}}
         // authentication ({{name}}) required
 {{#isApiKey}}
@@ -137,7 +137,7 @@ export class {{classname}} {
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
         if (this.configuration.apiKey) {
-            formParams.set('{{keyParamName}}', this.configuration.apiKey);
+            queryParameters.set('{{keyParamName}}', this.configuration.apiKey);
         }
 
 {{/isKeyInQuery}}
@@ -199,7 +199,7 @@ export class {{classname}} {
 {{/hasFormParams}}
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -207,7 +207,7 @@ export class {{classname}} {
 
         return this.http.request(path, requestOptions);
     }
-    
+
 {{/operation}}
 }
 {{/operations}}

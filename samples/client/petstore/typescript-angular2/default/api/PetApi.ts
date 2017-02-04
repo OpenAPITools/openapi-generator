@@ -195,7 +195,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -213,7 +213,7 @@ export class PetApi {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -221,7 +221,7 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Deletes a pet
      * 
@@ -248,7 +248,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -263,7 +263,7 @@ export class PetApi {
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -271,7 +271,7 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -297,7 +297,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -312,7 +312,7 @@ export class PetApi {
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -320,7 +320,7 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -346,7 +346,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -361,7 +361,7 @@ export class PetApi {
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -369,7 +369,7 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Find pet by ID
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
@@ -393,7 +393,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -413,7 +413,7 @@ export class PetApi {
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -421,7 +421,7 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Update an existing pet
      * 
@@ -443,7 +443,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -461,7 +461,7 @@ export class PetApi {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -469,7 +469,7 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * Updates a pet in the store with form data
      * 
@@ -498,7 +498,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -524,7 +524,7 @@ export class PetApi {
             body: formParams.toString(),
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -532,7 +532,7 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
     /**
      * uploads an image
      * 
@@ -561,7 +561,7 @@ export class PetApi {
             'application/json', 
             'application/xml'
         ];
-        
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -587,7 +587,7 @@ export class PetApi {
             body: formParams.toString(),
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -595,5 +595,5 @@ export class PetApi {
 
         return this.http.request(path, requestOptions);
     }
-    
+
 }
