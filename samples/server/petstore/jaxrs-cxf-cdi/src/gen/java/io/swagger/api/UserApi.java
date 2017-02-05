@@ -12,18 +12,20 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import io.swagger.annotations.*;
+import java.io.InputStream;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import java.util.List;
-
+import javax.validation.constraints.*;
 @Path("/user")
 @RequestScoped
 
 @Api(description = "the user API")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-11-17T08:53:42.205Z")
+
 
 public class UserApi  {
 
@@ -98,7 +100,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
-    public Response loginUser(@ApiParam(value = "The user name for login",required=true)  @QueryParam("username") String username, @ApiParam(value = "The password for login in clear text",required=true)  @QueryParam("password") String password) {
+    public Response loginUser( @NotNull @ApiParam(value = "The user name for login",required=true)  @QueryParam("username") String username,  @NotNull @ApiParam(value = "The password for login in clear text",required=true)  @QueryParam("password") String password) {
     	return delegate.loginUser(username, password, securityContext);
     }
 
