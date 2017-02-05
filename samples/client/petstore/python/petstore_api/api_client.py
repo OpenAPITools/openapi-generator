@@ -116,7 +116,7 @@ class ApiClient(object):
                                                     collection_formats)
             for k, v in path_params:
                 resource_path = resource_path.replace(
-                    '{%s}' % k, quote(str(v)))
+                    '{%s}' % k, quote(str(v), safe=''))  # no safe chars, encode everything
 
         # query parameters
         if query_params:
