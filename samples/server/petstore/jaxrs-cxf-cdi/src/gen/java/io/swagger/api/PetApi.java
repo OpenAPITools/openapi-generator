@@ -13,18 +13,20 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import io.swagger.annotations.*;
+import java.io.InputStream;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import java.util.List;
-
+import javax.validation.constraints.*;
 @Path("/pet")
 @RequestScoped
 
 @Api(description = "the pet API")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-11-17T08:53:42.205Z")
+
 
 public class PetApi  {
 
@@ -78,7 +80,7 @@ public class PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Pet.class, responseContainer = "List") })
-    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="available, pending, sold")  @QueryParam("status") List<String> status) {
+    public Response findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter",required=true, allowableValues="available, pending, sold")  @QueryParam("status") List<String> status) {
     	return delegate.findPetsByStatus(status, securityContext);
     }
 
@@ -95,7 +97,7 @@ public class PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value", response = Pet.class, responseContainer = "List") })
-    public Response findPetsByTags(@ApiParam(value = "Tags to filter by",required=true)  @QueryParam("tags") List<String> tags) {
+    public Response findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by",required=true)  @QueryParam("tags") List<String> tags) {
     	return delegate.findPetsByTags(tags, securityContext);
     }
 
@@ -161,6 +163,6 @@ public class PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file", required = false) InputStream fileInputStream, @Multipart(value = "file" , required = false) Attachment fileDetail) {
-    	return delegate.uploadFile(petId, additionalMetadata, inputStream, fileDetail, securityContext);
+    	return delegate.uploadFile(petId, additionalMetadata, fileInputStream, fileDetail, securityContext);
     }
 }

@@ -1128,11 +1128,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
     
     public boolean convertPropertyToBoolean(String propertyKey) {
-          boolean booleanValue = false;
-          if (additionalProperties.containsKey(propertyKey)) {
-              booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
-       }
- 
+        boolean booleanValue = false;
+        if (additionalProperties.containsKey(propertyKey)) {
+            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
+        }
+
        return booleanValue;
     }
     
