@@ -4,6 +4,7 @@ import io.swagger.model.Animal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -30,9 +31,16 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   public String getUuid() {
     return uuid;
   }
+
   public void setUuid(String uuid) {
     this.uuid = uuid;
   }
+
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(String uuid) {
+    this.uuid = uuid;
+    return this;
+  }
+
  /**
    * Get dateTime
    * @return dateTime
@@ -40,9 +48,16 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   public javax.xml.datatype.XMLGregorianCalendar getDateTime() {
     return dateTime;
   }
+
   public void setDateTime(javax.xml.datatype.XMLGregorianCalendar dateTime) {
     this.dateTime = dateTime;
   }
+
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(javax.xml.datatype.XMLGregorianCalendar dateTime) {
+    this.dateTime = dateTime;
+    return this;
+  }
+
  /**
    * Get map
    * @return map
@@ -50,9 +65,21 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   public Map<String, Animal> getMap() {
     return map;
   }
+
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
+
+  public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
+    this.map = map;
+    return this;
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
+    this.map.put(key, mapItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {

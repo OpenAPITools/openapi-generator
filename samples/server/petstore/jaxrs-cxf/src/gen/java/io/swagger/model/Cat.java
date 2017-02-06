@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.model.Animal;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,9 +24,16 @@ public class Cat extends Animal {
   public Boolean getDeclawed() {
     return declawed;
   }
+
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
+
+  public Cat declawed(Boolean declawed) {
+    this.declawed = declawed;
+    return this;
+  }
+
 
   @Override
   public String toString() {

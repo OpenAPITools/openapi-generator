@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,9 +23,16 @@ public class Client  {
   public String getClient() {
     return client;
   }
+
   public void setClient(String client) {
     this.client = client;
   }
+
+  public Client client(String client) {
+    this.client = client;
+    return this;
+  }
+
 
   @Override
   public String toString() {

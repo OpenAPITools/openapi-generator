@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,12 +28,20 @@ public class Name  {
    * Get name
    * @return name
   **/
+  @NotNull
   public Integer getName() {
     return name;
   }
+
   public void setName(Integer name) {
     this.name = name;
   }
+
+  public Name name(Integer name) {
+    this.name = name;
+    return this;
+  }
+
  /**
    * Get snakeCase
    * @return snakeCase
@@ -40,9 +49,8 @@ public class Name  {
   public Integer getSnakeCase() {
     return snakeCase;
   }
-  public void setSnakeCase(Integer snakeCase) {
-    this.snakeCase = snakeCase;
-  }
+
+
  /**
    * Get property
    * @return property
@@ -50,9 +58,16 @@ public class Name  {
   public String getProperty() {
     return property;
   }
+
   public void setProperty(String property) {
     this.property = property;
   }
+
+  public Name property(String property) {
+    this.property = property;
+    return this;
+  }
+
  /**
    * Get _123Number
    * @return _123Number
@@ -60,9 +75,8 @@ public class Name  {
   public Integer get123Number() {
     return _123Number;
   }
-  public void set123Number(Integer _123Number) {
-    this._123Number = _123Number;
-  }
+
+
 
   @Override
   public String toString() {

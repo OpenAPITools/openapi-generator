@@ -16,6 +16,7 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.jaxrs.PATCH;
+import javax.validation.constraints.*;
 
 @Path("/")
 @Api(value = "/", description = "")
@@ -40,6 +41,6 @@ public interface FakeApi  {
     @Consumes({ "*/*" })
     @Produces({ "*/*" })
     @ApiOperation(value = "To test enum parameters", tags={ "fake" })
-    public void testEnumParameters(@Multipart(value = "enumFormStringArray", required = false)  List<String> enumFormStringArray, @Multipart(value = "enumFormString", required = false)  String enumFormString, @HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array")List<String> enumQueryStringArray, @QueryParam("enum_query_string")String enumQueryString, @QueryParam("enum_query_integer")Integer enumQueryInteger, @Multipart(value = "enumQueryDouble", required = false)  Double enumQueryDouble);
+    public void testEnumParameters(@Multipart(value = "enumFormStringArray", required = false)  List<String> enumFormStringArray, @Multipart(value = "enumFormString", required = false)  String enumFormString, @HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @Multipart(value = "enumQueryDouble", required = false)  Double enumQueryDouble);
 }
 

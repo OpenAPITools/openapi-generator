@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.model.Animal;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,9 +24,16 @@ public class Dog extends Animal {
   public String getBreed() {
     return breed;
   }
+
   public void setBreed(String breed) {
     this.breed = breed;
   }
+
+  public Dog breed(String breed) {
+    this.breed = breed;
+    return this;
+  }
+
 
   @Override
   public String toString() {

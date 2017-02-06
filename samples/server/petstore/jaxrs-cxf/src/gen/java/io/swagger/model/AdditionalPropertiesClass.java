@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,9 +28,21 @@ public class AdditionalPropertiesClass  {
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
+
   public void setMapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
+
+  public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
+    this.mapProperty = mapProperty;
+    return this;
+  }
+
+  public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
+    this.mapProperty.put(key, mapPropertyItem);
+    return this;
+  }
+
  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
@@ -37,9 +50,21 @@ public class AdditionalPropertiesClass  {
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
+
   public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
+
+  public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
+    this.mapOfMapProperty = mapOfMapProperty;
+    return this;
+  }
+
+  public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
+    this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {

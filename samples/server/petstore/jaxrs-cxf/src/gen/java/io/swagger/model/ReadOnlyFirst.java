@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,9 +25,8 @@ public class ReadOnlyFirst  {
   public String getBar() {
     return bar;
   }
-  public void setBar(String bar) {
-    this.bar = bar;
-  }
+
+
  /**
    * Get baz
    * @return baz
@@ -34,9 +34,16 @@ public class ReadOnlyFirst  {
   public String getBaz() {
     return baz;
   }
+
   public void setBaz(String baz) {
     this.baz = baz;
   }
+
+  public ReadOnlyFirst baz(String baz) {
+    this.baz = baz;
+    return this;
+  }
+
 
   @Override
   public String toString() {
