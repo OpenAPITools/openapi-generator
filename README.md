@@ -834,6 +834,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Saritasa](https://www.saritasa.com/)
 - [SCOOP Software GmbH](http://www.scoop-software.de)
 - [Shine Solutions](https://shinesolutions.com/)
+- [Simpfony](https://www.simpfony.com/)
 - [Skurt](http://www.skurt.com)
 - [Slamby](https://www.slamby.com/)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
