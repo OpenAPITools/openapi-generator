@@ -835,6 +835,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [SCOOP Software GmbH](http://www.scoop-software.de)
 - [Shine Solutions](https://shinesolutions.com/)
 - [Skurt](http://www.skurt.com)
+- [Slamby](https://www.slamby.com/)
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [snapCX](https://snapcx.io)
 - [SRC](https://www.src.si/)
