@@ -484,7 +484,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return "\"" + dp.getDefault() + "\"";
+               String _default = dp.getDefault();
+               if (dp.getEnum() == null) {
+                   return "\"" + _default + "\"";
+               } else {
+                   // convert to enum var name later in postProcessModels
+                   return _default;
+               }
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;
