@@ -65,8 +65,14 @@
       var pathParams = {<#pathParams>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
       };
-      var queryParams = {<#queryParams>
-        '<baseName>': <#collectionFormat>this.apiClient.buildCollectionParam(<#required><paramName></required><^required>opts['<paramName>']</required>, '<collectionFormat>')</collectionFormat><^collectionFormat><#required><paramName></required><^required>opts['<paramName>']</required></collectionFormat><#hasMore>,</hasMore></queryParams>
+      var queryParams = {<#queryParams><^collectionFormat>
+        '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required>,</collectionFormat></queryParams>
+      };
+      var collectionQueryParams = {<#queryParams><#collectionFormat>
+        '<baseName>': {
+          value: <#required><paramName></required><^required>opts['<paramName>']</required>,
+          collectionFormat: '<collectionFormat>'
+        },</collectionFormat></queryParams>
       };
       var headerParams = {<#headerParams>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></headerParams>
@@ -82,7 +88,7 @@
 
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
-        pathParams, queryParams, headerParams, formParams, postBody,
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
       );
     }
