@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import java.math.BigDecimal;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -23,9 +24,16 @@ public class NumberOnly  {
   public BigDecimal getJustNumber() {
     return justNumber;
   }
+
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
+
+  public NumberOnly justNumber(BigDecimal justNumber) {
+    this.justNumber = justNumber;
+    return this;
+  }
+
 
   @Override
   public String toString() {

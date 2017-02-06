@@ -3,6 +3,7 @@ package io.swagger.model;
 import io.swagger.model.Animal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;

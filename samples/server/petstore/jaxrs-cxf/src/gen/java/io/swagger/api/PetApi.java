@@ -16,6 +16,7 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.jaxrs.PATCH;
+import javax.validation.constraints.*;
 
 @Path("/")
 @Api(value = "/", description = "")
@@ -38,13 +39,13 @@ public interface PetApi  {
     @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by status", tags={ "pet",  })
-    public List<Pet> findPetsByStatus(@QueryParam("status")List<String> status);
+    public List<Pet> findPetsByStatus(@QueryParam("status") @NotNull List<String> status);
 
     @GET
     @Path("/pet/findByTags")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by tags", tags={ "pet",  })
-    public List<Pet> findPetsByTags(@QueryParam("tags")List<String> tags);
+    public List<Pet> findPetsByTags(@QueryParam("tags") @NotNull List<String> tags);
 
     @GET
     @Path("/pet/{petId}")

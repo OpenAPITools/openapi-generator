@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.model.OuterEnum;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -128,9 +129,16 @@ public enum EnumNumberEnum {
   public EnumStringEnum getEnumString() {
     return enumString;
   }
+
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
+
+  public EnumTest enumString(EnumStringEnum enumString) {
+    this.enumString = enumString;
+    return this;
+  }
+
  /**
    * Get enumInteger
    * @return enumInteger
@@ -138,9 +146,16 @@ public enum EnumNumberEnum {
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
+
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
+
+  public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
+    this.enumInteger = enumInteger;
+    return this;
+  }
+
  /**
    * Get enumNumber
    * @return enumNumber
@@ -148,9 +163,16 @@ public enum EnumNumberEnum {
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
+
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
+
+  public EnumTest enumNumber(EnumNumberEnum enumNumber) {
+    this.enumNumber = enumNumber;
+    return this;
+  }
+
  /**
    * Get outerEnum
    * @return outerEnum
@@ -158,9 +180,16 @@ public enum EnumNumberEnum {
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
+
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
+
+  public EnumTest outerEnum(OuterEnum outerEnum) {
+    this.outerEnum = outerEnum;
+    return this;
+  }
+
 
   @Override
   public String toString() {
