@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,9 +26,21 @@ public class ArrayOfNumberOnly  {
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
+
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
+
+  public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
+    this.arrayNumber = arrayNumber;
+    return this;
+  }
+
+  public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
+    this.arrayNumber.add(arrayNumberItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {

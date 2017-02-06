@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

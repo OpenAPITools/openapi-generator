@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -60,9 +61,21 @@ public enum InnerEnum {
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
+
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
+
+  public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
+    this.mapMapOfString = mapMapOfString;
+    return this;
+  }
+
+  public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    this.mapMapOfString.put(key, mapMapOfStringItem);
+    return this;
+  }
+
  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
@@ -70,9 +83,21 @@ public enum InnerEnum {
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
+
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
+
+  public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
+    this.mapOfEnumString = mapOfEnumString;
+    return this;
+  }
+
+  public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    this.mapOfEnumString.put(key, mapOfEnumStringItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {

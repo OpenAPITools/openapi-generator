@@ -3,6 +3,7 @@ package io.swagger.model;
 import io.swagger.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,9 +30,21 @@ public class ArrayTest  {
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
+
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
+
+  public ArrayTest arrayOfString(List<String> arrayOfString) {
+    this.arrayOfString = arrayOfString;
+    return this;
+  }
+
+  public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    this.arrayOfString.add(arrayOfStringItem);
+    return this;
+  }
+
  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
@@ -39,9 +52,21 @@ public class ArrayTest  {
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
+
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
+
+  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+    this.arrayArrayOfInteger = arrayArrayOfInteger;
+    return this;
+  }
+
+  public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+    return this;
+  }
+
  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
@@ -49,9 +74,21 @@ public class ArrayTest  {
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
+
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
+
+  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    this.arrayArrayOfModel = arrayArrayOfModel;
+    return this;
+  }
+
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {

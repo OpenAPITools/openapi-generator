@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -92,9 +93,16 @@ public enum ArrayEnumEnum {
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
+
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
+
+  public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+    this.justSymbol = justSymbol;
+    return this;
+  }
+
  /**
    * Get arrayEnum
    * @return arrayEnum
@@ -102,9 +110,21 @@ public enum ArrayEnumEnum {
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
+
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
+
+  public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+    this.arrayEnum = arrayEnum;
+    return this;
+  }
+
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    this.arrayEnum.add(arrayEnumItem);
+    return this;
+  }
+
 
   @Override
   public String toString() {
