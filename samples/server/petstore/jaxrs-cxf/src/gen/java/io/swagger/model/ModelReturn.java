@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,9 +25,16 @@ public class ModelReturn  {
   public Integer getReturn() {
     return _return;
   }
+
   public void setReturn(Integer _return) {
     this._return = _return;
   }
+
+  public ModelReturn _return(Integer _return) {
+    this._return = _return;
+    return this;
+  }
+
 
   @Override
   public String toString() {

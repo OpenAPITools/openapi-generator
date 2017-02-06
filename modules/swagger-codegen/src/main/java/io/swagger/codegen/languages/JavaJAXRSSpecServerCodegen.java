@@ -21,9 +21,8 @@ import io.swagger.models.Swagger;
 import io.swagger.models.properties.Property;
 import io.swagger.util.Json;
 
-public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen implements BeanValidationFeatures
+public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen 
 {    
-    protected boolean useBeanValidation = true;
     
     public JavaJAXRSSpecServerCodegen()
     {
@@ -71,22 +70,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen i
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
-        
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
     }
     
     @Override
     public void processOpts()
     {
         super.processOpts();
-        
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-
-        if (useBeanValidation) {
-            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-        }
         
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -159,9 +148,4 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen i
     {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
-    
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-    
 }
