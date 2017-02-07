@@ -375,8 +375,8 @@
           "description" : "ID of pet that needs to be fetched",
           "required" : true,
           "type" : "integer",
-          "maximum" : 5,
-          "minimum" : 1,
+          "maximum" : 5.0,
+          "minimum" : 1.0,
           "format" : "int64"
         } ],
         "responses" : {
@@ -736,16 +736,16 @@
           "description" : "None",
           "required" : false,
           "type" : "integer",
-          "maximum" : 100,
-          "minimum" : 10
+          "maximum" : 100.0,
+          "minimum" : 10.0
         }, {
           "name" : "int32",
           "in" : "formData",
           "description" : "None",
           "required" : false,
           "type" : "integer",
-          "maximum" : 200,
-          "minimum" : 20,
+          "maximum" : 200.0,
+          "minimum" : 20.0,
           "format" : "int32"
         }, {
           "name" : "int64",
@@ -760,15 +760,15 @@
           "description" : "None",
           "required" : true,
           "type" : "number",
-          "maximum" : 543.200000000000045474735088646411895751953125,
-          "minimum" : 32.10000000000000142108547152020037174224853515625
+          "maximum" : 543.2,
+          "minimum" : 32.1
         }, {
           "name" : "float",
           "in" : "formData",
           "description" : "None",
           "required" : false,
           "type" : "number",
-          "maximum" : 987.6000000000000227373675443232059478759765625,
+          "maximum" : 987.6,
           "format" : "float"
         }, {
           "name" : "double",
@@ -776,8 +776,8 @@
           "description" : "None",
           "required" : true,
           "type" : "number",
-          "maximum" : 123.400000000000005684341886080801486968994140625,
-          "minimum" : 67.7999999999999971578290569595992565155029296875,
+          "maximum" : 123.4,
+          "minimum" : 67.8,
           "format" : "double"
         }, {
           "name" : "string",
