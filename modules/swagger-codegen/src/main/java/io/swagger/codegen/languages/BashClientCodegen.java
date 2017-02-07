@@ -64,7 +64,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   /**
-   * Configures a friendly name for the generator.  This will be used by 
+   * Configures a friendly name for the generator.  This will be used by
    * the generator to select the library with the -l flag.
    *
    * @return the friendly name for the generator
@@ -74,9 +74,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   /**
-   * Returns human-friendly help for the generator.  Provide the consumer with 
+   * Returns human-friendly help for the generator.  Provide the consumer with
    * help tips, parameters here
-   * 
+   *
    * @return A string value for the help message
    */
   public String getHelp() {
@@ -128,7 +128,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                     "(e.g. PETSTORE_HOST='http://petstore.swagger.io:8080')"));
     cliOptions.add(CliOption.newString(BASIC_AUTH_ENVIRONMENT_VARIABLE_NAME,
                     "Name of environment variable where username and password "
-                    + 
+                    +
                     "can be defined (e.g. PETSTORE_CREDS='username:password')"));
     cliOptions.add(CliOption.newBoolean(APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME,
                     "Name of environment variable where API key "
@@ -206,7 +206,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
           Boolean.parseBoolean(
             additionalProperties.get(PROCESS_MARKDOWN).toString()));
       }
-  
+
       if (additionalProperties.containsKey(GENERATE_BASH_COMPLETION)) {
         setGenerateBashCompletion(
           Boolean.parseBoolean(
@@ -225,7 +225,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       additionalProperties.put("x-codegen-script-name", scriptName);
 
       if (additionalProperties.containsKey(HOST_ENVIRONMENT_VARIABLE_NAME)) {
-          setHostEnvironmentVariable( 
+          setHostEnvironmentVariable(
             additionalProperties.get(HOST_ENVIRONMENT_VARIABLE_NAME).toString());
           additionalProperties.put("x-codegen-host-env", hostEnvironmentVariable);
       }
@@ -237,11 +237,11 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       }
 
       if (additionalProperties.containsKey(APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME)) {
-          setApiKeyAuthEnvironmentVariable( 
+          setApiKeyAuthEnvironmentVariable(
             additionalProperties.get(APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME).toString());
           additionalProperties.put("x-codegen-apikey-env", apiKeyAuthEnvironmentVariable);
       }
-      
+
       supportingFiles.add(new SupportingFile(
                                           "client.mustache",  "", scriptName));
       supportingFiles.add(new SupportingFile(
@@ -250,6 +250,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                "zsh-completion.mustache", "", "_"+scriptName));
       supportingFiles.add(new SupportingFile(
                "README.mustache", "", "README.md"));
+      supportingFiles.add(new SupportingFile(
+               "Dockerfile.mustache", "", "Dockerfile"));
   }
 
   public void setCurlOptions(String curlOptions) {
@@ -263,11 +265,11 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   public void setScriptName(String scriptName) {
       this.scriptName = scriptName;
   }
-  
+
   public void setGenerateBashCompletion(boolean generateBashCompletion) {
       this.generateBashCompletion = generateBashCompletion;
   }
-  
+
   public void setGenerateZshCompletion(boolean generateZshCompletion) {
       this.generateZshCompletion = generateZshCompletion;
   }
@@ -275,13 +277,13 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   public void setHostEnvironmentVariable(String hostEnvironmentVariable) {
       this.hostEnvironmentVariable = hostEnvironmentVariable;
   }
-  
-  public void setBasicAuthEnvironmentVariable(String 
+
+  public void setBasicAuthEnvironmentVariable(String
                                               basicAuthEnvironmentVariable) {
       this.basicAuthEnvironmentVariable = basicAuthEnvironmentVariable;
   }
 
-  public void setApiKeyAuthEnvironmentVariable(String 
+  public void setApiKeyAuthEnvironmentVariable(String
                                                apiKeyAuthEnvironmentVariable) {
       this.apiKeyAuthEnvironmentVariable = apiKeyAuthEnvironmentVariable;
   }
@@ -300,7 +302,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   /**
-   * Location to write model files.  You can use the modelPackage() as defined 
+   * Location to write model files.  You can use the modelPackage() as defined
    * when the class is instantiated.
    */
   public String modelFileFolder() {
@@ -308,7 +310,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   }
 
   /**
-   * Location to write api files.  You can use the apiPackage() as defined when 
+   * Location to write api files.  You can use the apiPackage() as defined when
    * the class is instantiated.
    */
   @Override
@@ -402,10 +404,10 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
           p.vendorExtensions.put("x-codegen-collection-min-items",
                                  sparam.getMinItems());
         }
-        
-        if(    (collectionFormat.equals("multi")) 
+
+        if(    (collectionFormat.equals("multi"))
             && (param.getIn().equals("query")) ) {
-          
+
           /**
            * 'multi' is only supported for query parameters
            */
@@ -446,14 +448,19 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       }
 
       /**
+       * Trim the input text always.
+       */
+      String result = input.trim();
+
+      /**
        * remove standalone '\'
        *
        * replace " with \"
        * outter unescape to retain the original multi-byte characters
        */
-      String result = escapeUnsafeCharacters(
+       result = escapeUnsafeCharacters(
         StringEscapeUtils.unescapeJava(
-          StringEscapeUtils.escapeJava(input).replace("\\/", "/"))
+          StringEscapeUtils.escapeJava(result).replace("\\/", "/"))
                      .replace("\\", "\\\\")
                      .replace("\"", "\\\""));
 
@@ -481,28 +488,28 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         /**
          * Convert all markdown section 1 level headers with bold
-         */ 
+         */
         result = result.replaceAll("(?m)^\\#\\s+(.+)$",
                           "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
                           +"$1\\$\\(tput sgr0\\)");
 
         /**
          * Convert all markdown section 2 level headers with bold
-         */ 
+         */
         result = result.replaceAll("(?m)^\\#\\#\\s+(.+)$",
                           "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
                           +"$1\\$\\(tput sgr0\\)");
 
         /**
          * Convert all markdown section 3 level headers with bold
-         */ 
+         */
         result = result.replaceAll("(?m)^\\#\\#\\#\\s+(.+)$",
                           "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
                           +"$1\\$\\(tput sgr0\\)");
 
         /**
          * Convert all markdown code blocks into --- delimited sections
-         */ 
+         */
         result = result.replaceAll("(?m)\\s*```.*$",
                           "\n---");
 
@@ -555,7 +562,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
        * for help
        */
       if(op.vendorExtensions.containsKey("x-bash-codegen-description")) {
-        String bash_description 
+        String bash_description
           = (String)op.vendorExtensions.get("x-bash-codegen-description");
 
         op.vendorExtensions.put("x-bash-codegen-description",
@@ -633,7 +640,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
           swagger.setBasePath("");
       }
 
-      if(swagger.getInfo() != null 
+      if(swagger.getInfo() != null
          && swagger.getInfo().getVendorExtensions()!=null) {
         String bash_codegen_app_description
           = (String)swagger.getInfo().getVendorExtensions()
@@ -641,7 +648,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if(bash_codegen_app_description != null) {
 
-          bash_codegen_app_description 
+          bash_codegen_app_description
             = escapeText(bash_codegen_app_description);
 
           additionalProperties.put("x-bash-codegen-app-description",

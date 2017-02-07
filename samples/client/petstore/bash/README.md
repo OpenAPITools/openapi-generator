@@ -20,7 +20,7 @@ $ ./petstore-cli --about
 # Print detailed information about specific operation
 $ ./petstore-cli <operationId> -h
 
-# Make GET request 
+# Make GET request
 ./petstore-cli --host http://<hostname>:<port> --accept xml <operationId> <queryParam1>=<value1> <header_key1>:<header_value2>
 
 # Make GET request using arbitrary curl options (must be passed before <operationId>) to an SSL service using username:password
@@ -41,6 +41,20 @@ $ echo '<body_content>' | petstore-cli --host <hostname> --content-type json <op
 $ petstore-cli --host http://<hostname>:<port> --dry-run <operationid>
 
 ```
+
+## Docker image
+You can easily create a Docker image containing a preconfigured environment
+for using the REST Bash client including working autocompletion and short
+welcome message with basic instructions, using the generated Dockerfile:
+
+```shell
+docker build -t my-rest-client .
+docker run -it my-rest-client
+```
+
+By default you will be logged into a Zsh environment which has much more
+advanced auto completion, but you can switch to Bash, where basic autocompletion
+is also available.
 
 ## Shell completion
 
@@ -68,8 +82,7 @@ and add the following to the `~/.bashrc`:
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
-``` 
+```
 
 ### Zsh
 In Zsh, the generated `_petstore-cli` Zsh completion file must be copied to one of the folders under `$FPATH` variable.
-

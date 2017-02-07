@@ -4,17 +4,17 @@
 # !
 # ! Note:
 # !
-# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING 
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen) 
+# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
+# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
 # ! FROM SWAGGER SPECIFICATION IN JSON.
 # !
 # ! Generated on: {{generatedDate}}
-# ! 
+# !
 # !
 # ! System wide installation:
 # !
 # ! $ sudo cp {{scriptName}}.bash-completion /etc/bash-completion.d/{{scriptName}}
-# ! 
+# !
 # !
 # ! User home installation (add this line to .bash_profile):
 # !
@@ -45,13 +45,16 @@ mime_type_abbreviations["bmp"]="image/bmp"
 mime_type_abbreviations["tiff"]="image/tiff"
 
 
-
-__osx_init_completion()
-{
-    COMPREPLY=()
-    _get_comp_words_by_ref cur prev words cword
-}
-
+#
+# Check if this is OSX, if so defined custom init_completion
+#
+if [[ `uname` =~ "Darwin" ]]; then
+    __osx_init_completion()
+    {
+        COMPREPLY=()
+        _get_comp_words_by_ref cur prev words cword
+    }
+fi
 
 _{{scriptName}}()
 {
@@ -60,11 +63,6 @@ _{{scriptName}}()
     local words
     local cword
 
-    #words="${COMP_WORDS}"
-    #cword="${COMP_CWORD}"
-    #prev="${COMP_WORDS[COMP_CWORD-1]}"
-    #cur="${COMP_WORDS[COMP_CWORD]}"
-    
     # The reference of currently selected REST operation
     local operation=""
 
@@ -92,8 +90,8 @@ _{{scriptName}}()
 {{/operation}}
 {{/operations}}
 {{/apis}}
-{{/apiInfo}}   
-    
+{{/apiInfo}}
+
     # An associative array of possible values for enum parameters
     declare -A operation_parameters_enum_values
 {{#apiInfo}}
@@ -123,16 +121,15 @@ _{{scriptName}}()
 {{/operation}}
 {{/operations}}
 {{/apis}}
-{{/apiInfo}}   
+{{/apiInfo}}
 
     #
-    # Check if the _init_completion function is available, which is 
-    # available since bash-completion 1.4
+    # Check if this is OSX and use special __osx_init_completion function
     #
-    if declare -F _init_completions >/dev/null 2>&1; then
-        _init_completion -s || return
-    else
+    if [[ `uname` =~ "Darwin" ]]; then
         __osx_init_completion || return
+    else
+        _init_completion -s || return
     fi
 
 
@@ -235,23 +232,26 @@ _{{scriptName}}()
     fi
 
     #
-    # Complete the server address based on ~/.ssh/known_hosts 
+    # Complete the server address based on ~/.ssh/known_hosts
     # and ~/.ssh/config
     #
-    # \todo Fix - cur matches only '//' when $prev is ':'
-    #
-    if [[ "$cur" == "http://" || "$cur" == "https://" ]]; then
+    local prefix=${COMP_WORDS[COMP_CWORD-2]}
+    local colon=${COMP_WORDS[COMP_CWORD-1]}
+    if [[ "$colon" == ":" && ( $prefix == "https" || $prefix == "http" ) ]]; then
         COMPREPLY=()
-        local comp_ssh_hosts=`cat ~/.ssh/known_hosts | \
-                        cut -f 1 -d ' ' | \
-                        sed -e s/,.*//g | \
-                        grep -v ^# | \
-                        uniq | \
-                        grep -v "\[" ;
-                        cat ~/.ssh/config | \
-                        grep "^Host " | \
-                        awk '{print $2}'`
-        COMPREPLY=( $(compgen -W "${comp_ssh_hosts}" -- $cur))
+        local comp_ssh_hosts=`[[ -f ~/.ssh/known_hosts ]] && \
+                              ( cat ~/.ssh/known_hosts | \
+                              grep '^[a-zA-Z0-9]' | \
+                              cut -f 1 -d ' ' | \
+                              sed -e s/,.*//g | \
+                              grep -v ^# | \
+                              uniq | \
+                              grep -v "\[" ) ;
+                              [[ -f ~/.ssh/config ]] && \
+                              ( cat ~/.ssh/config | \
+                              grep "^Host " | \
+                              awk '{print $2}' )`
+        COMPREPLY=( $( compgen -P '//' -W '${comp_ssh_hosts}' -- "${cur:2}") )
         return
     fi
 
@@ -270,12 +270,13 @@ _{{scriptName}}()
     #
     if [[ $cur =~ ^[A-Za-z_0-9]* ]]; then
         # If operation has not been yet selected, suggest the list of operations
-        # otherwise suggest arguments of this operation as declared in the 
+        # otherwise suggest arguments of this operation as declared in the
         # Swagger specification
         if [[ -z $operation ]]; then
             COMPREPLY=( $(compgen -W '${!operations[*]}' -- ${cur}) )
         else
             COMPREPLY=( $(compgen -W '${operation_parameters[$operation]}' -- ${cur}) )
+            compopt -o nospace
         fi
         return
     fi
