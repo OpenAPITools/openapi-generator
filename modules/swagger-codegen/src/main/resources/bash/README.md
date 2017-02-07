@@ -1,7 +1,7 @@
 # Bash script generator for Swagger Codegen
 
 ## Overview
-This is a Bash client script codegen. 
+This is a Bash client script codegen.
 
 The codegen creates a standalone, single-file Bash script client to quickly test and access Swagger annotated REST services. The generated script uses underneath [cURL](https://curl.haxx.se) to make actual REST calls.
 
@@ -204,7 +204,7 @@ and add the following to the `~/.bashrc`:
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
-``` 
+```
 
 ### Zsh
 In Zsh, the generated `_{{scriptName}}` file (e.g. _petstore-cli) must be copied to one of the folders under `$fpath` variable.

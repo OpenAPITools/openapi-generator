@@ -4,13 +4,13 @@
 # !
 # ! Note:
 # !
-# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING 
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen) 
+# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
+# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
 # ! FROM SWAGGER SPECIFICATION IN JSON.
 # !
-# ! Based on: https://github.com/Valodim/zsh-curl-completion/blob/master/_curl 
+# ! Based on: https://github.com/Valodim/zsh-curl-completion/blob/master/_curl
 # !
-# ! Generated on: 2017-01-12T00:07:27.471+01:00
+# ! Generated on: 2017-02-06T21:48:13.013+01:00
 # !
 # !
 # ! Installation:
@@ -23,6 +23,43 @@
 
 local curcontext="$curcontext" state line ret=1
 typeset -A opt_args
+
+typeset -A mime_type_abbreviations
+# text/*
+mime_type_abbreviations[text]="text/plain"
+mime_type_abbreviations[html]="text/html"
+mime_type_abbreviations[md]="text/x-markdown"
+mime_type_abbreviations[csv]="text/csv"
+mime_type_abbreviations[css]="text/css"
+mime_type_abbreviations[rtf]="text/rtf"
+# application/*
+mime_type_abbreviations[json]="application/json"
+mime_type_abbreviations[xml]="application/xml"
+mime_type_abbreviations[yaml]="application/yaml"
+mime_type_abbreviations[js]="application/javascript"
+mime_type_abbreviations[bin]="application/octet-stream"
+mime_type_abbreviations[rdf]="application/rdf+xml"
+# image/*
+mime_type_abbreviations[jpg]="image/jpeg"
+mime_type_abbreviations[png]="image/png"
+mime_type_abbreviations[gif]="image/gif"
+mime_type_abbreviations[bmp]="image/bmp"
+mime_type_abbreviations[tiff]="image/tiff"
+
+#
+# Generate zsh completion string list for abbreviated mime types
+#
+get_mime_type_completions() {
+    typeset -a result
+    result=()
+    for k in "${(@k)mime_type_abbreviations}"; do
+        value=$mime_type_abbreviations[${k}]
+        #echo $value
+        result+=( "${k}[${value}]" )
+        #echo $result
+    done
+    echo "$result"
+}
 
 #
 # cURL crypto engines completion function
@@ -236,21 +273,21 @@ arg_output=(\
   )
 
 _arguments -C -s $arg_http $arg_ftp $arg_other $arg_crypto $arg_connection $arg_auth $arg_input $arg_output \
-  {-M,--manual}'[print manual]' \
-  '*'{-K,--config}'[use other config file to read arguments from]:config file:_files' \
+  {-M,--manual}'[Print manual]' \
+  '*'{-K,--config}'[Use other config file to read arguments from]:config file:_files' \
   '--libcurl[output libcurl code for the operation to file]:output file:_files' \
-  {-m,--max-time}'[limit total time of operation]:seconds' \
-  {-s,--silent}'[silent mode, do not show progress meter or error messages]' \
-  {-S,--show-error}'[show errors in silent mode]' \
-  '--stderr[redirect stderr to specified file]:output file:_files' \
-  '-q[do not read settings from .curlrc (must be first option)]' \
+  {-m,--max-time}'[Limit total time of operation]:seconds' \
+  {-s,--silent}'[Silent mode, do not show progress meter or error messages]' \
+  {-S,--show-error}'[Show errors in silent mode]' \
+  '--stderr[Redirect stderr to specified file]:output file:_files' \
+  '-q[Do not read settings from .curlrc (must be first option)]' \
   {-h,--help}'[Print help and list of operations]' \
   {-V,--version}'[Print service API version]' \
   '--about[Print the information about service]' \
   '--host[Specify the host URL]':URL:_urls \
   '--dry-run[Print out the cURL command without executing it]' \
-  {-ac,--accept}'[Set the 'Accept' header in the request]' \
-  {-ct,--content-type}'[Set the 'Content-type' header in request]' \
+  {-ac,--accept}'[Set the Accept header in the request]: :{_values "Accept mime type" $(get_mime_type_completions)}' \
+  {-ct,--content-type}'[Set the Content-type header in request]: :{_values "Content mime type" $(get_mime_type_completions)}' \
   '1: :->ops' \
   '*:: :->args' \
   && ret=0
@@ -293,158 +330,158 @@ case $state in
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       testEndpointParameters)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       testEnumParameters)
         local -a _op_arguments
         _op_arguments=(
-                    "enum_query_string_array=:Query parameter enum test (string array)"
-"enum_query_string=:Query parameter enum test (string)"
-"enum_query_integer=:Query parameter enum test (double)"
-          "enum_header_string_array\::Header parameter enum test (string array)"
-"enum_header_string\::Header parameter enum test (string)"
+                    "enum_query_string_array=:[QUERY] Query parameter enum test (string array)"
+"enum_query_string=:[QUERY] Query parameter enum test (string)"
+"enum_query_integer=:[QUERY] Query parameter enum test (double)"
+          "enum_header_string_array\::[HEADER] Header parameter enum test (string array)"
+"enum_header_string\::[HEADER] Header parameter enum test (string)"
 )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       addPet)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       deletePet)
         local -a _op_arguments
         _op_arguments=(
-          "petId=:Pet id to delete"
-                    "api_key\::"
+          "petId=:[PATH] Pet id to delete"
+                    "api_key\::[HEADER] "
 )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       findPetsByStatus)
         local -a _op_arguments
         _op_arguments=(
-                    "status=:Status values that need to be considered for filter"
+                    "status=:[QUERY] Status values that need to be considered for filter"
           )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       findPetsByTags)
         local -a _op_arguments
         _op_arguments=(
-                    "tags=:Tags to filter by"
+                    "tags=:[QUERY] Tags to filter by"
           )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       getPetById)
         local -a _op_arguments
         _op_arguments=(
-          "petId=:ID of pet to return"
+          "petId=:[PATH] ID of pet to return"
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       updatePet)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       updatePetWithForm)
         local -a _op_arguments
         _op_arguments=(
-          "petId=:ID of pet that needs to be updated"
+          "petId=:[PATH] ID of pet that needs to be updated"
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       uploadFile)
         local -a _op_arguments
         _op_arguments=(
-          "petId=:ID of pet to update"
+          "petId=:[PATH] ID of pet to update"
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       deleteOrder)
         local -a _op_arguments
         _op_arguments=(
-          "orderId=:ID of the order that needs to be deleted"
+          "orderId=:[PATH] ID of the order that needs to be deleted"
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       getInventory)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       getOrderById)
         local -a _op_arguments
         _op_arguments=(
-          "orderId=:ID of pet that needs to be fetched"
+          "orderId=:[PATH] ID of pet that needs to be fetched"
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       placeOrder)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       createUser)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       createUsersWithArrayInput)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       createUsersWithListInput)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       deleteUser)
         local -a _op_arguments
         _op_arguments=(
-          "username=:The name that needs to be deleted"
+          "username=:[PATH] The name that needs to be deleted"
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       getUserByName)
         local -a _op_arguments
         _op_arguments=(
-          "username=:The name that needs to be fetched. Use user1 for testing."
+          "username=:[PATH] The name that needs to be fetched. Use user1 for testing."
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       loginUser)
         local -a _op_arguments
         _op_arguments=(
-                    "username=:The user name for login"
-"password=:The password for login in clear text"
+                    "username=:[QUERY] The user name for login"
+"password=:[QUERY] The password for login in clear text"
           )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       logoutUser)
         local -a _op_arguments
         _op_arguments=(
                               )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       updateUser)
         local -a _op_arguments
         _op_arguments=(
-          "username=:name that need to be deleted"
+          "username=:[PATH] name that need to be deleted"
                     )
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
     esac
     ;;

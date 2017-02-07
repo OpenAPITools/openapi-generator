@@ -4,8 +4,8 @@
 # !
 # ! Note:
 # !
-# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING 
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen) 
+# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
+# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
 # ! FROM SWAGGER SPECIFICATION IN JSON.
 # !
 # ! Generated on: {{generatedDate}}
@@ -13,7 +13,7 @@
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #
-# This is a Bash client for {{appName}}. 
+# This is a Bash client for {{appName}}.
 #
 # LICENSE:
 # {{licenseUrl}}
@@ -41,9 +41,9 @@ if ! ( (("${BASH_VERSION:0:1}" == "4")) && (("${BASH_VERSION:2:1}" >= "3")) ) \
 fi
 
 ###############################################################################
-# 
+#
 # Global variables
-# 
+#
 ###############################################################################
 
 ##
@@ -116,13 +116,13 @@ operation_parameters_collection_type["{{operationId}}:::{{baseName}}"]={{#isCont
 
 
 ##
-# Map for body parameters passed after operation as 
+# Map for body parameters passed after operation as
 # PARAMETER==STRING_VALUE or PARAMETER:=NUMERIC_VALUE
 # These will be mapped to top level json keys ( { "PARAMETER": "VALUE" })
 declare -A body_parameters
 
-## 
-# These arguments will be directly passed to cURL 
+##
+# These arguments will be directly passed to cURL
 curl_arguments="{{x-codegen-curl-options}}"
 
 ##
@@ -138,7 +138,7 @@ basic_auth_credential="{{#x-codegen-basicauth-env}}${{x-codegen-basicauth-env}}{
 apikey_auth_credential="{{#x-codegen-apikey-env}}${{x-codegen-apikey-env}}{{/x-codegen-apikey-env}}"
 
 ##
-# If true, the script will only output the actual cURL command that would be 
+# If true, the script will only output the actual cURL command that would be
 # used
 print_curl=false
 
@@ -279,7 +279,7 @@ header_arguments_to_curl() {
 #
 # Converts an associative array into a simple JSON with keys as top
 # level object attributes
-# 
+#
 # \todo Add convertion of more complex attributes using paths
 #
 ##############################################################################
@@ -346,7 +346,7 @@ validate_request_parameters() {
             # Check if the number of provided values is not more than maximum
             #
             if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then            
+                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
                 if [[ "$force" = false ]]; then
                     echo "Error: Too many values provided for '${qparam}' parameter"
                     exit 1
@@ -465,7 +465,7 @@ build_request_path() {
             # Check if the number of provided values is not more than maximum
             #
             if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then            
+                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
                 if [[ "$force" = false ]]; then
                     echo "Error: Too many values provided for '${qparam}' parameter"
                     exit 1
@@ -550,9 +550,9 @@ build_request_path() {
         if [[ $count -lt $query_parameter_count-1 && -n "${parameter_value}" ]]; then
             query_request_part+="&"
         fi
-        
+
         count+=1
-    
+
     done
 
 
@@ -567,9 +567,9 @@ build_request_path() {
 
 
 ###############################################################################
-# 
+#
 # Print main help message
-# 
+#
 ###############################################################################
 print_help() {
 cat <<EOF
@@ -580,24 +580,24 @@ $(tput bold)$(tput setaf 7)Usage$(tput sgr0)
 
   $(tput setaf 2)${script_name}$(tput sgr0) [-h|--help] [-V|--version] [--about] [$(tput setaf 1)<curl-options>$(tput sgr0)]
            [-ac|--accept $(tput setaf 2)<mime-type>$(tput sgr0)] [-ct,--content-type $(tput setaf 2)<mime-type>$(tput sgr0)]
-           [--host $(tput setaf 6)<url>$(tput sgr0)] [--dry-run] $(tput setaf 3)<operation>$(tput sgr0) [-h|--help] [$(tput setaf 4)<headers>$(tput sgr0)] 
+           [--host $(tput setaf 6)<url>$(tput sgr0)] [--dry-run] $(tput setaf 3)<operation>$(tput sgr0) [-h|--help] [$(tput setaf 4)<headers>$(tput sgr0)]
            [$(tput setaf 5)<parameters>$(tput sgr0)] [$(tput setaf 5)<body-parameters>$(tput sgr0)]
 
   - $(tput setaf 6)<url>$(tput sgr0) - endpoint of the REST service without basepath
 {{#x-codegen-host-env}}           Can also be specified in {{x-codegen-host-env}} environment variable.{{/x-codegen-host-env}}
   - $(tput setaf 1)<curl-options>$(tput sgr0) - any valid cURL options can be passed before $(tput setaf 3)<operation>$(tput sgr0)
-  - $(tput setaf 2)<mime-type>$(tput sgr0) - either full mime-type or one of supported abbreviations: 
-                   (text, html, md, csv, css, rtf, json, xml, yaml, js, bin, 
+  - $(tput setaf 2)<mime-type>$(tput sgr0) - either full mime-type or one of supported abbreviations:
+                   (text, html, md, csv, css, rtf, json, xml, yaml, js, bin,
                     rdf, jpg, png, gif, bmp, tiff)
   - $(tput setaf 4)<headers>$(tput sgr0) - HTTP headers can be passed in the form $(tput setaf 3)HEADER$(tput sgr0):$(tput setaf 4)VALUE$(tput sgr0)
-  - $(tput setaf 5)<parameters>$(tput sgr0) - REST operation parameters can be passed in the following 
+  - $(tput setaf 5)<parameters>$(tput sgr0) - REST operation parameters can be passed in the following
                    forms:
                    * $(tput setaf 3)KEY$(tput sgr0)=$(tput setaf 4)VALUE$(tput sgr0) - path or query parameters
-  - $(tput setaf 5)<body-parameters>$(tput sgr0) - simple JSON body content (first level only) can be build 
-                        using the following arguments: 
-                        * $(tput setaf 3)KEY$(tput sgr0)==$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body 
+  - $(tput setaf 5)<body-parameters>$(tput sgr0) - simple JSON body content (first level only) can be build
+                        using the following arguments:
+                        * $(tput setaf 3)KEY$(tput sgr0)==$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body
                                       JSON as '{ ..., "$(tput setaf 3)KEY$(tput sgr0)": "$(tput setaf 4)VALUE$(tput sgr0)", ... }'
-                        * $(tput setaf 3)KEY$(tput sgr0):=$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body 
+                        * $(tput setaf 3)KEY$(tput sgr0):=$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body
                                       JSON as '{ ..., "$(tput setaf 3)KEY$(tput sgr0)": $(tput setaf 4)VALUE$(tput sgr0), ... }'
 
 EOF
@@ -607,7 +607,7 @@ EOF
 {{#authMethods}}
 {{#isBasic}}
     echo -e "  - $(tput setaf 4)Basic AUTH$(tput sgr0) - add '-u <username>:<password>' before $(tput setaf 3)<operation>$(tput sgr0)"
-    {{#x-codegen-basicauth-env}}echo -e "                 or export $(tput setaf 1){{x-codegen-basicauth-env}}='<username>:<password>'$(tput sgr0)"{{/x-codegen-basicauth-env}}    
+    {{#x-codegen-basicauth-env}}echo -e "                 or export $(tput setaf 1){{x-codegen-basicauth-env}}='<username>:<password>'$(tput sgr0)"{{/x-codegen-basicauth-env}}
 {{/isBasic}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
@@ -616,7 +616,7 @@ EOF
 {{#isKeyInQuery}}
     echo -e "  - $(tput setaf 4)Api-key$(tput sgr0) - add '$(tput setaf 1){{keyParamName}}=<api-key>$(tput sgr0)' after $(tput setaf 3)<operation>$(tput sgr0)"
 {{/isKeyInQuery}}
-    {{#x-codegen-apikey-env}}echo -e "              or export $(tput setaf 1){{x-codegen-apikey-env}}='<api-key>'$(tput sgr0)"{{/x-codegen-apikey-env}}    
+    {{#x-codegen-apikey-env}}echo -e "              or export $(tput setaf 1){{x-codegen-apikey-env}}='<api-key>'$(tput sgr0)"{{/x-codegen-apikey-env}}
 {{/isApiKey}}
 {{#isOAuth}}
     echo -e "  - $(tput setaf 5)OAuth2 (flow: {{flow}})$(tput sgr0)"
@@ -834,7 +834,7 @@ call_{{operationId}}() {
     local body_json_curl=""
 
     #
-    # Check if the user provided 'Content-type' headers in the 
+    # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the Swagger specification
     # if values produces and consumes are defined unambigously
     #
@@ -908,7 +908,7 @@ call_{{operationId}}() {
 
 ##############################################################################
 #
-# Main 
+# Main
 #
 ##############################################################################
 
@@ -920,7 +920,7 @@ type column >/dev/null 2>&1 || { echo >&2 "Error: You do not have 'bsdmainutils'
 
 #
 # Process command line
-# 
+#
 # Pass all arguemnts before 'operation' to cURL except the ones we override
 #
 take_user=false
@@ -973,7 +973,7 @@ case $key in
     ;;
     -u|--user)
     take_user=true
-    ;;    
+    ;;
     --host)
     take_host=true
     ;;
@@ -985,10 +985,10 @@ case $key in
     ;;
     -ct|--content-type)
     take_contenttype_header=true
-    ;;    
+    ;;
     --dry-run)
     print_curl=true
-    ;;   
+    ;;
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -1001,7 +1001,7 @@ case $key in
 {{/apis}}
 {{/apiInfo}}
     *==*)
-    # Parse body arguments and convert them into top level 
+    # Parse body arguments and convert them into top level
     # JSON properties passed in the body content as strings
     if [[ "$operation" ]]; then
         IFS='==' read body_key sep body_value <<< "$key"
@@ -1009,7 +1009,7 @@ case $key in
     fi
     ;;
     *:=*)
-    # Parse body arguments and convert them into top level 
+    # Parse body arguments and convert them into top level
     # JSON properties passed in the body content without qoutes
     if [[ "$operation" ]]; then
         IFS=':=' read body_key sep body_value <<< "$key"
@@ -1109,4 +1109,3 @@ case $operation in
     print_help
     exit 1
 esac
-

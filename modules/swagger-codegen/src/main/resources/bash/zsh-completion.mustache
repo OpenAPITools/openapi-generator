@@ -4,11 +4,11 @@
 # !
 # ! Note:
 # !
-# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING 
-# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen) 
+# ! THIS SCRIPT HAS BEEN AUTOMATICALLY GENERATED USING
+# ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
 # ! FROM SWAGGER SPECIFICATION IN JSON.
 # !
-# ! Based on: https://github.com/Valodim/zsh-curl-completion/blob/master/_curl 
+# ! Based on: https://github.com/Valodim/zsh-curl-completion/blob/master/_curl
 # !
 # ! Generated on: {{generatedDate}}
 # !
@@ -23,6 +23,43 @@
 
 local curcontext="$curcontext" state line ret=1
 typeset -A opt_args
+
+typeset -A mime_type_abbreviations
+# text/*
+mime_type_abbreviations[text]="text/plain"
+mime_type_abbreviations[html]="text/html"
+mime_type_abbreviations[md]="text/x-markdown"
+mime_type_abbreviations[csv]="text/csv"
+mime_type_abbreviations[css]="text/css"
+mime_type_abbreviations[rtf]="text/rtf"
+# application/*
+mime_type_abbreviations[json]="application/json"
+mime_type_abbreviations[xml]="application/xml"
+mime_type_abbreviations[yaml]="application/yaml"
+mime_type_abbreviations[js]="application/javascript"
+mime_type_abbreviations[bin]="application/octet-stream"
+mime_type_abbreviations[rdf]="application/rdf+xml"
+# image/*
+mime_type_abbreviations[jpg]="image/jpeg"
+mime_type_abbreviations[png]="image/png"
+mime_type_abbreviations[gif]="image/gif"
+mime_type_abbreviations[bmp]="image/bmp"
+mime_type_abbreviations[tiff]="image/tiff"
+
+#
+# Generate zsh completion string list for abbreviated mime types
+#
+get_mime_type_completions() {
+    typeset -a result
+    result=()
+    for k in "${(@k)mime_type_abbreviations}"; do
+        value=$mime_type_abbreviations[${k}]
+        #echo $value
+        result+=( "${k}[${value}]" )
+        #echo $result
+    done
+    echo "$result"
+}
 
 #
 # cURL crypto engines completion function
@@ -236,21 +273,21 @@ arg_output=(\
   )
 
 _arguments -C -s $arg_http $arg_ftp $arg_other $arg_crypto $arg_connection $arg_auth $arg_input $arg_output \
-  {-M,--manual}'[print manual]' \
-  '*'{-K,--config}'[use other config file to read arguments from]:config file:_files' \
+  {-M,--manual}'[Print manual]' \
+  '*'{-K,--config}'[Use other config file to read arguments from]:config file:_files' \
   '--libcurl[output libcurl code for the operation to file]:output file:_files' \
-  {-m,--max-time}'[limit total time of operation]:seconds' \
-  {-s,--silent}'[silent mode, do not show progress meter or error messages]' \
-  {-S,--show-error}'[show errors in silent mode]' \
-  '--stderr[redirect stderr to specified file]:output file:_files' \
-  '-q[do not read settings from .curlrc (must be first option)]' \
+  {-m,--max-time}'[Limit total time of operation]:seconds' \
+  {-s,--silent}'[Silent mode, do not show progress meter or error messages]' \
+  {-S,--show-error}'[Show errors in silent mode]' \
+  '--stderr[Redirect stderr to specified file]:output file:_files' \
+  '-q[Do not read settings from .curlrc (must be first option)]' \
   {-h,--help}'[Print help and list of operations]' \
   {-V,--version}'[Print service API version]' \
   '--about[Print the information about service]' \
   '--host[Specify the host URL]':URL:_urls \
   '--dry-run[Print out the cURL command without executing it]' \
-  {-ac,--accept}'[Set the 'Accept' header in the request]' \
-  {-ct,--content-type}'[Set the 'Content-type' header in request]' \
+  {-ac,--accept}'[Set the Accept header in the request]: :{_values "Accept mime type" $(get_mime_type_completions)}' \
+  {-ct,--content-type}'[Set the Content-type header in request]: :{_values "Content mime type" $(get_mime_type_completions)}' \
   '1: :->ops' \
   '*:: :->args' \
   && ret=0
@@ -282,12 +319,12 @@ case $state in
       {{operationId}})
         local -a _op_arguments
         _op_arguments=(
-          {{#pathParams}}"{{baseName}}=:{{{description}}}"
-{{/pathParams}}          {{#queryParams}}{{#isBoolean}}"{{baseName}}=true:{{description}}"
-          "{{baseName}}=false:{{description}}"{{/isBoolean}}{{^isBoolean}}"{{baseName}}=:{{description}}"{{/isBoolean}}
-{{/queryParams}}          {{#headerParams}}"{{baseName}}\::{{{description}}}"
+          {{#pathParams}}"{{baseName}}=:[PATH] {{description}}"
+{{/pathParams}}          {{#queryParams}}{{#isBoolean}}"{{baseName}}=true:[QUERY] {{description}}"
+          "{{baseName}}=false:[QUERY] {{description}}"{{/isBoolean}}{{^isBoolean}}"{{baseName}}=:[QUERY] {{description}}"{{/isBoolean}}
+{{/queryParams}}          {{#headerParams}}"{{baseName}}\::[HEADER] {{description}}"
 {{/headerParams}})
-        _describe -t actions 'operations' _op_arguments && ret=0
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
 {{/operation}}
 {{/operations}}
