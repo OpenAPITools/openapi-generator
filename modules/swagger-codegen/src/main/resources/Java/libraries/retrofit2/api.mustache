@@ -3,7 +3,8 @@ package {{package}};
 import {{invokerPackage}}.CollectionFormats.*;
 
 {{#useRxJava}}import rx.Observable;{{/useRxJava}}
-{{^useRxJava}}import retrofit2.Call;{{/useRxJava}}
+{{#useRxJava2}}import io.reactivex.Observable;{{/useRxJava2}}
+{{#doNotUseRx}}import retrofit2.Call;{{/doNotUseRx}}
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
@@ -46,7 +47,7 @@ public interface {{classname}} {
   {{/prioritizedContentTypes}}
   {{/formParams}}  
   @{{httpMethod}}("{{path}}")
-  {{^usePlay24WS}}{{#useRxJava}}Observable{{/useRxJava}}{{^useRxJava}}Call{{/useRxJava}}{{/usePlay24WS}}{{#usePlay24WS}}F.Promise<Response{{/usePlay24WS}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>{{#usePlay24WS}}>{{/usePlay24WS}} {{operationId}}({{^allParams}});{{/allParams}}
+  {{^usePlay24WS}}{{^doNotUseRx}}Observable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}{{/usePlay24WS}}{{#usePlay24WS}}F.Promise<Response{{/usePlay24WS}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>{{#usePlay24WS}}>{{/usePlay24WS}} {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
 
