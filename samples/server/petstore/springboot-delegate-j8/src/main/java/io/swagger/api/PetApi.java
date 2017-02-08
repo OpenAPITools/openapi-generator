@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
+import javax.validation.constraints.*;
 
 @Api(value = "pet", description = "the pet API")
 public interface PetApi {
@@ -70,7 +70,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "AVAILABLE, PENDING, SOLD") @RequestParam(value = "status", required = true) List<String> status) {
+    default ResponseEntity<List<Pet>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "AVAILABLE, PENDING, SOLD") @RequestParam(value = "status", required = true) List<String> status) {
         // do some magic!
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
     }
@@ -88,7 +88,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags) {
+    default ResponseEntity<List<Pet>> findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags) {
         // do some magic!
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
     }
