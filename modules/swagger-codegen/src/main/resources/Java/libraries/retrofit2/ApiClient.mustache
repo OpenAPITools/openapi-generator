@@ -60,7 +60,7 @@ public class ApiClient {
         this();
         for(String authName : authNames) { {{#hasAuthMethods}}
             Interceptor auth;
-            {{#authMethods}}if (authName == "{{name}}") { {{#isBasic}}
+            {{#authMethods}}if ("{{name}}".equals(authName)) { {{#isBasic}}
                 auth = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
                 auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
                 auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");{{/isOAuth}}
