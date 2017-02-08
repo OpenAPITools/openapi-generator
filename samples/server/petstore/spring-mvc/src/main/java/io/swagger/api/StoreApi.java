@@ -27,7 +27,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteOrder( @Min(1)@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId);
+    ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId);
 
 
     @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
