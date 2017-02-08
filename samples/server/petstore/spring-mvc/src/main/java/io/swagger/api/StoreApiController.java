@@ -22,7 +22,9 @@ import javax.validation.constraints.*;
 @Controller
 public class StoreApiController implements StoreApi {
 
-    public ResponseEntity<Void> deleteOrder( @Min(1)@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId) {
+
+
+    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

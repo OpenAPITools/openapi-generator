@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.UUID;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import javax.validation.constraints.*;
@@ -62,7 +63,7 @@ public class FormatTest {
   private DateTime dateTime = null;
 
   @JsonProperty("uuid")
-  private String uuid = null;
+  private UUID uuid = null;
 
   @JsonProperty("password")
   private String password = null;
@@ -141,6 +142,8 @@ public class FormatTest {
    * @return number
   **/
   @NotNull
+  @DecimalMin("32.1")
+  @DecimalMax("543.2")
   @ApiModelProperty(example = "null", required = true, value = "")
   public BigDecimal getNumber() {
     return number;
@@ -161,6 +164,8 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
+  @DecimalMin("54.3")
+  @DecimalMax("987.6")
   @ApiModelProperty(example = "null", value = "")
   public Float getFloat() {
     return _float;
@@ -181,6 +186,8 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
+  @DecimalMin("67.8")
+  @DecimalMax("123.4")
   @ApiModelProperty(example = "null", value = "")
   public Double getDouble() {
     return _double;
@@ -283,7 +290,7 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-  public FormatTest uuid(String uuid) {
+  public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -293,11 +300,11 @@ public class FormatTest {
    * @return uuid
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 

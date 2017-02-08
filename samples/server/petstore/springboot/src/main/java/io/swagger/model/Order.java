@@ -62,7 +62,7 @@ public class Order   {
   private StatusEnum status = null;
 
   @JsonProperty("complete")
-  private Boolean complete = null;
+  private Boolean complete = false;
 
   public Order id(Long id) {
     this.id = id;
