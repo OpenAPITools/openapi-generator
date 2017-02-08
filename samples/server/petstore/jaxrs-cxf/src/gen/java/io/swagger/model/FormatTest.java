@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 import org.joda.time.LocalDate;
 import javax.validation.constraints.*;
 
@@ -38,7 +39,7 @@ public class FormatTest  {
   @ApiModelProperty(example = "null", value = "")
   private javax.xml.datatype.XMLGregorianCalendar dateTime = null;
   @ApiModelProperty(example = "null", value = "")
-  private String uuid = null;
+  private UUID uuid = null;
   @ApiModelProperty(example = "null", required = true, value = "")
   private String password = null;
 
@@ -257,15 +258,15 @@ public class FormatTest  {
    * Get uuid
    * @return uuid
   **/
-  public String getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public FormatTest uuid(String uuid) {
+  public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }

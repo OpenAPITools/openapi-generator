@@ -4,6 +4,7 @@ import io.swagger.model.Animal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 public class MixedPropertiesAndAdditionalPropertiesClass  {
   
   @ApiModelProperty(example = "null", value = "")
-  private String uuid = null;
+  private UUID uuid = null;
   @ApiModelProperty(example = "null", value = "")
   private javax.xml.datatype.XMLGregorianCalendar dateTime = null;
   @ApiModelProperty(example = "null", value = "")
@@ -28,15 +29,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
    * Get uuid
    * @return uuid
   **/
-  public String getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass uuid(String uuid) {
+  public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
