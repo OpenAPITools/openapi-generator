@@ -37,7 +37,7 @@ namespace IO.Swagger.Model
         /// </summary>
         /// <param name="Name">Name.</param>
         /// <param name="_Class">_Class.</param>
-        public Model200Response(int? Name = null, string _Class = null)
+        public Model200Response(int? Name = default(int?), string _Class = default(string))
         {
             this.Name = Name;
             this._Class = _Class;
