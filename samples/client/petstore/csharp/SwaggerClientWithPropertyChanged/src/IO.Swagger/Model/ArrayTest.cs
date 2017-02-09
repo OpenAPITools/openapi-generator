@@ -38,7 +38,7 @@ namespace IO.Swagger.Model
         /// <param name="ArrayOfString">ArrayOfString.</param>
         /// <param name="ArrayArrayOfInteger">ArrayArrayOfInteger.</param>
         /// <param name="ArrayArrayOfModel">ArrayArrayOfModel.</param>
-        public ArrayTest(List<string> ArrayOfString = null, List<List<long?>> ArrayArrayOfInteger = null, List<List<ReadOnlyFirst>> ArrayArrayOfModel = null)
+        public ArrayTest(List<string> ArrayOfString = default(List<string>), List<List<long?>> ArrayArrayOfInteger = default(List<List<long?>>), List<List<ReadOnlyFirst>> ArrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
             this.ArrayOfString = ArrayOfString;
             this.ArrayArrayOfInteger = ArrayArrayOfInteger;

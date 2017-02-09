@@ -36,7 +36,7 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
         /// <param name="SpecialPropertyName">SpecialPropertyName.</param>
-        public SpecialModelName(long? SpecialPropertyName = null)
+        public SpecialModelName(long? SpecialPropertyName = default(long?))
         {
             this.SpecialPropertyName = SpecialPropertyName;
         }
