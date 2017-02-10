@@ -15,6 +15,8 @@ Method | HTTP request | Description
 
 To test \"client\" model
 
+To test \"client\" model
+
 ### Example
 ```csharp
 using System;
@@ -166,6 +168,8 @@ void (empty response body)
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example
 ```csharp
 using System;
@@ -209,11 +213,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumFormStringArray** | [**List<string>**](string.md)| Form parameter enum test (string array) | [optional] 
+ **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] 
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
- **enumHeaderStringArray** | [**List<string>**](string.md)| Header parameter enum test (string array) | [optional] 
+ **enumHeaderStringArray** | [**List&lt;string&gt;**](string.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
- **enumQueryStringArray** | [**List<string>**](string.md)| Query parameter enum test (string array) | [optional] 
+ **enumQueryStringArray** | [**List&lt;string&gt;**](string.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 

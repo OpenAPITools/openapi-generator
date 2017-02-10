@@ -53,7 +53,7 @@ public interface PetApi {
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)
-   * @return Call&lt;List<Pet>&gt;
+   * @return Call&lt;List&lt;Pet&gt;&gt;
    */
   
   @GET("pet/findByStatus")
@@ -65,7 +65,7 @@ public interface PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return Call&lt;List<Pet>&gt;
+   * @return Call&lt;List&lt;Pet&gt;&gt;
    */
   
   @GET("pet/findByTags")

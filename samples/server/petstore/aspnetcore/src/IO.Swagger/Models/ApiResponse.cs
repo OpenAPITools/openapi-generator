@@ -20,19 +20,21 @@ using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
 {
+
     /// <summary>
     /// Describes the result of uploading an image resource
     /// </summary>
     [DataContract]
     public partial class ApiResponse :  IEquatable<ApiResponse>
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiResponse" /> class.
         /// </summary>
         /// <param name="Code">Code.</param>
         /// <param name="Type">Type.</param>
         /// <param name="Message">Message.</param>
-        public ApiResponse(int? Code = null, string Type = null, string Message = null)
+        public ApiResponse(int? Code = default(int?), string Type = default(string), string Message = default(string))
         {
             this.Code = Code;
             this.Type = Type;
@@ -45,19 +47,16 @@ namespace IO.Swagger.Models
         /// </summary>
         [DataMember(Name="code")]
         public int? Code { get; set; }
-
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name="type")]
         public string Type { get; set; }
-
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [DataMember(Name="message")]
         public string Message { get; set; }
-
 
         /// <summary>
         /// Returns the string presentation of the object

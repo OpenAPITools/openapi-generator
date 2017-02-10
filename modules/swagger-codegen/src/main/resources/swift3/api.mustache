@@ -108,20 +108,40 @@ open class {{classname}}: APIBase {
         path = path.replacingOccurrences(of: "{{=<% %>=}}{<%paramName%>}<%={{ }}=%>", with: "\({{paramName}}{{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}})", options: .literal, range: nil){{/pathParams}}
         let URLString = {{projectName}}API.basePath + path
         {{#bodyParam}}
-        let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]{{/bodyParam}}{{^bodyParam}}
-        let nillableParameters: [String:Any?] = {{^queryParams}}{{^formParams}}[:]{{/formParams}}{{#formParams}}{{^secondaryParam}}[{{/secondaryParam}}
+        let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]
+        {{/bodyParam}}
+        {{^bodyParam}}
+            {{#hasFormParams}}
+        let formParams: [String:Any?] = [
+                {{#formParams}}
+            {{> _param}}{{#hasMore}},{{/hasMore}}
+                {{/formParams}}
+        ]
+
+        let nonNullParameters = APIHelper.rejectNil(formParams)
+        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+            {{/hasFormParams}}
+            {{^hasFormParams}}
+        let parameters: [String:Any]? = nil
+            {{/hasFormParams}}
+        {{/bodyParam}}
+
+        let url = NSURLComponents(string: URLString)
+        {{#hasQueryParams}}
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
+            {{#queryParams}}
+            {{> _param}}{{#hasMore}}, {{/hasMore}}
+            {{/queryParams}}
+        ])
+        {{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
+        let nillableHeaders: [String: Any?] = [{{/secondaryParam}}
             {{> _param}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
-        ]{{/hasMore}}{{/formParams}}{{/queryParams}}{{#queryParams}}{{^secondaryParam}}[{{/secondaryParam}}
-            {{> _param}}{{#hasMore}},{{/hasMore}}{{^hasMore}}
-        ]{{/hasMore}}{{/queryParams}}
- 
-        let parameters = APIHelper.rejectNil(nillableParameters){{/bodyParam}}
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        ]
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders){{/hasMore}}{{/headerParams}}
+
         let requestBuilder: RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "{{httpMethod}}", URLString: URLString, parameters: convertedParameters, isBody: {{^queryParams}}{{^formParams}}true{{/formParams}}{{/queryParams}}{{#queryParams}}{{^formParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/formParams}}{{/queryParams}}{{#formParams}}{{^secondaryParam}}false{{/secondaryParam}}{{/formParams}})
+        return requestBuilder.init(method: "{{httpMethod}}", URLString: (url?.string ?? URLString), parameters: parameters, isBody: {{hasBodyParam}}{{#headerParams}}{{^secondaryParam}}, headers: headerParameters{{/secondaryParam}}{{/headerParams}})
     }
 
 {{/operation}}

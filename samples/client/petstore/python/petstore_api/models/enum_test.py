@@ -67,7 +67,7 @@ class EnumTest(object):
         :param enum_string: The enum_string of this EnumTest.
         :type: str
         """
-        allowed_values = ["UPPER", "lower"]
+        allowed_values = ["UPPER", "lower", ""]
         if enum_string not in allowed_values:
             raise ValueError(
                 "Invalid value for `enum_string` ({0}), must be one of {1}"
@@ -193,6 +193,9 @@ class EnumTest(object):
         """
         Returns true if both objects are equal
         """
+        if not isinstance(other, EnumTest):
+            return False
+
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other):

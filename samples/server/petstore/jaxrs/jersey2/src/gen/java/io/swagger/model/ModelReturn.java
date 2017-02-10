@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.*;
 
 /**
  * Model for testing reserved words
@@ -37,6 +38,7 @@ public class ModelReturn   {
    * Get _return
    * @return _return
   **/
+  @JsonProperty("return")
   @ApiModelProperty(value = "")
   public Integer getReturn() {
     return _return;

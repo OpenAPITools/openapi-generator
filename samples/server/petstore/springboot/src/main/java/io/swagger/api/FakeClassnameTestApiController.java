@@ -16,10 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
+import javax.validation.constraints.*;
 
 @Controller
 public class FakeClassnameTestApiController implements FakeClassnameTestApi {
+
+
 
     public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true ) @RequestBody Client body) {
         // do some magic!

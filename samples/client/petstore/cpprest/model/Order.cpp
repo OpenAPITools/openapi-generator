@@ -21,9 +21,9 @@ namespace model {
 
 Order::Order()
 {
-    m_Id = 0;
+    m_Id = 0L;
     m_IdIsSet = false;
-    m_PetId = 0;
+    m_PetId = 0L;
     m_PetIdIsSet = false;
     m_Quantity = 0;
     m_QuantityIsSet = false;

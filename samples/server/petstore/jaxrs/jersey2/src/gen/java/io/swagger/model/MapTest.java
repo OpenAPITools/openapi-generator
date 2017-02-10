@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.*;
 
 /**
  * MapTest
@@ -79,6 +80,7 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
+  @JsonProperty("map_map_of_string")
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -102,6 +104,7 @@ public class MapTest   {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
+  @JsonProperty("map_of_enum_string")
   @ApiModelProperty(value = "")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;

@@ -40,7 +40,7 @@ namespace {{packageName}}.{{packageContext}}.Modules
     /// <summary>
     /// Service handling {{classname}} requests.
     /// </summary>
-    public interface {{classname}}Service
+    public interface {{interfacePrefix}}{{classname}}Service
     {
         {{#operation}}/// <summary>
         /// {{notes}}
@@ -56,7 +56,7 @@ namespace {{packageName}}.{{packageContext}}.Modules
     /// <summary>
     /// Abstraction of {{classname}}Service.
     /// </summary>
-    public abstract class Abstract{{classname}}Service: {{classname}}Service
+    public abstract class Abstract{{classname}}Service: {{interfacePrefix}}{{classname}}Service
     {
         {{#operation}}public virtual {{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
         {

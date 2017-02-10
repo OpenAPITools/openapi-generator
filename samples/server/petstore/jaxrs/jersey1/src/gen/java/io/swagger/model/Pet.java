@@ -23,6 +23,7 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
 
 /**
  * Pet
@@ -89,6 +90,7 @@ public class Pet   {
    * Get id
    * @return id
   **/
+  @JsonProperty("id")
   @ApiModelProperty(value = "")
   public Long getId() {
     return id;
@@ -107,6 +109,7 @@ public class Pet   {
    * Get category
    * @return category
   **/
+  @JsonProperty("category")
   @ApiModelProperty(value = "")
   public Category getCategory() {
     return category;
@@ -125,7 +128,9 @@ public class Pet   {
    * Get name
    * @return name
   **/
+  @JsonProperty("name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @NotNull
   public String getName() {
     return name;
   }
@@ -148,7 +153,9 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   **/
+  @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -171,6 +178,7 @@ public class Pet   {
    * Get tags
    * @return tags
   **/
+  @JsonProperty("tags")
   @ApiModelProperty(value = "")
   public List<Tag> getTags() {
     return tags;
@@ -189,6 +197,7 @@ public class Pet   {
    * pet status in the store
    * @return status
   **/
+  @JsonProperty("status")
   @ApiModelProperty(value = "pet status in the store")
   public StatusEnum getStatus() {
     return status;

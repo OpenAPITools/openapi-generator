@@ -145,20 +145,20 @@ module Petstore
 
       # verify the required parameter 'byte' is set
       fail ArgumentError, "Missing the required parameter 'byte' when calling FakeApi.test_endpoint_parameters" if byte.nil?
-      if !opts[:'integer'].nil? && opts[:'integer'] > 100
-        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.'
+      if !opts[:'integer'].nil? && opts[:'integer'] > 100.0
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.0.'
       end
 
-      if !opts[:'integer'].nil? && opts[:'integer'] < 10
-        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.'
+      if !opts[:'integer'].nil? && opts[:'integer'] < 10.0
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.0.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] > 200
-        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.'
+      if !opts[:'int32'].nil? && opts[:'int32'] > 200.0
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.0.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] < 20
-        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.'
+      if !opts[:'int32'].nil? && opts[:'int32'] < 20.0
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.0.'
       end
 
       if !opts[:'float'].nil? && opts[:'float'] > 987.6

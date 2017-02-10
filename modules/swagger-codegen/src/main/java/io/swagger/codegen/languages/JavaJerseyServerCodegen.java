@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.models.Operation;
 
 import java.util.*;
@@ -12,7 +13,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
-
+    
     /**
      * Default library template to use. (Default:{@value #DEFAULT_LIBRARY})
      */
@@ -84,7 +85,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (StringUtils.isEmpty(library)) {
             setLibrary(DEFAULT_LIBRARY);
         }
-
+        
         if ( additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
@@ -160,5 +161,5 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         opList.add(co);
         co.baseName = basePath;
     }
-
+    
 }

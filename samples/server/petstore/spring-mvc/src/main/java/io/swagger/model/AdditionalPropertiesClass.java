@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */

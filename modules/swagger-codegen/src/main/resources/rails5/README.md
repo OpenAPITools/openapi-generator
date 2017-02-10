@@ -1,6 +1,6 @@
 # Swagger for Rails 5
 
-This is a project to provide Swagger support inside the [Sinatra](http://rubyonrails.org/) framework.
+This is a project to provide Swagger support inside the [Ruby on Rails](http://rubyonrails.org/) framework.
 
 ## Prerequisites
 You need to install ruby >= 2.2.2 and run:

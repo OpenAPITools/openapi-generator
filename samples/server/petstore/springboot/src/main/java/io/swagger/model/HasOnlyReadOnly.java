@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
+import javax.validation.constraints.*;
 /**
  * HasOnlyReadOnly
  */
@@ -26,7 +26,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(readOnly = true, value = "")
   public String getBar() {
     return bar;
   }
@@ -44,7 +44,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(readOnly = true, value = "")
   public String getFoo() {
     return foo;
   }

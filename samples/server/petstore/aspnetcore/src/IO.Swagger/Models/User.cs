@@ -20,12 +20,14 @@ using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
 {
+
     /// <summary>
     /// A User who is purchasing from the pet store
     /// </summary>
     [DataContract]
     public partial class User :  IEquatable<User>
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
@@ -37,7 +39,7 @@ namespace IO.Swagger.Models
         /// <param name="Password">Password.</param>
         /// <param name="Phone">Phone.</param>
         /// <param name="UserStatus">User Status.</param>
-        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, int? UserStatus = null)
+        public User(long? Id = default(long?), string Username = default(string), string FirstName = default(string), string LastName = default(string), string Email = default(string), string Password = default(string), string Phone = default(string), int? UserStatus = default(int?))
         {
             this.Id = Id;
             this.Username = Username;
@@ -55,50 +57,42 @@ namespace IO.Swagger.Models
         /// </summary>
         [DataMember(Name="id")]
         public long? Id { get; set; }
-
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name="username")]
         public string Username { get; set; }
-
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name="firstName")]
         public string FirstName { get; set; }
-
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name="lastName")]
         public string LastName { get; set; }
-
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name="email")]
         public string Email { get; set; }
-
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password")]
         public string Password { get; set; }
-
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name="phone")]
         public string Phone { get; set; }
-
         /// <summary>
         /// User Status
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name="userStatus")]
         public int? UserStatus { get; set; }
-
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import javax.validation.constraints.*;
 
 /**
  * NumberOnly
@@ -37,6 +38,7 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   **/
+  @JsonProperty("JustNumber")
   @ApiModelProperty(value = "")
   public BigDecimal getJustNumber() {
     return justNumber;

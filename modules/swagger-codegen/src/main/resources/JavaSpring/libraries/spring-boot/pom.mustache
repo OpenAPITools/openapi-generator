@@ -77,5 +77,14 @@
             <version>2.6.4</version>
         </dependency>
         {{/threetenbp}}
+{{#useBeanValidation}}
+    <!-- Bean Validation API support -->
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+        <scope>provided</scope>
+    </dependency>
+{{/useBeanValidation}}        
     </dependencies>
 </project>

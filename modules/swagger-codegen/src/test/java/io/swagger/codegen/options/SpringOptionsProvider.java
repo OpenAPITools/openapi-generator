@@ -12,10 +12,13 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
     public static final String BASE_PACKAGE_VALUE = "basePackage";
     public static final String LIBRARY_VALUE = "spring-mvc"; //FIXME hidding value from super class
     public static final String INTERFACE_ONLY = "true";
+    public static final String DELEGATE_PATTERN = "true";
     public static final String SINGLE_CONTENT_TYPES = "true";
     public static final String JAVA_8 = "true";
     public static final String ASYNC = "true";
     public static final String RESPONSE_WRAPPER = "Callable";
+    public static final String USE_TAGS = "useTags";
+    public static final String USE_BEANVALIDATION = "false";
 
     @Override
     public String getLanguage() {
@@ -30,10 +33,13 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
         options.put(SpringCodegen.BASE_PACKAGE, BASE_PACKAGE_VALUE);
         options.put(CodegenConstants.LIBRARY, LIBRARY_VALUE);
         options.put(SpringCodegen.INTERFACE_ONLY, INTERFACE_ONLY);
+        options.put(SpringCodegen.DELEGATE_PATTERN, DELEGATE_PATTERN);
         options.put(SpringCodegen.SINGLE_CONTENT_TYPES, SINGLE_CONTENT_TYPES);
         options.put(SpringCodegen.JAVA_8, JAVA_8);
         options.put(SpringCodegen.ASYNC, ASYNC);
         options.put(SpringCodegen.RESPONSE_WRAPPER, RESPONSE_WRAPPER);
+        options.put(SpringCodegen.USE_TAGS, USE_TAGS);
+        options.put(SpringCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION);
 
         return options;
     }

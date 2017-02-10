@@ -2,7 +2,9 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 {{#models}}
 {{#model}}{{#description}}
 /**

@@ -34,14 +34,6 @@ extern NSString *const SWGResponseObjectErrorKey;
 
 @property(nonatomic, strong) id<SWGSanitizer> sanitizer;
 
-@property (nonatomic, strong) NSDictionary< NSString *, AFHTTPRequestSerializer <AFURLRequestSerialization> *>* requestSerializerForContentType;
-
-/**
- * Gets client singleton instance
- */
-+ (instancetype) sharedClient;
-
-
 /**
  * Gets if the client is unreachable
  *
@@ -63,29 +55,16 @@ extern NSString *const SWGResponseObjectErrorKey;
  */
 +(AFNetworkReachabilityStatus) getReachabilityStatus;
 
-/**
- * Gets the next request id
- *
- * @return The next executed request id.
- */
-+(NSNumber*) nextRequestId;
+@property (nonatomic, strong) NSDictionary< NSString *, AFHTTPRequestSerializer <AFURLRequestSerialization> *>* requestSerializerForContentType;
 
 /**
- * Generates request id and add it to the queue
- *
- * @return The next executed request id.
+ * Gets client singleton instance
  */
-+(NSNumber*) queueRequest;
++ (instancetype) sharedClient;
+
 
 /**
- * Removes request id from the queue
- *
- * @param requestId The request which will be removed.
- */
-+(void) cancelRequest:(NSNumber*)requestId;
-
-/**
- * Customizes the behavior when the reachability changed
+ * Updates header parameters and query parameters for authentication
  *
  * @param headers The header parameter will be udpated, passed by pointer to pointer.
  * @param querys The query parameters will be updated, passed by pointer to pointer.
@@ -100,7 +79,15 @@ extern NSString *const SWGResponseObjectErrorKey;
  * @param configuration The configuration implementation
  */
 - (instancetype)initWithConfiguration:(id<SWGConfiguration>)configuration;
-                    
+
+/**
+* Initializes the session manager with a configuration and url
+*
+* @param url The base url
+* @param configuration The configuration implementation
+*/
+- (instancetype)initWithBaseURL:(NSURL *)url configuration:(id<SWGConfiguration>)configuration;
+
 /**
  * Performs request
  *

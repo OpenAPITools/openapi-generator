@@ -106,6 +106,7 @@ Class | Method | HTTP request | Description
  - [SwaggerPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [SwaggerPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [SwaggerPetstore.ArrayTest](docs/ArrayTest.md)
+ - [SwaggerPetstore.Capitalization](docs/Capitalization.md)
  - [SwaggerPetstore.Cat](docs/Cat.md)
  - [SwaggerPetstore.Category](docs/Category.md)
  - [SwaggerPetstore.ClassModel](docs/ClassModel.md)

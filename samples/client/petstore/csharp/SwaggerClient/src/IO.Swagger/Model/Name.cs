@@ -39,7 +39,7 @@ namespace IO.Swagger.Model
         /// </summary>
         /// <param name="_Name">_Name (required).</param>
         /// <param name="Property">Property.</param>
-        public Name(int? _Name = null, string Property = null)
+        public Name(int? _Name = default(int?), string Property = default(string))
         {
             // to ensure "_Name" is required (not null)
             if (_Name == null)

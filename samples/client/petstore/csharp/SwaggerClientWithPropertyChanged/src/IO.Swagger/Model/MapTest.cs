@@ -63,7 +63,7 @@ namespace IO.Swagger.Model
         /// </summary>
         /// <param name="MapMapOfString">MapMapOfString.</param>
         /// <param name="MapOfEnumString">MapOfEnumString.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> MapMapOfString = null, Dictionary<string, InnerEnum> MapOfEnumString = null)
+        public MapTest(Dictionary<string, Dictionary<string, string>> MapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> MapOfEnumString = default(Dictionary<string, InnerEnum>))
         {
             this.MapMapOfString = MapMapOfString;
             this.MapOfEnumString = MapOfEnumString;

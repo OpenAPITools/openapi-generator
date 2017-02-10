@@ -17,8 +17,7 @@ public interface StoreApi extends ApiClient.Api {
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId ID of the order that needs to be deleted (required)
-   * @return void
+    * @param orderId ID of the order that needs to be deleted (required)
    */
   @RequestLine("DELETE /store/order/{orderId}")
   @Headers({
@@ -30,7 +29,7 @@ public interface StoreApi extends ApiClient.Api {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Map<String, Integer>
+   * @return Map&lt;String, Integer&gt;
    */
   @RequestLine("GET /store/inventory")
   @Headers({
@@ -42,7 +41,7 @@ public interface StoreApi extends ApiClient.Api {
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-   * @param orderId ID of pet that needs to be fetched (required)
+    * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    */
   @RequestLine("GET /store/order/{orderId}")
@@ -55,7 +54,7 @@ public interface StoreApi extends ApiClient.Api {
   /**
    * Place an order for a pet
    * 
-   * @param body order placed for purchasing the pet (required)
+    * @param body order placed for purchasing the pet (required)
    * @return Order
    */
   @RequestLine("POST /store/order")

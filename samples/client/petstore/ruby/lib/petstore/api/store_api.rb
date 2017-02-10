@@ -40,10 +40,6 @@ module Petstore
       end
       # verify the required parameter 'order_id' is set
       fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.delete_order" if order_id.nil?
-      if order_id < 1.0
-        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.delete_order, must be greater than or equal to 1.0.'
-      end
-
       # resource path
       local_var_path = "/store/order/{orderId}".sub('{format}','json').sub('{' + 'orderId' + '}', order_id.to_s)
 
@@ -141,12 +137,12 @@ module Petstore
       end
       # verify the required parameter 'order_id' is set
       fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.get_order_by_id" if order_id.nil?
-      if order_id > 5
-        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be smaller than or equal to 5.'
+      if order_id > 5.0
+        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be smaller than or equal to 5.0.'
       end
 
-      if order_id < 1
-        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be greater than or equal to 1.'
+      if order_id < 1.0
+        fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be greater than or equal to 1.0.'
       end
 
       # resource path
