@@ -64,10 +64,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
    * @return {{name}}
   **/
  {{#vendorExtensions.extraAnnotation}}
-  {{vendorExtensions.extraAnnotation}}
+  {{{vendorExtensions.extraAnnotation}}}
   {{/vendorExtensions.extraAnnotation}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{/jackson}}
   @ApiModelProperty({{#example}}example = "{{example}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
-  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
   {{^isReadOnly}}

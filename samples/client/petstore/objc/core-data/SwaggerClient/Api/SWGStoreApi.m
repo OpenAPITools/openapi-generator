@@ -52,11 +52,11 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 /// Delete purchase order by ID
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-/// @param orderId ID of the order that needs to be deleted 
+///  @param orderId ID of the order that needs to be deleted 
 ///
-///  code:400 message:"Invalid ID supplied",
-///  code:404 message:"Order not found"
--(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+///  @returns void
+///
+-(NSURLSessionTask*) deleteOrderWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
@@ -123,9 +123,9 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 /// Returns pet inventories by status
 /// Returns a map of status codes to quantities
-///  code:200 message:"successful operation"
-/// @return NSDictionary<NSString*, NSNumber*>*
--(NSNumber*) getInventoryWithCompletionHandler: 
+///  @returns NSDictionary<NSString*, NSNumber*>*
+///
+-(NSURLSessionTask*) getInventoryWithCompletionHandler: 
     (void (^)(NSDictionary<NSString*, NSNumber*>* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/inventory"];
 
@@ -178,13 +178,11 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 /// Find purchase order by ID
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-/// @param orderId ID of pet that needs to be fetched 
+///  @param orderId ID of pet that needs to be fetched 
 ///
-///  code:200 message:"successful operation",
-///  code:400 message:"Invalid ID supplied",
-///  code:404 message:"Order not found"
-/// @return SWGOrder*
--(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
+///  @returns SWGOrder*
+///
+-(NSURLSessionTask*) getOrderByIdWithOrderId: (NSString*) orderId
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
     // verify the required parameter 'orderId' is set
     if (orderId == nil) {
@@ -251,12 +249,11 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
 ///
 /// Place an order for a pet
 /// 
-/// @param body order placed for purchasing the pet (optional)
+///  @param body order placed for purchasing the pet (optional)
 ///
-///  code:200 message:"successful operation",
-///  code:400 message:"Invalid Order"
-/// @return SWGOrder*
--(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+///  @returns SWGOrder*
+///
+-(NSURLSessionTask*) placeOrderWithBody: (SWGOrder*) body
     completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/store/order"];
 
@@ -306,6 +303,7 @@ NSInteger kSWGStoreApiMissingParamErrorCode = 234513;
                                 }
                             }];
 }
+
 
 
 @end

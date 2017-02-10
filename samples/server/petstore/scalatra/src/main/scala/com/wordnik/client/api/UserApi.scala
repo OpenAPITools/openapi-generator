@@ -93,7 +93,6 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet
 
   delete("/user/:username",operation(deleteUserOperation)) {
     
-    
       val username = params.getOrElse("username", halt(400))
     
     println("username: " + username)
@@ -107,7 +106,6 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet
   )
 
   get("/user/:username",operation(getUserByNameOperation)) {
-    
     
       val username = params.getOrElse("username", halt(400))
     
@@ -152,7 +150,6 @@ class UserApi (implicit val swagger: Swagger) extends ScalatraServlet
   )
 
   put("/user/:username",operation(updateUserOperation)) {
-    
     
       val username = params.getOrElse("username", halt(400))
     

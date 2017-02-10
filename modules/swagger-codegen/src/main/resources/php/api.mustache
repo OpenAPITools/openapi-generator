@@ -49,7 +49,6 @@ use \{{invokerPackage}}\ObjectSerializer;
     {
         if ($apiClient === null) {
             $apiClient = new ApiClient();
-            $apiClient->getConfig()->setHost('{{basePath}}');
         }
 
         $this->apiClient = $apiClient;

@@ -92,7 +92,7 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Map<String, Integer>
+   * @return Map&lt;String, Integer&gt;
    * @throws ApiException if fails to make API call
    */
   public Map<String, Integer> getInventory() throws ApiException {

@@ -56,12 +56,13 @@ open class Fake_classname_tags123API: APIBase {
         let path = "/fake_classname_test"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
+        let url = NSURLComponents(string: URLString)
+
+
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

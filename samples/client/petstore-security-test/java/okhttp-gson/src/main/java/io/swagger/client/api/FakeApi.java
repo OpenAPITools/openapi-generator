@@ -27,6 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +57,6 @@ public class FakeApi {
     private com.squareup.okhttp.Call testCodeInjectEndRnNRCall(String testCodeInjectEndRnNR, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
-
         // create path and map variables
         String localVarPath = "/fake".replaceAll("\\{format\\}","json");
 
@@ -95,6 +95,19 @@ public class FakeApi {
         String[] localVarAuthNames = new String[] {  };
         return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call testCodeInjectEndRnNRValidateBeforeCall(String testCodeInjectEndRnNR, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        
+        com.squareup.okhttp.Call call = testCodeInjectEndRnNRCall(testCodeInjectEndRnNR, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
 
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
@@ -114,7 +127,7 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testCodeInjectEndRnNRWithHttpInfo(String testCodeInjectEndRnNR) throws ApiException {
-        com.squareup.okhttp.Call call = testCodeInjectEndRnNRCall(testCodeInjectEndRnNR, null, null);
+        com.squareup.okhttp.Call call = testCodeInjectEndRnNRValidateBeforeCall(testCodeInjectEndRnNR, null, null);
         return apiClient.execute(call);
     }
 
@@ -147,7 +160,7 @@ public class FakeApi {
             };
         }
 
-        com.squareup.okhttp.Call call = testCodeInjectEndRnNRCall(testCodeInjectEndRnNR, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testCodeInjectEndRnNRValidateBeforeCall(testCodeInjectEndRnNR, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }

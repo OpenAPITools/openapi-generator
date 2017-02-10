@@ -35,7 +35,7 @@ namespace IO.Swagger.Model
         /// <param name="Uuid">Uuid.</param>
         /// <param name="DateTime">DateTime.</param>
         /// <param name="Map">Map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid? Uuid = null, DateTime? DateTime = null, Dictionary<string, Animal> Map = null)
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid? Uuid = default(Guid?), DateTime? DateTime = default(DateTime?), Dictionary<string, Animal> Map = default(Dictionary<string, Animal>))
         {
             this.Uuid = Uuid;
             this.DateTime = DateTime;

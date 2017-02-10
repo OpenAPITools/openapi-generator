@@ -141,8 +141,7 @@ class Decoders {
         if let value = source as? T {
             return .success(value)
         }
-        //The last two expressions in this condition must be unnecessary, but it would be good to test this.
-        if let intermediate = source as? String, let value = Data(base64Encoded: intermediate) as? T, T.self is Data.Type, source is String {
+        if let intermediate = source as? String, let value = Data(base64Encoded: intermediate) as? T {
             return .success(value)
         }
 
@@ -433,6 +432,63 @@ class Decoders {
                 return .success(instance)
             } else {
                 return .failure(.typeMismatch(expected: "ArrayTest", actual: "\(source)"))
+            }
+        }
+
+
+        // Decoder for [Capitalization]
+        Decoders.addDecoder(clazz: [Capitalization].self) { (source: AnyObject) -> Decoded<[Capitalization]> in
+            return Decoders.decode(clazz: [Capitalization].self, source: source)
+        }
+        // Decoder for Capitalization
+        Decoders.addDecoder(clazz: Capitalization.self) { (source: AnyObject) -> Decoded<Capitalization> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+
+                let instance = Capitalization()
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["smallCamel"] as AnyObject?) {
+                
+                case let .success(value): instance.smallCamel = value
+                case let .failure(error): return .failure(error)
+                
+                }
+
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["CapitalCamel"] as AnyObject?) {
+                
+                case let .success(value): instance.capitalCamel = value
+                case let .failure(error): return .failure(error)
+                
+                }
+
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["small_Snake"] as AnyObject?) {
+                
+                case let .success(value): instance.smallSnake = value
+                case let .failure(error): return .failure(error)
+                
+                }
+
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["Capital_Snake"] as AnyObject?) {
+                
+                case let .success(value): instance.capitalSnake = value
+                case let .failure(error): return .failure(error)
+                
+                }
+
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["SCA_ETH_Flow_Points"] as AnyObject?) {
+                
+                case let .success(value): instance.sCAETHFlowPoints = value
+                case let .failure(error): return .failure(error)
+                
+                }
+
+                switch Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ATT_NAME"] as AnyObject?) {
+                
+                case let .success(value): instance.ATT_NAME = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(instance)
+            } else {
+                return .failure(.typeMismatch(expected: "Capitalization", actual: "\(source)"))
             }
         }
 

@@ -46,7 +46,7 @@ class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet
       parameters(pathParam[String]("orderId").description(""))
   )
 
-  delete("/store/order/:orderId",operation(deleteOrderOperation)) {
+  delete("/store/order/{orderId}",operation(deleteOrderOperation)) {
     
     
       val orderId = params.getOrElse("orderId", halt(400))
@@ -71,7 +71,7 @@ class StoreApi (implicit val swagger: Swagger) extends ScalatraServlet
       parameters(pathParam[Long]("orderId").description(""))
   )
 
-  get("/store/order/:orderId",operation(getOrderByIdOperation)) {
+  get("/store/order/{orderId}",operation(getOrderByIdOperation)) {
     
     
       val orderId = params.getOrElse("orderId", halt(400))

@@ -438,7 +438,7 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
 
     
     {
-        queryParams[U("tags")] = ApiClient::parameterToArrayString<utility::string_t>(tags);
+        queryParams[U("tags")] = ApiClient::parameterToArrayString<>(tags);
     }
 
     std::shared_ptr<IHttpBody> httpBody;

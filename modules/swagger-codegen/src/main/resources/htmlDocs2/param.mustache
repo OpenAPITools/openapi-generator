@@ -1,4 +1,4 @@
-<tr><td style="width:150px;">{{paramName}}{{^required}}{{/required}}{{#required}}*{{/required}}</td>
+<tr><td style="width:150px;">{{baseName}}{{^required}}{{/required}}{{#required}}*{{/required}}</td>
 <td>
 
 
@@ -10,7 +10,7 @@
 
 
 
-													var view = new JSONSchemaView(schema,0);
+													var view = new JSONSchemaView(schema,1);
 													var result = $('#d2e199_{{nickname}}_{{paramName}}');
 													result.empty();
 													result.append(view.render());

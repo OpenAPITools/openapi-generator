@@ -1,1 +1,1 @@
-{{#isQueryParam}}{{{dataType}}} {{paramName}}{{/isQueryParam}}
+{{#isQueryParam}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{/isQueryParam}}

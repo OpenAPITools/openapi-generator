@@ -63,7 +63,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
       parameters(pathParam[Long]("petId").description(""), headerParam[String]("apiKey").description("").optional)
   )
 
-  delete("/pet/:petId",operation(deletePetOperation)) {
+  delete("/pet/{petId}",operation(deletePetOperation)) {
     
     
       val petId = params.getOrElse("petId", halt(400))
@@ -131,7 +131,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
       parameters(pathParam[Long]("petId").description(""))
   )
 
-  get("/pet/:petId",operation(getPetByIdOperation)) {
+  get("/pet/{petId}",operation(getPetByIdOperation)) {
     
     
       val petId = params.getOrElse("petId", halt(400))
@@ -161,7 +161,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
       parameters(pathParam[Long]("petId").description(""), formParam[String]("name").description("").optional, formParam[String]("status").description("").optional)
   )
 
-  post("/pet/:petId",operation(updatePetWithFormOperation)) {
+  post("/pet/{petId}",operation(updatePetWithFormOperation)) {
     
     
       val petId = params.getOrElse("petId", halt(400))
@@ -186,7 +186,7 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
       parameters(pathParam[Long]("petId").description(""), formParam[String]("additionalMetadata").description("").optional, formParam[File]("file").description("").optional)
   )
 
-  post("/pet/:petId/uploadImage",operation(uploadFileOperation)) {
+  post("/pet/{petId}/uploadImage",operation(uploadFileOperation)) {
     
     
       val petId = params.getOrElse("petId", halt(400))

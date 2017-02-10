@@ -13,6 +13,8 @@ public class StaticHtmlOptionsProvider implements OptionsProvider {
     public static final String INVOKER_PACKAGE_VALUE = "io.swagger.client.test";
     public static final String GROUP_ID_VALUE = "io.swagger.test";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+
 
     @Override
     public String getLanguage() {
@@ -34,6 +36,7 @@ public class StaticHtmlOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.GROUP_ID, GROUP_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_ID, ARTIFACT_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

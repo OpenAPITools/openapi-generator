@@ -94,7 +94,7 @@ Pet::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&category, pJson["category"], "Category", "Category");
     ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
     
-    ::Swagger::setValue(&photo_urls, pJson["photo_urls"], "QList", "QString");
+    ::Swagger::setValue(&photo_urls, pJson["photoUrls"], "QList", "QString");
     
     
     ::Swagger::setValue(&tags, pJson["tags"], "QList", "Tag");
@@ -124,7 +124,7 @@ Pet::asJsonObject() {
 
     QJsonArray photo_urlsJsonArray;
     toJsonArray((QList<void*>*)photo_urls, &photo_urlsJsonArray, "photo_urls", "QString");
-    obj->insert("photo_urls", photo_urlsJsonArray);
+    obj->insert("photoUrls", photo_urlsJsonArray);
 
     QJsonArray tagsJsonArray;
     toJsonArray((QList<void*>*)tags, &tagsJsonArray, "tags", "Tag");

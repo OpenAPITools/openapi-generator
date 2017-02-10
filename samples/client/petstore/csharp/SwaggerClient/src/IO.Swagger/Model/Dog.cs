@@ -40,7 +40,7 @@ namespace IO.Swagger.Model
         /// <param name="ClassName">ClassName (required).</param>
         /// <param name="Color">Color (default to &quot;red&quot;).</param>
         /// <param name="Breed">Breed.</param>
-        public Dog(string ClassName = null, string Color = null, string Breed = null)
+        public Dog(string ClassName = default(string), string Color = "red", string Breed = default(string))
         {
             // to ensure "ClassName" is required (not null)
             if (ClassName == null)

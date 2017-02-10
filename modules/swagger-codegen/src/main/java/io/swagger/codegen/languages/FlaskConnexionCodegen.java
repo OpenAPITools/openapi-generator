@@ -236,10 +236,13 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
      * @return the escaped term
      */
     @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name;  // add an underscore to the name
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name; // add an underscore to the name
     }
-
+    
     /**
      * Location to write api files.  You can use the apiPackage() as defined when the class is
      * instantiated

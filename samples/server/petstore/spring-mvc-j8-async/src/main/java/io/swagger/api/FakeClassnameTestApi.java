@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
+import javax.validation.constraints.*;
 
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {

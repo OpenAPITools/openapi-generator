@@ -34,8 +34,7 @@ use \ArrayAccess;
 /**
  * Animal Class Doc Comment
  *
- * @category    Class */
-/**
+ * @category    Class
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -140,6 +139,7 @@ class Animal implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
+
         if ($this->container['class_name'] === null) {
             $invalid_properties[] = "'class_name' can't be null";
         }
@@ -150,10 +150,11 @@ class Animal implements ArrayAccess
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properteis are valid
+     * @return bool True if all properties are valid
      */
     public function valid()
     {
+
         if ($this->container['class_name'] === null) {
             return false;
         }

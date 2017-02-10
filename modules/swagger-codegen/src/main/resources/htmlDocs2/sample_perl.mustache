@@ -1,0 +1,26 @@
+use Data::Dumper;
+use {{{perlModuleName}}}::Configuration;
+use {{perlModuleName}}::{{classname}};
+{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+# Configure HTTP basic authorization: {{{name}}}
+${{{perlModuleName}}}::Configuration::username = 'YOUR_USERNAME';
+${{{perlModuleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
+# Configure API key authorization: {{{name}}}
+${{{perlModuleName}}}::Configuration::api_key->{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#${{{perlModuleName}}}::Configuration::api_key_prefix->{'{{{keyParamName}}}'} = "Bearer";{{/isApiKey}}{{#isOAuth}}
+# Configure OAuth2 access token for authorization: {{{name}}}
+${{{perlModuleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
+{{/hasAuthMethods}}
+
+my $api_instance = {{perlModuleName}}::{{classname}}->new();
+{{#allParams}}my ${{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{perlModuleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; # {{{dataType}}} | {{{unescapedDescription}}}
+{{/allParams}}
+
+eval { 
+    {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    print Dumper($result);{{/returnType}}
+};
+if ($@) {
+    warn "Exception when calling {{classname}}->{{operationId}}: $@\n";
+}

@@ -1,0 +1,13 @@
+import * as api from './api/api';
+import * as angular from 'angular';
+
+{{#apiInfo}}
+const apiModule = angular.module('api', [])
+{{#apis}}
+{{#operations}}
+.service('{{classname}}', api.{{classname}})
+{{/operations}}
+{{/apis}}
+
+export default apiModule;
+{{/apiInfo}}

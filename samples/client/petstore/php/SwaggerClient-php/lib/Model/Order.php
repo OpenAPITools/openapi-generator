@@ -34,8 +34,7 @@ use \ArrayAccess;
 /**
  * Order Class Doc Comment
  *
- * @category    Class */
-/**
+ * @category    Class
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -172,9 +171,10 @@ class Order implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
+
         $allowed_values = ["placed", "approved", "delivered"];
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of #{allowed_values}.";
+            $invalid_properties[] = "invalid value for 'status', must be one of 'placed', 'approved', 'delivered'.";
         }
 
         return $invalid_properties;
@@ -184,10 +184,11 @@ class Order implements ArrayAccess
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properteis are valid
+     * @return bool True if all properties are valid
      */
     public function valid()
     {
+
         $allowed_values = ["placed", "approved", "delivered"];
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;

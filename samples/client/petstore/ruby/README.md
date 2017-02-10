@@ -109,6 +109,7 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Petstore::ArrayTest](docs/ArrayTest.md)
+ - [Petstore::Capitalization](docs/Capitalization.md)
  - [Petstore::Cat](docs/Cat.md)
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)

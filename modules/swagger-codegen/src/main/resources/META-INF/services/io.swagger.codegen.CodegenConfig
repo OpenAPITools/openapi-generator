@@ -2,10 +2,12 @@ io.swagger.codegen.languages.AndroidClientCodegen
 io.swagger.codegen.languages.AspNet5ServerCodegen
 io.swagger.codegen.languages.AspNetCoreServerCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
+io.swagger.codegen.languages.BashClientCodegen
 io.swagger.codegen.languages.ConfluenceWikiGenerator
 io.swagger.codegen.languages.CSharpClientCodegen
 io.swagger.codegen.languages.CppRestClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
+io.swagger.codegen.languages.ElixirClientCodegen
 io.swagger.codegen.languages.FlashClientCodegen
 io.swagger.codegen.languages.FlaskConnexionCodegen
 io.swagger.codegen.languages.GoClientCodegen
@@ -32,6 +34,7 @@ io.swagger.codegen.languages.Qt5CPPGenerator
 io.swagger.codegen.languages.RubyClientCodegen
 io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen
+io.swagger.codegen.languages.FinchServerCodegen
 io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SinatraServerCodegen
 io.swagger.codegen.languages.Rails5ServerCodegen
@@ -58,3 +61,4 @@ io.swagger.codegen.languages.GoServerCodegen
 io.swagger.codegen.languages.ErlangServerCodegen
 io.swagger.codegen.languages.UndertowCodegen
 io.swagger.codegen.languages.JavaMSF4JServerCodegen
+io.swagger.codegen.languages.ZendExpressivePathHandlerServerCodegen

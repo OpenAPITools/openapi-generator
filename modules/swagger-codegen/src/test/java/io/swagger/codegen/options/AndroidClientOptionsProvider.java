@@ -20,6 +20,7 @@ public class AndroidClientOptionsProvider implements OptionsProvider {
     public static final String ANDROID_MAVEN_GRADLE_PLUGIN_VALUE = "true";
     public static final String LIBRARY_VALUE = "httpclient";
     public static final String SERIALIZABLE_MODEL_VALUE = "false";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -41,6 +42,7 @@ public class AndroidClientOptionsProvider implements OptionsProvider {
                 .put(AndroidClientCodegen.USE_ANDROID_MAVEN_GRADLE_PLUGIN, ANDROID_MAVEN_GRADLE_PLUGIN_VALUE)
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
                 .put(CodegenConstants.SERIALIZABLE_MODEL, SERIALIZABLE_MODEL_VALUE)
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

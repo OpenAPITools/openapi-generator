@@ -39,7 +39,7 @@
   exports.constructFromObject = function(data, obj) {
     if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
       obj = obj || new exports();
-{{#parent}}{{^parentModel}}      ApiClient.constructFromObject(data, obj, {{vendorExtensions.x-itemType}});
+{{#parent}}{{^parentModel}}      ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-itemType}}');
 {{/parentModel}}{{/parent}}{{#useInheritance}}{{#parentModel}}      {{classname}}.constructFromObject(data, obj);{{/parentModel}}
 {{#interfaces}}      {{.}}.constructFromObject(data, obj);
 {{/interfaces}}{{/useInheritance}}{{#vars}}      if (data.hasOwnProperty('{{baseName}}')) {
