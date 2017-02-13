@@ -45,17 +45,27 @@ public class ApiClient {
 
   public ApiClient(String[] authNames) {
     this();
-    for(String authName : authNames) { {{#hasAuthMethods}}
+    for(String authName : authNames) {
+      {{#hasAuthMethods}}
       RequestInterceptor auth;
-      {{#authMethods}}if ("{{name}}".equals(authName)) { {{#isBasic}}
-        auth = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
-        auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
-        auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");{{/isOAuth}}
+      {{#authMethods}}if ("{{name}}".equals(authName)) {
+      {{#isBasic}}
+        auth = new HttpBasicAuth();
+      {{/isBasic}}
+      {{#isApiKey}}
+        auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
+      {{/isApiKey}}
+      {{#isOAuth}}
+        auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");
+      {{/isOAuth}}
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
-      addAuthorization(authName, auth);{{/hasAuthMethods}}{{^hasAuthMethods}}
-      throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");{{/hasAuthMethods}}
+      addAuthorization(authName, auth);
+      {{/hasAuthMethods}}
+      {{^hasAuthMethods}}
+      throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+      {{/hasAuthMethods}}
     }
   }
 
