@@ -888,6 +888,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Prill Tecnologia](http://www.prill.com.br)
 - [QAdept](http://qadept.com/)
 - [QuantiModo](https://quantimo.do/)
+- [QuickBlox](https://quickblox.com/)
 - [Rapid7](https://rapid7.com/)
 - [Reload! A/S](https://reload.dk/)
 - [REstore](https://www.restore.eu)
