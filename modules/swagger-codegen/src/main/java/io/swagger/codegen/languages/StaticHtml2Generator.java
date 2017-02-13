@@ -158,7 +158,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         CodegenParameter lastRequired = null;
         CodegenParameter lastOptional = null;
         for (CodegenParameter p : op.allParams) {
-            if (p.required != null && p.required) {
+            if (p.required) {
                 lastRequired = p;
             } else {
                 lastOptional = p;

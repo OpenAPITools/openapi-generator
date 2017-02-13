@@ -2161,7 +2161,7 @@ public class DefaultCodegen {
                 } else if (param instanceof FormParameter) {
                     formParams.add(p.copy());
                 }
-                if (p.required == null || !p.required) {
+                if (!p.required) {
                     op.hasOptionalParams = true;
                 }
             }
@@ -2179,10 +2179,8 @@ public class DefaultCodegen {
           Collections.sort(allParams, new Comparator<CodegenParameter>() {
               @Override
               public int compare(CodegenParameter one, CodegenParameter another) {
-                  boolean oneRequired = one.required == null ? false : one.required;
-                  boolean anotherRequired = another.required == null ? false : another.required;
-                  if (oneRequired == anotherRequired) return 0;
-                  else if (oneRequired) return -1;
+                  if (one.required == another.required) return 0;
+                  else if (one.required) return -1;
                   else return 1;
               }
           });
@@ -2410,14 +2408,14 @@ public class DefaultCodegen {
                 p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum());
             }
 
-            p.exclusiveMaximum = qp.isExclusiveMaximum();
-            p.exclusiveMinimum = qp.isExclusiveMinimum();
+            p.exclusiveMaximum = qp.isExclusiveMaximum() == null ? false : qp.isExclusiveMaximum();
+            p.exclusiveMinimum = qp.isExclusiveMinimum() == null ? false : qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
             p.minLength = qp.getMinLength();
             p.pattern = toRegularExpression(qp.getPattern());
             p.maxItems = qp.getMaxItems();
             p.minItems = qp.getMinItems();
-            p.uniqueItems = qp.isUniqueItems();
+            p.uniqueItems = qp.isUniqueItems() == null ? false : qp.isUniqueItems();
             p.multipleOf = qp.getMultipleOf();
 
             // exclusive* are noop without corresponding min/max
