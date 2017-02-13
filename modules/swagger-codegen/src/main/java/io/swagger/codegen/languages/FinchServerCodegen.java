@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage = "io.swagger.petstore.client";
+    protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "finch-server";
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/scala";
-    protected String packageName = "io.swagger.petstore";
+    protected String packageName = "io.swagger";
 
     public FinchServerCodegen() {
         super();
@@ -156,7 +156,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
         importMapping.put("LocalTime", "java.time.LocalTime");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Finch package name (e.g. io.swagger.petstore).")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Finch package name (e.g. io.swagger).")
                 .defaultValue(this.packageName));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
