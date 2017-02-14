@@ -127,7 +127,7 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -160,7 +160,7 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -204,7 +204,7 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -238,7 +238,7 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
