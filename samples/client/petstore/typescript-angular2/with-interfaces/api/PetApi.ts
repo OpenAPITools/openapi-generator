@@ -188,13 +188,13 @@ export class PetApi implements PetApiInterface {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // to determine the Content-Type header
         let consumes: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -250,7 +250,7 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -299,7 +299,7 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -348,7 +348,7 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -396,7 +396,7 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -440,13 +440,13 @@ export class PetApi implements PetApiInterface {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         // to determine the Content-Type header
         let consumes: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -502,7 +502,7 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -566,7 +566,7 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 

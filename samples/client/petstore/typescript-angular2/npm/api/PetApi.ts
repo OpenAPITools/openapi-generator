@@ -191,13 +191,13 @@ export class PetApi {
         }
         // to determine the Content-Type header
         let consumes: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -253,7 +253,7 @@ export class PetApi {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -304,7 +304,7 @@ export class PetApi {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -355,7 +355,7 @@ export class PetApi {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -403,7 +403,7 @@ export class PetApi {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -442,13 +442,13 @@ export class PetApi {
         }
         // to determine the Content-Type header
         let consumes: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -504,7 +504,7 @@ export class PetApi {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
