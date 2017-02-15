@@ -102,7 +102,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -131,7 +131,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         fetchOptions.headers = assign({
             "api_key": params["apiKey"],
         }, contentTypeHeader);
@@ -153,7 +153,7 @@ export const PetApiFetchParamCreator = {
         });
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -175,7 +175,7 @@ export const PetApiFetchParamCreator = {
         });
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -199,7 +199,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -218,7 +218,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -248,7 +248,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
         fetchOptions.body = querystring.stringify({
             "name": params["name"],
@@ -279,7 +279,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
         fetchOptions.body = querystring.stringify({
             "additionalMetadata": params["additionalMetadata"],
@@ -304,7 +304,7 @@ export const PetApiFp = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    addPet(params: { "body"?: Pet;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    addPet(params: { "body"?: Pet;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = PetApiFetchParamCreator.addPet(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -322,7 +322,7 @@ export const PetApiFp = {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    deletePet(params: { "petId": number; "apiKey"?: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    deletePet(params: { "petId": number; "apiKey"?: string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = PetApiFetchParamCreator.deletePet(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -339,7 +339,7 @@ export const PetApiFp = {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    findPetsByStatus(params: { "status"?: Array<string>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
+    findPetsByStatus(params: { "status"?: Array<string>;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
         const fetchArgs = PetApiFetchParamCreator.findPetsByStatus(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -356,7 +356,7 @@ export const PetApiFp = {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    findPetsByTags(params: { "tags"?: Array<string>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
+    findPetsByTags(params: { "tags"?: Array<string>;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
         const fetchArgs = PetApiFetchParamCreator.findPetsByTags(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -373,7 +373,7 @@ export const PetApiFp = {
      * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
      * @param petId ID of pet that needs to be fetched
      */
-    getPetById(params: { "petId": number;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Pet> {
+    getPetById(params: { "petId": number;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Pet> {
         const fetchArgs = PetApiFetchParamCreator.getPetById(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -390,7 +390,7 @@ export const PetApiFp = {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    updatePet(params: { "body"?: Pet;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    updatePet(params: { "body"?: Pet;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = PetApiFetchParamCreator.updatePet(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -409,7 +409,7 @@ export const PetApiFp = {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    updatePetWithForm(params: { "petId": string; "name"?: string; "status"?: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    updatePetWithForm(params: { "petId": string; "name"?: string; "status"?: string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = PetApiFetchParamCreator.updatePetWithForm(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -428,7 +428,7 @@ export const PetApiFp = {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    uploadFile(params: { "petId": number; "additionalMetadata"?: string; "file"?: any;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    uploadFile(params: { "petId": number; "additionalMetadata"?: string; "file"?: any;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = PetApiFetchParamCreator.uploadFile(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -614,7 +614,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -632,7 +632,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -656,7 +656,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -675,7 +675,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -699,7 +699,7 @@ export const StoreApiFp = {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
      */
-    deleteOrder(params: { "orderId": string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    deleteOrder(params: { "orderId": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = StoreApiFetchParamCreator.deleteOrder(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -715,7 +715,7 @@ export const StoreApiFp = {
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    getInventory(options?: any): (fetch: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
+    getInventory(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
         const fetchArgs = StoreApiFetchParamCreator.getInventory(options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -732,7 +732,7 @@ export const StoreApiFp = {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    getOrderById(params: { "orderId": string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
+    getOrderById(params: { "orderId": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
         const fetchArgs = StoreApiFetchParamCreator.getOrderById(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -749,7 +749,7 @@ export const StoreApiFp = {
      * 
      * @param body order placed for purchasing the pet
      */
-    placeOrder(params: { "body"?: Order;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
+    placeOrder(params: { "body"?: Order;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
         const fetchArgs = StoreApiFetchParamCreator.placeOrder(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -854,7 +854,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -877,7 +877,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -900,7 +900,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -928,7 +928,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "DELETE" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -952,7 +952,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -976,7 +976,7 @@ export const UserApiFetchParamCreator = {
         });
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -994,7 +994,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -1019,7 +1019,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -1043,7 +1043,7 @@ export const UserApiFp = {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    createUser(params: { "body"?: User;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    createUser(params: { "body"?: User;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = UserApiFetchParamCreator.createUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1060,7 +1060,7 @@ export const UserApiFp = {
      * 
      * @param body List of user object
      */
-    createUsersWithArrayInput(params: { "body"?: Array<User>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    createUsersWithArrayInput(params: { "body"?: Array<User>;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = UserApiFetchParamCreator.createUsersWithArrayInput(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1077,7 +1077,7 @@ export const UserApiFp = {
      * 
      * @param body List of user object
      */
-    createUsersWithListInput(params: { "body"?: Array<User>;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    createUsersWithListInput(params: { "body"?: Array<User>;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = UserApiFetchParamCreator.createUsersWithListInput(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1094,7 +1094,7 @@ export const UserApiFp = {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    deleteUser(params: { "username": string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    deleteUser(params: { "username": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = UserApiFetchParamCreator.deleteUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1111,7 +1111,7 @@ export const UserApiFp = {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    getUserByName(params: { "username": string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<User> {
+    getUserByName(params: { "username": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<User> {
         const fetchArgs = UserApiFetchParamCreator.getUserByName(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1129,7 +1129,7 @@ export const UserApiFp = {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    loginUser(params: { "username"?: string; "password"?: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<string> {
+    loginUser(params: { "username"?: string; "password"?: string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<string> {
         const fetchArgs = UserApiFetchParamCreator.loginUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1145,7 +1145,7 @@ export const UserApiFp = {
      * Logs out current logged in user session
      * 
      */
-    logoutUser(options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    logoutUser(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = UserApiFetchParamCreator.logoutUser(options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -1163,7 +1163,7 @@ export const UserApiFp = {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    updateUser(params: { "username": string; "body"?: User;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
+    updateUser(params: { "username": string; "body"?: User;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = UserApiFetchParamCreator.updateUser(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
