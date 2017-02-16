@@ -24,6 +24,7 @@ import com.sun.jersey.multipart.file.FileDataBodyPart
 
 import java.io.File
 import java.net.URLEncoder
+import java.util.UUID
 import javax.ws.rs.core.MediaType
 
 import scala.collection.JavaConverters._
@@ -66,6 +67,7 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
   def escape(value: Long): String = value.toString
   def escape(value: Double): String = value.toString
   def escape(value: Float): String = value.toString
+  def escape(value: UUID): String = value.toString
 
   def deserialize(json: String, containerType: String, cls: Class[_]) = {
     if (cls == classOf[String]) {
