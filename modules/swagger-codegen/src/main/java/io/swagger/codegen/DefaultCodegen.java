@@ -2231,6 +2231,7 @@ public class DefaultCodegen {
         r.jsonSchema = Json.pretty(response);
         r.vendorExtensions = response.getVendorExtensions();
         addHeaders(response, r.headers);
+        r.hasHeaders = !r.headers.isEmpty();
 
         if (r.schema != null) {
             Property responseProperty = response.getSchema();
