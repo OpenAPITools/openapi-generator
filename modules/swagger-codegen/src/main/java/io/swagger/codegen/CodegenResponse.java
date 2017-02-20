@@ -10,6 +10,7 @@ public class CodegenResponse {
     public boolean hasMore;
     public List<Map<String, Object>> examples;
     public String dataType, baseType, containerType;
+    public boolean hasHeaders;
     public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime;
     public boolean isDefault;
     public boolean simpleType;

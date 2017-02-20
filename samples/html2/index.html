@@ -1266,6 +1266,12 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 405 - Invalid input </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -1555,7 +1561,7 @@ except ApiException as e:
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
-                                  <tr><td style="width:150px;">apiKey</td>
+                                  <tr><td style="width:150px;">api_key</td>
 <td>
 
 
@@ -1594,6 +1600,12 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 400 - Invalid pet value </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -1858,8 +1870,8 @@ except ApiException as e:
   "type" : "array",
   "items" : {
     "type" : "string",
-    "enum" : [ "available", "pending", "sold" ],
-    "default" : "available"
+    "default" : "available",
+    "enum" : [ "available", "pending", "sold" ]
   },
   "collectionFormat" : "csv"
 };
@@ -1888,18 +1900,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-Pet-findPetsByStatus-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-findPetsByStatus-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-Pet-findPetsByStatus-schema">
-                                  <div id='examples-Pet-findPetsByStatus-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-findPetsByStatus-200-schema">
+                                  <div id='responses-findPetsByStatus-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -1920,18 +1931,25 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-Pet-findPetsByStatus-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-Pet-findPetsByStatus-schema-200');
+                                          $('#responses-findPetsByStatus-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-findPetsByStatus-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-Pet-findPetsByStatus-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-findPetsByStatus-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                             <h3> Status: 400 - Invalid status value </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -2224,18 +2242,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-Pet-findPetsByTags-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-findPetsByTags-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-Pet-findPetsByTags-schema">
-                                  <div id='examples-Pet-findPetsByTags-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-findPetsByTags-200-schema">
+                                  <div id='responses-findPetsByTags-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -2256,18 +2273,25 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-Pet-findPetsByTags-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-Pet-findPetsByTags-schema-200');
+                                          $('#responses-findPetsByTags-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-findPetsByTags-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-Pet-findPetsByTags-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-findPetsByTags-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                             <h3> Status: 400 - Invalid tag value </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -2571,18 +2595,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-Pet-getPetById-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-getPetById-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-Pet-getPetById-schema">
-                                  <div id='examples-Pet-getPetById-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getPetById-200-schema">
+                                  <div id='responses-getPetById-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -2600,20 +2623,33 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-Pet-getPetById-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-Pet-getPetById-schema-200');
+                                          $('#responses-getPetById-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-getPetById-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-Pet-getPetById-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-getPetById-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                             <h3> Status: 400 - Invalid ID supplied </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 404 - Pet not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -2904,9 +2940,27 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 400 - Invalid ID supplied </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 404 - Pet not found </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 405 - Validation exception </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -3279,6 +3333,12 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 405 - Invalid input </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -3661,18 +3721,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-Pet-uploadFile-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-uploadFile-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-Pet-uploadFile-schema">
-                                  <div id='examples-Pet-uploadFile-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-uploadFile-200-schema">
+                                  <div id='responses-uploadFile-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -3690,17 +3749,18 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-Pet-uploadFile-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-Pet-uploadFile-schema-200');
+                                          $('#responses-uploadFile-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-uploadFile-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-Pet-uploadFile-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-uploadFile-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -3955,7 +4015,19 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 400 - Invalid ID supplied </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 404 - Order not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -4208,18 +4280,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-Store-getInventory-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-getInventory-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-Store-getInventory-schema">
-                                  <div id='examples-Store-getInventory-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getInventory-200-schema">
+                                  <div id='responses-getInventory-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -4241,17 +4312,18 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-Store-getInventory-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-Store-getInventory-schema-200');
+                                          $('#responses-getInventory-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-getInventory-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-Store-getInventory-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-getInventory-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -4515,18 +4587,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-Store-getOrderById-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-getOrderById-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-Store-getOrderById-schema">
-                                  <div id='examples-Store-getOrderById-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getOrderById-200-schema">
+                                  <div id='responses-getOrderById-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -4544,20 +4615,33 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-Store-getOrderById-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-Store-getOrderById-schema-200');
+                                          $('#responses-getOrderById-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-getOrderById-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-Store-getOrderById-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-getOrderById-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                             <h3> Status: 400 - Invalid ID supplied </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 404 - Order not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -4830,18 +4914,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-Store-placeOrder-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-placeOrder-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-Store-placeOrder-schema">
-                                  <div id='examples-Store-placeOrder-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-placeOrder-200-schema">
+                                  <div id='responses-placeOrder-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -4859,18 +4942,25 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-Store-placeOrder-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-Store-placeOrder-schema-200');
+                                          $('#responses-placeOrder-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-placeOrder-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-Store-placeOrder-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-placeOrder-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                             <h3> Status: 400 - Invalid Order </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -5137,6 +5227,12 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 0 - successful operation </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -5401,6 +5497,12 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 0 - successful operation </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -5667,6 +5769,12 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 0 - successful operation </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                         </article>
                       </div>
                       <hr>
@@ -5918,7 +6026,19 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 400 - Invalid username supplied </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 404 - User not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -6180,18 +6300,17 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-User-getUserByName-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-getUserByName-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-User-getUserByName-schema">
-                                  <div id='examples-User-getUserByName-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getUserByName-200-schema">
+                                  <div id='responses-getUserByName-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -6209,20 +6328,33 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-User-getUserByName-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-User-getUserByName-schema-200');
+                                          $('#responses-getUserByName-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-getUserByName-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-User-getUserByName-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-getUserByName-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                            </div>
+
                             <h3> Status: 400 - Invalid username supplied </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 404 - User not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -6527,18 +6659,20 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
 
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a href="#examples-User-loginUser-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-loginUser-200-schema">Schema</a>
                                 </li>
 
-                              </ul>
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-loginUser-200-headers">Headers</a>
+                                </li>
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-User-loginUser-schema">
-                                  <div id='examples-User-loginUser-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-loginUser-200-schema">
+                                  <div id='responses-loginUser-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -6568,18 +6702,47 @@ except ApiException as e:
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-User-loginUser-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-User-loginUser-schema-200');
+                                          $('#responses-loginUser-200-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-loginUser-200-schema-200');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-User-loginUser-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-loginUser-200-schema-data' type='hidden' value=''></input>
                                 </div>
-                              </div>
+                                <div class="tab-pane" id="responses-loginUser-200-headers">
+                                    <table>
+                                        <tr>
+                                            <th width="150px">Name</th>
+                                            <th width="100px">Type</th>
+                                            <th width="100px">Format</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>X-Rate-Limit</td>
+                                            <td>Integer</td>
+                                            <td>int32</td>
+                                            <td>calls per hour allowed by the user</td>
+                                        </tr>
+                                        <tr>
+                                            <td>X-Expires-After</td>
+                                            <td>Date</td>
+                                            <td>date-time</td>
+                                            <td>date in UTC when toekn expires</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
                             <h3> Status: 400 - Invalid username/password supplied </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -6781,6 +6944,12 @@ except ApiException as e:
 
                           <h2>Responses</h2>
                             <h3> Status: 0 - successful operation </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -7094,7 +7263,19 @@ except ApiException as e:
                           <h2>Responses</h2>
                             <h3> Status: 400 - Invalid user supplied </h3>
 
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
                             <h3> Status: 404 - User not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
 
                         </article>
                       </div>
@@ -7112,7 +7293,7 @@ except ApiException as e:
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2017-01-24T11:58:21.560-05:00
+              Generated 2017-02-18T23:37:57.057+01:00
             </div>
           </div>
       </div>
