@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -28,9 +29,16 @@ public class ModelApiResponse  {
   public Integer getCode() {
     return code;
   }
+
   public void setCode(Integer code) {
     this.code = code;
   }
+
+  public ModelApiResponse code(Integer code) {
+    this.code = code;
+    return this;
+  }
+
  /**
    * Get type
    * @return type
@@ -38,9 +46,16 @@ public class ModelApiResponse  {
   public String getType() {
     return type;
   }
+
   public void setType(String type) {
     this.type = type;
   }
+
+  public ModelApiResponse type(String type) {
+    this.type = type;
+    return this;
+  }
+
  /**
    * Get message
    * @return message
@@ -48,9 +63,16 @@ public class ModelApiResponse  {
   public String getMessage() {
     return message;
   }
+
   public void setMessage(String message) {
     this.message = message;
   }
+
+  public ModelApiResponse message(String message) {
+    this.message = message;
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -68,7 +90,7 @@ public class ModelApiResponse  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
