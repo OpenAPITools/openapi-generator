@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-03-01T10:03:07.895-05:00")
+
 public class FakeController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
