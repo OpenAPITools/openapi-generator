@@ -8,48 +8,31 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
+/**
+ * Model for testing model with \&quot;_class\&quot; property
+ **/
 
-
+@ApiModel(description = "Model for testing model with \"_class\" property")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-03-01T10:03:07.895-05:00")
-public class HasOnlyReadOnly   {
-  @JsonProperty("bar")
-  private String bar = null;
-
-  @JsonProperty("foo")
-  private String foo = null;
+public class ClassModel   {
+  @JsonProperty("_class")
+  private String propertyClass = null;
 
   /**
    **/
-  public HasOnlyReadOnly bar(String bar) {
-    this.bar = bar;
+  public ClassModel propertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
     return this;
   }
 
   
   @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("bar")
-  public String getBar() {
-    return bar;
+  @JsonProperty("_class")
+  public String getPropertyClass() {
+    return propertyClass;
   }
-  public void setBar(String bar) {
-    this.bar = bar;
-  }
-
-  /**
-   **/
-  public HasOnlyReadOnly foo(String foo) {
-    this.foo = foo;
-    return this;
-  }
-
-  
-  @ApiModelProperty(example = "null", value = "")
-  @JsonProperty("foo")
-  public String getFoo() {
-    return foo;
-  }
-  public void setFoo(String foo) {
-    this.foo = foo;
+  public void setPropertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
   }
 
 
@@ -61,23 +44,21 @@ public class HasOnlyReadOnly   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
-    return Objects.equals(bar, hasOnlyReadOnly.bar) &&
-        Objects.equals(foo, hasOnlyReadOnly.foo);
+    ClassModel classModel = (ClassModel) o;
+    return Objects.equals(propertyClass, classModel.propertyClass);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar, foo);
+    return Objects.hash(propertyClass);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class HasOnlyReadOnly {\n");
+    sb.append("class ClassModel {\n");
     
-    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
-    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
+    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }
