@@ -1,19 +1,33 @@
 package io.swagger.model;
 
-import javax.validation.constraints.*;
-
-
-import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
+
+
+
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-03-01T10:03:07.895-05:00")
 public class Capitalization   {
-  
+  @JsonProperty("smallCamel")
   private String smallCamel = null;
+
+  @JsonProperty("CapitalCamel")
   private String capitalCamel = null;
+
+  @JsonProperty("small_Snake")
   private String smallSnake = null;
+
+  @JsonProperty("Capital_Snake")
   private String capitalSnake = null;
+
+  @JsonProperty("SCA_ETH_Flow_Points")
   private String scAETHFlowPoints = null;
+
+  @JsonProperty("ATT_NAME")
   private String ATT_NAME = null;
 
   /**
@@ -25,6 +39,7 @@ public class Capitalization   {
 
   
   @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("smallCamel")
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -41,6 +56,7 @@ public class Capitalization   {
 
   
   @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -57,6 +73,7 @@ public class Capitalization   {
 
   
   @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -73,6 +90,7 @@ public class Capitalization   {
 
   
   @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -89,6 +107,7 @@ public class Capitalization   {
 
   
   @ApiModelProperty(example = "null", value = "")
+  @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -106,6 +125,7 @@ public class Capitalization   {
 
   
   @ApiModelProperty(example = "null", value = "Name of the pet ")
+  @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
   }
@@ -162,3 +182,4 @@ public class Capitalization   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

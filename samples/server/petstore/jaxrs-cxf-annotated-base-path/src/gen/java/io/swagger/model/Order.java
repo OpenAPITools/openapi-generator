@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,7 +28,7 @@ public class Order  {
 @XmlEnum(String.class)
 public enum StatusEnum {
 
-    @XmlEnumValue("placed") PLACED(String.valueOf("placed")), @XmlEnumValue("approved") APPROVED(String.valueOf("approved")), @XmlEnumValue("delivered") DELIVERED(String.valueOf("delivered"));
+@XmlEnumValue("placed") PLACED(String.valueOf("placed")), @XmlEnumValue("approved") APPROVED(String.valueOf("approved")), @XmlEnumValue("delivered") DELIVERED(String.valueOf("delivered"));
 
 
     private String value;
@@ -67,9 +68,16 @@ public enum StatusEnum {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
+
+  public Order id(Long id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get petId
    * @return petId
@@ -77,9 +85,16 @@ public enum StatusEnum {
   public Long getPetId() {
     return petId;
   }
+
   public void setPetId(Long petId) {
     this.petId = petId;
   }
+
+  public Order petId(Long petId) {
+    this.petId = petId;
+    return this;
+  }
+
  /**
    * Get quantity
    * @return quantity
@@ -87,9 +102,16 @@ public enum StatusEnum {
   public Integer getQuantity() {
     return quantity;
   }
+
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
+
+  public Order quantity(Integer quantity) {
+    this.quantity = quantity;
+    return this;
+  }
+
  /**
    * Get shipDate
    * @return shipDate
@@ -97,9 +119,16 @@ public enum StatusEnum {
   public javax.xml.datatype.XMLGregorianCalendar getShipDate() {
     return shipDate;
   }
+
   public void setShipDate(javax.xml.datatype.XMLGregorianCalendar shipDate) {
     this.shipDate = shipDate;
   }
+
+  public Order shipDate(javax.xml.datatype.XMLGregorianCalendar shipDate) {
+    this.shipDate = shipDate;
+    return this;
+  }
+
  /**
    * Order Status
    * @return status
@@ -107,9 +136,16 @@ public enum StatusEnum {
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
+
+  public Order status(StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
  /**
    * Get complete
    * @return complete
@@ -117,9 +153,16 @@ public enum StatusEnum {
   public Boolean getComplete() {
     return complete;
   }
+
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
+
+  public Order complete(Boolean complete) {
+    this.complete = complete;
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -140,7 +183,7 @@ public enum StatusEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
