@@ -1007,6 +1007,7 @@ Here is a list of template creators:
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
+   * JAX-RS RestEasy (JBoss EAP): @jfiala
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
    * PHP Zend Expressive (with Path Handler): @Articus
