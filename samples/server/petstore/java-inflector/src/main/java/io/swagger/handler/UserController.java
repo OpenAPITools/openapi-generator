@@ -13,7 +13,7 @@ import io.swagger.model.*;
 import java.util.List;
 import io.swagger.model.User;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-03-01T10:03:07.895-05:00")
+
 public class UserController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
