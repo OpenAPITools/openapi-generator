@@ -55,7 +55,7 @@ try {
 
 } catch (Swagger\Client\ApiException $e) {
     echo 'Caught exception: ', $e->getMessage(), "\n";
-    echo 'HTTP response headers: ', $e->getResponseHeaders(), "\n";
-    echo 'HTTP response body: ', $e->getResponseBody(), "\n";
+    echo 'HTTP response headers: ', print_r($e->getResponseHeaders(), true), "\n";
+    echo 'HTTP response body: ', print_r($e->getResponseBody(), true), "\n";
     echo 'HTTP status code: ', $e->getCode(), "\n";
 }
