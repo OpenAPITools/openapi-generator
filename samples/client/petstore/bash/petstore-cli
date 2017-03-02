@@ -8,7 +8,7 @@
 # ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
 # ! FROM SWAGGER SPECIFICATION IN JSON.
 # !
-# ! Generated on: 2017-02-06T21:48:13.013+01:00
+# ! Generated on: 2017-02-22T08:48:10.130+01:00
 # !
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -234,7 +234,7 @@ declare -A body_parameters
 
 ##
 # These arguments will be directly passed to cURL
-curl_arguments=""
+curl_arguments="-sS --tlsv1.2"
 
 ##
 # The host for making the request
@@ -387,7 +387,7 @@ body_parameters_to_json() {
         if [[ $count -lt $body_parameter_count-1 ]]; then
             body_json+=", "
         fi
-        count+=1
+        ((count+=1))
     done
     body_json+="}'"
 
@@ -457,7 +457,7 @@ validate_request_parameters() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     path_template+="&"
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "multi" ]]; then
             local vcount=0
@@ -467,7 +467,7 @@ validate_request_parameters() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     path_template+="&"
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "csv" ]]; then
             path_template+="${qparam}="
@@ -478,7 +478,7 @@ validate_request_parameters() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     path_template+=","
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "ssv" ]]; then
             path_template+="${qparam}="
@@ -488,7 +488,7 @@ validate_request_parameters() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     path_template+=" "
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "tsv" ]]; then
             path_template+="${qparam}="
@@ -498,7 +498,7 @@ validate_request_parameters() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     path_template+="\t"
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         else
             echo -e ""
@@ -511,7 +511,7 @@ validate_request_parameters() {
         if [[ $count -lt $query_parameter_count-1 ]]; then
             path_template+="&"
         fi
-        count+=1
+        ((count+=1))
     done
 
 }
@@ -579,7 +579,7 @@ build_request_path() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     parameter_value+="&"
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         #
         # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
@@ -592,7 +592,7 @@ build_request_path() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     parameter_value+="&"
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         #
         # Append parameters specified as 'csv' collections i.e. param=value1,value2,...
@@ -606,7 +606,7 @@ build_request_path() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     parameter_value+=","
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         #
         # Append parameters specified as 'ssv' collections i.e. param="value1 value2 ..."
@@ -620,7 +620,7 @@ build_request_path() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     parameter_value+=" "
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         #
         # Append parameters specified as 'tsv' collections i.e. param="value1\tvalue2\t..."
@@ -634,7 +634,7 @@ build_request_path() {
                 if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
                     parameter_value+="\t"
                 fi
-                vcount+=1
+                ((vcount+=1))
             done
         fi
 
@@ -646,8 +646,7 @@ build_request_path() {
             query_request_part+="&"
         fi
 
-        count+=1
-
+        ((count+=1))
     done
 
 
