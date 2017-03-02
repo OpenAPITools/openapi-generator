@@ -194,11 +194,10 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   @Override
   public void processOpts() {
       super.processOpts();
-      String curlopts = "";
 
       if (additionalProperties.containsKey(CURL_OPTIONS)) {
           setCurlOptions(additionalProperties.get(CURL_OPTIONS).toString());
-          additionalProperties.put("x-codegen-curl-options", curlopts);
+          additionalProperties.put("x-codegen-curl-options", this.curlOptions);
       }
 
       if (additionalProperties.containsKey(PROCESS_MARKDOWN)) {
