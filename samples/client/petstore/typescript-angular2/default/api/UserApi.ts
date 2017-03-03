@@ -188,7 +188,7 @@ export class UserApi {
      * @param body Created user object
      */
     public createUserWithHttpInfo(body?: models.User, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user`;
+        const path = this.basePath + '/user';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -226,7 +226,7 @@ export class UserApi {
      * @param body List of user object
      */
     public createUsersWithArrayInputWithHttpInfo(body?: Array<models.User>, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user/createWithArray`;
+        const path = this.basePath + '/user/createWithArray';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -264,7 +264,7 @@ export class UserApi {
      * @param body List of user object
      */
     public createUsersWithListInputWithHttpInfo(body?: Array<models.User>, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user/createWithList`;
+        const path = this.basePath + '/user/createWithList';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -302,7 +302,8 @@ export class UserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUserWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user/${username}`;
+        const path = this.basePath + '/user/${username}'
+                    .replace('${' + 'username' + '}', String(username));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -342,7 +343,8 @@ export class UserApi {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     public getUserByNameWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user/${username}`;
+        const path = this.basePath + '/user/${username}'
+                    .replace('${' + 'username' + '}', String(username));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -383,7 +385,7 @@ export class UserApi {
      * @param password The password for login in clear text
      */
     public loginUserWithHttpInfo(username?: string, password?: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user/login`;
+        const path = this.basePath + '/user/login';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -424,7 +426,7 @@ export class UserApi {
      * 
      */
     public logoutUserWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user/logout`;
+        const path = this.basePath + '/user/logout';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -461,7 +463,8 @@ export class UserApi {
      * @param body Updated user object
      */
     public updateUserWithHttpInfo(username: string, body?: models.User, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/user/${username}`;
+        const path = this.basePath + '/user/${username}'
+                    .replace('${' + 'username' + '}', String(username));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
