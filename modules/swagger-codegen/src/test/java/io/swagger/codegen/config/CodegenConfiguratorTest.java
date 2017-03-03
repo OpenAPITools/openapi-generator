@@ -15,6 +15,7 @@ import mockit.Injectable;
 import mockit.Mocked;
 import mockit.StrictExpectations;
 import mockit.Tested;
+import org.apache.commons.lang3.SerializationUtils;
 import org.testng.annotations.Test;
 
 import java.nio.file.Paths;
@@ -297,6 +298,13 @@ public class CodegenConfiguratorTest {
         assertValueInMap(configurator.getDynamicProperties(), CodegenConstants.LOCAL_VARIABLE_PREFIX, "_");
 
         assertEquals(configurator.getIgnoreFileOverride(), "/path/to/override/.swagger-codegen-ignore");
+    }
+
+    @Test
+    public void testCodegenConfiguratorIsSerializable() {
+        final CodegenConfigurator configurator = CodegenConfigurator.fromFile("src/test/resources/sampleConfig.json");
+        // Simply ensure that the object can be serialized
+        SerializationUtils.serialize(configurator);
     }
 
     @SuppressWarnings("unused")
