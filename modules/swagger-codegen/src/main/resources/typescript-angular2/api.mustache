@@ -92,11 +92,17 @@ export class {{classname}} {
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
-            if({{paramName}} instanceof Date) {
-                queryParameters.set('{{baseName}}', <any>{{paramName}}.d.toISOString());
-            } else {
-                queryParameters.set('{{baseName}}', <any>{{paramName}});
-            }
+            {{#isDateTime}}
+                queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
+            {{/isDateTime}}
+            {{^isDateTime}}
+                {{#isDate}}
+                    queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
+                {{/isDate}}
+                {{^isDate}}
+                    queryParameters.set('{{baseName}}', <any>{{paramName}});
+                {{/isDate}}
+            {{/isDateTime}}
         }
         {{/isListContainer}}
 
