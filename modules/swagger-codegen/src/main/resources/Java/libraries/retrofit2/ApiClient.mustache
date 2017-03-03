@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 {{#useRxJava}}import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;{{/useRxJava}}
+{{#useRxJava2}}import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;{{/useRxJava2}}
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
@@ -150,6 +151,7 @@ public class ApiClient {
                 .Builder()
                 .baseUrl(baseUrl)
                 {{#useRxJava}}.addCallAdapterFactory(RxJavaCallAdapterFactory.create()){{/useRxJava}}
+                {{#useRxJava2}}.addCallAdapterFactory(RxJava2CallAdapterFactory.create()){{/useRxJava2}}
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }

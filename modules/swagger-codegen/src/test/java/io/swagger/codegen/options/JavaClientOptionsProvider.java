@@ -17,6 +17,7 @@ public class JavaClientOptionsProvider extends JavaOptionsProvider {
         Map<String, String> options = new HashMap<String, String>(super.createOptions());
         options.put(CodegenConstants.LIBRARY, DEFAULT_LIBRARY_VALUE);
         options.put(JavaClientCodegen.USE_RX_JAVA, "false");
+        options.put(JavaClientCodegen.USE_RX_JAVA2, "false");
         options.put(JavaClientCodegen.USE_PLAY24_WS, "false");
         options.put(JavaClientCodegen.PARCELABLE_MODEL, "false");
         options.put(JavaClientCodegen.SUPPORT_JAVA6, "false");
