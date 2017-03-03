@@ -17,12 +17,12 @@ class Category(Model):
         Category - a model defined in Swagger
 
         :param id: The id of this Category.
-        :type id: int
+        :type id: long
         :param name: The name of this Category.
         :type name: str
         """
         self.swagger_types = {
-            'id': int,
+            'id': long,
             'name': str
         }
 
@@ -52,7 +52,7 @@ class Category(Model):
         Gets the id of this Category.
 
         :return: The id of this Category.
-        :rtype: int
+        :rtype: long
         """
         return self._id
 
@@ -62,7 +62,7 @@ class Category(Model):
         Sets the id of this Category.
 
         :param id: The id of this Category.
-        :type id: int
+        :type id: long
         """
 
         self._id = id

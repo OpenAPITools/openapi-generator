@@ -19,7 +19,7 @@ class Pet(Model):
         Pet - a model defined in Swagger
 
         :param id: The id of this Pet.
-        :type id: int
+        :type id: long
         :param category: The category of this Pet.
         :type category: Category
         :param name: The name of this Pet.
@@ -32,7 +32,7 @@ class Pet(Model):
         :type status: str
         """
         self.swagger_types = {
-            'id': int,
+            'id': long,
             'category': Category,
             'name': str,
             'photo_urls': List[str],
@@ -74,7 +74,7 @@ class Pet(Model):
         Gets the id of this Pet.
 
         :return: The id of this Pet.
-        :rtype: int
+        :rtype: long
         """
         return self._id
 
@@ -84,7 +84,7 @@ class Pet(Model):
         Sets the id of this Pet.
 
         :param id: The id of this Pet.
-        :type id: int
+        :type id: long
         """
 
         self._id = id
