@@ -50,13 +50,13 @@
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param {String} orderId ID of the order that needs to be deleted
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.deleteOrder = function(orderId) {
+    this.deleteOrderWithHttpInfo = function(orderId) {
       var postBody = null;
 
       // verify the required parameter 'orderId' is set
-      if (orderId == undefined || orderId == null) {
+      if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling deleteOrder");
       }
 
@@ -83,13 +83,26 @@
       );
     }
 
+    /**
+     * Delete purchase order by ID
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * @param {String} orderId ID of the order that needs to be deleted
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    this.deleteOrder = function(orderId) {
+      return this.deleteOrderWithHttpInfo(orderId)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Object.<String, {'String': 'Number'}>}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Object.<String, {'String': 'Number'}>} and HTTP response
      */
-    this.getInventory = function() {
+    this.getInventoryWithHttpInfo = function() {
       var postBody = null;
 
 
@@ -114,18 +127,30 @@
       );
     }
 
+    /**
+     * Returns pet inventories by status
+     * Returns a map of status codes to quantities
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Object.<String, {'String': 'Number'}>}
+     */
+    this.getInventory = function() {
+      return this.getInventoryWithHttpInfo()
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param {Number} orderId ID of pet that needs to be fetched
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
-    this.getOrderById = function(orderId) {
+    this.getOrderByIdWithHttpInfo = function(orderId) {
       var postBody = null;
 
       // verify the required parameter 'orderId' is set
-      if (orderId == undefined || orderId == null) {
+      if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling getOrderById");
       }
 
@@ -152,18 +177,31 @@
       );
     }
 
+    /**
+     * Find purchase order by ID
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * @param {Number} orderId ID of pet that needs to be fetched
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
+     */
+    this.getOrderById = function(orderId) {
+      return this.getOrderByIdWithHttpInfo(orderId)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Place an order for a pet
      * 
      * @param {module:model/Order} body order placed for purchasing the pet
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
-    this.placeOrder = function(body) {
+    this.placeOrderWithHttpInfo = function(body) {
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
 
@@ -187,6 +225,19 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
+    }
+
+    /**
+     * Place an order for a pet
+     * 
+     * @param {module:model/Order} body order placed for purchasing the pet
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
+     */
+    this.placeOrder = function(body) {
+      return this.placeOrderWithHttpInfo(body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
     }
   };
 
