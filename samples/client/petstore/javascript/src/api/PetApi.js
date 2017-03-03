@@ -63,7 +63,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling addPet");
       }
 
@@ -110,7 +110,7 @@
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling deletePet");
       }
 
@@ -157,7 +157,7 @@
       var postBody = null;
 
       // verify the required parameter 'status' is set
-      if (status == undefined || status == null) {
+      if (status === undefined || status === null) {
         throw new Error("Missing the required parameter 'status' when calling findPetsByStatus");
       }
 
@@ -203,7 +203,7 @@
       var postBody = null;
 
       // verify the required parameter 'tags' is set
-      if (tags == undefined || tags == null) {
+      if (tags === undefined || tags === null) {
         throw new Error("Missing the required parameter 'tags' when calling findPetsByTags");
       }
 
@@ -249,7 +249,7 @@
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling getPetById");
       }
 
@@ -294,7 +294,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling updatePet");
       }
 
@@ -342,7 +342,7 @@
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling updatePetWithForm");
       }
 
@@ -394,7 +394,7 @@
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling uploadFile");
       }
 

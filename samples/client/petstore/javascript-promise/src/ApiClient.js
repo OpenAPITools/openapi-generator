@@ -406,7 +406,7 @@
         } else {
           try {
             var data = _this.deserialize(response, returnType);
-            resolve(data);
+            resolve({data, response});
           } catch (err) {
             reject(err);
           }

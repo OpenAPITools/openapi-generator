@@ -63,7 +63,7 @@
       var postBody = null;
 
       // verify the required parameter 'orderId' is set
-      if (orderId == undefined || orderId == null) {
+      if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling deleteOrder");
       }
 
@@ -148,7 +148,7 @@
       var postBody = null;
 
       // verify the required parameter 'orderId' is set
-      if (orderId == undefined || orderId == null) {
+      if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling getOrderById");
       }
 
@@ -194,7 +194,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
 
