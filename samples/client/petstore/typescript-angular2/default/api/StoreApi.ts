@@ -122,7 +122,8 @@ export class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/store/order/${orderId}`;
+        const path = this.basePath + '/store/order/${orderId}'
+                    .replace('${' + 'orderId' + '}', String(orderId));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -161,7 +162,7 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      */
     public getInventoryWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/store/inventory`;
+        const path = this.basePath + '/store/inventory';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -202,7 +203,8 @@ export class StoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderByIdWithHttpInfo(orderId: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/store/order/${orderId}`;
+        const path = this.basePath + '/store/order/${orderId}'
+                    .replace('${' + 'orderId' + '}', String(orderId));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -242,7 +244,7 @@ export class StoreApi {
      * @param body order placed for purchasing the pet
      */
     public placeOrderWithHttpInfo(body?: models.Order, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/store/order`;
+        const path = this.basePath + '/store/order';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
