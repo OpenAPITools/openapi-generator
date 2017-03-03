@@ -3,6 +3,8 @@
 #import "SWGQueryParamCollection.h"
 #import <ISO8601/ISO8601.h>
 
+NSString * const kSWGApplicationJSONType = @"application/json";
+
 NSString * SWGPercentEscapedStringFromString(NSString *string) {
     static NSString * const kSWGCharactersGeneralDelimitersToEncode = @":#[]@";
     static NSString * const kSWGCharactersSubDelimitersToEncode = @"!$&'()*+,;=";
@@ -42,8 +44,6 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
 @end
 
 @implementation SWGSanitizer
-
-static NSString * kApplicationJSONType = @"application/json";
 
 -(instancetype)init {
     self = [super init];
@@ -141,7 +141,7 @@ static NSString * kApplicationJSONType = @"application/json";
     NSMutableArray *lowerAccepts = [[NSMutableArray alloc] initWithCapacity:[accepts count]];
     for (NSString *string in accepts) {
         if ([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0) {
-            return kApplicationJSONType;
+            return kSWGApplicationJSONType;
         }
         [lowerAccepts addObject:[string lowercaseString]];
     }
@@ -153,12 +153,12 @@ static NSString * kApplicationJSONType = @"application/json";
  */
 - (NSString *) selectHeaderContentType:(NSArray *)contentTypes {
     if (contentTypes.count == 0) {
-        return kApplicationJSONType;
+        return kSWGApplicationJSONType;
     }
     NSMutableArray *lowerContentTypes = [[NSMutableArray alloc] initWithCapacity:[contentTypes count]];
     for (NSString *string in contentTypes) {
         if([self.jsonHeaderTypeExpression matchesInString:string options:0 range:NSMakeRange(0, [string length])].count > 0){
-            return kApplicationJSONType;
+            return kSWGApplicationJSONType;
         }
         [lowerContentTypes addObject:[string lowercaseString]];
     }
