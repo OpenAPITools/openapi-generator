@@ -213,6 +213,18 @@
       <version>${retrofit-version}</version>
     </dependency>
     {{/useRxJava}}
+    {{#useRxJava2}}
+    <dependency>
+      <groupId>io.reactivex.rxjava2</groupId>
+      <artifactId>rxjava</artifactId>
+      <version>${rxjava-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jakewharton.retrofit</groupId>
+      <artifactId>retrofit2-rxjava2-adapter</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    {{/useRxJava2}}
 
     {{#usePlay24WS}}
     <!-- JSON processing: jackson -->
@@ -269,6 +281,9 @@
     {{#useRxJava}}
     <rxjava-version>1.1.6</rxjava-version>
     {{/useRxJava}}
+    {{#useRxJava2}}
+    <rxjava-version>2.0.5</rxjava-version>
+    {{/useRxJava2}}
     {{^java8}}
     <jodatime-version>2.9.4</jodatime-version>
     {{/java8}}
