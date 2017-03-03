@@ -14,18 +14,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['superagent'], factory);
+    define(['superagent', 'querystring'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('superagent'));
+    module.exports = factory(require('superagent'), require('querystring'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstore) {
       root.SwaggerPetstore = {};
     }
-    root.SwaggerPetstore.ApiClient = factory(root.superagent);
+    root.SwaggerPetstore.ApiClient = factory(root.superagent, root.querystring);
   }
-}(this, function(superagent) {
+}(this, function(superagent, querystring) {
   'use strict';
 
   /**
@@ -386,7 +386,7 @@
     }
 
     if (contentType === 'application/x-www-form-urlencoded') {
-      request.send(this.normalizeParams(formParams));
+      request.send(querystring.stringify(this.normalizeParams(formParams)));
     } else if (contentType == 'multipart/form-data') {
       var _formParams = this.normalizeParams(formParams);
       for (var key in _formParams) {
