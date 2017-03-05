@@ -1,7 +1,7 @@
 /*
  * SamiTag.h
  * 
- * 
+ * A tag for a pet
  */
 
 #ifndef SamiTag_H_

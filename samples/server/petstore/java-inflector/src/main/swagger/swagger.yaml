@@ -109,11 +109,11 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
+          default: "available"
         collectionFormat: "csv"
       responses:
         200:
@@ -623,10 +623,10 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "$"
           enum:
           - ">"
           - "$"
+          default: "$"
       - name: "enum_form_string"
         in: "formData"
         description: "Form parameter enum test (string)"
@@ -644,10 +644,10 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "$"
           enum:
           - ">"
           - "$"
+          default: "$"
       - name: "enum_header_string"
         in: "header"
         description: "Header parameter enum test (string)"
@@ -665,10 +665,10 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "$"
           enum:
           - ">"
           - "$"
+          default: "$"
       - name: "enum_query_string"
         in: "query"
         description: "Query parameter enum test (string)"
@@ -839,10 +839,6 @@ paths:
       x-contentType: "application/json"
       x-accepts: "application/json"
 securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
   petstore_auth:
     type: "oauth2"
     authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
@@ -852,6 +848,10 @@ securityDefinitions:
       read:pets: "read your pets"
   http_basic_test:
     type: "basic"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
 definitions:
   Order:
     type: "object"
