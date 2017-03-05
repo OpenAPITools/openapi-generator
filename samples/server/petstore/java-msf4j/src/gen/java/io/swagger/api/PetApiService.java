@@ -6,9 +6,9 @@ import io.swagger.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import io.swagger.model.Pet;
 import java.io.File;
 import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
