@@ -1,7 +1,7 @@
 /*
  * SamiApiResponse.h
  * 
- * 
+ * Describes the result of uploading an image resource
  */
 
 #ifndef SamiApiResponse_H_

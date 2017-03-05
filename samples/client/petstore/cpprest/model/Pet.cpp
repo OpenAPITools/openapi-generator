@@ -21,7 +21,7 @@ namespace model {
 
 Pet::Pet()
 {
-    m_Id = 0L;
+    m_Id = 0;
     m_IdIsSet = false;
     m_CategoryIsSet = false;
     m_Name = U("");

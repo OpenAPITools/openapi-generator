@@ -24,7 +24,7 @@ $app->get('/', function () use ($app) {
 /**
  * PATCH testClientModel
  * Summary: To test \&quot;client\&quot; model
- * Notes: 
+ * Notes: To test \&quot;client\&quot; model
  * Output-Formats: [application/json]
  */
 $app->PATCH('/v2/fake', 'FakeApi@testClientModel');
@@ -38,7 +38,7 @@ $app->POST('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
  * GET testEnumParameters
  * Summary: To test enum parameters
- * Notes: 
+ * Notes: To test enum parameters
  * Output-Formats: [*/*]
  */
 $app->GET('/v2/fake', 'FakeApi@testEnumParameters');

@@ -83,9 +83,6 @@ class StoreApi extends Controller
         $input = Request::all();
 
         //path params validation
-        if ($order_id] < 1.0) {
-            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
-        }
 
 
         //not path params validation
@@ -106,11 +103,11 @@ class StoreApi extends Controller
         $input = Request::all();
 
         //path params validation
-        if ($order_id] > 5.0) {
-            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.getOrderById, must be smaller than or equal to 5.0.');
+        if ($order_id] > 5) {
+            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.getOrderById, must be smaller than or equal to 5.');
         }
-        if ($order_id] < 1.0) {
-            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.getOrderById, must be bigger than or equal to 1.0.');
+        if ($order_id] < 1) {
+            throw new \InvalidArgumentException('invalid value for $order_id when calling StoreApi.getOrderById, must be bigger than or equal to 1.');
         }
 
 

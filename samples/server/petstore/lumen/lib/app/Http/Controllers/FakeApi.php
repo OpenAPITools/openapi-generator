@@ -101,19 +101,19 @@ class FakeApi extends Controller
         }
         $byte = $input['byte'];
 
-        if ($input['integer'] > 100.0) {
-            throw new \InvalidArgumentException('invalid value for $integer when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.0.');
+        if ($input['integer'] > 100) {
+            throw new \InvalidArgumentException('invalid value for $integer when calling FakeApi.testEndpointParameters, must be smaller than or equal to 100.');
         }
-        if ($input['integer'] < 10.0) {
-            throw new \InvalidArgumentException('invalid value for $integer when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.0.');
+        if ($input['integer'] < 10) {
+            throw new \InvalidArgumentException('invalid value for $integer when calling FakeApi.testEndpointParameters, must be bigger than or equal to 10.');
         }
         $integer = $input['integer'];
 
-        if ($input['int32'] > 200.0) {
-            throw new \InvalidArgumentException('invalid value for $int32 when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.0.');
+        if ($input['int32'] > 200) {
+            throw new \InvalidArgumentException('invalid value for $int32 when calling FakeApi.testEndpointParameters, must be smaller than or equal to 200.');
         }
-        if ($input['int32'] < 20.0) {
-            throw new \InvalidArgumentException('invalid value for $int32 when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.0.');
+        if ($input['int32'] < 20) {
+            throw new \InvalidArgumentException('invalid value for $int32 when calling FakeApi.testEndpointParameters, must be bigger than or equal to 20.');
         }
         $int32 = $input['int32'];
 
