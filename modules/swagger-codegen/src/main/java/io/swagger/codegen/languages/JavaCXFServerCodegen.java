@@ -78,7 +78,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
 
         typeMapping.put("date", "LocalDate");
-        typeMapping.put("DateTime", "javax.xml.datatype.XMLGregorianCalendar"); // Map DateTime fields to Java standart class 'XMLGregorianCalendar'
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
