@@ -21,9 +21,9 @@ import io.swagger.models.Swagger;
 import io.swagger.models.properties.Property;
 import io.swagger.util.Json;
 
-public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen 
-{    
-    
+public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
+{
+
     public JavaJAXRSSpecServerCodegen()
     {
         super();
@@ -48,7 +48,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         additionalProperties.put("title", title);
 
         typeMapping.put("date", "LocalDate");
-        typeMapping.put("DateTime", "javax.xml.datatype.XMLGregorianCalendar"); // Map DateTime fields to Java standart class 'XMLGregorianCalendar'
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
@@ -60,7 +59,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
                 break;
             }
         }
-                
+
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setDefault(DEFAULT_LIBRARY);
 
@@ -71,20 +70,20 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         cliOptions.add(library);
     }
-    
+
     @Override
     public void processOpts()
     {
         super.processOpts();
-        
+
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        
+
         writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
-        
-    } 
-    
+
+    }
+
 
     @Override
     public String getName()
@@ -119,7 +118,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         opList.add(co);
         co.baseName = basePath;
     }
-    
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -130,10 +129,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("JsonValue");
         model.imports.remove("JsonProperty");
     }
-    
+
     @Override
     public void preprocessSwagger(Swagger swagger) {
-        //copy input swagger to output folder 
+        //copy input swagger to output folder
         try {
             String swaggerJson = Json.pretty(swagger);
             FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
