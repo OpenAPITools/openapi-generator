@@ -452,9 +452,12 @@
    * or the constructor function for a complex type. Pass an array containing the type name to return an array of that type. To
    * return an object, pass an object with one property whose name is the key type and whose value is the corresponding value type:
    * all properties on <code>data<code> will be converted to this type.
-   * @returns An instance of the specified type.
+   * @returns An instance of the specified type or null or undefined if data is null or undefined.
    */
 {{/emitJSDoc}}  exports.convertToType = function(data, type) {
+    if (data === null || data === undefined)
+      return data
+
     switch (type) {
       case 'Boolean':
         return Boolean(data);

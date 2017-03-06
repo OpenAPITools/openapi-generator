@@ -858,6 +858,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [goTransverse](http://www.gotransverse.com/api)
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
+- [HashData](http://www.hashdata.cn/)
 - [Hewlett Packard Enterprise](https://hpe.com)
 - [High Technologies Center](http://htc-cs.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
