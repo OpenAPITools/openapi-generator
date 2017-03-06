@@ -14,6 +14,7 @@ package io.swagger.client.model
 
 
 case class Category (
-  id: Long,
-  name: String
+  id: Option[Long],
+  name: Option[String]
 )
+
