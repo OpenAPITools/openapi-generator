@@ -255,40 +255,40 @@ open class UserAPI: APIBase {
      - GET /user/{username}
      - 
      - examples: [{contentType=application/xml, example=<User>
-  <id>123456</id>
-  <username>string</username>
-  <firstName>string</firstName>
-  <lastName>string</lastName>
-  <email>string</email>
-  <password>string</password>
-  <phone>string</phone>
-  <userStatus>0</userStatus>
+  <id>123456789</id>
+  <username>aeiou</username>
+  <firstName>aeiou</firstName>
+  <lastName>aeiou</lastName>
+  <email>aeiou</email>
+  <password>aeiou</password>
+  <phone>aeiou</phone>
+  <userStatus>123</userStatus>
 </User>}, {contentType=application/json, example={
   "firstName" : "aeiou",
   "lastName" : "aeiou",
   "password" : "aeiou",
-  "userStatus" : 123,
+  "userStatus" : 9,
   "phone" : "aeiou",
-  "id" : 123456789,
+  "id" : 9,
   "email" : "aeiou",
   "username" : "aeiou"
 }}]
      - examples: [{contentType=application/xml, example=<User>
-  <id>123456</id>
-  <username>string</username>
-  <firstName>string</firstName>
-  <lastName>string</lastName>
-  <email>string</email>
-  <password>string</password>
-  <phone>string</phone>
-  <userStatus>0</userStatus>
+  <id>123456789</id>
+  <username>aeiou</username>
+  <firstName>aeiou</firstName>
+  <lastName>aeiou</lastName>
+  <email>aeiou</email>
+  <password>aeiou</password>
+  <phone>aeiou</phone>
+  <userStatus>123</userStatus>
 </User>}, {contentType=application/json, example={
   "firstName" : "aeiou",
   "lastName" : "aeiou",
   "password" : "aeiou",
-  "userStatus" : 123,
+  "userStatus" : 9,
   "phone" : "aeiou",
-  "id" : 123456789,
+  "id" : 9,
   "email" : "aeiou",
   "username" : "aeiou"
 }}]
@@ -349,8 +349,8 @@ open class UserAPI: APIBase {
      - 
      - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
      - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
-     - examples: [{contentType=application/xml, example=string}, {contentType=application/json, example="aeiou"}]
-     - examples: [{contentType=application/xml, example=string}, {contentType=application/json, example="aeiou"}]
+     - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example="aeiou"}]
+     - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example="aeiou"}]
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
