@@ -182,50 +182,50 @@ open class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      - examples: [{contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 2,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 0
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      - examples: [{contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 2,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 0
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      
      - parameter status: (query) Status values that need to be considered for filter 
@@ -288,50 +288,50 @@ open class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      - examples: [{contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 4,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 0
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 3
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      - examples: [{contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 4,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 0
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 3
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      
      - parameter tags: (query) Tags to filter by 
@@ -394,50 +394,50 @@ open class PetAPI: APIBase {
        - type: apiKey api_key 
        - name: api_key
      - examples: [{contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 1,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 }}]
      - examples: [{contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 1,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 }}]
      
      - parameter petId: (path) ID of pet to return 
@@ -629,7 +629,7 @@ open class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      - examples: [{contentType=application/json, example={
-  "code" : 123,
+  "code" : 1,
   "type" : "aeiou",
   "message" : "aeiou"
 }}]
