@@ -75,12 +75,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         StringBuilder hostBuilder = new StringBuilder();
         hostBuilder.append(getScheme());
         hostBuilder.append("://");
-        if (swagger.getHost() != null) {
+        if (!StringUtils.isEmpty(swagger.getHost())) {
             hostBuilder.append(swagger.getHost());
         } else {
             hostBuilder.append("localhost");
         }
-        if (swagger.getBasePath() != null) {
+        if (!StringUtils.isEmpty(swagger.getBasePath()) && !swagger.getBasePath().equals("/")) {
             hostBuilder.append(swagger.getBasePath());
         }
         return hostBuilder.toString();
