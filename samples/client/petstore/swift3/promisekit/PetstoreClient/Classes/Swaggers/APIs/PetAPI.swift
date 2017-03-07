@@ -187,14 +187,14 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 1,
+  "id" : 5,
   "category" : {
     "name" : "aeiou",
-    "id" : 0
+    "id" : 5
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 2
+    "id" : 4
   } ],
   "status" : "available"
 } ]}]
@@ -210,14 +210,14 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 1,
+  "id" : 5,
   "category" : {
     "name" : "aeiou",
-    "id" : 0
+    "id" : 5
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 2
+    "id" : 4
   } ],
   "status" : "available"
 } ]}]
@@ -291,14 +291,14 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 4,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 9
+    "id" : 3
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 3
+    "id" : 8
   } ],
   "status" : "available"
 } ]}]
@@ -314,14 +314,14 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 4,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 9
+    "id" : 3
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 3
+    "id" : 8
   } ],
   "status" : "available"
 } ]}]
@@ -395,14 +395,14 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 8,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 5
+    "id" : 8
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 4
+    "id" : 7
   } ],
   "status" : "available"
 }}]
@@ -418,14 +418,14 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 8,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 5
+    "id" : 8
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 4
+    "id" : 7
   } ],
   "status" : "available"
 }}]
@@ -613,7 +613,7 @@ open class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      - examples: [{contentType=application/json, example={
-  "code" : 0,
+  "code" : 7,
   "type" : "aeiou",
   "message" : "aeiou"
 }}]
