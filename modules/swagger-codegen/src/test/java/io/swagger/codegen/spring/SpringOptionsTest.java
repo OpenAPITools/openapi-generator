@@ -72,7 +72,8 @@ public class SpringOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setUseBeanValidation(Boolean.valueOf(SpringOptionsProvider.USE_BEANVALIDATION));
             times = 1;
-
+            clientCodegen.setImplicitHeaders(Boolean.valueOf(SpringOptionsProvider.IMPLICIT_HEADERS));
+            times = 1;
         }};
     }
 }
