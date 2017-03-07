@@ -164,7 +164,7 @@ cd /vagrant
 
  - https://hub.docker.com/r/swaggerapi/swagger-generator/ (official web service)
  - https://hub.docker.com/r/swaggerapi/swagger-codegen-cli/ (official CLI)
-=======
+
 
 ##### Swagger Generator Docker Image
 
