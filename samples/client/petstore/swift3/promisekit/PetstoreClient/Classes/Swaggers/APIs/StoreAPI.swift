@@ -160,9 +160,9 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 2,
-  "quantity" : 9,
-  "id" : 4,
+  "petId" : 6,
+  "quantity" : 5,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"
@@ -175,9 +175,9 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 2,
-  "quantity" : 9,
-  "id" : 4,
+  "petId" : 6,
+  "quantity" : 5,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"
@@ -243,9 +243,9 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 8,
-  "quantity" : 2,
-  "id" : 0,
+  "petId" : 9,
+  "quantity" : 9,
+  "id" : 3,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"
@@ -258,9 +258,9 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 8,
-  "quantity" : 2,
-  "id" : 0,
+  "petId" : 9,
+  "quantity" : 9,
+  "id" : 3,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"
