@@ -110,7 +110,7 @@ Authentication schemes defined for the API:
 
 - **Type**: OAuth
 - **Flow**: implicit
-- **Authorizatoin URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
 - **Scopes**: 
   - write:pets: modify pets in your account  */ &#39; &quot; &#x3D;end
   - read:pets: read your pets  */ &#39; &quot; &#x3D;end
