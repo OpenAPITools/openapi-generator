@@ -37,7 +37,7 @@ public interface StoreApi  {
     @Path("/store/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Find purchase order by ID", tags={ "store",  })
-    public Order getOrderById(@PathParam("orderId") Long orderId);
+    public Order getOrderById(@PathParam("orderId") @Min(1) @Max(5) Long orderId);
 
     @POST
     @Path("/store/order")
