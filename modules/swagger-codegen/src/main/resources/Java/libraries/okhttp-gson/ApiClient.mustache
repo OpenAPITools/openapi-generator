@@ -128,6 +128,11 @@ public class ApiClient {
     public ApiClient() {
         httpClient = new OkHttpClient();
 
+        {{#useGzipFeature}}
+        // Enable gzip request compression
+        httpClient.interceptors().add(new GzipRequestInterceptor());
+        {{/useGzipFeature}}
+
         verifyingSsl = true;
 
         json = new JSON(this);
