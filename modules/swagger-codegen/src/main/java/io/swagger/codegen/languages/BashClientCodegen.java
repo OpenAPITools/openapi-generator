@@ -201,21 +201,15 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       }
 
       if (additionalProperties.containsKey(PROCESS_MARKDOWN)) {
-        setProcessMarkdown(
-          Boolean.parseBoolean(
-            additionalProperties.get(PROCESS_MARKDOWN).toString()));
+          setProcessMarkdown(convertPropertyToBooleanAndWriteBack(PROCESS_MARKDOWN));
       }
 
       if (additionalProperties.containsKey(GENERATE_BASH_COMPLETION)) {
-        setGenerateBashCompletion(
-          Boolean.parseBoolean(
-            additionalProperties.get(GENERATE_BASH_COMPLETION).toString()));
+          setGenerateBashCompletion(convertPropertyToBooleanAndWriteBack(GENERATE_BASH_COMPLETION));
       }
 
       if (additionalProperties.containsKey(GENERATE_ZSH_COMPLETION)) {
-        setGenerateZshCompletion(
-          Boolean.parseBoolean(
-            additionalProperties.get(GENERATE_ZSH_COMPLETION).toString()));
+          setGenerateZshCompletion(convertPropertyToBooleanAndWriteBack(GENERATE_ZSH_COMPLETION));
       }
 
       if (additionalProperties.containsKey(SCRIPT_NAME)) {

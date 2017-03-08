@@ -117,8 +117,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         super.processOpts();
 
         if (additionalProperties.containsKey(BROWSER_CLIENT)) {
-            this.setBrowserClient(Boolean.parseBoolean((String) additionalProperties.get(BROWSER_CLIENT)));
-            additionalProperties.put(BROWSER_CLIENT, browserClient);
+            this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
         } else {
             //not set, use to be passed to template
             additionalProperties.put(BROWSER_CLIENT, browserClient);
@@ -147,6 +146,14 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        }
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+            Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
         // make api and model doc path available in mustache template
