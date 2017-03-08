@@ -202,7 +202,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
-
         if (additionalProperties.containsKey(PROJECT_NAME)) {
             setProjectName(((String) additionalProperties.get(PROJECT_NAME)));
         }
@@ -228,19 +227,19 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }
         if (additionalProperties.containsKey(USE_PROMISES)) {
-            setUsePromises(Boolean.parseBoolean((String)additionalProperties.get(USE_PROMISES)));
+            setUsePromises(convertPropertyToBooleanAndWriteBack(USE_PROMISES));
         }
         if (additionalProperties.containsKey(USE_INHERITANCE)) {
-            setUseInheritance(Boolean.parseBoolean((String)additionalProperties.get(USE_INHERITANCE)));
+            setUseInheritance(convertPropertyToBooleanAndWriteBack(USE_INHERITANCE));
         } else {
             supportsInheritance = true;
             supportsMixins = true;
         }
         if (additionalProperties.containsKey(EMIT_MODEL_METHODS)) {
-            setEmitModelMethods(Boolean.parseBoolean((String)additionalProperties.get(EMIT_MODEL_METHODS)));
+            setEmitModelMethods(convertPropertyToBooleanAndWriteBack(EMIT_MODEL_METHODS));
         }
         if (additionalProperties.containsKey(EMIT_JS_DOC)) {
-            setEmitJSDoc(Boolean.parseBoolean((String)additionalProperties.get(EMIT_JS_DOC)));
+            setEmitJSDoc(convertPropertyToBooleanAndWriteBack(EMIT_JS_DOC));
         }
     }
 
@@ -778,12 +777,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             + (StringUtils.isEmpty(modelPackage) ? "" : (modelPackage + "/")) + dataType;
     }
 
-    /*
-    private String getJSDocTypeWithBraces(CodegenModel cm, CodegenProperty cp) {
-        return "{" + getJSDocType(cm, cp) + "}";
-    }
-    */
-
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
         if (Boolean.TRUE.equals(cp.isContainer)) {
             if (cp.containerType.equals("array"))
@@ -805,12 +798,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.datatype : cp.baseType);
     }
 
-    /*
-    private String getJSDocTypeWithBraces(CodegenParameter cp) {
-        return "{" + getJSDocType(cp) + "}";
-    }
-    */
-
     private String getJSDocType(CodegenParameter cp) {
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
@@ -827,13 +814,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
         return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
     }
-
-    /*
-    private String getJSDocTypeWithBraces(CodegenOperation co) {
-        String jsDocType = getJSDocType(co);
-        return jsDocType == null ? null : "{" + jsDocType + "}";
-    }
-    */
 
     private String getJSDocType(CodegenOperation co) {
         String returnType = trimBrackets(co.returnType);
@@ -950,15 +930,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return !defaultIncludes.contains(type)
             && !languageSpecificPrimitives.contains(type);
     }
-/*
-    @Override
-    public String findCommonPrefixOfVars(List<String> vars) {
-        String prefix = StringUtils.getCommonPrefix(vars.toArray(new String[vars.size()]));
-        // exclude trailing characters that should be part of a valid variable
-        // e.g. ["status-on", "status-off"] => "status-" (not "status-o")
-        return prefix.replaceAll("[a-zA-Z0-9]+\\z", "");
-    }
-*/
 
     private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
