@@ -75,6 +75,22 @@
      * @default true
      */
     this.cache = true;
+
+{{#emitJSDoc}}    /**
+     * If set to true, the client will save the cookies from each server
+     * response, and return them in the next request.
+     * @default false
+     */
+{{/emitJSDoc}}    this.enableCookies = false;
+
+    /*
+     * Used to save and return cookies in a node.js (non-browser) setting,
+     * if this.enableCookies is set to true.
+     */
+    if (typeof window === 'undefined') {
+      this.agent = new superagent.agent();
+    }
+
   };
 
 {{#emitJSDoc}}  /**
@@ -405,6 +421,16 @@
       request.accept(accept);
     }
 
+    // Attach previously saved cookies, if enabled
+    if (this.enableCookies){
+      if (typeof window === 'undefined') {
+        this.agent.attachCookies(request);
+      }
+      else {
+        request.withCredentials();
+      }
+    }
+
 {{#usePromises}}    return new Promise(function(resolve, reject) {
       request.end(function(error, response) {
         if (error) {
@@ -412,6 +438,9 @@
         } else {
           try {
             var data = _this.deserialize(response, returnType);
+            if (_this.enableCookies && typeof window === 'undefined'){
+              _this.agent.saveCookies(response);
+            }
             resolve({data, response});
           } catch (err) {
             reject(err);
@@ -425,6 +454,9 @@
         if (!error) {
           try {
             data = _this.deserialize(response, returnType);
+            if (_this.enableCookies && typeof window === 'undefined'){
+              _this.agent.saveCookies(response);
+            }
           } catch (err) {
             error = err;
           }
