@@ -25,6 +25,7 @@ public interface FakeApi {
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    
     @RequestMapping(value = "/fake",
         produces = { "application/json" }, 
         consumes = { "application/json" },
@@ -38,41 +39,23 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
+    
     @RequestMapping(value = "/fake",
         produces = { "application/xml; charset=utf-8", "application/json; charset=utf-8" }, 
         consumes = { "application/xml; charset=utf-8", "application/json; charset=utf-8" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true ) @RequestPart(value="number", required=true)  BigDecimal number,
-        @ApiParam(value = "None", required=true ) @RequestPart(value="double", required=true)  Double _double,
-        @ApiParam(value = "None", required=true ) @RequestPart(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,
-        @ApiParam(value = "None", required=true ) @RequestPart(value="byte", required=true)  byte[] _byte,
-        @ApiParam(value = "None" ) @RequestPart(value="integer", required=false)  Integer integer,
-        @ApiParam(value = "None" ) @RequestPart(value="int32", required=false)  Integer int32,
-        @ApiParam(value = "None" ) @RequestPart(value="int64", required=false)  Long int64,
-        @ApiParam(value = "None" ) @RequestPart(value="float", required=false)  Float _float,
-        @ApiParam(value = "None" ) @RequestPart(value="string", required=false)  String string,
-        @ApiParam(value = "None" ) @RequestPart(value="binary", required=false)  byte[] binary,
-        @ApiParam(value = "None" ) @RequestPart(value="date", required=false)  LocalDate date,
-        @ApiParam(value = "None" ) @RequestPart(value="dateTime", required=false)  DateTime dateTime,
-        @ApiParam(value = "None" ) @RequestPart(value="password", required=false)  String password,
-        @ApiParam(value = "None" ) @RequestPart(value="callback", required=false)  String paramCallback);
+    ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true ) @RequestPart(value="number", required=true)  BigDecimal number,@ApiParam(value = "None", required=true ) @RequestPart(value="double", required=true)  Double _double,@ApiParam(value = "None", required=true ) @RequestPart(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true ) @RequestPart(value="byte", required=true)  byte[] _byte,@ApiParam(value = "None" ) @RequestPart(value="integer", required=false)  Integer integer,@ApiParam(value = "None" ) @RequestPart(value="int32", required=false)  Integer int32,@ApiParam(value = "None" ) @RequestPart(value="int64", required=false)  Long int64,@ApiParam(value = "None" ) @RequestPart(value="float", required=false)  Float _float,@ApiParam(value = "None" ) @RequestPart(value="string", required=false)  String string,@ApiParam(value = "None" ) @RequestPart(value="binary", required=false)  byte[] binary,@ApiParam(value = "None" ) @RequestPart(value="date", required=false)  LocalDate date,@ApiParam(value = "None" ) @RequestPart(value="dateTime", required=false)  DateTime dateTime,@ApiParam(value = "None" ) @RequestPart(value="password", required=false)  String password,@ApiParam(value = "None" ) @RequestPart(value="callback", required=false)  String paramCallback);
 
 
     @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
+    
     @RequestMapping(value = "/fake",
         produces = { "*/*" }, 
         consumes = { "*/*" },
         method = RequestMethod.GET)
-    ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)" , allowableValues="GREATER_THAN, DOLLAR") @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,
-        @ApiParam(value = "Form parameter enum test (string)" , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString,
-        @ApiParam(value = "Header parameter enum test (string array)"  , allowableValues="GREATER_THAN, DOLLAR") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray,
-        @ApiParam(value = "Header parameter enum test (string)"  , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestHeader(value="enum_header_string", required=false) String enumHeaderString,
-         @ApiParam(value = "Query parameter enum test (string array)", allowableValues = "GREATER_THAN, DOLLAR") @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_ABC, _EFG, _XYZ_", defaultValue = "-efg") @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,
-         @ApiParam(value = "Query parameter enum test (double)") @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @ApiParam(value = "Query parameter enum test (double)" ) @RequestPart(value="enum_query_double", required=false)  Double enumQueryDouble);
+    ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)" , allowableValues="GREATER_THAN, DOLLAR") @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)" , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString,@ApiParam(value = "Header parameter enum test (string array)"  , allowableValues="GREATER_THAN, DOLLAR") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray,@ApiParam(value = "Header parameter enum test (string)"  , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestHeader(value="enum_header_string", required=false) String enumHeaderString, @ApiParam(value = "Query parameter enum test (string array)", allowableValues = "GREATER_THAN, DOLLAR") @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray, @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_ABC, _EFG, _XYZ_", defaultValue = "-efg") @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString, @ApiParam(value = "Query parameter enum test (double)") @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)" ) @RequestPart(value="enum_query_double", required=false)  Double enumQueryDouble);
 
 }
