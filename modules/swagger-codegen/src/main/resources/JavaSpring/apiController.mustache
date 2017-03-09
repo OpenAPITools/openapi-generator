@@ -33,7 +33,7 @@ public class {{classname}}Controller implements {{classname}} {
     private final {{classname}}Delegate delegate;
 
     @org.springframework.beans.factory.annotation.Autowired
-    {{classname}}Controller({{classname}}Delegate delegate) {
+    public {{classname}}Controller({{classname}}Delegate delegate) {
         this.delegate = delegate;
     }{{/isDelegate}}
 
