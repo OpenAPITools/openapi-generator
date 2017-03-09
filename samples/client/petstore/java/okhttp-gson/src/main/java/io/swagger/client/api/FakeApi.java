@@ -62,7 +62,7 @@ public class FakeApi {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+        String localVarPath = "/fake";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -180,7 +180,7 @@ public class FakeApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+        String localVarPath = "/fake";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -376,7 +376,7 @@ public class FakeApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+        String localVarPath = "/fake";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (enumQueryStringArray != null)

@@ -83,7 +83,6 @@ sub test_client_model {
 
     # parse inputs
     my $_resource_path = '/fake';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'PATCH';
     my $query_params = {};
@@ -242,7 +241,6 @@ sub test_endpoint_parameters {
 
     # parse inputs
     my $_resource_path = '/fake';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};
@@ -406,7 +404,6 @@ sub test_enum_parameters {
 
     # parse inputs
     my $_resource_path = '/fake';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};

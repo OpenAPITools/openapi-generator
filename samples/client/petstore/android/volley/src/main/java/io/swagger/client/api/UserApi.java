@@ -66,7 +66,7 @@ public class UserApi {
     Object postBody = body;
 
     // create path and map variables
-    String path = "/user".replaceAll("\\{format\\}","json");
+    String path = "/user";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -180,7 +180,7 @@ public class UserApi {
     Object postBody = body;
 
     // create path and map variables
-    String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
+    String path = "/user/createWithArray";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -294,7 +294,7 @@ public class UserApi {
     Object postBody = body;
 
     // create path and map variables
-    String path = "/user/createWithList".replaceAll("\\{format\\}","json");
+    String path = "/user/createWithList";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -413,7 +413,7 @@ public class UserApi {
     }
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String path = "/user/{username}".replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -538,7 +538,7 @@ public class UserApi {
     }
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String path = "/user/{username}".replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -663,7 +663,7 @@ public class UserApi {
     Object postBody = null;
 
     // create path and map variables
-    String path = "/user/login".replaceAll("\\{format\\}","json");
+    String path = "/user/login";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -784,7 +784,7 @@ public class UserApi {
     Object postBody = null;
 
     // create path and map variables
-    String path = "/user/logout".replaceAll("\\{format\\}","json");
+    String path = "/user/logout";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -904,7 +904,7 @@ public class UserApi {
     }
 
     // create path and map variables
-    String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
+    String path = "/user/{username}".replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();

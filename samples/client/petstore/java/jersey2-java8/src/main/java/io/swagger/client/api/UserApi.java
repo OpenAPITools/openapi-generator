@@ -49,7 +49,7 @@ public class UserApi {
     }
     
     // create path and map variables
-    String localVarPath = "/user".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -89,7 +89,7 @@ public class UserApi {
     }
     
     // create path and map variables
-    String localVarPath = "/user/createWithArray".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/createWithArray";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -129,7 +129,7 @@ public class UserApi {
     }
     
     // create path and map variables
-    String localVarPath = "/user/createWithList".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/createWithList";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -169,7 +169,7 @@ public class UserApi {
     }
     
     // create path and map variables
-    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
@@ -211,7 +211,7 @@ public class UserApi {
     }
     
     // create path and map variables
-    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params
@@ -259,7 +259,7 @@ public class UserApi {
     }
     
     // create path and map variables
-    String localVarPath = "/user/login".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/login";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -295,7 +295,7 @@ public class UserApi {
     Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/user/logout".replaceAll("\\{format\\}","json");
+    String localVarPath = "/user/logout";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -341,7 +341,7 @@ public class UserApi {
     }
     
     // create path and map variables
-    String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
 
     // query params

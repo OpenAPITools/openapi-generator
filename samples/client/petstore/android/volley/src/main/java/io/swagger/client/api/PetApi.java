@@ -66,7 +66,7 @@ public class PetApi {
     Object postBody = body;
 
     // create path and map variables
-    String path = "/pet".replaceAll("\\{format\\}","json");
+    String path = "/pet";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -188,7 +188,7 @@ public class PetApi {
     }
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+    String path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -310,7 +310,7 @@ public class PetApi {
     Object postBody = null;
 
     // create path and map variables
-    String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
+    String path = "/pet/findByStatus";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -430,7 +430,7 @@ public class PetApi {
     Object postBody = null;
 
     // create path and map variables
-    String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
+    String path = "/pet/findByTags";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -555,7 +555,7 @@ public class PetApi {
     }
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+    String path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -576,7 +576,7 @@ public class PetApi {
       // normal form params
     }
 
-    String[] authNames = new String[] { "api_key", "petstore_auth" };
+    String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
@@ -646,7 +646,7 @@ public class PetApi {
       // normal form params
           }
 
-      String[] authNames = new String[] { "api_key", "petstore_auth" };
+      String[] authNames = new String[] { "petstore_auth", "api_key" };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
@@ -679,7 +679,7 @@ public class PetApi {
     Object postBody = body;
 
     // create path and map variables
-    String path = "/pet".replaceAll("\\{format\\}","json");
+    String path = "/pet";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -802,7 +802,7 @@ public class PetApi {
     }
 
     // create path and map variables
-    String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+    String path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -948,7 +948,7 @@ formParams.put("status", ApiInvoker.parameterToString(status));
     }
 
     // create path and map variables
-    String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
+    String path = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
