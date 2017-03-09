@@ -53,7 +53,7 @@ public class FakeApi {
     }
     
     // create path and map variables
-    String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -121,7 +121,7 @@ public class FakeApi {
     }
     
     // create path and map variables
-    String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -191,7 +191,7 @@ if (paramCallback != null)
     Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

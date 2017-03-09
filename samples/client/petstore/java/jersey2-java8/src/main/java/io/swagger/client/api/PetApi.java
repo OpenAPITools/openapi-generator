@@ -51,7 +51,7 @@ public class PetApi {
     }
     
     // create path and map variables
-    String localVarPath = "/pet".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -92,7 +92,7 @@ public class PetApi {
     }
     
     // create path and map variables
-    String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
@@ -136,7 +136,7 @@ public class PetApi {
     }
     
     // create path and map variables
-    String localVarPath = "/pet/findByStatus".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet/findByStatus";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -178,7 +178,7 @@ public class PetApi {
     }
     
     // create path and map variables
-    String localVarPath = "/pet/findByTags".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet/findByTags";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -220,7 +220,7 @@ public class PetApi {
     }
     
     // create path and map variables
-    String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
@@ -261,7 +261,7 @@ public class PetApi {
     }
     
     // create path and map variables
-    String localVarPath = "/pet".replaceAll("\\{format\\}","json");
+    String localVarPath = "/pet";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -303,7 +303,7 @@ public class PetApi {
     }
     
     // create path and map variables
-    String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params
@@ -351,7 +351,7 @@ if (status != null)
     }
     
     // create path and map variables
-    String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
+    String localVarPath = "/pet/{petId}/uploadImage"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params

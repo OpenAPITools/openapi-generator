@@ -61,7 +61,7 @@ public class PetApi {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/pet".replaceAll("\\{format\\}","json");
+        String localVarPath = "/pet";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -175,8 +175,8 @@ public class PetApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
-        .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+        String localVarPath = "/pet/{petId}"
+            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -295,7 +295,7 @@ public class PetApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/pet/findByStatus".replaceAll("\\{format\\}","json");
+        String localVarPath = "/pet/findByStatus";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (status != null)
@@ -415,7 +415,7 @@ public class PetApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/pet/findByTags".replaceAll("\\{format\\}","json");
+        String localVarPath = "/pet/findByTags";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         if (tags != null)
@@ -535,8 +535,8 @@ public class PetApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
-        .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+        String localVarPath = "/pet/{petId}"
+            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -654,7 +654,7 @@ public class PetApi {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/pet".replaceAll("\\{format\\}","json");
+        String localVarPath = "/pet";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -768,8 +768,8 @@ public class PetApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json")
-        .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+        String localVarPath = "/pet/{petId}"
+            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -893,8 +893,8 @@ public class PetApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json")
-        .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+        String localVarPath = "/pet/{petId}/uploadImage"
+            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 

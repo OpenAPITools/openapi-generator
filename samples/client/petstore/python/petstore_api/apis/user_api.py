@@ -108,7 +108,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -128,7 +127,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/user', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -211,7 +210,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user/createWithArray'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -231,7 +229,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/user/createWithArray', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -314,7 +312,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user/createWithList'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -334,7 +331,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/user/createWithList', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -417,7 +414,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
         if 'username' in params:
             path_params['username'] = params['username']
@@ -437,7 +433,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/user/{username}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -520,7 +516,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
         if 'username' in params:
             path_params['username'] = params['username']
@@ -540,7 +535,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/user/{username}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -628,7 +623,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user/login'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -650,7 +644,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/user/login', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -727,7 +721,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user/logout'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -745,7 +738,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/user/logout', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -833,7 +826,6 @@ class UserApi(object):
 
         collection_formats = {}
 
-        resource_path = '/user/{username}'.replace('{format}', 'json')
         path_params = {}
         if 'username' in params:
             path_params['username'] = params['username']
@@ -855,7 +847,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'PUT',
+        return self.api_client.call_api('/user/{username}', 'PUT',
                                         path_params,
                                         query_params,
                                         header_params,

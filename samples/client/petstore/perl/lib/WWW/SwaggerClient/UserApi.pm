@@ -83,7 +83,6 @@ sub create_user {
 
     # parse inputs
     my $_resource_path = '/user';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};
@@ -145,7 +144,6 @@ sub create_users_with_array_input {
 
     # parse inputs
     my $_resource_path = '/user/createWithArray';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};
@@ -207,7 +205,6 @@ sub create_users_with_list_input {
 
     # parse inputs
     my $_resource_path = '/user/createWithList';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};
@@ -269,7 +266,6 @@ sub delete_user {
 
     # parse inputs
     my $_resource_path = '/user/{username}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'DELETE';
     my $query_params = {};
@@ -333,7 +329,6 @@ sub get_user_by_name {
 
     # parse inputs
     my $_resource_path = '/user/{username}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -412,7 +407,6 @@ sub login_user {
 
     # parse inputs
     my $_resource_path = '/user/login';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -472,7 +466,6 @@ sub logout_user {
 
     # parse inputs
     my $_resource_path = '/user/logout';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -540,7 +533,6 @@ sub update_user {
 
     # parse inputs
     my $_resource_path = '/user/{username}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'PUT';
     my $query_params = {};
