@@ -371,19 +371,11 @@ export class UserApi {
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         if (username !== undefined) {
-            if(username instanceof Date) {
-                queryParameters.set('username', <any>username.d.toISOString());
-            } else {
-                queryParameters.set('username', <any>username);
-            }
+            queryParameters.set('username', <any>username);
         }
 
         if (password !== undefined) {
-            if(password instanceof Date) {
-                queryParameters.set('password', <any>password.d.toISOString());
-            } else {
-                queryParameters.set('password', <any>password);
-            }
+            queryParameters.set('password', <any>password);
         }
 
         // to determine the Content-Type header
