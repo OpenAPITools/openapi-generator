@@ -4,6 +4,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
@@ -41,7 +42,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
-        
+
         additionalProperties.put("appName", "Swagger Sample");
         additionalProperties.put("appDescription", "A sample swagger server");
         additionalProperties.put("infoUrl", "https://helloreverb.com");
@@ -96,12 +97,17 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         return super.getTypeDeclaration(p);
     }
 
-    @Override
+@Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             op.httpMethod = op.httpMethod.toLowerCase();
+            for (CodegenResponse response : op.responses) {
+                if ("0".equals(response.code)) {
+                    response.code = "default";
+                }
+            }
         }
         return objs;
     }
