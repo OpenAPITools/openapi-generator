@@ -1481,7 +1481,10 @@ public class DefaultCodegen {
         property.title = p.getTitle();
         property.getter = "get" + getterAndSetterCapitalize(name);
         property.setter = "set" + getterAndSetterCapitalize(name);
-        property.example = toExampleValue(p);
+        String example = toExampleValue(p);
+        if(!"null".equals(example)) {
+            property.example = example;
+        }
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
