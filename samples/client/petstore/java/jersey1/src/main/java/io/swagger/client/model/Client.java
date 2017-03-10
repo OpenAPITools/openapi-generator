@@ -36,7 +36,7 @@ public class Client {
    * Get client
    * @return client
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getClient() {
     return client;
   }

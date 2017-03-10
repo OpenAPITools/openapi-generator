@@ -35,7 +35,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getBar() {
     return bar;
   }
@@ -49,7 +49,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getBaz() {
     return baz;
   }
