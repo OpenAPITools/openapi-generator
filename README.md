@@ -909,6 +909,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [snapCX](https://snapcx.io)
 - [SPINEN](http://www.spinen.com)
 - [SRC](https://www.src.si/)
+- [Stingray](http://www.stingray.com)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
 - [TaskData](http://www.taskdata.com/)
@@ -961,6 +962,7 @@ Swagger Codegen core team members are contributors who have been making signific
 | Java Spring Boot | @cbornet (2016/07/19) |
 | Java Spring MVC | @kolyjjj (2016/05/01) @cbornet (2016/07/19) |
 | Java JAX-RS |  |
+| Java Play Framework |  |
 | NancyFX |  |
 | NodeJS | @kolyjjj (2016/05/01) |  
 | PHP Lumen | @abcsum (2016/05/01) |
@@ -1008,6 +1010,7 @@ Here is a list of template creators:
    * Java MSF4J: @sanjeewa-malalgoda
    * Java Spring Boot: @diyfr
    * Java Undertow: @stevehu
+   * Java Play Framework: @JFCote
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
