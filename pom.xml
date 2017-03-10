@@ -779,6 +779,8 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
+                <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
+                <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
                 <!-- servers -->
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/undertow</module>
@@ -790,8 +792,12 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
-                <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
-                <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
+                <module>samples/server/petstore/jaxrs-cxf</module>
+                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
+                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
+                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
+
+                <!--<module>samples/server/petstore/java-msf4j</module> note: JDK8 only -->
             </modules>
         </profile>
     </profiles>
