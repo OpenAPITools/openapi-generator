@@ -36,7 +36,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Boolean getDeclawed() {
     return declawed;
   }
