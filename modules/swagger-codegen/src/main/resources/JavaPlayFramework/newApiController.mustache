@@ -1,0 +1,162 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.swagger.annotations.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Http;
+import java.util.List;
+import java.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
+import java.io.IOException;
+import swagger.SwaggerUtils;
+import javafx.util.Pair;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
+
+{{>generatedAnnotation}}
+@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
+{{#operations}}
+public class {{classname}}Controller extends Controller {
+
+    private {{classname}}ControllerImp imp;
+    private ObjectMapper mapper;
+
+    @Inject
+    private {{classname}}Controller({{classname}}ControllerImp imp) {
+        this.imp = imp;
+        mapper = new ObjectMapper();
+    }
+
+{{#operation}}
+
+    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}"{{#returnType}}, response = {{{returnType}}}.class{{/returnType}}{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+    {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+    {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+    {{/hasMore}}{{/scopes}}
+    }{{/isOAuth}}){{#hasMore}},
+    {{/hasMore}}{{/authMethods}}
+    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
+    @ApiResponses(value = { {{#responses}}
+    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#returnType}}, response = {{{returnType}}}.class{{/returnType}}){{#hasMore}}, {{/hasMore}}{{/responses}} })
+    {{#hasParams}}
+    @ApiImplicitParams({
+        {{#allParams}}{{^isPathParam}}@ApiImplicitParam(name = "{{baseName}}", value = "{{{description}}}"{{#required}}, required = true{{/required}}{{#defaultValue}}, defaultValue = "{{{defaultValue}}}"{{/defaultValue}}, dataType = "{{{dataTypeForImplicitParam}}}", paramType = "{{>paramType}}"){{#hasMore}},
+        {{/hasMore}}{{/isPathParam}}{{/allParams}}
+    })
+    {{/hasParams}}
+    public Result {{operationId}}({{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{#bodyParams}}throws IOException{{/bodyParams}} {
+        {{#bodyParams}}
+        {{#collectionFormat}}
+        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
+        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+        JsonNode node{{paramName}} = request().body().asJson();
+        {{{dataType}}} {{paramName}};
+        {{^required}}
+        if (node{{paramName}} != null) {
+            {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isMapContainer}}new TypeReference<Map<{{{dataType}}}>>(){}{{/isMapContainer}}{{#isListContainer}}new TypeReference<List<{{{dataType}}}>>(){}{{/isListContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}.class{{/isMapContainer}}{{/isListContainer}});{{/required}}
+        {{#required}}{{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{{dataType}}}.class);{{/required}}
+        {{^required}}
+        } else {
+            {{paramName}} = null;
+        }{{/required}}
+        {{/collectionFormat}}
+        {{/bodyParams}}
+        {{#queryParams}}
+        {{#collectionFormat}}
+        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
+        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
+        //WIP when both bugs will be fixed
+        //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", request().getQueryString("{{baseName}}"));
+        {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
+        //for (Pair pair : {{paramName}}Pair) {
+        //    {{paramName}}.add({{>conversionBegin}}pair.getValue(){{>conversionEnd}});
+        //}
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+        String value{{paramName}} = request().getQueryString("{{paramName}}");
+        {{{dataType}}} {{paramName}};
+        {{^required}}
+        if (value{{paramName}} != null) {
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
+        {{#required}}{{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
+        {{^required}}
+        } else {
+            {{paramName}} = {{>paramDefaultValue}};
+        }{{/required}}
+        {{/collectionFormat}}
+        {{/queryParams}}
+        {{#formParams}}
+        {{^notFile}}
+        Http.MultipartFormData.FilePart {{paramName}} = request().body().asMultipartFormData().getFile("{{baseName}}");
+        {{#required}}if (({{paramName}} == null || ((File) {{paramName}}.getFile()).length() == 0)) {
+            throw new RuntimeException("File cannot be empty");
+        }
+        {{/required}}
+        {{/notFile}}
+        {{#notFile}}
+        {{#collectionFormat}}
+        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
+        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
+        //WIP when both bugs will be fixed
+        //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0]);
+        {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
+        //for (Pair pair : {{paramName}}Pair) {
+        //    {{paramName}}.add({{>conversionBegin}}pair.getValue(){{>conversionEnd}});
+        //}
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+        String value{{paramName}} = ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0];
+        {{{dataType}}} {{paramName}};
+        {{^required}}
+        if (value{{paramName}} != null) {
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
+        {{#required}}{{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
+        {{^required}}
+        } else {
+            {{paramName}} = {{>paramDefaultValue}};
+        }{{/required}}
+        {{/collectionFormat}}
+        {{/notFile}}
+        {{/formParams}}
+        {{#headerParams}}
+        {{#collectionFormat}}
+        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
+        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
+        //WIP when both bugs will be fixed
+        //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", request().getHeader("{{baseName}}"));
+        //{{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
+        //for (Pair pair : {{paramName}}Pair) {
+        //    {{paramName}}.add({{>conversionBegin}}pair.getValue(){{>conversionEnd}});
+        //}
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+        String value{{paramName}} = request().getHeader("{{baseName}}");
+        {{{dataType}}} {{paramName}};
+        {{^required}}
+        if (value{{paramName}} != null) {
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
+        {{#required}}{{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};{{/required}}
+        {{^required}}
+        } else {
+            {{paramName}} = {{>paramDefaultValue}};
+        }{{/required}}
+        {{/collectionFormat}}
+        {{/headerParams}}
+        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}JsonNode result = mapper.valueToTree(obj);
+        return ok(result);{{/returnType}}
+        {{^returnType}}return ok();{{/returnType}}
+    }
+{{/operation}}
+}
+{{/operations}}
