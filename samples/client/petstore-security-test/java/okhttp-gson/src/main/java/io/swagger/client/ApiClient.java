@@ -1032,6 +1032,13 @@ public class ApiClient {
             if (returnType == null || response.code() == 204) {
                 // returning null if the returnType is not defined,
                 // or the status code is 204 (No Content)
+                if (response.body() != null) {
+                    try {
+                        response.body().close();
+                    } catch (IOException e) {
+                        throw new ApiException(response.message(), e, response.code(), response.headers().toMultimap());
+                    }
+                }
                 return null;
             } else {
                 return deserialize(response, returnType);
