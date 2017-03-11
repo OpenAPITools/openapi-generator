@@ -19,7 +19,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 {
     static final String MEDIA_TYPE = "mediaType";
 
-	@SuppressWarnings("hiding")
+    @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
@@ -102,9 +102,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_RX_JAVA2)) {
             this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
         }
-	if (!useRxJava && !useRxJava2) {
-	    additionalProperties.put(DO_NOT_USE_RX, true);
-	}
+        if (!useRxJava && !useRxJava2) {
+            additionalProperties.put(DO_NOT_USE_RX, true);
+        }
         if (additionalProperties.containsKey(USE_PLAY24_WS)) {
             this.setUsePlay24WS(Boolean.valueOf(additionalProperties.get(USE_PLAY24_WS).toString()));
         }
@@ -250,7 +250,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                         if ( isMultipartType(operation.consumes) ) { 
                             operation.isMultipart = Boolean.TRUE;
-                        }	
+                        }
                         else {
                             operation.prioritizedContentTypes = prioritizeContentTypes(operation.consumes);
                         }
