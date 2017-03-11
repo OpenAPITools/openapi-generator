@@ -811,6 +811,7 @@ public class DefaultCodegen {
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("binary", "byte[]");
         typeMapping.put("file", "File");
+        typeMapping.put("UUID", "UUID");
 
 
         instantiationTypes = new HashMap<String, String>();
