@@ -37,7 +37,7 @@ public class Client implements Parcelable {
    * Get client
    * @return client
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getClient() {
     return client;
   }
