@@ -18,6 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.UUID;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import android.os.Parcelable;
@@ -62,7 +63,7 @@ public class FormatTest implements Parcelable {
   private DateTime dateTime = null;
 
   @SerializedName("uuid")
-  private String uuid = null;
+  private UUID uuid = null;
 
   @SerializedName("password")
   private String password = null;
@@ -78,7 +79,7 @@ public class FormatTest implements Parcelable {
    * maximum: 100
    * @return integer
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getInteger() {
     return integer;
   }
@@ -98,7 +99,7 @@ public class FormatTest implements Parcelable {
    * maximum: 200
    * @return int32
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getInt32() {
     return int32;
   }
@@ -116,7 +117,7 @@ public class FormatTest implements Parcelable {
    * Get int64
    * @return int64
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Long getInt64() {
     return int64;
   }
@@ -136,7 +137,7 @@ public class FormatTest implements Parcelable {
    * maximum: 543.2
    * @return number
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public BigDecimal getNumber() {
     return number;
   }
@@ -156,7 +157,7 @@ public class FormatTest implements Parcelable {
    * maximum: 987.6
    * @return _float
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Float getFloat() {
     return _float;
   }
@@ -176,7 +177,7 @@ public class FormatTest implements Parcelable {
    * maximum: 123.4
    * @return _double
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Double getDouble() {
     return _double;
   }
@@ -194,7 +195,7 @@ public class FormatTest implements Parcelable {
    * Get string
    * @return string
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getString() {
     return string;
   }
@@ -212,7 +213,7 @@ public class FormatTest implements Parcelable {
    * Get _byte
    * @return _byte
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public byte[] getByte() {
     return _byte;
   }
@@ -230,7 +231,7 @@ public class FormatTest implements Parcelable {
    * Get binary
    * @return binary
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public byte[] getBinary() {
     return binary;
   }
@@ -248,7 +249,7 @@ public class FormatTest implements Parcelable {
    * Get date
    * @return date
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public LocalDate getDate() {
     return date;
   }
@@ -266,7 +267,7 @@ public class FormatTest implements Parcelable {
    * Get dateTime
    * @return dateTime
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public DateTime getDateTime() {
     return dateTime;
   }
@@ -275,7 +276,7 @@ public class FormatTest implements Parcelable {
     this.dateTime = dateTime;
   }
 
-  public FormatTest uuid(String uuid) {
+  public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -284,12 +285,12 @@ public class FormatTest implements Parcelable {
    * Get uuid
    * @return uuid
   **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getUuid() {
+  @ApiModelProperty(value = "")
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -302,7 +303,7 @@ public class FormatTest implements Parcelable {
    * Get password
    * @return password
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getPassword() {
     return password;
   }
@@ -421,7 +422,7 @@ public class FormatTest implements Parcelable {
     binary = (byte[])in.readValue(null);
     date = (LocalDate)in.readValue(null);
     dateTime = (DateTime)in.readValue(null);
-    uuid = (String)in.readValue(null);
+    uuid = (UUID)in.readValue(null);
     password = (String)in.readValue(null);
   }
   
