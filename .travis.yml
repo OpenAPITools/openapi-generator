@@ -7,6 +7,7 @@ jdk:
 cache:
   directories:
   - $HOME/.m2
+  - $HOME/.ivy2
   - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
   - $HOME/samples/client/petstore/ruby/venodr/bundle
   - $HOME/samples/client/petstore/python/.venv/
