@@ -18,7 +18,7 @@ open class PetAPI: APIBase {
      */
     open class func addPet(body: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -39,9 +39,9 @@ open class PetAPI: APIBase {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -55,7 +55,7 @@ open class PetAPI: APIBase {
      */
     open class func deletePet(petId: Int64, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deletePetWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -78,11 +78,11 @@ open class PetAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [:]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -103,9 +103,9 @@ open class PetAPI: APIBase {
      - parameter status: (query) Status values that need to be considered for filter 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func findPetsByStatus(status: [String], completion: @escaping ((_ data: [Pet]?,_ error: ErrorResponse?) -> Void)) {
+    open class func findPetsByStatus(status: [String], completion: @escaping ((_ data: [Pet]?, _ error: ErrorResponse?) -> Void)) {
         findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -117,7 +117,7 @@ open class PetAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{contentType=application/xml, example=<Pet>
+     - examples: [{example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -126,21 +126,21 @@ open class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}, {example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}]
-     - examples: [{contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}]
+     - examples: [{example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -149,20 +149,20 @@ open class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}, {example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}]
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}]
      
      - parameter status: (query) Status values that need to be considered for filter 
 
@@ -175,11 +175,11 @@ open class PetAPI: APIBase {
         let nillableParameters: [String:Any?] = [
             "status": status
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
@@ -191,9 +191,9 @@ open class PetAPI: APIBase {
      - parameter tags: (query) Tags to filter by 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func findPetsByTags(tags: [String], completion: @escaping ((_ data: [Pet]?,_ error: ErrorResponse?) -> Void)) {
+    open class func findPetsByTags(tags: [String], completion: @escaping ((_ data: [Pet]?, _ error: ErrorResponse?) -> Void)) {
         findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -205,7 +205,7 @@ open class PetAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{contentType=application/xml, example=<Pet>
+     - examples: [{example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -214,21 +214,21 @@ open class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}, {example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}]
-     - examples: [{contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}]
+     - examples: [{example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -237,20 +237,20 @@ open class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}, {example=[ {
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-} ]}]
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+} ], contentType=application/json}]
      
      - parameter tags: (query) Tags to filter by 
 
@@ -263,11 +263,11 @@ open class PetAPI: APIBase {
         let nillableParameters: [String:Any?] = [
             "tags": tags
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
@@ -279,9 +279,9 @@ open class PetAPI: APIBase {
      - parameter petId: (path) ID of pet to return 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPetById(petId: Int64, completion: @escaping ((_ data: Pet?,_ error: ErrorResponse?) -> Void)) {
+    open class func getPetById(petId: Int64, completion: @escaping ((_ data: Pet?, _ error: ErrorResponse?) -> Void)) {
         getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -293,7 +293,7 @@ open class PetAPI: APIBase {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{contentType=application/xml, example=<Pet>
+     - examples: [{example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -302,21 +302,21 @@ open class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}, {example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}]
-     - examples: [{contentType=application/xml, example=<Pet>
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}]
+     - examples: [{example=<Pet>
   <id>123456</id>
   <name>doggie</name>
   <photoUrls>
@@ -325,20 +325,20 @@ open class PetAPI: APIBase {
   <tags>
   </tags>
   <status>string</status>
-</Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
-  "name" : "doggie",
+</Pet>, contentType=application/xml}, {example={
+  "tags" : [ {
+    "id" : 123456789,
+    "name" : "aeiou"
+  } ],
   "id" : 123456789,
   "category" : {
-    "name" : "aeiou",
-    "id" : 123456789
+    "id" : 123456789,
+    "name" : "aeiou"
   },
-  "tags" : [ {
-    "name" : "aeiou",
-    "id" : 123456789
-  } ],
-  "status" : "aeiou"
-}}]
+  "status" : "aeiou",
+  "name" : "doggie",
+  "photoUrls" : [ "aeiou" ]
+}, contentType=application/json}]
      
      - parameter petId: (path) ID of pet to return 
 
@@ -350,11 +350,11 @@ open class PetAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [:]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Pet>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -368,7 +368,7 @@ open class PetAPI: APIBase {
      */
     open class func updatePet(body: Pet, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -389,9 +389,9 @@ open class PetAPI: APIBase {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -407,7 +407,7 @@ open class PetAPI: APIBase {
      */
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -435,11 +435,11 @@ open class PetAPI: APIBase {
             "name": name,
             "status": status
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
@@ -453,9 +453,9 @@ open class PetAPI: APIBase {
      - parameter file: (form) file to upload (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: ErrorResponse?) -> Void)) {
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping ((_ data: ApiResponse?, _ error: ErrorResponse?) -> Void)) {
         uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -467,11 +467,11 @@ open class PetAPI: APIBase {
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - examples: [{contentType=application/json, example={
+     - examples: [{example={
+  "message" : "aeiou",
   "code" : 123,
-  "type" : "aeiou",
-  "message" : "aeiou"
-}}]
+  "type" : "aeiou"
+}, contentType=application/json}]
      
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
@@ -488,11 +488,11 @@ open class PetAPI: APIBase {
             "additionalMetadata": additionalMetadata,
             "file": file
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)

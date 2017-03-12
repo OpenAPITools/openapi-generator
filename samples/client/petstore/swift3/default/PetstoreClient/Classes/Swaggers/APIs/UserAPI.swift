@@ -18,7 +18,7 @@ open class UserAPI: APIBase {
      */
     open class func createUser(body: User, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -36,9 +36,9 @@ open class UserAPI: APIBase {
         let path = "/user"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -52,7 +52,7 @@ open class UserAPI: APIBase {
      */
     open class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -70,9 +70,9 @@ open class UserAPI: APIBase {
         let path = "/user/createWithArray"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -86,7 +86,7 @@ open class UserAPI: APIBase {
      */
     open class func createUsersWithListInput(body: [User], completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -104,9 +104,9 @@ open class UserAPI: APIBase {
         let path = "/user/createWithList"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -120,7 +120,7 @@ open class UserAPI: APIBase {
      */
     open class func deleteUser(username: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -140,11 +140,11 @@ open class UserAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [:]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -156,9 +156,9 @@ open class UserAPI: APIBase {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: ErrorResponse?) -> Void)) {
+    open class func getUserByName(username: String, completion: @escaping ((_ data: User?, _ error: ErrorResponse?) -> Void)) {
         getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -167,7 +167,7 @@ open class UserAPI: APIBase {
      Get user by user name
      - GET /user/{username}
      - 
-     - examples: [{contentType=application/xml, example=<User>
+     - examples: [{example=<User>
   <id>123456</id>
   <username>string</username>
   <firstName>string</firstName>
@@ -176,17 +176,17 @@ open class UserAPI: APIBase {
   <password>string</password>
   <phone>string</phone>
   <userStatus>0</userStatus>
-</User>}, {contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
+</User>, contentType=application/xml}, {example={
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
-}}]
-     - examples: [{contentType=application/xml, example=<User>
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}]
+     - examples: [{example=<User>
   <id>123456</id>
   <username>string</username>
   <firstName>string</firstName>
@@ -195,16 +195,16 @@ open class UserAPI: APIBase {
   <password>string</password>
   <phone>string</phone>
   <userStatus>0</userStatus>
-</User>}, {contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
-  "userStatus" : 123,
-  "phone" : "aeiou",
+</User>, contentType=application/xml}, {example={
   "id" : 123456789,
+  "lastName" : "aeiou",
+  "phone" : "aeiou",
+  "username" : "aeiou",
   "email" : "aeiou",
-  "username" : "aeiou"
-}}]
+  "userStatus" : 123,
+  "firstName" : "aeiou",
+  "password" : "aeiou"
+}, contentType=application/json}]
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
 
@@ -216,11 +216,11 @@ open class UserAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [:]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<User>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -233,9 +233,9 @@ open class UserAPI: APIBase {
      - parameter password: (query) The password for login in clear text 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?,_ error: ErrorResponse?) -> Void)) {
+    open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?, _ error: ErrorResponse?) -> Void)) {
         loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -246,8 +246,8 @@ open class UserAPI: APIBase {
      - 
      - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
      - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
-     - examples: [{contentType=application/xml, example=string}, {contentType=application/json, example="aeiou"}]
-     - examples: [{contentType=application/xml, example=string}, {contentType=application/json, example="aeiou"}]
+     - examples: [{example=string, contentType=application/xml}, {example="aeiou", contentType=application/json}]
+     - examples: [{example=string, contentType=application/xml}, {example="aeiou", contentType=application/json}]
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
@@ -262,11 +262,11 @@ open class UserAPI: APIBase {
             "username": username,
             "password": password
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<String>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
@@ -279,7 +279,7 @@ open class UserAPI: APIBase {
      */
     open class func logoutUser(completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         logoutUserWithRequestBuilder().execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -296,11 +296,11 @@ open class UserAPI: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [:]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -315,7 +315,7 @@ open class UserAPI: APIBase {
      */
     open class func updateUser(username: String, body: User, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -335,9 +335,9 @@ open class UserAPI: APIBase {
         path = path.replacingOccurrences(of: "{username}", with: "\(username)", options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PUT", URLString: URLString, parameters: convertedParameters, isBody: true)
