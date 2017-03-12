@@ -16,9 +16,9 @@ open class FakeAPI: APIBase {
      - parameter body: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClientModel(body: Client, completion: @escaping ((_ data: Client?,_ error: ErrorResponse?) -> Void)) {
+    open class func testClientModel(body: Client, completion: @escaping ((_ data: Client?, _ error: ErrorResponse?) -> Void)) {
         testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -27,9 +27,9 @@ open class FakeAPI: APIBase {
      To test \"client\" model
      - PATCH /fake
      - To test \"client\" model
-     - examples: [{contentType=application/json, example={
+     - examples: [{example={
   "client" : "aeiou"
-}}]
+}, contentType=application/json}]
      
      - parameter body: (body) client model 
 
@@ -39,9 +39,9 @@ open class FakeAPI: APIBase {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "PATCH", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -68,7 +68,7 @@ open class FakeAPI: APIBase {
      */
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int32? = nil, int32: Int32? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: ISOFullDate? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -118,11 +118,11 @@ open class FakeAPI: APIBase {
             "password": password,
             "callback": callback
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
@@ -175,7 +175,7 @@ open class FakeAPI: APIBase {
      */
     open class func testEnumParameters(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Int32? = nil, enumQueryDouble: Double? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         testEnumParametersWithRequestBuilder(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -203,11 +203,11 @@ open class FakeAPI: APIBase {
             "enum_query_string": enumQueryString?.rawValue,
             "enum_query_integer": enumQueryInteger?.encodeToJSON()
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
