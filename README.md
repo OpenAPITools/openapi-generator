@@ -191,7 +191,7 @@ docker stop $CID && docker rm $CID
 
 In the example above, `result.zip` will contain the generated client.
 
-##### Swagger Codegen Docker Image
+##### Swagger Codegen CLI Docker Image
 
 The Swagger Codegen image acts as a standalone executable. It can be used as an alternative to installing via homebrew, or for developers who are unable to install Java or upgrade the installed version.
 
@@ -200,7 +200,7 @@ To generate code with this image, you'll need to mount a local location as a vol
 Example:
 
 ```
-docker run --rm -v ${PWD}:/local swagger-api/swagger-codegen generate \
+docker run --rm -v ${PWD}:/local swagger-api/swagger-codegen-cli generate \
     -i http://petstore.swagger.io/v2/swagger.json \
     -l go \
     -o /local/out/go
