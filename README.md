@@ -78,10 +78,10 @@ Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 
 
 ### Prerequisites
-If you're looking for the latest stable version, you can grab it directly from Sonatype.org (Java 7 runtime at a minimum):
+If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 7 runtime at a minimum):
 
 ```
-wget https://oss.sonatype.org/content/repositories/releases/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar -O swagger-codegen-cli.jar
+wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar -O swagger-codegen-cli.jar
 
 java -jar swagger-codegen-cli.jar help
 ```
