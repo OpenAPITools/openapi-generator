@@ -38,7 +38,7 @@ public class ModelReturn implements Parcelable {
    * Get _return
    * @return _return
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getReturn() {
     return _return;
   }

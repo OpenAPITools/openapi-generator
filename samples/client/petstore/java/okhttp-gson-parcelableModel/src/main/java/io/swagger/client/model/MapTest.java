@@ -70,7 +70,7 @@ public class MapTest implements Parcelable {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -93,7 +93,7 @@ public class MapTest implements Parcelable {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }

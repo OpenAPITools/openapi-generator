@@ -116,7 +116,7 @@ public class EnumTest implements Parcelable {
    * Get enumString
    * @return enumString
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -134,7 +134,7 @@ public class EnumTest implements Parcelable {
    * Get enumInteger
    * @return enumInteger
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -152,7 +152,7 @@ public class EnumTest implements Parcelable {
    * Get enumNumber
    * @return enumNumber
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -170,7 +170,7 @@ public class EnumTest implements Parcelable {
    * Get outerEnum
    * @return outerEnum
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
