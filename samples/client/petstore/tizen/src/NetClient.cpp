@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2016 Samsung Electronics Co., Ltd All Rights Reserved
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #include "NetClient.h"
 
 using namespace std;
@@ -316,13 +300,13 @@ int NetClient::easycurl(string host, string path, string method, std::map<string
 	}
 
 	/* set timeout */
-	curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT, 30L);
+	curl_res = curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT, 30L);
 	curl_error_print(curl_res, errbuf, __LINE__);
 	if (curl_res != CURLE_OK) {
 		ret_val = ArtikCloud_ERROR_UNKNOWN;
 		goto FREE_CHUNK;
 	}
-	
+
 	//curl_res = curl_easy_setopt(curl_handle, CURLOPT_PROXY, "http://10.112.1.184:8080/");
 	curl_res = curl_easy_perform(curl_handle);
 	curl_error_print(curl_res, errbuf, __LINE__);
@@ -364,7 +348,7 @@ FREE_CHUNK:
 CURL_EASY_CLEANUP:
 	/* cleanup curl stuff */
 	curl_easy_cleanup(curl_handle);
-	
+
 
 RETURN:
 	printf("end NET_Utils::easycurl");

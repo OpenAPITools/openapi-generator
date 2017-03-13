@@ -15,7 +15,7 @@ import java.util.Date;
  **/
 
 @ApiModel(description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.UndertowCodegen", date = "2016-10-19T16:19:58.109+08:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.UndertowCodegen", date = "2017-03-13T18:04:18.447+01:00")
 public class Order   {
   
   private Long id = null;

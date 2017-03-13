@@ -108,11 +108,11 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
+          default: "available"
         collectionFormat: "csv"
       responses:
         200:
@@ -356,8 +356,8 @@ paths:
         description: "ID of pet that needs to be fetched"
         required: true
         type: "integer"
-        maximum: 5.0
-        minimum: 1.0
+        maximum: 5
+        minimum: 1
         format: "int64"
       responses:
         200:
@@ -586,10 +586,6 @@ paths:
           description: "User not found"
       x-swagger-router-controller: "User"
 securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
   petstore_auth:
     type: "oauth2"
     authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
@@ -597,6 +593,10 @@ securityDefinitions:
     scopes:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
 definitions:
   Order:
     type: "object"

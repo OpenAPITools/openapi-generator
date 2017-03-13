@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2016 Samsung Electronics Co., Ltd All Rights Reserved
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #include <map>
 #include <cstdlib>
 #include <glib-object.h>
@@ -106,8 +90,8 @@ Order::fromJson(char* jsonStr)
 	if (node !=NULL) {
 	
 
-		if (isprimitive("long")) {
-			jsonToValue(&id, node, "long", "");
+		if (isprimitive("long long")) {
+			jsonToValue(&id, node, "long long", "");
 		} else {
 			
 		}
@@ -117,8 +101,8 @@ Order::fromJson(char* jsonStr)
 	if (node !=NULL) {
 	
 
-		if (isprimitive("long")) {
-			jsonToValue(&petId, node, "long", "");
+		if (isprimitive("long long")) {
+			jsonToValue(&petId, node, "long long", "");
 		} else {
 			
 		}
@@ -179,18 +163,18 @@ Order::toJson()
 {
 	JsonObject *pJsonObject = json_object_new();
 	JsonNode *node;
-	if (isprimitive("long")) {
-		long obj = getId();
-		node = converttoJson(&obj, "long", "");
+	if (isprimitive("long long")) {
+		long long obj = getId();
+		node = converttoJson(&obj, "long long", "");
 	}
 	else {
 		
 	}
 	const gchar *idKey = "id";
 	json_object_set_member(pJsonObject, idKey, node);
-	if (isprimitive("long")) {
-		long obj = getPetId();
-		node = converttoJson(&obj, "long", "");
+	if (isprimitive("long long")) {
+		long long obj = getPetId();
+		node = converttoJson(&obj, "long long", "");
 	}
 	else {
 		
@@ -241,26 +225,26 @@ Order::toJson()
 	return ret;
 }
 
-long
+long long
 Order::getId()
 {
 	return id;
 }
 
 void
-Order::setId(long  id)
+Order::setId(long long  id)
 {
 	this->id = id;
 }
 
-long
+long long
 Order::getPetId()
 {
 	return petId;
 }
 
 void
-Order::setPetId(long  petId)
+Order::setPetId(long long  petId)
 {
 	this->petId = petId;
 }

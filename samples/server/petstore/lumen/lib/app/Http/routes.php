@@ -24,7 +24,7 @@ $app->get('/', function () use ($app) {
 /**
  * PATCH testClientModel
  * Summary: To test \&quot;client\&quot; model
- * Notes: 
+ * Notes: To test \&quot;client\&quot; model
  * Output-Formats: [application/json]
  */
 $app->PATCH('/v2/fake', 'FakeApi@testClientModel');
@@ -38,10 +38,17 @@ $app->POST('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
  * GET testEnumParameters
  * Summary: To test enum parameters
- * Notes: 
+ * Notes: To test enum parameters
  * Output-Formats: [*/*]
  */
 $app->GET('/v2/fake', 'FakeApi@testEnumParameters');
+/**
+ * PATCH testClassname
+ * Summary: To test class name in snake case
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+$app->PATCH('/v2/fake_classname_test', 'Fake_classname_tags123Api@testClassname');
 /**
  * POST addPet
  * Summary: Add a new pet to the store

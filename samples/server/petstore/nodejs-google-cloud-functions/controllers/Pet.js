@@ -2,9 +2,7 @@
 
 var url = require('url');
 
-
 var Pet = require('./PetService');
-
 
 module.exports.addPet = function addPet (req, res, next) {
   Pet.addPet(req.swagger.params, res, next);
