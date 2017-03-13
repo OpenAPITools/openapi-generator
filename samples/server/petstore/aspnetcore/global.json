@@ -1,7 +1,7 @@
 {
   "projects": [ "src" ],
   "sdk": {
-    "version": "1.0.0-preview3-003171",
+    "version": "1.0.0-preview2-003121",
     "runtime": "coreclr"
   }
 }

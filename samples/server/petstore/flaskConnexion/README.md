@@ -28,6 +28,6 @@ http://localhost:8080/v2/swagger.json
 
 To launch the integration tests, use tox:
 ```
-sudo pip install tox  
+sudo pip install tox
 tox
 ```

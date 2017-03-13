@@ -7,9 +7,9 @@ import io.swagger.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import io.swagger.client.model.Pet;
 import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
+import io.swagger.client.model.Pet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +124,7 @@ public class PetApi {
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)
-   * @return List<Pet>
+   * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
@@ -166,7 +166,7 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return List<Pet>
+   * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {

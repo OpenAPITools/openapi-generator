@@ -1,8 +1,8 @@
 package io.swagger.client.api
 
-import io.swagger.client.model.Pet
-import java.io.File
 import io.swagger.client.model.ApiResponse
+import java.io.File
+import io.swagger.client.model.Pet
 import com.wordnik.swagger.client._
 import scala.concurrent.Future
 import collection.mutable

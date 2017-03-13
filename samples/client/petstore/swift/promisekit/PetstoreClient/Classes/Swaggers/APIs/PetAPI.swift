@@ -247,14 +247,14 @@ public class PetAPI: APIBase {
   } ],
   "status" : "aeiou"
 } ]}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      - examples: [{contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
@@ -270,14 +270,14 @@ public class PetAPI: APIBase {
   } ],
   "status" : "aeiou"
 } ]}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      
      - parameter tags: (query) Tags to filter by (optional)
@@ -355,14 +355,14 @@ public class PetAPI: APIBase {
   } ],
   "status" : "aeiou"
 }}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      - examples: [{contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
@@ -378,14 +378,14 @@ public class PetAPI: APIBase {
   } ],
   "status" : "aeiou"
 }}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 
