@@ -132,7 +132,8 @@ public class JSON {
      */
     public static class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 
-        private DateTimeFormatter formatter;
+        private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
+        private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
 
         public DateTimeTypeAdapter() {
             this(ISODateTimeFormat.dateTime().withOffsetParsed());
@@ -151,7 +152,7 @@ public class JSON {
             if (date == null) {
                 out.nullValue();
             } else {
-                out.value(formatter.print(date));
+                out.value(printFormatter.print(date));
             }
         }
 
@@ -163,7 +164,7 @@ public class JSON {
                     return null;
                 default:
                     String date = in.nextString();
-                    return formatter.parseDateTime(date);
+                    return parseFormatter.parseDateTime(date);
             }
         }
     }
