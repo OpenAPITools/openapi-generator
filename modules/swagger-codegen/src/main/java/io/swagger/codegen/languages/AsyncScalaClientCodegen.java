@@ -60,7 +60,7 @@ public class AsyncScalaClientCodegen extends AbstractScalaCodegen implements Cod
         importMapping.remove("Map");
 
         importMapping.put("DateTime", "org.joda.time.DateTime");
-        importMapping.put("ListBuffer", "scala.collections.mutable.ListBuffer");
+        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
