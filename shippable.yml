@@ -1,9 +1,8 @@
 language: java
 
 jdk:
+- oraclejdk8
 - openjdk7
-  # comment out due to issue with JAVA_HOME
-  #- openjdk8
 
 build:
   cache: true
