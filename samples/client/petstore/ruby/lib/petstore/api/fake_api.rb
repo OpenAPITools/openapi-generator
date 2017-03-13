@@ -41,7 +41,7 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_client_model" if body.nil?
       # resource path
-      local_var_path = "/fake".sub('{format}','json')
+      local_var_path = "/fake"
 
       # query parameters
       query_params = {}
@@ -178,7 +178,7 @@ module Petstore
       end
 
       # resource path
-      local_var_path = "/fake".sub('{format}','json')
+      local_var_path = "/fake"
 
       # query parameters
       query_params = {}
@@ -274,7 +274,7 @@ module Petstore
         fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
       end
       # resource path
-      local_var_path = "/fake".sub('{format}','json')
+      local_var_path = "/fake"
 
       # query parameters
       query_params = {}

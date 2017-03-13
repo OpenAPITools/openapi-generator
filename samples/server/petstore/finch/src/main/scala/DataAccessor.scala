@@ -1,10 +1,10 @@
-package io.swagger.petstore
+package io.swagger
 
 // TODO: properly handle custom imports
 import java.io._
 import java.util.Date
 
-import io.swagger.petstore.models._
+import io.swagger.models._
 
 trait DataAccessor {
     // TODO: apiInfo -> apis -> operations = ???

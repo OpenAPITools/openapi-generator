@@ -25,7 +25,7 @@ public class PetApiController implements PetApi {
     private final PetApiDelegate delegate;
 
     @org.springframework.beans.factory.annotation.Autowired
-    PetApiController(PetApiDelegate delegate) {
+    public PetApiController(PetApiDelegate delegate) {
         this.delegate = delegate;
     }
 

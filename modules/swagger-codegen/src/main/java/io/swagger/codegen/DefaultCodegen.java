@@ -811,6 +811,7 @@ public class DefaultCodegen {
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("binary", "byte[]");
         typeMapping.put("file", "File");
+        typeMapping.put("UUID", "UUID");
 
 
         instantiationTypes = new HashMap<String, String>();
@@ -1481,7 +1482,10 @@ public class DefaultCodegen {
         property.title = p.getTitle();
         property.getter = "get" + getterAndSetterCapitalize(name);
         property.setter = "set" + getterAndSetterCapitalize(name);
-        property.example = toExampleValue(p);
+        String example = toExampleValue(p);
+        if(!"null".equals(example)) {
+            property.example = example;
+        }
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
@@ -2046,10 +2050,10 @@ public class DefaultCodegen {
                 }
                 r.isDefault = response == methodResponse;
                 op.responses.add(r);
-                if (r.isBinary && r.isDefault){
+                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.isDefault)){
                     op.isResponseBinary = Boolean.TRUE;
                 }
-                if (r.isFile && r.isDefault){
+                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.isDefault)){
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
@@ -2161,7 +2165,7 @@ public class DefaultCodegen {
                 } else if (param instanceof FormParameter) {
                     formParams.add(p.copy());
                 }
-                if (p.required == null || !p.required) {
+                if (!p.required) {
                     op.hasOptionalParams = true;
                 }
             }
@@ -2179,10 +2183,8 @@ public class DefaultCodegen {
           Collections.sort(allParams, new Comparator<CodegenParameter>() {
               @Override
               public int compare(CodegenParameter one, CodegenParameter another) {
-                  boolean oneRequired = one.required == null ? false : one.required;
-                  boolean anotherRequired = another.required == null ? false : another.required;
-                  if (oneRequired == anotherRequired) return 0;
-                  else if (oneRequired) return -1;
+                  if (one.required == another.required) return 0;
+                  else if (one.required) return -1;
                   else return 1;
               }
           });
@@ -2233,6 +2235,7 @@ public class DefaultCodegen {
         r.jsonSchema = Json.pretty(response);
         r.vendorExtensions = response.getVendorExtensions();
         addHeaders(response, r.headers);
+        r.hasHeaders = !r.headers.isEmpty();
 
         if (r.schema != null) {
             Property responseProperty = response.getSchema();
@@ -2251,8 +2254,33 @@ public class DefaultCodegen {
                 }
             }
             r.dataType = cm.datatype;
-            r.isBinary = isDataTypeBinary(cm.datatype);
-            r.isFile = isDataTypeFile(cm.datatype);
+
+            if (Boolean.TRUE.equals(cm.isString)) {
+                r.isString = true;
+            } else if (Boolean.TRUE.equals(cm.isBoolean)) {
+                r.isBoolean = true;
+            } else if (Boolean.TRUE.equals(cm.isLong)) {
+                r.isLong = true;
+            } else if (Boolean.TRUE.equals(cm.isInteger)) {
+                r.isInteger = true;
+            } else if (Boolean.TRUE.equals(cm.isDouble)) {
+                r.isDouble = true;
+            } else if (Boolean.TRUE.equals(cm.isFloat)) {
+                r.isFloat = true;
+            } else if (Boolean.TRUE.equals(cm.isByteArray)) {
+                r.isByteArray = true;
+            } else if (Boolean.TRUE.equals(cm.isBinary)) {
+                r.isBinary = true;
+            } else if (Boolean.TRUE.equals(cm.isFile)) {
+                r.isFile = true;
+            } else if (Boolean.TRUE.equals(cm.isDate)) {
+                r.isDate = true;
+            } else if (Boolean.TRUE.equals(cm.isDateTime)) {
+                r.isDateTime = true;
+            } else {
+                LOGGER.debug("Property type is not primitive: " + cm.datatype);
+            }
+
             if (cm.isContainer) {
                 r.simpleType = false;
                 r.containerType = cm.containerType;
@@ -2410,14 +2438,14 @@ public class DefaultCodegen {
                 p.minimum = qp.getMinimum() == null ? null : String.valueOf(qp.getMinimum());
             }
 
-            p.exclusiveMaximum = qp.isExclusiveMaximum();
-            p.exclusiveMinimum = qp.isExclusiveMinimum();
+            p.exclusiveMaximum = qp.isExclusiveMaximum() == null ? false : qp.isExclusiveMaximum();
+            p.exclusiveMinimum = qp.isExclusiveMinimum() == null ? false : qp.isExclusiveMinimum();
             p.maxLength = qp.getMaxLength();
             p.minLength = qp.getMinLength();
             p.pattern = toRegularExpression(qp.getPattern());
             p.maxItems = qp.getMaxItems();
             p.minItems = qp.getMinItems();
-            p.uniqueItems = qp.isUniqueItems();
+            p.uniqueItems = qp.isUniqueItems() == null ? false : qp.isUniqueItems();
             p.multipleOf = qp.getMultipleOf();
 
             // exclusive* are noop without corresponding min/max
@@ -2452,6 +2480,9 @@ public class DefaultCodegen {
                         p.isPrimitiveType = cp.isPrimitiveType;
                         p.isBinary = isDataTypeBinary(cp.datatype);
                         p.isFile = isDataTypeFile(cp.datatype);
+                        if (cp.complexType != null) {
+                            imports.add(cp.complexType);
+                        }
                     }
 
                     // set boolean flag (e.g. isString)

@@ -1,4 +1,4 @@
-package io.swagger.petstore
+package io.swagger
 
 import io.finch._
 import io.finch.circe._
@@ -14,7 +14,7 @@ import com.twitter.util.{Await, Future}
 
 class Server {
 
-  // Loads implementation defined in resources/META-INF/services/io.swagger.petstore.DataAccessor
+  // Loads implementation defined in resources/META-INF/services/io.swagger.DataAccessor
   val db = LoadService[DataAccessor]() match {
     case accessor :: _ => accessor
     case _ => new DataAccessor { }

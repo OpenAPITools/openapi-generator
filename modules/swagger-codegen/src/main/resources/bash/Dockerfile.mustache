@@ -6,7 +6,7 @@ RUN apt-get install -y bash-completion zsh curl cowsay git vim bsdmainutils
 ADD {{scriptName}} /usr/bin/{{scriptName}}
 ADD _{{scriptName}} /usr/local/share/zsh/site-functions/_{{scriptName}}
 ADD {{scriptName}}.bash-completion /etc/bash-completion.d/{{scriptName}}
-
+RUN chmod 755 /usr/bin/{{scriptName}}
 
 #
 # Install oh-my-zsh

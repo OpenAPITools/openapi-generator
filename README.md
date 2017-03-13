@@ -1,6 +1,6 @@
 # Swagger Code Generator
 
-[![Build Status](https://img.shields.io/travis/swagger-api/swagger-codegen.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/swagger-codegen)
+[![Build Status](https://img.shields.io/travis/swagger-api/swagger-codegen/master.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/swagger-codegen)
 [![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/swagger-codegen?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/swagger-codegen-wh2wu)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project)
@@ -11,6 +11,8 @@
 :notebook_with_decorative_cover: For more information, please refer to the [Wiki page](https://github.com/swagger-api/swagger-codegen/wiki) and [FAQ](https://github.com/swagger-api/swagger-codegen/wiki/FAQ) :notebook_with_decorative_cover:
 
 :warning: If the OpenAPI/Swagger spec is obtained from an untrusted source, please make sure you've reviewed the spec before using Swagger Codegen to generate the API client, server stub or documentation as [code injection](https://en.wikipedia.org/wiki/Code_injection) may occur :warning:
+
+:rocket: ProductHunt: https://producthunt.com/posts/swagger-codegen :rocket:
 
 ## Overview
 This is the swagger codegen project, which allows generation of API client libraries (SDK generation), server stubs and documentation automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification). Currently, the following languages/frameworks are supported:
@@ -66,19 +68,20 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
-2.3.0 (upcoming minor release) | TBD   | 1.0, 1.1, 1.2, 2.0   | Minor release with breaking changes
-2.2.2 (upcoming patch release) | TBD   | 1.0, 1.1, 1.2, 2.0   | Patch release (without breaking changes)
-2.2.1 (**current stable**) | 2016-08-07   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.1](https://github.com/swagger-api/swagger-codegen/tree/v2.2.1)
+2.3.0 (upcoming minor release) | Apr/May 2017   | 1.0, 1.1, 1.2, 2.0   | Minor release with breaking changes
+2.2.3 (upcoming patch release) | TBD   | 1.0, 1.1, 1.2, 2.0   | Patch release without breaking changes
+2.2.2 (**current stable**) | 2017-03-01   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.2](https://github.com/swagger-api/swagger-codegen/tree/v2.2.2)
+2.2.1 | 2016-08-07   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.1](https://github.com/swagger-api/swagger-codegen/tree/v2.2.1)
 2.1.6 | 2016-04-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.6](https://github.com/swagger-api/swagger-codegen/tree/v2.1.6)
 2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
 
 ### Prerequisites
-If you're looking for the latest stable version, you can grab it directly from maven central (you'll need java 7 runtime at a minimum):
+If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 7 runtime at a minimum):
 
 ```
-wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar -O swagger-codegen-cli.jar
+wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar -O swagger-codegen-cli.jar
 
 java -jar swagger-codegen-cli.jar help
 ```
@@ -161,7 +164,7 @@ cd /vagrant
 
  - https://hub.docker.com/r/swaggerapi/swagger-generator/ (official web service)
  - https://hub.docker.com/r/swaggerapi/swagger-codegen-cli/ (official CLI)
-=======
+
 
 ##### Swagger Generator Docker Image
 
@@ -188,7 +191,7 @@ docker stop $CID && docker rm $CID
 
 In the example above, `result.zip` will contain the generated client.
 
-##### Swagger Codegen Docker Image
+##### Swagger Codegen CLI Docker Image
 
 The Swagger Codegen image acts as a standalone executable. It can be used as an alternative to installing via homebrew, or for developers who are unable to install Java or upgrade the installed version.
 
@@ -197,7 +200,7 @@ To generate code with this image, you'll need to mount a local location as a vol
 Example:
 
 ```
-docker run --rm -v ${PWD}:/local swagger-api/swagger-codegen generate \
+docker run --rm -v ${PWD}:/local swaggerapi/swagger-codegen-cli generate \
     -i http://petstore.swagger.io/v2/swagger.json \
     -l go \
     -o /local/out/go
@@ -219,7 +222,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
 ```
 (if you're on Windows, replace the last command with `java -jar modules\swagger-codegen-cli\target\swagger-codegen-cli.jar generate -i http://petstore.swagger.io/v2/swagger.json -l php -o c:\temp\php_api_client`)
 
-You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.1/swagger-codegen-cli-2.2.1.jar )
+You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar)
 
 To get a list of **general** options available, please run `java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar help generate`
 
@@ -849,11 +852,13 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Flat](https://flat.io)
 - [Finder](http://en.finder.pl/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
+- [Fotition](https://www.fotition.com/)
 - [Gear Zero Network](https://www.gearzero.ca)
 - [Germin8](http://www.germin8.com)
 - [goTransverse](http://www.gotransverse.com/api)
 - [GraphHopper](https://graphhopper.com/)
 - [Gravitate Solutions](http://gravitatesolutions.com/)
+- [HashData](http://www.hashdata.cn/)
 - [Hewlett Packard Enterprise](https://hpe.com)
 - [High Technologies Center](http://htc-cs.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
@@ -887,6 +892,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Prill Tecnologia](http://www.prill.com.br)
 - [QAdept](http://qadept.com/)
 - [QuantiModo](https://quantimo.do/)
+- [QuickBlox](https://quickblox.com/)
 - [Rapid7](https://rapid7.com/)
 - [Reload! A/S](https://reload.dk/)
 - [REstore](https://www.restore.eu)
@@ -903,6 +909,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [snapCX](https://snapcx.io)
 - [SPINEN](http://www.spinen.com)
 - [SRC](https://www.src.si/)
+- [Stingray](http://www.stingray.com)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
 - [TaskData](http://www.taskdata.com/)
@@ -955,6 +962,7 @@ Swagger Codegen core team members are contributors who have been making signific
 | Java Spring Boot | @cbornet (2016/07/19) |
 | Java Spring MVC | @kolyjjj (2016/05/01) @cbornet (2016/07/19) |
 | Java JAX-RS |  |
+| Java Play Framework |  |
 | NancyFX |  |
 | NodeJS | @kolyjjj (2016/05/01) |  
 | PHP Lumen | @abcsum (2016/05/01) |
@@ -1002,9 +1010,11 @@ Here is a list of template creators:
    * Java MSF4J: @sanjeewa-malalgoda
    * Java Spring Boot: @diyfr
    * Java Undertow: @stevehu
+   * Java Play Framework: @JFCote
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
+   * JAX-RS RestEasy (JBoss EAP): @jfiala
    * PHP Lumen: @abcsum
    * PHP Slim: @jfastnacht
    * PHP Zend Expressive (with Path Handler): @Articus
@@ -1073,3 +1083,4 @@ limitations under the License.
 
 ---
 <img src="http://swagger.io/wp-content/uploads/2016/02/logo.jpg"/>
+

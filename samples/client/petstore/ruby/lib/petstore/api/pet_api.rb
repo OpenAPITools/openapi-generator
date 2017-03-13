@@ -41,7 +41,7 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.add_pet" if body.nil?
       # resource path
-      local_var_path = "/pet".sub('{format}','json')
+      local_var_path = "/pet"
 
       # query parameters
       query_params = {}
@@ -95,7 +95,7 @@ module Petstore
       # verify the required parameter 'pet_id' is set
       fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.delete_pet" if pet_id.nil?
       # resource path
-      local_var_path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}".sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
@@ -146,7 +146,7 @@ module Petstore
       # verify the required parameter 'status' is set
       fail ArgumentError, "Missing the required parameter 'status' when calling PetApi.find_pets_by_status" if status.nil?
       # resource path
-      local_var_path = "/pet/findByStatus".sub('{format}','json')
+      local_var_path = "/pet/findByStatus"
 
       # query parameters
       query_params = {}
@@ -198,7 +198,7 @@ module Petstore
       # verify the required parameter 'tags' is set
       fail ArgumentError, "Missing the required parameter 'tags' when calling PetApi.find_pets_by_tags" if tags.nil?
       # resource path
-      local_var_path = "/pet/findByTags".sub('{format}','json')
+      local_var_path = "/pet/findByTags"
 
       # query parameters
       query_params = {}
@@ -250,7 +250,7 @@ module Petstore
       # verify the required parameter 'pet_id' is set
       fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id" if pet_id.nil?
       # resource path
-      local_var_path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}".sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
@@ -301,7 +301,7 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.update_pet" if body.nil?
       # resource path
-      local_var_path = "/pet".sub('{format}','json')
+      local_var_path = "/pet"
 
       # query parameters
       query_params = {}
@@ -357,7 +357,7 @@ module Petstore
       # verify the required parameter 'pet_id' is set
       fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.update_pet_with_form" if pet_id.nil?
       # resource path
-      local_var_path = "/pet/{petId}".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}".sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}
@@ -415,7 +415,7 @@ module Petstore
       # verify the required parameter 'pet_id' is set
       fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.upload_file" if pet_id.nil?
       # resource path
-      local_var_path = "/pet/{petId}/uploadImage".sub('{format}','json').sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = "/pet/{petId}/uploadImage".sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}

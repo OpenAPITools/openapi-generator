@@ -318,6 +318,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             typeMapping.put("array", "java.util.List");
             typeMapping.put("map", "java.util.Map");
             typeMapping.put("DateTime", "java.util.Date");
+            typeMapping.put("UUID", "java.util.UUID");
             typeMapping.remove("List");
             importMapping.remove("Date");
             importMapping.remove("Map");
@@ -327,6 +328,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importMapping.remove("List");
             importMapping.remove("Set");
             importMapping.remove("DateTime");
+            importMapping.remove("UUID");
             instantiationTypes.put("array", "java.util.ArrayList");
             instantiationTypes.put("map", "java.util.HashMap");
         }

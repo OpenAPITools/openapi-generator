@@ -267,9 +267,9 @@ open class UserAPI: APIBase {
   "firstName" : "aeiou",
   "lastName" : "aeiou",
   "password" : "aeiou",
-  "userStatus" : 123,
+  "userStatus" : 5,
   "phone" : "aeiou",
-  "id" : 123456789,
+  "id" : 0,
   "email" : "aeiou",
   "username" : "aeiou"
 }}]
@@ -286,9 +286,9 @@ open class UserAPI: APIBase {
   "firstName" : "aeiou",
   "lastName" : "aeiou",
   "password" : "aeiou",
-  "userStatus" : 123,
+  "userStatus" : 5,
   "phone" : "aeiou",
-  "id" : 123456789,
+  "id" : 0,
   "email" : "aeiou",
   "username" : "aeiou"
 }}]

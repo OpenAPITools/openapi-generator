@@ -148,7 +148,6 @@
   {{/apis}}
   {{/apiInfo}}
 
-  <div class="up"><a href="#__Models">Up</a></div>
   <h2><a name="__Models">Models</a></h2>
   [ Jump to <a href="#__Methods">Methods</a> ]
 
@@ -156,7 +155,7 @@
   <ol>
   {{#models}}
   {{#model}}
-    <li><a href="#{{name}}"><code>{{name}}</code></a></li>
+    <li><a href="#{{name}}"><code>{{name}}</code>{{#title}} - {{title}}{{/title}}</a></li>
   {{/model}}
   {{/models}}
   </ol>
@@ -164,8 +163,8 @@
   {{#models}}
   {{#model}}
   <div class="model">
-    <h3 class="field-label"><a name="{{name}}">{{name}} - {{title}}</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class='model-description'>{{unescapedDescription}}</div>
+    <h3><a name="{{name}}"><code>{{name}}</code>{{#title}} - {{title}}{{/title}}</a> <a class="up" href="#__Models">Up</a></h3>
+    {{#unescapedDescription}}<div class='model-description'>{{unescapedDescription}}</div>{{/unescapedDescription}}
     <div class="field-items">
       {{#vars}}<div class="param">{{name}} {{^required}}(optional){{/required}}</div><div class="param-desc"><span class="param-type">{{^isPrimitiveType}}<a href="#{{complexType}}">{{datatype}}</a>{{/isPrimitiveType}}</span> {{unescapedDescription}} {{#dataFormat}}format: {{{dataFormat}}}{{/dataFormat}}</div>
       {{#isEnum}}

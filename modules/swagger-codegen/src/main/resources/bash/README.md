@@ -28,7 +28,7 @@ $ git clone https://github.com/swagger-api/swagger-codegen
 
 Build the codegen:
 ```shell
-$ mvn assembly:assembly -DdescriptorId=jar-with-dependencies
+$ mvn package
 ```
 
 Define custom codegen properties in a Json file, e.g.:
@@ -47,14 +47,15 @@ Define custom codegen properties in a Json file, e.g.:
 
 Generate the client:
 ```shell
-$ java -cp target/bash-swagger-codegen-1.0.0.jar io.swagger.codegen.SwaggerCodegen generate -l bash -i http://petstore.swagger.io/v2/swagger.json -o output -c resources/example-config.json
+$ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i http://petstore.swagger.io/v2/swagger.json -l bash -o generated/bash/petstore -c modules/swagger-codegen/src/test/resources/2_0/bash-config.json
 
-$ chmod +x output/petstore-cli
+$ chmod +x generated/bash/petstore/petstore-cli
 ```
 
 Enjoy:
 ```shell
-$ output/petstore-cli -h
+$ cd generated/bash/petstore
+$ ./petstore-cli -h
 
 Swagger Petstore command line client (API version 1.0.0)
 

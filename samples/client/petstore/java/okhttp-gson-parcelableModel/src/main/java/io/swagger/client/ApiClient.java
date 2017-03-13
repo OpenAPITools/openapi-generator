@@ -75,7 +75,17 @@ public class ApiClient {
 
 
         verifyingSsl = true;
-        json = new JSON();
+
+        json = new JSON(this);
+
+        /*
+         * Use RFC3339 format for date and datetime.
+         * See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
+         */
+        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // Always use UTC as the default time zone when dealing with date (without time).
+        this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        initDatetimeFormat();
 
         // Set default User-Agent.
         setUserAgent("Swagger-Codegen/1.0.0/java");

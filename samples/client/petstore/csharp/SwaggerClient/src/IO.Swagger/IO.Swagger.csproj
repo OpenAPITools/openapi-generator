@@ -11,7 +11,7 @@ Contact: apiteam@swagger.io
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{883BBE2E-9469-4541-A7E5-BE20571E9306}</ProjectGuid>
+    <ProjectGuid>{1289047F-8FA6-4CE8-A8F2-90F14016B774}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IO.Swagger</RootNamespace>

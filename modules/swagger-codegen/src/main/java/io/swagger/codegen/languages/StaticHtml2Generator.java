@@ -1,15 +1,24 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenResponse;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.models.Info;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
-import io.swagger.models.Info;
 
 import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -113,6 +122,11 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             op.httpMethod = op.httpMethod.toLowerCase();
+            for (CodegenResponse response : op.responses){
+                if ("0".equals(response.code)){
+                    response.code = "default";
+                }
+            }
         }
         return objs;
     }
@@ -158,7 +172,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         CodegenParameter lastRequired = null;
         CodegenParameter lastOptional = null;
         for (CodegenParameter p : op.allParams) {
-            if (p.required != null && p.required) {
+            if (p.required) {
                 lastRequired = p;
             } else {
                 lastOptional = p;

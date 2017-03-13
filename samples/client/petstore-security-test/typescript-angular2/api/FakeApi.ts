@@ -19,7 +19,7 @@ import { Observable }                                        from 'rxjs/Observab
 import 'rxjs/add/operator/map';
 
 import * as models                                           from '../model/models';
-import { BASE_PATH }                                         from '../variables';
+import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 /* tslint:disable:no-unused-variable member-ordering */
@@ -38,21 +38,6 @@ export class FakeApi {
         if (configuration) {
             this.configuration = configuration;
         }
-    }
-
-    /**
-     * 
-     * Extends object by coping non-existing properties.
-     * @param objA object to be extended
-     * @param objB source object
-     */
-    private extendObj<T1,T2>(objA: T1, objB: T2) {
-        for(let key in objB){
-            if(objB.hasOwnProperty(key)){
-                (objA as any)[key] = (objB as any)[key];
-            }
-        }
-        return <T1&T2>objA;
     }
 
     /**
@@ -84,8 +69,6 @@ export class FakeApi {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
         let formParams = new URLSearchParams();
 
-
-
         // to determine the Content-Type header
         let consumes: string[] = [
             'application/json', 
@@ -97,13 +80,11 @@ export class FakeApi {
             'application/json', 
             '*_/   =end --       '
         ];
-        
-            
+
         headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
-
         if (test code inject * &#39; &quot; &#x3D;end  rn n r !== undefined) {
-            formParams.set('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', <any>test code inject * &#39; &quot; &#x3D;end  rn n r); 
+            formParams.set('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', <any>test code inject * &#39; &quot; &#x3D;end  rn n r);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -112,10 +93,10 @@ export class FakeApi {
             body: formParams.toString(),
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);

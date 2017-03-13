@@ -129,9 +129,6 @@ class UserApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
 
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         // body params
         $_tempBody = null;
         if (isset($body)) {
@@ -207,9 +204,6 @@ class UserApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
 
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         // body params
         $_tempBody = null;
         if (isset($body)) {
@@ -284,9 +278,6 @@ class UserApi
             $headerParams['Accept'] = $_header_accept;
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
-
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
 
         // body params
         $_tempBody = null;
@@ -371,9 +362,6 @@ class UserApi
                 $resourcePath
             );
         }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -452,9 +440,6 @@ class UserApi
                 $resourcePath
             );
         }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -543,9 +528,6 @@ class UserApi
         if ($password !== null) {
             $queryParams['password'] = $this->apiClient->getSerializer()->toQueryValue($password);
         }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         
         // for model (json/xml)
         if (isset($_tempBody)) {
@@ -613,9 +595,6 @@ class UserApi
             $headerParams['Accept'] = $_header_accept;
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
-
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
 
         
         // for model (json/xml)
@@ -701,9 +680,6 @@ class UserApi
                 $resourcePath
             );
         }
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         // body params
         $_tempBody = null;
         if (isset($body)) {

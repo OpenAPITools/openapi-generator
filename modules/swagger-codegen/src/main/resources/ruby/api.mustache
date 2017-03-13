@@ -108,7 +108,7 @@ module {{moduleName}}
       {{/hasValidation}}
       {{/allParams}}
       # resource path
-      local_var_path = "{{{path}}}".sub('{format}','json'){{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
+      local_var_path = "{{{path}}}"{{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
 
       # query parameters
       query_params = {}

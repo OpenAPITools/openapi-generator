@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
+import io.swagger.codegen.languages.features.GzipFeatures;
 import io.swagger.codegen.languages.features.PerformBeanValidationFeatures;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,13 +14,17 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures,
+                   GzipFeatures
+{
     static final String MEDIA_TYPE = "mediaType";
 
-	@SuppressWarnings("hiding")
+    @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
+    public static final String USE_RX_JAVA2 = "useRxJava2";
+    public static final String DO_NOT_USE_RX = "doNotUseRx";
     public static final String USE_PLAY24_WS = "usePlay24WS";
     public static final String PARCELABLE_MODEL = "parcelableModel";
 
@@ -28,10 +33,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
+    protected boolean useRxJava2 = false;
+    protected boolean doNotUseRx = true; // backwards compatibility for swagger configs that specify neither rx1 nor rx2 (mustache does not allow for boolean operators so we need this extra field)
     protected boolean usePlay24WS = false;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
+    protected boolean useGzipFeature = false;
 
     public JavaClientCodegen() {
         super();
@@ -43,18 +51,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         modelPackage = "io.swagger.client.model";
 
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY24_WS, "Use Play! 2.4 Async HTTP client (Play WS API)"));
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library."));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
+        cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
 
-        supportedLibraries.put("jersey1", "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0. Enable Java6 support using '-DsupportJava6=true'.");
+        supportedLibraries.put("jersey1", "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put("feign", "HTTP client: Netflix Feign 8.16.0. JSON processing: Jackson 2.7.0");
         supportedLibraries.put("jersey2", "HTTP client: Jersey client 2.22.2. JSON processing: Jackson 2.7.0");
-        supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.6.2. Enable Parcelable modles on Android using '-DparcelableModel=true'");
+        supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.6.2. Enable Parcelable modles on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
-        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.2.0. JSON processing: Gson 2.6.1 (Retrofit 2.0.2). Enable the RxJava adapter using '-DuseRxJava=true'. (RxJava 1.1.3)");
+        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.2.0. JSON processing: Gson 2.6.1 (Retrofit 2.0.2). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -84,8 +94,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(USE_RX_JAVA)) {
+        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
+            LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
+        } else if (additionalProperties.containsKey(USE_RX_JAVA)) {
             this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+        }
+        if (additionalProperties.containsKey(USE_RX_JAVA2)) {
+            this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+        }
+        if (!useRxJava && !useRxJava2) {
+            additionalProperties.put(DO_NOT_USE_RX, true);
         }
         if (additionalProperties.containsKey(USE_PLAY24_WS)) {
             this.setUsePlay24WS(Boolean.valueOf(additionalProperties.get(USE_PLAY24_WS).toString()));
@@ -104,6 +122,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
             this.setPerformBeanValidation(convertPropertyToBooleanAndWriteBack(PERFORM_BEANVALIDATION));
+        }
+
+        if (additionalProperties.containsKey(USE_GZIP_FEATURE)) {
+            this.setUseGzipFeature(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -161,6 +183,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
+            supportingFiles.add(new SupportingFile("GzipRequestInterceptor.mustache", invokerFolder, "GzipRequestInterceptor.java"));
             additionalProperties.put("gson", "true");
         } else if (usesAnyRetrofitLibrary()) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
@@ -233,7 +256,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                         if ( isMultipartType(operation.consumes) ) { 
                             operation.isMultipart = Boolean.TRUE;
-                        }	
+                        }
                         else {
                             operation.prioritizedContentTypes = prioritizeContentTypes(operation.consumes);
                         }
@@ -341,6 +364,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseRxJava(boolean useRxJava) {
         this.useRxJava = useRxJava;
+        doNotUseRx = false;
+    }
+
+    public void setUseRxJava2(boolean useRxJava2) {
+        this.useRxJava2 = useRxJava2;
+        doNotUseRx = false;
+    }
+
+    public void setDoNotUseRx(boolean doNotUseRx) {
+        this.doNotUseRx = doNotUseRx;
     }
 
     public void setUsePlay24WS(boolean usePlay24WS) {
@@ -358,6 +391,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setPerformBeanValidation(boolean performBeanValidation) {
         this.performBeanValidation = performBeanValidation;
+    }
+
+    public void setUseGzipFeature(boolean useGzipFeature) {
+        this.useGzipFeature = useGzipFeature;
     }
 
     final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");

@@ -1,29 +1,31 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.properties.*;
-import io.swagger.models.parameters.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
+import io.swagger.models.parameters.BodyParameter;
+import io.swagger.models.parameters.Parameter;
+import io.swagger.models.parameters.SerializableParameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
-
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import java.util.HashMap;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.*;
-import java.io.File;
-
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Set;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -194,29 +196,22 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   @Override
   public void processOpts() {
       super.processOpts();
-      String curlopts = "";
 
       if (additionalProperties.containsKey(CURL_OPTIONS)) {
           setCurlOptions(additionalProperties.get(CURL_OPTIONS).toString());
-          additionalProperties.put("x-codegen-curl-options", curlopts);
+          additionalProperties.put("x-codegen-curl-options", this.curlOptions);
       }
 
       if (additionalProperties.containsKey(PROCESS_MARKDOWN)) {
-        setProcessMarkdown(
-          Boolean.parseBoolean(
-            additionalProperties.get(PROCESS_MARKDOWN).toString()));
+          setProcessMarkdown(convertPropertyToBooleanAndWriteBack(PROCESS_MARKDOWN));
       }
 
       if (additionalProperties.containsKey(GENERATE_BASH_COMPLETION)) {
-        setGenerateBashCompletion(
-          Boolean.parseBoolean(
-            additionalProperties.get(GENERATE_BASH_COMPLETION).toString()));
+          setGenerateBashCompletion(convertPropertyToBooleanAndWriteBack(GENERATE_BASH_COMPLETION));
       }
 
       if (additionalProperties.containsKey(GENERATE_ZSH_COMPLETION)) {
-        setGenerateZshCompletion(
-          Boolean.parseBoolean(
-            additionalProperties.get(GENERATE_ZSH_COMPLETION).toString()));
+          setGenerateZshCompletion(convertPropertyToBooleanAndWriteBack(GENERATE_ZSH_COMPLETION));
       }
 
       if (additionalProperties.containsKey(SCRIPT_NAME)) {
@@ -578,16 +573,17 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         List codesamples = (List)op.vendorExtensions.get("x-code-samples");
 
         for (Object codesample : codesamples) {
-          ObjectNode codesample_object = (ObjectNode)codesample;
+            if(codesample instanceof ObjectNode) {
+                ObjectNode codesample_object = (ObjectNode) codesample;
 
-          if((codesample_object.get("lang").asText()).equals("Shell")) {
+                if ((codesample_object.get("lang").asText()).equals("Shell")) {
 
-            op.vendorExtensions.put("x-bash-codegen-sample",
-              escapeUnsafeCharacters(
-                codesample_object.get("source").asText()));
+                    op.vendorExtensions.put("x-bash-codegen-sample",
+                            escapeUnsafeCharacters(
+                                    codesample_object.get("source").asText()));
 
-          }
-
+                }
+            }
         }
       }
 
