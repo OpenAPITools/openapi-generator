@@ -54,12 +54,19 @@ public class FakeClassnameTags123Api {
         this.apiClient = apiClient;
     }
 
-    /* Build call for testClassname */
-    private com.squareup.okhttp.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    /**
+     * Build call for testClassname
+     * @param body client model (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/fake_classname_test".replaceAll("\\{format\\}","json");
+        String localVarPath = "/fake_classname_test";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 

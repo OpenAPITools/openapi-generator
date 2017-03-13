@@ -6,7 +6,7 @@ RUN apt-get install -y bash-completion zsh curl cowsay git vim bsdmainutils
 ADD petstore-cli /usr/bin/petstore-cli
 ADD _petstore-cli /usr/local/share/zsh/site-functions/_petstore-cli
 ADD petstore-cli.bash-completion /etc/bash-completion.d/petstore-cli
-
+RUN chmod 755 /usr/bin/petstore-cli
 
 #
 # Install oh-my-zsh

@@ -35,16 +35,16 @@ exports.findPetsByStatus = function(args, res, next) {
   examples['application/json'] = [ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 8,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 9
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 8
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ];
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -66,16 +66,16 @@ exports.findPetsByTags = function(args, res, next) {
   examples['application/json'] = [ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 1,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 4
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ];
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -97,16 +97,16 @@ exports.getPetById = function(args, res, next) {
   examples['application/json'] = {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 9,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 5
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 };
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -152,7 +152,7 @@ exports.uploadFile = function(args, res, next) {
    **/
   var examples = {};
   examples['application/json'] = {
-  "code" : 123,
+  "code" : 1,
   "type" : "aeiou",
   "message" : "aeiou"
 };

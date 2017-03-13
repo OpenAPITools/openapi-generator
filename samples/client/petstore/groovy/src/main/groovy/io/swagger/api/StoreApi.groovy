@@ -16,7 +16,7 @@ class StoreApi {
     String versionPath = "/api/v1"
 
     def deleteOrder ( String orderId, Closure onSuccess, Closure onFailure)  {
-        // create path and map variables
+        // create path and map path parameters (TODO)
         String resourcePath = "/store/order/{orderId}"
 
         // query params
@@ -30,13 +30,15 @@ class StoreApi {
 
         
 
+        // Also still TODO: form params, body param
+
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "DELETE", "",
                     null )
                     
     }
     def getInventory ( Closure onSuccess, Closure onFailure)  {
-        // create path and map variables
+        // create path and map path parameters (TODO)
         String resourcePath = "/store/inventory"
 
         // query params
@@ -46,13 +48,15 @@ class StoreApi {
 
         
 
+        // Also still TODO: form params, body param
+
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "map",
                     Map.class )
                     
     }
     def getOrderById ( Long orderId, Closure onSuccess, Closure onFailure)  {
-        // create path and map variables
+        // create path and map path parameters (TODO)
         String resourcePath = "/store/order/{orderId}"
 
         // query params
@@ -66,13 +70,15 @@ class StoreApi {
 
         
 
+        // Also still TODO: form params, body param
+
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "",
                     Order.class )
                     
     }
     def placeOrder ( Order body, Closure onSuccess, Closure onFailure)  {
-        // create path and map variables
+        // create path and map path parameters (TODO)
         String resourcePath = "/store/order"
 
         // query params
@@ -85,6 +91,8 @@ class StoreApi {
         }
 
         
+
+        // Also still TODO: form params, body param
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "POST", "",

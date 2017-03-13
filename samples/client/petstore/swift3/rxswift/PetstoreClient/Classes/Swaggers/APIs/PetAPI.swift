@@ -193,16 +193,16 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 6,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      - examples: [{contentType=application/xml, example=<Pet>
   <id>123456789</id>
@@ -216,16 +216,16 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 6,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      
      - parameter status: (query) Status values that need to be considered for filter 
@@ -299,16 +299,16 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 2,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      - examples: [{contentType=application/xml, example=<Pet>
   <id>123456789</id>
@@ -322,16 +322,16 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 2,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 2
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}]
      
      - parameter tags: (query) Tags to filter by 
@@ -405,16 +405,16 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 8,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 7
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 7
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 }}]
      - examples: [{contentType=application/xml, example=<Pet>
   <id>123456789</id>
@@ -428,16 +428,16 @@ open class PetAPI: APIBase {
 </Pet>}, {contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 8,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 7
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 7
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 }}]
      
      - parameter petId: (path) ID of pet to return 
@@ -629,7 +629,7 @@ open class PetAPI: APIBase {
        - type: oauth2
        - name: petstore_auth
      - examples: [{contentType=application/json, example={
-  "code" : 123,
+  "code" : 9,
   "type" : "aeiou",
   "message" : "aeiou"
 }}]

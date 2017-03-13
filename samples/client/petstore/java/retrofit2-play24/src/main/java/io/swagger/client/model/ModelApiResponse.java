@@ -43,7 +43,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getCode() {
     return code;
   }
@@ -61,7 +61,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getType() {
     return type;
   }
@@ -79,7 +79,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getMessage() {
     return message;
   }

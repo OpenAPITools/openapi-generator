@@ -71,7 +71,7 @@ public class StoreApi {
     }
 
     // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+    String path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -190,7 +190,7 @@ public class StoreApi {
     Object postBody = null;
 
     // create path and map variables
-    String path = "/store/inventory".replaceAll("\\{format\\}","json");
+    String path = "/store/inventory";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -313,7 +313,7 @@ public class StoreApi {
     }
 
     // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
+    String path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -437,7 +437,7 @@ public class StoreApi {
     Object postBody = body;
 
     // create path and map variables
-    String path = "/store/order".replaceAll("\\{format\\}","json");
+    String path = "/store/order";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();

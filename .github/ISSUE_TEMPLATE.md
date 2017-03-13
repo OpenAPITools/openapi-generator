@@ -14,17 +14,17 @@ Also please indicate in the issue title which language/library is concerned. Eg:
 ##### Swagger declaration file content or url
 
 <!-- if it is a bug, a json or yaml that produces it.
-    If you post the code inline, please wrap it with
-    ```yaml
-    (here your code)
-    ```
-    (for YAML code) or
-    ```json
-    (here your code)
-    ```
-    (for JSON code), so it becomes more readable. If it is longer than about ten lines,
-    please create a Gist (https://gist.github.com) or upload it somewhere else and
-    link it here.
+If you post the code inline, please wrap it with
+```yaml
+(here your code)
+```
+(for YAML code) or
+```json
+(here your code)
+```
+(for JSON code), so it becomes more readable. If it is longer than about ten lines,
+please create a Gist (https://gist.github.com) or upload it somewhere else and
+link it here.
   -->
 
 ##### Command line used for generation

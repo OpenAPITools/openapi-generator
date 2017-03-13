@@ -184,9 +184,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(UNWRAP_REQUIRED)) {
-            setUnwrapRequired(Boolean.parseBoolean(String.valueOf(additionalProperties.get(UNWRAP_REQUIRED))));
+            setUnwrapRequired(convertPropertyToBooleanAndWriteBack(UNWRAP_REQUIRED));
         }
-        additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
 
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(RESPONSE_AS)) {
@@ -207,9 +206,8 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
         // Setup swiftUseApiNamespace option, which makes all the API classes inner-class of {{projectName}}API
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
-            swiftUseApiNamespace = Boolean.parseBoolean(String.valueOf(additionalProperties.get(SWIFT_USE_API_NAMESPACE)));
+            setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
         }
-        additionalProperties.put(SWIFT_USE_API_NAMESPACE, swiftUseApiNamespace);
 
         if (!additionalProperties.containsKey(POD_AUTHORS)) {
             additionalProperties.put(POD_AUTHORS, DEFAULT_POD_AUTHORS);
@@ -529,6 +527,10 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setResponseAs(String[] responseAs) {
         this.responseAs = responseAs;
+    }
+
+    public void setSwiftUseApiNamespace(boolean swiftUseApiNamespace) {
+        this.swiftUseApiNamespace = swiftUseApiNamespace;
     }
 
     @Override

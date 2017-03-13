@@ -83,7 +83,6 @@ sub delete_order {
 
     # parse inputs
     my $_resource_path = '/store/order/{orderId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'DELETE';
     my $query_params = {};
@@ -136,7 +135,6 @@ sub get_inventory {
 
     # parse inputs
     my $_resource_path = '/store/inventory';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -197,7 +195,6 @@ sub get_order_by_id {
 
     # parse inputs
     my $_resource_path = '/store/order/{orderId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -265,7 +262,6 @@ sub place_order {
 
     # parse inputs
     my $_resource_path = '/store/order';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};

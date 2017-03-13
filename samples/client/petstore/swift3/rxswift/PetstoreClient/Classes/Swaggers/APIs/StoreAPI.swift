@@ -104,7 +104,7 @@ open class StoreAPI: APIBase {
        - type: apiKey api_key 
        - name: api_key
      - examples: [{contentType=application/json, example={
-  "key" : 123
+  "key" : 9
 }}]
 
      - returns: RequestBuilder<[String:Int32]> 
@@ -166,12 +166,12 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 0,
+  "quantity" : 0,
+  "id" : 2,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 }}]
      - examples: [{contentType=application/xml, example=<Order>
   <id>123456789</id>
@@ -181,12 +181,12 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 0,
+  "quantity" : 0,
+  "id" : 2,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 }}]
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
@@ -251,12 +251,12 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 4,
+  "quantity" : 3,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 }}]
      - examples: [{contentType=application/xml, example=<Order>
   <id>123456789</id>
@@ -266,12 +266,12 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 4,
+  "quantity" : 3,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 }}]
      
      - parameter body: (body) order placed for purchasing the pet 

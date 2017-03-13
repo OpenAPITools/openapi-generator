@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -519,7 +520,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+                if (Pattern.compile("\r\n|\r|\n").matcher(dp.getDefault()).find())
+                    return "'''" + dp.getDefault() + "'''";
+                else
+                    return "'" + dp.getDefault() + "'";
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;

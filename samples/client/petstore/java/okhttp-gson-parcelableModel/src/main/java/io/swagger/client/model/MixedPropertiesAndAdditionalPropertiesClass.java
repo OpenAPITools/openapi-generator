@@ -49,7 +49,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get uuid
    * @return uuid
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public UUID getUuid() {
     return uuid;
   }
@@ -67,7 +67,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get dateTime
    * @return dateTime
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -90,7 +90,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get map
    * @return map
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Map<String, Animal> getMap() {
     return map;
   }
