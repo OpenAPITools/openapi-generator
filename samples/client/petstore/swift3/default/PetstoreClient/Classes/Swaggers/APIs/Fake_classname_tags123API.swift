@@ -16,9 +16,9 @@ open class Fake_classname_tags123API: APIBase {
      - parameter body: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClassname(body: Client, completion: @escaping ((_ data: Client?,_ error: ErrorResponse?) -> Void)) {
+    open class func testClassname(body: Client, completion: @escaping ((_ data: Client?, _ error: ErrorResponse?) -> Void)) {
         testClassnameWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
