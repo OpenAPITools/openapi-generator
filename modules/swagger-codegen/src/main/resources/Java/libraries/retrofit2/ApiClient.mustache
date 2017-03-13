@@ -51,17 +51,27 @@ public class ApiClient {
 
     public ApiClient(String[] authNames) {
         this();
-        for(String authName : authNames) { {{#hasAuthMethods}}
+        for(String authName : authNames) {
+            {{#hasAuthMethods}}
             Interceptor auth;
-            {{#authMethods}}if ("{{name}}".equals(authName)) { {{#isBasic}}
-                auth = new HttpBasicAuth();{{/isBasic}}{{#isApiKey}}
-                auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}{{#isOAuth}}
-                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");{{/isOAuth}}
+            {{#authMethods}}if ("{{name}}".equals(authName)) {
+            {{#isBasic}}
+                auth = new HttpBasicAuth();
+            {{/isBasic}}
+            {{#isApiKey}}
+                auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
+            {{/isApiKey}}
+            {{#isOAuth}}
+                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");
+            {{/isOAuth}}
             } else {{/authMethods}}{
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
-            addAuthorization(authName, auth);{{/hasAuthMethods}}{{^hasAuthMethods}}
-            throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");{{/hasAuthMethods}}
+            addAuthorization(authName, auth);
+            {{/hasAuthMethods}}
+            {{^hasAuthMethods}}
+            throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+            {{/hasAuthMethods}}
         }
     }
 
@@ -400,127 +410,3 @@ class GsonCustomConverterFactory extends Converter.Factory
             return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
     }
 }
-
-{{^java8}}
-/**
- * Gson TypeAdapter for Joda DateTime type
- */
-class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
-
-    private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
-    private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
-
-    @Override
-    public void write(JsonWriter out, DateTime date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(printFormatter.print(date));
-        }
-    }
-
-    @Override
-    public DateTime read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                return parseFormatter.parseDateTime(date);
-        }
-    }
-}
-
-/**
- * Gson TypeAdapter for Joda LocalDate type
- */
-class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
-
-    private final DateTimeFormatter formatter = ISODateTimeFormat.date();
-
-    @Override
-    public void write(JsonWriter out, LocalDate date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(formatter.print(date));
-        }
-    }
-
-    @Override
-    public LocalDate read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                return formatter.parseLocalDate(date);
-        }
-    }
-}
-{{/java8}}
-{{#java8}}
-/**
- * Gson TypeAdapter for jsr310 OffsetDateTime type
- */
-class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-
-    @Override
-    public void write(JsonWriter out, OffsetDateTime date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(formatter.format(date));
-        }
-    }
-
-    @Override
-    public OffsetDateTime read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                if (date.endsWith("+0000")) {
-                    date = date.substring(0, date.length()-5) + "Z";
-                }
-
-                return OffsetDateTime.parse(date, formatter);
-        }
-    }
-}
-
-/**
- * Gson TypeAdapter for jsr310 LocalDate type
- */
-class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-
-    @Override
-    public void write(JsonWriter out, LocalDate date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(formatter.format(date));
-        }
-    }
-
-    @Override
-    public LocalDate read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                return LocalDate.parse(date, formatter);
-        }
-    }
-}
-{{/java8}}
