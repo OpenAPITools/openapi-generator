@@ -167,3 +167,4 @@
   ([username ] (update-user username nil))
   ([username optional-params]
    (:data (update-user-with-http-info username optional-params))))
+

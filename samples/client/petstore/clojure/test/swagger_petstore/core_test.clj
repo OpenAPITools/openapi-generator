@@ -11,11 +11,7 @@
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
             :debug           false
             :auths           {"api_key"       nil
-                              "petstore_auth" nil
-                              "test_api_client_id" nil
-                              "test_api_client_secret" nil
-                              "test_api_key_query" nil
-                              "test_api_key_header" nil}}
+                              "petstore_auth" nil}}
            default-api-context
            *api-context*
            (with-api-context {}
@@ -50,11 +46,7 @@
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
             :debug           false
             :auths           {"api_key"       nil
-                              "petstore_auth" nil
-                              "test_api_client_id" nil
-                              "test_api_client_secret" nil
-                              "test_api_key_query" nil
-                              "test_api_key_header" nil}}
+                              "petstore_auth" nil}}
            default-api-context
            *api-context*))))
 
