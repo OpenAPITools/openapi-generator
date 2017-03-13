@@ -41,13 +41,13 @@ public class ApiClient {
 
     public ApiClient(String[] authNames) {
         this();
-        for(String authName : authNames) { 
+        for(String authName : authNames) {
             Interceptor auth;
-            if ("api_key".equals(authName)) { 
+            if ("api_key".equals(authName)) {
                 auth = new ApiKeyAuth("header", "api_key");
-            } else if ("http_basic_test".equals(authName)) { 
+            } else if ("http_basic_test".equals(authName)) {
                 auth = new HttpBasicAuth();
-            } else if ("petstore_auth".equals(authName)) { 
+            } else if ("petstore_auth".equals(authName)) {
                 auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
             } else {
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -373,64 +373,5 @@ class GsonCustomConverterFactory extends Converter.Factory
     @Override
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
             return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
-    }
-}
-
-/**
- * Gson TypeAdapter for Joda DateTime type
- */
-class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
-
-    private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
-    private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
-
-    @Override
-    public void write(JsonWriter out, DateTime date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(printFormatter.print(date));
-        }
-    }
-
-    @Override
-    public DateTime read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                return parseFormatter.parseDateTime(date);
-        }
-    }
-}
-
-/**
- * Gson TypeAdapter for Joda LocalDate type
- */
-class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
-
-    private final DateTimeFormatter formatter = ISODateTimeFormat.date();
-
-    @Override
-    public void write(JsonWriter out, LocalDate date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(formatter.print(date));
-        }
-    }
-
-    @Override
-    public LocalDate read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                return formatter.parseLocalDate(date);
-        }
     }
 }
