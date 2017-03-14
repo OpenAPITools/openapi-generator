@@ -47,12 +47,12 @@ exports.getOrderById = function(orderId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "id" : 123456789,
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "complete" : true,
+  "status" : "aeiou"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -74,12 +74,12 @@ exports.placeOrder = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "id" : 123456789,
   "petId" : 123456789,
-  "complete" : true,
-  "status" : "aeiou",
   "quantity" : 123,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+  "id" : 123456789,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "complete" : true,
+  "status" : "aeiou"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

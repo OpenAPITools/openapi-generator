@@ -112,8 +112,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "available",
-            "enum" : [ "available", "pending", "sold" ]
+            "enum" : [ "available", "pending", "sold" ],
+            "default" : "available"
           },
           "collectionFormat" : "csv"
         } ],
@@ -395,8 +395,8 @@
           "description" : "ID of pet that needs to be fetched",
           "required" : true,
           "type" : "integer",
-          "maximum" : 5.0,
-          "minimum" : 1.0,
+          "maximum" : 5,
+          "minimum" : 1,
           "format" : "int64"
         } ],
         "responses" : {
@@ -427,8 +427,7 @@
           "in" : "path",
           "description" : "ID of the order that needs to be deleted",
           "required" : true,
-          "type" : "string",
-          "minimum" : 1.0
+          "type" : "string"
         } ],
         "responses" : {
           "400" : {
@@ -677,11 +676,6 @@
     }
   },
   "securityDefinitions" : {
-    "api_key" : {
-      "type" : "apiKey",
-      "name" : "api_key",
-      "in" : "header"
-    },
     "petstore_auth" : {
       "type" : "oauth2",
       "authorizationUrl" : "http://petstore.swagger.io/api/oauth/dialog",
@@ -690,6 +684,11 @@
         "write:pets" : "modify pets in your account",
         "read:pets" : "read your pets"
       }
+    },
+    "api_key" : {
+      "type" : "apiKey",
+      "name" : "api_key",
+      "in" : "header"
     }
   },
   "definitions" : {

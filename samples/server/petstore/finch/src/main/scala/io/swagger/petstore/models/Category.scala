@@ -8,18 +8,17 @@ import io.swagger.petstore._
 
 /**
  * A category for a pet
- * @param id
- * @param name
+ * @param id 
+ * @param name 
  */
-case class Category(
-  id: Option[Long],
-  name: Option[String]
-)
+case class Category(id: Option[Long],
+                name: Option[String]
+                )
 
 object Category {
-  /**
-   * Creates the codec for converting Category from and to JSON.
-   */
-  implicit val decoder: Decoder[Category] = deriveDecoder
-  implicit val encoder: ObjectEncoder[Category] = deriveEncoder
+    /**
+     * Creates the codec for converting Category from and to JSON.
+     */
+    implicit val decoder: Decoder[Category] = deriveDecoder
+    implicit val encoder: ObjectEncoder[Category] = deriveEncoder
 }

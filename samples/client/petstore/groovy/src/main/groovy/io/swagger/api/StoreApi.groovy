@@ -5,6 +5,7 @@ import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 import io.swagger.api.ApiUtils
 
+import io.swagger.model.Map
 import io.swagger.model.Order
 
 import java.util.*;
