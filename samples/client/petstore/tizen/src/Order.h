@@ -1,23 +1,7 @@
 /*
- * Copyright (c) 2016 Samsung Electronics Co., Ltd All Rights Reserved
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/*
  * Order.h
  *
- * 
+ * An order for a pets from the pet store
  */
 
 #ifndef _Order_H_
@@ -31,7 +15,7 @@ namespace Tizen {
 namespace ArtikCloud {
 
 
-/*! \brief 
+/*! \brief An order for a pets from the pet store
  *
  */
 
@@ -41,7 +25,7 @@ public:
 	 */
 	Order();
 	Order(char* str);
-	
+
 	/*! \brief Destructor.
 	 */
 	virtual ~Order();
@@ -56,18 +40,18 @@ public:
 
 	/*! \brief Get 
 	 */
-	long getId();
+	long long getId();
 
 	/*! \brief Set 
 	 */
-	void setId(long  id);
+	void setId(long long  id);
 	/*! \brief Get 
 	 */
-	long getPetId();
+	long long getPetId();
 
 	/*! \brief Set 
 	 */
-	void setPetId(long  petId);
+	void setPetId(long long  petId);
 	/*! \brief Get 
 	 */
 	int getQuantity();
@@ -98,15 +82,15 @@ public:
 	void setComplete(bool  complete);
 
 private:
-	long id;
-	long petId;
+	long long id;
+	long long petId;
 	int quantity;
 	std::string shipDate;
 	std::string status;
 	bool complete;
 	void __init();
 	void __cleanup();
-	
+
 };
 }
 }

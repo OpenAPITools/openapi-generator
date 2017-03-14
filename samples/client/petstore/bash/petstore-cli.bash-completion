@@ -8,7 +8,7 @@
 # ! swagger-codegen (https://github.com/swagger-api/swagger-codegen)
 # ! FROM SWAGGER SPECIFICATION IN JSON.
 # !
-# ! Generated on: 2017-02-06T21:48:13.013+01:00
+# ! Generated on: 2017-03-13T18:03:04.084+01:00
 # !
 # !
 # ! System wide installation:
@@ -72,6 +72,7 @@ _petstore-cli()
     operations["testClientModel"]=1
     operations["testEndpointParameters"]=1
     operations["testEnumParameters"]=1
+    operations["testClassname"]=1
     operations["addPet"]=1
     operations["deletePet"]=1
     operations["findPetsByStatus"]=1
@@ -99,6 +100,7 @@ _petstore-cli()
     operation_parameters["testClientModel"]=""
     operation_parameters["testEndpointParameters"]=""
     operation_parameters["testEnumParameters"]="enum_query_string_array= enum_query_string= enum_query_integer= enum_header_string_array: enum_header_string: "
+    operation_parameters["testClassname"]=""
     operation_parameters["addPet"]=""
     operation_parameters["deletePet"]="petId= api_key: "
     operation_parameters["findPetsByStatus"]="status= "

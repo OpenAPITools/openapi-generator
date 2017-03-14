@@ -17,7 +17,7 @@ class User(Model):
         User - a model defined in Swagger
 
         :param id: The id of this User.
-        :type id: int
+        :type id: long
         :param username: The username of this User.
         :type username: str
         :param first_name: The first_name of this User.
@@ -34,7 +34,7 @@ class User(Model):
         :type user_status: int
         """
         self.swagger_types = {
-            'id': int,
+            'id': long,
             'username': str,
             'first_name': str,
             'last_name': str,
@@ -82,7 +82,7 @@ class User(Model):
         Gets the id of this User.
 
         :return: The id of this User.
-        :rtype: int
+        :rtype: long
         """
         return self._id
 
@@ -92,7 +92,7 @@ class User(Model):
         Sets the id of this User.
 
         :param id: The id of this User.
-        :type id: int
+        :type id: long
         """
 
         self._id = id

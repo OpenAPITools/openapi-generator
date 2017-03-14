@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2016 Samsung Electronics Co., Ltd All Rights Reserved
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #include <glib-object.h>
 #include <json-glib/json-glib.h>
 
@@ -236,7 +220,7 @@ bool deletePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void*
 }
 
 bool deletePetHelper(char * accessToken,
-	long petId, std::string apiKey, 
+	long long petId, std::string apiKey, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -268,7 +252,7 @@ bool deletePetHelper(char * accessToken,
 	s_petId.append("}");
 	pos = url.find(s_petId);
 	url.erase(pos, s_petId.length());
-	url.insert(pos, stringify(&petId, "long"));
+	url.insert(pos, stringify(&petId, "long long"));
 
 	//TODO: free memory of errormsg, memorystruct
 	MemoryStruct_s* p_chunk = new MemoryStruct_s();
@@ -316,7 +300,7 @@ bool deletePetHelper(char * accessToken,
 
 
 bool PetManager::deletePetAsync(char * accessToken,
-	long petId, std::string apiKey, 
+	long long petId, std::string apiKey, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
@@ -326,7 +310,7 @@ bool PetManager::deletePetAsync(char * accessToken,
 }
 
 bool PetManager::deletePetSync(char * accessToken,
-	long petId, std::string apiKey, 
+	long long petId, std::string apiKey, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
@@ -648,6 +632,13 @@ bool getPetByIdProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 			pJson = json_from_string(data, NULL);
 			jsonToValue(&out, pJson, "Pet", "Pet");
 			json_node_free(pJson);
+
+			if ("Pet" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
 		} else {
 			
 			out.fromJson(data);
@@ -675,7 +666,7 @@ bool getPetByIdProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 }
 
 bool getPetByIdHelper(char * accessToken,
-	long petId, 
+	long long petId, 
 	void(* handler)(Pet, Error, void* )
 	, void* userData, bool isAsync)
 {
@@ -704,7 +695,7 @@ bool getPetByIdHelper(char * accessToken,
 	s_petId.append("}");
 	pos = url.find(s_petId);
 	url.erase(pos, s_petId.length());
-	url.insert(pos, stringify(&petId, "long"));
+	url.insert(pos, stringify(&petId, "long long"));
 
 	//TODO: free memory of errormsg, memorystruct
 	MemoryStruct_s* p_chunk = new MemoryStruct_s();
@@ -752,7 +743,7 @@ bool getPetByIdHelper(char * accessToken,
 
 
 bool PetManager::getPetByIdAsync(char * accessToken,
-	long petId, 
+	long long petId, 
 	void(* handler)(Pet, Error, void* )
 	, void* userData)
 {
@@ -762,7 +753,7 @@ bool PetManager::getPetByIdAsync(char * accessToken,
 }
 
 bool PetManager::getPetByIdSync(char * accessToken,
-	long petId, 
+	long long petId, 
 	void(* handler)(Pet, Error, void* )
 	, void* userData)
 {
@@ -943,7 +934,7 @@ bool updatePetWithFormProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 }
 
 bool updatePetWithFormHelper(char * accessToken,
-	long petId, std::string name, std::string status, 
+	long long petId, std::string name, std::string status, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
 {
@@ -972,7 +963,7 @@ bool updatePetWithFormHelper(char * accessToken,
 	s_petId.append("}");
 	pos = url.find(s_petId);
 	url.erase(pos, s_petId.length());
-	url.insert(pos, stringify(&petId, "long"));
+	url.insert(pos, stringify(&petId, "long long"));
 
 	//TODO: free memory of errormsg, memorystruct
 	MemoryStruct_s* p_chunk = new MemoryStruct_s();
@@ -1020,7 +1011,7 @@ bool updatePetWithFormHelper(char * accessToken,
 
 
 bool PetManager::updatePetWithFormAsync(char * accessToken,
-	long petId, std::string name, std::string status, 
+	long long petId, std::string name, std::string status, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
@@ -1030,7 +1021,7 @@ bool PetManager::updatePetWithFormAsync(char * accessToken,
 }
 
 bool PetManager::updatePetWithFormSync(char * accessToken,
-	long petId, std::string name, std::string status, 
+	long long petId, std::string name, std::string status, 
 	
 	void(* handler)(Error, void* ) , void* userData)
 {
@@ -1062,6 +1053,13 @@ bool uploadFileProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 			pJson = json_from_string(data, NULL);
 			jsonToValue(&out, pJson, "ApiResponse", "ApiResponse");
 			json_node_free(pJson);
+
+			if ("ApiResponse" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
 		} else {
 			
 			out.fromJson(data);
@@ -1089,7 +1087,7 @@ bool uploadFileProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 }
 
 bool uploadFileHelper(char * accessToken,
-	long petId, std::string additionalMetadata, std::string file, 
+	long long petId, std::string additionalMetadata, std::string file, 
 	void(* handler)(ApiResponse, Error, void* )
 	, void* userData, bool isAsync)
 {
@@ -1118,7 +1116,7 @@ bool uploadFileHelper(char * accessToken,
 	s_petId.append("}");
 	pos = url.find(s_petId);
 	url.erase(pos, s_petId.length());
-	url.insert(pos, stringify(&petId, "long"));
+	url.insert(pos, stringify(&petId, "long long"));
 
 	//TODO: free memory of errormsg, memorystruct
 	MemoryStruct_s* p_chunk = new MemoryStruct_s();
@@ -1166,7 +1164,7 @@ bool uploadFileHelper(char * accessToken,
 
 
 bool PetManager::uploadFileAsync(char * accessToken,
-	long petId, std::string additionalMetadata, std::string file, 
+	long long petId, std::string additionalMetadata, std::string file, 
 	void(* handler)(ApiResponse, Error, void* )
 	, void* userData)
 {
@@ -1176,7 +1174,7 @@ bool PetManager::uploadFileAsync(char * accessToken,
 }
 
 bool PetManager::uploadFileSync(char * accessToken,
-	long petId, std::string additionalMetadata, std::string file, 
+	long long petId, std::string additionalMetadata, std::string file, 
 	void(* handler)(ApiResponse, Error, void* )
 	, void* userData)
 {
