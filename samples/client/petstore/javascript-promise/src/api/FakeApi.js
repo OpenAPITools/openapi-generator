@@ -218,8 +218,8 @@
      * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to -efg)
      * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
-     * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
-     * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     this.testEnumParametersWithHttpInfo = function(opts) {
@@ -271,8 +271,8 @@
      * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to -efg)
      * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
-     * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
-     * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     this.testEnumParameters = function(opts) {

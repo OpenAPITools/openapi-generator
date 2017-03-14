@@ -18,7 +18,7 @@ open class StoreAPI: APIBase {
      */
     open class func deleteOrder(orderId: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -51,9 +51,9 @@ open class StoreAPI: APIBase {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInventory(completion: @escaping ((_ data: [String:Int32]?,_ error: ErrorResponse?) -> Void)) {
+    open class func getInventory(completion: @escaping ((_ data: [String:Int32]?, _ error: ErrorResponse?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -90,9 +90,9 @@ open class StoreAPI: APIBase {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?,_ error: ErrorResponse?) -> Void)) {
+    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?, _ error: ErrorResponse?) -> Void)) {
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -156,9 +156,9 @@ open class StoreAPI: APIBase {
      - parameter body: (body) order placed for purchasing the pet 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?,_ error: ErrorResponse?) -> Void)) {
+    open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?, _ error: ErrorResponse?) -> Void)) {
         placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 

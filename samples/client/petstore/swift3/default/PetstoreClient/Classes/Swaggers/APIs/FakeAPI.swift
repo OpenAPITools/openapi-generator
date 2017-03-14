@@ -16,9 +16,9 @@ open class FakeAPI: APIBase {
      - parameter body: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClientModel(body: Client, completion: @escaping ((_ data: Client?,_ error: ErrorResponse?) -> Void)) {
+    open class func testClientModel(body: Client, completion: @escaping ((_ data: Client?, _ error: ErrorResponse?) -> Void)) {
         testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error);
+            completion(response?.body, error)
         }
     }
 
@@ -69,7 +69,7 @@ open class FakeAPI: APIBase {
      */
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int32? = nil, int32: Int32? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: ISOFullDate? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -182,6 +182,22 @@ open class FakeAPI: APIBase {
     }
 
     /**
+     * enum for parameter enumQueryInteger
+     */
+    public enum EnumQueryInteger_testEnumParameters: Int32 { 
+        case number1 = 1
+        case numberminus2 = -2
+    }
+
+    /**
+     * enum for parameter enumQueryDouble
+     */
+    public enum EnumQueryDouble_testEnumParameters: Double { 
+        case number11 = 1.1
+        case numberminus12 = -1.2
+    }
+
+    /**
      To test enum parameters
      
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional)
@@ -194,9 +210,9 @@ open class FakeAPI: APIBase {
      - parameter enumQueryDouble: (form) Query parameter enum test (double) (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testEnumParameters(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Int32? = nil, enumQueryDouble: Double? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+    open class func testEnumParameters(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
         testEnumParametersWithRequestBuilder(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble).execute { (response, error) -> Void in
-            completion(error);
+            completion(error)
         }
     }
 
@@ -217,13 +233,13 @@ open class FakeAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    open class func testEnumParametersWithRequestBuilder(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: Int32? = nil, enumQueryDouble: Double? = nil) -> RequestBuilder<Void> {
+    open class func testEnumParametersWithRequestBuilder(enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String:Any?] = [
             "enum_form_string_array": enumFormStringArray,
             "enum_form_string": enumFormString?.rawValue,
-            "enum_query_double": enumQueryDouble
+            "enum_query_double": enumQueryDouble?.rawValue
         ]
 
         let nonNullParameters = APIHelper.rejectNil(formParams)
@@ -233,7 +249,7 @@ open class FakeAPI: APIBase {
         url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "enum_query_string_array": enumQueryStringArray, 
             "enum_query_string": enumQueryString?.rawValue, 
-            "enum_query_integer": enumQueryInteger?.encodeToJSON()
+            "enum_query_integer": enumQueryInteger?.encodeToJSON()?.rawValue
         ])
         
         let nillableHeaders: [String: Any?] = [
