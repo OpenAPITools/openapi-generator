@@ -189,7 +189,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 // NSNull would crash decoders
                 if response.response?.statusCode == 204 && response.result.value is NSNull{
                     completion(nil, nil)
-                    return;
+                    return
                 }
 
                 if () is T {
