@@ -9,26 +9,25 @@ import java.time.LocalDateTime
 
 /**
  * An order for a pets from the pet store
- * @param id
- * @param petId
- * @param quantity
- * @param shipDate
+ * @param id 
+ * @param petId 
+ * @param quantity 
+ * @param shipDate 
  * @param status Order Status
- * @param complete
+ * @param complete 
  */
-case class Order(
-  id: Option[Long],
-  petId: Option[Long],
-  quantity: Option[Int],
-  shipDate: Option[LocalDateTime],
-  status: Option[String],
-  complete: Option[Boolean]
-)
+case class Order(id: Option[Long],
+                petId: Option[Long],
+                quantity: Option[Int],
+                shipDate: Option[LocalDateTime],
+                status: Option[String],
+                complete: Option[Boolean]
+                )
 
 object Order {
-  /**
-   * Creates the codec for converting Order from and to JSON.
-   */
-  implicit val decoder: Decoder[Order] = deriveDecoder
-  implicit val encoder: ObjectEncoder[Order] = deriveEncoder
+    /**
+     * Creates the codec for converting Order from and to JSON.
+     */
+    implicit val decoder: Decoder[Order] = deriveDecoder
+    implicit val encoder: ObjectEncoder[Order] = deriveEncoder
 }

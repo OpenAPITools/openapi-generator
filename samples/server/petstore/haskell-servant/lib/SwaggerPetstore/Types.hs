@@ -22,10 +22,10 @@ import GHC.Generics (Generic)
 import Data.Function ((&))
 
 
--- | 
+-- | Describes the result of uploading an image resource
 data ApiResponse = ApiResponse
     { apiResponseCode :: Int -- ^ 
-    , apiResponseType_ :: Text -- ^ 
+    , apiResponseType :: Text -- ^ 
     , apiResponseMessage :: Text -- ^ 
     } deriving (Show, Eq, Generic)
 
@@ -34,7 +34,7 @@ instance FromJSON ApiResponse where
 instance ToJSON ApiResponse where
   toJSON     = genericToJSON     (removeFieldLabelPrefix False "apiResponse")
 
--- | 
+-- | A category for a pet
 data Category = Category
     { categoryId :: Integer -- ^ 
     , categoryName :: Text -- ^ 
@@ -45,7 +45,7 @@ instance FromJSON Category where
 instance ToJSON Category where
   toJSON     = genericToJSON     (removeFieldLabelPrefix False "category")
 
--- | 
+-- | An order for a pets from the pet store
 data Order = Order
     { orderId :: Integer -- ^ 
     , orderPetId :: Integer -- ^ 
@@ -60,7 +60,7 @@ instance FromJSON Order where
 instance ToJSON Order where
   toJSON     = genericToJSON     (removeFieldLabelPrefix False "order")
 
--- | 
+-- | A pet for sale in the pet store
 data Pet = Pet
     { petId :: Integer -- ^ 
     , petCategory :: Category -- ^ 
@@ -75,7 +75,7 @@ instance FromJSON Pet where
 instance ToJSON Pet where
   toJSON     = genericToJSON     (removeFieldLabelPrefix False "pet")
 
--- | 
+-- | A tag for a pet
 data Tag = Tag
     { tagId :: Integer -- ^ 
     , tagName :: Text -- ^ 
@@ -86,7 +86,7 @@ instance FromJSON Tag where
 instance ToJSON Tag where
   toJSON     = genericToJSON     (removeFieldLabelPrefix False "tag")
 
--- | 
+-- | A User who is purchasing from the pet store
 data User = User
     { userId :: Integer -- ^ 
     , userUsername :: Text -- ^ 
@@ -112,7 +112,7 @@ removeFieldLabelPrefix forParsing prefix =
     }
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
-    specialChars = [("#", "'Hash"), ("!", "'Exclamation"), ("&", "'Ampersand"), ("@", "'At"), ("$", "'Dollar"), ("%", "'Percent"), ("*", "'Star"), ("+", "'Plus"), (">=", "'Greater_Than_Or_Equal_To"), ("-", "'Dash"), ("<=", "'Less_Than_Or_Equal_To"), ("!=", "'Greater_Than_Or_Equal_To"), (":", "'Colon"), ("^", "'Caret"), ("|", "'Pipe"), (">", "'GreaterThan"), ("=", "'Equal"), ("<", "'LessThan")]
+    specialChars = [("@", "'At"), ("<=", "'Less_Than_Or_Equal_To"), ("[", "'Left_Square_Bracket"), ("\", "'Back_Slash"), ("]", "'Right_Square_Bracket"), ("^", "'Caret"), ("_", "'Underscore"), ("`", "'Backtick"), ("!", "'Exclamation"), (""", "'Double_Quote"), ("#", "'Hash"), ("$", "'Dollar"), ("%", "'Percent"), ("&", "'Ampersand"), ("'", "'Quote"), ("(", "'Left_Parenthesis"), (")", "'Right_Parenthesis"), ("*", "'Star"), ("+", "'Plus"), (",", "'Comma"), ("-", "'Dash"), (".", "'Period"), ("/", "'Slash"), (":", "'Colon"), ("{", "'Left_Curly_Bracket"), ("|", "'Pipe"), ("<", "'LessThan"), ("!=", "'Not_Equal"), ("=", "'Equal"), ("}", "'Right_Curly_Bracket"), (">", "'GreaterThan"), ("~", "'Tilde"), ("?", "'Question_Mark"), (">=", "'Greater_Than_Or_Equal_To")]
     mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
     replacer = if forParsing then flip T.replace else T.replace
 

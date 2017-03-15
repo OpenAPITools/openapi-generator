@@ -69,10 +69,10 @@ public class StoreAPI: APIBase {
        - name: api_key
      - examples: [{contentType=application/json, example={
   "key" : 123
-}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@6e901cd0}]
+}}, {contentType=application/xml, example=}]
      - examples: [{contentType=application/json, example={
   "key" : 123
-}}, {contentType=application/xml, example=not implemented io.swagger.models.properties.MapProperty@6e901cd0}]
+}}, {contentType=application/xml, example=}]
 
      - returns: RequestBuilder<[String:Int32]> 
      */
@@ -116,11 +116,11 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou"
 }}, {contentType=application/xml, example=<Order>
-  <id>123456</id>
-  <petId>123456</petId>
-  <quantity>0</quantity>
+  <id>123456789</id>
+  <petId>123456789</petId>
+  <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>string</status>
+  <status>aeiou</status>
   <complete>true</complete>
 </Order>}]
      - examples: [{contentType=application/json, example={
@@ -131,11 +131,11 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou"
 }}, {contentType=application/xml, example=<Order>
-  <id>123456</id>
-  <petId>123456</petId>
-  <quantity>0</quantity>
+  <id>123456789</id>
+  <petId>123456789</petId>
+  <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>string</status>
+  <status>aeiou</status>
   <complete>true</complete>
 </Order>}]
      
@@ -184,11 +184,11 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou"
 }}, {contentType=application/xml, example=<Order>
-  <id>123456</id>
-  <petId>123456</petId>
-  <quantity>0</quantity>
+  <id>123456789</id>
+  <petId>123456789</petId>
+  <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>string</status>
+  <status>aeiou</status>
   <complete>true</complete>
 </Order>}]
      - examples: [{contentType=application/json, example={
@@ -199,11 +199,11 @@ public class StoreAPI: APIBase {
   "complete" : true,
   "status" : "aeiou"
 }}, {contentType=application/xml, example=<Order>
-  <id>123456</id>
-  <petId>123456</petId>
-  <quantity>0</quantity>
+  <id>123456789</id>
+  <petId>123456789</petId>
+  <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>string</status>
+  <status>aeiou</status>
   <complete>true</complete>
 </Order>}]
      

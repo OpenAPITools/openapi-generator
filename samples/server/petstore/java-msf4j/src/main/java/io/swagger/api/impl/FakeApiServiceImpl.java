@@ -3,9 +3,9 @@ package io.swagger.api.impl;
 import io.swagger.api.*;
 import io.swagger.model.*;
 
+import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
-import java.math.BigDecimal;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -52,7 +52,7 @@ public class FakeApiServiceImpl extends FakeApiService {
 , String enumHeaderString
 , List<String> enumQueryStringArray
 , String enumQueryString
-, BigDecimal enumQueryInteger
+, Integer enumQueryInteger
 , Double enumQueryDouble
  ) throws NotFoundException {
         // do some magic!

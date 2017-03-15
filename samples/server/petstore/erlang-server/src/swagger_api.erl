@@ -271,7 +271,6 @@ request_param_info('DeleteOrder', 'orderId') ->
         source =>  binding ,
         rules => [
             {type, 'binary'},
-            {min, 1.0 },
             required
         ]
     };
@@ -281,8 +280,8 @@ request_param_info('GetOrderById', 'orderId') ->
         source =>  binding ,
         rules => [
             {type, 'integer'},
-            {max, 5.0 }, 
-            {min, 1.0 },
+            {max, 5 }, 
+            {min, 1 },
             required
         ]
     };
