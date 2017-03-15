@@ -97,4 +97,10 @@ public class AsyncScalaClientCodegen extends AbstractScalaCodegen implements Cod
     public String getHelp() {
         return "Generates an Asynchronous Scala client library.";
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
 }
