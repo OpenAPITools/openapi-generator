@@ -108,11 +108,11 @@ paths:
         type: "array"
         items:
           type: "string"
-          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
+          default: "available"
         collectionFormat: "csv"
       responses:
         200:
@@ -385,7 +385,6 @@ paths:
         description: "ID of the order that needs to be deleted"
         required: true
         type: "string"
-        minimum: 1
       responses:
         400:
           description: "Invalid ID supplied"
