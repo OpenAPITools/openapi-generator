@@ -23,7 +23,7 @@ object UserApi {
   def createUser(body: User): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user", "application/json")
       .withBody(body)
-      .withDefaultSuccessResponse[Unit]
+      .withSuccessResponse[Unit](0)
         /**
    * 
    * Expected answers:
@@ -34,7 +34,7 @@ object UserApi {
   def createUsersWithArrayInput(body: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithArray", "application/json")
       .withBody(body)
-      .withDefaultSuccessResponse[Unit]
+      .withSuccessResponse[Unit](0)
         /**
    * 
    * Expected answers:
@@ -45,7 +45,7 @@ object UserApi {
   def createUsersWithListInput(body: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithList", "application/json")
       .withBody(body)
-      .withDefaultSuccessResponse[Unit]
+      .withSuccessResponse[Unit](0)
         /**
    * This can only be done by the logged in user.
    * 
@@ -105,7 +105,7 @@ object UserApi {
    */
   def logoutUser(): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/logout", "application/json")
-      .withDefaultSuccessResponse[Unit]
+      .withSuccessResponse[Unit](0)
         /**
    * This can only be done by the logged in user.
    * 
