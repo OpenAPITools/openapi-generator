@@ -83,7 +83,6 @@ sub test_classname {
 
     # parse inputs
     my $_resource_path = '/fake_classname_test';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'PATCH';
     my $query_params = {};

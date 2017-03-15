@@ -15,21 +15,21 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="A User who is purchasing from the pet store")
 public class User  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String username = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String firstName = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String lastName = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String email = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String password = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String phone = null;
-  @ApiModelProperty(example = "null", value = "User Status")
+  @ApiModelProperty(value = "User Status")
   private Integer userStatus = null;
 
  /**

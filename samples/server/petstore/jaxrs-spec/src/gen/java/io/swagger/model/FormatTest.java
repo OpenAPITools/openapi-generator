@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 import org.joda.time.LocalDate;
 import javax.validation.constraints.*;
@@ -22,7 +23,7 @@ public class FormatTest   {
   private byte[] _byte = null;
   private byte[] binary = null;
   private LocalDate date = null;
-  private javax.xml.datatype.XMLGregorianCalendar dateTime = null;
+  private Date dateTime = null;
   private UUID uuid = null;
   private String password = null;
 
@@ -36,7 +37,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
  @Min(10) @Max(100)  public Integer getInteger() {
     return integer;
   }
@@ -54,7 +55,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
  @Min(20) @Max(200)  public Integer getInt32() {
     return int32;
   }
@@ -70,7 +71,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Long getInt64() {
     return int64;
   }
@@ -88,7 +89,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
  @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
     return number;
@@ -107,7 +108,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
  @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
     return _float;
   }
@@ -125,7 +126,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
  @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
     return _double;
   }
@@ -141,7 +142,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
  @Pattern(regexp="/[a-z]/i")  public String getString() {
     return string;
   }
@@ -157,7 +158,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
   public byte[] getByte() {
     return _byte;
@@ -174,7 +175,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public byte[] getBinary() {
     return binary;
   }
@@ -190,7 +191,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
   public LocalDate getDate() {
     return date;
@@ -201,17 +202,17 @@ public class FormatTest   {
 
   /**
    **/
-  public FormatTest dateTime(javax.xml.datatype.XMLGregorianCalendar dateTime) {
+  public FormatTest dateTime(Date dateTime) {
     this.dateTime = dateTime;
     return this;
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
-  public javax.xml.datatype.XMLGregorianCalendar getDateTime() {
+  @ApiModelProperty(value = "")
+  public Date getDateTime() {
     return dateTime;
   }
-  public void setDateTime(javax.xml.datatype.XMLGregorianCalendar dateTime) {
+  public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -223,7 +224,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public UUID getUuid() {
     return uuid;
   }
@@ -239,7 +240,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
  @Size(min=10,max=64)  public String getPassword() {
     return password;
@@ -250,7 +251,7 @@ public class FormatTest   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -304,7 +305,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

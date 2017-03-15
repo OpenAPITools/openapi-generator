@@ -16,6 +16,7 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QDateTime>
 
 namespace Swagger {
 

@@ -106,7 +106,6 @@ class FakeClassnameTags123Api(object):
 
         collection_formats = {}
 
-        resource_path = '/fake_classname_test'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -130,7 +129,7 @@ class FakeClassnameTags123Api(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'PATCH',
+        return self.api_client.call_api('/fake_classname_test', 'PATCH',
                                         path_params,
                                         query_params,
                                         header_params,
