@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class MapTest  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
 @XmlType(name="InnerEnum")
@@ -51,7 +51,7 @@ public enum InnerEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
 
  /**

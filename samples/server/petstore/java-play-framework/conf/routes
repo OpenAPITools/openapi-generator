@@ -1,0 +1,40 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api                        controllers.ApiDocController.api
+
+
+#Functions for Pet API
+POST     /pet                     controllers.PetApiController.addPet()
+DELETE     /pet/:petId                     controllers.PetApiController.deletePet(petId: Long)
+GET     /pet/findByStatus                     controllers.PetApiController.findPetsByStatus()
+GET     /pet/findByTags                     controllers.PetApiController.findPetsByTags()
+GET     /pet/:petId                     controllers.PetApiController.getPetById(petId: Long)
+PUT     /pet                     controllers.PetApiController.updatePet()
+POST     /pet/:petId                     controllers.PetApiController.updatePetWithForm(petId: String)
+POST     /pet/:petId/uploadImage                     controllers.PetApiController.uploadFile(petId: Long)
+
+#Functions for Store API
+DELETE     /store/order/:orderId                     controllers.StoreApiController.deleteOrder(orderId: String)
+GET     /store/inventory                     controllers.StoreApiController.getInventory()
+GET     /store/order/:orderId                     controllers.StoreApiController.getOrderById(orderId: String)
+POST     /store/order                     controllers.StoreApiController.placeOrder()
+
+#Functions for User API
+POST     /user                     controllers.UserApiController.createUser()
+POST     /user/createWithArray                     controllers.UserApiController.createUsersWithArrayInput()
+POST     /user/createWithList                     controllers.UserApiController.createUsersWithListInput()
+DELETE     /user/:username                     controllers.UserApiController.deleteUser(username: String)
+GET     /user/:username                     controllers.UserApiController.getUserByName(username: String)
+GET     /user/login                     controllers.UserApiController.loginUser()
+GET     /user/logout                     controllers.UserApiController.logoutUser()
+PUT     /user/:username                     controllers.UserApiController.updateUser(username: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+GET     /api-docs                   controllers.ApiHelpController.getResources
+GET     /api-docs.json/Pet        controllers.ApiHelpController.getResource(path = "/Pet")
+GET     /api-docs.json/Store        controllers.ApiHelpController.getResource(path = "/Store")
+GET     /api-docs.json/User        controllers.ApiHelpController.getResource(path = "/User")

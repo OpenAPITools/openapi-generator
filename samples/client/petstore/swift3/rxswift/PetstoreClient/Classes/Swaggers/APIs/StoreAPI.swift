@@ -104,7 +104,7 @@ open class StoreAPI: APIBase {
        - type: apiKey api_key 
        - name: api_key
      - examples: [{contentType=application/json, example={
-  "key" : 9
+  "key" : 0
 }}]
 
      - returns: RequestBuilder<[String:Int32]> 
@@ -166,9 +166,9 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 0,
-  "quantity" : 0,
-  "id" : 2,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"
@@ -181,9 +181,9 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 0,
-  "quantity" : 0,
-  "id" : 2,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"
@@ -251,8 +251,8 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 4,
-  "quantity" : 3,
+  "petId" : 6,
+  "quantity" : 1,
   "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
@@ -266,8 +266,8 @@ open class StoreAPI: APIBase {
   <status>aeiou</status>
   <complete>true</complete>
 </Order>}, {contentType=application/json, example={
-  "petId" : 4,
-  "quantity" : 3,
+  "petId" : 6,
+  "quantity" : 1,
   "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,

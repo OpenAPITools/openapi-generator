@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class HasOnlyReadOnly  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String bar = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String foo = null;
 
  /**

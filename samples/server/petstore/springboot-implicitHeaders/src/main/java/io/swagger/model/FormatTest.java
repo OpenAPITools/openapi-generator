@@ -7,8 +7,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.UUID;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import javax.validation.constraints.*;
 /**
  * FormatTest
@@ -46,7 +46,7 @@ public class FormatTest   {
   private LocalDate date = null;
 
   @JsonProperty("dateTime")
-  private DateTime dateTime = null;
+  private OffsetDateTime dateTime = null;
 
   @JsonProperty("uuid")
   private UUID uuid = null;
@@ -66,9 +66,7 @@ public class FormatTest   {
    * @return integer
   **/
   @ApiModelProperty(value = "")
-  @Min(10)
-  @Max(100)
-  public Integer getInteger() {
+ @Min(10) @Max(100)  public Integer getInteger() {
     return integer;
   }
 
@@ -88,9 +86,7 @@ public class FormatTest   {
    * @return int32
   **/
   @ApiModelProperty(value = "")
-  @Min(20)
-  @Max(200)
-  public Integer getInt32() {
+ @Min(20) @Max(200)  public Integer getInt32() {
     return int32;
   }
 
@@ -129,9 +125,7 @@ public class FormatTest   {
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  @DecimalMin("32.1")
-  @DecimalMax("543.2")
-  public BigDecimal getNumber() {
+ @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
     return number;
   }
 
@@ -151,9 +145,7 @@ public class FormatTest   {
    * @return _float
   **/
   @ApiModelProperty(value = "")
-  @DecimalMin("54.3")
-  @DecimalMax("987.6")
-  public Float getFloat() {
+ @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
     return _float;
   }
 
@@ -173,9 +165,7 @@ public class FormatTest   {
    * @return _double
   **/
   @ApiModelProperty(value = "")
-  @DecimalMin("67.8")
-  @DecimalMax("123.4")
-  public Double getDouble() {
+ @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
     return _double;
   }
 
@@ -193,8 +183,7 @@ public class FormatTest   {
    * @return string
   **/
   @ApiModelProperty(value = "")
-  @Pattern(regexp="/[a-z]/i")
-  public String getString() {
+ @Pattern(regexp="/[a-z]/i")  public String getString() {
     return string;
   }
 
@@ -258,7 +247,7 @@ public class FormatTest   {
     this.date = date;
   }
 
-  public FormatTest dateTime(DateTime dateTime) {
+  public FormatTest dateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -268,11 +257,11 @@ public class FormatTest   {
    * @return dateTime
   **/
   @ApiModelProperty(value = "")
-  public DateTime getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(DateTime dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -305,8 +294,7 @@ public class FormatTest   {
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  @Size(min=10,max=64)
-  public String getPassword() {
+ @Size(min=10,max=64)  public String getPassword() {
     return password;
   }
 

@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class AdditionalPropertiesClass  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Map<String, String> mapProperty = new HashMap<String, String>();
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
 
  /**
