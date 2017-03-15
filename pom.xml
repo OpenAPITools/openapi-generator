@@ -779,6 +779,7 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
+                <module>samples/client/petstore/typescript-jquery/npm</module>
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
                 <!-- servers -->
