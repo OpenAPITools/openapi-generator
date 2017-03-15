@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
+import javax.validation.constraints.*;
 
 @Api(value = "store", description = "the store API")
 public interface StoreApi {
@@ -57,7 +57,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Order>> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId) {
+    default CompletableFuture<ResponseEntity<Order>> getOrderById( @Min(1) @Max(5)@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Order>(HttpStatus.OK));
     }

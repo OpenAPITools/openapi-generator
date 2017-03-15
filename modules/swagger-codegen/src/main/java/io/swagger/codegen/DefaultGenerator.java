@@ -42,7 +42,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         this.swagger = opts.getSwagger();
         this.config = opts.getConfig();
         this.config.additionalProperties().putAll(opts.getOpts().getProperties());
-        ignoreProcessor = new CodegenIgnoreProcessor(this.config.getOutputDir());
+
+        String ignoreFileLocation = this.config.getIgnoreFilePathOverride();
+        if(ignoreFileLocation != null) {
+            final File ignoreFile = new File(ignoreFileLocation);
+            if(ignoreFile.exists() && ignoreFile.canRead()) {
+                this.ignoreProcessor = new CodegenIgnoreProcessor(ignoreFile);
+            } else {
+                LOGGER.warn("Ignore file specified at {} is not valid. This will fall back to an existing ignore file if present in the output directory.", ignoreFileLocation);
+            }
+        }
+
+        if(this.ignoreProcessor == null) {
+            this.ignoreProcessor = new CodegenIgnoreProcessor(this.config.getOutputDir());
+        }
+
         return this;
     }
 

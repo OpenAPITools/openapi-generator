@@ -32,7 +32,7 @@ public interface StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Call&lt;Map<String, Integer>&gt;
+   * @return Call&lt;Map&lt;String, Integer&gt;&gt;
    */
   
   @GET("store/inventory")

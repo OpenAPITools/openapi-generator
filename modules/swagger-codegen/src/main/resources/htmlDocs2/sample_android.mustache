@@ -5,7 +5,7 @@ public class {{{classname}}}Example {
     public static void main(String[] args) {
         {{{classname}}} apiInstance = new {{{classname}}}();
         {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{unescapedDescription}}}
         {{/allParams}}
         try {
             {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}

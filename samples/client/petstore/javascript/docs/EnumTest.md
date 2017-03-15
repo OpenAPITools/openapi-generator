@@ -17,6 +17,8 @@ Name | Type | Description | Notes
 
 * `lower` (value: `"lower"`)
 
+* `empty` (value: `""`)
+
 
 
 

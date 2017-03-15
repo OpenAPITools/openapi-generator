@@ -46,9 +46,9 @@ open class Fake_classname_tags123API: APIBase {
     /**
      To test class name in snake case
      - PATCH /fake_classname_test
-     - examples: [{example={
+     - examples: [{contentType=application/json, example={
   "client" : "aeiou"
-}, contentType=application/json}]
+}}]
      
      - parameter body: (body) client model 
 
@@ -59,11 +59,12 @@ open class Fake_classname_tags123API: APIBase {
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = body.encodeToJSON() as? [String:AnyObject]
 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
+        let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "PATCH", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

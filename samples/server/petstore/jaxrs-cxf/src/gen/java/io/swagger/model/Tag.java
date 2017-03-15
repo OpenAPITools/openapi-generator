@@ -1,6 +1,6 @@
 package io.swagger.model;
 
-import io.swagger.annotations.ApiModel;
+import javax.validation.constraints.*;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-@ApiModel(description="A tag for a pet")
 public class Tag  {
   
   @ApiModelProperty(example = "null", value = "")
@@ -26,9 +25,16 @@ public class Tag  {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
+
+  public Tag id(Long id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get name
    * @return name
@@ -36,9 +42,16 @@ public class Tag  {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
+
+  public Tag name(String name) {
+    this.name = name;
+    return this;
+  }
+
 
   @Override
   public String toString() {

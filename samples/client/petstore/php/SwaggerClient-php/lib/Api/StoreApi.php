@@ -59,7 +59,6 @@ class StoreApi
     {
         if ($apiClient === null) {
             $apiClient = new ApiClient();
-            $apiClient->getConfig()->setHost('http://petstore.swagger.io/v2');
         }
 
         $this->apiClient = $apiClient;
@@ -118,10 +117,6 @@ class StoreApi
         if ($order_id === null) {
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
         }
-        if (($order_id < 1.0)) {
-            throw new \InvalidArgumentException('invalid value for "$order_id" when calling StoreApi.deleteOrder, must be bigger than or equal to 1.0.');
-        }
-
         // parse inputs
         $resourcePath = "/store/order/{orderId}";
         $httpBody = '';

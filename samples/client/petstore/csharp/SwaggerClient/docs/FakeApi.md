@@ -15,6 +15,8 @@ Method | HTTP request | Description
 
 To test \"client\" model
 
+To test \"client\" model
+
 ### Example
 ```csharp
 using System;
@@ -163,6 +165,8 @@ void (empty response body)
 <a name="testenumparameters"></a>
 # **TestEnumParameters**
 > void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
+
+To test enum parameters
 
 To test enum parameters
 

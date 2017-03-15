@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, datatype, datatypeWithEnum,
-            dataFormat, name, min, max, defaultValue, defaultValueWithParam, baseType, containerType;
+    public String baseName, complexType, getter, setter, description, datatype,
+          datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
+          baseType, containerType, title;
 
+    /** The 'description' string without escape charcters needed by some programming languages/targets */
     public String unescapedDescription;
 
     /**
@@ -49,7 +51,10 @@ public class CodegenProperty implements Cloneable {
     public boolean isInherited;
     public String nameInCamelCase; // property name in camel case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
-    public String enumName; 
+    public String enumName;
+    public Integer maxItems;
+    public Integer minItems;
+
 
     @Override
     public String toString() {
@@ -74,6 +79,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
         result = prime * result + ((defaultValueWithParam == null) ? 0 : defaultValueWithParam.hashCode());
         result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((example == null) ? 0 : example.hashCode());
         result = prime * result + (exclusiveMaximum ? 13:31);
         result = prime * result + (exclusiveMinimum ? 13:31);
@@ -117,6 +123,8 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + Objects.hashCode(isInherited);
         result = prime * result + Objects.hashCode(nameInCamelCase);
         result = prime * result + Objects.hashCode(enumName);
+        result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
+        result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
         return result;
     }
 
@@ -142,6 +150,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
+            return false;
+        }
+        if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
             return false;
         }
         if ((this.datatype == null) ? (other.datatype != null) : !this.datatype.equals(other.datatype)) {
@@ -283,6 +294,12 @@ public class CodegenProperty implements Cloneable {
         if (!Objects.equals(this.enumName, other.enumName)) {
             return false;
         }
+        if (this.maxItems != other.maxItems && (this.maxItems == null || !this.maxItems.equals(other.maxItems))) {
+            return false;
+        }
+        if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
+            return false;
+        }
         return true;
     }
 
@@ -307,6 +324,6 @@ public class CodegenProperty implements Cloneable {
             throw new IllegalStateException(e);
         }
     }
-    
-    
+
+
 }

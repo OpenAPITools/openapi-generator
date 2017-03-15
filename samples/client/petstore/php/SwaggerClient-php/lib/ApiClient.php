@@ -163,6 +163,11 @@ class ApiClient
         if ($this->config->getCurlTimeout() !== 0) {
             curl_setopt($curl, CURLOPT_TIMEOUT, $this->config->getCurlTimeout());
         }
+        // set connect timeout, if needed
+        if ($this->config->getCurlConnectTimeout() != 0) {
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->config->getCurlConnectTimeout());
+        }
+        
         // return the result on success, rather than just true
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
@@ -172,6 +177,22 @@ class ApiClient
         if ($this->config->getSSLVerification() === false) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        }
+
+        if ($this->config->getCurlProxyHost()) {
+            curl_setopt($curl, CURLOPT_PROXY, $this->config->getCurlProxyHost());
+        }
+
+        if ($this->config->getCurlProxyPort()) {
+            curl_setopt($curl, CURLOPT_PROXYPORT, $this->config->getCurlProxyPort());
+        }
+
+        if ($this->config->getCurlProxyType()) {
+            curl_setopt($curl, CURLOPT_PROXYTYPE, $this->config->getCurlProxyType());
+        }
+
+        if ($this->config->getCurlProxyUser()) {
+            curl_setopt($curl, CURLOPT_PROXYUSERPWD, $this->config->getCurlProxyUser() . ':' .$this->config->getCurlProxyPassword());
         }
 
         if (!empty($queryParams)) {

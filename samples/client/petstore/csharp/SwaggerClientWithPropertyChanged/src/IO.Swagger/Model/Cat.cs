@@ -43,7 +43,7 @@ namespace IO.Swagger.Model
         /// <param name="ClassName">ClassName (required).</param>
         /// <param name="Color">Color (default to &quot;red&quot;).</param>
         /// <param name="Declawed">Declawed.</param>
-        public Cat(string ClassName = null, string Color = null, bool? Declawed = null)
+        public Cat(string ClassName = default(string), string Color = "red", bool? Declawed = default(bool?))
         {
             // to ensure "ClassName" is required (not null)
             if (ClassName == null)

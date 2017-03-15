@@ -24,6 +24,20 @@ public class CodegenTest {
         Assert.assertEquals(codegen.sanitizeTag("1foo"), "_1foo");
     }
 
+    @Test(description = "test camelize")
+    public void camelizeNamesTest() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Assert.assertEquals(codegen.camelize("foo"), "Foo");
+        Assert.assertEquals(codegen.camelize(".foo"), "Foo");
+        Assert.assertEquals(codegen.camelize(".foo.bar"), "FooBar");
+        Assert.assertEquals(codegen.camelize("foo$bar"), "Foo$bar");
+        Assert.assertEquals(codegen.camelize("foo_bar"), "FooBar");
+        Assert.assertEquals(codegen.camelize("foo_bar_baz"), "FooBarBaz");
+        Assert.assertEquals(codegen.camelize("foo/bar.baz"), "FooBarBaz");
+        Assert.assertEquals(codegen.camelize("/foo/bar/baz.qux/corge"), "FooBarBazQuxCorge");
+    }
+
     @Test(description = "read a file upload param from a 2.0 spec")
     public void fileUploadParamTest() {
         final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");

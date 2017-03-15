@@ -7,7 +7,9 @@ import java.util.ArrayList;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
-
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 {{#models}}
 {{#model}}
 {{#isEnum}}

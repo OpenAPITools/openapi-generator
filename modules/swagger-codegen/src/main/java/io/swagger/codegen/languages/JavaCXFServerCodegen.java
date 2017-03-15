@@ -27,8 +27,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean addConsumesProducesJson = true;
 
     protected boolean useJaxbAnnotations = true;
-
-    protected boolean useBeanValidation = false;
     
     protected boolean generateSpringApplication = false;
     
@@ -41,7 +39,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean useWadlFeature = false;
     
     protected boolean useMultipartFeature = false;
-    
+
     protected boolean useBeanValidationFeature = false;
     
     protected boolean generateSpringBootApplication= false;
@@ -55,6 +53,10 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean useLoggingFeature = false;
 
     protected boolean useLoggingFeatureForTests = false;
+
+    protected boolean useAnnotatedBasePath = false;
+
+    protected boolean generateNonSpringApplication = false;
 
     public JavaCXFServerCodegen()
     {
@@ -84,7 +86,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         cliOptions.add(CliOption.newBoolean(USE_JAXB_ANNOTATIONS, "Use JAXB annotations for XML"));
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(GENERATE_SPRING_APPLICATION, "Generate Spring application"));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_ANNOTATION_CONFIG, "Use Spring Annotation Config"));
         
@@ -108,6 +109,9 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions
                 .add(CliOption.newBoolean(ADD_CONSUMES_PRODUCES_JSON, "Add @Consumes/@Produces Json to API interface"));
         
+        cliOptions.add(CliOption.newBoolean(USE_ANNOTATED_BASE_PATH, "Use @Path annotations for basePath"));
+
+        cliOptions.add(CliOption.newBoolean(GENERATE_NON_SPRING_APPLICATION, "Generate non-Spring application"));
     }
 
 
@@ -119,11 +123,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         if (additionalProperties.containsKey(USE_JAXB_ANNOTATIONS)) {
             boolean useJaxbAnnotationsProp = convertPropertyToBooleanAndWriteBack(USE_JAXB_ANNOTATIONS);
             this.setUseJaxbAnnotations(useJaxbAnnotationsProp);
-        }
-        
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            boolean useBeanValidationProp = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION);
-            this.setUseBeanValidation(useBeanValidationProp);
         }
         
         if (additionalProperties.containsKey(ADD_CONSUMES_PRODUCES_JSON)) {
@@ -159,6 +158,16 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
 
+        if (additionalProperties.containsKey(USE_ANNOTATED_BASE_PATH)) {
+            boolean useAnnotatedBasePathProp = convertPropertyToBooleanAndWriteBack(USE_ANNOTATED_BASE_PATH);
+            this.setUseAnnotatedBasePath(useAnnotatedBasePathProp);
+        }
+
+        if (additionalProperties.containsKey(GENERATE_NON_SPRING_APPLICATION)) {
+            boolean generateNonSpringApplication = convertPropertyToBooleanAndWriteBack(GENERATE_NON_SPRING_APPLICATION);
+            this.setGenerateNonSpringApplication(generateNonSpringApplication);
+        }
+
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         
         writeOptional(outputFolder, new SupportingFile("server/pom.mustache", "", "pom.xml"));
@@ -191,10 +200,12 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
                         (testResourcesFolder + '/'), "application.properties"));
 
             }
-            
         }
         
-        
+        if (this.generateNonSpringApplication) {
+            writeOptional(outputFolder, new SupportingFile("server/nonspring-web.mustache",
+                    ("src/main/webapp/WEB-INF"), "web.xml"));
+        }
     }
     
     @Override
@@ -222,10 +233,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     public String getHelp()
     {
         return "Generates a Java JAXRS Server application based on Apache CXF framework.";
-    }
-    
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
     }
     
     public void setGenerateSpringApplication(boolean generateSpringApplication) {
@@ -291,6 +298,14 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
     public void setAddConsumesProducesJson(boolean addConsumesProducesJson) {
         this.addConsumesProducesJson = addConsumesProducesJson;
+    }
+
+    public void setUseAnnotatedBasePath(boolean useAnnotatedBasePath) {
+        this.useAnnotatedBasePath = useAnnotatedBasePath;
+    }
+
+    public void setGenerateNonSpringApplication(boolean generateNonSpringApplication) {
+        this.generateNonSpringApplication = generateNonSpringApplication;
     }
 
 }

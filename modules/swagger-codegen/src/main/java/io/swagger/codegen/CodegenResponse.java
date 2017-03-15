@@ -19,6 +19,7 @@ public class CodegenResponse {
     public Boolean isFile = Boolean.FALSE;
     public Object schema;
     public String jsonSchema;
+    public Map<String, Object> vendorExtensions;
 
     public boolean isWildcard() {
         return "0".equals(code) || "default".equals(code);
@@ -68,6 +69,8 @@ public class CodegenResponse {
             return false;
         if (schema != null ? !schema.equals(that.schema) : that.schema != null)
             return false;
+        if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
+            return false;
         return jsonSchema != null ? jsonSchema.equals(that.jsonSchema) : that.jsonSchema == null;
 
     }
@@ -91,6 +94,7 @@ public class CodegenResponse {
         result = 31 * result + (isFile != null ? isFile.hashCode() : 0);
         result = 31 * result + (schema != null ? schema.hashCode() : 0);
         result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
+        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         return result;
     }
 }

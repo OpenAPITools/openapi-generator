@@ -48,6 +48,8 @@ public class AndroidClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSerializableModel(Boolean.valueOf(AndroidClientOptionsProvider.SERIALIZABLE_MODEL_VALUE));
             times = 1;
+            clientCodegen.setAllowUnicodeIdentifiers(Boolean.valueOf(AndroidClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
+            times = 1;
         }};
     }
 }

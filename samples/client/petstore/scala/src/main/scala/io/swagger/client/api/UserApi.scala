@@ -225,7 +225,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "", classOf[User]).asInstanceOf[User])
+           Some(apiInvoker.deserialize(s, "", classOf[User]).asInstanceOf[User])
         case _ => None
       }
     } catch {
@@ -271,7 +271,7 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "", classOf[String]).asInstanceOf[String])
+           Some(apiInvoker.deserialize(s, "", classOf[String]).asInstanceOf[String])
         case _ => None
       }
     } catch {

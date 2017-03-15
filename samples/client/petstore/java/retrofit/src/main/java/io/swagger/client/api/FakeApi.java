@@ -35,7 +35,6 @@ public interface FakeApi {
    * Async method
    * @param body client model (required)
    * @param cb callback method
-   * @return void
    */
   
   @PATCH("/fake")
@@ -87,7 +86,6 @@ public interface FakeApi {
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @param cb callback method
-   * @return void
    */
   
   @retrofit.http.FormUrlEncoded
@@ -128,7 +126,6 @@ public interface FakeApi {
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
    * @param cb callback method
-   * @return void
    */
   
   @retrofit.http.FormUrlEncoded

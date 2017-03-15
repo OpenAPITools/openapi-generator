@@ -84,13 +84,13 @@ func (a {{{classname}}}) {{{nickname}}}({{#allParams}}{{#required}}{{paramName}}
 	{{#hasQueryParams}}
 	{{#queryParams}}
 	{{#isListContainer}}
-	var collectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
+	var {{paramName}}CollectionFormat = "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"
 	{{#required}}
-	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, collectionFormat))
+	localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString({{paramName}}, {{paramName}}CollectionFormat))
 	{{/required}}
 	{{^required}}
 	if localVarTempParam, localVarOk := localVarOptionals["{{paramName}}"].({{dataType}}); localVarOptionals != nil && localVarOk {
-		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString(localVarTempParam, collectionFormat))
+		localVarQueryParams.Add("{{baseName}}", a.Configuration.APIClient.ParameterToString(localVarTempParam, {{paramName}}CollectionFormat))
 	}
 	{{/required}}
 	{{/isListContainer}}

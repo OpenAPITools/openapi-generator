@@ -71,7 +71,7 @@ namespace IO.Swagger.Model
         /// <param name="ShipDate">ShipDate.</param>
         /// <param name="Status">Order Status.</param>
         /// <param name="Complete">Complete (default to false).</param>
-        public Order(long? Id = null, long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, StatusEnum? Status = null, bool? Complete = null)
+        public Order(long? Id = default(long?), long? PetId = default(long?), int? Quantity = default(int?), DateTime? ShipDate = default(DateTime?), StatusEnum? Status = default(StatusEnum?), bool? Complete = false)
         {
             this.Id = Id;
             this.PetId = PetId;

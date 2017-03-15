@@ -34,7 +34,7 @@ namespace IO.Swagger.Model
         /// </summary>
         /// <param name="MapProperty">MapProperty.</param>
         /// <param name="MapOfMapProperty">MapOfMapProperty.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> MapProperty = null, Dictionary<string, Dictionary<string, string>> MapOfMapProperty = null)
+        public AdditionalPropertiesClass(Dictionary<string, string> MapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> MapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>))
         {
             this.MapProperty = MapProperty;
             this.MapOfMapProperty = MapOfMapProperty;

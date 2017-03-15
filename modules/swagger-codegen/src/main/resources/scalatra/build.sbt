@@ -23,23 +23,12 @@ scalaVersion := "2.11.2"
 scalacOptions += "-language:postfixOps"
 
 libraryDependencies ++= Seq(
-  "org.scalatest"           %% "scalatest"                      % "2.2.1"               % "test",
-  "org.scalatra"            %% "scalatra"                       % "2.3.0.RC3",
-  "org.scalatra"            %% "scalatra-scalate"               % "2.3.0.RC3",
-  "org.scalatra"            %% "scalatra-json"                  % "2.3.0.RC3",
-  "org.scalatra"            %% "scalatra-swagger"               % "2.3.0.RC3",
-  "org.scalatra"            %% "scalatra-swagger-ext"           % "2.3.0.RC3",
-  "org.scalatra"            %% "scalatra-slf4j"                 % "2.3.0.RC3",
-  "org.json4s"              %% "json4s-jackson"                 % "3.2.10",
-  "org.json4s"              %% "json4s-ext"                     % "3.2.10",
-  "commons-codec"            % "commons-codec"                  % "1.7",
-  "net.databinder.dispatch" %% "dispatch-core"                  % "0.11.2",
-  //"net.databinder.dispatch" %% "json4s-jackson"                 % "0.11.2",
-  "net.databinder.dispatch" %% "dispatch-json4s-jackson"        % "0.11.2",
-  "com.typesafe.akka"       %% "akka-actor"                     % "2.3.6",
-  "org.eclipse.jetty"        % "jetty-server"                   % "9.2.3.v20140905" % "container;compile;test",
-  "org.eclipse.jetty"        % "jetty-webapp"                   % "9.2.3.v20140905" % "container;compile;test",
-  "org.eclipse.jetty.orbit"  % "javax.servlet"                  % "3.0.0.v201112011016" % "container;compile;provided;test" artifacts (Artifact("javax.servlet", "jar", "jar"))
+  "com.github.finagle" %% "finch-core" % "0.9.2-SNAPSHOT" changing(),
+  "com.github.finagle" %% "finch-argonaut" % "0.9.2-SNAPSHOT" changing(),
+  "io.argonaut" %% "argonaut" % "6.1",
+  "com.github.finagle" %% "finch-test" % "0.9.2-SNAPSHOT" % "test,it" changing(),
+  "org.scalacheck" %% "scalacheck" % "1.12.5" % "test,it",
+  "org.scalatest" %% "scalatest" % "2.2.5" % "test,it"
 )
 
 resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
@@ -47,6 +36,9 @@ resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/
 resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
 
 resolvers += "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/"
+
+resolvers += "TM" at "http://maven.twttr.com"
+
 
 ivyXML := <dependencies>
     <exclude module="slf4j-log4j12"/>

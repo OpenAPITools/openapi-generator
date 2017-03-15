@@ -242,9 +242,9 @@ func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-	var collectionFormat = "csv"
+	var enumQueryStringArrayCollectionFormat = "csv"
 	if localVarTempParam, localVarOk := localVarOptionals["enumQueryStringArray"].([]string); localVarOptionals != nil && localVarOk {
-		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(localVarTempParam, collectionFormat))
+		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(localVarTempParam, enumQueryStringArrayCollectionFormat))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["enumQueryString"].(string); localVarOptionals != nil && localVarOk {
 		localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(localVarTempParam, ""))

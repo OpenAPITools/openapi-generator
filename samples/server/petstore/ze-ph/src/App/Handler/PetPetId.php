@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Handler;
+
+use Articus\PathHandler\Operation;
+use Articus\PathHandler\Annotation as PHA;
+use Articus\PathHandler\Consumer as PHConsumer;
+use Articus\PathHandler\Producer as PHProducer;
+use Articus\PathHandler\Attribute as PHAttribute;
+use Articus\PathHandler\Exception as PHException;
+use Psr\Http\Message\ServerRequestInterface;
+
+
+class PetPetId implements Operation\DeleteInterface, Operation\GetInterface, Operation\PostInterface
+{
+    /**
+     * Deletes a pet
+     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
+     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
+     */
+    public function handleDelete(ServerRequestInterface $request)
+    {
+        //TODO implement method
+        throw new PHException\HttpCode(500, "Not implemented");
+    }
+    /**
+     * Find pet by ID
+     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
+     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
+     * @return \App\DTO\Pet
+     */
+    public function handleGet(ServerRequestInterface $request)
+    {
+        //TODO implement method
+        throw new PHException\HttpCode(500, "Not implemented");
+    }
+    /**
+     * Updates a pet in the store with form data
+     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
+     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
+     */
+    public function handlePost(ServerRequestInterface $request)
+    {
+        //TODO implement method
+        throw new PHException\HttpCode(500, "Not implemented");
+    }
+}

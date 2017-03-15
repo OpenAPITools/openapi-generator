@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
+import javax.validation.constraints.*;
+import io.swagger.annotations.*;
 
+@ApiModel(description="A User who is purchasing from the pet store")
 
 public class User   {
   
@@ -21,6 +24,7 @@ public class User   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -32,6 +36,7 @@ public class User   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -43,6 +48,7 @@ public class User   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
@@ -54,6 +60,7 @@ public class User   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
@@ -65,6 +72,7 @@ public class User   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -76,6 +84,7 @@ public class User   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -87,6 +96,7 @@ public class User   {
   /**
    **/
   
+  @ApiModelProperty(example = "null", value = "")
   @JsonProperty("phone")
   public String getPhone() {
     return phone;
@@ -99,6 +109,7 @@ public class User   {
    * User Status
    **/
   
+  @ApiModelProperty(example = "null", value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
