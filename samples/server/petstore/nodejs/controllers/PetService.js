@@ -35,14 +35,14 @@ exports.findPetsByStatus = function(args, res, next) {
   examples['application/json'] = [ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 1,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 7
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 2
+    "id" : 1
   } ],
   "status" : "available"
 } ];
@@ -66,14 +66,14 @@ exports.findPetsByTags = function(args, res, next) {
   examples['application/json'] = [ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 9,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 7
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 4
+    "id" : 1
   } ],
   "status" : "available"
 } ];
@@ -97,14 +97,14 @@ exports.getPetById = function(args, res, next) {
   examples['application/json'] = {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 4,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 4
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 4
+    "id" : 1
   } ],
   "status" : "available"
 };
@@ -152,7 +152,7 @@ exports.uploadFile = function(args, res, next) {
    **/
   var examples = {};
   examples['application/json'] = {
-  "code" : 7,
+  "code" : 0,
   "type" : "aeiou",
   "message" : "aeiou"
 };

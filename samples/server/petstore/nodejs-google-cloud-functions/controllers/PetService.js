@@ -2,153 +2,165 @@
 
 exports.addPet = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * body (Pet)
-  **/
-  // no response value expected for this operation
+   * Add a new pet to the store
+   * 
+   *
+   * body Pet Pet object that needs to be added to the store
+   * no response value expected for this operation
+   **/
   res.end();
 }
 
 exports.deletePet = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * petId (Long)
-  * api_key (String)
-  **/
-  // no response value expected for this operation
+   * Deletes a pet
+   * 
+   *
+   * petId Long Pet id to delete
+   * api_key String  (optional)
+   * no response value expected for this operation
+   **/
   res.end();
 }
 
 exports.findPetsByStatus = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * status (List)
-  **/
-    var examples = {};
+   * Finds Pets by status
+   * Multiple status values can be provided with comma separated strings
+   *
+   * status List Status values that need to be considered for filter
+   * returns List
+   **/
+  var examples = {};
   examples['application/json'] = [ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ];
-  if(Object.keys(examples).length > 0) {
+  if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
+  } else {
     res.end();
   }
-  
 }
 
 exports.findPetsByTags = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * tags (List)
-  **/
-    var examples = {};
+   * Finds Pets by tags
+   * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   *
+   * tags List Tags to filter by
+   * returns List
+   **/
+  var examples = {};
   examples['application/json'] = [ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ];
-  if(Object.keys(examples).length > 0) {
+  if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
+  } else {
     res.end();
   }
-  
 }
 
 exports.getPetById = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * petId (Long)
-  **/
-    var examples = {};
+   * Find pet by ID
+   * Returns a single pet
+   *
+   * petId Long ID of pet to return
+   * returns Pet
+   **/
+  var examples = {};
   examples['application/json'] = {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 };
-  if(Object.keys(examples).length > 0) {
+  if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
+  } else {
     res.end();
   }
-  
 }
 
 exports.updatePet = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * body (Pet)
-  **/
-  // no response value expected for this operation
+   * Update an existing pet
+   * 
+   *
+   * body Pet Pet object that needs to be added to the store
+   * no response value expected for this operation
+   **/
   res.end();
 }
 
 exports.updatePetWithForm = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * petId (Long)
-  * name (String)
-  * status (String)
-  **/
-  // no response value expected for this operation
+   * Updates a pet in the store with form data
+   * 
+   *
+   * petId Long ID of pet that needs to be updated
+   * name String Updated name of the pet (optional)
+   * status String Updated status of the pet (optional)
+   * no response value expected for this operation
+   **/
   res.end();
 }
 
 exports.uploadFile = function(args, res, next) {
   /**
-   * parameters expected in the args:
-  * petId (Long)
-  * additionalMetadata (String)
-  * file (File)
-  **/
-    var examples = {};
+   * uploads an image
+   * 
+   *
+   * petId Long ID of pet to update
+   * additionalMetadata String Additional data to pass to server (optional)
+   * file File file to upload (optional)
+   * returns ApiResponse
+   **/
+  var examples = {};
   examples['application/json'] = {
-  "code" : 123,
+  "code" : 0,
   "type" : "aeiou",
   "message" : "aeiou"
 };
-  if(Object.keys(examples).length > 0) {
+  if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
+  } else {
     res.end();
   }
-  
 }
 
