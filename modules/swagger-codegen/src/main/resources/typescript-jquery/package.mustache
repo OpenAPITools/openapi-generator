@@ -1,0 +1,22 @@
+{
+    "name": "{{npmName}}",
+    "version": "{{npmVersion}}",
+    "description": "JQuery client for {{npmName}}",
+    "main": "api.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "author": "Swagger Codegen Contributors",
+    "license": "MIT",
+    "dependencies": {
+        "bluebird": "^3.3.5",
+        "request": "^2.72.0"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.10",
+        "typings": "^0.8.1"
+    }{{#npmRepository}},
+    "publishConfig":{
+        "registry":"{{npmRepository}}"
+    }{{/npmRepository}}
+}
