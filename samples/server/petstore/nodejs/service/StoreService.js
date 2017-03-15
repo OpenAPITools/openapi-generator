@@ -25,7 +25,7 @@ exports.getInventory = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "key" : 1
+  "key" : 0
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -47,9 +47,9 @@ exports.getOrderById = function(orderId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "petId" : 8,
-  "quantity" : 8,
-  "id" : 5,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"
@@ -74,9 +74,9 @@ exports.placeOrder = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "petId" : 7,
-  "quantity" : 0,
-  "id" : 1,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
   "status" : "placed"

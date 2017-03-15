@@ -20,7 +20,7 @@ exports.getInventory = function(args, res, next) {
    **/
   var examples = {};
   examples['application/json'] = {
-  "key" : 123
+  "key" : 0
 };
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -40,12 +40,12 @@ exports.getOrderById = function(args, res, next) {
    **/
   var examples = {};
   examples['application/json'] = {
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 };
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
@@ -65,12 +65,12 @@ exports.placeOrder = function(args, res, next) {
    **/
   var examples = {};
   examples['application/json'] = {
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 };
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');

@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public class ExampleGenerator {
@@ -47,9 +48,12 @@ public class ExampleGenerator {
     private static final String NONE = "none";
 
     protected Map<String, Model> examples;
+    private Random random;
 
     public ExampleGenerator(Map<String, Model> examples) {
         this.examples = examples;
+        // use a fixed seed to make the "random" numbers reproducible.
+        this.random = new Random("ExampleGenerator".hashCode());
     }
 
     public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Property property) {
@@ -187,13 +191,13 @@ public class ExampleGenerator {
     private double randomNumber(Double min, Double max) {
         if (min != null && max != null) {
             double range = max - min;
-            return Math.random() * range + min;
+            return random.nextDouble() * range + min;
         } else if (min != null) {
-            return Math.random() + min;
+            return random.nextDouble() + min;
         } else if (max != null) {
-            return Math.random() * max;
+            return random.nextDouble() * max;
         } else {
-            return Math.random() * 10;
+            return random.nextDouble() * 10;
         }
     }
 
