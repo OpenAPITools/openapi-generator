@@ -1,0 +1,13 @@
+    {{#isQueryParam}}
+      {{#collectionFormat}}val {{paramName}}String = params.getAs[String]("{{paramName}}")
+      val {{paramName}} = if("{{collectionFormat}}".equals("default")) {
+        {{paramName}}String match {
+          case Some(str) => str.split(",")
+          case None => List()
+        }
+      }
+      else
+        List()
+      {{/collectionFormat}}
+      {{^collectionFormat}}val {{paramName}} = params.getAs[{{dataType}}]("{{paramName}}"){{/collectionFormat}}
+    {{/isQueryParam}}

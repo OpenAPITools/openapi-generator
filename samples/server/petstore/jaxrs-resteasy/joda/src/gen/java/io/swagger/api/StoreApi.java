@@ -4,6 +4,9 @@ import io.swagger.model.*;
 import io.swagger.api.StoreApiService;
 import io.swagger.api.factories.StoreApiServiceFactory;
 
+import io.swagger.annotations.ApiParam;
+import io.swagger.jaxrs.*;
+
 import java.util.Map;
 import io.swagger.model.Order;
 
@@ -16,6 +19,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.validation.constraints.*;
 
 @Path("/store")
 
@@ -43,7 +47,7 @@ public class StoreApi  {
     
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
-            @io.swagger.annotations.Authorization(value = "api_key")
+        @io.swagger.annotations.Authorization(value = "api_key")
     }, tags={ "store", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Integer.class, responseContainer = "Map") })
@@ -62,7 +66,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Order.class) })
-    public Response getOrderById( @PathParam("orderId") Long orderId,@Context SecurityContext securityContext)
+    public Response getOrderById( @Min(1) @Max(5) @PathParam("orderId") Long orderId,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getOrderById(orderId,securityContext);
     }
@@ -75,7 +79,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
-    public Response placeOrder( Order body,@Context SecurityContext securityContext)
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.placeOrder(body,securityContext);
     }

@@ -57,7 +57,7 @@
    * @return {module:model/OuterEnum} The enum <code>OuterEnum</code> value.
    */
   exports.constructFromObject = function(object) {
-    return exports[object];
+    return object;
   }
 
   return exports;

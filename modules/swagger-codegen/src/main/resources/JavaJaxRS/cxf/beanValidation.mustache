@@ -32,11 +32,22 @@
 {{^minItems}}
 {{#maxItems}}
   @Size(max={{maxItems}})
-  {{/maxItems}}
-  {{/minItems}}
+{{/maxItems}}
+{{/minItems}}
+{{! check for integer / number=decimal type}}
+{{#isInteger}}
 {{#minimum}}
   @Min({{minimum}})
 {{/minimum}}
 {{#maximum}}
   @Max({{maximum}})
 {{/maximum}}
+{{/isInteger}}
+{{^isInteger}}
+{{#minimum}}
+  @DecimalMin("{{minimum}}")
+{{/minimum}}
+{{#maximum}}
+  @DecimalMax("{{maximum}}")
+{{/maximum}}
+{{/isInteger}}

@@ -243,7 +243,7 @@ namespace IO.Swagger.Client
                 return apiKeyValue;
         }
 
-        private string _tempFolderPath = Path.GetTempPath();
+        private string _tempFolderPath;
 
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
@@ -251,7 +251,15 @@ namespace IO.Swagger.Client
         /// <value>Folder path.</value>
         public String TempFolderPath
         {
-            get { return _tempFolderPath; }
+            get
+            {
+                // default to Path.GetTempPath() if _tempFolderPath is not set
+                if (String.IsNullOrEmpty(_tempFolderPath))
+                {
+                    _tempFolderPath = Path.GetTempPath();
+                }
+                return _tempFolderPath;
+            }
 
             set
             {

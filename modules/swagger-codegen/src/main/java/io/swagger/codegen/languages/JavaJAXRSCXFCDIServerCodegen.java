@@ -1,8 +1,10 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
 
 import java.io.File;
 
@@ -13,7 +15,10 @@ import java.io.File;
  * in /src/gen/java and a sample ServiceImpl in /src/main/java. The API uses CDI
  * to get an instance of ServiceImpl that implements the Service interface.
  */
-public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen {
+public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen implements BeanValidationFeatures {
+    
+    protected boolean useBeanValidation = true;
+    
     /**
      * Default constructor
      */
@@ -32,6 +37,8 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen {
         // Updated template directory
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME
                 + File.separator + "cxf-cdi";
+        
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
     }
 
     @Override
@@ -43,6 +50,14 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen {
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (useBeanValidation) {
+            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        }
+        
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         // writeOptional means these files are only written if they don't already exist
@@ -73,4 +88,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen {
                 + "Apache CXF runtime and a Java EE runtime with CDI enabled.";
     }
 
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
+    }
 }

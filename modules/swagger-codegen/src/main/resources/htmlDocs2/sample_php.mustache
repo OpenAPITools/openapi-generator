@@ -13,7 +13,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 {{/hasAuthMethods}}
 
 $api_instance = new Swagger\Client\Api\{{classname}}();
-{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+{{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{unescapedDescription}}}
 {{/allParams}}
 
 try {

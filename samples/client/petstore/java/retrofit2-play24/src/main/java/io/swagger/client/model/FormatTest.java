@@ -142,6 +142,8 @@ public class FormatTest {
    * @return number
   **/
   @NotNull
+  @DecimalMin("32.1")
+  @DecimalMax("543.2")
   @ApiModelProperty(example = "null", required = true, value = "")
   public BigDecimal getNumber() {
     return number;
@@ -162,6 +164,8 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
+  @DecimalMin("54.3")
+  @DecimalMax("987.6")
   @ApiModelProperty(example = "null", value = "")
   public Float getFloat() {
     return _float;
@@ -182,6 +186,8 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
+  @DecimalMin("67.8")
+  @DecimalMax("123.4")
   @ApiModelProperty(example = "null", value = "")
   public Double getDouble() {
     return _double;

@@ -50,7 +50,7 @@ namespace IO.Swagger.Model
         /// <param name="DateTime">DateTime.</param>
         /// <param name="Uuid">Uuid.</param>
         /// <param name="Password">Password (required).</param>
-        public FormatTest(int? Integer = null, int? Int32 = null, long? Int64 = null, decimal? Number = null, float? _Float = null, double? _Double = null, string _String = null, byte[] _Byte = null, byte[] Binary = null, DateTime? Date = null, DateTime? DateTime = null, Guid? Uuid = null, string Password = null)
+        public FormatTest(int? Integer = default(int?), int? Int32 = default(int?), long? Int64 = default(long?), decimal? Number = default(decimal?), float? _Float = default(float?), double? _Double = default(double?), string _String = default(string), byte[] _Byte = default(byte[]), byte[] Binary = default(byte[]), DateTime? Date = default(DateTime?), DateTime? DateTime = default(DateTime?), Guid? Uuid = default(Guid?), string Password = default(string))
         {
             // to ensure "Number" is required (not null)
             if (Number == null)

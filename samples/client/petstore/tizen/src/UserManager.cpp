@@ -1,19 +1,3 @@
-/*
- * Copyright (c) 2016 Samsung Electronics Co., Ltd All Rights Reserved
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #include <glib-object.h>
 #include <json-glib/json-glib.h>
 
@@ -652,6 +636,13 @@ bool getUserByNameProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, v
 			pJson = json_from_string(data, NULL);
 			jsonToValue(&out, pJson, "User", "User");
 			json_node_free(pJson);
+
+			if ("User" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
 		} else {
 			
 			out.fromJson(data);
@@ -798,6 +789,13 @@ bool loginUserProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void*
 			pJson = json_from_string(data, NULL);
 			jsonToValue(&out, pJson, "std::string", "std::string");
 			json_node_free(pJson);
+
+			if ("std::string" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
 		} else {
 			
 		}

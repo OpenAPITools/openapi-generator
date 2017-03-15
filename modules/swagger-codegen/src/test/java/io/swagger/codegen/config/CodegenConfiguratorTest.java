@@ -295,6 +295,8 @@ public class CodegenConfiguratorTest {
 
         assertEquals(configurator.getDynamicProperties().size(), 1);
         assertValueInMap(configurator.getDynamicProperties(), CodegenConstants.LOCAL_VARIABLE_PREFIX, "_");
+
+        assertEquals(configurator.getIgnoreFileOverride(), "/path/to/override/.swagger-codegen-ignore");
     }
 
     @SuppressWarnings("unused")

@@ -14,7 +14,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface I{{classname}} : IApiAccessor
+    {{>visibility}} interface {{interfacePrefix}}{{classname}} : IApiAccessor
     {
         #region Synchronous Operations
         {{#operation}}
@@ -73,7 +73,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class {{classname}} : I{{classname}}
+    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{classname}}
     {
         private {{packageName}}.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 

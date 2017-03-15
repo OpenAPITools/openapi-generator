@@ -90,6 +90,7 @@ public class CodegenParameter {
         output.collectionFormat = this.collectionFormat;
         output.isCollectionFormatMulti = this.isCollectionFormatMulti;
         output.description = this.description;
+        output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
         output.isFormParam = this.isFormParam;
         output.isQueryParam = this.isQueryParam;

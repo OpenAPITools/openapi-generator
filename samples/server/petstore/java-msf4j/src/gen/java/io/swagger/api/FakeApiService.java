@@ -6,9 +6,9 @@ import io.swagger.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
+import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
-import java.math.BigDecimal;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -43,7 +43,7 @@ public abstract class FakeApiService {
  ,String enumHeaderString
  ,List<String> enumQueryStringArray
  ,String enumQueryString
- ,BigDecimal enumQueryInteger
+ ,Integer enumQueryInteger
  ,Double enumQueryDouble
  ) throws NotFoundException;
 }

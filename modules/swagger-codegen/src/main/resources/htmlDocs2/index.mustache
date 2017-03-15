@@ -218,11 +218,13 @@
                           <!--<li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-angular">Angular</a></li>-->
                           <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-csharp">C#</a></li>
                           <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}} -H "{{keyParamName}}: [[apiKey]]" {{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}} -H "Authorization: Basic [[basicHash]]" {{/isBasic}}{{/authMethods}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{paramName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">{{httpMethod}}</span>{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}} -H "{{keyParamName}}: [[apiKey]]"{{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}}{{#hasProduces}} -H "Accept: {{#produces}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/produces}}"{{/hasProduces}}{{#hasConsumes}} -H "Content-Type: {{#consumes}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/consumes}}"{{/hasConsumes}} -H "Authorization: Basic [[basicHash]]"{{/isBasic}}{{/authMethods}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{paramName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-java">
                             <pre class="prettyprint"><code class="language-java">{{>sample_java}}</code></pre>
@@ -252,6 +254,14 @@
 
                             <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-php">
                               <pre class="prettyprint"><code class="language-php">{{>sample_php}}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">{{>sample_perl}}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-python">
+                              <pre class="prettyprint"><code class="language-python">{{>sample_python}}</code></pre>
                             </div>
                           </div>
 

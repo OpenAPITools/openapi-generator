@@ -59,6 +59,8 @@ public class JavaResteasyServerOptionsTest extends AbstractOptionsTest {
 
                 clientCodegen.setGenerateJbossDeploymentDescriptor(
                         Boolean.valueOf(JavaResteasyServerOptionsProvider.GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR));
+                
+                clientCodegen.setUseBeanValidation(Boolean.valueOf(JavaResteasyServerOptionsProvider.USE_BEANVALIDATION));
                 times = 1;
 
             }

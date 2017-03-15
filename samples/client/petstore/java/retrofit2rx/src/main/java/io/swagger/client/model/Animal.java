@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Animal
  */
 
+
 public class Animal {
   @SerializedName("className")
   private String className = null;

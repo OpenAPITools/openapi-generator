@@ -100,7 +100,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      enum_string_validator = EnumAttributeValidator.new('String', ["UPPER", "lower"])
+      enum_string_validator = EnumAttributeValidator.new('String', ["UPPER", "lower", ""])
       return false unless enum_string_validator.valid?(@enum_string)
       enum_integer_validator = EnumAttributeValidator.new('Integer', ["1", "-1"])
       return false unless enum_integer_validator.valid?(@enum_integer)
@@ -112,7 +112,7 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] enum_string Object to be assigned
     def enum_string=(enum_string)
-      validator = EnumAttributeValidator.new('String', ["UPPER", "lower"])
+      validator = EnumAttributeValidator.new('String', ["UPPER", "lower", ""])
       unless validator.valid?(enum_string)
         fail ArgumentError, "invalid value for 'enum_string', must be one of #{validator.allowable_values}."
       end

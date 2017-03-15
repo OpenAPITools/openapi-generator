@@ -12,18 +12,20 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import io.swagger.annotations.*;
+import java.io.InputStream;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import java.util.List;
-
+import javax.validation.constraints.*;
 @Path("/store")
 @RequestScoped
 
 @Api(description = "the store API")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-11-17T08:53:42.205Z")
+
 
 public class StoreApi  {
 
@@ -66,7 +68,7 @@ public class StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
         @ApiResponse(code = 404, message = "Order not found", response = Order.class) })
-    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") Long orderId) {
+    public Response getOrderById( @Min(1) @Max(5)@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") Long orderId) {
     	return delegate.getOrderById(orderId, securityContext);
     }
 

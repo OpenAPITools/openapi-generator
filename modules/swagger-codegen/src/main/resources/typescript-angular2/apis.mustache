@@ -4,4 +4,5 @@
 export * from './{{ apiFilename }}';
 {{/operations}}
 {{/apis}}
+export const APIS = [ {{#apis}}{{#operations}}{{ classname }}, {{/operations}}{{/apis}}];
 {{/apiInfo}}

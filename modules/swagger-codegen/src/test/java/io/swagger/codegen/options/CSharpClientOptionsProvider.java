@@ -11,7 +11,8 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
     public static final String PACKAGE_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SOURCE_FOLDER_VALUE = "src_csharp";
     public static final String PACKAGE_GUID_VALUE = "{894EAEBB-649A-498C-A735-10D0BD7B73E0}";
-	
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+
     @Override
     public String getLanguage() {
         return "csharp";
@@ -35,6 +36,9 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, "true")
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.GENERATE_PROPERTY_CHANGED, "true")
+                .put(CodegenConstants.NON_PUBLIC_API, "true")
+                .put(CodegenConstants.INTERFACE_PREFIX, "X")
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

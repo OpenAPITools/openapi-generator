@@ -76,6 +76,14 @@
             <artifactId>swagger-annotations</artifactId>
             <version>[1.5.3,2)</version>
         </dependency>
+        
+       <!-- Bean Validation API support -->
+       <dependency>
+           <groupId>javax.validation</groupId>
+           <artifactId>validation-api</artifactId>
+           <version>1.1.0.Final</version>
+           <scope>provided</scope>
+       </dependency>
 
     </dependencies>
 

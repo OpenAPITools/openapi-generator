@@ -8,6 +8,9 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import com.sun.jersey.multipart.FormDataParam;
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 
 {{#imports}}import {{import}};
 {{/imports}}

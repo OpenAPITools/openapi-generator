@@ -1,0 +1,10 @@
+{
+  "processMarkdown": true,
+  "curlOptions": "-sS --tlsv1.2",
+  "scriptName": "petstore-cli",
+  "generateBashCompletion": true,
+  "generateZshCompletion": true,
+  "hostEnvironmentVariable": "PETSTORE_HOST",
+  "basicAuthEnvironmentVariable": "PETSTORE_BASIC_AUTH",
+  "apiKeyAuthEnvironmentVariable": "PETSTORE_API_KEY" 
+}

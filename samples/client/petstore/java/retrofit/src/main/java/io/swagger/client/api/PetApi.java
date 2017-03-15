@@ -34,7 +34,6 @@ public interface PetApi {
    * Async method
    * @param body Pet object that needs to be added to the store (required)
    * @param cb callback method
-   * @return void
    */
   
   @POST("/pet")
@@ -61,7 +60,6 @@ public interface PetApi {
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
    * @param cb callback method
-   * @return void
    */
   
   @DELETE("/pet/{petId}")
@@ -73,7 +71,7 @@ public interface PetApi {
    * Sync method
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)
-   * @return List<Pet>
+   * @return List&lt;Pet&gt;
    */
   
   @GET("/pet/findByStatus")
@@ -86,7 +84,6 @@ public interface PetApi {
    * Async method
    * @param status Status values that need to be considered for filter (required)
    * @param cb callback method
-   * @return void
    */
   
   @GET("/pet/findByStatus")
@@ -98,7 +95,7 @@ public interface PetApi {
    * Sync method
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return List<Pet>
+   * @return List&lt;Pet&gt;
    */
   
   @GET("/pet/findByTags")
@@ -111,7 +108,6 @@ public interface PetApi {
    * Async method
    * @param tags Tags to filter by (required)
    * @param cb callback method
-   * @return void
    */
   
   @GET("/pet/findByTags")
@@ -136,7 +132,6 @@ public interface PetApi {
    * Async method
    * @param petId ID of pet to return (required)
    * @param cb callback method
-   * @return void
    */
   
   @GET("/pet/{petId}")
@@ -161,7 +156,6 @@ public interface PetApi {
    * Async method
    * @param body Pet object that needs to be added to the store (required)
    * @param cb callback method
-   * @return void
    */
   
   @PUT("/pet")
@@ -191,7 +185,6 @@ public interface PetApi {
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
    * @param cb callback method
-   * @return void
    */
   
   @retrofit.http.FormUrlEncoded
@@ -222,7 +215,6 @@ public interface PetApi {
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
    * @param cb callback method
-   * @return void
    */
   
   @retrofit.http.Multipart

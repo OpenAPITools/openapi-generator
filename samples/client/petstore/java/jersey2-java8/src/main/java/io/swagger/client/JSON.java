@@ -25,6 +25,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
 
   /**
    * Set the date format for JSON (de)serialization with Date properties.
+   * @param dateFormat Date format
    */
   public void setDateFormat(DateFormat dateFormat) {
     mapper.setDateFormat(dateFormat);

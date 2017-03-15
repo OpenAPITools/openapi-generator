@@ -32,7 +32,10 @@ public class EnumTest {
     UPPER("UPPER"),
     
     @SerializedName("lower")
-    LOWER("lower");
+    LOWER("lower"),
+    
+    @SerializedName("")
+    EMPTY("");
 
     private String value;
 

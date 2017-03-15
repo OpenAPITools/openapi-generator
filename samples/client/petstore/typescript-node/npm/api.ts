@@ -461,14 +461,6 @@ export class PetApi {
     set accessToken(token: string) {
         this.authentications.petstore_auth.accessToken = token;
     }
-    private extendObj<T1,T2>(objA: T1, objB: T2) {
-        for(let key in objB){
-            if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
-            }
-        }
-        return <T1&T2>objA;
-    }
     /**
      * Add a new pet to the store
      * 
@@ -477,7 +469,7 @@ export class PetApi {
     public addPet (body?: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -529,7 +521,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -584,7 +576,7 @@ export class PetApi {
     public findPetsByStatus (status?: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByStatus';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -638,7 +630,7 @@ export class PetApi {
     public findPetsByTags (tags?: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -693,7 +685,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -750,7 +742,7 @@ export class PetApi {
     public updatePet (body?: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -803,7 +795,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -868,7 +860,7 @@ export class PetApi {
         const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', String(petId));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -963,14 +955,6 @@ export class StoreApi {
     set accessToken(token: string) {
         this.authentications.petstore_auth.accessToken = token;
     }
-    private extendObj<T1,T2>(objA: T1, objB: T2) {
-        for(let key in objB){
-            if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
-            }
-        }
-        return <T1&T2>objA;
-    }
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -980,7 +964,7 @@ export class StoreApi {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1031,7 +1015,7 @@ export class StoreApi {
     public getInventory () : Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }> {
         const localVarPath = this.basePath + '/store/inventory';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1082,7 +1066,7 @@ export class StoreApi {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1135,7 +1119,7 @@ export class StoreApi {
     public placeOrder (body?: Order) : Promise<{ response: http.ClientResponse; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1216,14 +1200,6 @@ export class UserApi {
     set accessToken(token: string) {
         this.authentications.petstore_auth.accessToken = token;
     }
-    private extendObj<T1,T2>(objA: T1, objB: T2) {
-        for(let key in objB){
-            if(objB.hasOwnProperty(key)){
-                objA[key] = objB[key];
-            }
-        }
-        return <T1&T2>objA;
-    }
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -1232,7 +1208,7 @@ export class UserApi {
     public createUser (body?: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1280,7 +1256,7 @@ export class UserApi {
     public createUsersWithArrayInput (body?: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithArray';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1328,7 +1304,7 @@ export class UserApi {
     public createUsersWithListInput (body?: Array<User>) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithList';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1377,7 +1353,7 @@ export class UserApi {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1430,7 +1406,7 @@ export class UserApi {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1484,7 +1460,7 @@ export class UserApi {
     public loginUser (username?: string, password?: string) : Promise<{ response: http.ClientResponse; body: string;  }> {
         const localVarPath = this.basePath + '/user/login';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1539,7 +1515,7 @@ export class UserApi {
     public logoutUser () : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/logout';
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 
@@ -1588,7 +1564,7 @@ export class UserApi {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
         let queryParameters: any = {};
-        let headerParams: any = this.extendObj({}, this.defaultHeaders);
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
 

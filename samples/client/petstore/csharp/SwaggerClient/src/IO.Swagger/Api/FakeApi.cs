@@ -28,7 +28,7 @@ namespace IO.Swagger.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -96,7 +96,7 @@ namespace IO.Swagger.Api
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -114,7 +114,7 @@ namespace IO.Swagger.Api
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -133,7 +133,7 @@ namespace IO.Swagger.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -144,7 +144,7 @@ namespace IO.Swagger.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -201,7 +201,7 @@ namespace IO.Swagger.Api
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -219,7 +219,7 @@ namespace IO.Swagger.Api
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -345,7 +345,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -357,7 +357,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -423,7 +423,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -436,7 +436,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -756,7 +756,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -774,7 +774,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -844,7 +844,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -863,7 +863,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>

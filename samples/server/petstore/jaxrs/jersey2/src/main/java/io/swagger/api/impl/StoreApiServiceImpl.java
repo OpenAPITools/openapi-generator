@@ -15,7 +15,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
+import javax.validation.constraints.*;
 
 public class StoreApiServiceImpl extends StoreApiService {
     @Override
@@ -29,7 +29,7 @@ public class StoreApiServiceImpl extends StoreApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response getOrderById(Long orderId, SecurityContext securityContext) throws NotFoundException {
+    public Response getOrderById( @Min(1) @Max(5)Long orderId, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

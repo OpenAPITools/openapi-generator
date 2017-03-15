@@ -31,7 +31,7 @@ public class APIBase {
 
 public class RequestBuilder<T> {
     var credential: NSURLCredential?
-    var headers: [String:String] = [:]
+    var headers: [String:String]
     let parameters: [String:AnyObject]?
     let isBody: Bool
     let method: String
@@ -40,11 +40,12 @@ public class RequestBuilder<T> {
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((NSProgress) -> ())?
 
-    required public init(method: String, URLString: String, parameters: [String:AnyObject]?, isBody: Bool) {
+    required public init(method: String, URLString: String, parameters: [String:AnyObject]?, isBody: Bool, headers: [String:String] = [:]) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.isBody = isBody
+        self.headers = headers
         
         addHeaders(PetstoreClientAPI.customHeaders)
     }

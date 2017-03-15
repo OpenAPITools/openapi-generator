@@ -133,7 +133,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -170,7 +170,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "DELETE" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         fetchOptions.headers = Object.assign({
             "api_key": params["apiKey"],
         }, contentTypeHeader);
@@ -204,7 +204,7 @@ export const PetApiFetchParamCreator = {
         });
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -238,7 +238,7 @@ export const PetApiFetchParamCreator = {
         });
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -270,7 +270,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -300,7 +300,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "PUT" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -338,7 +338,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
         fetchOptions.body = querystring.stringify({
             "name": params["name"],
@@ -377,7 +377,7 @@ export const PetApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
         fetchOptions.body = querystring.stringify({
             "additionalMetadata": params["additionalMetadata"],
@@ -720,7 +720,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "DELETE" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -739,7 +739,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -770,7 +770,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -794,7 +794,7 @@ export const StoreApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -978,7 +978,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -1006,7 +1006,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -1034,7 +1034,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});
@@ -1063,7 +1063,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "DELETE" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -1088,7 +1088,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -1121,7 +1121,7 @@ export const UserApiFetchParamCreator = {
         });
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -1140,7 +1140,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
@@ -1170,7 +1170,7 @@ export const UserApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = Object.assign({}, { method: "PUT" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
         if (params["body"]) {
             fetchOptions.body = JSON.stringify(params["body"] || {});

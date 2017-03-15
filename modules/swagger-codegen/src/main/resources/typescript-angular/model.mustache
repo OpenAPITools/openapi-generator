@@ -1,43 +1,38 @@
 {{>licenseInfo}}
-/// <reference path="api.d.ts" />
-
-namespace {{package}} {
-    'use strict';
+import * as models from './models';
 
 {{#models}}
 {{#model}}
+{{#description}}
+/**
+ * {{{description}}}
+ */
+{{/description}}
+export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{#vars}}
 {{#description}}
     /**
      * {{{description}}}
      */
 {{/description}}
-    export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
-{{#vars}}
-{{#description}}
-        /**
-         * {{{description}}}
-         */
-{{/description}}
-        "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
-
+    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
-    }
+}
 
 {{#hasEnums}}
-    export namespace {{classname}} {
+export namespace {{classname}} {
 {{#vars}}
 {{#isEnum}}
-        export enum {{enumName}} {
-        {{#allowableValues}}
-        {{#enumVars}}
-            {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}}
-        {{/enumVars}}
-        {{/allowableValues}}
-        }
+    export enum {{enumName}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+        {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+    }
 {{/isEnum}}
 {{/vars}}
-    }
+}
 {{/hasEnums}}
 {{/model}}
 {{/models}}
-}

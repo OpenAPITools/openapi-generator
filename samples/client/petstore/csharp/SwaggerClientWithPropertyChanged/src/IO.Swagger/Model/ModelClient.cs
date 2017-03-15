@@ -36,7 +36,7 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="_Client">_Client.</param>
-        public ModelClient(string _Client = null)
+        public ModelClient(string _Client = default(string))
         {
             this._Client = _Client;
         }

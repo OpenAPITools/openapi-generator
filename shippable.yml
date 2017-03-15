@@ -1,8 +1,8 @@
 language: java
 
 jdk:
+- oraclejdk8
 - openjdk7
-- openjdk8
 
 build:
   cache: true

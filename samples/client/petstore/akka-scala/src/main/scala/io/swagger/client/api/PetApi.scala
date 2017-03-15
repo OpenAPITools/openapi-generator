@@ -5,9 +5,9 @@
  */
 package io.swagger.client.api
 
-import io.swagger.client.model.Pet
 import io.swagger.client.model.ApiResponse
 import java.io.File
+import io.swagger.client.model.Pet
 import io.swagger.client.core._
 import io.swagger.client.core.CollectionFormats._
 import io.swagger.client.core.ApiKeyLocations._

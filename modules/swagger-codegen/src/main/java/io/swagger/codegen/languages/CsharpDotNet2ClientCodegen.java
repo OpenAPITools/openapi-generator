@@ -10,6 +10,8 @@ import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.codegen.CliOption;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -170,7 +172,10 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 
@@ -230,11 +235,26 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelName(String name) {
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
         name = sanitizeName(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
@@ -281,12 +301,18 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toOperationId(String operationId) {
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        return camelize(operationId);
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        return camelize(sanitizeName(operationId));
     }
 
     @Override

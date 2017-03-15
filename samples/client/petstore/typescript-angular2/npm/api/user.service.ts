@@ -20,7 +20,7 @@ import '../rxjs-operators';
 
 import { User } from '../model/user';
 
-import { BASE_PATH }                                         from '../variables';
+import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 /* tslint:disable:no-unused-variable member-ordering */
@@ -213,17 +213,14 @@ export class UserService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
-
-
         // to determine the Accept header
         let produces: string[] = [
             'application/json', 
             'application/xml'
         ];
-        
+
             
         headers.set('Content-Type', 'application/json');
-
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -231,10 +228,10 @@ export class UserService {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
@@ -252,17 +249,14 @@ export class UserService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
-
-
         // to determine the Accept header
         let produces: string[] = [
             'application/json', 
             'application/xml'
         ];
-        
+
             
         headers.set('Content-Type', 'application/json');
-
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -270,10 +264,10 @@ export class UserService {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
@@ -291,17 +285,14 @@ export class UserService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
-
-
         // to determine the Accept header
         let produces: string[] = [
             'application/json', 
             'application/xml'
         ];
-        
+
             
         headers.set('Content-Type', 'application/json');
-
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
@@ -309,10 +300,10 @@ export class UserService {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
@@ -334,26 +325,22 @@ export class UserService {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
-
-
         // to determine the Accept header
         let produces: string[] = [
             'application/json', 
             'application/xml'
         ];
-        
+
             
-
-
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
@@ -375,26 +362,22 @@ export class UserService {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
-
-
         // to determine the Accept header
         let produces: string[] = [
             'application/json', 
             'application/xml'
         ];
-        
+
             
-
-
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
@@ -413,12 +396,20 @@ export class UserService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         if (username !== undefined) {
-            queryParameters.set('username', <any>username);
-        }
-        if (password !== undefined) {
-            queryParameters.set('password', <any>password);
+            if(username instanceof Date) {
+                queryParameters.set('username', <any>username.d.toISOString());
+            } else {
+                queryParameters.set('username', <any>username);
+            }
         }
 
+        if (password !== undefined) {
+            if(password instanceof Date) {
+                queryParameters.set('password', <any>password.d.toISOString());
+            } else {
+                queryParameters.set('password', <any>password);
+            }
+        }
 
 
         // to determine the Accept header
@@ -426,19 +417,17 @@ export class UserService {
             'application/json', 
             'application/xml'
         ];
-        
+
             
-
-
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
@@ -455,26 +444,22 @@ export class UserService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
-
-
         // to determine the Accept header
         let produces: string[] = [
             'application/json', 
             'application/xml'
         ];
-        
+
             
-
-
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
@@ -497,17 +482,14 @@ export class UserService {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
-
-
         // to determine the Accept header
         let produces: string[] = [
             'application/json', 
             'application/xml'
         ];
-        
+
             
         headers.set('Content-Type', 'application/json');
-
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
@@ -515,10 +497,10 @@ export class UserService {
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters
         });
-        
+
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
-            requestOptions = this.extendObj(requestOptions, extraHttpRequestParams);
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
         return this.http.request(path, requestOptions);
