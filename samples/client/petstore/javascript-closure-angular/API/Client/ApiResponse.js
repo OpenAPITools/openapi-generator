@@ -1,6 +1,7 @@
 goog.provide('API.Client.ApiResponse');
 
 /**
+ * Describes the result of uploading an image resource
  * @record
  */
 API.Client.ApiResponse = function() {}

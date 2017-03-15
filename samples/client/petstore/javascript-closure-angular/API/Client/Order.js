@@ -1,6 +1,7 @@
 goog.provide('API.Client.Order');
 
 /**
+ * An order for a pets from the pet store
  * @record
  */
 API.Client.Order = function() {}

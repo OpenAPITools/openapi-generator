@@ -66,9 +66,9 @@ Check out [Doxygen](https://www.doxygen.org/) for additional information about t
 
 ## What are the Model files for the data structures/objects?
 
-* [ApiResponse](../src/ApiResponse.cpp) - 
-* [Category](../src/Category.cpp) - 
-* [Order](../src/Order.cpp) - 
-* [Pet](../src/Pet.cpp) - 
-* [Tag](../src/Tag.cpp) - 
-* [User](../src/User.cpp) - 
+* [ApiResponse](../src/ApiResponse.cpp) - Describes the result of uploading an image resource
+* [Category](../src/Category.cpp) - A category for a pet
+* [Order](../src/Order.cpp) - An order for a pets from the pet store
+* [Pet](../src/Pet.cpp) - A pet for sale in the pet store
+* [Tag](../src/Tag.cpp) - A tag for a pet
+* [User](../src/User.cpp) - A User who is purchasing from the pet store

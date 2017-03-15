@@ -200,8 +200,8 @@
      * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to -efg)
      * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
-     * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
-     * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
      * @param {module:api/FakeApi~testEnumParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
     this.testEnumParameters = function(opts, callback) {

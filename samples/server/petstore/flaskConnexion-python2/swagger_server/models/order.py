@@ -17,9 +17,9 @@ class Order(Model):
         Order - a model defined in Swagger
 
         :param id: The id of this Order.
-        :type id: int
+        :type id: long
         :param pet_id: The pet_id of this Order.
-        :type pet_id: int
+        :type pet_id: long
         :param quantity: The quantity of this Order.
         :type quantity: int
         :param ship_date: The ship_date of this Order.
@@ -30,8 +30,8 @@ class Order(Model):
         :type complete: bool
         """
         self.swagger_types = {
-            'id': int,
-            'pet_id': int,
+            'id': long,
+            'pet_id': long,
             'quantity': int,
             'ship_date': datetime,
             'status': str,
@@ -72,7 +72,7 @@ class Order(Model):
         Gets the id of this Order.
 
         :return: The id of this Order.
-        :rtype: int
+        :rtype: long
         """
         return self._id
 
@@ -82,7 +82,7 @@ class Order(Model):
         Sets the id of this Order.
 
         :param id: The id of this Order.
-        :type id: int
+        :type id: long
         """
 
         self._id = id
@@ -93,7 +93,7 @@ class Order(Model):
         Gets the pet_id of this Order.
 
         :return: The pet_id of this Order.
-        :rtype: int
+        :rtype: long
         """
         return self._pet_id
 
@@ -103,7 +103,7 @@ class Order(Model):
         Sets the pet_id of this Order.
 
         :param pet_id: The pet_id of this Order.
-        :type pet_id: int
+        :type pet_id: long
         """
 
         self._pet_id = pet_id

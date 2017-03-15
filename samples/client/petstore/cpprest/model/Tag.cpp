@@ -21,7 +21,7 @@ namespace model {
 
 Tag::Tag()
 {
-    m_Id = 0L;
+    m_Id = 0;
     m_IdIsSet = false;
     m_Name = U("");
     m_NameIsSet = false;

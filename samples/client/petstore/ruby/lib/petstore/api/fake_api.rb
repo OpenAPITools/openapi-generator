@@ -145,20 +145,20 @@ module Petstore
 
       # verify the required parameter 'byte' is set
       fail ArgumentError, "Missing the required parameter 'byte' when calling FakeApi.test_endpoint_parameters" if byte.nil?
-      if !opts[:'integer'].nil? && opts[:'integer'] > 100.0
-        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.0.'
+      if !opts[:'integer'].nil? && opts[:'integer'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.'
       end
 
-      if !opts[:'integer'].nil? && opts[:'integer'] < 10.0
-        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.0.'
+      if !opts[:'integer'].nil? && opts[:'integer'] < 10
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] > 200.0
-        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.0.'
+      if !opts[:'int32'].nil? && opts[:'int32'] > 200
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] < 20.0
-        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.0.'
+      if !opts[:'int32'].nil? && opts[:'int32'] < 20
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.'
       end
 
       if !opts[:'float'].nil? && opts[:'float'] > 987.6
@@ -272,6 +272,12 @@ module Petstore
       end
       if opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
         fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
+      end
+      if opts[:'enum_query_integer'] && !['1', '-2'].include?(opts[:'enum_query_integer'])
+        fail ArgumentError, 'invalid value for "enum_query_integer", must be one of 1, -2'
+      end
+      if opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
+        fail ArgumentError, 'invalid value for "enum_query_double", must be one of 1.1, -1.2'
       end
       # resource path
       local_var_path = "/fake".sub('{format}','json')

@@ -1,4 +1,4 @@
-/*
+/* 
  * Swagger Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -11,10 +11,10 @@
 package petstore
 
 import (
-	"encoding/json"
 	"net/url"
 	"strings"
 	"time"
+	"encoding/json"
 )
 
 type FakeApi struct {
@@ -62,7 +62,7 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json"}
+	localVarHttpContentTypes := []string{ "application/json",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -72,7 +72,7 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
-	}
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
@@ -100,8 +100,8 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
 }
 
 /**
- * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
- * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+ * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  *
  * @param number None
  * @param double None
@@ -118,7 +118,7 @@ func (a FakeApi) TestClientModel(body Client) (*Client, *APIResponse, error) {
  *	 @param "dateTime" (time.Time) None
  *	 @param "password" (string) None
  *	 @param "callback" (string) None
- * @return
+ * @return 
  */
 func (a FakeApi) TestEndpointParameters(number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals map[string]interface{}) (*APIResponse, error) {
 
@@ -134,8 +134,8 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	var localVarFileBytes []byte
 	// authentication '(http_basic_test)' required
 	// http basic authentication required
-	if a.Configuration.Username != "" || a.Configuration.Password != "" {
-		localVarHeaderParams["Authorization"] = "Basic " + a.Configuration.GetBasicAuthEncodedString()
+	if a.Configuration.Username != "" || a.Configuration.Password != ""{
+		localVarHeaderParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
 	}
 	// add default headers if any
 	for key := range a.Configuration.DefaultHeader {
@@ -143,7 +143,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/xml; charset=utf-8", "application/json; charset=utf-8"}
+	localVarHttpContentTypes := []string{ "application/xml; charset=utf-8", "application/json; charset=utf-8",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -154,7 +154,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	localVarHttpHeaderAccepts := []string{
 		"application/xml; charset=utf-8",
 		"application/json; charset=utf-8",
-	}
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
@@ -224,7 +224,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
  *	 @param "enumQueryString" (string) Query parameter enum test (string)
  *	 @param "enumQueryInteger" (int32) Query parameter enum test (double)
  *	 @param "enumQueryDouble" (float64) Query parameter enum test (double)
- * @return
+ * @return 
  */
 func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*APIResponse, error) {
 
@@ -242,9 +242,9 @@ func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-	var collectionFormat = "csv"
+	var enumQueryStringArrayCollectionFormat = "csv"
 	if localVarTempParam, localVarOk := localVarOptionals["enumQueryStringArray"].([]string); localVarOptionals != nil && localVarOk {
-		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(localVarTempParam, collectionFormat))
+		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(localVarTempParam, enumQueryStringArrayCollectionFormat))
 	}
 	if localVarTempParam, localVarOk := localVarOptionals["enumQueryString"].(string); localVarOptionals != nil && localVarOk {
 		localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(localVarTempParam, ""))
@@ -254,7 +254,7 @@ func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*
 	}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"*/*"}
+	localVarHttpContentTypes := []string{ "*/*",  }
 
 	// set Content-Type header
 	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
@@ -264,7 +264,7 @@ func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"*/*",
-	}
+		}
 
 	// set Accept header
 	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
@@ -301,3 +301,4 @@ func (a FakeApi) TestEnumParameters(localVarOptionals map[string]interface{}) (*
 	}
 	return localVarAPIResponse, err
 }
+
