@@ -758,6 +758,7 @@
                 <!-- run ruby test first which has a random delay script to
                      avoid issues with running 2 CI jobs in parallel.       -->
                 <!-- clients -->
+                <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/android/volley</module>
                 <module>samples/client/petstore/bash</module>
