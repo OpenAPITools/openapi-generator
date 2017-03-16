@@ -412,8 +412,6 @@ paths:
             $ref: '#/definitions/ExampleSearchResults'
         '400':
           description: Invalid word supplied.
-        '400':
-          description: Invalid word supplied.
   '/account.json/authenticate/{username}':
     get:
       tags:
