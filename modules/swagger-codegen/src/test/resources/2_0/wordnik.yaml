@@ -739,7 +739,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/WordListWord'
-            $ref: '#/definitions/WordListWord'
         '400':
           description: Invalid ID supplied
         '403':
