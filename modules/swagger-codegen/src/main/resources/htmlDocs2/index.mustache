@@ -336,24 +336,30 @@
                           {{#responses}}
                             <h3> Status: {{code}} - {{message}} </h3>
 
-                            {{#schema}}
-                              <ul class="nav nav-tabs nav-tabs-examples" >
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                              {{#schema}}
                                 <li class="active">
-                                  <a href="#examples-{{baseName}}-{{nickname}}-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-{{nickname}}-{{code}}-schema">Schema</a>
                                 </li>
 
                                 {{#examples}}
                                   <li class="">
-                                    <a href="#examples-{{baseName}}-{{nickname}}-example">Response Example</a>
+                                    <a data-toggle="tab" href="#responses-{{nickname}}-{{code}}-example">Response Example</a>
                                   </li>
                                 {{/examples}}
-                              </ul>
+                              {{/schema}}
+                              {{#hasHeaders}}
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-{{nickname}}-{{code}}-headers">Headers</a>
+                                </li>
+                              {{/hasHeaders}}
+                            </ul>
 
-                              <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-schema">
-                                  <div id='examples-{{baseName}}-{{nickname}}-schema-{{code}}' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-
-                                    <script>
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                              {{#schema}}
+                                <div class="tab-pane active" id="responses-{{nickname}}-{{code}}-schema">
+                                  <div id='responses-{{nickname}}-{{code}}-schema-{{code}}' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                                               <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {{{jsonSchema}}};
                                         var schema = schemaWrapper.schema;
@@ -366,23 +372,44 @@
                                         }, function(err, resolved, metadata) {
                                           //console.log(JSON.stringify(resolved));
                                           var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#examples-{{baseName}}-{{nickname}}-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#examples-{{baseName}}-{{nickname}}-schema-{{code}}');
+                                          $('#responses-{{nickname}}-{{code}}-schema-data').val(JSON.stringify(resolved.schema));
+                                          var result = $('#responses-{{nickname}}-{{code}}-schema-{{code}}');
                                           result.empty();
                                           result.append(view.render());
                                         });
                                       });
                                     </script>
                                   </div>
-                                  <input id='examples-{{baseName}}-{{nickname}}-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-{{nickname}}-{{code}}-schema-data' type='hidden' value=''></input>
                                 </div>
                                 {{#examples}}
-                                  <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-example">
-                                    <pre class="prettyprint"><code class="json">{{example}}</code></pre>
-                                  </div>
+                                  <div class="tab-pane" id="responses-{{nickname}}-{{code}}-example">
+                                      <pre class="prettyprint"><code class="json">{{example}}</code></pre>
+                                </div>
                                 {{/examples}}
-                              </div>
-                            {{/schema}}
+                              {{/schema}}
+                              {{#hasHeaders}}
+                                <div class="tab-pane" id="responses-{{nickname}}-{{code}}-headers">
+                                    <table>
+                                        <tr>
+                                            <th width="150px">Name</th>
+                                            <th width="100px">Type</th>
+                                            <th width="100px">Format</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        {{#headers}}
+                                        <tr>
+                                            <td>{{#name}}{{name}}{{/name}}</td>
+                                            <td>{{#datatype}}{{datatype}}{{/datatype}}</td>
+                                            <td>{{#dataFormat}}{{dataFormat}}{{/dataFormat}}</td>
+                                            <td>{{#description}}{{description}}{{/description}}</td>
+                                        </tr>
+                                        {{/headers}}
+                                    </table>
+                                </div>
+                              {{/hasHeaders}}
+                            </div>
+
                           {{/responses}}
                         </article>
                       </div>

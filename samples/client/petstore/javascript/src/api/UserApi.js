@@ -63,7 +63,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling createUser");
       }
 
@@ -109,7 +109,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling createUsersWithArrayInput");
       }
 
@@ -155,7 +155,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling createUsersWithListInput");
       }
 
@@ -201,7 +201,7 @@
       var postBody = null;
 
       // verify the required parameter 'username' is set
-      if (username == undefined || username == null) {
+      if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling deleteUser");
       }
 
@@ -249,7 +249,7 @@
       var postBody = null;
 
       // verify the required parameter 'username' is set
-      if (username == undefined || username == null) {
+      if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling getUserByName");
       }
 
@@ -298,12 +298,12 @@
       var postBody = null;
 
       // verify the required parameter 'username' is set
-      if (username == undefined || username == null) {
+      if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling loginUser");
       }
 
       // verify the required parameter 'password' is set
-      if (password == undefined || password == null) {
+      if (password === undefined || password === null) {
         throw new Error("Missing the required parameter 'password' when calling loginUser");
       }
 
@@ -392,12 +392,12 @@
       var postBody = body;
 
       // verify the required parameter 'username' is set
-      if (username == undefined || username == null) {
+      if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling updateUser");
       }
 

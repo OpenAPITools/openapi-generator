@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,7 +35,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * It also has a convenience method for creating a ClientOptInput class which is THE object DefaultGenerator.java needs
  * to generate code.
  */
-public class CodegenConfigurator {
+public class CodegenConfigurator implements Serializable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
@@ -62,7 +63,7 @@ public class CodegenConfigurator {
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
     private Map<String, String>  reservedWordMappings = new HashMap<String, String>();
-    
+
     private String gitUserId="GIT_USER_ID";
     private String gitRepoId="GIT_REPO_ID";
     private String releaseNote="Minor update";
@@ -155,7 +156,7 @@ public class CodegenConfigurator {
 
         // check to see if the folder exists
         if (!(f.exists() && f.isDirectory())) {
-            throw new IllegalArgumentException("Template directory " + templateDir + " does not exist."); 
+            throw new IllegalArgumentException("Template directory " + templateDir + " does not exist.");
         }
 
         this.templateDir = f.getAbsolutePath();
@@ -266,7 +267,7 @@ public class CodegenConfigurator {
         this.additionalProperties = additionalProperties;
         return this;
     }
-    
+
     public CodegenConfigurator addAdditionalProperty(String key, Object value) {
         this.additionalProperties.put(key, value);
         return this;
@@ -344,16 +345,16 @@ public class CodegenConfigurator {
         this.httpUserAgent= httpUserAgent;
         return this;
     }
-    
+
     public  Map<String, String> getReservedWordsMappings() {
         return reservedWordMappings;
     }
-    
+
     public CodegenConfigurator setReservedWordsMappings(Map<String, String> reservedWordsMappings) {
         this.reservedWordMappings = reservedWordsMappings;
         return this;
     }
-    
+
     public CodegenConfigurator addAdditionalReservedWordMapping(String key, String value) {
         this.reservedWordMappings.put(key, value);
         return this;
@@ -367,7 +368,7 @@ public class CodegenConfigurator {
         this.ignoreFileOverride = ignoreFileOverride;
         return this;
     }
-    
+
     public ClientOptInput toClientOptInput() {
 
         Validate.notEmpty(lang, "language must be specified");
@@ -388,7 +389,7 @@ public class CodegenConfigurator {
         config.importMapping().putAll(importMappings);
         config.languageSpecificPrimitives().addAll(languageSpecificPrimitives);
         config.reservedWordsMappings().putAll(reservedWordMappings);
-        
+
         checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
         checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
         checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);

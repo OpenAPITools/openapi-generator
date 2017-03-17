@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="Model for testing model with \"_class\" property")
 public class ClassModel  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String propertyClass = null;
 
  /**
@@ -50,7 +50,7 @@ public class ClassModel  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

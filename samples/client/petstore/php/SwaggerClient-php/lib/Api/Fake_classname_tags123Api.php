@@ -129,9 +129,6 @@ class Fake_classname_tags123Api
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         // body params
         $_tempBody = null;
         if (isset($body)) {

@@ -13,17 +13,17 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class Capitalization  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String smallCamel = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String capitalCamel = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String smallSnake = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String capitalSnake = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String scAETHFlowPoints = null;
-  @ApiModelProperty(example = "null", value = "Name of the pet ")
+  @ApiModelProperty(value = "Name of the pet ")
   private String ATT_NAME = null;
 
  /**
@@ -148,7 +148,7 @@ public class Capitalization  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

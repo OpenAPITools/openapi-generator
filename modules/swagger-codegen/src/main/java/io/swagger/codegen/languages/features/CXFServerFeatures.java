@@ -5,8 +5,7 @@ package io.swagger.codegen.languages.features;
  *
  */
 public interface CXFServerFeatures
-        extends CXFFeatures, SwaggerFeatures, SpringFeatures, JbossFeature, BeanValidationExtendedFeatures,
-        SwaggerUIFeatures
+        extends CXFFeatures, SwaggerFeatures, SpringFeatures, JbossFeature, BeanValidationExtendedFeatures, SwaggerUIFeatures
 {
     
     public static final String USE_WADL_FEATURE = "useWadlFeature";

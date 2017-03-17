@@ -59,7 +59,7 @@ public class {{classname}} {
     }
     {{/required}}{{/allParams}}
     // create path and map variables
-    String {{localVariablePrefix}}localVarPath = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}
+    String {{localVariablePrefix}}localVarPath = "{{{path}}}"{{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params

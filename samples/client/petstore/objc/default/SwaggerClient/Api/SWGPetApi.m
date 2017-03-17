@@ -60,9 +60,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -132,9 +129,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {
         pathParams[@"petId"] = petId;
@@ -195,9 +189,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByStatus"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -255,9 +246,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 -(NSURLSessionTask*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
     completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/findByTags"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -328,9 +316,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {
         pathParams[@"petId"] = petId;
@@ -387,9 +372,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
 -(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -462,9 +444,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {
@@ -545,9 +524,6 @@ NSInteger kSWGPetApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/pet/{petId}/uploadImage"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (petId != nil) {

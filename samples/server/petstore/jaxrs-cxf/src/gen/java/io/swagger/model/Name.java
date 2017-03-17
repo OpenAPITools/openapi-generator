@@ -15,13 +15,13 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="Model for testing model name same as property name")
 public class Name  {
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   private Integer name = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Integer snakeCase = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String property = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Integer _123Number = null;
 
  /**
@@ -95,7 +95,7 @@ public class Name  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

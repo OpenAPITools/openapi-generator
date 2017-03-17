@@ -48,7 +48,7 @@ public enum JustSymbolEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private JustSymbolEnum justSymbol = null;
 
 @XmlType(name="ArrayEnumEnum")
@@ -83,7 +83,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
  /**
@@ -141,7 +141,7 @@ public enum ArrayEnumEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

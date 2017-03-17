@@ -86,7 +86,7 @@ public class PetApi extends SwaggerApi {
         }
 
         
-        headerParams["apiKey"] = toPathValue(apiKey);
+        headerParams["api_key"] = toPathValue(apiKey);
 
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "DELETE", queryParams, null, headerParams);
 

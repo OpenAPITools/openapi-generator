@@ -13,11 +13,11 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class ModelApiResponse  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Integer code = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String type = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String message = null;
 
  /**
@@ -88,7 +88,7 @@ public class ModelApiResponse  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

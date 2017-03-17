@@ -30,5 +30,5 @@ ags="$@ generate -t modules/swagger-codegen/src/main/resources/JavaSpring -i mod
 
 echo "Removing files and folders under samples/server/petstore/springboot-delegate/src/main"
 rm -rf samples/server/petstore/springboot-delegate/src/main
-find samples/server/petstore/springboot -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
+find samples/server/petstore/springboot-delegate/ -maxdepth 1 -type f ! -name "README.md" -exec rm {} +
 java $JAVA_OPTS -jar $executable $ags

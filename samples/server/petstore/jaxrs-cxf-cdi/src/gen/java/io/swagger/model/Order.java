@@ -66,7 +66,7 @@ public enum StatusEnum {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -83,7 +83,7 @@ public enum StatusEnum {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
@@ -100,7 +100,7 @@ public enum StatusEnum {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
@@ -117,7 +117,7 @@ public enum StatusEnum {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public java.util.Date getShipDate() {
     return shipDate;
@@ -135,7 +135,7 @@ public enum StatusEnum {
   }
 
   
-  @ApiModelProperty(example = "null", value = "Order Status")
+  @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -152,7 +152,7 @@ public enum StatusEnum {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
@@ -163,7 +163,7 @@ public enum StatusEnum {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -203,7 +203,7 @@ public enum StatusEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

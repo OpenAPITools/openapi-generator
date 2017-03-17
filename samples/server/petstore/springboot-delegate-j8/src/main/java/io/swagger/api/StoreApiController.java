@@ -24,7 +24,7 @@ public class StoreApiController implements StoreApi {
     private final StoreApiDelegate delegate;
 
     @org.springframework.beans.factory.annotation.Autowired
-    StoreApiController(StoreApiDelegate delegate) {
+    public StoreApiController(StoreApiDelegate delegate) {
         this.delegate = delegate;
     }
 

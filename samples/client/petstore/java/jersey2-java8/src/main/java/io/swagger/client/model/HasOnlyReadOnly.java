@@ -34,7 +34,7 @@ public class HasOnlyReadOnly {
    * Get bar
    * @return bar
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getBar() {
     return bar;
   }
@@ -43,7 +43,7 @@ public class HasOnlyReadOnly {
    * Get foo
    * @return foo
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getFoo() {
     return foo;
   }

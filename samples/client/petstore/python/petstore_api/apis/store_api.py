@@ -108,7 +108,6 @@ class StoreApi(object):
 
         collection_formats = {}
 
-        resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
         path_params = {}
         if 'order_id' in params:
             path_params['orderId'] = params['order_id']
@@ -128,7 +127,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'DELETE',
+        return self.api_client.call_api('/store/order/{orderId}', 'DELETE',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -205,7 +204,6 @@ class StoreApi(object):
 
         collection_formats = {}
 
-        resource_path = '/store/inventory'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -223,7 +221,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = ['api_key']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/store/inventory', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -310,7 +308,6 @@ class StoreApi(object):
 
         collection_formats = {}
 
-        resource_path = '/store/order/{orderId}'.replace('{format}', 'json')
         path_params = {}
         if 'order_id' in params:
             path_params['orderId'] = params['order_id']
@@ -330,7 +327,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api('/store/order/{orderId}', 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
@@ -413,7 +410,6 @@ class StoreApi(object):
 
         collection_formats = {}
 
-        resource_path = '/store/order'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
@@ -433,7 +429,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api('/store/order', 'POST',
                                         path_params,
                                         query_params,
                                         header_params,

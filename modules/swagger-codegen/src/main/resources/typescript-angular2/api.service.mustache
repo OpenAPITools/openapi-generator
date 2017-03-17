@@ -99,7 +99,8 @@ export class {{classname}} {
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
     public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `{{path}}`;
+        const path = this.basePath + '{{path}}'{{#pathParams}}
+                    .replace('${' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -127,11 +128,17 @@ export class {{classname}} {
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
-            if({{paramName}} instanceof Date) {
-                queryParameters.set('{{baseName}}', <any>{{paramName}}.d.toISOString());
-            } else {
-                queryParameters.set('{{baseName}}', <any>{{paramName}});
-            }
+        {{#isDateTime}}
+            queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
+        {{/isDateTime}}
+        {{^isDateTime}}
+            {{#isDate}}
+            queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
+            {{/isDate}}
+            {{^isDate}}
+            queryParameters.set('{{baseName}}', <any>{{paramName}});
+            {{/isDate}}
+        {{/isDateTime}}
         }
         {{/isListContainer}}
 

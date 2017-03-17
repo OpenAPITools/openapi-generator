@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class ReadOnlyFirst  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String bar = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String baz = null;
 
  /**
@@ -60,7 +60,7 @@ public class ReadOnlyFirst  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

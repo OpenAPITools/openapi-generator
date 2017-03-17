@@ -1,0 +1,22 @@
+package {{package}};
+
+import java.util.Objects;
+import java.util.ArrayList;
+{{#imports}}import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>enumOuterClass}}
+{{/isEnum}}
+{{^isEnum}}
+{{>pojo}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

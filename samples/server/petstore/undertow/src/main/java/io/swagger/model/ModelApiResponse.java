@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  **/
 
 @ApiModel(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.UndertowCodegen", date = "2017-03-13T18:04:18.447+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.UndertowCodegen", date = "2017-03-15T16:44:20.027+01:00")
 public class ModelApiResponse   {
   
   private Integer code = null;
@@ -28,7 +28,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -45,7 +45,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -62,7 +62,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;
@@ -73,7 +73,7 @@ public class ModelApiResponse   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -107,7 +107,7 @@ public class ModelApiResponse   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

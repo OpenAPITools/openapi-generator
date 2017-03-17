@@ -1,4 +1,4 @@
-package io.swagger.petstore
+package io.swagger
 
 /**
  * The parent error from which most PetstoreAPI errors extend. Thrown whenever something in the api goes wrong.

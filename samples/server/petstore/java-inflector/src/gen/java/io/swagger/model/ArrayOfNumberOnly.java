@@ -13,7 +13,7 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-03-14T12:36:06.442+01:00")
+
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")
   private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
@@ -26,7 +26,7 @@ public class ArrayOfNumberOnly   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -37,7 +37,7 @@ public class ArrayOfNumberOnly   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -67,7 +67,7 @@ public class ArrayOfNumberOnly   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

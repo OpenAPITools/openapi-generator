@@ -83,7 +83,6 @@ sub add_pet {
 
     # parse inputs
     my $_resource_path = '/pet';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};
@@ -151,7 +150,6 @@ sub delete_pet {
 
     # parse inputs
     my $_resource_path = '/pet/{petId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'DELETE';
     my $query_params = {};
@@ -220,7 +218,6 @@ sub find_pets_by_status {
 
     # parse inputs
     my $_resource_path = '/pet/findByStatus';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -286,7 +283,6 @@ sub find_pets_by_tags {
 
     # parse inputs
     my $_resource_path = '/pet/findByTags';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -352,7 +348,6 @@ sub get_pet_by_id {
 
     # parse inputs
     my $_resource_path = '/pet/{petId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -420,7 +415,6 @@ sub update_pet {
 
     # parse inputs
     my $_resource_path = '/pet';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'PUT';
     my $query_params = {};
@@ -494,7 +488,6 @@ sub update_pet_with_form {
 
     # parse inputs
     my $_resource_path = '/pet/{petId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};
@@ -580,7 +573,6 @@ sub upload_file {
 
     # parse inputs
     my $_resource_path = '/pet/{petId}/uploadImage';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};

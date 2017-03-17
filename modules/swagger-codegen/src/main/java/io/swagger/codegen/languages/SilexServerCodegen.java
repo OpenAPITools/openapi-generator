@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.properties.ArrayProperty;
@@ -13,6 +14,10 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
@@ -213,4 +218,28 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
+
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            String path = new String(op.path);
+            String[] items = path.split("/", -1);
+            String opsPath = "";
+            int pathParamIndex = 0;
+
+            for (int i = 0; i < items.length; ++i) {
+                if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+                    // camelize path variable
+                    items[i] = "{" + camelize(items[i].substring(1, items[i].length()-1), true) + "}";
+                }
+            }
+
+            op.path = StringUtils.join(items, "/");
+        }
+
+        return objs;
+    }
+
 }
