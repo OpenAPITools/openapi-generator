@@ -1,4 +1,4 @@
-package io.swagger.petstore
+package io.swagger
 
 import com.twitter.finagle.Service
 import com.twitter.finagle.http.{Request, Response}
@@ -9,7 +9,7 @@ import io.circe.{Encoder, Json}
 import io.finch.circe._
 import io.circe.generic.semiauto._
 
-import io.swagger.petstore.apis._
+import io.swagger.apis._
 
 /**
  * Provides the paths and endpoints for all the API's public service methods.

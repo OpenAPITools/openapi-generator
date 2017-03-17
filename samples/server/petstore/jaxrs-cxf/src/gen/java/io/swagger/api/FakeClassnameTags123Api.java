@@ -13,6 +13,8 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
 import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 
@@ -25,6 +27,8 @@ public interface FakeClassnameTags123Api  {
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test class name in snake case", tags={ "fake_classname_tags 123#$%^" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Client testClassname(Client body);
 }
 

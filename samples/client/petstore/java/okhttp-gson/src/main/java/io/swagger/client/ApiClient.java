@@ -75,6 +75,7 @@ public class ApiClient {
 
 
         verifyingSsl = true;
+
         json = new JSON();
 
         // Set default User-Agent.

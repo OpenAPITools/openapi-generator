@@ -19,14 +19,14 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
   // preparation before running a test
   override def beforeAll() {
     val user = User(
-      11222,
-      "scala-test-username",
-      "scala-test-first",
-      "scala-test-last",
-      "scala_test@fail.com",
-      "SCALATEST",
-      "408-867-5309",
-      1)
+      Some(11222),
+      Some("scala-test-username"),
+      Some("scala-test-first"),
+      Some("scala-test-last"),
+      Some("scala_test@fail.com"),
+      Some("SCALATEST"),
+      Some("408-867-5309"),
+      Some(1))
 
     api.createUser(user)
   }
@@ -39,14 +39,14 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
   it should "fetch a user" in {
     api.getUserByName("scala-test-username") match {
       case Some(user) => {
-        user.id should be(11222)
-        user.username should be("scala-test-username")
-        user.password should be("SCALATEST")
-        user.email should be("scala_test@fail.com")
-        user.firstName should be("scala-test-first")
-        user.lastName should be("scala-test-last")
-        user.phone should be("408-867-5309")
-        user.userStatus should be(1)
+        user.id should be(Some(11222))
+        user.username should be(Some("scala-test-username"))
+        user.password should be(Some("SCALATEST"))
+        user.email should be(Some("scala_test@fail.com"))
+        user.firstName should be(Some("scala-test-first"))
+        user.lastName should be(Some("scala-test-last"))
+        user.phone should be(Some("408-867-5309"))
+        user.userStatus should be(Some(1))
       }
       case None =>
     }
@@ -69,22 +69,22 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
   it should "create 2 users" in {
     val userArray = (for (i <- (1 to 2)) yield {
       User(
-        2000 + i,
-        "johnny-" + i,
-        "Johnny",
-        "Rocket-" + i,
-        "johnny-" + i + "@fail.com",
-        "XXXXXXXXXXX",
-        "408-867-5309",
-        1)
+        Some(2000 + i),
+        Some("johnny-" + i),
+        Some("Johnny"),
+        Some("Rocket-" + i),
+        Some("johnny-" + i + "@fail.com"),
+        Some("XXXXXXXXXXX"),
+        Some("408-867-5309"),
+        Some(1))
     }).toList
     api.createUsersWithArrayInput(userArray)
 
     for (i <- (1 to 2)) {
       api.getUserByName("johnny-" + i) match {
         case Some(user) => {
-          user.id should be(2000 + i)
-          user.email should be("johnny-" + i + "@fail.com")
+          user.id should be(Some(2000 + i))
+          user.email should be(Some("johnny-" + i + "@fail.com"))
         }
         case None => fail("didn't find user " + i)
       }
@@ -94,22 +94,22 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
   it should "create 3 users" in {
     val userList = (for (i <- (1 to 3)) yield {
       User(
-        3000 + i,
-        "fred-" + i,
-        "Johnny",
-        "Rocket-" + i,
-        "fred-" + i + "@fail.com",
-        "XXXXXXXXXXX",
-        "408-867-5309",
-        1)
+        Some(3000 + i),
+        Some("fred-" + i),
+        Some("Johnny"),
+        Some("Rocket-" + i),
+        Some("fred-" + i + "@fail.com"),
+        Some("XXXXXXXXXXX"),
+        Some("408-867-5309"),
+        Some(1))
     }).toList
     api.createUsersWithListInput(userList)
 
     for (i <- (1 to 3)) {
       api.getUserByName("fred-" + i) match {
         case Some(user) => {
-          user.id should be(3000 + i)
-          user.email should be("fred-" + i + "@fail.com")
+          user.id should be(Some(3000 + i))
+          user.email should be(Some("fred-" + i + "@fail.com"))
         }
         case None => fail("didn't find user " + i)
       }
@@ -118,31 +118,31 @@ class UserApiTest extends FlatSpec with Matchers with BeforeAndAfterAll {
 
   it should "update a user" in {
     val user = User(
-      4000,
-      "tony",
-      "Tony",
-      "Tiger",
-      "tony@fail.com",
-      "XXXXXXXXXXX",
-      "408-867-5309",
-      1)
+      Some(4000),
+      Some("tony"),
+      Some("Tony"),
+      Some("Tiger"),
+      Some("tony@fail.com"),
+      Some("XXXXXXXXXXX"),
+      Some("408-867-5309"),
+      Some(1))
 
     api.createUser(user)
 
     api.getUserByName("tony") match {
       case Some(user) => {
-        user.id should be(4000)
-        user.username should be("tony")
+        user.id should be(Some(4000))
+        user.username should be(Some("tony"))
       }
       case None =>
     }
 
-    val updatedUser = user.copy(email = "tony@succeed.com")
+    val updatedUser = user.copy(email = Some("tony@succeed.com"))
 
     api.updateUser("tony", updatedUser)
     api.getUserByName("tony") match {
       case Some(user) => {
-        user.email should be("tony@succeed.com")
+        user.email should be(Some("tony@succeed.com"))
       }
       case None =>
     }

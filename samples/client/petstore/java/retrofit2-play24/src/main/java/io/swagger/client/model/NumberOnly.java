@@ -38,7 +38,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public BigDecimal getJustNumber() {
     return justNumber;
   }

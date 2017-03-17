@@ -38,7 +38,7 @@ public class Cat extends Animal implements Parcelable {
    * Get declawed
    * @return declawed
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Boolean getDeclawed() {
     return declawed;
   }

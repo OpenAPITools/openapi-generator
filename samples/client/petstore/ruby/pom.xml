@@ -36,6 +36,8 @@
                             <executable>bundle</executable>
                             <arguments>
                                 <argument>install</argument>
+                                <argument>--path</argument>
+                                <argument>vendor/bundle</argument>
                             </arguments>
                         </configuration>
                     </execution>

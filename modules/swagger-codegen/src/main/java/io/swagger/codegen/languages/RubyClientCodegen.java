@@ -272,7 +272,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         CodegenParameter lastRequired = null;
         CodegenParameter lastOptional = null;
         for (CodegenParameter p : op.allParams) {
-            if (p.required != null && p.required) {
+            if (p.required) {
                 lastRequired = p;
             } else {
                 lastOptional = p;

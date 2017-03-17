@@ -41,7 +41,7 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling FakeClassnameTags123Api.test_classname" if body.nil?
       # resource path
-      local_var_path = "/fake_classname_test".sub('{format}','json')
+      local_var_path = "/fake_classname_test"
 
       # query parameters
       query_params = {}

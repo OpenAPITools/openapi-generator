@@ -211,7 +211,7 @@ export class PetService {
      * @param body Pet object that needs to be added to the store
      */
     public addPetWithHttpInfo(body?: Pet, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet`;
+        const path = this.basePath + '/pet';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -257,7 +257,8 @@ export class PetService {
      * @param apiKey 
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet/${petId}`;
+        const path = this.basePath + '/pet/${petId}'
+                    .replace('${' + 'petId' + '}', String(petId));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -305,7 +306,7 @@ export class PetService {
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatusWithHttpInfo(status?: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet/findByStatus`;
+        const path = this.basePath + '/pet/findByStatus';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -353,7 +354,7 @@ export class PetService {
      * @param tags Tags to filter by
      */
     public findPetsByTagsWithHttpInfo(tags?: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet/findByTags`;
+        const path = this.basePath + '/pet/findByTags';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -401,7 +402,8 @@ export class PetService {
      * @param petId ID of pet that needs to be fetched
      */
     public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet/${petId}`;
+        const path = this.basePath + '/pet/${petId}'
+                    .replace('${' + 'petId' + '}', String(petId));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -452,7 +454,7 @@ export class PetService {
      * @param body Pet object that needs to be added to the store
      */
     public updatePetWithHttpInfo(body?: Pet, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet`;
+        const path = this.basePath + '/pet';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -499,7 +501,8 @@ export class PetService {
      * @param status Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: string, name?: string, status?: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet/${petId}`;
+        const path = this.basePath + '/pet/${petId}'
+                    .replace('${' + 'petId' + '}', String(petId));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -565,7 +568,8 @@ export class PetService {
      * @param file file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/pet/${petId}/uploadImage`;
+        const path = this.basePath + '/pet/${petId}/uploadImage'
+                    .replace('${' + 'petId' + '}', String(petId));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845

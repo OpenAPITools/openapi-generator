@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class NumberOnly  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private BigDecimal justNumber = null;
 
  /**
@@ -49,7 +49,7 @@ public class NumberOnly  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

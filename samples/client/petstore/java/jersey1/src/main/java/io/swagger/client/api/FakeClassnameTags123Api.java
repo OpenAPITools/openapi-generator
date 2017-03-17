@@ -64,7 +64,7 @@ public class FakeClassnameTags123Api {
     }
     
     // create path and map variables
-    String localVarPath = "/fake_classname_test".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake_classname_test";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

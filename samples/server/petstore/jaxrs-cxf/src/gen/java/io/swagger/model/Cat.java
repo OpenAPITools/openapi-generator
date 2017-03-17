@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class Cat extends Animal {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Boolean declawed = null;
 
  /**
@@ -49,7 +49,7 @@ public class Cat extends Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

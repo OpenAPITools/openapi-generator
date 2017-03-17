@@ -13,7 +13,7 @@ import java.util.UUID;
 
 
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-03-14T12:36:06.442+01:00")
+
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer = null;
@@ -64,7 +64,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("integer")
   public Integer getInteger() {
     return integer;
@@ -83,7 +83,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("int32")
   public Integer getInt32() {
     return int32;
@@ -100,7 +100,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("int64")
   public Long getInt64() {
     return int64;
@@ -119,7 +119,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
@@ -138,7 +138,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("float")
   public Float getFloat() {
     return _float;
@@ -157,7 +157,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("double")
   public Double getDouble() {
     return _double;
@@ -174,7 +174,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("string")
   public String getString() {
     return string;
@@ -191,7 +191,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
@@ -208,7 +208,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("binary")
   public byte[] getBinary() {
     return binary;
@@ -225,7 +225,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("date")
   public Date getDate() {
     return date;
@@ -242,7 +242,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
@@ -259,7 +259,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
@@ -276,7 +276,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -287,7 +287,7 @@ public class FormatTest   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -341,7 +341,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

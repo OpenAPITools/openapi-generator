@@ -14,11 +14,12 @@ package io.swagger.client.model
 
 
 case class Pet (
-  id: Long,
-  category: Category,
+  id: Option[Long],
+  category: Option[Category],
   name: String,
   photoUrls: List[String],
-  tags: List[Tag],
+  tags: Option[List[Tag]],
   /* pet status in the store */
-  status: String
+  status: Option[String]
 )
+

@@ -23,6 +23,7 @@ public interface FakeClassnameTestApi {
     @ApiOperation(value = "To test class name in snake case", notes = "", response = Client.class, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    
     @RequestMapping(value = "/fake_classname_test",
         produces = { "application/json" }, 
         consumes = { "application/json" },

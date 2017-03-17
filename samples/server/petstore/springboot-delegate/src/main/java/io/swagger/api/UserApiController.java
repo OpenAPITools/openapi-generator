@@ -24,7 +24,7 @@ public class UserApiController implements UserApi {
     private final UserApiDelegate delegate;
 
     @org.springframework.beans.factory.annotation.Autowired
-    UserApiController(UserApiDelegate delegate) {
+    public UserApiController(UserApiDelegate delegate) {
         this.delegate = delegate;
     }
 
