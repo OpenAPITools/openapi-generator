@@ -279,6 +279,11 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public boolean isDataTypeFile(String dataType) {
+        return dataType != null && dataType.equals("URL");
+    }
+
+    @Override
     public boolean isDataTypeBinary(final String dataType) {
         return dataType != null && dataType.equals("Data");
     }
