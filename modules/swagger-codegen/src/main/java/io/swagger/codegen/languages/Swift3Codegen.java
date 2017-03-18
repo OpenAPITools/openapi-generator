@@ -521,6 +521,15 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             return "empty";
         }
 
+        Pattern startWithNumberPattern = Pattern.compile("^\\d+");
+        Matcher startWithNumberMatcher = startWithNumberPattern.matcher(name);
+        if (startWithNumberMatcher.find()) {
+            String startingNumbers = startWithNumberMatcher.group(0);
+            String nameWithoutStartingNumbers = name.substring(startingNumbers.length());
+
+            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, true);
+        }
+
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
             return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase()), true);
