@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-jaxrs-client</artifactId>
-  <packaging>jar</packaging>
-  <name>swagger-jaxrs-client</name>
+  <artifactId>jaxrs-cxf-petstore-client</artifactId>
+  <packaging>war</packaging>
+  <name>jaxrs-cxf-petstore-client</name>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -32,7 +32,7 @@
           <stopPort>8079</stopPort>
           <stopKey>stopit</stopKey>
           <httpConnector>
-            <port></port>
+            <port>8080</port>
             <idleTimeout>60000</idleTimeout>
           </httpConnector>
         </configuration>
@@ -76,6 +76,15 @@
           </execution>
         </executions>
       </plugin>
+      
+      <!-- build WAR file -->
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+           <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+    </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -103,6 +112,13 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- Bean Validation API support -->
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>${beanvalidation-version}</version>
+        <scope>provided</scope>
+    </dependency>
     <!-- CXF Client -->
     <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -121,6 +137,12 @@
     <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-rs-service-description</artifactId>
+        <version>${cxf-version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
         <version>${cxf-version}</version>
         <scope>compile</scope>
     </dependency>
@@ -168,7 +190,8 @@
     <junit-version>4.12</junit-version>
     <logback-version>1.1.7</logback-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <cxf-version>3.1.6</cxf-version>
+    <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+    <cxf-version>3.1.8</cxf-version>
     <jackson-jaxrs-version>2.8.4</jackson-jaxrs-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
