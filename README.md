@@ -838,7 +838,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [carpolo](http://www.carpolo.co/)
 - [CloudBoost](https://www.CloudBoost.io/)
 - [Conplement](http://www.conplement.de/)
-- [Cummins] (http://www.cummins.com/)
+- [Cummins](http://www.cummins.com/)
 - [Cupix](http://www.cupix.com)
 - [DBBest Technologies](https://www.dbbest.com)
 - [DecentFoX](http://decentfox.com/)
