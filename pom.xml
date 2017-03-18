@@ -755,8 +755,6 @@
                 </property>
             </activation>
             <modules>
-                <!-- run ruby test first which has a random delay script to
-                     avoid issues with running 2 CI jobs in parallel.       -->
                 <!-- clients -->
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/ruby</module>
@@ -771,6 +769,7 @@
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
+                <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/scala</module>
