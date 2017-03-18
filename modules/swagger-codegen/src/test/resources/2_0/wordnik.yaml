@@ -412,8 +412,6 @@ paths:
             $ref: '#/definitions/ExampleSearchResults'
         '400':
           description: Invalid word supplied.
-        '400':
-          description: Invalid word supplied.
   '/account.json/authenticate/{username}':
     get:
       tags:
@@ -741,7 +739,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/WordListWord'
-            $ref: '#/definitions/WordListWord'
         '400':
           description: Invalid ID supplied
         '403':

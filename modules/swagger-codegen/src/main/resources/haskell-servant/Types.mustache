@@ -5,10 +5,10 @@
 module {{title}}.Types (
 {{#models}}
 {{#model}}
-    {{classname}} (..),
+  {{classname}} (..),
 {{/model}}
 {{/models}}
-    ) where
+  ) where
 
 import Data.List (stripPrefix)
 import Data.Maybe (fromMaybe)
@@ -29,14 +29,14 @@ import Data.Function ((&))
 {{^vendorExtensions.x-customNewtype}}
 {{^parent}}
 {{vendorExtensions.x-data}} {{classname}} = {{classname}}
-    { {{#vars}}{{& name}} :: {{datatype}} -- ^ {{& description}}{{#hasMore}}
-    , {{/hasMore}}{{/vars}}
-    } deriving (Show, Eq, Generic)
+  { {{#vars}}{{& name}} :: {{datatype}} -- ^ {{& description}}{{#hasMore}}
+  , {{/hasMore}}{{/vars}}
+  } deriving (Show, Eq, Generic)
 
 instance FromJSON {{classname}} where
-  parseJSON  = genericParseJSON  (removeFieldLabelPrefix True "{{vendorExtensions.x-prefix}}")
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "{{vendorExtensions.x-prefix}}")
 instance ToJSON {{classname}} where
-  toJSON     = genericToJSON     (removeFieldLabelPrefix False "{{vendorExtensions.x-prefix}}")
+  toJSON = genericToJSON (removeFieldLabelPrefix False "{{vendorExtensions.x-prefix}}")
 {{/parent}}
 {{#parent}}
 newtype {{classname}} = {{classname}} { un{{classname}} :: {{parent}} }
@@ -54,12 +54,15 @@ newtype {{classname}} = {{classname}} {{vendorExtensions.x-customNewtype}} deriv
 removeFieldLabelPrefix :: Bool -> String -> Options
 removeFieldLabelPrefix forParsing prefix =
   defaultOptions
-    { fieldLabelModifier = fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
-    }
+  {fieldLabelModifier = fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars}
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
-    specialChars = [{{#specialCharReplacements}}("{{&char}}", "{{&replacement}}"){{#hasMore}}, {{/hasMore}}{{/specialCharReplacements}}]
+    specialChars =
+      [ {{#specialCharReplacements}}("{{&char}}", "{{&replacement}}"){{#hasMore}}
+      , {{/hasMore}}{{/specialCharReplacements}}
+      ]
     mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
-    replacer = if forParsing then flip T.replace else T.replace
-
-
+    replacer =
+      if forParsing
+        then flip T.replace
+        else T.replace

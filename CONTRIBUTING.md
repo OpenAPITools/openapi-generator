@@ -34,6 +34,8 @@ Code change should conform to the programming style guide of the respective lang
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - C++: https://google.github.io/styleguide/cppguide.html
 - Clojure: https://github.com/bbatsov/clojure-style-guide
+- Elixir: https://github.com/christopheradams/elixir_style_guide
+- Erlang: https://github.com/inaka/erlang_guidelines
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/
