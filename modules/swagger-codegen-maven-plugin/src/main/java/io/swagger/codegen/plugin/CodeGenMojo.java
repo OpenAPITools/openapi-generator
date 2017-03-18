@@ -175,6 +175,62 @@ public class CodeGenMojo extends AbstractMojo {
     private Map<?, ?> configOptions;
 
     /**
+     * Generate the apis
+     */
+    @Parameter(name = "generateApis", required = false)
+    private Boolean generateApis = true;
+
+    /**
+     * Generate the models
+     */
+    @Parameter(name = "generateModels", required = false)
+    private Boolean generateModels = true;
+
+    /**
+     * A comma separated list of models to generate.  All models is the default.
+     */
+    @Parameter(name = "modelsToGenerate", required = false)
+    private String modelsToGenerate = "";
+
+    /**
+     * Generate the supporting files
+     */
+    @Parameter(name = "generateSupportingFiles", required = false)
+    private Boolean generateSupportingFiles = true;
+
+    /**
+     * A comma separated list of models to generate.  All models is the default.
+     */
+    @Parameter(name = "supportingFilesToGenerate", required = false)
+    private String supportingFilesToGenerate = "";
+    
+    /**
+     * Generate the model tests
+     */
+    @Parameter(name = "generateModelTests", required = false)
+    private Boolean generateModelTests = true;
+
+    /**
+     * Generate the model documentation
+     */
+    @Parameter(name = "generateModelDocumentation", required = false)
+    private Boolean generateModelDocumentation = true;
+
+    /**
+     * Generate the api tests
+     */
+    @Parameter(name = "generateApiTests", required = false)
+    private Boolean generateApiTests = true;
+
+    /**
+     * Generate the api documentation
+     */
+    @Parameter(name = "generateApiDocumentation", required = false)
+    private Boolean generateApiDocumentation = true;
+
+
+
+    /**
      * Add the output directory to the project as a source root, so that the
      * generated java types are compiled and included in the project artifact.
      */
@@ -273,6 +329,23 @@ public class CodeGenMojo extends AbstractMojo {
         if (null != templateDirectory) {
             configurator.setTemplateDir(templateDirectory.getAbsolutePath());
         }
+
+        // Set generation options
+        if (null != generateApis && generateApis) {
+            System.setProperty("apis", "");
+        }
+        if (null != generateModels && generateModels) {
+            System.setProperty("models", modelsToGenerate);
+        }
+
+        if (null != generateSupportingFiles && generateSupportingFiles) {
+            System.setProperty("supportingFiles", supportingFilesToGenerate);
+        }
+        
+        System.setProperty("modelTests", generateModelTests.toString());
+        System.setProperty("modelDocs", generateModelDocumentation.toString());
+        System.setProperty("apiTests", generateApiTests.toString());
+        System.setProperty("apiDocs", generateApiDocumentation.toString());
 
         if (configOptions != null) {
 
