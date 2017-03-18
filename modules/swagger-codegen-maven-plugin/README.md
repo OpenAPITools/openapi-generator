@@ -50,6 +50,15 @@ mvn clean compile
 - `configOptions` - a map of language-specific parameters (see below)
 - `configHelp` - dumps the configuration help for the specified library (generates no sources)
 - `ignoreFileOverride` - specifies the full path to a `.swagger-codegen-ignore` used for pattern based overrides of generated outputs
+- `generateApis` - generate the apis (`true` by default)
+- `generateApiTests` - generate the api tests (`true` by default. Only available if `generateApis` is `true`)
+- `generateApiDocumentation` - generate the api documentation (`true` by default. Only available if `generateApis` is `true`)
+- `generateModels` - generate the models (`true` by default)
+- `modelsToGenerate` - A comma separated list of models to generate.  All models is the default.
+- `generateModelTests` - generate the model tests (`true` by default. Only available if `generateModels` is `true`)
+- `generateModelDocumentation` - generate the model documentation (`true` by default. Only available if `generateModels` is `true`)
+- `generateSupportingFiles` - generate the supporting files (`true` by default)
+- `supportingFilesToGenerate` - A comma separated list of supporting files to generate.  All files is the default.
 
 ### Custom Generator
 
