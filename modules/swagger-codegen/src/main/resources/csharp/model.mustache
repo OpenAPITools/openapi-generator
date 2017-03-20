@@ -3,18 +3,22 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Text;
+{{^netStandard}}
 using System.Text.RegularExpressions;
+{{/netStandard}}
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+{{^netStandard}}
 {{#generatePropertyChanged}}
 using PropertyChanged;
 using System.ComponentModel;
 {{/generatePropertyChanged}}
 using System.ComponentModel.DataAnnotations;
+{{/netStandard}}
 
 {{#models}}
 {{#model}}

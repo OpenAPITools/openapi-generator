@@ -1,7 +1,12 @@
 {{>partial_header}}
 
 using System;
+{{#netStandard}}
+using RestSharp.Portable;
+{{/netStandard}}
+{{^netStandard}}
 using RestSharp;
+{{/netStandard}}
 
 namespace {{packageName}}.Client
 {
