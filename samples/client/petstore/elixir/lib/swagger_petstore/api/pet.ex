@@ -26,7 +26,7 @@ defmodule SwaggerPetstore.Api.Pet do
     method = [method: :delete]
     url = [url: "/pet/#{pet_id}"]
     query_params = []
-    header_params = [header: [{:"apiKey", api_key}]]
+    header_params = [header: [{:"api_key", api_key}]]
     body_params = []
     form_params = []
     params = query_params ++ header_params ++ body_params ++ form_params
