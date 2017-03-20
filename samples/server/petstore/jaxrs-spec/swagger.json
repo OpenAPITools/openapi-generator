@@ -108,8 +108,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "available", "pending", "sold" ],
-            "default" : "available"
+            "default" : "available",
+            "enum" : [ "available", "pending", "sold" ]
           },
           "collectionFormat" : "csv"
         } ],
@@ -650,8 +650,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ ">", "$" ],
-            "default" : "$"
+            "default" : "$",
+            "enum" : [ ">", "$" ]
           }
         }, {
           "name" : "enum_form_string",
@@ -669,8 +669,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ ">", "$" ],
-            "default" : "$"
+            "default" : "$",
+            "enum" : [ ">", "$" ]
           }
         }, {
           "name" : "enum_header_string",
@@ -688,8 +688,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ ">", "$" ],
-            "default" : "$"
+            "default" : "$",
+            "enum" : [ ">", "$" ]
           }
         }, {
           "name" : "enum_query_string",
@@ -705,14 +705,16 @@
           "description" : "Query parameter enum test (double)",
           "required" : false,
           "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "enum" : [ 1, -2 ]
         }, {
           "name" : "enum_query_double",
           "in" : "formData",
           "description" : "Query parameter enum test (double)",
           "required" : false,
           "type" : "number",
-          "format" : "double"
+          "format" : "double",
+          "enum" : [ 1.1, -1.2 ]
         } ],
         "responses" : {
           "400" : {
@@ -725,8 +727,8 @@
       },
       "post" : {
         "tags" : [ "fake" ],
-        "summary" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
-        "description" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "summary" : "Fake endpoint for testing various parameters\n???\n?????????\n?? ?? ???\n",
+        "description" : "Fake endpoint for testing various parameters\n???\n?????????\n?? ?? ???\n",
         "operationId" : "testEndpointParameters",
         "consumes" : [ "application/xml; charset=utf-8", "application/json; charset=utf-8" ],
         "produces" : [ "application/xml; charset=utf-8", "application/json; charset=utf-8" ],
@@ -760,15 +762,15 @@
           "description" : "None",
           "required" : true,
           "type" : "number",
-          "maximum" : 543.200000000000045474735088646411895751953125,
-          "minimum" : 32.10000000000000142108547152020037174224853515625
+          "maximum" : 543.2,
+          "minimum" : 32.1
         }, {
           "name" : "float",
           "in" : "formData",
           "description" : "None",
           "required" : false,
           "type" : "number",
-          "maximum" : 987.6000000000000227373675443232059478759765625,
+          "maximum" : 987.6,
           "format" : "float"
         }, {
           "name" : "double",
@@ -776,8 +778,8 @@
           "description" : "None",
           "required" : true,
           "type" : "number",
-          "maximum" : 123.400000000000005684341886080801486968994140625,
-          "minimum" : 67.7999999999999971578290569595992565155029296875,
+          "maximum" : 123.4,
+          "minimum" : 67.8,
           "format" : "double"
         }, {
           "name" : "string",
@@ -886,13 +888,13 @@
         "read:pets" : "read your pets"
       }
     },
-    "http_basic_test" : {
-      "type" : "basic"
-    },
     "api_key" : {
       "type" : "apiKey",
       "name" : "api_key",
       "in" : "header"
+    },
+    "http_basic_test" : {
+      "type" : "basic"
     }
   },
   "definitions" : {

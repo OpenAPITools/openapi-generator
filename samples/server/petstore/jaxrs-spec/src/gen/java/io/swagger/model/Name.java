@@ -26,7 +26,7 @@ public class Name   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
   public Integer getName() {
     return name;
@@ -43,7 +43,7 @@ public class Name   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -59,7 +59,7 @@ public class Name   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getProperty() {
     return property;
   }
@@ -75,7 +75,7 @@ public class Name   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer get123Number() {
     return _123Number;
   }
@@ -85,7 +85,7 @@ public class Name   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -121,7 +121,7 @@ public class Name   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
