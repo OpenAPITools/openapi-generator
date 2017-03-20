@@ -28,7 +28,7 @@ defmodule SwaggerPetstore.Api.Fake do
     query_params = []
     header_params = []
     body_params = []
-    form_params = [body: Enum.map_join([{:"integer", integer}, {:"int32", int32}, {:"int64", int64}, {:"number", number}, {:"float", float}, {:"double", double}, {:"string", string}, {:"patternWithoutDelimiter", pattern_without_delimiter}, {:"byte", byte}, {:"binary", binary}, {:"date", date}, {:"dateTime", date_time}, {:"password", password}, {:"callback", callback}], "&", &("#{elem(&1, 0)}=#{elem(&1, 1)}"))]
+    form_params = [body: Enum.map_join([{:"integer", integer}, {:"int32", int32}, {:"int64", int64}, {:"number", number}, {:"float", float}, {:"double", double}, {:"string", string}, {:"pattern_without_delimiter", pattern_without_delimiter}, {:"byte", byte}, {:"binary", binary}, {:"date", date}, {:"dateTime", date_time}, {:"password", password}, {:"callback", callback}], "&", &("#{elem(&1, 0)}=#{elem(&1, 1)}"))]
     params = query_params ++ header_params ++ body_params ++ form_params
     opts = []
     options = method ++ url ++ params ++ opts
@@ -39,10 +39,10 @@ defmodule SwaggerPetstore.Api.Fake do
   def test_enum_parameters(enum_form_string_array, enum_form_string, enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double) do
     method = [method: :get]
     url = [url: "/fake"]
-    query_params = [query: [{:"enumQueryStringArray", enum_query_string_array}, {:"enumQueryString", enum_query_string}, {:"enumQueryInteger", enum_query_integer}]]
-    header_params = [header: [{:"enumHeaderStringArray", enum_header_string_array}, {:"enumHeaderString", enum_header_string}]]
+    query_params = [query: [{:"enum_query_string_array", enum_query_string_array}, {:"enum_query_string", enum_query_string}, {:"enum_query_integer", enum_query_integer}]]
+    header_params = [header: [{:"enum_header_string_array", enum_header_string_array}, {:"enum_header_string", enum_header_string}]]
     body_params = []
-    form_params = [body: Enum.map_join([{:"enumFormStringArray", enum_form_string_array}, {:"enumFormString", enum_form_string}, {:"enumQueryDouble", enum_query_double}], "&", &("#{elem(&1, 0)}=#{elem(&1, 1)}"))]
+    form_params = [body: Enum.map_join([{:"enum_form_string_array", enum_form_string_array}, {:"enum_form_string", enum_form_string}, {:"enum_query_double", enum_query_double}], "&", &("#{elem(&1, 0)}=#{elem(&1, 1)}"))]
     params = query_params ++ header_params ++ body_params ++ form_params
     opts = []
     options = method ++ url ++ params ++ opts
