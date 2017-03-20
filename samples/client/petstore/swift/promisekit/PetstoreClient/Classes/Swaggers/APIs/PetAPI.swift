@@ -236,48 +236,48 @@ public class PetAPI: APIBase {
      - examples: [{contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      - examples: [{contentType=application/json, example=[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      
      - parameter tags: (query) Tags to filter by (optional)
@@ -344,48 +344,48 @@ public class PetAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 }}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      - examples: [{contentType=application/json, example={
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 }}, {contentType=application/xml, example=<Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet>}]
      
      - parameter petId: (path) ID of pet that needs to be fetched 

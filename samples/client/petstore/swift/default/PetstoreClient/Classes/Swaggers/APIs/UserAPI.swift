@@ -171,39 +171,39 @@ public class UserAPI: APIBase {
   "firstName" : "aeiou",
   "lastName" : "aeiou",
   "password" : "aeiou",
-  "userStatus" : 123,
+  "userStatus" : 6,
   "phone" : "aeiou",
-  "id" : 123456789,
+  "id" : 0,
   "email" : "aeiou",
   "username" : "aeiou"
 }}, {contentType=application/xml, example=<User>
-  <id>123456</id>
-  <username>string</username>
-  <firstName>string</firstName>
-  <lastName>string</lastName>
-  <email>string</email>
-  <password>string</password>
-  <phone>string</phone>
-  <userStatus>0</userStatus>
+  <id>123456789</id>
+  <username>aeiou</username>
+  <firstName>aeiou</firstName>
+  <lastName>aeiou</lastName>
+  <email>aeiou</email>
+  <password>aeiou</password>
+  <phone>aeiou</phone>
+  <userStatus>123</userStatus>
 </User>}]
      - examples: [{contentType=application/json, example={
   "firstName" : "aeiou",
   "lastName" : "aeiou",
   "password" : "aeiou",
-  "userStatus" : 123,
+  "userStatus" : 6,
   "phone" : "aeiou",
-  "id" : 123456789,
+  "id" : 0,
   "email" : "aeiou",
   "username" : "aeiou"
 }}, {contentType=application/xml, example=<User>
-  <id>123456</id>
-  <username>string</username>
-  <firstName>string</firstName>
-  <lastName>string</lastName>
-  <email>string</email>
-  <password>string</password>
-  <phone>string</phone>
-  <userStatus>0</userStatus>
+  <id>123456789</id>
+  <username>aeiou</username>
+  <firstName>aeiou</firstName>
+  <lastName>aeiou</lastName>
+  <email>aeiou</email>
+  <password>aeiou</password>
+  <phone>aeiou</phone>
+  <userStatus>123</userStatus>
 </User>}]
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
@@ -244,8 +244,8 @@ public class UserAPI: APIBase {
      Logs user into the system
      - GET /user/login
      - 
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=string}]
+     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=aeiou}]
+     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=aeiou}]
      
      - parameter username: (query) The user name for login (optional)
      - parameter password: (query) The password for login in clear text (optional)
