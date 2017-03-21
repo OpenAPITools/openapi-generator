@@ -1,6 +1,7 @@
 goog.provide('API.Client.Tag');
 
 /**
+ * A tag for a pet
  * @record
  */
 API.Client.Tag = function() {}
