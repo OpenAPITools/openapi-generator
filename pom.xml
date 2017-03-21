@@ -772,6 +772,7 @@
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
@@ -784,20 +785,19 @@
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
                 <!-- servers -->
                 <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/undertow</module>
+                <module>samples/server/petstore/java-play-framework</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/scalatra</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-
+                <module>samples/server/petstore/scalatra</module>
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/springboot</module>
+                <module>samples/server/petstore/undertow</module>
                 <!--<module>samples/server/petstore/java-msf4j</module> note: JDK8 only -->
             </modules>
         </profile>
