@@ -30,7 +30,7 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     @ApiImplicitParams({
-    @ApiImplicitParam(name = "test", value = "Test header", required=true, dataType = "String", paramType = "header"),@ApiImplicitParam(name = "range", value = "range header",  dataType = "Integer", paramType = "header")
+    
     })
     @RequestMapping(value = "/pet",
         produces = { "application/xml", "application/json" }, 
