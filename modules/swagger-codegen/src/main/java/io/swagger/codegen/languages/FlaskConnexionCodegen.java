@@ -620,11 +620,26 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        String modelImport = "from ";
-        if (!"".equals(modelPackage())) {
-            modelImport += modelPackage() + ".";
+        String modelImport;
+        if (StringUtils.startsWithAny(name,"import", "from")) {
+            modelImport = name;
+        } else {
+            modelImport = "from ";
+            if (!"".equals(modelPackage())) {
+                modelImport += modelPackage() + ".";
+            }
+            modelImport += toModelFilename(name)+ " import " + name;
         }
-        modelImport += toModelFilename(name)+ " import " + name;
         return modelImport;
     }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property){
+        if (StringUtils.isNotEmpty(property.pattern)) {
+            addImport(model, "import re");
+        }
+    }
+
+
+
 }
