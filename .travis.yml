@@ -8,6 +8,8 @@ cache:
   directories:
   - $HOME/.m2
   - $HOME/.ivy2
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
   - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
   - $HOME/samples/client/petstore/ruby/venodr/bundle
   - $HOME/samples/client/petstore/python/.venv/
@@ -48,6 +50,8 @@ before_install:
 
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
+  # show java version
+  - java -version
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
