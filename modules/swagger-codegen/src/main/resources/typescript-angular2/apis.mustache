@@ -2,6 +2,7 @@
 {{#apis}}
 {{#operations}}
 export * from './{{ apiFilename }}';
+import { {{ classname }} }  from './{{ classname }}';
 {{/operations}}
 {{/apis}}
 export const APIS = [ {{#apis}}{{#operations}}{{ classname }}, {{/operations}}{{/apis}}];
