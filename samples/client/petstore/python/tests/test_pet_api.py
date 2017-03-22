@@ -11,6 +11,7 @@ import os
 import unittest
 
 import petstore_api
+from petstore_api import Configuration
 from petstore_api.rest import ApiException
 
 from .util import id_gen
@@ -50,7 +51,9 @@ class MockPoolManager(object):
 class PetApiTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = petstore_api.ApiClient(HOST)
+        config = Configuration()
+        config.host = HOST
+        self.api_client = petstore_api.ApiClient(config)
         self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
@@ -117,25 +120,24 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(body=self.pet, _request_timeout=5)
         self.pet_api.add_pet(body=self.pet, _request_timeout=(1, 2))
 
-    def test_create_api_instance(self):
+    def test_separate_default_client_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
-        api_client3 = petstore_api.ApiClient()
-        api_client3.user_agent = 'api client 3'
-        api_client4 = petstore_api.ApiClient()
-        api_client4.user_agent = 'api client 4'
-        pet_api3 = petstore_api.PetApi(api_client3)
+        self.assertNotEqual(pet_api.api_client, pet_api2.api_client)
 
-        # same default api client
-        self.assertEqual(pet_api.api_client, pet_api2.api_client)
-        # confirm using the default api client in the config module
-        self.assertEqual(pet_api.api_client, petstore_api.configuration.api_client)
-        # 2 different api clients are not the same
-        self.assertNotEqual(api_client3, api_client4)
-        # customized pet api not using the default api client
-        self.assertNotEqual(pet_api3.api_client, petstore_api.configuration.api_client)
-        # customized pet api not using the old pet api's api client
-        self.assertNotEqual(pet_api3.api_client, pet_api2.api_client)
+        pet_api.api_client.user_agent = 'api client 3'
+        pet_api2.api_client.user_agent = 'api client 4'
+
+        self.assertNotEqual(pet_api.api_client.user_agent, pet_api2.api_client.user_agent)
+
+    def test_separate_default_config_instances(self):
+        pet_api = petstore_api.PetApi()
+        pet_api2 = petstore_api.PetApi()
+        self.assertNotEqual(pet_api.api_client.configuration, pet_api2.api_client.configuration)
+
+        pet_api.api_client.configuration.host = 'somehost'
+        pet_api2.api_client.configuration.host = 'someotherhost'
+        self.assertNotEqual(pet_api.api_client.configuration.host, pet_api2.api_client.configuration.host)
 
     def test_async_request(self):
         self.pet_api.add_pet(body=self.pet)
