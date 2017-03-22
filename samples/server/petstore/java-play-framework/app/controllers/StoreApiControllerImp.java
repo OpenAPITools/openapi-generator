@@ -9,23 +9,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.validation.constraints.*;
 
-public class StoreApiControllerImp {
-    void deleteOrder( String orderId) {
+public class StoreApiControllerImp implements StoreApiControllerImpInterface {
+    public void deleteOrder(String orderId) {
         //Do your magic!!!
         
     }
 
-    Map<String, Integer> getInventory() {
+    public Map<String, Integer> getInventory() {
         //Do your magic!!!
         return new HashMap<String, Integer>();
     }
 
-    Order getOrderById( String orderId) {
+    public Order getOrderById(String orderId) {
         //Do your magic!!!
         return new Order();
     }
 
-    Order placeOrder(Order body) {
+    public Order placeOrder(Order body) {
         //Do your magic!!!
         return new Order();
     }

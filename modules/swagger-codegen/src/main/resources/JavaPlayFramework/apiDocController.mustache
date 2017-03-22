@@ -10,6 +10,6 @@ public class ApiDocController extends Controller {
     }
 
     public Result api() {
-        return redirect(String.format("/assets/lib/swagger-ui/index.html?/url=%s/api-docs", ""));
+        return redirect("/assets/lib/swagger-ui/index.html?/url=/assets/swagger.json");
     }
 }
