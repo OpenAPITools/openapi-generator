@@ -36,7 +36,7 @@ public class {{classname}} extends SwaggerApi {
      */
     public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
         // create path and map variables
-        var path: String = "{{path}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
+        var path: String = "{{{path}}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
 
         // query params
         var queryParams: Dictionary = new Dictionary();

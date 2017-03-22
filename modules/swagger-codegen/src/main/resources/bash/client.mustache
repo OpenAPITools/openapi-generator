@@ -815,10 +815,10 @@ call_{{operationId}}() {
     local query_parameter_names=({{#queryParams}}{{baseName}}{{#hasMore}} {{/hasMore}}{{/queryParams}})
 
     if [[ $force = false ]]; then
-        validate_request_parameters "{{basePathWithoutHost}}{{path}}" path_parameter_names query_parameter_names
+        validate_request_parameters "{{basePathWithoutHost}}{{{path}}}" path_parameter_names query_parameter_names
     fi
 
-    local path=$(build_request_path "{{basePathWithoutHost}}{{path}}" path_parameter_names query_parameter_names)
+    local path=$(build_request_path "{{basePathWithoutHost}}{{{path}}}" path_parameter_names query_parameter_names)
     local method="{{httpMethod}}"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then

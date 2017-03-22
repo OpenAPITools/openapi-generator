@@ -89,7 +89,7 @@ namespace {{packageName}}.Api
             if ({{paramName}} == null) throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{nickname}}");
             {{/required}}{{/allParams}}
     
-            var path = "{{path}}";
+            var path = "{{{path}}}";
             path = path.Replace("{format}", "json");
             {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", ApiClient.ParameterToString({{{paramName}}}));
             {{/pathParams}}

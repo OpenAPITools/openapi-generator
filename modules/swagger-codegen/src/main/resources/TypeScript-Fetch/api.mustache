@@ -79,7 +79,7 @@ export const {{classname}}FetchParamCreator = {
         }
 {{/required}}
 {{/allParams}}
-        const baseUrl = `{{path}}`{{#pathParams}}
+        const baseUrl = `{{{path}}}`{{#pathParams}}
             .replace(`{${"{{baseName}}"}}`, `${ params["{{paramName}}"] }`){{/pathParams}};
         let urlObj = url.parse(baseUrl, true);
 {{#hasQueryParams}}

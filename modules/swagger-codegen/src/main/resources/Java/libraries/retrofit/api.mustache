@@ -32,7 +32,7 @@ public interface {{classname}} {
    */
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
-  @{{httpMethod}}("{{path}}")
+  @{{httpMethod}}("{{{path}}}")
   {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}} {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
@@ -47,7 +47,7 @@ public interface {{classname}} {
    */
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
-  @{{httpMethod}}("{{path}}")
+  @{{httpMethod}}("{{{path}}}")
   void {{operationId}}(
     {{#allParams}}{{>libraries/retrofit/queryParams}}{{>libraries/retrofit/pathParams}}{{>libraries/retrofit/headerParams}}{{>libraries/retrofit/bodyParams}}{{>libraries/retrofit/formParams}}, {{/allParams}}Callback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> cb
   );

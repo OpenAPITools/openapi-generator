@@ -10,7 +10,7 @@ import * as models from '../model/models';
  */
 {{/description}}
 export class {{classname}} {
-    protected basePath = '{{basePath}}';
+    protected basePath = '{{{basePath}}}';
     public defaultHeaders : any = {};
 
     static $inject: string[] = ['$http', '$httpParamSerializer', 'basePath'];
@@ -28,7 +28,7 @@ export class {{classname}} {
         {{#allParams}}* @param {{paramName}} {{description}}
         {{/allParams}}*/
     public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
-        const localVarPath = this.basePath + '{{path}}'{{#pathParams}}
+        const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
 
         let queryParameters: any = {};
