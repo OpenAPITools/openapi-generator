@@ -38,7 +38,6 @@ using IO.Swagger.Api;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
 ```
-
 <a name="packaging"></a>
 ## Packaging
 
