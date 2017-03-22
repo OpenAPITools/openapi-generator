@@ -86,6 +86,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         super.processOpts();
 
         additionalProperties.put("packageGuid", packageGuid);
+        additionalProperties.put("dockerTag", this.packageName.toLowerCase());
 
         apiPackage = packageName + ".Controllers";
         modelPackage = packageName + ".Models";
