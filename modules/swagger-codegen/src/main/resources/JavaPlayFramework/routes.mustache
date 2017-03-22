@@ -10,7 +10,7 @@ GET     /api                        controllers.ApiDocController.api
 #Functions for {{{baseName}}} API
 {{#operations}}
 {{#operation}}
-{{httpMethod}}     {{path}}                     controllers.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+{{httpMethod}}     {{contextPath}}{{path}}                     controllers.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
 {{/operation}}
 {{/operations}}
 {{/apis}}
@@ -18,10 +18,3 @@ GET     /api                        controllers.ApiDocController.api
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
-GET     /api-docs                   controllers.ApiHelpController.getResources
-{{#apiInfo}}
-{{#apis}}
-GET     /api-docs.json/{{{baseName}}}        controllers.ApiHelpController.getResource(path = "/{{{baseName}}}")
-{{/apis}}
-{{/apiInfo}}

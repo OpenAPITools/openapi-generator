@@ -3,7 +3,6 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
-import io.swagger.annotations.*;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -14,15 +13,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import java.io.IOException;
 import swagger.SwaggerUtils;
-import javafx.util.Pair;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
+{{#handleExceptions}}
+import swagger.SwaggerUtils.ApiAction;
+{{/handleExceptions}}
+
 {{>generatedAnnotation}}
-@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
 {{#operations}}
 public class {{classname}}Controller extends Controller {
 
@@ -37,21 +38,7 @@ public class {{classname}}Controller extends Controller {
 
 {{#operation}}
 
-    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}"{{#returnType}}, response = {{{returnType}}}.class{{/returnType}}{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
-    {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-    {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
-    {{/hasMore}}{{/scopes}}
-    }{{/isOAuth}}){{#hasMore}},
-    {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
-    @ApiResponses(value = { {{#responses}}
-    @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#returnType}}, response = {{{returnType}}}.class{{/returnType}}){{#hasMore}}, {{/hasMore}}{{/responses}} })
-    {{#hasParams}}
-    @ApiImplicitParams({
-        {{#allParams}}{{^isPathParam}}@ApiImplicitParam(name = "{{baseName}}", value = "{{{description}}}"{{#required}}, required = true{{/required}}{{#defaultValue}}, defaultValue = "{{{defaultValue}}}"{{/defaultValue}}, dataType = "{{{dataTypeForImplicitParam}}}", paramType = "{{>paramType}}"){{#hasMore}},
-        {{/hasMore}}{{/isPathParam}}{{/allParams}}
-    })
-    {{/hasParams}}
+    {{#handleExceptions}}@ApiAction{{/handleExceptions}}
     public Result {{operationId}}({{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{#bodyParams}}throws IOException{{/bodyParams}} {
         {{#bodyParams}}
         {{#collectionFormat}}
@@ -64,7 +51,7 @@ public class {{classname}}Controller extends Controller {
         {{^required}}
         if (node{{paramName}} != null) {
             {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isMapContainer}}new TypeReference<Map<{{{dataType}}}>>(){}{{/isMapContainer}}{{#isListContainer}}new TypeReference<List<{{{dataType}}}>>(){}{{/isListContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}.class{{/isMapContainer}}{{/isListContainer}});{{/required}}
-        {{#required}}{{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{{dataType}}}.class);{{/required}}
+        {{#required}}{{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isMapContainer}}new TypeReference<Map<{{{dataType}}}>>(){}{{/isMapContainer}}{{#isListContainer}}new TypeReference<List<{{{dataType}}}>>(){}{{/isListContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}.class{{/isMapContainer}}{{/isListContainer}});{{/required}}
         {{^required}}
         } else {
             {{paramName}} = null;
