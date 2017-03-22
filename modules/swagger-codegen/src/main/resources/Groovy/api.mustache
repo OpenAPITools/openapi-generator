@@ -13,13 +13,13 @@ import java.util.*;
 @Mixin(ApiUtils)
 {{#operations}}
 class {{classname}} {
-    String basePath = "{{basePath}}"
+    String basePath = "{{{basePath}}}"
     String versionPath = "/api/v1"
 
     {{#operation}}
     def {{operationId}} ({{#allParams}} {{{dataType}}} {{paramName}},{{/allParams}} Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
-        String resourcePath = "{{path}}"
+        String resourcePath = "{{{path}}}"
 
         // query params
         def queryParams = [:]

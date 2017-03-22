@@ -37,7 +37,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     {{/isContainer}}{{/isPrimitiveType}}{{/required}}{{/allParams}}
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t path = U("{{path}}");
+    utility::string_t path = U("{{{path}}}");
     {{#pathParams}}boost::replace_all(path, U("{") U("{{baseName}}") U("}"), ApiClient::parameterToString({{{paramName}}}));
     {{/pathParams}}
 

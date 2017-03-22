@@ -20,7 +20,7 @@ object {{classname}} {
 {{>javadoc}}
 {{/javadocRenderer}}
   def {{operationId}}({{>methodParameters}}): ApiRequest[{{>operationReturnType}}] =
-    ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, "{{basePath}}", "{{path}}", {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})
+    ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, "{{{basePath}}}", "{{{path}}}", {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})
       {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}})
       {{/isApiKey}}{{#isBasic}}.withCredentials(basicAuth)
       {{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
