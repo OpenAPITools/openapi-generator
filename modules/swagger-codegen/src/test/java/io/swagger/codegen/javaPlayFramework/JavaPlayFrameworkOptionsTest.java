@@ -55,13 +55,11 @@ public class JavaPlayFrameworkOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setControllerOnly(Boolean.valueOf(JavaPlayFrameworkOptionsProvider.CONTROLLER_ONLY));
             times = 1;
-            clientCodegen.setSingleContentTypes(Boolean.valueOf(JavaPlayFrameworkOptionsProvider.SINGLE_CONTENT_TYPES));
-            times = 1;
-            clientCodegen.setResponseWrapper(JavaPlayFrameworkOptionsProvider.RESPONSE_WRAPPER);
-            times = 1;
-            clientCodegen.setUseTags(Boolean.valueOf(JavaPlayFrameworkOptionsProvider.USE_TAGS));
-            times = 1;
             clientCodegen.setUseBeanValidation(Boolean.valueOf(JavaPlayFrameworkOptionsProvider.USE_BEANVALIDATION));
+            times = 1;
+            clientCodegen.setUseInterfaces(Boolean.valueOf(JavaPlayFrameworkOptionsProvider.USE_INTERFACES));
+            times = 1;
+            clientCodegen.setHandleExceptions(Boolean.valueOf(JavaPlayFrameworkOptionsProvider.HANDLE_EXCEPTIONS));
             times = 1;
         }};
     }

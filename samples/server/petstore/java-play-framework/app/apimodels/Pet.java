@@ -3,8 +3,6 @@ package apimodels;
 import java.util.Objects;
 import apimodels.Category;
 import apimodels.Tag;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -74,7 +72,6 @@ public class Pet   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(value = "")
     public Long getId() {
     return id;
   }
@@ -92,7 +89,6 @@ public class Pet   {
    * Get category
    * @return category
   **/
-  @ApiModelProperty(value = "")
     public Category getCategory() {
     return category;
   }
@@ -110,7 +106,6 @@ public class Pet   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(example = "doggie", required = true, value = "")
     @NotNull
   public String getName() {
     return name;
@@ -134,7 +129,6 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   **/
-  @ApiModelProperty(required = true, value = "")
     @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -158,7 +152,6 @@ public class Pet   {
    * Get tags
    * @return tags
   **/
-  @ApiModelProperty(value = "")
     public List<Tag> getTags() {
     return tags;
   }
@@ -176,7 +169,6 @@ public class Pet   {
    * pet status in the store
    * @return status
   **/
-  @ApiModelProperty(value = "pet status in the store")
     public StatusEnum getStatus() {
     return status;
   }
