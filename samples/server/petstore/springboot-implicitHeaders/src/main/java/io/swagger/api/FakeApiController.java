@@ -32,29 +32,29 @@ public class FakeApiController implements FakeApi {
     }
 
     public ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true ) @RequestPart(value="number", required=true)  BigDecimal number,
-        @ApiParam(value = "None", required=true ) @RequestPart(value="_double", required=true)  Double _double,
-        @ApiParam(value = "None", required=true ) @RequestPart(value="patternWithoutDelimiter", required=true)  String patternWithoutDelimiter,
-        @ApiParam(value = "None", required=true ) @RequestPart(value="_byte", required=true)  byte[] _byte,
+        @ApiParam(value = "None", required=true ) @RequestPart(value="double", required=true)  Double _double,
+        @ApiParam(value = "None", required=true ) @RequestPart(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,
+        @ApiParam(value = "None", required=true ) @RequestPart(value="byte", required=true)  byte[] _byte,
         @ApiParam(value = "None" ) @RequestPart(value="integer", required=false)  Integer integer,
         @ApiParam(value = "None" ) @RequestPart(value="int32", required=false)  Integer int32,
         @ApiParam(value = "None" ) @RequestPart(value="int64", required=false)  Long int64,
-        @ApiParam(value = "None" ) @RequestPart(value="_float", required=false)  Float _float,
+        @ApiParam(value = "None" ) @RequestPart(value="float", required=false)  Float _float,
         @ApiParam(value = "None" ) @RequestPart(value="string", required=false)  String string,
         @ApiParam(value = "None" ) @RequestPart(value="binary", required=false)  byte[] binary,
         @ApiParam(value = "None" ) @RequestPart(value="date", required=false)  LocalDate date,
         @ApiParam(value = "None" ) @RequestPart(value="dateTime", required=false)  DateTime dateTime,
         @ApiParam(value = "None" ) @RequestPart(value="password", required=false)  String password,
-        @ApiParam(value = "None" ) @RequestPart(value="paramCallback", required=false)  String paramCallback) {
+        @ApiParam(value = "None" ) @RequestPart(value="callback", required=false)  String paramCallback) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)" , allowableValues="GREATER_THAN, DOLLAR") @RequestPart(value="enumFormStringArray", required=false)  List<String> enumFormStringArray,
-        @ApiParam(value = "Form parameter enum test (string)" , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestPart(value="enumFormString", required=false)  String enumFormString,
-         @ApiParam(value = "Query parameter enum test (string array)", allowableValues = "GREATER_THAN, DOLLAR") @RequestParam(value = "enumQueryStringArray", required = false) List<String> enumQueryStringArray,
-         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_ABC, _EFG, _XYZ_", defaultValue = "-efg") @RequestParam(value = "enumQueryString", required = false, defaultValue="-efg") String enumQueryString,
-         @ApiParam(value = "Query parameter enum test (double)") @RequestParam(value = "enumQueryInteger", required = false) Integer enumQueryInteger,
-        @ApiParam(value = "Query parameter enum test (double)" ) @RequestPart(value="enumQueryDouble", required=false)  Double enumQueryDouble) {
+    public ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)" , allowableValues="GREATER_THAN, DOLLAR") @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,
+        @ApiParam(value = "Form parameter enum test (string)" , allowableValues="_ABC, _EFG, _XYZ_", defaultValue="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString,
+         @ApiParam(value = "Query parameter enum test (string array)", allowableValues = "GREATER_THAN, DOLLAR") @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
+         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_ABC, _EFG, _XYZ_", defaultValue = "-efg") @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,
+         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "NUMBER_1, NUMBER_MINUS_2") @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
+        @ApiParam(value = "Query parameter enum test (double)" , allowableValues="NUMBER_1_DOT_1, NUMBER_MINUS_1_DOT_2") @RequestPart(value="enum_query_double", required=false)  Double enumQueryDouble) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
