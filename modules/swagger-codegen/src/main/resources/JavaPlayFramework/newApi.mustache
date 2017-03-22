@@ -12,9 +12,9 @@ import javax.validation.constraints.*;
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
 {{#operations}}
-public class {{classname}}ControllerImp {
+public class {{classname}}ControllerImp {{#useInterfaces}}implements {{classname}}ControllerImpInterface{{/useInterfaces}} {
 {{#operation}}
-    {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParamsNoDoc}}{{>queryParamsNoDoc}}{{>bodyParamsNoDoc}}{{>formParamsNoDoc}}{{>headerParamsNoDoc}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         //Do your magic!!!
         {{#returnType}}return new {{>returnTypesNoVoidNoAbstract}}();{{/returnType}}
     }
