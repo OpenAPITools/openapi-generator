@@ -23,5 +23,3 @@ from .apis.fake_api import FakeApi
 from .api_client import ApiClient
 
 from .configuration import Configuration
-
-configuration = Configuration()

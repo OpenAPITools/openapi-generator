@@ -20,7 +20,6 @@ import re
 # python 2 and python 3 compatibility library
 from six import iteritems
 
-from ..configuration import Configuration
 from ..api_client import ApiClient
 
 
@@ -32,13 +31,9 @@ class StoreApi(object):
     """
 
     def __init__(self, api_client=None):
-        config = Configuration()
-        if api_client:
-            self.api_client = api_client
-        else:
-            if not config.api_client:
-                config.api_client = ApiClient()
-            self.api_client = config.api_client
+        if api_client is None:
+            api_client = ApiClient()
+        self.api_client = api_client
 
     def delete_order(self, order_id, **kwargs):
         """
@@ -105,6 +100,8 @@ class StoreApi(object):
         if ('order_id' not in params) or (params['order_id'] is None):
             raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")
 
+        if 'order_id' in params and params['order_id'] < 1.0:
+            raise ValueError("Invalid value for parameter `order_id` when calling `delete_order`, must be a value greater than or equal to `1.0`")
 
         collection_formats = {}
 
