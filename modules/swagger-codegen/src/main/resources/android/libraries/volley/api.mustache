@@ -27,7 +27,7 @@ import java.util.concurrent.TimeoutException;
 
 {{#operations}}
 public class {{classname}} {
-  String basePath = "{{basePath}}";
+  String basePath = "{{{basePath}}}";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -66,7 +66,7 @@ public class {{classname}} {
     {{/allParams}}
 
     // create path and map variables
-    String path = "{{path}}"{{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+    String path = "{{{path}}}"{{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -156,7 +156,7 @@ public class {{classname}} {
     {{/required}}{{/allParams}}
 
     // create path and map variables
-    String path = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+    String path = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();

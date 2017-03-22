@@ -5,7 +5,7 @@ defmodule {{#modulized}}{{appName}}{{/modulized}}.Api.{{classname}} do
 
   use Tesla
 
-  plug Tesla.Middleware.BaseUrl, "{{basePath}}"
+  plug Tesla.Middleware.BaseUrl, "{{{basePath}}}"
   plug Tesla.Middleware.JSON
 {{#operations}}
     {{#operation}}

@@ -210,7 +210,7 @@ class {{classname}}(object):
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}]
 
-        return self.api_client.call_api('{{path}}', '{{httpMethod}}',
+        return self.api_client.call_api('{{{path}}}', '{{httpMethod}}',
                                         path_params,
                                         query_params,
                                         header_params,
