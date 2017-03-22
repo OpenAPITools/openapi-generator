@@ -21,7 +21,6 @@ from .models.api_response import ApiResponse
 from .models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from .models.array_of_number_only import ArrayOfNumberOnly
 from .models.array_test import ArrayTest
-from .models.capitalization import Capitalization
 from .models.cat import Cat
 from .models.category import Category
 from .models.class_model import ClassModel
@@ -49,7 +48,7 @@ from .models.user import User
 
 # import apis into sdk package
 from .apis.fake_api import FakeApi
-from .apis.fake_classname_tags_123_api import FakeClassnameTags123Api
+from .apis.fake_classname_tags123_api import FakeClassnameTags123Api
 from .apis.pet_api import PetApi
 from .apis.store_api import StoreApi
 from .apis.user_api import UserApi
@@ -58,5 +57,3 @@ from .apis.user_api import UserApi
 from .api_client import ApiClient
 
 from .configuration import Configuration
-
-configuration = Configuration()
