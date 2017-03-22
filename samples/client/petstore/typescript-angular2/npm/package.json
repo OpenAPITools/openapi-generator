@@ -1,6 +1,6 @@
 {
   "name": "@swagger/angular2-typescript-petstore",
-  "version": "0.0.1-SNAPSHOT.201703181635",
+  "version": "0.0.1-SNAPSHOT.201703211709",
   "description": "swagger client for @swagger/angular2-typescript-petstore",
   "author": "Swagger Codegen Contributors",
   "keywords": [
@@ -10,29 +10,30 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "typings install && tsc --outDir dist/"
+    "build": "typings install && tsc --outDir dist/",
+    "postinstall": "npm run build"
   },
   "peerDependencies": {
-    "@angular/core": "^2.0.0",
-    "@angular/http": "^2.0.0",
-    "@angular/common": "^2.0.0",
-    "@angular/compiler": "^2.0.0",
+    "@angular/core": "^2.0.0-rc.5",
+    "@angular/http": "^2.0.0-rc.5",
+    "@angular/common": "^2.0.0-rc.5",
+    "@angular/compiler": "^2.0.0-rc.5",
     "core-js": "^2.4.0",
     "reflect-metadata": "^0.1.3",
-    "rxjs": "5.0.0-beta.12",
+    "rxjs": "5.0.0-beta.6",
     "zone.js": "^0.6.17"
   },
   "devDependencies": {
-    "@angular/core": "^2.0.0",
-    "@angular/http": "^2.0.0",
-    "@angular/common": "^2.0.0",
-    "@angular/compiler": "^2.0.0",
-    "@angular/platform-browser": "^2.0.0",
+    "@angular/core": "^2.0.0-rc.5",
+    "@angular/http": "^2.0.0-rc.5",
+    "@angular/common": "^2.0.0-rc.5",
+    "@angular/compiler": "^2.0.0-rc.5",
+    "@angular/platform-browser": "^2.0.0-rc.5",
     "core-js": "^2.4.0",
     "reflect-metadata": "^0.1.3",
-    "rxjs": "5.0.0-beta.12",
-    "zone.js": "^0.6.17",
-    "typescript": "^2.0.0",
+    "rxjs": "5.0.0-beta.6",
+    "zone.js": "^0.6.17",  
+    "typescript": "^1.8.10",
     "typings": "^1.3.2"
   },
   "publishConfig":{

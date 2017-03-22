@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:latest
+FROM microsoft/dotnet:1.0.3-sdk-projectjson
 
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 

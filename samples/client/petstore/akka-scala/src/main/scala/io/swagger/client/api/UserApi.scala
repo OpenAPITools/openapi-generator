@@ -95,8 +95,8 @@ object UserApi {
       .withErrorResponse[Unit](400)
       
   object LoginUserHeaders { 
-    def `x-Rate-Limit`(r: ApiReturnWithHeaders) = r.getIntHeader("X-Rate-Limit")
-    def `x-Expires-After`(r: ApiReturnWithHeaders) = r.getDateTimeHeader("X-Expires-After")
+    def xRateLimit(r: ApiReturnWithHeaders) = r.getIntHeader("X-Rate-Limit")
+    def xExpiresAfter(r: ApiReturnWithHeaders) = r.getDateTimeHeader("X-Expires-After")
   }
   /**
    * 
