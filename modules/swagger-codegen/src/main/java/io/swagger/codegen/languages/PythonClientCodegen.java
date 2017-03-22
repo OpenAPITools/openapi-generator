@@ -32,7 +32,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     protected Map<Character, String> regexModifiers;
 
-	private String testFolder;
+    private String testFolder;
 
     public PythonClientCodegen() {
         super();
@@ -292,12 +292,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String apiTestFileFolder() {
-    	return outputFolder + File.separatorChar + testFolder;
+        return outputFolder + File.separatorChar + testFolder;
     }
 
     @Override
     public String modelTestFileFolder() {
-    	return outputFolder + File.separatorChar + testFolder;
+        return outputFolder + File.separatorChar + testFolder;
     }
 
     @Override
@@ -433,8 +433,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelTestFilename(String name) {
-    	return "test_" + toModelFilename(name);
-    };
+        return "test_" + toModelFilename(name);
+    }
 
     @Override
     public String toApiFilename(String name) {
@@ -447,7 +447,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toApiTestFilename(String name) {
-    	return "test_" + toApiFilename(name);
+        return "test_" + toApiFilename(name);
     }
 
     @Override
