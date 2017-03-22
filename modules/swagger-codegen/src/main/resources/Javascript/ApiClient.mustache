@@ -32,9 +32,9 @@
 {{#emitJSDoc}}    /**
      * The base URL against which to resolve every API call's (relative) path.
      * @type {String}
-     * @default {{basePath}}
+     * @default {{{basePath}}}
      */
-{{/emitJSDoc}}    this.basePath = '{{basePath}}'.replace(/\/+$/, '');
+{{/emitJSDoc}}    this.basePath = '{{{basePath}}}'.replace(/\/+$/, '');
 
 {{#emitJSDoc}}    /**
      * The authentication methods to be included for all API calls.

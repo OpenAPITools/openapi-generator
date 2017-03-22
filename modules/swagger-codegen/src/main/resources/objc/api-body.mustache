@@ -77,7 +77,7 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
 
     {{/required}}
     {{/allParams}}
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"{{path}}"];
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"{{{path}}}"];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     {{#pathParams}}

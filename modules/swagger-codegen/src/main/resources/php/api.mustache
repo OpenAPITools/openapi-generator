@@ -163,7 +163,7 @@ use \{{invokerPackage}}\ObjectSerializer;
         {{/hasValidation}}
         {{/allParams}}
         // parse inputs
-        $resourcePath = "{{path}}";
+        $resourcePath = "{{{path}}}";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -276,7 +276,7 @@ use \{{invokerPackage}}\ObjectSerializer;
                 {{^returnType}}
                 null,
                 {{/returnType}}
-                '{{path}}'
+                '{{{path}}}'
             );
 
             {{#returnType}}

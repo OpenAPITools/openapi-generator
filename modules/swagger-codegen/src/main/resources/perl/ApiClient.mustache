@@ -33,7 +33,7 @@ sub _new_instance
     my $class = shift;
     my (%args) = (
         'ua' => LWP::UserAgent->new,
-        'base_url' => '{{basePath}}',
+        'base_url' => '{{{basePath}}}',
         @_
     );
   
