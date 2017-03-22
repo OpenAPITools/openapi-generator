@@ -333,13 +333,20 @@ public class CodeGenMojo extends AbstractMojo {
         // Set generation options
         if (null != generateApis && generateApis) {
             System.setProperty("apis", "");
+        } else {
+            System.clearProperty("apis");
         }
+
         if (null != generateModels && generateModels) {
             System.setProperty("models", modelsToGenerate);
+        } else {
+            System.clearProperty("models");
         }
 
         if (null != generateSupportingFiles && generateSupportingFiles) {
             System.setProperty("supportingFiles", supportingFilesToGenerate);
+        } else {
+            System.clearProperty("supportingFiles");
         }
         
         System.setProperty("modelTests", generateModelTests.toString());
