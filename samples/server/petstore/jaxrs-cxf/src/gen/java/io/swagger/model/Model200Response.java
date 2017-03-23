@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="Model for testing model name starting with number")
 public class Model200Response  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Integer name = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String propertyClass = null;
 
  /**

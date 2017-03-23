@@ -91,6 +91,6 @@ public interface UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    public void updateUser(@Valid @PathParam("username") String username, User body);
+    public void updateUser(@PathParam("username") String username, @Valid User body);
 }
 

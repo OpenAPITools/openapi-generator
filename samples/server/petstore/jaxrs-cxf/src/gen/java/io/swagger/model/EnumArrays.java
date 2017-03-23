@@ -48,7 +48,7 @@ public enum JustSymbolEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private JustSymbolEnum justSymbol = null;
 
 @XmlType(name="ArrayEnumEnum")
@@ -83,7 +83,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
  /**

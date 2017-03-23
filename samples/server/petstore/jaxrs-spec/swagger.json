@@ -727,8 +727,8 @@
       },
       "post" : {
         "tags" : [ "fake" ],
-        "summary" : "Fake endpoint for testing various parameters\n???\n?????????\n?? ?? ???\n",
-        "description" : "Fake endpoint for testing various parameters\n???\n?????????\n?? ?? ???\n",
+        "summary" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "description" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
         "operationId" : "testEndpointParameters",
         "consumes" : [ "application/xml; charset=utf-8", "application/json; charset=utf-8" ],
         "produces" : [ "application/xml; charset=utf-8", "application/json; charset=utf-8" ],

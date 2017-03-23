@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class Cat extends Animal {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Boolean declawed = null;
 
  /**

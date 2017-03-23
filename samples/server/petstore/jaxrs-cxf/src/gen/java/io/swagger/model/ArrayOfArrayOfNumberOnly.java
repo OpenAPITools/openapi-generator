@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class ArrayOfArrayOfNumberOnly  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
  /**

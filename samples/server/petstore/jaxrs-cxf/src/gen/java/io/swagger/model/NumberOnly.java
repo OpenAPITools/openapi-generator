@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class NumberOnly  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private BigDecimal justNumber = null;
 
  /**
