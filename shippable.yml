@@ -2,7 +2,8 @@ language: java
 
 jdk:
 - oraclejdk8
-- openjdk7
+# no need to test jdk7 as smoke test is already covered by travis-ci
+#- openjdk7
 
 build:
   cache: true
