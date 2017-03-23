@@ -83,6 +83,21 @@ public class PetApiTest {
         }
 
         assertTrue(found);
+
+        PetApi.FindPetsByStatusQueryParams queryParams = new PetApi.FindPetsByStatusQueryParams()
+                .status(Arrays.asList(new String[]{"available"}));
+        pets = api.findPetsByStatus(queryParams);
+        assertNotNull(pets);
+
+        found = false;
+        for (Pet fetched : pets) {
+            if (fetched.getId().equals(pet.getId())) {
+                found = true;
+                break;
+            }
+        }
+
+        assertTrue(found);
     }
 
     @Test
@@ -103,6 +118,20 @@ public class PetApiTest {
         assertNotNull(pets);
 
         boolean found = false;
+        for (Pet fetched : pets) {
+            if (fetched.getId().equals(pet.getId())) {
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+
+        PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
+                .tags(Arrays.asList(new String[]{"friendly"}));
+        pets = api.findPetsByTags(queryParams);
+        assertNotNull(pets);
+
+        found = false;
         for (Pet fetched : pets) {
             if (fetched.getId().equals(pet.getId())) {
                 found = true;

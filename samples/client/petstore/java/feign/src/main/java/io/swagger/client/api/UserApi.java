@@ -90,6 +90,44 @@ public interface UserApi extends ApiClient.Api {
   String loginUser(@Param("username") String username, @Param("password") String password);
 
   /**
+   * Logs user into the system
+   * 
+   * Note, this is equivalent to the other <code>loginUser</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link LoginUserQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>username - The user name for login (required)</li>
+   *   <li>password - The password for login in clear text (required)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /user/login?username={username}&password={password}")
+  @Headers({
+  "Content-Type: application/json",
+  "Accept: application/json",
+  })
+  String loginUser(@QueryMap Map<String, Object> queryParams);
+
+  /**
+   * A convenience class for generating query parameters for the
+   * <code>loginUser</code> method in a fluent style.
+   */
+  public static class LoginUserQueryParams extends HashMap<String, Object> {
+    public LoginUserQueryParams username(final String value) {
+      put("username", value);
+      return this;
+    }
+    public LoginUserQueryParams password(final String value) {
+      put("password", value);
+      return this;
+    }
+  }
+
+  /**
    * Logs out current logged in user session
    * 
    */
