@@ -28,7 +28,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response createUser(User body) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @POST
@@ -39,7 +39,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response createUsersWithArrayInput(List<User> body) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @POST
@@ -50,7 +50,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response createUsersWithListInput(List<User> body) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @DELETE
@@ -62,7 +62,7 @@ public class UserApi  {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = void.class),
         @ApiResponse(code = 404, message = "User not found", response = void.class) })
     public Response deleteUser(@PathParam("username") @ApiParam("The name that needs to be deleted") String username) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
@@ -75,7 +75,7 @@ public class UserApi  {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
         @ApiResponse(code = 404, message = "User not found", response = User.class) })
     public Response getUserByName(@PathParam("username") @ApiParam("The name that needs to be fetched. Use user1 for testing. ") String username) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
@@ -87,7 +87,7 @@ public class UserApi  {
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
     public Response loginUser(@QueryParam("username") @NotNull  String username,@QueryParam("password") @NotNull  String password) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
@@ -98,7 +98,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response logoutUser() {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @PUT
@@ -110,7 +110,7 @@ public class UserApi  {
         @ApiResponse(code = 400, message = "Invalid user supplied", response = void.class),
         @ApiResponse(code = 404, message = "User not found", response = void.class) })
     public Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,User body) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 }
 

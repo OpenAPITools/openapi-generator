@@ -52,7 +52,7 @@ public class {{classname}}  {
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},{{/hasMore}}{{/responses}} })
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
-    	return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{paramName}}InputStream, {{paramName}}Detail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}, {{/allParams}}securityContext);
+        return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{paramName}}InputStream, {{paramName}}Detail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}, {{/allParams}}securityContext);
     }
 {{/operation}}
 }

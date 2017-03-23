@@ -29,7 +29,7 @@ public class StoreApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = void.class),
         @ApiResponse(code = 404, message = "Order not found", response = void.class) })
     public Response deleteOrder(@PathParam("orderId") @ApiParam("ID of the order that needs to be deleted") String orderId) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
@@ -42,7 +42,7 @@ public class StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Integer.class, responseContainer = "Map") })
     public Response getInventory() {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
@@ -55,7 +55,7 @@ public class StoreApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
         @ApiResponse(code = 404, message = "Order not found", response = Order.class) })
     public Response getOrderById(@PathParam("orderId") @Min(1) @Max(5) @ApiParam("ID of pet that needs to be fetched") Long orderId) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @POST
@@ -67,7 +67,7 @@ public class StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
     public Response placeOrder(Order body) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 }
 
