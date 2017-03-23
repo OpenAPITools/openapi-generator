@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/")
 @Api(value = "/", description = "")
@@ -31,7 +32,7 @@ public interface FakeApi  {
     @ApiOperation(value = "To test \"client\" model", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client testClientModel(Client body);
+    public Client testClientModel(@Valid Client body);
 
     @POST
     @Path("/fake")
