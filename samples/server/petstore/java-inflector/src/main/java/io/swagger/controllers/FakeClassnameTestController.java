@@ -1,4 +1,4 @@
-package io.swagger.handler;
+package io.swagger.controllers;
 
 import io.swagger.inflector.models.RequestContext;
 import io.swagger.inflector.models.ResponseContext;

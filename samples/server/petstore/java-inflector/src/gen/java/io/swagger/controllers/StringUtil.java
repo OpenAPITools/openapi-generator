@@ -1,4 +1,4 @@
-package io.swagger.handler;
+package io.swagger.controllers;
 
 
 public class StringUtil {
