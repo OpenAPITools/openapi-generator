@@ -66,6 +66,12 @@ public class UserApiTest {
 
         String token = api.loginUser(user.getUsername(), user.getPassword());
         assertTrue(token.startsWith("logged in user session:"));
+
+        UserApi.LoginUserQueryParams queryParams = new UserApi.LoginUserQueryParams()
+                .username(user.getUsername())
+                .password(user.getPassword());
+        token = api.loginUser(queryParams);
+        assertTrue(token.startsWith("logged in user session:"));
     }
 
     @Test
