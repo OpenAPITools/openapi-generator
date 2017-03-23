@@ -784,6 +784,7 @@
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
                 <!-- servers -->
                 <module>samples/server/petstore/java-inflector</module>
+                <module>samples/server/petstore/java-play-framework</module>
                 <module>samples/server/petstore/undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
