@@ -32,7 +32,7 @@ public interface {{classname}}  {
 {{#operation}}
 
     @{{httpMethod}}
-    {{#subresourceOperation}}@Path("{{path}}"){{/subresourceOperation}}
+    {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
 {{#hasConsumes}}
     @Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} })
 {{/hasConsumes}}
