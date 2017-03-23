@@ -356,6 +356,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.vendorExtensions = o.vendorExtensions;
             this.nickname = o.nickname;
             this.operationIdLowerCase = o.operationIdLowerCase;
+            this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
         public List<String> getPathTemplateNames() {
