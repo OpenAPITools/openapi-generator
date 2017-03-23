@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class ArrayTest  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private List<String> arrayOfString = new ArrayList<String>();
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
  /**

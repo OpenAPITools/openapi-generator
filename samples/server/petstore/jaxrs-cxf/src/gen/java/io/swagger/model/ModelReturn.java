@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="Model for testing reserved words")
 public class ModelReturn  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Integer _return = null;
 
  /**

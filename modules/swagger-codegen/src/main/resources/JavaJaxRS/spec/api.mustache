@@ -38,7 +38,7 @@ public class {{classname}}  {
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},{{/hasMore}}{{/responses}} })
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 {{/operation}}
 }

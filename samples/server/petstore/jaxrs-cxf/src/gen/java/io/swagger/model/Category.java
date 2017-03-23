@@ -13,9 +13,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class Category  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String name = null;
 
  /**

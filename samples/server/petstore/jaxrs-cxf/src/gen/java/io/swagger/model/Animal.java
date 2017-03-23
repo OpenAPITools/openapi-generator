@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 public class Animal  {
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   private String className = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String color = "red";
 
  /**

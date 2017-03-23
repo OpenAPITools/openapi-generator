@@ -47,7 +47,7 @@ public enum EnumStringEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private EnumStringEnum enumString = null;
 
 @XmlType(name="EnumIntegerEnum")
@@ -82,7 +82,7 @@ public enum EnumIntegerEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private EnumIntegerEnum enumInteger = null;
 
 @XmlType(name="EnumNumberEnum")
@@ -117,9 +117,9 @@ public enum EnumNumberEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private EnumNumberEnum enumNumber = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private OuterEnum outerEnum = null;
 
  /**

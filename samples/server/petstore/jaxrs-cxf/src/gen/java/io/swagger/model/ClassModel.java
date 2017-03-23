@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="Model for testing model with \"_class\" property")
 public class ClassModel  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String propertyClass = null;
 
  /**

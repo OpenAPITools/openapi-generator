@@ -30,7 +30,7 @@ public class FakeApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Response testClientModel(Client body) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @POST
@@ -44,7 +44,7 @@ public class FakeApi  {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = void.class),
         @ApiResponse(code = 404, message = "User not found", response = void.class) })
     public Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string,@FormParam(value = "binary")  byte[] binary,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  Date dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
@@ -56,7 +56,7 @@ public class FakeApi  {
         @ApiResponse(code = 400, message = "Invalid request", response = void.class),
         @ApiResponse(code = 404, message = "Not found", response = void.class) })
     public Response testEnumParameters(@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString,@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string") String enumHeaderString,@QueryParam("enum_query_string_array")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg") String enumQueryString,@QueryParam("enum_query_integer")  Integer enumQueryInteger,@FormParam(value = "enum_query_double")  Double enumQueryDouble) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 }
 
