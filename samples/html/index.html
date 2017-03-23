@@ -180,8 +180,8 @@ font-style: italic;
   </head>
   <body>
   <h1>Swagger Petstore</h1>
-    <div class="app-desc">This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.</div>
-    
+    <div class="app-desc">This is a sample server Petstore server.  You can find out more about Swagger at <a href="http://swagger.io">http://swagger.io</a> or on <a href="http://swagger.io/irc/">irc.freenode.net, #swagger</a>.  For this sample, you can use the api key <code>special-key</code> to test the authorization filters.</div>
+    <div class="app-desc">More information: <a href=""></a></div>
     <div class="app-desc">Contact Info: <a href="apiteam@swagger.io">apiteam@swagger.io</a></div>
     <div class="app-desc">Version: 1.0.0</div>
     <div class="app-desc">BasePath:/v2</div>
@@ -356,18 +356,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "tags" : [ {
-    "id" : 7,
-    "name" : "aeiou"
-  } ],
-  "id" : 2,
-  "category" : {
-    "id" : 2,
-    "name" : "aeiou"
-  },
-  "status" : "available",
+  "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
+  "id" : 0,
+  "category" : {
+    "name" : "aeiou",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 1
+  } ],
+  "status" : "available"
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -429,18 +429,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
-  "tags" : [ {
-    "id" : 1,
-    "name" : "aeiou"
-  } ],
-  "id" : 9,
-  "category" : {
-    "id" : 4,
-    "name" : "aeiou"
-  },
-  "status" : "available",
+  "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
+  "id" : 0,
+  "category" : {
+    "name" : "aeiou",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 1
+  } ],
+  "status" : "available"
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -502,18 +502,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "tags" : [ {
-    "id" : 5,
-    "name" : "aeiou"
-  } ],
-  "id" : 8,
-  "category" : {
-    "id" : 3,
-    "name" : "aeiou"
-  },
-  "status" : "available",
+  "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "photoUrls" : [ "aeiou" ]
+  "id" : 0,
+  "category" : {
+    "name" : "aeiou",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "aeiou",
+    "id" : 1
+  } ],
+  "status" : "available"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -679,9 +679,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "message" : "aeiou",
-  "code" : 3,
-  "type" : "aeiou"
+  "code" : 0,
+  "type" : "aeiou",
+  "message" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -762,7 +762,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "key" : 9
+  "key" : 0
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -783,7 +783,7 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /store/order/{orderId}</code></pre></div>
     <div class="method-summary">Find purchase order by ID (<span class="nickname">getOrderById</span>)</div>
-    <div class="method-notes">For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</div>
+    <div class="method-notes">For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -818,12 +818,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "id" : 5,
-  "petId" : 8,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
-  "status" : "placed",
-  "quantity" : 4,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+  "status" : "placed"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -887,12 +887,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "id" : 6,
-  "petId" : 9,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00",
   "complete" : false,
-  "status" : "placed",
-  "quantity" : 2,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+  "status" : "placed"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1078,7 +1078,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">username (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing.  </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing. </div>
     </div>  <!-- field-items -->
 
 
@@ -1109,14 +1109,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "id" : 4,
-  "lastName" : "aeiou",
-  "phone" : "aeiou",
-  "username" : "aeiou",
-  "email" : "aeiou",
-  "userStatus" : 1,
   "firstName" : "aeiou",
-  "password" : "aeiou"
+  "lastName" : "aeiou",
+  "password" : "aeiou",
+  "userStatus" : 6,
+  "phone" : "aeiou",
+  "id" : 0,
+  "email" : "aeiou",
+  "username" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>

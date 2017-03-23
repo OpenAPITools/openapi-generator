@@ -18,19 +18,19 @@ import org.apache.commons.lang3.ObjectUtils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Gets or Sets EnumClass
+ * Gets or Sets OuterEnum
  */
-public enum EnumClass {
+public enum OuterEnum {
   
-  _ABC("_abc"),
+  PLACED("placed"),
   
-  _EFG("-efg"),
+  APPROVED("approved"),
   
-  _XYZ_("(xyz)");
+  DELIVERED("delivered");
 
   private String value;
 
-  EnumClass(String value) {
+  OuterEnum(String value) {
     this.value = value;
   }
 
@@ -40,8 +40,8 @@ public enum EnumClass {
   }
 
   @JsonCreator
-  public static EnumClass fromValue(String text) {
-    for (EnumClass b : EnumClass.values()) {
+  public static OuterEnum fromValue(String text) {
+    for (OuterEnum b : OuterEnum.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }
