@@ -273,6 +273,11 @@
             <version>${diffutils-version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+           <groupId>com.atlassian.commonmark</groupId>
+           <artifactId>commonmark</artifactId>
+           <version>0.9.0</version>
+        </dependency>
 
     </dependencies>
     <repositories>
