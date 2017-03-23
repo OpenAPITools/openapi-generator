@@ -10,7 +10,7 @@ GET     /api                        controllers.ApiDocController.api
 #Functions for {{{baseName}}} API
 {{#operations}}
 {{#operation}}
-{{httpMethod}}     {{contextPath}}{{path}}                     controllers.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+{{httpMethod}}     {{{contextPath}}}{{{path}}}                     controllers.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
 {{/operation}}
 {{/operations}}
 {{/apis}}

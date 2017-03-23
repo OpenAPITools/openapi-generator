@@ -12,7 +12,7 @@ $app = new Silex\Application();
 {{#operations}}
 {{#operation}}
 
-$app->{{httpMethod}}('{{basePathWithoutHost}}{{path}}', function(Application $app, Request $request{{#pathParams}}, ${{baseName}}{{/pathParams}}) {
+$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', function(Application $app, Request $request{{#pathParams}}, ${{baseName}}{{/pathParams}}) {
             {{#queryParams}}
             ${{paramName}} = $request->get('{{paramName}}');
             {{/queryParams}}
