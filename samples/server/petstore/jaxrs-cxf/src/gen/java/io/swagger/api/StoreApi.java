@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/")
 @Api(value = "/", description = "")
@@ -57,6 +58,6 @@ public interface StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    public Order placeOrder(Order body);
+    public Order placeOrder(@Valid Order body);
 }
 
