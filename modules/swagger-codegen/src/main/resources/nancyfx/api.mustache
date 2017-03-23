@@ -22,9 +22,9 @@ namespace {{packageName}}.{{packageContext}}.Modules
         /// Sets up HTTP methods mappings.
         /// </summary>
         /// <param name="service">Service handling requests</param>
-        public {{classname}}Module({{classname}}Service service) : base("{{baseContext}}")
+        public {{classname}}Module({{classname}}Service service) : base("{{{baseContext}}}")
         { {{#operation}}
-            {{httpMethod}}["{{path}}"] = parameters =>
+            {{httpMethod}}["{{{path}}}"] = parameters =>
             {
                 {{#allParams}}{{#isBodyParam}}var {{paramName}} = this.Bind<{{&dataType}}>();{{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}var {{paramName}} = Parameters.ValueOf<{{>innerApiEnumName}}?>({{>innerParameterValueOfArgs}});{{/isEnum}}{{^isEnum}}var {{paramName}} = Parameters.ValueOf<{{&dataType}}>({{>innerParameterValueOfArgs}});{{/isEnum}}{{#hasMore}}
                 {{/hasMore}}{{/isBodyParam}}{{/allParams}}{{#allParams}}{{#required}}

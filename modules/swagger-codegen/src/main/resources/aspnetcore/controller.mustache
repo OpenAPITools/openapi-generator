@@ -28,7 +28,7 @@ namespace {{packageName}}.Controllers
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
-        [Route("{{basePathWithoutHost}}{{path}}")]
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
         [SwaggerOperation("{{operationId}}")]{{#returnType}}
         [SwaggerResponse(200, type: typeof({{&returnType}}))]{{/returnType}}
         public virtual {{#returnType}}IActionResult{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})

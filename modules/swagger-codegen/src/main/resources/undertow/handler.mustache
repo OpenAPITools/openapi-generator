@@ -17,7 +17,7 @@ public class PathHandlerProvider implements HandlerProvider {
 {{#operations}}
 {{#operation}}
 
-            .add(Methods.{{httpMethod}}, "{{basePathWithoutHost}}{{path}}", new HttpHandler() {
+            .add(Methods.{{httpMethod}}, "{{{basePathWithoutHost}}}{{{path}}}", new HttpHandler() {
                         public void handleRequest(HttpServerExchange exchange) throws Exception {
                             exchange.getResponseSender().send("{{operationId}}");
                         }
