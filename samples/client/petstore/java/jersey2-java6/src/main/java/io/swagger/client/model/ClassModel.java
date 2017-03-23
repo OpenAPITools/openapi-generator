@@ -18,39 +18,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * ArrayOfArrayOfNumberOnly
+ * Model for testing model with \&quot;_class\&quot; property
  */
+@ApiModel(description = "Model for testing model with \"_class\" property")
 
-public class ArrayOfArrayOfNumberOnly {
-  @JsonProperty("ArrayArrayNumber")
-  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
+public class ClassModel {
+  @JsonProperty("_class")
+  private String propertyClass = null;
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
-    this.arrayArrayNumber = arrayArrayNumber;
-    return this;
-  }
-
-  public ArrayOfArrayOfNumberOnly addArrayArrayNumberItem(List<BigDecimal> arrayArrayNumberItem) {
-    this.arrayArrayNumber.add(arrayArrayNumberItem);
+  public ClassModel propertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
     return this;
   }
 
    /**
-   * Get arrayArrayNumber
-   * @return arrayArrayNumber
+   * Get propertyClass
+   * @return propertyClass
   **/
   @ApiModelProperty(value = "")
-  public List<List<BigDecimal>> getArrayArrayNumber() {
-    return arrayArrayNumber;
+  public String getPropertyClass() {
+    return propertyClass;
   }
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
-    this.arrayArrayNumber = arrayArrayNumber;
+  public void setPropertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
   }
 
 
@@ -62,22 +55,22 @@ public class ArrayOfArrayOfNumberOnly {
   if (o == null || getClass() != o.getClass()) {
     return false;
   }
-    ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly = (ArrayOfArrayOfNumberOnly) o;
-    return ObjectUtils.equals(this.arrayArrayNumber, arrayOfArrayOfNumberOnly.arrayArrayNumber);
+    ClassModel classModel = (ClassModel) o;
+    return ObjectUtils.equals(this.propertyClass, classModel.propertyClass);
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(arrayArrayNumber);
+    return ObjectUtils.hashCodeMulti(propertyClass);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ArrayOfArrayOfNumberOnly {\n");
+    sb.append("class ClassModel {\n");
     
-    sb.append("    arrayArrayNumber: ").append(toIndentedString(arrayArrayNumber)).append("\n");
+    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }

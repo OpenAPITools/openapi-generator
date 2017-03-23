@@ -1,7 +1,7 @@
 lazy val root = (project in file(".")).
   settings(
     organization := "io.swagger",
-    name := "swagger-petstore-jersey2",
+    name := "swagger-petstore-jersey2-java6",
     version := "1.0.0",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),
