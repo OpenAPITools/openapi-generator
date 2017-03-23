@@ -82,7 +82,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'swagger-petstore-jersey2'
+            pom.artifactId = 'swagger-petstore-jersey2-java6'
         }
     }
 

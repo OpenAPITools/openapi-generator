@@ -7,10 +7,10 @@ import io.swagger.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import io.swagger.client.model.Client;
-import org.joda.time.LocalDate;
-import org.joda.time.DateTime;
 import java.math.BigDecimal;
+import io.swagger.client.model.Client;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class FakeApi {
 
   /**
    * To test \&quot;client\&quot; model
-   * 
+   * To test \&quot;client\&quot; model
    * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
@@ -53,7 +53,7 @@ public class FakeApi {
     }
     
     // create path and map variables
-    String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -121,7 +121,7 @@ public class FakeApi {
     }
     
     // create path and map variables
-    String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -176,7 +176,7 @@ if (paramCallback != null)
   }
   /**
    * To test enum parameters
-   * 
+   * To test enum parameters
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
@@ -187,11 +187,11 @@ if (paramCallback != null)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, BigDecimal enumQueryInteger, Double enumQueryDouble) throws ApiException {
+  public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/fake".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -215,12 +215,12 @@ if (enumQueryDouble != null)
       localVarFormParams.put("enum_query_double", enumQueryDouble);
 
     final String[] localVarAccepts = {
-      "application/json"
+      "*/*"
     };
     final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
     final String[] localVarContentTypes = {
-      "application/json"
+      "*/*"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
