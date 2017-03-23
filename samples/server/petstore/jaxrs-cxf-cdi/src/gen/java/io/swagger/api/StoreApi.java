@@ -43,7 +43,7 @@ public class StoreApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = void.class),
         @ApiResponse(code = 404, message = "Order not found", response = void.class) })
     public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("orderId") String orderId) {
-    	return delegate.deleteOrder(orderId, securityContext);
+        return delegate.deleteOrder(orderId, securityContext);
     }
 
     @GET
@@ -56,7 +56,7 @@ public class StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Integer.class, responseContainer = "Map") })
     public Response getInventory() {
-    	return delegate.getInventory(securityContext);
+        return delegate.getInventory(securityContext);
     }
 
     @GET
@@ -69,7 +69,7 @@ public class StoreApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Order.class),
         @ApiResponse(code = 404, message = "Order not found", response = Order.class) })
     public Response getOrderById( @Min(1) @Max(5)@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") Long orderId) {
-    	return delegate.getOrderById(orderId, securityContext);
+        return delegate.getOrderById(orderId, securityContext);
     }
 
     @POST
@@ -81,6 +81,6 @@ public class StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Order.class) })
     public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order body) {
-    	return delegate.placeOrder(body, securityContext);
+        return delegate.placeOrder(body, securityContext);
     }
 }
