@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class {{classname}}ServiceImpl implements {{classname}} {
 {{#operations}}
 {{#operation}}
-    public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParams}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public {{>returnTypes}} {{nickname}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
         // TODO: Implement...
         
         {{^vendorExtensions.x-java-is-response-void}}return null;{{/vendorExtensions.x-java-is-response-void}}

@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.jaxrs.PATCH;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
 
 @Path("{{^useAnnotatedBasePath}}/{{/useAnnotatedBasePath}}{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}")

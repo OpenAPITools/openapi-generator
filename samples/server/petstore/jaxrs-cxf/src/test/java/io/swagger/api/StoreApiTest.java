@@ -79,7 +79,7 @@ public class StoreApiTest {
     @Test
     public void deleteOrderTest() {
         String orderId = null;
-        //api.deleteOrder(orderId);
+	//api.deleteOrder(orderId);
         
         // TODO: test validations
         
@@ -114,7 +114,7 @@ public class StoreApiTest {
     @Test
     public void getOrderByIdTest() {
         Long orderId = null;
-        //Order response = api.getOrderById(orderId);
+	//Order response = api.getOrderById(orderId);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -132,7 +132,7 @@ public class StoreApiTest {
     @Test
     public void placeOrderTest() {
         Order body = null;
-        //Order response = api.placeOrder(body);
+	//Order response = api.placeOrder(body);
         //assertNotNull(response);
         // TODO: test validations
         

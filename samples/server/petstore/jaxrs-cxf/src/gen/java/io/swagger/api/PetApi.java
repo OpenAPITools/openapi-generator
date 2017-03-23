@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/")
 @Api(value = "/", description = "")
@@ -31,7 +32,7 @@ public interface PetApi  {
     @ApiOperation(value = "Add a new pet to the store", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    public void addPet(Pet body);
+    public void addPet(@Valid Pet body);
 
     @DELETE
     @Path("/pet/{petId}")
@@ -78,7 +79,7 @@ public interface PetApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    public void updatePet(Pet body);
+    public void updatePet(@Valid Pet body);
 
     @POST
     @Path("/pet/{petId}")
