@@ -80,7 +80,7 @@ public interface {{classname}} extends ApiClient.Api {
   public static class {{operationIdCamelCase}}QueryParams extends HashMap<String, Object> {
       {{#queryParams}}
     public {{operationIdCamelCase}}QueryParams {{paramName}}(final {{{dataType}}} value) {
-      put("{{paramName}}", value);
+      put("{{baseName}}", value);
       return this;
     }
       {{/queryParams}}
