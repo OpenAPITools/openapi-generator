@@ -1,13 +1,38 @@
-controllerPackage: io.swagger.handler
+controllerPackage: io.swagger.controllers
 modelPackage:  io.swagger.model
 swaggerUrl: ./src/main/swagger/swagger.yaml
 modelMappings:
   # to enable explicit mappings, use this syntax:
   DefinitionFromSwaggerSpecification: fully.qualified.path.to.Model
-  ApiResponse : io.swagger.model.ApiResponse
+  AdditionalPropertiesClass : io.swagger.model.AdditionalPropertiesClass
+Animal : io.swagger.model.Animal
+AnimalFarm : io.swagger.model.AnimalFarm
+ArrayOfArrayOfNumberOnly : io.swagger.model.ArrayOfArrayOfNumberOnly
+ArrayOfNumberOnly : io.swagger.model.ArrayOfNumberOnly
+ArrayTest : io.swagger.model.ArrayTest
+Capitalization : io.swagger.model.Capitalization
+Cat : io.swagger.model.Cat
 Category : io.swagger.model.Category
+ClassModel : io.swagger.model.ClassModel
+Client : io.swagger.model.Client
+Dog : io.swagger.model.Dog
+EnumArrays : io.swagger.model.EnumArrays
+EnumClass : io.swagger.model.EnumClass
+EnumTest : io.swagger.model.EnumTest
+FormatTest : io.swagger.model.FormatTest
+HasOnlyReadOnly : io.swagger.model.HasOnlyReadOnly
+MapTest : io.swagger.model.MapTest
+MixedPropertiesAndAdditionalPropertiesClass : io.swagger.model.MixedPropertiesAndAdditionalPropertiesClass
+Model200Response : io.swagger.model.Model200Response
+ModelApiResponse : io.swagger.model.ModelApiResponse
+ModelReturn : io.swagger.model.ModelReturn
+Name : io.swagger.model.Name
+NumberOnly : io.swagger.model.NumberOnly
 Order : io.swagger.model.Order
+OuterEnum : io.swagger.model.OuterEnum
 Pet : io.swagger.model.Pet
+ReadOnlyFirst : io.swagger.model.ReadOnlyFirst
+SpecialModelName : io.swagger.model.SpecialModelName
 Tag : io.swagger.model.Tag
 User : io.swagger.model.User
 
