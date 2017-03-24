@@ -1,4 +1,4 @@
-package io.swagger.handler;
+package io.swagger.controllers;
 
 import io.swagger.inflector.models.RequestContext;
 import io.swagger.inflector.models.ResponseContext;
@@ -10,12 +10,11 @@ import java.util.List;
 
 import io.swagger.model.*;
 
-import java.math.BigDecimal;
-import io.swagger.model.Client;
-import java.util.Date;
+import java.util.Map;
+import io.swagger.model.Order;
 
 
-public class FakeController  {
+public class StoreController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
    * Directly to operation calls from the routing logic.  Because the inflector
@@ -23,19 +22,25 @@ public class FakeController  {
    **/
 
   /*
-    public ResponseContext testClientModel(RequestContext request , Client body) {
+    public ResponseContext deleteOrder(RequestContext request , String orderId) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext testEndpointParameters(RequestContext request , BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, Date date, Date dateTime, String password, String paramCallback) {
+    public ResponseContext getInventory(RequestContext request ) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
 
   /*
-    public ResponseContext testEnumParameters(RequestContext request , List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) {
+    public ResponseContext getOrderById(RequestContext request , Long orderId) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext placeOrder(RequestContext request , Order body) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */
