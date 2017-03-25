@@ -874,6 +874,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Leica Geosystems AG](http://leica-geosystems.com)
 - [LiveAgent](https://www.ladesk.com/)
 - [LXL Tech](http://lxltech.com)
+- [Lyft](https://www.lyft.com/developers)
 - [MailMojo](https://mailmojo.no/)
 - [Mindera](http://mindera.com/)
 - [Mporium](http://mporium.com/)

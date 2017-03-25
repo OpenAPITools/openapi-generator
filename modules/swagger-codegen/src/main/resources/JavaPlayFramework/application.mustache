@@ -15,6 +15,10 @@
 # HOCON will fall back to substituting environment variable:
 #mykey = ${JAVA_HOME}
 
+{{#handleExceptions}}
+play.http.errorHandler="swagger.ErrorHandler"
+{{/handleExceptions}}
+
 ## Akka
 # https://www.playframework.com/documentation/latest/ScalaAkka#Configuration
 # https://www.playframework.com/documentation/latest/JavaAkka#Configuration
@@ -34,8 +38,6 @@ akka {
 #
 #log-config-on-start = true
 }
-
-api.version="1.0"
 
 ## Secret key
 # http://www.playframework.com/documentation/latest/ApplicationSecret

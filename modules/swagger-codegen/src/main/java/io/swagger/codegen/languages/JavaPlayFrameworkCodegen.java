@@ -19,6 +19,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public static final String CONTROLLER_ONLY = "controllerOnly";
     public static final String USE_INTERFACES = "useInterfaces";
     public static final String HANDLE_EXCEPTIONS = "handleExceptions";
+    public static final String WRAP_CALLS = "wrapCalls";
+    public static final String USE_SWAGGER_UI = "useSwaggerUI";
 
     protected String title = "swagger-petstore";
     protected String configPackage = "io.swagger.configuration";
@@ -27,6 +29,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     protected boolean useInterfaces = true;
     protected boolean useBeanValidation = true;
     protected boolean handleExceptions = true;
+    protected boolean wrapCalls = true;
+    protected boolean useSwaggerUI = true;
 
     public JavaPlayFrameworkCodegen() {
         super();
@@ -56,7 +60,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         cliOptions.add(createBooleanCliWithDefault(CONTROLLER_ONLY, "Whether to generate only API interface stubs without the server files.", controllerOnly));
         cliOptions.add(createBooleanCliWithDefault(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(createBooleanCliWithDefault(USE_INTERFACES, "Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec", useInterfaces));
-        cliOptions.add(createBooleanCliWithDefault(HANDLE_EXCEPTIONS, "Add a wrapper to each controller to handle exceptions that pop in the controller", handleExceptions));
+        cliOptions.add(createBooleanCliWithDefault(HANDLE_EXCEPTIONS, "Add a 'throw exception' to each controller function. Add also a custom error handler where you can put your custom logic", handleExceptions));
+        cliOptions.add(createBooleanCliWithDefault(WRAP_CALLS, "Add a wrapper to each controller function to handle things like metrics, response modification, etc..", wrapCalls));
+        cliOptions.add(createBooleanCliWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI));
     }
 
     @Override
@@ -120,6 +126,18 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             writePropertyBack(HANDLE_EXCEPTIONS, handleExceptions);
         }
 
+        if (additionalProperties.containsKey(WRAP_CALLS)) {
+            this.setWrapCalls(convertPropertyToBoolean(WRAP_CALLS));
+        } else {
+            writePropertyBack(WRAP_CALLS, wrapCalls);
+        }
+
+        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
+            this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
+        } else {
+            writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
+        }
+
         //We don't use annotation anymore
         importMapping.remove("ApiModelProperty");
         importMapping.remove("ApiModel");
@@ -128,7 +146,6 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         supportingFiles.add(new SupportingFile("README.mustache", "", "README"));
         supportingFiles.add(new SupportingFile("LICENSE.mustache", "", "LICENSE"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.sbt"));
-        supportingFiles.add(new SupportingFile("swagger.mustache", "public", "swagger.json"));
 
         //Project folder
         supportingFiles.add(new SupportingFile("buildproperties.mustache", "project", "build.properties"));
@@ -142,11 +159,18 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         //App/Utils folder
         supportingFiles.add(new SupportingFile("swaggerUtils.mustache", "app/swagger", "SwaggerUtils.java"));
         if (this.handleExceptions) {
+            supportingFiles.add(new SupportingFile("errorHandler.mustache", "app/swagger", "ErrorHandler.java"));
+        }
+
+        if(this.wrapCalls) {
             supportingFiles.add(new SupportingFile("apiCall.mustache", "app/swagger", "ApiCall.java"));
         }
 
-        //App/Controllers
-        supportingFiles.add(new SupportingFile("apiDocController.mustache", "app/controllers", "ApiDocController.java"));
+        if(this.useSwaggerUI) {
+            //App/Controllers
+            supportingFiles.add(new SupportingFile("swagger.mustache", "public", "swagger.json"));
+            supportingFiles.add(new SupportingFile("apiDocController.mustache", "app/controllers", "ApiDocController.java"));
+        }
 
         //We remove the default api.mustache that is used
         apiTemplateFiles.remove("api.mustache");
@@ -208,6 +232,14 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     public void setHandleExceptions(boolean handleExceptions) {
         this.handleExceptions = handleExceptions;
+    }
+
+    public void setWrapCalls(boolean wrapCalls) {
+        this.wrapCalls = wrapCalls;
+    }
+
+    public void setUseSwaggerUI(boolean useSwaggerUI) {
+        this.useSwaggerUI = useSwaggerUI;
     }
 
     @Override
