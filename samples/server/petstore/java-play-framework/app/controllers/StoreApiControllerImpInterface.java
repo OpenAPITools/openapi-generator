@@ -11,12 +11,12 @@ import java.util.HashMap;
 import javax.validation.constraints.*;
 
 public interface StoreApiControllerImpInterface {
-    void deleteOrder(String orderId);
+    void deleteOrder(String orderId) throws Exception;
 
-    Map<String, Integer> getInventory();
+    Map<String, Integer> getInventory() throws Exception;
 
-    Order getOrderById(String orderId);
+    Order getOrderById(String orderId) throws Exception;
 
-    Order placeOrder(Order body);
+    Order placeOrder(Order body) throws Exception;
 
 }

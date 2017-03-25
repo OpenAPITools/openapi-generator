@@ -10,42 +10,42 @@ import java.util.HashMap;
 import javax.validation.constraints.*;
 
 public class UserApiControllerImp implements UserApiControllerImpInterface {
-    public void createUser(User body) {
+    public void createUser(User body) throws Exception {
         //Do your magic!!!
         
     }
 
-    public void createUsersWithArrayInput(List<User> body) {
+    public void createUsersWithArrayInput(List<User> body) throws Exception {
         //Do your magic!!!
         
     }
 
-    public void createUsersWithListInput(List<User> body) {
+    public void createUsersWithListInput(List<User> body) throws Exception {
         //Do your magic!!!
         
     }
 
-    public void deleteUser(String username) {
+    public void deleteUser(String username) throws Exception {
         //Do your magic!!!
         
     }
 
-    public User getUserByName(String username) {
+    public User getUserByName(String username) throws Exception {
         //Do your magic!!!
         return new User();
     }
 
-    public String loginUser( String username,  String password) {
+    public String loginUser( String username,  String password) throws Exception {
         //Do your magic!!!
         return new String();
     }
 
-    public void logoutUser() {
+    public void logoutUser() throws Exception {
         //Do your magic!!!
         
     }
 
-    public void updateUser(String username, User body) {
+    public void updateUser(String username, User body) throws Exception {
         //Do your magic!!!
         
     }
