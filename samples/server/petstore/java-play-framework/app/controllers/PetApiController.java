@@ -33,7 +33,7 @@ public class PetApiController extends Controller {
 
 
     @ApiAction
-    public Result addPet() throws IOException {
+    public Result addPet() throws Exception {
         JsonNode nodebody = request().body().asJson();
         Pet body;
         if (nodebody != null) {
@@ -48,7 +48,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result deletePet(Long petId)  {
+    public Result deletePet(Long petId) throws Exception {
         String valueapiKey = request().getHeader("api_key");
         String apiKey;
         if (valueapiKey != null) {
@@ -63,7 +63,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result findPetsByStatus()  {
+    public Result findPetsByStatus() throws Exception {
         //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
         //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
         //WIP when both bugs will be fixed
@@ -79,7 +79,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result findPetsByTags()  {
+    public Result findPetsByTags() throws Exception {
         //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
         //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
         //WIP when both bugs will be fixed
@@ -95,7 +95,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result getPetById(Long petId)  {
+    public Result getPetById(Long petId) throws Exception {
         Pet obj = imp.getPetById(petId);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -103,7 +103,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result updatePet() throws IOException {
+    public Result updatePet() throws Exception {
         JsonNode nodebody = request().body().asJson();
         Pet body;
         if (nodebody != null) {
@@ -118,7 +118,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result updatePetWithForm(String petId)  {
+    public Result updatePetWithForm(String petId) throws Exception {
         String valuename = ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
         String name;
         if (valuename != null) {
@@ -141,7 +141,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result uploadFile(Long petId)  {
+    public Result uploadFile(Long petId) throws Exception {
         String valueadditionalMetadata = ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {

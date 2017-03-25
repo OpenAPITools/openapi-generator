@@ -33,7 +33,7 @@ public class UserApiController extends Controller {
 
 
     @ApiAction
-    public Result createUser() throws IOException {
+    public Result createUser() throws Exception {
         JsonNode nodebody = request().body().asJson();
         User body;
         if (nodebody != null) {
@@ -48,7 +48,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithArrayInput() throws IOException {
+    public Result createUsersWithArrayInput() throws Exception {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
         if (nodebody != null) {
@@ -63,7 +63,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithListInput() throws IOException {
+    public Result createUsersWithListInput() throws Exception {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
         if (nodebody != null) {
@@ -78,14 +78,14 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result deleteUser(String username)  {
+    public Result deleteUser(String username) throws Exception {
         imp.deleteUser(username);
         
         return ok();
     }
 
     @ApiAction
-    public Result getUserByName(String username)  {
+    public Result getUserByName(String username) throws Exception {
         User obj = imp.getUserByName(username);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -93,7 +93,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result loginUser()  {
+    public Result loginUser() throws Exception {
         String valueusername = request().getQueryString("username");
         String username;
         if (valueusername != null) {
@@ -117,14 +117,14 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result logoutUser()  {
+    public Result logoutUser() throws Exception {
         imp.logoutUser();
         
         return ok();
     }
 
     @ApiAction
-    public Result updateUser(String username) throws IOException {
+    public Result updateUser(String username) throws Exception {
         JsonNode nodebody = request().body().asJson();
         User body;
         if (nodebody != null) {

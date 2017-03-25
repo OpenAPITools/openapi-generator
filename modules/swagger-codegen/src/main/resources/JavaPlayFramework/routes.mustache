@@ -2,7 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+{{#useSwaggerUI}}
 GET     /api                        controllers.ApiDocController.api
+{{/useSwaggerUI}}
 
 {{#apiInfo}}
 {{#apis}}
