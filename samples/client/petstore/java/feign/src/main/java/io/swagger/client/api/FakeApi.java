@@ -114,15 +114,15 @@ public interface FakeApi extends ApiClient.Api {
    */
   public static class TestEnumParametersQueryParams extends HashMap<String, Object> {
     public TestEnumParametersQueryParams enumQueryStringArray(final List<String> value) {
-      put("enumQueryStringArray", value);
+      put("enum_query_string_array", value);
       return this;
     }
     public TestEnumParametersQueryParams enumQueryString(final String value) {
-      put("enumQueryString", value);
+      put("enum_query_string", value);
       return this;
     }
     public TestEnumParametersQueryParams enumQueryInteger(final Integer value) {
-      put("enumQueryInteger", value);
+      put("enum_query_integer", value);
       return this;
     }
   }

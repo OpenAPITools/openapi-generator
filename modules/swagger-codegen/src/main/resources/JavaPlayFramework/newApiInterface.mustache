@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 {{#operations}}
 public interface {{classname}}ControllerImpInterface {
 {{#operation}}
-    {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};
 
 {{/operation}}
 }

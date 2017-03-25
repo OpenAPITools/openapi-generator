@@ -132,7 +132,7 @@ public class OAuth implements Interceptor {
                     if (accessTokenListener != null) {
                         accessTokenListener.notify((BasicOAuthToken) accessTokenResponse.getOAuthToken());
                     }
-                    return getAccessToken().equals(requestAccessToken);
+                    return !getAccessToken().equals(requestAccessToken);
                 } else {
                     return false;
                 }
