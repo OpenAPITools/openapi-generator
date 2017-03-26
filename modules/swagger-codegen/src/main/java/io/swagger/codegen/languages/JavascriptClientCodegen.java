@@ -22,6 +22,7 @@ import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.ByteArrayProperty;
 import io.swagger.models.properties.DateProperty;
 import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.DoubleProperty;
@@ -113,7 +114,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         );
 
         languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File")
+                Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
         );
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
@@ -138,8 +139,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Number");
         // binary not supported in JavaScript client right now, using String as a workaround
-        typeMapping.put("ByteArray", "String"); // I don't see ByteArray defined in the Swagger docs.
-        typeMapping.put("binary", "String");
+        typeMapping.put("ByteArray", "Blob"); // I don't see ByteArray defined in the Swagger docs.
+        typeMapping.put("binary", "Blob");
         typeMapping.put("UUID", "String");
 
         importMapping.clear();
@@ -652,7 +653,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
      * @return Normalized type
      */
     public String normalizeType(String type) {
-      return type.replaceAll("\\b(Boolean|Integer|Number|String|Date)\\b", "'$1'");
+      return type.replaceAll("\\b(Boolean|Integer|Number|String|Date|Blob)\\b", "'$1'");
     }
 
     @Override
