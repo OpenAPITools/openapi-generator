@@ -438,12 +438,12 @@
               {{/licenseUrl}}
             </div>
           </div>
-          <div id="generator">
+{{^hideGenerationTimestamp}}          <div id="generator">
             <div class="content">
               Generated {{generatedDate}}
             </div>
           </div>
-      </div>
+{{/hideGenerationTimestamp}}      </div>
     </div>
   </div>
   {{>js_jsonformatter}}

@@ -104,14 +104,14 @@
      * @param {Number} _number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
-     * @param {String} _byte None
+     * @param {Blob} _byte None
      * @param {Object} opts Optional parameters
      * @param {Number} opts.integer None
      * @param {Number} opts.int32 None
      * @param {Number} opts.int64 None
      * @param {Number} opts._float None
      * @param {String} opts._string None
-     * @param {String} opts.binary None
+     * @param {Blob} opts.binary None
      * @param {Date} opts._date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
@@ -186,14 +186,14 @@
      * @param {Number} _number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
-     * @param {String} _byte None
+     * @param {Blob} _byte None
      * @param {Object} opts Optional parameters
      * @param {Number} opts.integer None
      * @param {Number} opts.int32 None
      * @param {Number} opts.int64 None
      * @param {Number} opts._float None
      * @param {String} opts._string None
-     * @param {String} opts.binary None
+     * @param {Blob} opts.binary None
      * @param {Date} opts._date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None

@@ -42,7 +42,7 @@
    * @alias module:model/FormatTest
    * @class
    * @param _number {Number} 
-   * @param _byte {String} 
+   * @param _byte {Blob} 
    * @param _date {Date} 
    * @param password {String} 
    */
@@ -97,10 +97,10 @@
         obj['string'] = ApiClient.convertToType(data['string'], 'String');
       }
       if (data.hasOwnProperty('byte')) {
-        obj['byte'] = ApiClient.convertToType(data['byte'], 'String');
+        obj['byte'] = ApiClient.convertToType(data['byte'], Blob);
       }
       if (data.hasOwnProperty('binary')) {
-        obj['binary'] = ApiClient.convertToType(data['binary'], 'String');
+        obj['binary'] = ApiClient.convertToType(data['binary'], Blob);
       }
       if (data.hasOwnProperty('date')) {
         obj['date'] = ApiClient.convertToType(data['date'], 'Date');
@@ -147,11 +147,11 @@
    */
   exports.prototype['string'] = undefined;
   /**
-   * @member {String} byte
+   * @member {Blob} byte
    */
   exports.prototype['byte'] = undefined;
   /**
-   * @member {String} binary
+   * @member {Blob} binary
    */
   exports.prototype['binary'] = undefined;
   /**
