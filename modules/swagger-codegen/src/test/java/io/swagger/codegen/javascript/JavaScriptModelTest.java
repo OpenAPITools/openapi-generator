@@ -420,10 +420,10 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseName, "inputBinaryData");
         Assert.assertEquals(property.getter, "getInputBinaryData");
         Assert.assertEquals(property.setter, "setInputBinaryData");
-        Assert.assertEquals(property.datatype, "String");
+        Assert.assertEquals(property.datatype, "Blob");
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, null);
-        Assert.assertEquals(property.baseType, "String");
+        Assert.assertEquals(property.baseType, "Blob");
         Assert.assertFalse(property.hasMore);
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isNotContainer);

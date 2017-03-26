@@ -423,6 +423,10 @@
     if (accept) {
       request.accept(accept);
     }
+    
+    if (returnType === 'Blob') {
+      request.responseType('blob');
+    }
 
     // Attach previously saved cookies, if enabled
     if (this.enableCookies){
@@ -488,6 +492,8 @@
         return String(data);
       case 'Date':
         return this.parseDate(String(data));
+      case 'Blob':
+      	return data;
       default:
         if (type === Object) {
           // generic object, return directly
