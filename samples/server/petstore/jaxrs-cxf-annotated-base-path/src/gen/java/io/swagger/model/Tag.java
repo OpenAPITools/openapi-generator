@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="A tag for a pet")
 public class Tag  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String name = null;
 
  /**
