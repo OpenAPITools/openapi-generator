@@ -237,7 +237,7 @@ open class FakeAPI: APIBase {
      * enum for parameter enumQueryInteger
      */
     public enum EnumQueryInteger_testEnumParameters: Int32 { 
-        case number1 = 1
+        case _1 = 1
         case numberminus2 = -2
     }
 
@@ -245,7 +245,7 @@ open class FakeAPI: APIBase {
      * enum for parameter enumQueryDouble
      */
     public enum EnumQueryDouble_testEnumParameters: Double { 
-        case number11 = 1.1
+        case _11 = 1.1
         case numberminus12 = -1.2
     }
 
