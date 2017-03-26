@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/")
 @Api(value = "/", description = "")
@@ -29,7 +30,7 @@ public interface UserApi  {
     @ApiOperation(value = "Create user", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUser(User body);
+    public void createUser(@Valid User body);
 
     @POST
     @Path("/user/createWithArray")
@@ -37,7 +38,7 @@ public interface UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithArrayInput(List<User> body);
+    public void createUsersWithArrayInput(@Valid List<User> body);
 
     @POST
     @Path("/user/createWithList")
@@ -45,7 +46,7 @@ public interface UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithListInput(List<User> body);
+    public void createUsersWithListInput(@Valid List<User> body);
 
     @DELETE
     @Path("/user/{username}")
@@ -90,6 +91,6 @@ public interface UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    public void updateUser(@PathParam("username") String username, User body);
+    public void updateUser(@PathParam("username") String username, @Valid User body);
 }
 
