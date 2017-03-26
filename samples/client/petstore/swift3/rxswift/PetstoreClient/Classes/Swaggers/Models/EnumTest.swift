@@ -15,11 +15,11 @@ open class EnumTest: JSONEncodable {
         case empty = ""
     }
     public enum EnumInteger: Int32 { 
-        case number1 = 1
+        case _1 = 1
         case numberminus1 = -1
     }
     public enum EnumNumber: Double { 
-        case number11 = 1.1
+        case _11 = 1.1
         case numberminus12 = -1.2
     }
     public var enumString: EnumString?
