@@ -19,15 +19,15 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="A pet for sale in the pet store")
 public class Pet  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Category category = null;
   @ApiModelProperty(example = "doggie", required = true, value = "")
   private String name = null;
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   private List<String> photoUrls = new ArrayList<String>();
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private List<Tag> tags = new ArrayList<Tag>();
 
 @XmlType(name="StatusEnum")
@@ -62,7 +62,7 @@ public enum StatusEnum {
     }
 }
 
-  @ApiModelProperty(example = "null", value = "pet status in the store")
+  @ApiModelProperty(value = "pet status in the store")
   private StatusEnum status = null;
 
  /**

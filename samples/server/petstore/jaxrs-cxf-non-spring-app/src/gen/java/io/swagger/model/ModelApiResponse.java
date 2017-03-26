@@ -15,11 +15,11 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="Describes the result of uploading an image resource")
 public class ModelApiResponse  {
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private Integer code = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String type = null;
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   private String message = null;
 
  /**
