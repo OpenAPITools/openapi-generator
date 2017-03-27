@@ -26,6 +26,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -l aspnetcore -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -o samples/server/petstore/aspnetcore"
+ags="$@ generate -l aspnetcore -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -o samples/server/petstore/aspnetcore --additional-properties packageGuid={3C799344-F285-4669-8FD5-7ED9B795D5C5}"
 
 java $JAVA_OPTS -jar $executable $ags

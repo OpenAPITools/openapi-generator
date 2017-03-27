@@ -14,7 +14,7 @@ import static java.util.UUID.randomUUID;
 
 public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
-    private final String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
+    private String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
@@ -43,6 +43,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.PACKAGE_VERSION,
                 "C# package version.",
                 this.packageVersion);
+
+        addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
+                CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
+                null);
 
         addOption(CodegenConstants.SOURCE_FOLDER,
                 CodegenConstants.SOURCE_FOLDER_DESC,
@@ -85,7 +89,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
+            setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
+        }
         additionalProperties.put("packageGuid", packageGuid);
+        
         additionalProperties.put("dockerTag", this.packageName.toLowerCase());
 
         apiPackage = packageName + ".Controllers";
@@ -130,6 +138,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
     }
 
+    public void setPackageGuid(String packageGuid) {
+        this.packageGuid = packageGuid;
+    }
+    
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Controllers";
