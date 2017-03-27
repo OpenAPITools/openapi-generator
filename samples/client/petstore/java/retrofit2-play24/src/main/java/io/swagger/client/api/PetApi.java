@@ -28,9 +28,8 @@ public interface PetApi {
    * @param body Pet object that needs to be added to the store (required)
    * @return Call&lt;Void&gt;
    */
-  
   @Headers({
-  	"Content-Type:application/json" 
+    "Content-Type:application/json"
   })
   @POST("pet")
   F.Promise<Response<Void>> addPet(
@@ -44,7 +43,6 @@ public interface PetApi {
    * @param apiKey  (optional)
    * @return Call&lt;Void&gt;
    */
-  
   @DELETE("pet/{petId}")
   F.Promise<Response<Void>> deletePet(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Header("api_key") String apiKey
@@ -56,7 +54,6 @@ public interface PetApi {
    * @param status Status values that need to be considered for filter (required)
    * @return Call&lt;List&lt;Pet&gt;&gt;
    */
-  
   @GET("pet/findByStatus")
   F.Promise<Response<List<Pet>>> findPetsByStatus(
     @retrofit2.http.Query("status") CSVParams status
@@ -68,7 +65,6 @@ public interface PetApi {
    * @param tags Tags to filter by (required)
    * @return Call&lt;List&lt;Pet&gt;&gt;
    */
-  
   @GET("pet/findByTags")
   F.Promise<Response<List<Pet>>> findPetsByTags(
     @retrofit2.http.Query("tags") CSVParams tags
@@ -80,7 +76,6 @@ public interface PetApi {
    * @param petId ID of pet to return (required)
    * @return Call&lt;Pet&gt;
    */
-  
   @GET("pet/{petId}")
   F.Promise<Response<Pet>> getPetById(
     @retrofit2.http.Path("petId") Long petId
@@ -92,9 +87,8 @@ public interface PetApi {
    * @param body Pet object that needs to be added to the store (required)
    * @return Call&lt;Void&gt;
    */
-  
   @Headers({
-  	"Content-Type:application/json" 
+    "Content-Type:application/json"
   })
   @PUT("pet")
   F.Promise<Response<Void>> updatePet(
@@ -109,7 +103,6 @@ public interface PetApi {
    * @param status Updated status of the pet (optional)
    * @return Call&lt;Void&gt;
    */
-  
   @retrofit2.http.FormUrlEncoded
   @POST("pet/{petId}")
   F.Promise<Response<Void>> updatePetWithForm(
@@ -124,7 +117,6 @@ public interface PetApi {
    * @param file file to upload (optional)
    * @return Call&lt;ModelApiResponse&gt;
    */
-  
   @retrofit2.http.Multipart
   @POST("pet/{petId}/uploadImage")
   F.Promise<Response<ModelApiResponse>> uploadFile(

@@ -35,13 +35,16 @@ public interface {{classname}} {
 {{/allParams}}
    * @return Call&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object{{/returnType}}&gt;
    */
-  {{#formParams}}{{#-first}}
-  {{#isMultipart}}@retrofit2.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit2.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
+  {{#formParams}}
+  {{#-first}}
+  {{#isMultipart}}@retrofit2.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit2.http.FormUrlEncoded{{/isMultipart}}
+  {{/-first}}
+  {{/formParams}}
   {{^formParams}}
   {{#prioritizedContentTypes}}
   {{#-first}}
   @Headers({
-  	"Content-Type:{{mediaType}}" 
+    "Content-Type:{{mediaType}}"
   })
   {{/-first}}
   {{/prioritizedContentTypes}}
