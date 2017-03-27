@@ -26,7 +26,7 @@ public class ModelReturn   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("return")
   public Integer getReturn() {
     return _return;

@@ -28,7 +28,7 @@ public class Animal   {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   public String getClassName() {
     return className;
@@ -45,7 +45,7 @@ public class Animal   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("color")
   public String getColor() {
     return color;

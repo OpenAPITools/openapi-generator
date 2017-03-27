@@ -26,7 +26,7 @@ public class ReadOnlyFirst   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
@@ -43,7 +43,7 @@ public class ReadOnlyFirst   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("baz")
   public String getBaz() {
     return baz;

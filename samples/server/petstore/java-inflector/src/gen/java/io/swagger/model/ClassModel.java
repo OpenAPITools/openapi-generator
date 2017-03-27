@@ -26,7 +26,7 @@ public class ClassModel   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;

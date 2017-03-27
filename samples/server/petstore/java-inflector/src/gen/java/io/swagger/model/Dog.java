@@ -24,7 +24,7 @@ public class Dog extends Animal  {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {
     return breed;
