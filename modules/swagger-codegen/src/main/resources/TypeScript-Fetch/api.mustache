@@ -34,7 +34,12 @@ export class BaseAPI {
  * {{{description}}}
  */
 {{/description}}
+{{^isEnum}}
 export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{/isEnum}}
+{{#isEnum}}
+export type {{{classname}}} = {{#allowableValues}}{{#values}}"{{{.}}}"{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
+{{/isEnum}}
 {{#vars}}
 {{#description}}
     /**
@@ -43,7 +48,9 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{/description}}
     "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
+{{^isEnum}}
 }
+{{/isEnum}}
 
 {{#hasEnums}}
 {{#vars}}
