@@ -273,6 +273,12 @@ module Petstore
       if opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
         fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
       end
+      if opts[:'enum_query_integer'] && !['1', '-2'].include?(opts[:'enum_query_integer'])
+        fail ArgumentError, 'invalid value for "enum_query_integer", must be one of 1, -2'
+      end
+      if opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
+        fail ArgumentError, 'invalid value for "enum_query_double", must be one of 1.1, -1.2'
+      end
       # resource path
       local_var_path = "/fake"
 
