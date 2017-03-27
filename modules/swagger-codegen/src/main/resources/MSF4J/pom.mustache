@@ -1,12 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-
-    <parent>
-        <groupId>org.wso2.msf4j</groupId>
-        <artifactId>msf4j-service</artifactId>
-<version>2.0.0</version>
-    </parent> 
-
+  <parent>
+    <groupId>org.wso2.msf4j</groupId>
+    <artifactId>msf4j-service</artifactId>
+    <version>2.0.0</version>
+  </parent> 
   <modelVersion>4.0.0</modelVersion>
   <groupId>{{groupId}}</groupId>
   <artifactId>{{artifactId}}</artifactId>
@@ -16,7 +13,6 @@
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -28,7 +24,6 @@
           </archive>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -50,24 +45,23 @@
       </plugin>
     </plugins>
   </build>
-    <dependencies>
+  <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>${servlet-api-version}</version>
     </dependency>
     <dependency>
-            <groupId>org.wso2.msf4j</groupId>
-            <artifactId>msf4j-all</artifactId>
-	<version>2.0.0</version>
-        </dependency>
-     <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-joda</artifactId>
-            <version>2.4.1</version>
-        </dependency> 
-</dependencies>
- 
+      <groupId>org.wso2.msf4j</groupId>
+      <artifactId>msf4j-all</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-joda</artifactId>
+      <version>2.4.1</version>
+    </dependency> 
+  </dependencies>
   <repositories>
     <repository>
       <id>sonatype-snapshots</id>
