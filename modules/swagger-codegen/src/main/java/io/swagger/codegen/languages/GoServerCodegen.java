@@ -126,6 +126,9 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("swagger"));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
+                .defaultValue(Boolean.TRUE.toString()));
+
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
