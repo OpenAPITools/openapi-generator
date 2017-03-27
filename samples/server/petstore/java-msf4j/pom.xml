@@ -6,14 +6,13 @@
   </parent> 
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-msf4j-server</artifactId>
+  <artifactId>swagger-jaxrs-server</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-msf4j-server</name>
+  <name>swagger-jaxrs-server</name>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -25,7 +24,6 @@
           </archive>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -45,26 +43,42 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+            <execution>
+                <id>Play Test</id>
+                <phase>integration-test</phase>
+                <goals>
+                    <goal>exec</goal>
+                </goals>
+                <configuration>
+                    <executable>./mvn_test_jdk8_only.sh</executable>
+                </configuration>
+            </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-    <dependencies>
+  <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>${servlet-api-version}</version>
     </dependency>
     <dependency>
-            <groupId>org.wso2.msf4j</groupId>
-            <artifactId>msf4j-all</artifactId>
-	<version>2.0.0</version>
-        </dependency>
-     <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-joda</artifactId>
-            <version>2.4.1</version>
-        </dependency> 
-</dependencies>
- 
+      <groupId>org.wso2.msf4j</groupId>
+      <artifactId>msf4j-all</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-joda</artifactId>
+      <version>2.4.1</version>
+    </dependency> 
+  </dependencies>
   <repositories>
     <repository>
       <id>sonatype-snapshots</id>
