@@ -127,8 +127,15 @@ namespace IO.Swagger.Model
             }
         }
 
+        /// <summary>
+        /// Property changed event handler
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Trigger when a property changed
+        /// </summary>
+        /// <param name="propertyName">Property Name</param>
         public virtual void OnPropertyChanged(string propertyName)
         {
             // NOTE: property changed is handled via "code weaving" using Fody.
@@ -140,6 +147,11 @@ namespace IO.Swagger.Model
             }
         }
 
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContex">Validation context</param>
+        /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         { 
             yield break;
