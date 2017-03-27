@@ -23,7 +23,7 @@ public class Client   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {
     return client;

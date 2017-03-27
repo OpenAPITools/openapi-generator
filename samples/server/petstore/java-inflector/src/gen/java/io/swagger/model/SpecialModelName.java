@@ -23,7 +23,7 @@ public class SpecialModelName   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long getSpecialPropertyName() {
     return specialPropertyName;

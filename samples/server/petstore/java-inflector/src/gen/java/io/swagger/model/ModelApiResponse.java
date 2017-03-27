@@ -29,7 +29,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
@@ -46,7 +46,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
@@ -63,7 +63,7 @@ public class ModelApiResponse   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;

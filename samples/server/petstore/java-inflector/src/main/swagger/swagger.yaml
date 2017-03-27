@@ -685,12 +685,18 @@ paths:
         required: false
         type: "integer"
         format: "int32"
+        enum:
+        - 1
+        - -2
       - name: "enum_query_double"
         in: "formData"
         description: "Query parameter enum test (double)"
         required: false
         type: "number"
         format: "double"
+        enum:
+        - 1.1
+        - -1.2
       responses:
         400:
           description: "Invalid request"
@@ -846,12 +852,12 @@ securityDefinitions:
     scopes:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
-  http_basic_test:
-    type: "basic"
   api_key:
     type: "apiKey"
     name: "api_key"
     in: "header"
+  http_basic_test:
+    type: "basic"
 definitions:
   Order:
     type: "object"

@@ -35,7 +35,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
@@ -52,7 +52,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
@@ -69,7 +69,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;

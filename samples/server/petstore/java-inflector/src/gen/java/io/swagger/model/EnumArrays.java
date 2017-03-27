@@ -91,7 +91,7 @@ public class EnumArrays   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -108,7 +108,7 @@ public class EnumArrays   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
