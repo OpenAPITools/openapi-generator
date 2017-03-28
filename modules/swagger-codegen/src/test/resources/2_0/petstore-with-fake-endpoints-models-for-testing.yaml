@@ -9,7 +9,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: petstore.swagger.io
+host: petstore.swagger.io:80
 basePath: /v2
 tags:
   - name: pet
