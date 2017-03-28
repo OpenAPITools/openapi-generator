@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-java-client</artifactId>
+  <artifactId>swagger-petstore-retrofit2-rx2</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-java-client</name>
+  <name>swagger-petstore-retrofit2-rx2</name>
   <version>1.0.0</version>
   <url>https://github.com/swagger-api/swagger-codegen</url>
   <description>Swagger Java</description>
@@ -199,38 +199,17 @@
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
     </dependency>
-
-    <!-- JSON processing: jackson -->
+    <dependency>
+      <groupId>io.reactivex</groupId>
+      <artifactId>rxjava</artifactId>
+      <version>${rxjava-version}</version>
+    </dependency>
     <dependency>
       <groupId>com.squareup.retrofit2</groupId>
-        <artifactId>converter-jackson</artifactId>
-        <version>${retrofit-version}</version>
+      <artifactId>adapter-rxjava</artifactId>
+      <version>${retrofit-version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-      <version>${jackson-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-      <version>${jackson-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>${jackson-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-joda</artifactId>
-      <version>${jackson-version}</version>
-    </dependency>
-    <dependency>
-        <groupId>com.typesafe.play</groupId>
-        <artifactId>play-java-ws_2.11</artifactId>
-        <version>${play-version}</version>
-    </dependency>
+
 
     <!-- test dependencies -->
     <dependency>
@@ -246,9 +225,8 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.12</swagger-core-version>
-    <retrofit-version>2.1.0</retrofit-version>
-    <jackson-version>2.7.5</jackson-version>
-    <play-version>2.4.11</play-version>
+    <retrofit-version>2.2.0</retrofit-version>
+    <rxjava-version>1.2.9</rxjava-version>
     <jodatime-version>2.9.4</jodatime-version>
     <oltu-version>1.0.1</oltu-version>
     <junit-version>4.12</junit-version>
