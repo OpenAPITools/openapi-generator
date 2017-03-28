@@ -215,7 +215,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.12</swagger-core-version>
-    <retrofit-version>2.1.0</retrofit-version>
+    <retrofit-version>2.2.0</retrofit-version>
     <jodatime-version>2.9.4</jodatime-version>
     <oltu-version>1.0.1</oltu-version>
     <junit-version>4.12</junit-version>

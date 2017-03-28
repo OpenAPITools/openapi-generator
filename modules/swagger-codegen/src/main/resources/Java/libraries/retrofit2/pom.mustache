@@ -255,8 +255,8 @@
     </dependency>
     <dependency>
         <groupId>com.typesafe.play</groupId>
-        <artifactId>play-java-ws_2.10</artifactId>
-        <version>2.4.6</version>
+        <artifactId>play-java-ws_2.11</artifactId>
+        <version>${play-version}</version>
     </dependency>
     {{/usePlay24WS}}
 
@@ -274,15 +274,19 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.12</swagger-core-version>
-    <retrofit-version>2.1.0</retrofit-version>
     {{#usePlay24WS}}
+    <retrofit-version>2.1.0</retrofit-version>
     <jackson-version>2.7.5</jackson-version>
+    <play-version>2.4.11</play-version>
+    {{/usePlay24WS}}
+    {{^usePlay24WS}}
+    <retrofit-version>2.2.0</retrofit-version>
     {{/usePlay24WS}}
     {{#useRxJava}}
-    <rxjava-version>1.1.6</rxjava-version>
+    <rxjava-version>1.2.9</rxjava-version>
     {{/useRxJava}}
     {{#useRxJava2}}
-    <rxjava-version>2.0.5</rxjava-version>
+    <rxjava-version>2.0.7</rxjava-version>
     {{/useRxJava2}}
     {{^java8}}
     <jodatime-version>2.9.4</jodatime-version>
