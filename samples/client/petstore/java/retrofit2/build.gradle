@@ -95,10 +95,10 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     oltu_version = "1.0.1"
-    retrofit_version = "2.0.2"
-    swagger_annotations_version = "1.5.8"
+    retrofit_version = "2.2.0"
+    swagger_annotations_version = "1.5.12"
     junit_version = "4.12"
-    jodatime_version = "2.9.3"
+    jodatime_version = "2.9.4"
 }
 
 dependencies {
