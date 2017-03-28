@@ -24,9 +24,8 @@ public interface FakeClassnameTags123Api {
    * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
-  
   @Headers({
-  	"Content-Type:application/json" 
+    "Content-Type:application/json"
   })
   @PATCH("fake_classname_test")
   Observable<Client> testClassname(
