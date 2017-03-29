@@ -842,6 +842,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Cupix](http://www.cupix.com)
 - [DBBest Technologies](https://www.dbbest.com)
 - [DecentFoX](http://decentfox.com/)
+- [DocRaptor](https://docraptor.com)
 - [DocuSign](https://www.docusign.com)
 - [Ergon](http://www.ergon.ch/)
 - [EMC](https://www.emc.com/)
