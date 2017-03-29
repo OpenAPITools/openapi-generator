@@ -333,7 +333,7 @@ if ($@) {
 
 # DOCUMENTATION FOR API ENDPOINTS
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

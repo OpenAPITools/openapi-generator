@@ -123,7 +123,7 @@ module Petstore
 
     def initialize
       @scheme = 'http'
-      @host = 'petstore.swagger.io'
+      @host = 'petstore.swagger.io:80'
       @base_path = '/v2'
       @api_key = {}
       @api_key_prefix = {}
