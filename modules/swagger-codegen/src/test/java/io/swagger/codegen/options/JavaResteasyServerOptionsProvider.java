@@ -39,6 +39,7 @@ public class JavaResteasyServerOptionsProvider extends JavaOptionsProvider {
         
         builder.put(JavaCXFServerCodegen.GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
         builder.put(JavaResteasyServerCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION);
+        builder.put("serverPort", "1234");
 
         return builder.build();
         

@@ -45,6 +45,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption("title", "a title describing the application"));
 
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+        cliOptions.add(new CliOption("serverPort", "The port on which the server should be started"));
 
     }
 
@@ -83,15 +84,19 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             swagger.setBasePath("");
         }
 
-        String host = swagger.getHost();
-        String port = "8080"; // Default value for a JEE Server
-        if ( host != null ) {
-            String[] parts = host.split(":");
-            if ( parts.length > 1 ) {
-                port = parts[1];
+        if(!this.additionalProperties.containsKey("serverPort")) {
+            final String host = swagger.getHost();
+            String port = "8080"; // Default value for a JEE Server
+            if ( host != null ) {
+                String[] parts = host.split(":");
+                if ( parts.length > 1 ) {
+                    port = parts[1];
+                }
             }
+
+            this.additionalProperties.put("serverPort", port);
         }
-        this.additionalProperties.put("serverPort", port);
+
         if ( swagger.getPaths() != null ) {
             for ( String pathname : swagger.getPaths().keySet() ) {
                 Path path = swagger.getPath(pathname);

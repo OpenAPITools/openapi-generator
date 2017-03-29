@@ -43,6 +43,7 @@ public class JavaResteasyEapServerOptionsProvider extends JavaOptionsProvider {
         builder.put(JavaCXFServerCodegen.GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
         builder.put(JavaResteasyServerCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION);
           builder.put(JavaResteasyEapServerCodegen.USE_SWAGGER_FEATURE, USE_SWAGGER_FEATURE);
+          builder.put("serverPort", "1234");
 
         return builder.build();
         
