@@ -31,7 +31,7 @@ public class ApiClient {
     private Map<String, Authentication> authentications;
 
     /** API base path */
-    private String basePath = "http://petstore.swagger.io/v2";
+    private String basePath = "http://petstore.swagger.io:80/v2";
 
     public ApiClient(WSClient wsClient) {
         this();

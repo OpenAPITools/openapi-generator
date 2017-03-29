@@ -106,7 +106,7 @@ public class ApiClient {
     json = new JSON();
     okBuilder = new OkHttpClient.Builder();
 
-    String baseUrl = "http://petstore.swagger.io/v2";
+    String baseUrl = "http://petstore.swagger.io:80/v2";
     if (!baseUrl.endsWith("/"))
       baseUrl = baseUrl + "/";
 
