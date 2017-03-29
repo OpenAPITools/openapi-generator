@@ -51,7 +51,7 @@ import io.swagger.client.auth.OAuth;
 
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private String basePath = "http://petstore.swagger.io/v2";
+  private String basePath = "http://petstore.swagger.io:80/v2";
   private boolean debugging = false;
   private int connectionTimeout = 0;
 

@@ -45,7 +45,7 @@ class Configuration(object):
         Constructor
         """
         # Default Base url
-        self.host = "http://petstore.swagger.io/v2"
+        self.host = "http://petstore.swagger.io:80/v2"
         # Default api client
         self.api_client = None
         # Temp file folder for downloading files

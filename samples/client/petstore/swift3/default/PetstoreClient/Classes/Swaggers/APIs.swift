@@ -7,7 +7,7 @@
 import Foundation
 
 open class PetstoreClientAPI {
-    open static var basePath = "http://petstore.swagger.io/v2"
+    open static var basePath = "http://petstore.swagger.io:80/v2"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()

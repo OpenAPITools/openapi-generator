@@ -25,7 +25,7 @@ public class ApiClient {
   public interface Api {}
 
   protected ObjectMapper objectMapper;
-  private String basePath = "http://petstore.swagger.io/v2";
+  private String basePath = "http://petstore.swagger.io:80/v2";
   private Map<String, RequestInterceptor> apiAuthorizations;
   private Feign.Builder feignBuilder;
 

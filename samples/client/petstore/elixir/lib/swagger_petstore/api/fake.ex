@@ -5,7 +5,7 @@ defmodule SwaggerPetstore.Api.Fake do
 
   use Tesla
 
-  plug Tesla.Middleware.BaseUrl, "http://petstore.swagger.io/v2"
+  plug Tesla.Middleware.BaseUrl, "http://petstore.swagger.io:80/v2"
   plug Tesla.Middleware.JSON
 
   def test_client_model(body) do
