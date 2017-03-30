@@ -459,11 +459,13 @@ public class ApiClient {
    *   application/json
    *   application/json; charset=UTF8
    *   APPLICATION/JSON
+   *   application/vnd.company+json
    * @param mime MIME
    * @return True if MIME type is boolean
    */
   public boolean isJsonMime(String mime) {
-    return mime != null && mime.matches("(?i)application\\/json(;.*)?");
+    String jsonMime = "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
+    return mime != null && mime.matches(jsonMime);
   }
 
   /**

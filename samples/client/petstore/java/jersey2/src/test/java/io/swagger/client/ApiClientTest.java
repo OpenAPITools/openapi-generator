@@ -40,15 +40,26 @@ public class ApiClientTest {
 
     @Test
     public void testIsJsonMime() {
-      assertFalse(apiClient.isJsonMime(null));
-      assertFalse(apiClient.isJsonMime(""));
-      assertFalse(apiClient.isJsonMime("text/plain"));
-      assertFalse(apiClient.isJsonMime("application/xml"));
-      assertFalse(apiClient.isJsonMime("application/jsonp"));
+        assertFalse(apiClient.isJsonMime(null));
+        assertFalse(apiClient.isJsonMime(""));
+        assertFalse(apiClient.isJsonMime("text/plain"));
+        assertFalse(apiClient.isJsonMime("application/xml"));
+        assertFalse(apiClient.isJsonMime("application/jsonp"));
+        assertFalse(apiClient.isJsonMime("example/json"));
+        assertFalse(apiClient.isJsonMime("example/foo+bar+jsonx"));
+        assertFalse(apiClient.isJsonMime("example/foo+bar+xjson"));
 
-      assertTrue(apiClient.isJsonMime("application/json"));
-      assertTrue(apiClient.isJsonMime("application/json; charset=UTF8"));
-      assertTrue(apiClient.isJsonMime("APPLICATION/JSON"));
+        assertTrue(apiClient.isJsonMime("application/json"));
+        assertTrue(apiClient.isJsonMime("application/json; charset=UTF8"));
+        assertTrue(apiClient.isJsonMime("APPLICATION/JSON"));
+
+        assertTrue(apiClient.isJsonMime("application/problem+json"));
+        assertTrue(apiClient.isJsonMime("APPLICATION/PROBLEM+JSON"));
+        assertTrue(apiClient.isJsonMime("application/json\t"));
+        assertTrue(apiClient.isJsonMime("example/foo+bar+json"));
+        assertTrue(apiClient.isJsonMime("example/foo+json;x;y"));
+        assertTrue(apiClient.isJsonMime("example/foo+json\t;"));
+        assertTrue(apiClient.isJsonMime("Example/fOO+JSON"));
     }
 
     @Test
