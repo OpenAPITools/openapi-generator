@@ -5,7 +5,6 @@ import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
-import io.swagger.models.properties.Property;
 
 import java.io.File;
 import java.util.*;
@@ -25,7 +24,6 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
-    public static final String RESOURCE_FILE_STREAMS = "resourceStreams";
 
     protected String title = "swagger-petstore";
     protected String configPackage = "io.swagger.configuration";
@@ -68,7 +66,6 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers."));
-        cliOptions.add(CliOption.newBoolean(RESOURCE_FILE_STREAMS, "When \"file\" is specified as a type, generate the type as org.springframework.core.io.Resource, and FileSystemResource for example values."));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -151,11 +148,6 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
-        if (additionalProperties.containsKey(RESOURCE_FILE_STREAMS)) {
-            typeMapping.put("file", "Resource");
-            importMapping.put("Resource", "org.springframework.core.io.Resource");
-        }
-
         if (useBeanValidation) {
             writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
         }
@@ -164,6 +156,9 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
             this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
+
+        typeMapping.put("file", "Resource");
+        importMapping.put("Resource", "org.springframework.core.io.Resource");
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
