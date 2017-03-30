@@ -92,7 +92,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 .put(NET35, ".NET Framework 3.5 compatible")
                 .put(NET45, ".NET Framework 4.5+ compatible")
                 .put(NETSTANDARD, ".NET Standard 1.3 compatible")
-                .put(UWP, "Universal Windows Platform (IMPORTANT: this will be decomissioned and replaced by v5.0)")
+                .put(UWP, "Universal Windows Platform (IMPORTANT: this will be decommissioned and replaced by v5.0)")
                 .build();
         framework.defaultValue(this.targetFramework);
         framework.setEnum(frameworks);
