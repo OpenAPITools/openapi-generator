@@ -126,7 +126,7 @@ public class ApiClient {
 
         adapterBuilder = new RestAdapter
                 .Builder()
-                .setEndpoint("http://petstore.swagger.io/v2")
+                .setEndpoint("http://petstore.swagger.io:80/v2")
                 .setClient(new OkClient(okClient))
                 .setConverter(new GsonConverterWrapper(gson));
     }

@@ -52,7 +52,7 @@ import io.swagger.client.auth.OAuth;
 
 public class ApiClient {
 
-    private String basePath = "http://petstore.swagger.io/v2";
+    private String basePath = "http://petstore.swagger.io:80/v2";
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private String tempFolderPath = null;
@@ -76,16 +76,7 @@ public class ApiClient {
 
         verifyingSsl = true;
 
-        json = new JSON(this);
-
-        /*
-         * Use RFC3339 format for date and datetime.
-         * See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
-         */
-        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        // Always use UTC as the default time zone when dealing with date (without time).
-        this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        initDatetimeFormat();
+        json = new JSON();
 
         // Set default User-Agent.
         setUserAgent("Swagger-Codegen/1.0.0/java");
@@ -111,7 +102,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g http://petstore.swagger.io/v2
+     * @param basePath Base path of the URL (e.g http://petstore.swagger.io:80/v2
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {

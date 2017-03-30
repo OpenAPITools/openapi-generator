@@ -46,7 +46,7 @@ sub _new_instance
     my $class = shift;
     my (%args) = (
         'ua' => LWP::UserAgent->new,
-        'base_url' => 'http://petstore.swagger.io/v2',
+        'base_url' => 'http://petstore.swagger.io:80/v2',
         @_
     );
   
