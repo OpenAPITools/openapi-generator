@@ -16,6 +16,12 @@
 
 ## How to contribute
 
+### git
+
+If you're new to git, you may find the following FAQs useful:
+
+https://github.com/swagger-api/swagger-codegen/wiki/FAQ#git
+
 ### Code generators
 
 All the code generators can be found in [modules/swagger-codegen/src/main/java/io/swagger/codegen/languages](https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen/src/main/java/io/swagger/codegen/languages)

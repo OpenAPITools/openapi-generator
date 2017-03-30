@@ -38,7 +38,7 @@ type Configuration struct {
 
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
-		BasePath:      "http://petstore.swagger.io/v2",
+		BasePath:      "http://petstore.swagger.io:80/v2",
 		DefaultHeader: make(map[string]string),
 		APIKey:        make(map[string]string),
 		APIKeyPrefix:  make(map[string]string),

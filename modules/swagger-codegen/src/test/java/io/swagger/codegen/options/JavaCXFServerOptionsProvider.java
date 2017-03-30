@@ -92,6 +92,7 @@ public class JavaCXFServerOptionsProvider extends JavaOptionsProvider {
         builder.put(JavaCXFServerCodegen.USE_ANNOTATED_BASE_PATH, USE_ANNOTATED_BASE_PATH);
 
         builder.put(JavaCXFServerCodegen.GENERATE_NON_SPRING_APPLICATION, GENERATE_NON_SPRING_APPLICATION);
+        builder.put("serverPort", "3456");
 
         return builder.build();
         

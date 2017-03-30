@@ -88,7 +88,7 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'http://petstore.swagger.io/v2';
+    protected $host = 'http://petstore.swagger.io:80/v2';
 
     /**
      * Timeout (second) of the HTTP request, by default set to 0, no timeout
