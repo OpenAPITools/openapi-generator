@@ -443,7 +443,7 @@
     if (accept) {
       request.accept(accept);
     }
-    
+
     if (returnType === 'Blob') {
       request.responseType('blob');
     }
