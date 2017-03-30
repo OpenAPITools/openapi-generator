@@ -97,10 +97,10 @@
         obj['string'] = ApiClient.convertToType(data['string'], 'String');
       }
       if (data.hasOwnProperty('byte')) {
-        obj['byte'] = ApiClient.convertToType(data['byte'], Blob);
+        obj['byte'] = ApiClient.convertToType(data['byte'], 'Blob');
       }
       if (data.hasOwnProperty('binary')) {
-        obj['binary'] = ApiClient.convertToType(data['binary'], Blob);
+        obj['binary'] = ApiClient.convertToType(data['binary'], 'Blob');
       }
       if (data.hasOwnProperty('date')) {
         obj['date'] = ApiClient.convertToType(data['date'], 'Date');
