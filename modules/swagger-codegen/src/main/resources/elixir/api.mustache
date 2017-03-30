@@ -10,6 +10,13 @@ defmodule {{#modulized}}{{appName}}{{/modulized}}.Api.{{classname}} do
 {{#operations}}
     {{#operation}}
 
+  @doc """
+  {{summary}}
+  {{^notes.isEmpty}}
+
+  {{notes}}
+  {{/notes.isEmpty}}
+  """
   def {{#underscored}}{{operationId}}{{/underscored}}({{#allParams}}{{^-first}}, {{/-first}}{{#underscored}}{{paramName}}{{/underscored}}{{/allParams}}) do
     method = [method: :{{#underscored}}{{httpMethod}}{{/underscored}}]
     url = [url: "{{replacedPathName}}"]

@@ -8,6 +8,11 @@ defmodule SwaggerPetstore.Api.Fake do
   plug Tesla.Middleware.BaseUrl, "http://petstore.swagger.io:80/v2"
   plug Tesla.Middleware.JSON
 
+  @doc """
+  To test \&quot;client\&quot; model
+
+  To test \&quot;client\&quot; model
+  """
   def test_client_model(body) do
     method = [method: :patch]
     url = [url: "/fake"]
@@ -22,6 +27,11 @@ defmodule SwaggerPetstore.Api.Fake do
     request(options)
   end
 
+  @doc """
+  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+
+  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+  """
   def test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback) do
     method = [method: :post]
     url = [url: "/fake"]
@@ -36,6 +46,11 @@ defmodule SwaggerPetstore.Api.Fake do
     request(options)
   end
 
+  @doc """
+  To test enum parameters
+
+  To test enum parameters
+  """
   def test_enum_parameters(enum_form_string_array, enum_form_string, enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double) do
     method = [method: :get]
     url = [url: "/fake"]
