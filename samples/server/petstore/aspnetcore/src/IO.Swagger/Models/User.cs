@@ -15,78 +15,60 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
-{
-
+{ 
     /// <summary>
     /// A User who is purchasing from the pet store
     /// </summary>
     [DataContract]
-    public partial class User :  IEquatable<User>
-    {
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="User" /> class.
-        /// </summary>
-        /// <param name="Id">Id.</param>
-        /// <param name="Username">Username.</param>
-        /// <param name="FirstName">FirstName.</param>
-        /// <param name="LastName">LastName.</param>
-        /// <param name="Email">Email.</param>
-        /// <param name="Password">Password.</param>
-        /// <param name="Phone">Phone.</param>
-        /// <param name="UserStatus">User Status.</param>
-        public User(long? Id = default(long?), string Username = default(string), string FirstName = default(string), string LastName = default(string), string Email = default(string), string Password = default(string), string Phone = default(string), int? UserStatus = default(int?))
-        {
-            this.Id = Id;
-            this.Username = Username;
-            this.FirstName = FirstName;
-            this.LastName = LastName;
-            this.Email = Email;
-            this.Password = Password;
-            this.Phone = Phone;
-            this.UserStatus = UserStatus;
-            
-        }
-
+    public partial class User : IEquatable<User>
+    { 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id")]
         public long? Id { get; set; }
+
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name="username")]
         public string Username { get; set; }
+
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name="firstName")]
         public string FirstName { get; set; }
+
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name="lastName")]
         public string LastName { get; set; }
+
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name="email")]
         public string Email { get; set; }
+
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password")]
         public string Password { get; set; }
+
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name="phone")]
         public string Phone { get; set; }
+
         /// <summary>
         /// User Status
         /// </summary>
@@ -132,8 +114,7 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((User)obj);
+            return obj.GetType() == GetType() && Equals((User)obj);
         }
 
         /// <summary>
@@ -143,50 +124,49 @@ namespace IO.Swagger.Models
         /// <returns>Boolean</returns>
         public bool Equals(User other)
         {
-
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    this.Id == other.Id ||
-                    this.Id != null &&
-                    this.Id.Equals(other.Id)
+                    Id == other.Id ||
+                    Id != null &&
+                    Id.Equals(other.Id)
                 ) && 
                 (
-                    this.Username == other.Username ||
-                    this.Username != null &&
-                    this.Username.Equals(other.Username)
+                    Username == other.Username ||
+                    Username != null &&
+                    Username.Equals(other.Username)
                 ) && 
                 (
-                    this.FirstName == other.FirstName ||
-                    this.FirstName != null &&
-                    this.FirstName.Equals(other.FirstName)
+                    FirstName == other.FirstName ||
+                    FirstName != null &&
+                    FirstName.Equals(other.FirstName)
                 ) && 
                 (
-                    this.LastName == other.LastName ||
-                    this.LastName != null &&
-                    this.LastName.Equals(other.LastName)
+                    LastName == other.LastName ||
+                    LastName != null &&
+                    LastName.Equals(other.LastName)
                 ) && 
                 (
-                    this.Email == other.Email ||
-                    this.Email != null &&
-                    this.Email.Equals(other.Email)
+                    Email == other.Email ||
+                    Email != null &&
+                    Email.Equals(other.Email)
                 ) && 
                 (
-                    this.Password == other.Password ||
-                    this.Password != null &&
-                    this.Password.Equals(other.Password)
+                    Password == other.Password ||
+                    Password != null &&
+                    Password.Equals(other.Password)
                 ) && 
                 (
-                    this.Phone == other.Phone ||
-                    this.Phone != null &&
-                    this.Phone.Equals(other.Phone)
+                    Phone == other.Phone ||
+                    Phone != null &&
+                    Phone.Equals(other.Phone)
                 ) && 
                 (
-                    this.UserStatus == other.UserStatus ||
-                    this.UserStatus != null &&
-                    this.UserStatus.Equals(other.UserStatus)
+                    UserStatus == other.UserStatus ||
+                    UserStatus != null &&
+                    UserStatus.Equals(other.UserStatus)
                 );
         }
 
@@ -199,29 +179,30 @@ namespace IO.Swagger.Models
             // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
+                var hash = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (this.Id != null)
-                    hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.Username != null)
-                    hash = hash * 59 + this.Username.GetHashCode();
-                    if (this.FirstName != null)
-                    hash = hash * 59 + this.FirstName.GetHashCode();
-                    if (this.LastName != null)
-                    hash = hash * 59 + this.LastName.GetHashCode();
-                    if (this.Email != null)
-                    hash = hash * 59 + this.Email.GetHashCode();
-                    if (this.Password != null)
-                    hash = hash * 59 + this.Password.GetHashCode();
-                    if (this.Phone != null)
-                    hash = hash * 59 + this.Phone.GetHashCode();
-                    if (this.UserStatus != null)
-                    hash = hash * 59 + this.UserStatus.GetHashCode();
+                    if (Id != null)
+                    hash = hash * 59 + Id.GetHashCode();
+                    if (Username != null)
+                    hash = hash * 59 + Username.GetHashCode();
+                    if (FirstName != null)
+                    hash = hash * 59 + FirstName.GetHashCode();
+                    if (LastName != null)
+                    hash = hash * 59 + LastName.GetHashCode();
+                    if (Email != null)
+                    hash = hash * 59 + Email.GetHashCode();
+                    if (Password != null)
+                    hash = hash * 59 + Password.GetHashCode();
+                    if (Phone != null)
+                    hash = hash * 59 + Phone.GetHashCode();
+                    if (UserStatus != null)
+                    hash = hash * 59 + UserStatus.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
+        #pragma warning disable 1591
 
         public static bool operator ==(User left, User right)
         {
@@ -233,7 +214,7 @@ namespace IO.Swagger.Models
             return !Equals(left, right);
         }
 
+        #pragma warning restore 1591
         #endregion Operators
-
     }
 }
