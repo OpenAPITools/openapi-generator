@@ -7,7 +7,7 @@ wget -nc https://nuget.org/nuget.exe
 mozroots --import --sync
 
 echo "[INFO] remove bin/Debug/SwaggerClientTest.dll"
-rm src/IO.Swagger.Test/bin/Debug/{{{packageName}}}.Test.dll 2> /dev/null
+rm src/{{{packageName}}}.Test/bin/Debug/{{{packageName}}}.Test.dll 2> /dev/null
 
 echo "[INFO] install NUnit runners via NuGet"
 wget -nc https://nuget.org/nuget.exe
