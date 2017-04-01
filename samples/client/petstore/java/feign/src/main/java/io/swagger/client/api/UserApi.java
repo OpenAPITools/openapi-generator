@@ -1,6 +1,7 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
+import io.swagger.client.EncodingUtils;
 
 import io.swagger.client.model.User;
 
@@ -110,7 +111,7 @@ public interface UserApi extends ApiClient.Api {
   "Content-Type: application/json",
   "Accept: application/json",
   })
-  String loginUser(@QueryMap Map<String, Object> queryParams);
+  String loginUser(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -118,11 +119,11 @@ public interface UserApi extends ApiClient.Api {
    */
   public static class LoginUserQueryParams extends HashMap<String, Object> {
     public LoginUserQueryParams username(final String value) {
-      put("username", value);
+      put("username", EncodingUtils.encode(value));
       return this;
     }
     public LoginUserQueryParams password(final String value) {
-      put("password", value);
+      put("password", EncodingUtils.encode(value));
       return this;
     }
   }
