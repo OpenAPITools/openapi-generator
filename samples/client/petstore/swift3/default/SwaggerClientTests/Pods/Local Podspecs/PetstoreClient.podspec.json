@@ -10,7 +10,7 @@
     "tag": "v1.0.0"
   },
   "authors": "",
-  "license": "Apache License, Version 2.0",
+  "license": "Proprietary",
   "homepage": "https://github.com/swagger-api/swagger-codegen",
   "summary": "PetstoreClient",
   "source_files": "PetstoreClient/Classes/Swaggers/**/*.swift",
