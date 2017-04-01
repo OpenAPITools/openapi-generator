@@ -324,7 +324,7 @@ paths:
             $ref: '#/definitions/Order'
         '400':
           description: Invalid Order
-  '/store/order/{orderId}':
+  '/store/order/{order_id}':
     get:
       tags:
         - store
@@ -335,7 +335,7 @@ paths:
         - application/xml
         - application/json
       parameters:
-        - name: orderId
+        - name: order_id
           in: path
           description: ID of pet that needs to be fetched
           required: true
@@ -362,7 +362,7 @@ paths:
         - application/xml
         - application/json
       parameters:
-        - name: orderId
+        - name: order_id
           in: path
           description: ID of the order that needs to be deleted
           required: true

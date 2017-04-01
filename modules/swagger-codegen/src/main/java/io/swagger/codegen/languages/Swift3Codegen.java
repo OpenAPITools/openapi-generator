@@ -46,7 +46,6 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = "Classes" + File.separator + "Swaggers";
-    private static final Pattern PATH_PARAM_PATTERN = Pattern.compile("\\{[a-zA-Z_]+\\}");
 
     @Override
     public CodegenType getTag() {
@@ -453,40 +452,6 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return codegenModel;
-    }
-
-    @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-        path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // issue 3914 - removed logic designed to remove any parameter of type HeaderParameter
-        return super.fromOperation(path, httpMethod, operation, definitions, swagger);
-    }
-
-    private static String normalizePath(String path) {
-        StringBuilder builder = new StringBuilder();
-
-        int cursor = 0;
-        Matcher matcher = PATH_PARAM_PATTERN.matcher(path);
-        boolean found = matcher.find();
-        while (found) {
-            String stringBeforeMatch = path.substring(cursor, matcher.start());
-            builder.append(stringBeforeMatch);
-
-            String group = matcher.group().substring(1, matcher.group().length() - 1);
-            group = camelize(group, true);
-            builder
-                    .append("{")
-                    .append(group)
-                    .append("}");
-
-            cursor = matcher.end();
-            found = matcher.find();
-        }
-
-        String stringAfterMatch = path.substring(cursor);
-        builder.append(stringAfterMatch);
-
-        return builder.toString();
     }
 
     public void setProjectName(String projectName) {

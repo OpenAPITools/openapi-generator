@@ -52,7 +52,7 @@ open class StoreAPI: APIBase {
      */
     open class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
         var path = "/store/order/{orderId}"
-        path = path.replacingOccurrences(of: "{orderId}", with: "\(orderId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{order_id}", with: "\(orderId)", options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
 
@@ -189,7 +189,7 @@ open class StoreAPI: APIBase {
      */
     open class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
         var path = "/store/order/{orderId}"
-        path = path.replacingOccurrences(of: "{orderId}", with: "\(orderId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{order_id}", with: "\(orderId)", options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
 
