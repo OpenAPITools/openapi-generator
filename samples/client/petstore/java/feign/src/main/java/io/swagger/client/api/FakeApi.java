@@ -1,6 +1,7 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
+import io.swagger.client.EncodingUtils;
 
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
@@ -106,7 +107,7 @@ public interface FakeApi extends ApiClient.Api {
       
       "enum_header_string: {enumHeaderString}"
   })
-  void testEnumParameters(@Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryDouble") Double enumQueryDouble, @QueryMap Map<String, Object> queryParams);
+  void testEnumParameters(@Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryDouble") Double enumQueryDouble, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -114,15 +115,15 @@ public interface FakeApi extends ApiClient.Api {
    */
   public static class TestEnumParametersQueryParams extends HashMap<String, Object> {
     public TestEnumParametersQueryParams enumQueryStringArray(final List<String> value) {
-      put("enum_query_string_array", value);
+      put("enum_query_string_array", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
     public TestEnumParametersQueryParams enumQueryString(final String value) {
-      put("enum_query_string", value);
+      put("enum_query_string", EncodingUtils.encode(value));
       return this;
     }
     public TestEnumParametersQueryParams enumQueryInteger(final Integer value) {
-      put("enum_query_integer", value);
+      put("enum_query_integer", EncodingUtils.encode(value));
       return this;
     }
   }
