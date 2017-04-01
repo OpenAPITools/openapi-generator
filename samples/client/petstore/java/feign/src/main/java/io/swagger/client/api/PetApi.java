@@ -1,6 +1,7 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
+import io.swagger.client.EncodingUtils;
 
 import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
@@ -75,7 +76,7 @@ public interface PetApi extends ApiClient.Api {
   "Content-Type: application/json",
   "Accept: application/json",
   })
-  List<Pet> findPetsByStatus(@QueryMap Map<String, Object> queryParams);
+  List<Pet> findPetsByStatus(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -83,7 +84,7 @@ public interface PetApi extends ApiClient.Api {
    */
   public static class FindPetsByStatusQueryParams extends HashMap<String, Object> {
     public FindPetsByStatusQueryParams status(final List<String> value) {
-      put("status", value);
+      put("status", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
   }
@@ -121,7 +122,7 @@ public interface PetApi extends ApiClient.Api {
   "Content-Type: application/json",
   "Accept: application/json",
   })
-  List<Pet> findPetsByTags(@QueryMap Map<String, Object> queryParams);
+  List<Pet> findPetsByTags(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -129,7 +130,7 @@ public interface PetApi extends ApiClient.Api {
    */
   public static class FindPetsByTagsQueryParams extends HashMap<String, Object> {
     public FindPetsByTagsQueryParams tags(final List<String> value) {
-      put("tags", value);
+      put("tags", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
   }
