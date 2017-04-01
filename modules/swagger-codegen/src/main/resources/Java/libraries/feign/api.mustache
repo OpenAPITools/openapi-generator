@@ -1,6 +1,7 @@
 package {{package}};
 
 import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.EncodingUtils;
 {{#legacyDates}}
 import {{invokerPackage}}.ParamExpander;
 {{/legacyDates}}
@@ -71,7 +72,7 @@ public interface {{classname}} extends ApiClient.Api {
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{#hasMore}},
       {{/hasMore}}{{/headerParams}}
   })
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap Map<String, Object> queryParams);
+  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -80,7 +81,12 @@ public interface {{classname}} extends ApiClient.Api {
   public static class {{operationIdCamelCase}}QueryParams extends HashMap<String, Object> {
       {{#queryParams}}
     public {{operationIdCamelCase}}QueryParams {{paramName}}(final {{{dataType}}} value) {
-      put("{{baseName}}", value);
+        {{#collectionFormat}}
+      put("{{baseName}}", EncodingUtils.encodeCollection(value, "{{collectionFormat}}"));
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+      put("{{baseName}}", EncodingUtils.encode(value));
+        {{/collectionFormat}}
       return this;
     }
       {{/queryParams}}
