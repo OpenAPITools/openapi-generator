@@ -4,6 +4,7 @@ import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.languages.JavaCXFClientCodegen;
 import io.swagger.codegen.options.JavaCXFClientOptionsProvider;
+import io.swagger.codegen.options.JavaCXFServerOptionsProvider;
 import io.swagger.codegen.options.OptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
@@ -59,6 +60,9 @@ public class JaxrsCXFClientOptionsTest extends AbstractOptionsTest {
 
                 clientCodegen.setUseBeanValidation(Boolean.valueOf(JavaCXFClientOptionsProvider.USE_BEANVALIDATION));
                 times = 1;
+                clientCodegen.setUseGenericResponse(Boolean.valueOf(JavaCXFClientOptionsProvider.USE_GENERIC_RESPONSE));
+                times = 1;
+
                 clientCodegen.setUseLoggingFeatureForTests(
                         Boolean.valueOf(JavaCXFClientOptionsProvider.USE_LOGGING_FEATURE_FOR_TESTS));
                 times = 1;

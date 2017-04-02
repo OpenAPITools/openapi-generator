@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -78,9 +78,11 @@ public class UserApiTest {
     @Test
     public void createUserTest() {
         User body = null;
-        // response = api.createUser(body);
-        //assertNotNull(response);
+	//api.createUser(body);
+        
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -94,9 +96,11 @@ public class UserApiTest {
     @Test
     public void createUsersWithArrayInputTest() {
         List<User> body = null;
-        // response = api.createUsersWithArrayInput(body);
-        //assertNotNull(response);
+	//api.createUsersWithArrayInput(body);
+        
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -110,9 +114,11 @@ public class UserApiTest {
     @Test
     public void createUsersWithListInputTest() {
         List<User> body = null;
-        // response = api.createUsersWithListInput(body);
-        //assertNotNull(response);
+	//api.createUsersWithListInput(body);
+        
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -126,9 +132,11 @@ public class UserApiTest {
     @Test
     public void deleteUserTest() {
         String username = null;
-        // response = api.deleteUser(username);
-        //assertNotNull(response);
+	//api.deleteUser(username);
+        
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -142,9 +150,11 @@ public class UserApiTest {
     @Test
     public void getUserByNameTest() {
         String username = null;
-        //User response = api.getUserByName(username);
+	//User response = api.getUserByName(username);
         //assertNotNull(response);
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -159,9 +169,11 @@ public class UserApiTest {
     public void loginUserTest() {
         String username = null;
         String password = null;
-        //String response = api.loginUser(username, password);
+	//String response = api.loginUser(username, password);
         //assertNotNull(response);
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -174,9 +186,11 @@ public class UserApiTest {
      */
     @Test
     public void logoutUserTest() {
-        // response = api.logoutUser();
-        //assertNotNull(response);
+	//api.logoutUser();
+        
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -191,9 +205,11 @@ public class UserApiTest {
     public void updateUserTest() {
         String username = null;
         User body = null;
-        // response = api.updateUser(username, body);
-        //assertNotNull(response);
+	//api.updateUser(username, body);
+        
         // TODO: test validations
+        
+        
     }
     
 }

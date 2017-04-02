@@ -1,9 +1,6 @@
 package io.swagger.model;
 
-import javax.validation.constraints.*;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Gets or Sets EnumClass
@@ -23,12 +20,10 @@ public enum EnumClass {
   }
 
   @Override
-  @JsonValue
   public String toString() {
     return String.valueOf(value);
   }
 
-  @JsonCreator
   public static EnumClass fromValue(String text) {
     for (EnumClass b : EnumClass.values()) {
       if (String.valueOf(b.value).equals(text)) {

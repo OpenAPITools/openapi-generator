@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import io.swagger.annotations.ApiModel;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,44 +11,45 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-public class Category  {
+@ApiModel(description="Model for testing model name starting with number")
+public class Model200Response  {
   
   @ApiModelProperty(example = "null", value = "")
-  private Long id = null;
+  private Integer name = null;
   @ApiModelProperty(example = "null", value = "")
-  private String name = null;
-
- /**
-   * Get id
-   * @return id
-  **/
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Category id(Long id) {
-    this.id = id;
-    return this;
-  }
+  private String propertyClass = null;
 
  /**
    * Get name
    * @return name
   **/
-  public String getName() {
+  public Integer getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
-  public Category name(String name) {
+  public Model200Response name(Integer name) {
     this.name = name;
+    return this;
+  }
+
+ /**
+   * Get propertyClass
+   * @return propertyClass
+  **/
+  public String getPropertyClass() {
+    return propertyClass;
+  }
+
+  public void setPropertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
+  }
+
+  public Model200Response propertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
     return this;
   }
 
@@ -55,10 +57,10 @@ public class Category  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Model200Response {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }

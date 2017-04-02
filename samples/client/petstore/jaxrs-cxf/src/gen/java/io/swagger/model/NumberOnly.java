@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.math.BigDecimal;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,44 +11,25 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-public class Category  {
+public class NumberOnly  {
   
   @ApiModelProperty(example = "null", value = "")
-  private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
-  private String name = null;
+  private BigDecimal justNumber = null;
 
  /**
-   * Get id
-   * @return id
+   * Get justNumber
+   * @return justNumber
   **/
-  public Long getId() {
-    return id;
+  public BigDecimal getJustNumber() {
+    return justNumber;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setJustNumber(BigDecimal justNumber) {
+    this.justNumber = justNumber;
   }
 
-  public Category id(Long id) {
-    this.id = id;
-    return this;
-  }
-
- /**
-   * Get name
-   * @return name
-  **/
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Category name(String name) {
-    this.name = name;
+  public NumberOnly justNumber(BigDecimal justNumber) {
+    this.justNumber = justNumber;
     return this;
   }
 
@@ -55,10 +37,9 @@ public class Category  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class NumberOnly {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
     sb.append("}");
     return sb.toString();
   }

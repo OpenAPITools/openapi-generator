@@ -25,7 +25,9 @@
 
 package io.swagger.api;
 
-import io.swagger.model.Order;
+import java.math.BigDecimal;
+import io.swagger.model.Client;
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -47,12 +49,12 @@ import java.util.Map;
 
 
 /**
- * API tests for StoreApi
+ * API tests for FakeApi
  */
-public class StoreApiTest {
+public class FakeApiTest {
 
 
-    private StoreApi api;
+    private FakeApi api;
     
     @Before
     public void setup() {
@@ -60,7 +62,7 @@ public class StoreApiTest {
         List providers = new ArrayList();
         providers.add(provider);
         
-        api = JAXRSClientFactory.create("http://petstore.swagger.io/v2", StoreApi.class, providers);
+        api = JAXRSClientFactory.create("http://petstore.swagger.io/v2", FakeApi.class, providers);
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
         
         ClientConfiguration config = WebClient.getConfig(client); 
@@ -68,34 +70,17 @@ public class StoreApiTest {
 
     
     /**
-     * Delete purchase order by ID
+     * To test \&quot;client\&quot; model
      *
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void deleteOrderTest() {
-        String orderId = null;
-	//api.deleteOrder(orderId);
-        
-        // TODO: test validations
-        
-        
-    }
-    
-    /**
-     * Returns pet inventories by status
-     *
-     * Returns a map of status codes to quantities
+     * To test \&quot;client\&quot; model
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void getInventoryTest() {
-	//Map<String, Map<String, Integer>> response = api.getInventory();
+    public void testClientModelTest() {
+        Client body = null;
+	//Client response = api.testClientModel(body);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -103,36 +88,56 @@ public class StoreApiTest {
     }
     
     /**
-     * Find purchase order by ID
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void getOrderByIdTest() {
-        Long orderId = null;
-	//Order response = api.getOrderById(orderId);
-        //assertNotNull(response);
+    public void testEndpointParametersTest() {
+        BigDecimal number = null;
+        Double _double = null;
+        String patternWithoutDelimiter = null;
+        byte[] _byte = null;
+        Integer integer = null;
+        Integer int32 = null;
+        Long int64 = null;
+        Float _float = null;
+        String string = null;
+        byte[] binary = null;
+        LocalDate date = null;
+        javax.xml.datatype.XMLGregorianCalendar dateTime = null;
+        String password = null;
+        String paramCallback = null;
+	//api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        
         // TODO: test validations
         
         
     }
     
     /**
-     * Place an order for a pet
+     * To test enum parameters
      *
-     * 
+     * To test enum parameters
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void placeOrderTest() {
-        Order body = null;
-	//Order response = api.placeOrder(body);
-        //assertNotNull(response);
+    public void testEnumParametersTest() {
+        List<String> enumFormStringArray = null;
+        String enumFormString = null;
+        List<String> enumHeaderStringArray = null;
+        String enumHeaderString = null;
+        List<String> enumQueryStringArray = null;
+        String enumQueryString = null;
+        Integer enumQueryInteger = null;
+        Double enumQueryDouble = null;
+	//api.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
+        
         // TODO: test validations
         
         

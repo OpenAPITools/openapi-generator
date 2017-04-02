@@ -17,10 +17,11 @@ import io.swagger.codegen.languages.features.CXFServerFeatures;
 import io.swagger.codegen.languages.features.GzipTestFeatures;
 import io.swagger.codegen.languages.features.JaxbFeatures;
 import io.swagger.codegen.languages.features.LoggingTestFeatures;
+import io.swagger.codegen.languages.features.UseGenericResponseFeatures;
 import io.swagger.models.Operation;
 
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
-        implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, JaxbFeatures
+        implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, JaxbFeatures, UseGenericResponseFeatures
 {   
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
     
@@ -57,6 +58,8 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean useAnnotatedBasePath = false;
 
     protected boolean generateNonSpringApplication = false;
+
+    protected boolean useGenericResponse = false;
 
     public JavaCXFServerCodegen()
     {
@@ -111,6 +114,8 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions.add(CliOption.newBoolean(USE_ANNOTATED_BASE_PATH, "Use @Path annotations for basePath"));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_NON_SPRING_APPLICATION, "Generate non-Spring application"));
+        cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
+
     }
 
 
@@ -126,6 +131,14 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         
         if (additionalProperties.containsKey(ADD_CONSUMES_PRODUCES_JSON)) {
             this.setAddConsumesProducesJson(convertPropertyToBooleanAndWriteBack(ADD_CONSUMES_PRODUCES_JSON));
+        }
+        
+        if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
+            this.setUseGenericResponse(convertPropertyToBoolean(USE_GENERIC_RESPONSE));
+        }
+
+        if (useGenericResponse) {
+            writePropertyBack(USE_GENERIC_RESPONSE, useGenericResponse);
         }
 
         if (additionalProperties.containsKey(GENERATE_SPRING_APPLICATION)) {
@@ -305,6 +318,10 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
     public void setGenerateNonSpringApplication(boolean generateNonSpringApplication) {
         this.generateNonSpringApplication = generateNonSpringApplication;
+    }
+    
+    public void setUseGenericResponse(boolean useGenericResponse) {
+        this.useGenericResponse = useGenericResponse;
     }
 
 }
