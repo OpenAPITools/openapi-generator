@@ -10,55 +10,39 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-public class Category  {
+public class HasOnlyReadOnly  {
   
   @ApiModelProperty(example = "null", value = "")
-  private Long id = null;
+  private String bar = null;
   @ApiModelProperty(example = "null", value = "")
-  private String name = null;
+  private String foo = null;
 
  /**
-   * Get id
-   * @return id
+   * Get bar
+   * @return bar
   **/
-  public Long getId() {
-    return id;
+  public String getBar() {
+    return bar;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Category id(Long id) {
-    this.id = id;
-    return this;
-  }
 
  /**
-   * Get name
-   * @return name
+   * Get foo
+   * @return foo
   **/
-  public String getName() {
-    return name;
+  public String getFoo() {
+    return foo;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Category name(String name) {
-    this.name = name;
-    return this;
-  }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class HasOnlyReadOnly {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

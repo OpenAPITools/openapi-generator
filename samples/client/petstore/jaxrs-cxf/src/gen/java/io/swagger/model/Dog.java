@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import io.swagger.model.Animal;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,44 +11,25 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-public class Category  {
+public class Dog extends Animal {
   
   @ApiModelProperty(example = "null", value = "")
-  private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
-  private String name = null;
+  private String breed = null;
 
  /**
-   * Get id
-   * @return id
+   * Get breed
+   * @return breed
   **/
-  public Long getId() {
-    return id;
+  public String getBreed() {
+    return breed;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setBreed(String breed) {
+    this.breed = breed;
   }
 
-  public Category id(Long id) {
-    this.id = id;
-    return this;
-  }
-
- /**
-   * Get name
-   * @return name
-  **/
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Category name(String name) {
-    this.name = name;
+  public Dog breed(String breed) {
+    this.breed = breed;
     return this;
   }
 
@@ -55,10 +37,9 @@ public class Category  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("class Dog {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
     return sb.toString();
   }

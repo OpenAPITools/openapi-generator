@@ -1,15 +1,25 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.codegen.languages.features.BeanValidationFeatures;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenResponse;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
+import io.swagger.codegen.languages.features.UseGenericResponseFeatures;
+import io.swagger.models.Operation;
+import io.swagger.models.Path;
+import io.swagger.models.Swagger;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     /**
@@ -25,8 +35,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     static Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
-    public AbstractJavaJAXRSServerCodegen()
-    {
+    public AbstractJavaJAXRSServerCodegen() {
         super();
 
         sourceFolder = "src/gen/java";
@@ -46,7 +55,6 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(new CliOption("serverPort", "The port on which the server should be started"));
-
     }
 
 
@@ -55,8 +63,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     // ===============
 
     @Override
-    public CodegenType getTag()
-    {
+    public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
@@ -84,7 +91,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             swagger.setBasePath("");
         }
 
-        if(!this.additionalProperties.containsKey("serverPort")) {
+        if (!this.additionalProperties.containsKey("serverPort")) {
             final String host = swagger.getHost();
             String port = "8080"; // Default value for a JEE Server
             if ( host != null ) {
@@ -234,5 +241,6 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
     }
+
 
 }

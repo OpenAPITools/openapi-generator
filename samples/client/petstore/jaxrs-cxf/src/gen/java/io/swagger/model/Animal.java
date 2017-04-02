@@ -10,44 +10,44 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-public class Category  {
+public class Animal  {
   
+  @ApiModelProperty(example = "null", required = true, value = "")
+  private String className = null;
   @ApiModelProperty(example = "null", value = "")
-  private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
-  private String name = null;
+  private String color = "red";
 
  /**
-   * Get id
-   * @return id
+   * Get className
+   * @return className
   **/
-  public Long getId() {
-    return id;
+  public String getClassName() {
+    return className;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setClassName(String className) {
+    this.className = className;
   }
 
-  public Category id(Long id) {
-    this.id = id;
+  public Animal className(String className) {
+    this.className = className;
     return this;
   }
 
  /**
-   * Get name
-   * @return name
+   * Get color
+   * @return color
   **/
-  public String getName() {
-    return name;
+  public String getColor() {
+    return color;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setColor(String color) {
+    this.color = color;
   }
 
-  public Category name(String name) {
-    this.name = name;
+  public Animal color(String color) {
+    this.color = color;
     return this;
   }
 
@@ -55,10 +55,10 @@ public class Category  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Animal {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    className: ").append(toIndentedString(className)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();
   }

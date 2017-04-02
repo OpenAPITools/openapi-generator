@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import io.swagger.annotations.ApiModel;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,44 +11,26 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-public class Category  {
+@ApiModel(description="Model for testing model with \"_class\" property")
+public class ClassModel  {
   
   @ApiModelProperty(example = "null", value = "")
-  private Long id = null;
-  @ApiModelProperty(example = "null", value = "")
-  private String name = null;
+  private String propertyClass = null;
 
  /**
-   * Get id
-   * @return id
+   * Get propertyClass
+   * @return propertyClass
   **/
-  public Long getId() {
-    return id;
+  public String getPropertyClass() {
+    return propertyClass;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setPropertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
   }
 
-  public Category id(Long id) {
-    this.id = id;
-    return this;
-  }
-
- /**
-   * Get name
-   * @return name
-  **/
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Category name(String name) {
-    this.name = name;
+  public ClassModel propertyClass(String propertyClass) {
+    this.propertyClass = propertyClass;
     return this;
   }
 
@@ -55,10 +38,9 @@ public class Category  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class ClassModel {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
     return sb.toString();
   }
