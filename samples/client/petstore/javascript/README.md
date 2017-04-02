@@ -85,9 +85,9 @@ Class | Method | HTTP request | Description
 *SwaggerPetstore.PetApi* | [**updatePet**](docs/PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 *SwaggerPetstore.PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *SwaggerPetstore.PetApi* | [**uploadFile**](docs/PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-*SwaggerPetstore.StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*SwaggerPetstore.StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *SwaggerPetstore.StoreApi* | [**getInventory**](docs/StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-*SwaggerPetstore.StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
+*SwaggerPetstore.StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
 *SwaggerPetstore.StoreApi* | [**placeOrder**](docs/StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
 *SwaggerPetstore.UserApi* | [**createUser**](docs/UserApi.md#createUser) | **POST** /user | Create user
 *SwaggerPetstore.UserApi* | [**createUsersWithArrayInput**](docs/UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array

@@ -45,7 +45,7 @@ open class StoreAPI: APIBase {
 
     /**
      Delete purchase order by ID
-     - DELETE /store/order/{orderId}
+     - DELETE /store/order/{order_id}
      - For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
@@ -53,7 +53,7 @@ open class StoreAPI: APIBase {
      - returns: RequestBuilder<Void> 
      */
     open class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
-        var path = "/store/order/{orderId}"
+        var path = "/store/order/{order_id}"
         path = path.replacingOccurrences(of: "{order_id}", with: "\(orderId)", options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -156,7 +156,7 @@ open class StoreAPI: APIBase {
 
     /**
      Find purchase order by ID
-     - GET /store/order/{orderId}
+     - GET /store/order/{order_id}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      - examples: [{contentType=application/xml, example=<Order>
   <id>123456789</id>
@@ -194,7 +194,7 @@ open class StoreAPI: APIBase {
      - returns: RequestBuilder<Order> 
      */
     open class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
-        var path = "/store/order/{orderId}"
+        var path = "/store/order/{order_id}"
         path = path.replacingOccurrences(of: "{order_id}", with: "\(orderId)", options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil

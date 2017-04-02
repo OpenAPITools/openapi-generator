@@ -48,8 +48,8 @@ func (a StoreApi) DeleteOrder(orderId string) (*APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Delete")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/store/order/{orderId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath := a.Configuration.BasePath + "/store/order/{order_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -170,8 +170,8 @@ func (a StoreApi) GetOrderById(orderId int64) (*Order, *APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/store/order/{orderId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath := a.Configuration.BasePath + "/store/order/{order_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
