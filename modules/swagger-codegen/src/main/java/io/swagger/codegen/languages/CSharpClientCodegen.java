@@ -425,7 +425,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objMap) {
-    	return super.postProcessModels(objMap);
+        return super.postProcessModels(objMap);
     }
 
     @Override
