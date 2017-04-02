@@ -406,7 +406,7 @@ case $state in
       deleteOrder)
         local -a _op_arguments
         _op_arguments=(
-          "orderId=:[PATH] ID of the order that needs to be deleted"
+          "order_id=:[PATH] ID of the order that needs to be deleted"
                     )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
@@ -419,7 +419,7 @@ case $state in
       getOrderById)
         local -a _op_arguments
         _op_arguments=(
-          "orderId=:[PATH] ID of pet that needs to be fetched"
+          "order_id=:[PATH] ID of pet that needs to be fetched"
                     )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;

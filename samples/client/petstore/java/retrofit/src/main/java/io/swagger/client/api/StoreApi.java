@@ -22,9 +22,9 @@ public interface StoreApi {
    * @return Void
    */
   
-  @DELETE("/store/order/{orderId}")
+  @DELETE("/store/order/{order_id}")
   Void deleteOrder(
-    @retrofit.http.Path("orderId") String orderId
+    @retrofit.http.Path("order_id") String orderId
   );
 
   /**
@@ -34,9 +34,9 @@ public interface StoreApi {
    * @param cb callback method
    */
   
-  @DELETE("/store/order/{orderId}")
+  @DELETE("/store/order/{order_id}")
   void deleteOrder(
-    @retrofit.http.Path("orderId") String orderId, Callback<Void> cb
+    @retrofit.http.Path("order_id") String orderId, Callback<Void> cb
   );
   /**
    * Returns pet inventories by status
@@ -67,9 +67,9 @@ public interface StoreApi {
    * @return Order
    */
   
-  @GET("/store/order/{orderId}")
+  @GET("/store/order/{order_id}")
   Order getOrderById(
-    @retrofit.http.Path("orderId") Long orderId
+    @retrofit.http.Path("order_id") Long orderId
   );
 
   /**
@@ -79,9 +79,9 @@ public interface StoreApi {
    * @param cb callback method
    */
   
-  @GET("/store/order/{orderId}")
+  @GET("/store/order/{order_id}")
   void getOrderById(
-    @retrofit.http.Path("orderId") Long orderId, Callback<Order> cb
+    @retrofit.http.Path("order_id") Long orderId, Callback<Order> cb
   );
   /**
    * Place an order for a pet
