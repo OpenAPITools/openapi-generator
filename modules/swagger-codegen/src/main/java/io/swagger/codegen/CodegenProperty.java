@@ -306,8 +306,8 @@ public class CodegenProperty implements Cloneable {
     @Override
     public CodegenProperty clone() {
         try {
-        	CodegenProperty cp = (CodegenProperty) super.clone();
-        	if (this._enum != null) {
+            CodegenProperty cp = (CodegenProperty) super.clone();
+            if (this._enum != null) {
                 cp._enum = new ArrayList<String>(this._enum);
             }
             if (this.allowableValues != null) {
@@ -316,10 +316,10 @@ public class CodegenProperty implements Cloneable {
             if (this.items != null) {
                 cp.items = this.items;
             }
-        	if(this.vendorExtensions != null){
+            if(this.vendorExtensions != null){
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
-        	return cp;
+            return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
         }
