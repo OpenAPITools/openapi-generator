@@ -79,7 +79,7 @@ public class UserApiTest {
     @Test
     public void createUserTest() {
         User body = null;
-        //api.createUser(body);
+	//api.createUser(body);
         
         // TODO: test validations
         
@@ -97,7 +97,7 @@ public class UserApiTest {
     @Test
     public void createUsersWithArrayInputTest() {
         List<User> body = null;
-        //api.createUsersWithArrayInput(body);
+	//api.createUsersWithArrayInput(body);
         
         // TODO: test validations
         
@@ -115,7 +115,7 @@ public class UserApiTest {
     @Test
     public void createUsersWithListInputTest() {
         List<User> body = null;
-        //api.createUsersWithListInput(body);
+	//api.createUsersWithListInput(body);
         
         // TODO: test validations
         
@@ -133,7 +133,7 @@ public class UserApiTest {
     @Test
     public void deleteUserTest() {
         String username = null;
-        //api.deleteUser(username);
+	//api.deleteUser(username);
         
         // TODO: test validations
         
@@ -151,7 +151,7 @@ public class UserApiTest {
     @Test
     public void getUserByNameTest() {
         String username = null;
-        //User response = api.getUserByName(username);
+	//User response = api.getUserByName(username);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -170,7 +170,7 @@ public class UserApiTest {
     public void loginUserTest() {
         String username = null;
         String password = null;
-        //String response = api.loginUser(username, password);
+	//String response = api.loginUser(username, password);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -187,7 +187,7 @@ public class UserApiTest {
      */
     @Test
     public void logoutUserTest() {
-        //api.logoutUser();
+	//api.logoutUser();
         
         // TODO: test validations
         
@@ -206,7 +206,7 @@ public class UserApiTest {
     public void updateUserTest() {
         String username = null;
         User body = null;
-        //api.updateUser(username, body);
+	//api.updateUser(username, body);
         
         // TODO: test validations
         

@@ -66,10 +66,10 @@ public class ScalaModelTest {
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
-        Assert.assertEquals(property3.datatype, "DateTime");
+        Assert.assertEquals(property3.datatype, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
-        Assert.assertEquals(property3.baseType, "DateTime");
+        Assert.assertEquals(property3.baseType, "Date");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);

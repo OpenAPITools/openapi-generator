@@ -1,10 +1,11 @@
 {{>licenseInfo}}
 package {{package}}
 
+import java.text.SimpleDateFormat
+
 {{#imports}}import {{import}}
 {{/imports}}
-import {{invokerPackage}}.ApiInvoker
-import {{invokerPackage}}.ApiException
+import {{invokerPackage}}.{ApiInvoker, ApiException}
 
 import com.sun.jersey.multipart.FormDataMultiPart
 import com.sun.jersey.multipart.file.FileDataBodyPart
@@ -16,13 +17,42 @@ import java.util.Date
 
 import scala.collection.mutable.HashMap
 
+import com.wordnik.swagger.client._
+import scala.concurrent.Future
+import collection.mutable
+
+import java.net.URI
+
+import com.wordnik.swagger.client.ClientResponseReaders.Json4sFormatsReader._
+import com.wordnik.swagger.client.RequestWriters.Json4sFormatsWriter._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.util.{Failure, Success, Try}
+
 {{#operations}}
 class {{classname}}(val defBasePath: String = "{{{basePath}}}",
                         defApiInvoker: ApiInvoker = ApiInvoker) {
+
+  implicit val formats = new org.json4s.DefaultFormats {
+    override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
+  }
+  implicit val stringReader = ClientResponseReaders.StringReader
+  implicit val unitReader = ClientResponseReaders.UnitReader
+  implicit val jvalueReader = ClientResponseReaders.JValueReader
+  implicit val jsonReader = JsonFormatsReader
+  implicit val stringWriter = RequestWriters.StringWriter
+  implicit val jsonWriter = JsonFormatsWriter
+
   var basePath = defBasePath
   var apiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
+  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
+
+  val config = SwaggerConfig.forUrl(new URI(defBasePath))
+  val client = new RestClient(config)
+  val helper = new {{classname}}AsyncHelper(client, config)
 
   {{#operation}}
   /**
@@ -32,97 +62,82 @@ class {{classname}}(val defBasePath: String = "{{{basePath}}}",
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
   def {{operationId}}({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
-    // create path and map variables
-    val path = "{{{path}}}".replaceAll("\\{format\\}", "json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",apiInvoker.escape({{paramName}})){{/pathParams}}
-
-    val contentTypes = List({{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}"application/json"{{/consumes}})
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    {{#allParams}}
-    {{#required}}
-    {{^isPrimitiveType}}
-    if ({{paramName}} == null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
-
-    {{/isPrimitiveType}}
-    {{#isString}}
-    if ({{paramName}} == null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
-
-    {{/isString}}
-    {{/required}}
-    {{/allParams}}
-    {{#queryParams}}
-    {{#required}}
-    queryParams += "{{baseName}}" -> {{paramName}}.toString
-    {{/required}}
-    {{^required}}
-    {{paramName}}.map(paramVal => queryParams += "{{baseName}}" -> paramVal.toString)
-    {{/required}}
-    {{/queryParams}}
-    
-    {{#headerParams}}
-    {{#required}}
-    headerParams += "{{baseName}}" -> {{paramName}}
-    {{/required}}
-    {{^required}}
-    {{paramName}}.map(paramVal => headerParams += "{{baseName}}" -> paramVal)
-    {{/required}}
-    {{/headerParams}}
-
-    var postBody: AnyRef = {{#bodyParam}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}.map(paramVal => paramVal){{/required}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      {{#formParams}}
-      {{#notFile}}
-      {{#required}}
-      mp.field("{{baseName}}", {{paramName}}.toString, MediaType.MULTIPART_FORM_DATA_TYPE)
-      {{/required}}
-      {{^required}}
-      {{paramName}}.map(paramVal => mp.field("{{baseName}}", paramVal.toString, MediaType.MULTIPART_FORM_DATA_TYPE))
-      {{/required}}
-      {{/notFile}}
-      {{#isFile}}
-      {{#required}}
-      mp.field("{{baseName}}", file.getName)
-      mp.bodyPart(new FileDataBodyPart("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE))
-      {{/required}}
-      {{^required}}
-      file.map(fileVal => mp.field("{{baseName}}", fileVal.getName))
-      {{paramName}}.map(paramVal => mp.bodyPart(new FileDataBodyPart("{{baseName}}", paramVal, MediaType.MULTIPART_FORM_DATA_TYPE)))
-      {{/required}}
-      {{/isFile}}
-      {{/formParams}}
-      postBody = mp
-    } else {
-      {{#formParams}}
-      {{#notFile}}
-      {{#required}}
-      formParams += "{{baseName}}" -> {{paramName}}.toString
-      {{/required}}
-      {{^required}}
-      {{paramName}}.map(paramVal => formParams += "{{baseName}}" -> paramVal.toString)
-      {{/required}}
-      {{/notFile}}
-      {{/formParams}}
-    }
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "{{httpMethod}}", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-          {{#returnType}} Some(apiInvoker.deserialize(s, "{{returnContainer}}", classOf[{{returnBaseType}}]).asInstanceOf[{{returnType}}])
-        {{/returnType}} 
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
+    val await = Try(Await.result({{operationId}}Async({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
   }
 
+  /**
+   * {{summary}} asynchronously
+   * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}   * @return Future({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}})
+  */
+  def {{operationId}}Async({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}} = {
+      helper.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+  }
+
+
   {{/operation}}
+}
+
+class {{classname}}AsyncHelper(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+
+{{#operation}}
+  def {{operationId}}({{#allParams}}{{^required}}{{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Some({{defaultValue}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}},{{/hasMore}}
+    {{/required}}{{#required}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#hasMore}},
+    {{/hasMore}}{{/required}}{{/allParams}})(implicit reader: ClientResponseReader[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{dataType}}]{{/bodyParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
+    // create path and map variables
+    val path = (addFmt("{{path}}"){{#pathParams}}
+      replaceAll ("\\{" + "{{baseName}}" + "\\}",{{paramName}}.toString){{/pathParams}})
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    {{#allParams}}
+      {{#required}}
+        {{^isPrimitiveType}}
+    if ({{paramName}} == null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+        {{/isPrimitiveType}}
+        {{#isString}}
+    if ({{paramName}} == null) throw new Exception("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}")
+
+        {{/isString}}
+      {{/required}}
+    {{/allParams}}
+    {{#queryParams}}
+      {{^required}}
+    {{paramName}} match {
+      case Some(param) => queryParams += "{{baseName}}" -> param.toString
+      case _ => queryParams
+    }
+      {{/required}}
+      {{#required}}
+    queryParams += "{{baseName}}" -> {{paramName}}.toString
+      {{/required}}
+    {{/queryParams}}
+    {{#headerParams}}
+      {{^required}}
+    {{paramName}} match {
+      case Some(param) => headerParams += "{{baseName}}" -> param.toString
+      case _ => headerParams
+    }
+      {{/required}}
+      {{#required}}
+    headerParams += "{{baseName}}" -> {{paramName}}.toString
+      {{/required}}
+    {{/headerParams}}
+
+    val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}writer.write({{paramName}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+{{/operation}}
+
 }
 {{/operations}}

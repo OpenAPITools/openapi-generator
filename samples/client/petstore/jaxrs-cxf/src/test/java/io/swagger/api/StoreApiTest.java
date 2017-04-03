@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -78,9 +78,11 @@ public class StoreApiTest {
     @Test
     public void deleteOrderTest() {
         String orderId = null;
-        // response = api.deleteOrder(orderId);
-        //assertNotNull(response);
+	//api.deleteOrder(orderId);
+        
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -93,9 +95,11 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest() {
-        //Map<String, Integer> response = api.getInventory();
+	//Map<String, Map<String, Integer>> response = api.getInventory();
         //assertNotNull(response);
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -109,9 +113,11 @@ public class StoreApiTest {
     @Test
     public void getOrderByIdTest() {
         Long orderId = null;
-        //Order response = api.getOrderById(orderId);
+	//Order response = api.getOrderById(orderId);
         //assertNotNull(response);
         // TODO: test validations
+        
+        
     }
     
     /**
@@ -125,9 +131,11 @@ public class StoreApiTest {
     @Test
     public void placeOrderTest() {
         Order body = null;
-        //Order response = api.placeOrder(body);
+	//Order response = api.placeOrder(body);
         //assertNotNull(response);
         // TODO: test validations
+        
+        
     }
     
 }

@@ -22,5 +22,5 @@ copy packages\Fody.1.29.2\Fody.dll bin\Fody.dll
 copy packages\PropertyChanged.Fody.1.51.3\PropertyChanged.Fody.dll bin\PropertyChanged.Fody.dll
 copy packages\PropertyChanged.Fody.1.51.3\Lib\dotnet\PropertyChanged.dll bin\PropertyChanged.dll
 {{/generatePropertyChanged}}
-%CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll {{#generatePropertyChanged}}/r:bin\Fody.dll;bin\PropertyChanged.Fody.dll;bin\PropertyChanged.dll{{/generatePropertyChanged}} /target:library /out:bin\IO.Swagger.dll /recurse:src\IO.Swagger\*.cs /doc:bin\IO.Swagger.xml
+%CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll {{#generatePropertyChanged}}/r:bin\Fody.dll;bin\PropertyChanged.Fody.dll;bin\PropertyChanged.dll{{/generatePropertyChanged}} /target:library /out:bin\{{packageName}}.dll /recurse:src\{{packageName}}\*.cs /doc:bin\{{packageName}}.xml
 

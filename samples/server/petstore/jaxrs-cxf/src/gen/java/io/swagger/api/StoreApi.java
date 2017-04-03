@@ -25,13 +25,13 @@ import javax.validation.Valid;
 public interface StoreApi  {
 
     @DELETE
-    @Path("/store/order/{orderId}")
+    @Path("/store/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Delete purchase order by ID", tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    public void deleteOrder(@PathParam("orderId") String orderId);
+    public void deleteOrder(@PathParam("order_id") String orderId);
 
     @GET
     @Path("/store/inventory")
@@ -42,14 +42,14 @@ public interface StoreApi  {
     public Map<String, Integer> getInventory();
 
     @GET
-    @Path("/store/order/{orderId}")
+    @Path("/store/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Find purchase order by ID", tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    public Order getOrderById(@PathParam("orderId") @Min(1) @Max(5) Long orderId);
+    public Order getOrderById(@PathParam("order_id") @Min(1) @Max(5) Long orderId);
 
     @POST
     @Path("/store/order")

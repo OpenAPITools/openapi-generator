@@ -427,7 +427,7 @@ export enum PetApiApiKeys {
 }
 
 export class PetApi {
-    protected basePath = defaultBasePath;
+    protected _basePath = defaultBasePath;
     protected defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
 
@@ -452,6 +452,14 @@ export class PetApi {
 
     set useQuerystring(value: boolean) {
         this._useQuerystring = value;
+    }
+
+    set basePath(basePath: string) {
+        this._basePath = basePath;
+    }
+
+    get basePath() {
+        return this._basePath;
     }
 
     public setApiKey(key: PetApiApiKeys, value: string) {
@@ -921,7 +929,7 @@ export enum StoreApiApiKeys {
 }
 
 export class StoreApi {
-    protected basePath = defaultBasePath;
+    protected _basePath = defaultBasePath;
     protected defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
 
@@ -946,6 +954,14 @@ export class StoreApi {
 
     set useQuerystring(value: boolean) {
         this._useQuerystring = value;
+    }
+
+    set basePath(basePath: string) {
+        this._basePath = basePath;
+    }
+
+    get basePath() {
+        return this._basePath;
     }
 
     public setApiKey(key: StoreApiApiKeys, value: string) {
@@ -1166,7 +1182,7 @@ export enum UserApiApiKeys {
 }
 
 export class UserApi {
-    protected basePath = defaultBasePath;
+    protected _basePath = defaultBasePath;
     protected defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
 
@@ -1191,6 +1207,14 @@ export class UserApi {
 
     set useQuerystring(value: boolean) {
         this._useQuerystring = value;
+    }
+
+    set basePath(basePath: string) {
+        this._basePath = basePath;
+    }
+
+    get basePath() {
+        return this._basePath;
     }
 
     public setApiKey(key: UserApiApiKeys, value: string) {

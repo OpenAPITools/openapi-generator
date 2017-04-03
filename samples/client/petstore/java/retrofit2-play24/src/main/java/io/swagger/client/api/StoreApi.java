@@ -26,9 +26,9 @@ public interface StoreApi {
    * @param orderId ID of the order that needs to be deleted (required)
    * @return Call&lt;Void&gt;
    */
-  @DELETE("store/order/{orderId}")
+  @DELETE("store/order/{order_id}")
   F.Promise<Response<Void>> deleteOrder(
-    @retrofit2.http.Path("orderId") String orderId
+    @retrofit2.http.Path("order_id") String orderId
   );
 
   /**
@@ -46,9 +46,9 @@ public interface StoreApi {
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Call&lt;Order&gt;
    */
-  @GET("store/order/{orderId}")
+  @GET("store/order/{order_id}")
   F.Promise<Response<Order>> getOrderById(
-    @retrofit2.http.Path("orderId") Long orderId
+    @retrofit2.http.Path("order_id") Long orderId
   );
 
   /**

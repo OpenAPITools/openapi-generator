@@ -1,1 +1,4 @@
-{{#returnContainer}}{{#isMapContainer}}Map<String, {{{returnType}}}>{{/isMapContainer}}{{#isListContainer}}List<{{{returnType}}}>{{/isListContainer}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}
+{{#useGenericResponse}}Response{{/useGenericResponse}}{{! non-generic response: 
+}}{{^useGenericResponse}}{{!
+}}{{#returnContainer}}{{#isMapContainer}}Map<String, {{{returnType}}}>{{/isMapContainer}}{{#isListContainer}}List<{{{returnType}}}>{{/isListContainer}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{!
+}}{{/useGenericResponse}}
