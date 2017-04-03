@@ -12,9 +12,10 @@
 
 package io.swagger.client.api
 
+import java.text.SimpleDateFormat
+
 import io.swagger.client.model.Order
-import io.swagger.client.ApiInvoker
-import io.swagger.client.ApiException
+import io.swagger.client.{ApiInvoker, ApiException}
 
 import com.sun.jersey.multipart.FormDataMultiPart
 import com.sun.jersey.multipart.file.FileDataBodyPart
@@ -26,12 +27,41 @@ import java.util.Date
 
 import scala.collection.mutable.HashMap
 
+import com.wordnik.swagger.client._
+import scala.concurrent.Future
+import collection.mutable
+
+import java.net.URI
+
+import com.wordnik.swagger.client.ClientResponseReaders.Json4sFormatsReader._
+import com.wordnik.swagger.client.RequestWriters.Json4sFormatsWriter._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.util.{Failure, Success, Try}
+
 class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
                         defApiInvoker: ApiInvoker = ApiInvoker) {
+
+  implicit val formats = new org.json4s.DefaultFormats {
+    override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
+  }
+  implicit val stringReader = ClientResponseReaders.StringReader
+  implicit val unitReader = ClientResponseReaders.UnitReader
+  implicit val jvalueReader = ClientResponseReaders.JValueReader
+  implicit val jsonReader = JsonFormatsReader
+  implicit val stringWriter = RequestWriters.StringWriter
+  implicit val jsonWriter = JsonFormatsWriter
+
   var basePath = defBasePath
   var apiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
+  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
+
+  val config = SwaggerConfig.forUrl(new URI(defBasePath))
+  val client = new RestClient(config)
+  val helper = new StoreApiAsyncHelper(client, config)
 
   /**
    * Delete purchase order by ID
@@ -40,38 +70,24 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return void
    */
   def deleteOrder(orderId: String) = {
-    // create path and map variables
-    val path = "/store/order/{orderId}".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    if (orderId == null) throw new Exception("Missing required parameter 'orderId' when calling StoreApi->deleteOrder")
-
-    
-
-    var postBody: AnyRef = null
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(deleteOrderAsync(orderId), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-                  case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Delete purchase order by ID asynchronously
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted 
+   * @return Future(void)
+  */
+  def deleteOrderAsync(orderId: String) = {
+      helper.deleteOrder(orderId)
+  }
+
 
   /**
    * Returns pet inventories by status
@@ -79,37 +95,23 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return Map[String, Integer]
    */
   def getInventory(): Option[Map[String, Integer]] = {
-    // create path and map variables
-    val path = "/store/inventory".replaceAll("\\{format\\}", "json")
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    
-
-    var postBody: AnyRef = null
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(getInventoryAsync(), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           Some(apiInvoker.deserialize(s, "map", classOf[Integer]).asInstanceOf[Map[String, Integer]])
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Returns pet inventories by status asynchronously
+   * Returns a map of status codes to quantities
+   * @return Future(Map[String, Integer])
+  */
+  def getInventoryAsync(): Future[Map[String, Integer]] = {
+      helper.getInventory()
+  }
+
 
   /**
    * Find purchase order by ID
@@ -118,37 +120,24 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return Order
    */
   def getOrderById(orderId: Long): Option[Order] = {
-    // create path and map variables
-    val path = "/store/order/{orderId}".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "orderId" + "\\}",apiInvoker.escape(orderId))
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    
-
-    var postBody: AnyRef = null
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(getOrderByIdAsync(orderId), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           Some(apiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Find purchase order by ID asynchronously
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * @param orderId ID of pet that needs to be fetched 
+   * @return Future(Order)
+  */
+  def getOrderByIdAsync(orderId: Long): Future[Order] = {
+      helper.getOrderById(orderId)
+  }
+
 
   /**
    * Place an order for a pet
@@ -157,38 +146,93 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return Order
    */
   def placeOrder(body: Order): Option[Order] = {
+    val await = Try(Await.result(placeOrderAsync(body), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
+    }
+
+  }
+
+  /**
+   * Place an order for a pet asynchronously
+   * 
+   * @param body order placed for purchasing the pet 
+   * @return Future(Order)
+  */
+  def placeOrderAsync(body: Order): Future[Order] = {
+      helper.placeOrder(body)
+  }
+
+
+}
+
+class StoreApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+
+  def deleteOrder(orderId: String)(implicit reader: ClientResponseReader[Unit]): Future[Unit] = {
     // create path and map variables
-    val path = "/store/order".replaceAll("\\{format\\}", "json")
+    val path = (addFmt("/store/order/{orderId}")
+      replaceAll ("\\{" + "orderId" + "\\}",orderId.toString))
 
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
 
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
+    if (orderId == null) throw new Exception("Missing required parameter 'orderId' when calling StoreApi->deleteOrder")
+
+
+    val resFuture = client.submit("DELETE", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def getInventory()(implicit reader: ClientResponseReader[Map[String, Integer]]): Future[Map[String, Integer]] = {
+    // create path and map variables
+    val path = (addFmt("/store/inventory"))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+
+    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def getOrderById(orderId: Long)(implicit reader: ClientResponseReader[Order]): Future[Order] = {
+    // create path and map variables
+    val path = (addFmt("/store/order/{orderId}")
+      replaceAll ("\\{" + "orderId" + "\\}",orderId.toString))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+
+    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def placeOrder(body: Order)(implicit reader: ClientResponseReader[Order], writer: RequestWriter[Order]): Future[Order] = {
+    // create path and map variables
+    val path = (addFmt("/store/order"))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling StoreApi->placeOrder")
 
-    
-
-    var postBody: AnyRef = body
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
-    }
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           Some(apiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
     }
   }
+
 
 }

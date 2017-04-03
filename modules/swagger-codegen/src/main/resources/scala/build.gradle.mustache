@@ -104,6 +104,12 @@ ext {
     jackson_version = "2.4.2"
     junit_version = "4.8.1"
     scala_test_version = "2.2.4"
+    swagger_async_httpclient_version = "0.3.5"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
@@ -117,4 +123,5 @@ dependencies {
     testCompile "junit:junit:$junit_version"
     compile "joda-time:joda-time:$jodatime_version"
     compile "org.joda:joda-convert:$joda_version"
+    compile "com.wordnik.swagger:swagger-async-httpclient_2.10:$swagger_async_httpclient_version"
 }
