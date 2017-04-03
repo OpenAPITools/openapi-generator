@@ -12,9 +12,10 @@
 
 package io.swagger.client.api
 
+import java.text.SimpleDateFormat
+
 import io.swagger.client.model.User
-import io.swagger.client.ApiInvoker
-import io.swagger.client.ApiException
+import io.swagger.client.{ApiInvoker, ApiException}
 
 import com.sun.jersey.multipart.FormDataMultiPart
 import com.sun.jersey.multipart.file.FileDataBodyPart
@@ -26,12 +27,41 @@ import java.util.Date
 
 import scala.collection.mutable.HashMap
 
+import com.wordnik.swagger.client._
+import scala.concurrent.Future
+import collection.mutable
+
+import java.net.URI
+
+import com.wordnik.swagger.client.ClientResponseReaders.Json4sFormatsReader._
+import com.wordnik.swagger.client.RequestWriters.Json4sFormatsWriter._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.util.{Failure, Success, Try}
+
 class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
                         defApiInvoker: ApiInvoker = ApiInvoker) {
+
+  implicit val formats = new org.json4s.DefaultFormats {
+    override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
+  }
+  implicit val stringReader = ClientResponseReaders.StringReader
+  implicit val unitReader = ClientResponseReaders.UnitReader
+  implicit val jvalueReader = ClientResponseReaders.JValueReader
+  implicit val jsonReader = JsonFormatsReader
+  implicit val stringWriter = RequestWriters.StringWriter
+  implicit val jsonWriter = JsonFormatsWriter
+
   var basePath = defBasePath
   var apiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
+  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
+
+  val config = SwaggerConfig.forUrl(new URI(defBasePath))
+  val client = new RestClient(config)
+  val helper = new UserApiAsyncHelper(client, config)
 
   /**
    * Create user
@@ -40,38 +70,24 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return void
    */
   def createUser(body: User) = {
-    // create path and map variables
-    val path = "/user".replaceAll("\\{format\\}", "json")
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUser")
-
-    
-
-    var postBody: AnyRef = body
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(createUserAsync(body), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-                  case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Create user asynchronously
+   * This can only be done by the logged in user.
+   * @param body Created user object 
+   * @return Future(void)
+  */
+  def createUserAsync(body: User) = {
+      helper.createUser(body)
+  }
+
 
   /**
    * Creates list of users with given input array
@@ -80,38 +96,24 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return void
    */
   def createUsersWithArrayInput(body: List[User]) = {
-    // create path and map variables
-    val path = "/user/createWithArray".replaceAll("\\{format\\}", "json")
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithArrayInput")
-
-    
-
-    var postBody: AnyRef = body
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(createUsersWithArrayInputAsync(body), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-                  case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Creates list of users with given input array asynchronously
+   * 
+   * @param body List of user object 
+   * @return Future(void)
+  */
+  def createUsersWithArrayInputAsync(body: List[User]) = {
+      helper.createUsersWithArrayInput(body)
+  }
+
 
   /**
    * Creates list of users with given input array
@@ -120,38 +122,24 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return void
    */
   def createUsersWithListInput(body: List[User]) = {
-    // create path and map variables
-    val path = "/user/createWithList".replaceAll("\\{format\\}", "json")
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithListInput")
-
-    
-
-    var postBody: AnyRef = body
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(createUsersWithListInputAsync(body), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-                  case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Creates list of users with given input array asynchronously
+   * 
+   * @param body List of user object 
+   * @return Future(void)
+  */
+  def createUsersWithListInputAsync(body: List[User]) = {
+      helper.createUsersWithListInput(body)
+  }
+
 
   /**
    * Delete user
@@ -160,38 +148,24 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return void
    */
   def deleteUser(username: String) = {
-    // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->deleteUser")
-
-    
-
-    var postBody: AnyRef = null
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(deleteUserAsync(username), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "DELETE", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-                  case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Delete user asynchronously
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted 
+   * @return Future(void)
+  */
+  def deleteUserAsync(username: String) = {
+      helper.deleteUser(username)
+  }
+
 
   /**
    * Get user by user name
@@ -200,39 +174,24 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return User
    */
   def getUserByName(username: String): Option[User] = {
-    // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->getUserByName")
-
-    
-
-    var postBody: AnyRef = null
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(getUserByNameAsync(username), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           Some(apiInvoker.deserialize(s, "", classOf[User]).asInstanceOf[User])
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Get user by user name asynchronously
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing.  
+   * @return Future(User)
+  */
+  def getUserByNameAsync(username: String): Future[User] = {
+      helper.getUserByName(username)
+  }
+
 
   /**
    * Logs user into the system
@@ -242,43 +201,25 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return String
    */
   def loginUser(username: String, password: String): Option[String] = {
-    // create path and map variables
-    val path = "/user/login".replaceAll("\\{format\\}", "json")
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->loginUser")
-
-    if (password == null) throw new Exception("Missing required parameter 'password' when calling UserApi->loginUser")
-
-    queryParams += "username" -> username.toString
-    queryParams += "password" -> password.toString
-    
-
-    var postBody: AnyRef = null
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(loginUserAsync(username, password), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-           Some(apiInvoker.deserialize(s, "", classOf[String]).asInstanceOf[String])
-        case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Logs user into the system asynchronously
+   * 
+   * @param username The user name for login 
+   * @param password The password for login in clear text 
+   * @return Future(String)
+  */
+  def loginUserAsync(username: String, password: String): Future[String] = {
+      helper.loginUser(username, password)
+  }
+
 
   /**
    * Logs out current logged in user session
@@ -286,36 +227,23 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return void
    */
   def logoutUser() = {
-    // create path and map variables
-    val path = "/user/logout".replaceAll("\\{format\\}", "json")
-
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
-
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
-
-    
-
-    var postBody: AnyRef = null
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
+    val await = Try(Await.result(logoutUserAsync(), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
     }
 
-    try {
-      apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-                  case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
-    }
   }
+
+  /**
+   * Logs out current logged in user session asynchronously
+   * 
+   * @return Future(void)
+  */
+  def logoutUserAsync() = {
+      helper.logoutUser()
+  }
+
 
   /**
    * Updated user
@@ -325,39 +253,170 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
    * @return void
    */
   def updateUser(username: String, body: User) = {
+    val await = Try(Await.result(updateUserAsync(username, body), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
+    }
+
+  }
+
+  /**
+   * Updated user asynchronously
+   * This can only be done by the logged in user.
+   * @param username name that need to be deleted 
+   * @param body Updated user object 
+   * @return Future(void)
+  */
+  def updateUserAsync(username: String, body: User) = {
+      helper.updateUser(username, body)
+  }
+
+
+}
+
+class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
+
+  def createUser(body: User)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[User]): Future[Unit] = {
     // create path and map variables
-    val path = "/user/{username}".replaceAll("\\{format\\}", "json").replaceAll("\\{" + "username" + "\\}",apiInvoker.escape(username))
+    val path = (addFmt("/user"))
 
-    val contentTypes = List("application/json")
-    val contentType = contentTypes(0)
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
 
-    val queryParams = new HashMap[String, String]
-    val headerParams = new HashMap[String, String]
-    val formParams = new HashMap[String, String]
+    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUser")
+
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def createUsersWithArrayInput(body: List[User])(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[List[User]]): Future[Unit] = {
+    // create path and map variables
+    val path = (addFmt("/user/createWithArray"))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithArrayInput")
+
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def createUsersWithListInput(body: List[User])(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[List[User]]): Future[Unit] = {
+    // create path and map variables
+    val path = (addFmt("/user/createWithList"))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->createUsersWithListInput")
+
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def deleteUser(username: String)(implicit reader: ClientResponseReader[Unit]): Future[Unit] = {
+    // create path and map variables
+    val path = (addFmt("/user/{username}")
+      replaceAll ("\\{" + "username" + "\\}",username.toString))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->deleteUser")
+
+
+    val resFuture = client.submit("DELETE", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def getUserByName(username: String)(implicit reader: ClientResponseReader[User]): Future[User] = {
+    // create path and map variables
+    val path = (addFmt("/user/{username}")
+      replaceAll ("\\{" + "username" + "\\}",username.toString))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->getUserByName")
+
+
+    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def loginUser(username: String,
+    password: String)(implicit reader: ClientResponseReader[String]): Future[String] = {
+    // create path and map variables
+    val path = (addFmt("/user/login"))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->loginUser")
+
+    if (password == null) throw new Exception("Missing required parameter 'password' when calling UserApi->loginUser")
+
+    queryParams += "username" -> username.toString
+    queryParams += "password" -> password.toString
+
+    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def logoutUser()(implicit reader: ClientResponseReader[Unit]): Future[Unit] = {
+    // create path and map variables
+    val path = (addFmt("/user/logout"))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+
+    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
+    }
+  }
+
+  def updateUser(username: String,
+    body: User)(implicit reader: ClientResponseReader[Unit], writer: RequestWriter[User]): Future[Unit] = {
+    // create path and map variables
+    val path = (addFmt("/user/{username}")
+      replaceAll ("\\{" + "username" + "\\}",username.toString))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
 
     if (username == null) throw new Exception("Missing required parameter 'username' when calling UserApi->updateUser")
 
     if (body == null) throw new Exception("Missing required parameter 'body' when calling UserApi->updateUser")
 
-    
-
-    var postBody: AnyRef = body
-
-    if (contentType.startsWith("multipart/form-data")) {
-      val mp = new FormDataMultiPart
-      postBody = mp
-    } else {
-    }
-
-    try {
-      apiInvoker.invokeApi(basePath, path, "PUT", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
-        case s: String =>
-                  case _ => None
-      }
-    } catch {
-      case ex: ApiException if ex.code == 404 => None
-      case ex: ApiException => throw ex
+    val resFuture = client.submit("PUT", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    resFuture flatMap { resp =>
+      process(reader.read(resp))
     }
   }
+
 
 }
