@@ -215,7 +215,7 @@ namespace {{packageName}}.{{apiPackage}}
 
             var localVarPath = "{{#netStandard}}.{{/netStandard}}{{{path}}}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -243,7 +243,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
             {{#queryParams}}
-            if ({{paramName}} != null) localVarQueryParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // query parameter
+            if ({{paramName}} != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
@@ -346,7 +346,7 @@ namespace {{packageName}}.{{apiPackage}}
 
             var localVarPath = "{{#netStandard}}.{{/netStandard}}{{{path}}}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -374,7 +374,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
             {{#queryParams}}
-            if ({{paramName}} != null) localVarQueryParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // query parameter
+            if ({{paramName}} != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
