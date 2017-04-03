@@ -362,7 +362,7 @@
         }
       }
     },
-    "/store/order/{orderId}" : {
+    "/store/order/{order_id}" : {
       "get" : {
         "tags" : [ "store" ],
         "summary" : "Find purchase order by ID",
@@ -370,7 +370,7 @@
         "operationId" : "getOrderById",
         "produces" : [ "application/xml", "application/json" ],
         "parameters" : [ {
-          "name" : "orderId",
+          "name" : "order_id",
           "in" : "path",
           "description" : "ID of pet that needs to be fetched",
           "required" : true,
@@ -401,7 +401,7 @@
         "operationId" : "deleteOrder",
         "produces" : [ "application/xml", "application/json" ],
         "parameters" : [ {
-          "name" : "orderId",
+          "name" : "order_id",
           "in" : "path",
           "description" : "ID of the order that needs to be deleted",
           "required" : true,
