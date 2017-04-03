@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/SwaggerClient-php/autoload.php');
+require_once(__DIR__ . '/SwaggerClient-php/vendor/autoload.php');
 
 // show error reporting
 //ini_set('display_errors', 1);
@@ -20,38 +20,39 @@ try {
     //$api_client = new Swagger\Client\ApiClient('http://petstore.swagger.io/v2');
     //$api_client->getConfig()->addDefaultHeader("test1", "value1");
     //$pet_api = new Swagger\Client\PetAPI($api_client);
-    $pet_api = new Swagger\Client\Api\PetApi();
-    $pet_api->getApiClient()->getConfig()->setTempFolderPath('/var/tmp/php/');
+    $config = new \Swagger\Client\Configuration();
+    $petApi = new Swagger\Client\Api\PetApi(null, $config);
+    $config->setTempFolderPath('/var/tmp/php/');
     // test default header
     //$pet_api->getApiClient()->addDefaultHeader("TEST_API_KEY", "09182sdkanafndsl903");
     // return Pet (model)
-    $response = $pet_api->getPetById($petId);
+    $response = $petApi->getPetById($petId);
     // to test __toString()
     print ($response);
 
     // add pet (post json)
-    $new_pet_id = 10005;
-    $new_pet = new Swagger\Client\Model\Pet;
-    $new_pet->setId($new_pet_id);
-    $new_pet->setName("PHP Unit Test");
+    $newPetId = 10005;
+    $newPet = new Swagger\Client\Model\Pet;
+    $newPet->setId($newPetId);
+    $newPet->setName("PHP Unit Test");
     // new tag
-    $tag= new Swagger\Client\Model\Tag;
-    $tag->setId($new_pet_id); // use the same id as pet
+    $tag = new Swagger\Client\Model\Tag;
+    $tag->setId($newPetId); // use the same id as pet
     //$tag->name = "test php tag";
     // new category
     $category = new Swagger\Client\Model\Category;
     $category->setId(10005); // use the same id as pet
     //$category->name = "test php category";
 
-    $new_pet->setTags(array($tag));
-    $new_pet->setCategory($category);
+    $newPet->setTags(array($tag));
+    $newPet->setCategory($category);
 
-    $pet_api = new Swagger\Client\Api\PetApi();
+    $petApi = new Swagger\Client\Api\PetApi(null, $config);
     // add a new pet (model)
-    $add_response = $pet_api->addPet($new_pet);
+    $add_response = $petApi->addPet($newPet);
 
     // test upload file (should return exception)
-    $upload_response = $pet_api->uploadFile($petId, "test meta", NULL);
+    $upload_response = $petApi->uploadFile($petId, "test meta", NULL);
 
 } catch (Swagger\Client\ApiException $e) {
     echo 'Caught exception: ', $e->getMessage(), "\n";
