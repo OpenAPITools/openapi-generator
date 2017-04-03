@@ -17,7 +17,7 @@ To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $test_code_inject____end____rn_n_r = "test_code_inject____end____rn_n_r_example"; // string | To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
 try {

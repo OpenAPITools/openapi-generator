@@ -59,10 +59,16 @@ class ObjectSerializer
             return $data;
         } elseif (is_object($data)) {
             $values = [];
-            foreach (array_keys($data::swaggerTypes()) as $property) {
+            foreach ($data::swaggerTypes() as $property => $swaggerType) {
                 $getter = $data::getters()[$property];
-                if ($data->$getter() !== null) {
-                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($data->$getter());
+                $value = $data->$getter();
+                if (method_exists($swaggerType, 'getAllowableEnumValues')
+                    && !in_array($value, $swaggerType::getAllowableEnumValues())) {
+                    $imploded = implode("', '", $swaggerType::getAllowableEnumValues());
+                    throw new \InvalidArgumentException("Invalid value for enum '$swaggerType', must be one of: '$imploded'");
+                }
+                if ($value !== null) {
+                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value);
                 }
             }
             return (object)$values;
@@ -79,7 +85,7 @@ class ObjectSerializer
      *
      * @return string the sanitized filename
      */
-    public function sanitizeFilename($filename)
+    public static function sanitizeFilename($filename)
     {
         if (preg_match("/.*[\/\\\\](.*)$/", $filename, $match)) {
             return $match[1];
@@ -96,9 +102,9 @@ class ObjectSerializer
      *
      * @return string the serialized object
      */
-    public function toPathValue($value)
+    public static function toPathValue($value)
     {
-        return rawurlencode($this->toString($value));
+        return rawurlencode(self::toString($value));
     }
 
     /**
@@ -111,12 +117,12 @@ class ObjectSerializer
      *
      * @return string the serialized object
      */
-    public function toQueryValue($object)
+    public static function toQueryValue($object)
     {
         if (is_array($object)) {
             return implode(',', $object);
         } else {
-            return $this->toString($object);
+            return self::toString($object);
         }
     }
 
@@ -129,9 +135,9 @@ class ObjectSerializer
      *
      * @return string the header string
      */
-    public function toHeaderValue($value)
+    public static function toHeaderValue($value)
     {
-        return $this->toString($value);
+        return self::toString($value);
     }
 
     /**
@@ -143,12 +149,12 @@ class ObjectSerializer
      *
      * @return string the form string
      */
-    public function toFormValue($value)
+    public static function toFormValue($value)
     {
         if ($value instanceof \SplFileObject) {
             return $value->getRealPath();
         } else {
-            return $this->toString($value);
+            return self::toString($value);
         }
     }
 
@@ -161,7 +167,7 @@ class ObjectSerializer
      *
      * @return string the header string
      */
-    public function toString($value)
+    public static function toString($value)
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
             return $value->format(\DateTime::ATOM);
@@ -180,7 +186,7 @@ class ObjectSerializer
      *
      * @return string
      */
-    public function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti = false)
+    public static function serializeCollection(array $collection, $collectionFormat, $allowCollectionFormatMulti = false)
     {
         if ($allowCollectionFormatMulti && ('multi' === $collectionFormat)) {
             // http_build_query() almost does the job for us. We just
@@ -255,6 +261,8 @@ class ObjectSerializer
             settype($data, $class);
             return $data;
         } elseif ($class === '\SplFileObject') {
+            /** @var \Psr\Http\Message\StreamInterface $data */
+
             // determine file name
             if (array_key_exists('Content-Disposition', $httpHeaders) &&
                 preg_match('/inline; filename=[\'"]?([^\'"\s]+)[\'"]?$/i', $httpHeaders['Content-Disposition'], $match)) {
@@ -262,13 +270,20 @@ class ObjectSerializer
             } else {
                 $filename = tempnam(Configuration::getDefaultConfiguration()->getTempFolderPath(), '');
             }
-            $deserialized = new \SplFileObject($filename, "w");
-            $byte_written = $deserialized->fwrite($data);
-            if (Configuration::getDefaultConfiguration()->getDebug()) {
-                error_log("[DEBUG] Written $byte_written byte to $filename. Please move the file to a proper folder or delete the temp file after processing.".PHP_EOL, 3, Configuration::getDefaultConfiguration()->getDebugFile());
-            }
 
-            return $deserialized;
+            $file = fopen($filename, 'w');
+            while ($chunk = $data->read(200)) {
+                fwrite($file, $chunk);
+            }
+            fclose($file);
+
+            return new \SplFileObject($filename, 'r');
+        } elseif (method_exists($class, 'getAllowableEnumValues')) {
+            if (!in_array($data, $class::getAllowableEnumValues())) {
+                $imploded = implode("', '", $class::getAllowableEnumValues());
+                throw new \InvalidArgumentException("Invalid value for enum '$class', must be one of: '$imploded'");
+            }
+            return $data;
         } else {
             // If a discriminator is defined and points to a valid subclass, use it.
             $discriminator = $class::DISCRIMINATOR;

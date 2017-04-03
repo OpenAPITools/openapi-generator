@@ -22,7 +22,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $order_id = "order_id_example"; // string | ID of the order that needs to be deleted
 
 try {
@@ -71,7 +71,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'Y
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 // Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $result = $api_instance->getInventory();
@@ -112,7 +112,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $order_id = 789; // int | ID of pet that needs to be fetched
 
 try {
@@ -157,7 +157,7 @@ Place an order for a pet
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\StoreApi();
+$api_instance = new Swagger\Client\Api\StoreApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\Order(); // \Swagger\Client\Model\Order | order placed for purchasing the pet
 
 try {

@@ -33,7 +33,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
 
-$api_instance = new {{invokerPackage}}\Api\{{classname}}();
+$api_instance = new {{invokerPackage}}\Api\{{classname}}(new \Http\Adapter\Guzzle6\Client());
 {{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 

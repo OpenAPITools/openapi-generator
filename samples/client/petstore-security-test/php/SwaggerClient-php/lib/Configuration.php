@@ -39,7 +39,7 @@ namespace Swagger\Client;
  */
 class Configuration
 {
-    private static $defaultConfiguration = null;
+    private static $defaultConfiguration;
 
     /**
      * Associate array to store API key(s)
@@ -77,13 +77,6 @@ class Configuration
     protected $password = '';
 
     /**
-     * The default header(s)
-     *
-     * @var array
-     */
-    protected $defaultHeaders = [];
-
-    /**
      * The host
      *
      * @var string
@@ -91,25 +84,11 @@ class Configuration
     protected $host = 'https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r';
 
     /**
-     * Timeout (second) of the HTTP request, by default set to 0, no timeout
-     *
-     * @var string
-     */
-    protected $curlTimeout = 0;
-
-    /**
-     * Timeout (second) of the HTTP connection, by default set to 0, no timeout
-     *
-     * @var string
-     */
-    protected $curlConnectTimeout = 0;
-
-    /**
      * User agent of the HTTP request, set to "PHP-Swagger" by default
      *
      * @var string
      */
-    protected $userAgent = "Swagger-Codegen/1.0.0/php";
+    protected $userAgent = 'Swagger-Codegen/1.0.0/php';
 
     /**
      * Debug switch (default set to false)
@@ -133,51 +112,6 @@ class Configuration
     protected $tempFolderPath;
 
     /**
-     * Indicates if SSL verification should be enabled or disabled.
-     *
-     * This is useful if the host uses a self-signed SSL certificate.
-     *
-     * @var boolean True if the certificate should be validated, false otherwise.
-     */
-    protected $sslVerification = true;
-
-    /**
-     * Curl proxy host
-     *
-     * @var string
-     */
-    protected $proxyHost;
-
-    /**
-     * Curl proxy port
-     *
-     * @var integer
-     */
-    protected $proxyPort;
-
-    /**
-     * Curl proxy type, e.g. CURLPROXY_HTTP or CURLPROXY_SOCKS5
-     *
-     * @see https://secure.php.net/manual/en/function.curl-setopt.php
-     * @var integer
-     */
-    protected $proxyType;
-
-    /**
-     * Curl proxy username
-     *
-     * @var string
-     */
-    protected $proxyUser;
-
-    /**
-     * Curl proxy password
-     *
-     * @var string
-     */
-    protected $proxyPassword;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -191,7 +125,7 @@ class Configuration
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      * @param string $key              API key or token
      *
-     * @return Configuration
+     * @return $this
      */
     public function setApiKey($apiKeyIdentifier, $key)
     {
@@ -217,7 +151,7 @@ class Configuration
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      * @param string $prefix           API key prefix, e.g. Bearer
      *
-     * @return Configuration
+     * @return $this
      */
     public function setApiKeyPrefix($apiKeyIdentifier, $prefix)
     {
@@ -242,7 +176,7 @@ class Configuration
      *
      * @param string $accessToken Token for OAuth
      *
-     * @return Configuration
+     * @return $this
      */
     public function setAccessToken($accessToken)
     {
@@ -265,7 +199,7 @@ class Configuration
      *
      * @param string $username Username for HTTP basic authentication
      *
-     * @return Configuration
+     * @return $this
      */
     public function setUsername($username)
     {
@@ -288,7 +222,7 @@ class Configuration
      *
      * @param string $password Password for HTTP basic authentication
      *
-     * @return Configuration
+     * @return $this
      */
     public function setPassword($password)
     {
@@ -307,51 +241,11 @@ class Configuration
     }
 
     /**
-     * Adds a default header
-     *
-     * @param string $headerName  header name (e.g. Token)
-     * @param string $headerValue header value (e.g. 1z8wp3)
-     *
-     * @return Configuration
-     */
-    public function addDefaultHeader($headerName, $headerValue)
-    {
-        if (!is_string($headerName)) {
-            throw new \InvalidArgumentException('Header name must be a string.');
-        }
-
-        $this->defaultHeaders[$headerName] =  $headerValue;
-        return $this;
-    }
-
-    /**
-     * Gets the default header
-     *
-     * @return array An array of default header(s)
-     */
-    public function getDefaultHeaders()
-    {
-        return $this->defaultHeaders;
-    }
-
-    /**
-     * Deletes a default header
-     *
-     * @param string $headerName the header to delete
-     *
-     * @return Configuration
-     */
-    public function deleteDefaultHeader($headerName)
-    {
-        unset($this->defaultHeaders[$headerName]);
-    }
-
-    /**
      * Sets the host
      *
      * @param string $host Host
      *
-     * @return Configuration
+     * @return $this
      */
     public function setHost($host)
     {
@@ -374,7 +268,8 @@ class Configuration
      *
      * @param string $userAgent the user agent of the api client
      *
-     * @return Configuration
+     * @throws \InvalidArgumentException
+     * @return $this
      */
     public function setUserAgent($userAgent)
     {
@@ -397,181 +292,11 @@ class Configuration
     }
 
     /**
-     * Sets the HTTP timeout value
-     *
-     * @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
-     *
-     * @return Configuration
-     */
-    public function setCurlTimeout($seconds)
-    {
-        if (!is_numeric($seconds) || $seconds < 0) {
-            throw new \InvalidArgumentException('Timeout value must be numeric and a non-negative number.');
-        }
-
-        $this->curlTimeout = $seconds;
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP timeout value
-     *
-     * @return string HTTP timeout value
-     */
-    public function getCurlTimeout()
-    {
-        return $this->curlTimeout;
-    }
-
-    /**
-     * Sets the HTTP connect timeout value
-     *
-     * @param integer $seconds Number of seconds before connection times out [set to 0 for no timeout]
-     *
-     * @return Configuration
-     */
-    public function setCurlConnectTimeout($seconds)
-    {
-        if (!is_numeric($seconds) || $seconds < 0) {
-            throw new \InvalidArgumentException('Connect timeout value must be numeric and a non-negative number.');
-        }
-
-        $this->curlConnectTimeout = $seconds;
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP connect timeout value
-     *
-     * @return string HTTP connect timeout value
-     */
-    public function getCurlConnectTimeout()
-    {
-        return $this->curlConnectTimeout;
-    }
-
-
-    /**
-     * Sets the HTTP Proxy Host
-     *
-     * @param string $proxyHost HTTP Proxy URL
-     *
-     * @return ApiClient
-     */
-    public function setCurlProxyHost($proxyHost)
-    {
-        $this->proxyHost = $proxyHost;
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP Proxy Host
-     *
-     * @return string
-     */
-    public function getCurlProxyHost()
-    {
-        return $this->proxyHost;
-    }
-
-    /**
-     * Sets the HTTP Proxy Port
-     *
-     * @param integer $proxyPort HTTP Proxy Port
-     *
-     * @return ApiClient
-     */
-    public function setCurlProxyPort($proxyPort)
-    {
-        $this->proxyPort = $proxyPort;
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP Proxy Port
-     *
-     * @return integer
-     */
-    public function getCurlProxyPort()
-    {
-        return $this->proxyPort;
-    }
-
-    /**
-     * Sets the HTTP Proxy Type
-     *
-     * @param integer $proxyType HTTP Proxy Type
-     *
-     * @return ApiClient
-     */
-    public function setCurlProxyType($proxyType)
-    {
-        $this->proxyType = $proxyType;
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP Proxy Type
-     *
-     * @return integer
-     */
-    public function getCurlProxyType()
-    {
-        return $this->proxyType;
-    }
-
-    /**
-     * Sets the HTTP Proxy User
-     *
-     * @param string $proxyUser HTTP Proxy User
-     *
-     * @return ApiClient
-     */
-    public function setCurlProxyUser($proxyUser)
-    {
-        $this->proxyUser = $proxyUser;
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP Proxy User
-     *
-     * @return string
-     */
-    public function getCurlProxyUser()
-    {
-        return $this->proxyUser;
-    }
-
-    /**
-     * Sets the HTTP Proxy Password
-     *
-     * @param string $proxyPassword HTTP Proxy Password
-     *
-     * @return ApiClient
-     */
-    public function setCurlProxyPassword($proxyPassword)
-    {
-        $this->proxyPassword = $proxyPassword;
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP Proxy Password
-     *
-     * @return string
-     */
-    public function getCurlProxyPassword()
-    {
-        return $this->proxyPassword;
-    }
-
-    /**
      * Sets debug flag
      *
      * @param bool $debug Debug flag
      *
-     * @return Configuration
+     * @return $this
      */
     public function setDebug($debug)
     {
@@ -594,7 +319,7 @@ class Configuration
      *
      * @param string $debugFile Debug file
      *
-     * @return Configuration
+     * @return $this
      */
     public function setDebugFile($debugFile)
     {
@@ -617,7 +342,7 @@ class Configuration
      *
      * @param string $tempFolderPath Temp folder path
      *
-     * @return Configuration
+     * @return $this
      */
     public function setTempFolderPath($tempFolderPath)
     {
@@ -633,29 +358,6 @@ class Configuration
     public function getTempFolderPath()
     {
         return $this->tempFolderPath;
-    }
-
-    /**
-     * Sets if SSL verification should be enabled or disabled
-     *
-     * @param boolean $sslVerification True if the certificate should be validated, false otherwise
-     *
-     * @return Configuration
-     */
-    public function setSSLVerification($sslVerification)
-    {
-        $this->sslVerification = $sslVerification;
-        return $this;
-    }
-
-    /**
-     * Gets if SSL verification should be enabled or disabled
-     *
-     * @return boolean True if the certificate should be validated, false otherwise
-     */
-    public function getSSLVerification()
-    {
-        return $this->sslVerification;
     }
 
     /**
@@ -693,10 +395,35 @@ class Configuration
     {
         $report  = 'PHP SDK (Swagger\Client) Debug Report:' . PHP_EOL;
         $report .= '    OS: ' . php_uname() . PHP_EOL;
-        $report .= '    PHP Version: ' . phpversion() . PHP_EOL;
+        $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    OpenAPI Spec Version: 1.0.0 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;
+    }
+
+    /**
+     * Get API key (with prefix if set)
+     *
+     * @param  string $apiKeyIdentifier name of apikey
+     *
+     * @return string API key with the prefix
+     */
+    public function getApiKeyWithPrefix($apiKeyIdentifier)
+    {
+        $prefix = $this->getApiKeyPrefix($apiKeyIdentifier);
+        $apiKey = $this->getApiKey($apiKeyIdentifier);
+
+        if ($apiKey === null) {
+            return null;
+        }
+
+        if ($prefix === null) {
+            $keyWithPrefix = $apiKey;
+        } else {
+            $keyWithPrefix = $prefix . ' ' . $apiKey;
+        }
+
+        return $keyWithPrefix;
     }
 }

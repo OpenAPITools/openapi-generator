@@ -21,7 +21,7 @@ To test \"client\" model
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
@@ -70,7 +70,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 Swagger\Client\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
 Swagger\Client\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $number = 3.4; // float | None
 $double = 1.2; // double | None
 $pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
@@ -140,7 +140,7 @@ To test enum parameters
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $enum_form_string_array = array("enum_form_string_array_example"); // string[] | Form parameter enum test (string array)
 $enum_form_string = "-efg"; // string | Form parameter enum test (string)
 $enum_header_string_array = array("enum_header_string_array_example"); // string[] | Header parameter enum test (string array)
