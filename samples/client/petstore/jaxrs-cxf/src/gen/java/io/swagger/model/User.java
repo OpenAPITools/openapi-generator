@@ -1,6 +1,5 @@
 package io.swagger.model;
 
-import io.swagger.annotations.ApiModel;
 
 import io.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,7 +10,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 
-@ApiModel(description="A User who is purchasing from the pet store")
 public class User  {
   
   @ApiModelProperty(example = "null", value = "")
@@ -38,9 +36,16 @@ public class User  {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
+
+  public User id(Long id) {
+    this.id = id;
+    return this;
+  }
+
  /**
    * Get username
    * @return username
@@ -48,9 +53,16 @@ public class User  {
   public String getUsername() {
     return username;
   }
+
   public void setUsername(String username) {
     this.username = username;
   }
+
+  public User username(String username) {
+    this.username = username;
+    return this;
+  }
+
  /**
    * Get firstName
    * @return firstName
@@ -58,9 +70,16 @@ public class User  {
   public String getFirstName() {
     return firstName;
   }
+
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
+
+  public User firstName(String firstName) {
+    this.firstName = firstName;
+    return this;
+  }
+
  /**
    * Get lastName
    * @return lastName
@@ -68,9 +87,16 @@ public class User  {
   public String getLastName() {
     return lastName;
   }
+
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
+
+  public User lastName(String lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
  /**
    * Get email
    * @return email
@@ -78,9 +104,16 @@ public class User  {
   public String getEmail() {
     return email;
   }
+
   public void setEmail(String email) {
     this.email = email;
   }
+
+  public User email(String email) {
+    this.email = email;
+    return this;
+  }
+
  /**
    * Get password
    * @return password
@@ -88,9 +121,16 @@ public class User  {
   public String getPassword() {
     return password;
   }
+
   public void setPassword(String password) {
     this.password = password;
   }
+
+  public User password(String password) {
+    this.password = password;
+    return this;
+  }
+
  /**
    * Get phone
    * @return phone
@@ -98,9 +138,16 @@ public class User  {
   public String getPhone() {
     return phone;
   }
+
   public void setPhone(String phone) {
     this.phone = phone;
   }
+
+  public User phone(String phone) {
+    this.phone = phone;
+    return this;
+  }
+
  /**
    * User Status
    * @return userStatus
@@ -108,9 +155,16 @@ public class User  {
   public Integer getUserStatus() {
     return userStatus;
   }
+
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
+
+  public User userStatus(Integer userStatus) {
+    this.userStatus = userStatus;
+    return this;
+  }
+
 
   @Override
   public String toString() {

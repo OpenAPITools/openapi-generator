@@ -62,7 +62,7 @@
 
 
       var pathParams = {
-        'orderId': orderId
+        'order_id': orderId
       };
       var queryParams = {
       };
@@ -79,7 +79,7 @@
       var returnType = null;
 
       return this.apiClient.callApi(
-        '/store/order/{orderId}', 'DELETE',
+        '/store/order/{order_id}', 'DELETE',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
@@ -160,7 +160,7 @@
 
 
       var pathParams = {
-        'orderId': orderId
+        'order_id': orderId
       };
       var queryParams = {
       };
@@ -177,7 +177,7 @@
       var returnType = Order;
 
       return this.apiClient.callApi(
-        '/store/order/{orderId}', 'GET',
+        '/store/order/{order_id}', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );

@@ -41,7 +41,7 @@ module Petstore
       # verify the required parameter 'order_id' is set
       fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.delete_order" if order_id.nil?
       # resource path
-      local_var_path = "/store/order/{orderId}".sub('{' + 'orderId' + '}', order_id.to_s)
+      local_var_path = "/store/order/{order_id}".sub('{' + 'order_id' + '}', order_id.to_s)
 
       # query parameters
       query_params = {}
@@ -146,7 +146,7 @@ module Petstore
       end
 
       # resource path
-      local_var_path = "/store/order/{orderId}".sub('{' + 'orderId' + '}', order_id.to_s)
+      local_var_path = "/store/order/{order_id}".sub('{' + 'order_id' + '}', order_id.to_s)
 
       # query parameters
       query_params = {}

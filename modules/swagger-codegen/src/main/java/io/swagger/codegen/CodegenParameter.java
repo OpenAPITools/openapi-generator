@@ -34,49 +34,49 @@ public class CodegenParameter {
      */
     public boolean required;
 
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
+     */
     public String maximum;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor17
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor17
+     */
     public boolean exclusiveMaximum;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor21
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     */
     public String minimum;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor21
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     */
     public boolean exclusiveMinimum;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor26
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor26
+     */
     public Integer maxLength;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor29
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor29
+     */
     public Integer minLength;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor33
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor33
+     */
     public String pattern;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor42
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor42
+     */
     public Integer maxItems;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor45
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor45
+     */
     public Integer minItems;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor49
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor49
+     */
     public boolean uniqueItems;
-	/**
-	 * See http://json-schema.org/latest/json-schema-validation.html#anchor14
-	 */
+    /**
+     * See http://json-schema.org/latest/json-schema-validation.html#anchor14
+     */
     public Number multipleOf;
     
     public CodegenParameter copy() {

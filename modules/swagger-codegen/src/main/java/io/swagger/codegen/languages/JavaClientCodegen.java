@@ -176,6 +176,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if ("feign".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
             supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
+            supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
         } else if ("okhttp-gson".equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
@@ -247,14 +248,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         super.postProcessOperations(objs);
-        if(usesAnyRetrofitLibrary()) {
+        if (usesAnyRetrofitLibrary()) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
                 for (CodegenOperation operation : ops) {
                     if (operation.hasConsumes == Boolean.TRUE) {
 
-                        if ( isMultipartType(operation.consumes) ) { 
+                        if (isMultipartType(operation.consumes)) {
                             operation.isMultipart = Boolean.TRUE;
                         }
                         else {
@@ -269,6 +270,27 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
         }
+
+        // camelize path variables for Feign client
+        if ("feign".equals(getLibrary())) {
+            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation op : operationList) {
+                String path = new String(op.path);
+                String[] items = path.split("/", -1);
+                String opsPath = "";
+                int pathParamIndex = 0;
+
+                for (int i = 0; i < items.length; ++i) {
+                    if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+                        // camelize path variable
+                        items[i] = "{" + camelize(items[i].substring(1, items[i].length()-1), true) + "}";
+                    }
+                }
+                op.path = StringUtils.join(items, "/");
+            }
+        }
+
         return objs;
     }
 

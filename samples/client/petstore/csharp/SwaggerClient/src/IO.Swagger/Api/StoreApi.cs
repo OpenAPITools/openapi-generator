@@ -325,7 +325,7 @@ namespace IO.Swagger.Api
             if (orderId == null)
                 throw new ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
 
-            var localVarPath = "/store/order/{orderId}";
+            var localVarPath = "/store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -347,7 +347,7 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) localVarPathParams.Add("order_id", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
@@ -393,7 +393,7 @@ namespace IO.Swagger.Api
             if (orderId == null)
                 throw new ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
 
-            var localVarPath = "/store/order/{orderId}";
+            var localVarPath = "/store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -415,7 +415,7 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) localVarPathParams.Add("order_id", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
@@ -595,7 +595,7 @@ namespace IO.Swagger.Api
             if (orderId == null)
                 throw new ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
 
-            var localVarPath = "/store/order/{orderId}";
+            var localVarPath = "/store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -617,7 +617,7 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) localVarPathParams.Add("order_id", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request
@@ -664,7 +664,7 @@ namespace IO.Swagger.Api
             if (orderId == null)
                 throw new ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
 
-            var localVarPath = "/store/order/{orderId}";
+            var localVarPath = "/store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new Dictionary<String, String>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
@@ -686,7 +686,7 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (orderId != null) localVarPathParams.Add("orderId", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
+            if (orderId != null) localVarPathParams.Add("order_id", Configuration.ApiClient.ParameterToString(orderId)); // path parameter
 
 
             // make the HTTP request

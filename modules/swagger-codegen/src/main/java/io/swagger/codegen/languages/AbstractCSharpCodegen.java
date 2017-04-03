@@ -614,24 +614,24 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
     
     public void setPackageTitle(String packageTitle) {
-		this.packageTitle = packageTitle;
-	}
+        this.packageTitle = packageTitle;
+    }
     
     public void setPackageProductName(String packageProductName) {
-		this.packageProductName = packageProductName;
-	}
+        this.packageProductName = packageProductName;
+    }
 
-	public void setPackageDescription(String packageDescription) {
-		this.packageDescription = packageDescription;
-	}
-	
+    public void setPackageDescription(String packageDescription) {
+        this.packageDescription = packageDescription;
+    }
+    
     public void setPackageCompany(String packageCompany) {
-		this.packageCompany = packageCompany;
-	}
+        this.packageCompany = packageCompany;
+    }
     
     public void setPackageCopyright(String packageCopyright) {
-		this.packageCopyright = packageCopyright;
-	}
+        this.packageCopyright = packageCopyright;
+    }
     
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;

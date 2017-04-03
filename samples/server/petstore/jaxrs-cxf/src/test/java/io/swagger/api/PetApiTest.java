@@ -80,7 +80,7 @@ public class PetApiTest {
     @Test
     public void addPetTest() {
         Pet body = null;
-        //api.addPet(body);
+	//api.addPet(body);
         
         // TODO: test validations
         
@@ -99,7 +99,7 @@ public class PetApiTest {
     public void deletePetTest() {
         Long petId = null;
         String apiKey = null;
-        //api.deletePet(petId, apiKey);
+	//api.deletePet(petId, apiKey);
         
         // TODO: test validations
         
@@ -153,7 +153,7 @@ public class PetApiTest {
     @Test
     public void getPetByIdTest() {
         Long petId = null;
-        //Pet response = api.getPetById(petId);
+	//Pet response = api.getPetById(petId);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -171,7 +171,7 @@ public class PetApiTest {
     @Test
     public void updatePetTest() {
         Pet body = null;
-        //api.updatePet(body);
+	//api.updatePet(body);
         
         // TODO: test validations
         
@@ -191,7 +191,7 @@ public class PetApiTest {
         Long petId = null;
         String name = null;
         String status = null;
-        //api.updatePetWithForm(petId, name, status);
+	//api.updatePetWithForm(petId, name, status);
         
         // TODO: test validations
         
@@ -211,7 +211,7 @@ public class PetApiTest {
         Long petId = null;
         String additionalMetadata = null;
         org.apache.cxf.jaxrs.ext.multipart.Attachment file = null;
-        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+	//ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
         //assertNotNull(response);
         // TODO: test validations
         

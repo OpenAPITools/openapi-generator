@@ -1,6 +1,7 @@
 package io.swagger.client.api;
 
 import io.swagger.client.ApiClient;
+import io.swagger.client.EncodingUtils;
 
 import io.swagger.client.model.Order;
 
