@@ -543,6 +543,30 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-resteasy-eap-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-resteasy-eap-server-joda</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-server</id>
             <activation>
                 <property>
@@ -789,6 +813,8 @@
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
+                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/spring-mvc</module>

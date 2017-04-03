@@ -4,6 +4,6 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <context-param> 
         <param-name>resteasy.providers</param-name> 
-        <param-value>io.swagger.api.JacksonConfig</param-value> 
+        <param-value>{{invokerPackage}}.JacksonConfig</param-value>
     </context-param>
 </web-app>
