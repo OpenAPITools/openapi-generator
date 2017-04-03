@@ -109,7 +109,7 @@ namespace IO.Swagger.Client
 
         // Creates and sets up a RestRequest prior to a call.
         private RestRequest PrepareRequest(
-            String path, Method method, Dictionary<String, String> queryParams, Object postBody,
+            String path, Method method, List<KeyValuePair<String, String>> queryParams, Object postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
             String contentType)
@@ -167,7 +167,7 @@ namespace IO.Swagger.Client
         /// <param name="contentType">Content Type of the request</param>
         /// <returns>Object</returns>
         public Object CallApi(
-            String path, Method method, Dictionary<String, String> queryParams, Object postBody,
+            String path, Method method, List<KeyValuePair<String, String>> queryParams, Object postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
             String contentType)
@@ -454,6 +454,40 @@ namespace IO.Swagger.Client
             {
                 return filename;
             }
+        }
+
+        /// <summary>
+        /// Convert params to key/value pairs. 
+        /// Use collectionFormat to properly format lists and collections.
+        /// </summary>
+        /// <param name="name">Key name.</param>
+        /// <param name="value">Value object.</param>
+        /// <returns>A list of KeyValuePairs</returns>
+        public IEnumerable<KeyValuePair<string, string>> ParameterToKeyValuePairs(string collectionFormat, string name, object value)
+        {
+            var parameters = new List<KeyValuePair<string, string>>();
+
+            if (IsCollection(value) && collectionFormat == "multi")
+            {
+                var valueCollection = value as IEnumerable;
+                parameters.AddRange(from object item in valueCollection select new KeyValuePair<string, string>(name, ParameterToString(item)));
+            }
+            else
+            {
+                parameters.Add(new KeyValuePair<string, string>(name, ParameterToString(value)));
+            }
+
+            return parameters;
+        }
+
+        /// <summary>
+        /// Check if generic object is a collection.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>True if object is a collection type</returns>
+        private static bool IsCollection(object value)
+        {
+            return value is IList || value is ICollection;
         }
     }
 }
