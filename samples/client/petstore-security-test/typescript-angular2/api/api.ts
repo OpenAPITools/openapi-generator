@@ -1,2 +1,3 @@
 export * from './fake.service';
-export const APIS = [ FakeService, ];
+import { FakeService } from './fake.service';
+export const APIS = [FakeService];

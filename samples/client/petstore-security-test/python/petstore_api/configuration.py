@@ -34,8 +34,7 @@ class Configuration(object):
         Constructor
         """
         # Default Base url
-        self.host = "https://petstore.swagger.io */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r"
-
+        self.host = "https://petstore.swagger.io */ ' \" =end -- \\r\\n \\n \\r/v2 */ ' \" =end -- \\r\\n \\n \\r"
         # Temp file folder for downloading files
         self.temp_folder_path = None
 

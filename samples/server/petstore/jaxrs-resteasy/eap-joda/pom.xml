@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-jaxrs-resteasy-eap-server</artifactId>
+    <artifactId>swagger-jaxrs-resteasy-eap-joda-server</artifactId>
     <packaging>war</packaging>
-    <name>swagger-jaxrs-resteasy-eap-server</name>
+    <name>swagger-jaxrs-resteasy-eap-joda-server</name>
     <version>1.0.0</version>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -163,7 +163,7 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-core-version>1.5.9</swagger-core-version>
+        <swagger-core-version>1.5.12</swagger-core-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
         <resteasy-version>3.0.11.Final</resteasy-version>
         <slf4j-version>1.6.3</slf4j-version>

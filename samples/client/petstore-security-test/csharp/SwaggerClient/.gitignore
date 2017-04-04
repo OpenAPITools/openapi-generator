@@ -147,39 +147,39 @@ UpgradeLog*.htm
 *.swp
 *.swo
 
- # svn
- .svn
+# svn
+.svn
 
- # SQL Server files
- **/App_Data/*.mdf
- **/App_Data/*.ldf
- **/App_Data/*.sdf
+# SQL Server files
+**/App_Data/*.mdf
+**/App_Data/*.ldf
+**/App_Data/*.sdf
 
 
- #LightSwitch generated files
- GeneratedArtifacts/
- _Pvt_Extensions/
- ModelManifest.xml
+#LightSwitch generated files
+GeneratedArtifacts/
+_Pvt_Extensions/
+ModelManifest.xml
 
- # =========================
- # Windows detritus
- # =========================
+# =========================
+# Windows detritus
+# =========================
 
- # Windows image file caches
- Thumbs.db
- ehthumbs.db
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
 
- # Folder config file
- Desktop.ini
+# Folder config file
+Desktop.ini
 
- # Recycle Bin used on file shares
- $RECYCLE.BIN/
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
 
- # Mac desktop service store files
- .DS_Store
+# Mac desktop service store files
+.DS_Store
 
- # SASS Compiler cache
- .sass-cache
+# SASS Compiler cache
+.sass-cache
 
- # Visual Studio 2014 CTP
- **/*.sln.ide
+# Visual Studio 2014 CTP
+**/*.sln.ide

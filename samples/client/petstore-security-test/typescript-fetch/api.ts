@@ -65,7 +65,7 @@ export const FakeApiFetchParamCreator = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
         fetchOptions.body = querystring.stringify({
             "test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r": params["test code inject * &#39; &quot; &#x3D;end  rn n r"],
