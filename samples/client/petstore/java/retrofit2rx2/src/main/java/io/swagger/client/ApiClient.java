@@ -11,7 +11,7 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 import org.threeten.bp.format.DateTimeFormatter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import io.swagger.client.auth.HttpBasicAuth;
@@ -114,8 +114,9 @@ public class ApiClient {
     adapterBuilder = new Retrofit
       .Builder()
       .baseUrl(baseUrl)
-      .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .addConverterFactory(ScalarsConverterFactory.create())
+
+      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+      .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
   }
 
