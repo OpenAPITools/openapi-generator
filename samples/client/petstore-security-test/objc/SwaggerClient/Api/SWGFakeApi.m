@@ -59,9 +59,6 @@ NSInteger kSWGFakeApiMissingParamErrorCode = 234513;
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/fake"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
