@@ -51,7 +51,7 @@ export interface ModelReturn {
 /**
  * FakeApi - fetch parameter creator
  */
-export const FakeApiFetchParamCreactor = {
+export const FakeApiFetchParamCreator = {
     /** 
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
@@ -61,9 +61,9 @@ export const FakeApiFetchParamCreactor = {
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({ 
+        fetchOptions.body = querystring.stringify({
             "test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r": params["test code inject * &#39; &quot; &#x3D;end  rn n r"],
         });
         if (contentTypeHeader) {
@@ -84,8 +84,8 @@ export const FakeApiFp = {
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      */
-    testCodeInjectEndRnNR(params: { "test code inject * &#39; &quot; &#x3D;end  rn n r"?: string;  }, options?: any): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = FakeApiFetchParamCreactor.testCodeInjectEndRnNR(params, options);
+    testCodeInjectEndRnNR(params: { "test code inject * &#39; &quot; &#x3D;end  rn n r"?: string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+        const fetchArgs = FakeApiFetchParamCreator.testCodeInjectEndRnNR(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
