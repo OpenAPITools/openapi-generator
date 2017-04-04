@@ -125,9 +125,6 @@ class FakeApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json', '*_/  \" =end --']);
 
-        // default format to json
-        $resourcePath = str_replace("{format}", "json", $resourcePath);
-
         // form params
         if ($test_code_inject____end____rn_n_r !== null) {
             $formParams['test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r'] = $this->apiClient->getSerializer()->toFormValue($test_code_inject____end____rn_n_r);
