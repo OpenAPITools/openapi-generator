@@ -13,15 +13,13 @@ import io.swagger.api.impl.UserApiServiceImpl;
 @ApplicationPath("/")
 public class RestApplication extends Application {
 
+
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new HashSet<Class<?>>();
         resources.add(PetApiServiceImpl.class);
         resources.add(StoreApiServiceImpl.class);
         resources.add(UserApiServiceImpl.class);
-        
-        //resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
-        //resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
-        
+
         return resources;
     }
 

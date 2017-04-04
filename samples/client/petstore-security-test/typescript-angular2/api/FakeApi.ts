@@ -63,7 +63,7 @@ export class FakeApi {
      * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      */
     public testCodeInjectEndRnNRWithHttpInfo(test code inject * &#39; &quot; &#x3D;end  rn n r?: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + `/fake`;
+        const path = this.basePath + '/fake';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
