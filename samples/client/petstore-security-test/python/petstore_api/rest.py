@@ -85,7 +85,7 @@ class RESTClientObject(object):
         # key file
         key_file = Configuration().key_file
 
-       # proxy
+        # proxy
         proxy = Configuration().proxy
 
         # https pool manager
@@ -109,14 +109,6 @@ class RESTClientObject(object):
                 key_file=key_file
             )
 
-        # https pool manager
-        self.pool_manager = urllib3.PoolManager(
-            num_pools=pools_size,
-            cert_reqs=cert_reqs,
-            ca_certs=ca_certs,
-            cert_file=cert_file,
-            key_file=key_file
-        )
 
     def request(self, method, url, query_params=None, headers=None,
                 body=None, post_params=None, _preload_content=True, _request_timeout=None):
