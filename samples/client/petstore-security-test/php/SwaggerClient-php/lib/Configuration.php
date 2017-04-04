@@ -39,7 +39,7 @@ namespace Swagger\Client;
  */
 class Configuration
 {
-    private static $defaultConfiguration = null;
+    private static $defaultConfiguration;
 
     /**
      * Associate array to store API key(s)
@@ -88,7 +88,7 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r';
+    protected $host = 'https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r';
 
     /**
      * Timeout (second) of the HTTP request, by default set to 0, no timeout
@@ -109,7 +109,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "Swagger-Codegen/1.0.0/php";
+    protected $userAgent = 'Swagger-Codegen/1.0.0/php';
 
     /**
      * Debug switch (default set to false)
@@ -191,7 +191,7 @@ class Configuration
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      * @param string $key              API key or token
      *
-     * @return Configuration
+     * @return $this
      */
     public function setApiKey($apiKeyIdentifier, $key)
     {
@@ -217,7 +217,7 @@ class Configuration
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      * @param string $prefix           API key prefix, e.g. Bearer
      *
-     * @return Configuration
+     * @return $this
      */
     public function setApiKeyPrefix($apiKeyIdentifier, $prefix)
     {
@@ -242,7 +242,7 @@ class Configuration
      *
      * @param string $accessToken Token for OAuth
      *
-     * @return Configuration
+     * @return $this
      */
     public function setAccessToken($accessToken)
     {
@@ -265,7 +265,7 @@ class Configuration
      *
      * @param string $username Username for HTTP basic authentication
      *
-     * @return Configuration
+     * @return $this
      */
     public function setUsername($username)
     {
@@ -288,7 +288,7 @@ class Configuration
      *
      * @param string $password Password for HTTP basic authentication
      *
-     * @return Configuration
+     * @return $this
      */
     public function setPassword($password)
     {
@@ -312,7 +312,8 @@ class Configuration
      * @param string $headerName  header name (e.g. Token)
      * @param string $headerValue header value (e.g. 1z8wp3)
      *
-     * @return Configuration
+     * @throws \InvalidArgumentException
+     * @return $this
      */
     public function addDefaultHeader($headerName, $headerValue)
     {
@@ -339,11 +340,12 @@ class Configuration
      *
      * @param string $headerName the header to delete
      *
-     * @return Configuration
+     * @return $this
      */
     public function deleteDefaultHeader($headerName)
     {
         unset($this->defaultHeaders[$headerName]);
+        return $this;
     }
 
     /**
@@ -351,7 +353,7 @@ class Configuration
      *
      * @param string $host Host
      *
-     * @return Configuration
+     * @return $this
      */
     public function setHost($host)
     {
@@ -374,7 +376,8 @@ class Configuration
      *
      * @param string $userAgent the user agent of the api client
      *
-     * @return Configuration
+     * @throws \InvalidArgumentException
+     * @return $this
      */
     public function setUserAgent($userAgent)
     {
@@ -401,7 +404,8 @@ class Configuration
      *
      * @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
      *
-     * @return Configuration
+     * @throws \InvalidArgumentException
+     * @return $this
      */
     public function setCurlTimeout($seconds)
     {
@@ -428,7 +432,8 @@ class Configuration
      *
      * @param integer $seconds Number of seconds before connection times out [set to 0 for no timeout]
      *
-     * @return Configuration
+     * @throws \InvalidArgumentException
+     * @return $this
      */
     public function setCurlConnectTimeout($seconds)
     {
@@ -456,7 +461,7 @@ class Configuration
      *
      * @param string $proxyHost HTTP Proxy URL
      *
-     * @return ApiClient
+     * @return $this
      */
     public function setCurlProxyHost($proxyHost)
     {
@@ -479,7 +484,7 @@ class Configuration
      *
      * @param integer $proxyPort HTTP Proxy Port
      *
-     * @return ApiClient
+     * @return $this
      */
     public function setCurlProxyPort($proxyPort)
     {
@@ -502,7 +507,7 @@ class Configuration
      *
      * @param integer $proxyType HTTP Proxy Type
      *
-     * @return ApiClient
+     * @return $this
      */
     public function setCurlProxyType($proxyType)
     {
@@ -525,7 +530,7 @@ class Configuration
      *
      * @param string $proxyUser HTTP Proxy User
      *
-     * @return ApiClient
+     * @return $this
      */
     public function setCurlProxyUser($proxyUser)
     {
@@ -548,7 +553,7 @@ class Configuration
      *
      * @param string $proxyPassword HTTP Proxy Password
      *
-     * @return ApiClient
+     * @return $this
      */
     public function setCurlProxyPassword($proxyPassword)
     {
@@ -571,7 +576,7 @@ class Configuration
      *
      * @param bool $debug Debug flag
      *
-     * @return Configuration
+     * @return $this
      */
     public function setDebug($debug)
     {
@@ -594,7 +599,7 @@ class Configuration
      *
      * @param string $debugFile Debug file
      *
-     * @return Configuration
+     * @return $this
      */
     public function setDebugFile($debugFile)
     {
@@ -617,7 +622,7 @@ class Configuration
      *
      * @param string $tempFolderPath Temp folder path
      *
-     * @return Configuration
+     * @return $this
      */
     public function setTempFolderPath($tempFolderPath)
     {
@@ -640,7 +645,7 @@ class Configuration
      *
      * @param boolean $sslVerification True if the certificate should be validated, false otherwise
      *
-     * @return Configuration
+     * @return $this
      */
     public function setSSLVerification($sslVerification)
     {
@@ -693,7 +698,7 @@ class Configuration
     {
         $report  = 'PHP SDK (Swagger\Client) Debug Report:' . PHP_EOL;
         $report .= '    OS: ' . php_uname() . PHP_EOL;
-        $report .= '    PHP Version: ' . phpversion() . PHP_EOL;
+        $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    OpenAPI Spec Version: 1.0.0 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
