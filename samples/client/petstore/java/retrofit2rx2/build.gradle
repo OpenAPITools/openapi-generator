@@ -98,7 +98,7 @@ ext {
     retrofit_version = "2.2.0"
     swagger_annotations_version = "1.5.12"
     junit_version = "4.12"
-    rx_java_version = "1.2.9"
+    rx_java_version = "2.0.7"
     jodatime_version = "2.9.4"
 }
 
@@ -106,8 +106,8 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
-    compile "io.reactivex:rxjava:$rx_java_version"
+    compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
+    compile "io.reactivex.rxjava2:rxjava:$rx_java_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
     compile "joda-time:joda-time:$jodatime_version"
