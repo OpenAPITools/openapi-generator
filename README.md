@@ -816,6 +816,21 @@ and here is the curl command:
 curl -H "Content-type: application/json" -X POST -d '{"options": {"packageName": "pet_store"},"swaggerUrl": "http://petstore.swagger.io/v2/swagger.json"}' https://generator.swagger.io/api/gen/clients/python
 ```
 
+Instead of using `swaggerUrl` with an URL to the OpenAPI/Swagger spec, one can include the spec in the JSON payload with `spec`, e.g.
+```
+{
+  "options": {},
+  "spec": {
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Test API"
+    },
+    ...
+  }
+}
+```
+
 Guidelines for Contribution
 ---------------------------
 
