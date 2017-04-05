@@ -526,47 +526,7 @@ There are different aspects of customizing the code generator beyond just creati
 $ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
 AbstractJavaJAXRSServerCodegen.java
 AbstractTypeScriptClientCodegen.java
-AkkaScalaClientCodegen.java
-AndroidClientCodegen.java
-AspNet5ServerCodegen.java
-AspNetCoreServerCodegen.java
-AsyncScalaClientCodegen.java
-BashClientCodegen.java
-CSharpClientCodegen.java
-ClojureClientCodegen.java
-CsharpDotNet2ClientCodegen.java
-DartClientCodegen.java
-FlashClientCodegen.java
-FlaskConnexionCodegen.java
-GoClientCodegen.java
-HaskellServantCodegen.java
-JMeterCodegen.java
-JavaCXFServerCodegen.java
-JavaClientCodegen.java
-JavaInflectorServerCodegen.java
-JavaJerseyServerCodegen.java
-JavaResteasyServerCodegen.java
-JavascriptClientCodegen.java
-NodeJSServerCodegen.java
-NancyFXServerCodegen
-ObjcClientCodegen.java
-PerlClientCodegen.java
-PhpClientCodegen.java
-PythonClientCodegen.java
-Qt5CPPGenerator.java
-RubyClientCodegen.java
-ScalaClientCodegen.java
-ScalatraServerCodegen.java
-SilexServerCodegen.java
-SinatraServerCodegen.java
-SlimFrameworkServerCodegen.java
-SpringMVCServerCodegen.java
-StaticDocCodegen.java
-StaticHtmlGenerator.java
-SwaggerGenerator.java
-SwaggerYamlGenerator.java
-SwiftCodegen.java
-TizenClientCodegen.java
+... (results omitted)
 TypeScriptAngularClientCodegen.java
 TypeScriptNodeClientCodegen.java
 ```
@@ -603,31 +563,7 @@ CONFIG OPTIONS
 
 	apiPackage
 	    package for generated api classes
-
-	sortParamsByRequiredFlag
-	    Sort method arguments to place required parameters before optional parameters. Default: true
-
-	invokerPackage
-	    root package for generated code
-
-	groupId
-	    groupId in generated pom.xml
-
-	artifactId
-	    artifactId in generated pom.xml
-
-	artifactVersion
-	    artifact version in generated pom.xml
-
-	sourceFolder
-	    source folder for generated code
-
-	localVariablePrefix
-	    prefix for generated code members and local variables
-
-	serializableModel
-	    boolean - toggle "implements Serializable" for generated models
-
+...... (results omitted)
 	library
 	    library template (sub-template) to use:
 	    jersey1 - HTTP client: Jersey client 1.18. JSON processing: Jackson 2.4.2
