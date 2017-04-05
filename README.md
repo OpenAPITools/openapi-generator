@@ -880,6 +880,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [High Technologies Center](http://htc-cs.com)
 - [IBM](https://www.ibm.com)
 - [IMS Health](http://www.imshealth.com/en/solution-areas/technology-and-applications)
+- [Individual Standard IVS](http://www.individual-standard.com) 
 - [Intent HQ](http://www.intenthq.com)
 - [Interactive Intelligence](http://developer.mypurecloud.com/)
 - [Kabuku](http://www.kabuku.co.jp/en)
