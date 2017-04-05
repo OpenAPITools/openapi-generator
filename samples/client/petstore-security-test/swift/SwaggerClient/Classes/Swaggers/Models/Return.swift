@@ -8,9 +8,9 @@
 import Foundation
 
 
-/** Model for testing reserved words  *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r */
+/** Model for testing reserved words  *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r */
 public class Return: JSONEncodable {
-    /** property description  *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r */
+    /** property description  *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r */
     public var _return: Int32?
 
     public init() {}
