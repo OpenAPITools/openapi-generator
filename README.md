@@ -248,7 +248,7 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
   -o samples/client/petstore/java
 ```
 
-with a number of options.  You can get the options with the `help generate` command:
+with a number of options. You can get the options with the `help generate` command (below only shows partal results):
 
 ```
 NAME
@@ -279,84 +279,9 @@ OPTIONS
             adds authorization headers when fetching the swagger definitions
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
+	    
+...... (results omitted)    
 
-        --additional-properties <additional properties>
-            sets additional properties that can be referenced by the mustache
-            templates in the format of name=value,name=value
-
-        --api-package <api package>
-            package for generated api classes
-
-        --artifact-id <artifact id>
-            artifactId in generated pom.xml
-
-        --artifact-version <artifact version>
-            artifact version in generated pom.xml
-
-        -c <configuration file>, --config <configuration file>
-            Path to json configuration file. File content should be in a json
-            format {"optionKey":"optionValue", "optionKey1":"optionValue1"...}
-            Supported options can be different for each language. Run
-            config-help -l {lang} command for language specific config options.
-
-        -D <system properties>
-            sets specified system properties in the format of
-            name=value,name=value
-
-        --group-id <group id>
-            groupId in generated pom.xml
-
-        -i <spec file>, --input-spec <spec file>
-            location of the swagger spec, as URL or file (required)
-
-
-        --import-mappings <import mappings>
-            specifies mappings between a given class and the import that should
-            be used for that class in the format of type=import,type=import
-
-        --instantiation-types <instantiation types>
-            sets instantiation type mappings in the format of
-            type=instantiatedType,type=instantiatedType.For example (in Java):
-            array=ArrayList,map=HashMap. In other words array types will get
-            instantiated as ArrayList in generated code.
-
-        --invoker-package <invoker package>
-            root package for generated code
-
-        -l <language>, --lang <language>
-            client language to generate (maybe class name in classpath,
-            required)
-
-        --language-specific-primitives <language specific primitives>
-            specifies additional language specific primitive types in the format
-            of type1,type2,type3,type3. For example:
-            String,boolean,Boolean,Double
-
-        --library <library>
-            library template (sub-template)
-
-        --model-package <model package>
-            package for generated models
-
-        -o <output directory>, --output <output directory>
-            where to write the generated files (current dir by default)
-
-        -s, --skip-overwrite
-            specifies if the existing files should be overwritten during the
-            generation.
-
-        -t <template directory>, --template-dir <template directory>
-            folder containing the template files
-
-        --type-mappings <type mappings>
-            sets mappings between swagger spec types and generated code types in
-            the format of swaggerType=generatedType,swaggerType=generatedType.
-            For example: array=List,map=Map,string=String
-
-        --reserved-words-mappings <import mappings>
-            specifies how a reserved name should be escaped to. Otherwise, the
-            default _<name> is used. For example id=identifier
-            
         -v, --verbose
             verbose mode
 
