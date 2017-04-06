@@ -3,33 +3,24 @@
 
 
 <script>
-												$(document).ready(function() {
-													var schemaWrapper = {{{jsonSchema}}};
-													
-														var schema = schemaWrapper.schema;
-														schemaWrapper.definitions = defs;
-														JsonRefs.resolveRefs(schemaWrapper, {"depth":3, "resolveRemoteRefs":false,"resolveFileRefs":false },function (err, resolved, metadata) {
-														
+$(document).ready(function() {
+  var schemaWrapper = {{{jsonSchema}}};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
 
-														
-													var view = new JSONSchemaView(resolved.schema,2,{isBodyParam: true});
-													 
-													var result = $('#d2e199_{{nickname}}_{{paramName}}');
-													result.empty();
-													result.append(view.render());
-													
-
-													
-    											
-													
-
-
-												});
-
-
-
-												});
-												</script>
-												<div id="d2e199_{{nickname}}_{{paramName}}"></div>
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_{{nickname}}_{{paramName}}');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_{{nickname}}_{{paramName}}"></div>
 </td>
 </tr>
