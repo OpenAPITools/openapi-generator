@@ -40,22 +40,18 @@ class StoreApi(object):
         Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_order(order_id, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_order(order_id, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str order_id: ID of the order that needs to be deleted (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.delete_order_with_http_info(order_id, **kwargs)
         else:
             (data) = self.delete_order_with_http_info(order_id, **kwargs)
@@ -66,15 +62,11 @@ class StoreApi(object):
         Delete purchase order by ID
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.delete_order_with_http_info(order_id, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.delete_order_with_http_info(order_id, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str order_id: ID of the order that needs to be deleted (required)
         :return: None
                  If the method is called asynchronously,
@@ -82,7 +74,7 @@ class StoreApi(object):
         """
 
         all_params = ['order_id']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -131,7 +123,7 @@ class StoreApi(object):
                                         files=local_var_files,
                                         response_type=None,
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -142,21 +134,17 @@ class StoreApi(object):
         Returns pet inventories by status
         Returns a map of status codes to quantities
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_inventory(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_inventory(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: dict(str, int)
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.get_inventory_with_http_info(**kwargs)
         else:
             (data) = self.get_inventory_with_http_info(**kwargs)
@@ -167,22 +155,18 @@ class StoreApi(object):
         Returns pet inventories by status
         Returns a map of status codes to quantities
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_inventory_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_inventory_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :return: dict(str, int)
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
         all_params = []
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -225,7 +209,7 @@ class StoreApi(object):
                                         files=local_var_files,
                                         response_type='dict(str, int)',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -236,22 +220,18 @@ class StoreApi(object):
         Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_order_by_id(order_id, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_order_by_id(order_id, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param int order_id: ID of pet that needs to be fetched (required)
         :return: Order
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.get_order_by_id_with_http_info(order_id, **kwargs)
         else:
             (data) = self.get_order_by_id_with_http_info(order_id, **kwargs)
@@ -262,15 +242,11 @@ class StoreApi(object):
         Find purchase order by ID
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.get_order_by_id_with_http_info(order_id, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.get_order_by_id_with_http_info(order_id, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param int order_id: ID of pet that needs to be fetched (required)
         :return: Order
                  If the method is called asynchronously,
@@ -278,7 +254,7 @@ class StoreApi(object):
         """
 
         all_params = ['order_id']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -331,7 +307,7 @@ class StoreApi(object):
                                         files=local_var_files,
                                         response_type='Order',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
@@ -342,22 +318,18 @@ class StoreApi(object):
         Place an order for a pet
         
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.place_order(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.place_order(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param Order body: order placed for purchasing the pet (required)
         :return: Order
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.place_order_with_http_info(body, **kwargs)
         else:
             (data) = self.place_order_with_http_info(body, **kwargs)
@@ -368,15 +340,11 @@ class StoreApi(object):
         Place an order for a pet
         
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.place_order_with_http_info(body, callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.place_order_with_http_info(body, async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param Order body: order placed for purchasing the pet (required)
         :return: Order
                  If the method is called asynchronously,
@@ -384,7 +352,7 @@ class StoreApi(object):
         """
 
         all_params = ['body']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -433,7 +401,7 @@ class StoreApi(object):
                                         files=local_var_files,
                                         response_type='Order',
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),
