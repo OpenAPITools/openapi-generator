@@ -190,7 +190,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library.";
+        return "Generates a Scala client library (beta).";
     }
 
     @Override
