@@ -58,16 +58,28 @@ extension Dictionary: JSONEncodable {
     }
 }
 
+extension NSData: JSONEncodable {
+    func encodeToJSON() -> AnyObject {
+        return self.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+    }
+}
 
 private let dateFormatter: NSDateFormatter = {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    return dateFormatter
+    let fmt = NSDateFormatter()
+    fmt.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+    fmt.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    return fmt
 }()
 
 extension NSDate: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         return dateFormatter.stringFromDate(self)
+    }
+}
+
+extension NSUUID: JSONEncodable {
+    func encodeToJSON() -> AnyObject {
+        return self.UUIDString
     }
 }
 
