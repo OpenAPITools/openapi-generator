@@ -363,20 +363,21 @@
                                       $(document).ready(function() {
                                         var schemaWrapper = {{{jsonSchema}}};
                                         var schema = schemaWrapper.schema;
-                                        schemaWrapper.definitions = defs;
-                                        //console.log(JSON.stringify(schema))
-                                        JsonRefs.resolveRefs(schemaWrapper, {
-                                            "depth": 3,
-                                            "resolveRemoteRefs": false,
-                                            "resolveFileRefs": false
-                                        }, function(err, resolved, metadata) {
-                                          //console.log(JSON.stringify(resolved));
-                                          var view = new JSONSchemaView(resolved.schema, 3);
-                                          $('#responses-{{nickname}}-{{code}}-schema-data').val(JSON.stringify(resolved.schema));
-                                          var result = $('#responses-{{nickname}}-{{code}}-schema-{{code}}');
-                                          result.empty();
-                                          result.append(view.render());
-                                        });
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-{{nickname}}-{{code}}-schema-data').val(stringify(schema));
+                                        var result = $('#responses-{{nickname}}-{{code}}-schema-{{code}}');
+                                        result.empty();
+                                        result.append(view.render());
                                       });
                                     </script>
                                   </div>
@@ -448,8 +449,17 @@
   </div>
   {{>js_jsonformatter}}
   {{>js_jsonschemaview}}
-  {{>js_jsonref}}
+  {{>js_json_schema_ref_parser}}
+  {{>js_json_stringify_safe}}
   {{>js_webfontloader}}
+  <script>
+    var schemaWrapper = {};
+    schemaWrapper.definitions = Object.assign({}, defs);
+    defsParser = new $RefParser();
+    defsParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  </script>
   <script>
   $(document).ready(function () {
     $('.nav-tabs-examples').find('a:first').tab('show');
