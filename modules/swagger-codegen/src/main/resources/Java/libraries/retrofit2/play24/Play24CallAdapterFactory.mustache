@@ -14,7 +14,7 @@ import java.lang.reflect.WildcardType;
 public class Play24CallAdapterFactory extends CallAdapter.Factory {
 
     @Override
-    public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+    public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
         if (!(returnType instanceof ParameterizedType)) {
             return null;
         }
@@ -41,7 +41,7 @@ public class Play24CallAdapterFactory extends CallAdapter.Factory {
         return paramType;
     }
 
-    private CallAdapter<F.Promise<?>> createAdapter(ParameterizedType returnType) {
+    private CallAdapter<?, F.Promise<?>> createAdapter(ParameterizedType returnType) {
         Type parameterType = getTypeParam(returnType);
         return new ValueAdapter(parameterType);
     }
@@ -49,7 +49,7 @@ public class Play24CallAdapterFactory extends CallAdapter.Factory {
     /**
      * Adpater that coverts values returned by API interface into Play promises
      */
-    static final class ValueAdapter implements CallAdapter<F.Promise<?>> {
+    static final class ValueAdapter<R> implements CallAdapter<R, F.Promise<R>> {
 
         private final Type responseType;
 
@@ -63,7 +63,7 @@ public class Play24CallAdapterFactory extends CallAdapter.Factory {
         }
 
         @Override
-        public <R> F.Promise<R> adapt(final Call<R> call) {
+        public F.Promise<R> adapt(final Call<R> call) {
             final F.RedeemablePromise<R> promise = F.RedeemablePromise.empty();
 
             call.enqueue(new Callback<R>() {
