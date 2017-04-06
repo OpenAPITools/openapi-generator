@@ -11,9 +11,9 @@ import Alamofire
 
 public class FakeAPI: APIBase {
     /**
-     To test code injection *_/ ' \" =end \\r\\n \\n \\r
+     To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      
-     - parameter testCodeInjectEndRnNR: (form) To test code injection *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r (optional)
+     - parameter testCodeInjectEndRnNR: (form) To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func testCodeInjectEndRnNR(testCodeInjectEndRnNR testCodeInjectEndRnNR: String? = nil, completion: ((error: ErrorType?) -> Void)) {
@@ -24,10 +24,10 @@ public class FakeAPI: APIBase {
 
 
     /**
-     To test code injection *_/ ' \" =end \\r\\n \\n \\r
+     To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      - PUT /fake
      
-     - parameter testCodeInjectEndRnNR: (form) To test code injection *_/ &#39; \&quot; &#x3D;end \\r\\n \\n \\r (optional)
+     - parameter testCodeInjectEndRnNR: (form) To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r (optional)
 
      - returns: RequestBuilder<Void> 
      */
@@ -36,7 +36,7 @@ public class FakeAPI: APIBase {
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "test code inject */ &#39; &quot; &#x3D;end \r\n \n \r": testCodeInjectEndRnNR
+            "test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r": testCodeInjectEndRnNR
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
