@@ -196,6 +196,11 @@ public class Play24CallFactory implements okhttp3.Call.Factory {
         public void cancel() {
             throw new UnsupportedOperationException("Not supported");
         }
+        
+        @Override
+        public PlayWSCall clone() {
+            throw new UnsupportedOperationException("Not supported");
+        }
 
         @Override
         public boolean isExecuted() {
