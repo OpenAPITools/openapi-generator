@@ -1,6 +1,6 @@
 package controllers;
 
-import java.io.File;
+import java.io.InputStream;
 import apimodels.Pet;
 
 import play.mvc.Controller;
