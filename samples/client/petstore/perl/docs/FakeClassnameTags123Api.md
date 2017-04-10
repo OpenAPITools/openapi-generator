@@ -5,7 +5,7 @@
 use WWW::SwaggerClient::Object::FakeClassnameTags123Api;
 ```
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,10 +20,10 @@ To test class name in snake case
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FakeClassnameTags123Api;
+my $api_instance = WWW::SwaggerClient::FakeClassnameTags123Api->new(
+);
 
-my $api_instance = WWW::SwaggerClient::FakeClassnameTags123Api->new();
 my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
 
 eval { 

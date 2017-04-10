@@ -29,10 +29,10 @@ This can only be done by the logged in user.
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $body = WWW::SwaggerClient::Object::User->new(); # User | Created user object
 
 eval { 
@@ -74,10 +74,10 @@ Creates list of users with given input array
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $body = [WWW::SwaggerClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
 eval { 
@@ -119,10 +119,10 @@ Creates list of users with given input array
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $body = [WWW::SwaggerClient::Object::ARRAY[User]->new()]; # ARRAY[User] | List of user object
 
 eval { 
@@ -164,10 +164,10 @@ This can only be done by the logged in user.
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The name that needs to be deleted
 
 eval { 
@@ -209,10 +209,10 @@ Get user by user name
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The name that needs to be fetched. Use user1 for testing. 
 
 eval { 
@@ -255,10 +255,10 @@ Logs user into the system
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | The user name for login
 my $password = 'password_example'; # string | The password for login in clear text
 
@@ -303,10 +303,10 @@ Logs out current logged in user session
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 
 eval { 
     $api_instance->logout_user();
@@ -344,10 +344,10 @@ This can only be done by the logged in user.
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
+my $api_instance = WWW::SwaggerClient::UserApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $username = 'username_example'; # string | name that need to be deleted
 my $body = WWW::SwaggerClient::Object::User->new(); # User | Updated user object
 
