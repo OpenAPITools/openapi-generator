@@ -188,6 +188,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         typeMapping.put("DateTime", "OffsetDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
+
+        importMapping.put("InputStream", "java.io.InputStream");
+        typeMapping.put("file", "InputStream");
     }
 
     @Override
@@ -249,17 +252,15 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
 
-                //This is to fix this bug in the swagger-play project: https://github.com/swagger-api/swagger-play/issues/131
-                //We need to explicitly add the model package name in front of the dataType because if we don't, the
-                //implicitParam is not valid and show error when loading the documentation
-                //This can be removed safely after the bug has been fixed
                 for (CodegenParameter param : operation.allParams) {
-                    if (!param.isPathParam ) {
-                        if (!param.isPrimitiveType && !param.isListContainer && !param.isMapContainer) {
-                            param.dataTypeForImplicitParam = String.format("%s.%s", modelPackage, param.dataType);
-                        } else {
-                            param.dataTypeForImplicitParam = param.dataType;
-                        }
+                    if (param.isFormParam && param.isFile) {
+                        param.dataType = "Http.MultipartFormData.FilePart";
+                    }
+                }
+
+                for (CodegenParameter param : operation.formParams) {
+                    if (param.isFile) {
+                        param.dataType = "Http.MultipartFormData.FilePart";
                     }
                 }
 

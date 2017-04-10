@@ -7,6 +7,7 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.FileInputStream;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
@@ -14,9 +15,10 @@ import javax.validation.constraints.*;
 {{#operations}}
 public class {{classname}}ControllerImp {{#useInterfaces}}implements {{classname}}ControllerImpInterface{{/useInterfaces}} {
 {{#operation}}
+    {{#useInterfaces}}@Override{{/useInterfaces}}
     public {{>returnTypes}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
         //Do your magic!!!
-        {{#returnType}}return new {{>returnTypesNoVoidNoAbstract}}();{{/returnType}}
+        {{#returnType}}{{#isResponseFile}}return new FileInputStream("replace this");{{/isResponseFile}}{{^isResponseFile}}return new {{>returnTypesNoVoidNoAbstract}}();{{/isResponseFile}}{{/returnType}}
     }
 
 {{/operation}}
