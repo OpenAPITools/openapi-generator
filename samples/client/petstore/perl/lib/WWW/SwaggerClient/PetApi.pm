@@ -28,25 +28,22 @@ use Carp qw( croak );
 use Log::Any qw($log);
 
 use WWW::SwaggerClient::ApiClient;
-use WWW::SwaggerClient::Configuration;
 
 use base "Class::Data::Inheritable";
 
 __PACKAGE__->mk_classdata('method_documentation' => {});
 
 sub new {
-    my $class   = shift;
-    my (%self) = (
-        'api_client' => WWW::SwaggerClient::ApiClient->instance,
-        @_
-    );
+    my $class = shift;
+    my $api_client;
 
-    #my $self = {
-    #    #api_client => $options->{api_client}
-    #    api_client => $default_api_client
-    #}; 
+    if ($_[0] && ref $_[0] && ref $_[0] eq 'WWW::SwaggerClient::ApiClient' ) {
+        $api_client = $_[0];
+    } else {
+        $api_client = WWW::SwaggerClient::ApiClient->new(@_);
+    }
 
-    bless \%self, $class;
+    bless { api_client => $api_client }, $class;
 
 }
 

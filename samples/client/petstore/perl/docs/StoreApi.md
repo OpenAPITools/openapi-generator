@@ -25,10 +25,10 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::StoreApi;
+my $api_instance = WWW::SwaggerClient::StoreApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
 my $order_id = 'order_id_example'; # string | ID of the order that needs to be deleted
 
 eval { 
@@ -70,15 +70,15 @@ Returns a map of status codes to quantities
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::StoreApi;
+my $api_instance = WWW::SwaggerClient::StoreApi->new(
 
-# Configure API key authorization: api_key
-$WWW::SwaggerClient::Configuration::api_key->{'api_key'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'api_key'} = "Bearer";
+    # Configure API key authorization: api_key
+    api_key => {'api_key' => 'YOUR_API_KEY'},
+    # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+    #api_key_prefix => {'api_key' => 'Bearer'},
+);
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
 
 eval { 
     my $result = $api_instance->get_inventory();
@@ -117,10 +117,10 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::StoreApi;
+my $api_instance = WWW::SwaggerClient::StoreApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
 my $order_id = 789; # int | ID of pet that needs to be fetched
 
 eval { 
@@ -163,10 +163,10 @@ Place an order for a pet
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::StoreApi;
+my $api_instance = WWW::SwaggerClient::StoreApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::StoreApi->new();
 my $body = WWW::SwaggerClient::Object::Order->new(); # Order | order placed for purchasing the pet
 
 eval { 

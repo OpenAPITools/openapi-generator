@@ -24,10 +24,10 @@ To test \"client\" model
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FakeApi;
+my $api_instance = WWW::SwaggerClient::FakeApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::FakeApi->new();
 my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
 
 eval { 
@@ -70,14 +70,14 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FakeApi;
+my $api_instance = WWW::SwaggerClient::FakeApi->new(
 
-# Configure HTTP basic authorization: http_basic_test
-$WWW::SwaggerClient::Configuration::username = 'YOUR_USERNAME';
-$WWW::SwaggerClient::Configuration::password = 'YOUR_PASSWORD';
+    # Configure HTTP basic authorization: http_basic_test
+    username => 'YOUR_USERNAME',
+    password => 'YOUR_PASSWORD',
+);
 
-my $api_instance = WWW::SwaggerClient::FakeApi->new();
 my $number = 3.4; # Number | None
 my $double = 1.2; # double | None
 my $pattern_without_delimiter = 'pattern_without_delimiter_example'; # string | None
@@ -145,10 +145,10 @@ To test enum parameters
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FakeApi;
+my $api_instance = WWW::SwaggerClient::FakeApi->new(
+);
 
-my $api_instance = WWW::SwaggerClient::FakeApi->new();
 my $enum_form_string_array = []; # ARRAY[string] | Form parameter enum test (string array)
 my $enum_form_string = 'enum_form_string_example'; # string | Form parameter enum test (string)
 my $enum_header_string_array = []; # ARRAY[string] | Header parameter enum test (string array)
