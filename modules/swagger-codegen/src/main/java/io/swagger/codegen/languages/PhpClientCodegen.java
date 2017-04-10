@@ -315,7 +315,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -679,8 +679,8 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
+        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+            return escapeReservedWord(enumName);
         } else {
             return enumName;
         }
