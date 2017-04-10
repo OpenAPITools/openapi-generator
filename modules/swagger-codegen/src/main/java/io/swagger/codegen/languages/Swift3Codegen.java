@@ -102,7 +102,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         reservedWords = new HashSet<>(
                 Arrays.asList(
                     // name used by swift client
-                    "ErrorResponse",
+                    "ErrorResponse", "Response",
 
                     // swift keywords
                     "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
