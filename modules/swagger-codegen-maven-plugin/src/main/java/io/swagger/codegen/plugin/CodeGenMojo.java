@@ -245,6 +245,9 @@ public class CodeGenMojo extends AbstractMojo {
     protected Map<String, String> environmentVariables = new HashMap<String, String>();
 
     @Parameter
+    protected Map<String, String> originalEnvironmentVariables = new HashMap<String, String>();
+
+    @Parameter
     private boolean configHelp = false;
 
     /**
@@ -252,6 +255,8 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(readonly = true, required = true, defaultValue = "${project}")
     private MavenProject project;
+
+
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -392,8 +397,6 @@ public class CodeGenMojo extends AbstractMojo {
                 applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings").toString(), configurator);
             }
         }
-
-        Map<String, String> originalEnvironmentVariables = new HashMap<>();
 
         if (environmentVariables != null) {
 
