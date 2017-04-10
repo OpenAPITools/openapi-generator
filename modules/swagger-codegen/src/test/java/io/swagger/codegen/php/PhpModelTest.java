@@ -334,7 +334,15 @@ public class PhpModelTest {
 
     }
 
-
+    @Test(description = "test enum variable names for reserved words")
+    public void testReservedWord() throws Exception {
+        final DefaultCodegen codegen = new PhpClientCodegen();
+        Assert.assertEquals(codegen.toEnumVarName("public", null), "_PUBLIC");
+        Assert.assertEquals(codegen.toEnumVarName("Private", null), "_PRIVATE");
+        Assert.assertEquals(codegen.toEnumVarName("IF", null), "_IF");
+        // should not escape non-reserved
+        Assert.assertEquals(codegen.toEnumVarName("hello", null), "HELLO");
+    }
 
 
 }
