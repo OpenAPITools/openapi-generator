@@ -15,10 +15,10 @@ import javax.validation.constraints.*;
 
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_property")
-  private Map<String, String> mapProperty = new HashMap<String, String>();
+  private Map<String, String> mapProperty = null;
 
   @JsonProperty("map_of_map_property")
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
+  private Map<String, Map<String, String>> mapOfMapProperty = null;
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;

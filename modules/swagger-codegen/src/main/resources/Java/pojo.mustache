@@ -27,7 +27,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
+  {{#isContainer}}
+  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
+  {{/isContainer}}
+  {{^isContainer}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
+  {{/isContainer}}
 
   {{/vars}}
   {{#vars}}

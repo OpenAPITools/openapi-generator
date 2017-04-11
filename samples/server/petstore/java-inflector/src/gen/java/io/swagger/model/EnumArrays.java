@@ -81,7 +81,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("array_enum")
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private List<ArrayEnumEnum> arrayEnum = null;
 
   /**
    **/

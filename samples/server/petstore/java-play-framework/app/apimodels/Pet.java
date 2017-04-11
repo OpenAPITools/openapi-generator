@@ -25,7 +25,7 @@ public class Pet   {
   private List<String> photoUrls = new ArrayList<String>();
 
   @JsonProperty("tags")
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<Tag> tags;
 
   /**
    * pet status in the store
