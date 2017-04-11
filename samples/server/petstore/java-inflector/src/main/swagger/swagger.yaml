@@ -109,11 +109,11 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
-          default: "available"
         collectionFormat: "csv"
       responses:
         200:
@@ -623,10 +623,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
       - name: "enum_form_string"
         in: "formData"
         description: "Form parameter enum test (string)"
@@ -644,10 +644,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
       - name: "enum_header_string"
         in: "header"
         description: "Header parameter enum test (string)"
@@ -665,10 +665,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
       - name: "enum_query_string"
         in: "query"
         description: "Query parameter enum test (string)"
