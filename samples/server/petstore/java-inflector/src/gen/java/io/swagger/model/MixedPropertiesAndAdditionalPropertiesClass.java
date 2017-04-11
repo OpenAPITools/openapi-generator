@@ -25,7 +25,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   private Date dateTime = null;
 
   @JsonProperty("map")
-  private Map<String, Animal> map = new HashMap<String, Animal>();
+  private Map<String, Animal> map = null;
 
   /**
    **/

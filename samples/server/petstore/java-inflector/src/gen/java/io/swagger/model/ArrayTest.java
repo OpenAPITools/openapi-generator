@@ -16,13 +16,13 @@ import java.util.List;
 
 public class ArrayTest   {
   @JsonProperty("array_of_string")
-  private List<String> arrayOfString = new ArrayList<String>();
+  private List<String> arrayOfString = null;
 
   @JsonProperty("array_array_of_integer")
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
+  private List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonProperty("array_array_of_model")
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   /**
    **/
