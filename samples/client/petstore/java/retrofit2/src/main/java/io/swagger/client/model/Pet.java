@@ -40,7 +40,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<String>();
 
   @SerializedName("tags")
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store

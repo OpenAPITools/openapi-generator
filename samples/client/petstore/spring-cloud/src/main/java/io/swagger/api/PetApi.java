@@ -50,7 +50,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.DELETE)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = ""  ) @RequestHeader(value="api_key", required=false) String apiKey);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey);
 
 
     @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
@@ -67,7 +67,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "AVAILABLE, PENDING, SOLD") @RequestParam(value = "status", required = true) List<String> status);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status);
 
 
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
