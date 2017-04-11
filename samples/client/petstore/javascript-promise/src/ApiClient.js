@@ -385,7 +385,7 @@
           }
         } else {
           // All other collection query parameters should be treated as ordinary query parameters.
-          queryParams[key] = this.apiClient.buildCollectionParam(param.value, param.collectionFormat);
+          queryParams[key] = this.buildCollectionParam(param.value, param.collectionFormat);
         }
       }
     }
