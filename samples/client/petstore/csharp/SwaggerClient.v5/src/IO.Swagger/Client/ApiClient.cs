@@ -187,7 +187,33 @@ namespace IO.Swagger.Client
 
             return (Object) response;
         }
-
+        /// <summary>
+        /// Makes the asynchronous HTTP request.
+        /// </summary>
+        /// <param name="path">URL path.</param>
+        /// <param name="method">HTTP method.</param>
+        /// <param name="queryParams">Query parameters.</param>
+        /// <param name="postBody">HTTP body (POST request).</param>
+        /// <param name="headerParams">Header parameters.</param>
+        /// <param name="formParams">Form parameters.</param>
+        /// <param name="fileParams">File parameters.</param>
+        /// <param name="pathParams">Path parameters.</param>
+        /// <param name="contentType">Content type.</param>
+        /// <returns>The Task instance.</returns>
+        public async System.Threading.Tasks.Task<Object> CallApiAsync(
+            String path, Method method, Dictionary<String, String> queryParams, Object postBody,
+            Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
+            Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
+            String contentType)
+        {
+            var request = PrepareRequest(
+                path, method, queryParams, postBody, headerParams, formParams, fileParams,
+                pathParams, contentType);
+            InterceptRequest(request);
+            var response = await RestClient.Execute(request);
+            InterceptResponse(request, response);
+            return (Object)response;
+        }
 
         /// <summary>
         /// Escape string (url-encoded).
@@ -377,7 +403,7 @@ namespace IO.Swagger.Client
         /// <param name="source">Object to be casted</param>
         /// <param name="dest">Target type</param>
         /// <returns>Casted object</returns>
-        public static object ConvertType<T>(T source, Type dest) where T : class
+        public static dynamic ConvertType(dynamic source, Type dest)
         {
             return Convert.ChangeType(source, dest);
         }
