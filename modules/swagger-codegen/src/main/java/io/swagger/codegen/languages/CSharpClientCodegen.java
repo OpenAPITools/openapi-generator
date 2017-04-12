@@ -210,8 +210,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setSupportsAsync(Boolean.TRUE);
             setSupportsUWP(Boolean.FALSE);
             setNetStandard(Boolean.TRUE);
-            additionalProperties.put("supportsAsync", this.supportsUWP);
-            additionalProperties.put("supportsUWP", this.supportsAsync);
+            additionalProperties.put("supportsAsync", this.supportsAsync);
+            additionalProperties.put("supportsUWP", this.supportsUWP);
             additionalProperties.put("netStandard", this.netStandard);
 
             //Tests not yet implemented for .NET Standard codegen
