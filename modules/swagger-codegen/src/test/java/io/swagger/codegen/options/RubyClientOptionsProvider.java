@@ -20,6 +20,8 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String GEM_DESCRIPTION_VALUE = "description";
     public static final String GEM_AUTHOR_VALUE =  "foo";
     public static final String GEM_AUTHOR_EMAIL_VALUE = "foo";
+    public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+
 
     @Override
     public String getLanguage() {
@@ -42,6 +44,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
+                .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .build();
     }
 

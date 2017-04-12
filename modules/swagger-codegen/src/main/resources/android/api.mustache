@@ -20,7 +20,7 @@ import java.io.File;
 
 {{#operations}}
 public class {{classname}} {
-  String basePath = "{{basePath}}";
+  String basePath = "{{{basePath}}}";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -56,7 +56,7 @@ public class {{classname}} {
     {{/required}}{{/allParams}}
 
     // create path and map variables
-    String localVarPath = "{{path}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+    String localVarPath = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

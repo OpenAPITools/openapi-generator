@@ -56,7 +56,7 @@ group_paths() ->
 get_operations() ->
     #{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
         '{{operationId}}' => #{
-            path => "{{basePathWithoutHost}}{{path}}",
+            path => "{{{basePathWithoutHost}}}{{{path}}}",
             method => <<"{{httpMethod}}">>,
             handler => '{{classname}}'
         }{{#hasMore}},{{/hasMore}}{{/operation}}{{#hasMore}},{{/hasMore}}{{/operations}}{{/apis}}{{/apiInfo}}

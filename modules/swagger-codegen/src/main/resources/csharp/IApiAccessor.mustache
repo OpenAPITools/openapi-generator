@@ -4,14 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+{{#netStandard}}
+using RestSharp.Portable;
+{{/netStandard}}
+{{^netStandard}}
 using RestSharp;
+{{/netStandard}}
 
 namespace {{packageName}}.Client
 {
     /// <summary>
     /// Represents configuration aspects required to interact with the API endpoints.
     /// </summary>
-    public interface IApiAccessor
+    {{>visibility}} interface IApiAccessor
     {
         /// <summary>
         /// Gets or sets the configuration object

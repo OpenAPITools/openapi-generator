@@ -132,7 +132,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
-        if(languageSpecificPrimitives.contains(swaggerType)) {
+        if(isLanguagePrimitive(swaggerType) || isLanguageGenericType(swaggerType)) {
             return swaggerType;
         }
         return addModelPrefix(swaggerType);
@@ -146,15 +146,19 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             type = swaggerType;
         }
 
-        if (!startsWithLanguageSpecificPrimitiv(type)) {
+        if (!isLanguagePrimitive(type) && !isLanguageGenericType(type)) {
             type = "models." + swaggerType;
         }
         return type;
     }
 
-    private boolean startsWithLanguageSpecificPrimitiv(String type) {
-        for (String langPrimitive:languageSpecificPrimitives) {
-            if (type.startsWith(langPrimitive))  {
+    private boolean isLanguagePrimitive(String type) {
+        return languageSpecificPrimitives.contains(type);
+    }
+
+    private boolean isLanguageGenericType(String type) {
+        for (String genericType: languageGenericTypes) {
+            if (type.startsWith(genericType + "<"))  {
                 return true;
             }
         }

@@ -1,6 +1,7 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
+import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
@@ -8,27 +9,34 @@ import io.swagger.models.Swagger;
 import java.io.File;
 import java.util.*;
 
-public class SpringCodegen extends AbstractJavaCodegen {
+public class SpringCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String DEFAULT_LIBRARY = "spring-boot";
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
     public static final String RESPONSE_WRAPPER = "responseWrapper";
+    public static final String USE_TAGS = "useTags";
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
+    public static final String IMPLICIT_HEADERS = "implicitHeaders";
 
     protected String title = "swagger-petstore";
     protected String configPackage = "io.swagger.configuration";
     protected String basePackage = "io.swagger";
     protected boolean interfaceOnly = false;
+    protected boolean delegatePattern = false;
     protected boolean singleContentTypes = false;
     protected boolean java8 = false;
     protected boolean async = false;
     protected String responseWrapper = "";
+    protected boolean useTags = false;
+    protected boolean useBeanValidation = true;
+    protected boolean implicitHeaders = false;
 
     public SpringCodegen() {
         super();
@@ -50,10 +58,14 @@ public class SpringCodegen extends AbstractJavaCodegen {
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
+        cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern"));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation."));
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface"));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers"));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
+        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+        cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers."));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -108,6 +120,10 @@ public class SpringCodegen extends AbstractJavaCodegen {
             this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
 
+        if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
+            this.setDelegatePattern(Boolean.valueOf(additionalProperties.get(DELEGATE_PATTERN).toString()));
+        }
+
         if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
             this.setSingleContentTypes(Boolean.valueOf(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
         }
@@ -124,8 +140,30 @@ public class SpringCodegen extends AbstractJavaCodegen {
             this.setResponseWrapper((String) additionalProperties.get(RESPONSE_WRAPPER));
         }
 
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            this.setUseTags(Boolean.valueOf(additionalProperties.get(USE_TAGS).toString()));
+        }
+        
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (useBeanValidation) {
+            writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        }
+
+
+        if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
+            this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
+        }
+
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        if (this.interfaceOnly && this.delegatePattern) {
+            throw new IllegalArgumentException(
+                    String.format("Can not generate code with `%s` and `%s` both true.", DELEGATE_PATTERN, INTERFACE_ONLY));
+        }
 
         if (!this.interfaceOnly) {
             if (library.equals(DEFAULT_LIBRARY)) {
@@ -177,6 +215,16 @@ public class SpringCodegen extends AbstractJavaCodegen {
             }
         }
 
+        if (!this.delegatePattern && this.java8) {
+            additionalProperties.put("jdk8-no-delegate", true);
+        }
+
+
+        if (this.delegatePattern) {
+            additionalProperties.put("isDelegate", "true");
+            apiTemplateFiles.put("apiDelegate.mustache", "Delegate.java");
+        }
+
         if (this.java8) {
             additionalProperties.put("javaVersion", "1.8");
             additionalProperties.put("jdk8", "true");
@@ -221,7 +269,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if(library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_MVC_LIBRARY)) {
+        if((library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -348,10 +396,34 @@ public class SpringCodegen extends AbstractJavaCodegen {
                         operation.returnContainer = "Set";
                     }
                 }
+
+                if(implicitHeaders){
+                    removeHeadersFromAllParams(operation.allParams);
+                }
             }
         }
 
         return objs;
+    }
+
+    /**
+     * This method removes header parameters from the list of parameters and also
+     * corrects last allParams hasMore state.
+     * @param allParams list of all parameters
+     */
+    private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
+        if(allParams.isEmpty()){
+            return;
+        }
+        final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
+        allParams.clear();
+
+        for(CodegenParameter p : copy){
+            if(!p.isHeaderParam){
+                allParams.add(p);
+            }
+        }
+        allParams.get(allParams.size()-1).hasMore =false;
     }
 
     @Override
@@ -390,6 +462,8 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
     public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
 
+    public void setDelegatePattern(boolean delegatePattern) { this.delegatePattern = delegatePattern; }
+
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;
     }
@@ -399,6 +473,14 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public void setAsync(boolean async) { this.async = async; }
 
     public void setResponseWrapper(String responseWrapper) { this.responseWrapper = responseWrapper; }
+
+    public void setUseTags(boolean useTags) {
+        this.useTags = useTags;
+    }
+
+    public void setImplicitHeaders(boolean implicitHeaders) {
+        this.implicitHeaders = implicitHeaders;
+    }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
@@ -443,6 +525,10 @@ public class SpringCodegen extends AbstractJavaCodegen {
         }
 
         return objs;
+    }
+    
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
     }
 
 }

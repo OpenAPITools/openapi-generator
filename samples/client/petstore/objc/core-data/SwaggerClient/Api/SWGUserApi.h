@@ -21,7 +21,7 @@
 extern NSString* kSWGUserApiErrorDomain;
 extern NSInteger kSWGUserApiMissingParamErrorCode;
 
-+(instancetype) sharedAPI;
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient NS_DESIGNATED_INITIALIZER;
 
 /// Create user
 /// This can only be done by the logged in user.
@@ -31,7 +31,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:0 message:"successful operation"
 ///
 /// @return 
--(NSNumber*) createUserWithBody: (SWGUser*) body
+-(NSURLSessionTask*) createUserWithBody: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -43,7 +43,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:0 message:"successful operation"
 ///
 /// @return 
--(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -55,7 +55,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:0 message:"successful operation"
 ///
 /// @return 
--(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -68,7 +68,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:404 message:"User not found"
 ///
 /// @return 
--(NSNumber*) deleteUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) deleteUserWithUsername: (NSString*) username
     completionHandler: (void (^)(NSError* error)) handler;
 
 
@@ -82,7 +82,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:404 message:"User not found"
 ///
 /// @return SWGUser*
--(NSNumber*) getUserByNameWithUsername: (NSString*) username
+-(NSURLSessionTask*) getUserByNameWithUsername: (NSString*) username
     completionHandler: (void (^)(SWGUser* output, NSError* error)) handler;
 
 
@@ -96,7 +96,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:400 message:"Invalid username/password supplied"
 ///
 /// @return NSString*
--(NSNumber*) loginUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) loginUserWithUsername: (NSString*) username
     password: (NSString*) password
     completionHandler: (void (^)(NSString* output, NSError* error)) handler;
 
@@ -108,7 +108,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:0 message:"successful operation"
 ///
 /// @return 
--(NSNumber*) logoutUserWithCompletionHandler: 
+-(NSURLSessionTask*) logoutUserWithCompletionHandler: 
     (void (^)(NSError* error)) handler;
 
 
@@ -122,7 +122,7 @@ extern NSInteger kSWGUserApiMissingParamErrorCode;
 ///  code:404 message:"User not found"
 ///
 /// @return 
--(NSNumber*) updateUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
     body: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler;
 

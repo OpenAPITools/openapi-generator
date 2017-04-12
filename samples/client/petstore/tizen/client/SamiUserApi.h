@@ -5,8 +5,8 @@
 #include "SamiApiClient.h"
 #include "SamiError.h"
 
-#include "SamiUser.h"
 using Tizen::Base::Collection::IList;
+#include "SamiUser.h"
 using Tizen::Base::String;
 
 using namespace Tizen::Net::Http;

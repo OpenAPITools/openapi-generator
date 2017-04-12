@@ -5,7 +5,7 @@
     {{#generatePropertyChanged}}
     [ImplementPropertyChanged]
     {{/generatePropertyChanged}}
-    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>, IValidatableObject
+    {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>{{^netStandard}}, IValidatableObject{{/netStandard}}
     {
         {{#vars}}
         {{#isEnum}}
@@ -47,7 +47,7 @@
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} = null{{^-last}}, {{/-last}}{{/readWriteVars}})
+        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}})
         {
             {{#vars}}
             {{^isReadOnly}}
@@ -172,10 +172,18 @@ this.{{name}} = {{name}};
                 return hash;
             }
         }
+{{^netStandard}}
 
 {{#generatePropertyChanged}}
+        /// <summary>
+        /// Property changed event handler
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Trigger when a property changed
+        /// </summary>
+        /// <param name="propertyName">Property Name</param>
         public virtual void OnPropertyChanged(string propertyName)
         {
             // NOTE: property changed is handled via "code weaving" using Fody.
@@ -188,39 +196,45 @@ this.{{name}} = {{name}};
         }
 
 {{/generatePropertyChanged}}
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         { {{#vars}}{{#hasValidation}}{{#maxLength}}
             // {{{name}}} ({{{datatype}}}) maxLength
             if(this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
             }
 {{/maxLength}}{{#minLength}}
             // {{{name}}} ({{{datatype}}}) minLength
             if(this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
             }
 {{/minLength}}{{#maximum}}
             // {{{name}}} ({{{datatype}}}) maximum
             if(this.{{{name}}} > ({{{datatype}}}){{maximum}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
             }
 {{/maximum}}{{#minimum}}
             // {{{name}}} ({{{datatype}}}) minimum
             if(this.{{{name}}} < ({{{datatype}}}){{minimum}})
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
             }
 {{/minimum}}{{#pattern}}
             // {{{name}}} ({{{datatype}}}) pattern
             Regex regex{{{name}}} = new Regex(@"{{vendorExtensions.x-regex}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
             if (false == regex{{{name}}}.Match(this.{{{name}}}).Success)
             {
-                yield return new ValidationResult("Invalid value for {{{name}}}, must match a pattern of {{pattern}}.", new [] { "{{{name}}}" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of {{pattern}}.", new [] { "{{{name}}}" });
             }
 {{/pattern}}{{/hasValidation}}{{/vars}}
             yield break;
         }
+{{/netStandard}}
     }

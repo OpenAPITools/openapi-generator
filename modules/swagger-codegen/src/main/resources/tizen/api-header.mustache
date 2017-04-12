@@ -23,7 +23,7 @@ public:
   {{nickname}}WithCompletion({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}},{{/hasParams}} {{#returnType}}void (* handler)({{returnType}}, {{prefix}}Error*){{/returnType}}{{^returnType}}void(* handler)({{prefix}}Error*){{/returnType}});
   {{/operation}}
   static String getBasePath() {
-    return L"{{basePath}}";
+    return L"{{{basePath}}}";
   }
 
 private:

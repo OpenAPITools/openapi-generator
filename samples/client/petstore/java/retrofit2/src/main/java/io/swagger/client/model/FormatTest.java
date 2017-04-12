@@ -18,6 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.UUID;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -60,7 +61,7 @@ public class FormatTest {
   private DateTime dateTime = null;
 
   @SerializedName("uuid")
-  private String uuid = null;
+  private UUID uuid = null;
 
   @SerializedName("password")
   private String password = null;
@@ -72,11 +73,11 @@ public class FormatTest {
 
    /**
    * Get integer
-   * minimum: 10.0
-   * maximum: 100.0
+   * minimum: 10
+   * maximum: 100
    * @return integer
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getInteger() {
     return integer;
   }
@@ -92,11 +93,11 @@ public class FormatTest {
 
    /**
    * Get int32
-   * minimum: 20.0
-   * maximum: 200.0
+   * minimum: 20
+   * maximum: 200
    * @return int32
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getInt32() {
     return int32;
   }
@@ -114,7 +115,7 @@ public class FormatTest {
    * Get int64
    * @return int64
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Long getInt64() {
     return int64;
   }
@@ -134,7 +135,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public BigDecimal getNumber() {
     return number;
   }
@@ -154,7 +155,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Float getFloat() {
     return _float;
   }
@@ -174,7 +175,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Double getDouble() {
     return _double;
   }
@@ -192,7 +193,7 @@ public class FormatTest {
    * Get string
    * @return string
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getString() {
     return string;
   }
@@ -210,7 +211,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public byte[] getByte() {
     return _byte;
   }
@@ -228,7 +229,7 @@ public class FormatTest {
    * Get binary
    * @return binary
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public byte[] getBinary() {
     return binary;
   }
@@ -246,7 +247,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public LocalDate getDate() {
     return date;
   }
@@ -264,7 +265,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public DateTime getDateTime() {
     return dateTime;
   }
@@ -273,7 +274,7 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-  public FormatTest uuid(String uuid) {
+  public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
   }
@@ -282,12 +283,12 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getUuid() {
+  @ApiModelProperty(value = "")
+  public UUID getUuid() {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -300,7 +301,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getPassword() {
     return password;
   }

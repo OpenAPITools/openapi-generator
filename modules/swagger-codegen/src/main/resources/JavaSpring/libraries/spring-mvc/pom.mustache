@@ -131,6 +131,15 @@
             <artifactId>servlet-api</artifactId>
             <version>${servlet-api-version}</version>
         </dependency>
+{{#useBeanValidation}}
+    <!-- Bean Validation API support -->
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+        <scope>provided</scope>
+    </dependency>
+{{/useBeanValidation}}        
     </dependencies>
     <properties>
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>

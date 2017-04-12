@@ -17,12 +17,12 @@ class Tag(Model):
         Tag - a model defined in Swagger
 
         :param id: The id of this Tag.
-        :type id: int
+        :type id: long
         :param name: The name of this Tag.
         :type name: str
         """
         self.swagger_types = {
-            'id': int,
+            'id': long,
             'name': str
         }
 
@@ -52,7 +52,7 @@ class Tag(Model):
         Gets the id of this Tag.
 
         :return: The id of this Tag.
-        :rtype: int
+        :rtype: long
         """
         return self._id
 
@@ -62,7 +62,7 @@ class Tag(Model):
         Sets the id of this Tag.
 
         :param id: The id of this Tag.
-        :type id: int
+        :type id: long
         """
 
         self._id = id

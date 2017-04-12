@@ -24,9 +24,15 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSServerCodegen.class);
 
+    public static final String GOOGLE_CLOUD_FUNCTIONS = "googleCloudFunctions";
+    public static final String EXPORTED_NAME = "exportedName";
+
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
+
+    protected boolean googleCloudFunctions;
+    protected String exportedName;
 
     public NodeJSServerCodegen() {
         super();
@@ -76,27 +82,15 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("serverPort", serverPort);
 
-        /*
-         * Supporting Files.  You can write single files for the generator with the
-         * entire object tree available.  If the input file has a suffix of `.mustache
-         * it will be processed by the template engine.  Otherwise, it will be copied
-         */
-        // supportingFiles.add(new SupportingFile("controller.mustache",
-        //   "controllers",
-        //   "controller.js")
-        // );
-        supportingFiles.add(new SupportingFile("swagger.mustache",
-                        "api",
-                        "swagger.yaml")
-        );
-        writeOptional(outputFolder, new SupportingFile("index.mustache", "", "index.js"));
-        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        if (System.getProperty("noservice") == null) {
-            apiTemplateFiles.put(
-                    "service.mustache",   // the template to use
-                    "Service.js");       // the extension for each file to write
-        }
+        cliOptions.add(CliOption.newBoolean(GOOGLE_CLOUD_FUNCTIONS,
+            "When specified, it will generate the code which runs within Google Cloud Functions "
+                + "instead of standalone Node.JS server. See "
+                + "https://cloud.google.com/functions/docs/quickstart for the details of how to "
+                + "deploy the generated code."));
+        cliOptions.add(new CliOption(EXPORTED_NAME,
+            "When the generated code will be deployed to Google Cloud Functions, this option can be "
+                + "used to update the name of the exported function. By default, it refers to the "
+                + "basePath. This does not affect normal standalone nodejs server code."));
     }
 
     @Override
@@ -153,13 +147,16 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reseved words
+     * those terms here.  This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
     @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name;  // add an underscore to the name
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
     }
 
     /**
@@ -169,6 +166,22 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+    }
+
+    public boolean getGoogleCloudFunctions() {
+        return googleCloudFunctions;
+    }
+
+    public void setGoogleCloudFunctions(boolean value) {
+        googleCloudFunctions = value;
+    }
+
+    public String getExportedName() {
+        return exportedName;
+    }
+
+    public void setExportedName(String name) {
+        exportedName = name;
     }
 
     @Override
@@ -231,13 +244,53 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
             List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
-            operationsForThisPath.get(operationsForThisPath.size() - 1).hasMore = null;
+            operationsForThisPath.get(operationsForThisPath.size() - 1).hasMore = false;
             if (opsByPathList.size() < opsByPath.asMap().size()) {
                 opsByPathEntry.put("hasMore", "true");
             }
         }
 
         return opsByPathList;
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(GOOGLE_CLOUD_FUNCTIONS)) {
+            setGoogleCloudFunctions(
+                Boolean.valueOf(additionalProperties.get(GOOGLE_CLOUD_FUNCTIONS).toString()));
+        }
+
+        if (additionalProperties.containsKey(EXPORTED_NAME)) {
+            setExportedName((String)additionalProperties.get(EXPORTED_NAME));
+        }
+
+        /*
+         * Supporting Files.  You can write single files for the generator with the
+         * entire object tree available.  If the input file has a suffix of `.mustache
+         * it will be processed by the template engine.  Otherwise, it will be copied
+         */
+        // supportingFiles.add(new SupportingFile("controller.mustache",
+        //   "controllers",
+        //   "controller.js")
+        // );
+        supportingFiles.add(new SupportingFile("swagger.mustache",
+                        "api",
+                        "swagger.yaml")
+        );
+        if (getGoogleCloudFunctions()) {
+            writeOptional(outputFolder, new SupportingFile("index-gcf.mustache", "", "index.js"));
+        } else {
+            writeOptional(outputFolder, new SupportingFile("index.mustache", "", "index.js"));
+        }
+        writeOptional(outputFolder, new SupportingFile("package.mustache", "", "package.json"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        if (System.getProperty("noservice") == null) {
+            apiTemplateFiles.put(
+                    "service.mustache",   // the template to use
+                    "Service.js");       // the extension for each file to write
+        }
     }
 
     @Override
@@ -257,9 +310,30 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
             if (info.getTitle() != null) {
                 // when info.title is defined, use it for projectName
                 // used in package.json
-                projectName = dashize(info.getTitle());
+                projectName = info.getTitle()
+                        .replaceAll("[^a-zA-Z0-9]", "-")
+                        .replaceAll("^[-]*", "")
+                        .replaceAll("[-]*$", "")
+                        .replaceAll("[-]{2,}", "-")
+                        .toLowerCase();
                 this.additionalProperties.put("projectName", projectName);
             }
+        }
+
+        if (getGoogleCloudFunctions()) {
+            // Note that Cloud Functions don't allow customizing port name, simply checking host
+            // is good enough.
+            if (!host.endsWith(".cloudfunctions.net")) {
+                LOGGER.warn("Host " + host + " seems not matching with cloudfunctions.net URL.");
+            }
+           if (!additionalProperties.containsKey(EXPORTED_NAME)) {
+                String basePath = swagger.getBasePath();
+                if (basePath == null || basePath.equals("/")) {
+                    LOGGER.warn("Cannot find the exported name properly. Using 'openapi' as the exported name");
+                    basePath = "/openapi";
+                }
+                additionalProperties.put(EXPORTED_NAME, basePath.substring(1));
+           }
         }
 
         // need vendor extensions for x-swagger-router-controller

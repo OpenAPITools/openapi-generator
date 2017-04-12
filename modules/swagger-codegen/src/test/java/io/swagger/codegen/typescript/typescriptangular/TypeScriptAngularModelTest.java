@@ -63,8 +63,8 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property3.datatype, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -98,8 +98,8 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property2.datatype, "Array<string>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "Array");
-        Assert.assertNull(property2.hasMore);
-        Assert.assertNull(property2.required);
+        Assert.assertFalse(property2.hasMore);
+        Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isContainer);
     }
 
@@ -118,11 +118,11 @@ public class TypeScriptAngularModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "Children");
+        Assert.assertEquals(property1.datatype, "models.Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "null");
-        Assert.assertEquals(property1.baseType, "Children");
-        Assert.assertNull(property1.required);
+        Assert.assertEquals(property1.baseType, "models.Children");
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
 
@@ -142,11 +142,11 @@ public class TypeScriptAngularModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.datatype, "Array<Children>");
+        Assert.assertEquals(property1.complexType, "models.Children");
+        Assert.assertEquals(property1.datatype, "Array<models.Children>");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 
@@ -177,6 +177,6 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("models.Children")).size(), 1);
     }
 }

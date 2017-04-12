@@ -63,13 +63,13 @@
       var postBody = null;
 
       // verify the required parameter 'orderId' is set
-      if (orderId == undefined || orderId == null) {
+      if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling deleteOrder");
       }
 
 
       var pathParams = {
-        'orderId': orderId
+        'order_id': orderId
       };
       var queryParams = {
       };
@@ -84,7 +84,7 @@
       var returnType = null;
 
       return this.apiClient.callApi(
-        '/store/order/{orderId}', 'DELETE',
+        '/store/order/{order_id}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -148,13 +148,13 @@
       var postBody = null;
 
       // verify the required parameter 'orderId' is set
-      if (orderId == undefined || orderId == null) {
+      if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling getOrderById");
       }
 
 
       var pathParams = {
-        'orderId': orderId
+        'order_id': orderId
       };
       var queryParams = {
       };
@@ -169,7 +169,7 @@
       var returnType = Order;
 
       return this.apiClient.callApi(
-        '/store/order/{orderId}', 'GET',
+        '/store/order/{order_id}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
@@ -194,7 +194,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
 

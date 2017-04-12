@@ -119,7 +119,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 
@@ -390,7 +393,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
-        LOGGER.info("CodegenConstants.SERIALIZABLE_MODEL = " + additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL));
 
         //make api and model doc path available in mustache template
         additionalProperties.put( "apiDocPath", apiDocPath );

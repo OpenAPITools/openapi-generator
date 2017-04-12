@@ -11,8 +11,9 @@
 {{#version}}OpenAPI spec version: {{version}}{{/version}}
 {{#infoEmail}}Contact: {{{infoEmail}}}{{/infoEmail}}
 -->
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="{{^netStandard}}12.0{{/netStandard}}{{#netStandard}}14.0{{/netStandard}}" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    {{#netStandard}}<MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>{{/netStandard}}
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{{packageGuid}}</ProjectGuid>
@@ -20,6 +21,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>{{packageName}}</RootNamespace>
     <AssemblyName>{{packageName}}</AssemblyName>
+    {{#netStandard}}
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkVersion>{{targetFramework}}</TargetFrameworkVersion>
+    {{/netStandard}}
+    {{^netStandard}}
     {{^supportsUWP}}
     <TargetFrameworkVersion>{{targetFramework}}</TargetFrameworkVersion>
     {{/supportsUWP}}
@@ -29,6 +35,7 @@
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     {{/supportsUWP}}
+    {{/netStandard}}
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +56,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    {{^netStandard}}
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,10 +81,16 @@
     {{#generatePropertyChanged}}<Reference Include="PropertyChanged">
       <HintPath>..\..\packages\PropertyChanged.Fody.1.51.3\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
     </Reference>{{/generatePropertyChanged}}
+    {{/netStandard}}
+    {{#netStandard}}
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="project.json" />
+    {{/netStandard}}
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs"/>
   </ItemGroup>
+  {{^netStandard}}
   <ItemGroup>
       <None Include="packages.config" />
       {{#generatePropertyChanged}}<None Include="FodyWeavers.xml" />{{/generatePropertyChanged}}
@@ -84,5 +98,10 @@
   <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />{{#generatePropertyChanged}}
   <Import Project="..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   {{/generatePropertyChanged}}
+  {{/netStandard}}
+  {{#netStandard}}
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  {{/netStandard}}
 </Project>
 

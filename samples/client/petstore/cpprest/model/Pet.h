@@ -12,7 +12,7 @@
 
 /*
  * Pet.h
- * 
+ *
  * A pet for sale in the pet store
  */
 
@@ -22,10 +22,10 @@
 
 #include "ModelBase.h"
 
-#include "Category.h"
-#include <cpprest/details/basic_types.h>
-#include <vector>
 #include "Tag.h"
+#include <cpprest/details/basic_types.h>
+#include "Category.h"
+#include <vector>
 
 namespace io {
 namespace swagger {
@@ -36,15 +36,15 @@ namespace model {
 /// A pet for sale in the pet store
 /// </summary>
 class  Pet
-	: public ModelBase
+    : public ModelBase
 {
 public:
     Pet();
     virtual ~Pet();
 
-	/////////////////////////////////////////////
-	/// ModelBase overrides
-	
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
     void validate() override;
 
     web::json::value toJson() const override;
@@ -52,10 +52,10 @@ public:
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
-    
- 	/////////////////////////////////////////////
-	/// Pet members
-	   
+
+    /////////////////////////////////////////////
+    /// Pet members
+
     /// <summary>
     /// 
     /// </summary>
@@ -92,7 +92,7 @@ public:
     void setStatus(utility::string_t value);
     bool statusIsSet() const;
     void unsetStatus();
-    
+
 protected:
     int64_t m_Id;
     bool m_IdIsSet;

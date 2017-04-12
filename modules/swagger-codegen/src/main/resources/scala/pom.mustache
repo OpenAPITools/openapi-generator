@@ -103,10 +103,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.6.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.7</source>
+          <target>1.7</target>
         </configuration>
       </plugin>
       <plugin>
@@ -154,6 +154,11 @@
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-scala_2.10</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-joda</artifactId>
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
@@ -210,7 +215,7 @@
     <joda-version>1.2</joda-version>
     <joda-time-version>2.2</joda-time-version>
     <jersey-version>1.19</jersey-version>
-    <swagger-core-version>1.5.9</swagger-core-version>
+    <swagger-core-version>1.5.12</swagger-core-version>
     <jersey-async-version>1.0.5</jersey-async-version>
     <maven-plugin.version>1.0.0</maven-plugin.version>
     <jackson-version>2.4.2</jackson-version>

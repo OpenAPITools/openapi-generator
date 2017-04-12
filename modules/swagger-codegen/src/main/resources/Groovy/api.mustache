@@ -13,13 +13,13 @@ import java.util.*;
 @Mixin(ApiUtils)
 {{#operations}}
 class {{classname}} {
-    String basePath = "{{basePath}}"
+    String basePath = "{{{basePath}}}"
     String versionPath = "/api/v1"
 
     {{#operation}}
     def {{operationId}} ({{#allParams}} {{{dataType}}} {{paramName}},{{/allParams}} Closure onSuccess, Closure onFailure)  {
-        // create path and map variables
-        String resourcePath = "{{path}}"
+        // create path and map path parameters (TODO)
+        String resourcePath = "{{{path}}}"
 
         // query params
         def queryParams = [:]
@@ -35,12 +35,14 @@ class {{classname}} {
         {{/allParams}}
 
         {{#queryParams}}if (!"null".equals(String.valueOf({{paramName}})))
-            queryParams.put("{{paramName}}", String.valueOf({{paramName}}))
+            queryParams.put("{{baseName}}", String.valueOf({{paramName}}))
         {{/queryParams}}
 
         {{#headerParams}}
-        headerParams.put("{{paramName}}", {{paramName}})
+        headerParams.put("{{baseName}}", {{paramName}})
         {{/headerParams}}
+
+        // Also still TODO: form params, body param
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "{{httpMethod}}", "{{returnContainer}}",

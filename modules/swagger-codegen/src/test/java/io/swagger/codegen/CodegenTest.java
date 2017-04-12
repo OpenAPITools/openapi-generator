@@ -24,6 +24,20 @@ public class CodegenTest {
         Assert.assertEquals(codegen.sanitizeTag("1foo"), "_1foo");
     }
 
+    @Test(description = "test camelize")
+    public void camelizeNamesTest() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Assert.assertEquals(codegen.camelize("foo"), "Foo");
+        Assert.assertEquals(codegen.camelize(".foo"), "Foo");
+        Assert.assertEquals(codegen.camelize(".foo.bar"), "FooBar");
+        Assert.assertEquals(codegen.camelize("foo$bar"), "Foo$bar");
+        Assert.assertEquals(codegen.camelize("foo_bar"), "FooBar");
+        Assert.assertEquals(codegen.camelize("foo_bar_baz"), "FooBarBaz");
+        Assert.assertEquals(codegen.camelize("foo/bar.baz"), "FooBarBaz");
+        Assert.assertEquals(codegen.camelize("/foo/bar/baz.qux/corge"), "FooBarBazQuxCorge");
+    }
+
     @Test(description = "read a file upload param from a 2.0 spec")
     public void fileUploadParamTest() {
         final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");
@@ -43,10 +57,10 @@ public class CodegenTest {
 
         final CodegenParameter file = op.formParams.get(1);
         Assert.assertTrue(file.isFormParam);
-        Assert.assertEquals(file.dataType, "file");
-        Assert.assertNull(file.required);
+        Assert.assertEquals(file.dataType, "File");
+        Assert.assertFalse(file.required);
         Assert.assertTrue(file.isFile);
-        Assert.assertNull(file.hasMore);
+        Assert.assertFalse(file.hasMore);
     }
 
     @Test(description = "read formParam values from a 2.0 spec")
@@ -73,7 +87,7 @@ public class CodegenTest {
         Assert.assertTrue(idParam.isPathParam);
         Assert.assertEquals(idParam.dataType, "String");
         Assert.assertTrue(idParam.required);
-        Assert.assertNull(idParam.hasMore);
+        Assert.assertFalse(idParam.hasMore);
 
         Assert.assertEquals(op.allParams.size(), 3);
         Assert.assertEquals(op.formParams.size(), 2);
@@ -82,15 +96,15 @@ public class CodegenTest {
         Assert.assertTrue(nameParam.isFormParam);
         Assert.assertTrue(nameParam.notFile);
         Assert.assertEquals(nameParam.dataType, "String");
-        Assert.assertNull(nameParam.required);
+        Assert.assertFalse(nameParam.required);
         Assert.assertTrue(nameParam.hasMore);
 
         final CodegenParameter statusParam = op.formParams.get(1);
         Assert.assertTrue(statusParam.isFormParam);
         Assert.assertTrue(statusParam.notFile);
         Assert.assertEquals(statusParam.dataType, "String");
-        Assert.assertNull(statusParam.required);
-        Assert.assertNull(statusParam.hasMore);
+        Assert.assertFalse(statusParam.required);
+        Assert.assertFalse(statusParam.hasMore);
     }
 
     @Test(description = "handle enum array in query parameter test")
@@ -186,6 +200,19 @@ public class CodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "byte[]");
         Assert.assertTrue(op.bodyParam.isBinary);
         Assert.assertTrue(op.responses.get(0).isBinary);
+    }
+
+    @Test(description = "return file when response format is file")
+    public void fileResponeseTest() {
+        final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/fileResponseTest.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/tests/fileResponse";
+        final Operation p = model.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions());
+
+        Assert.assertEquals(op.returnType, "File");
+        Assert.assertTrue(op.responses.get(0).isFile);
+        Assert.assertTrue(op.isResponseFile);
     }
     
     @Test(description = "discriminator is present")

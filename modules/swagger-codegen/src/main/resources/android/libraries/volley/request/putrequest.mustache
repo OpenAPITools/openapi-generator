@@ -19,75 +19,75 @@ import java.util.Map;
 
 public class PutRequest extends Request<String> {
 
-    HttpEntity entity;
+  HttpEntity entity;
 
-    private final Response.Listener<String> mListener;
+  private final Response.Listener<String> mListener;
 
-    String contentType;
-    Map<String, String> apiHeaders;
-    public PutRequest(String url, Map<String, String> apiHeaders, String contentType, HttpEntity entity, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        super(Method.PUT, url, errorListener);
-        mListener = listener;
-        this.entity = entity;
-        this.contentType = contentType;
-        this.apiHeaders = apiHeaders;
+  String contentType;
+  Map<String, String> apiHeaders;
+  public PutRequest(String url, Map<String, String> apiHeaders, String contentType, HttpEntity entity, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    super(Method.PUT, url, errorListener);
+    mListener = listener;
+    this.entity = entity;
+    this.contentType = contentType;
+    this.apiHeaders = apiHeaders;
+  }
+
+  @Override
+  public String getBodyContentType() {
+    if(entity == null) {
+      return null;
+    }
+    return entity.getContentType().getValue();
+  }
+
+  @Override
+  public byte[] getBody() throws AuthFailureError {
+    if(entity == null) {
+      return null;
+    }
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    try {
+      entity.writeTo(bos);
+    }
+    catch (IOException e) {
+      VolleyLog.e("IOException writing to ByteArrayOutputStream");
+    }
+    return bos.toByteArray();
+  }
+
+  @Override
+  protected Response<String> parseNetworkResponse(NetworkResponse response) {
+    String parsed;
+    try {
+      parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+    } catch (UnsupportedEncodingException e) {
+      parsed = new String(response.data);
+    }
+    return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+  }
+
+  @Override
+  protected void deliverResponse(String response) {
+    mListener.onResponse(response);
+  }
+
+  /* (non-Javadoc)
+   * @see com.android.volley.Request#getHeaders()
+   */
+  @Override
+  public Map<String, String> getHeaders() throws AuthFailureError {
+    Map<String, String> headers = super.getHeaders();
+    if (headers == null || headers.equals(Collections.emptyMap())) {
+      headers = new HashMap<String, String>();
+    }
+    if (apiHeaders != null && !apiHeaders.equals(Collections.emptyMap())) {
+      headers.putAll(apiHeaders);
+    }
+    if(contentType != null) {
+      headers.put("Content-Type", contentType);
     }
 
-    @Override
-    public String getBodyContentType() {
-        if(entity == null) {
-            return null;
-        }
-        return entity.getContentType().getValue();
-    }
-
-    @Override
-    public byte[] getBody() throws AuthFailureError {
-        if(entity == null) {
-            return null;
-        }
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            entity.writeTo(bos);
-        }
-        catch (IOException e) {
-            VolleyLog.e("IOException writing to ByteArrayOutputStream");
-        }
-        return bos.toByteArray();
-    }
-
-    @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-      String parsed;
-        try {
-          parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-        } catch (UnsupportedEncodingException e) {
-          parsed = new String(response.data);
-        }
-      return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
-    }
-
-    @Override
-    protected void deliverResponse(String response) {
-        mListener.onResponse(response);
-    }
-
-    /* (non-Javadoc)
-     * @see com.android.volley.Request#getHeaders()
-     */
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = super.getHeaders();
-        if (headers == null || headers.equals(Collections.emptyMap())) {
-            headers = new HashMap<String, String>();
-        }
-        if (apiHeaders != null && !apiHeaders.equals(Collections.emptyMap())) {
-            headers.putAll(apiHeaders);
-        }
-        if(contentType != null) {
-            headers.put("Content-Type", contentType);
-        }
-
-        return headers;
-    }
+    return headers;
+  }
 }

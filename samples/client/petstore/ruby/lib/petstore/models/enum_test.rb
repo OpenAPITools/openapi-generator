@@ -20,6 +20,8 @@ module Petstore
 
     attr_accessor :enum_number
 
+    attr_accessor :outer_enum
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -47,7 +49,8 @@ module Petstore
       {
         :'enum_string' => :'enum_string',
         :'enum_integer' => :'enum_integer',
-        :'enum_number' => :'enum_number'
+        :'enum_number' => :'enum_number',
+        :'outer_enum' => :'outerEnum'
       }
     end
 
@@ -56,7 +59,8 @@ module Petstore
       {
         :'enum_string' => :'String',
         :'enum_integer' => :'Integer',
-        :'enum_number' => :'Float'
+        :'enum_number' => :'Float',
+        :'outer_enum' => :'OuterEnum'
       }
     end
 
@@ -80,6 +84,10 @@ module Petstore
         self.enum_number = attributes[:'enum_number']
       end
 
+      if attributes.has_key?(:'outerEnum')
+        self.outer_enum = attributes[:'outerEnum']
+      end
+
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -92,7 +100,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      enum_string_validator = EnumAttributeValidator.new('String', ["UPPER", "lower"])
+      enum_string_validator = EnumAttributeValidator.new('String', ["UPPER", "lower", ""])
       return false unless enum_string_validator.valid?(@enum_string)
       enum_integer_validator = EnumAttributeValidator.new('Integer', ["1", "-1"])
       return false unless enum_integer_validator.valid?(@enum_integer)
@@ -104,7 +112,7 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] enum_string Object to be assigned
     def enum_string=(enum_string)
-      validator = EnumAttributeValidator.new('String', ["UPPER", "lower"])
+      validator = EnumAttributeValidator.new('String', ["UPPER", "lower", ""])
       unless validator.valid?(enum_string)
         fail ArgumentError, "invalid value for 'enum_string', must be one of #{validator.allowable_values}."
       end
@@ -138,7 +146,8 @@ module Petstore
       self.class == o.class &&
           enum_string == o.enum_string &&
           enum_integer == o.enum_integer &&
-          enum_number == o.enum_number
+          enum_number == o.enum_number &&
+          outer_enum == o.outer_enum
     end
 
     # @see the `==` method
@@ -150,7 +159,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [enum_string, enum_integer, enum_number].hash
+      [enum_string, enum_integer, enum_number, outer_enum].hash
     end
 
     # Builds the object from hash

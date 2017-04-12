@@ -47,7 +47,7 @@ Import the following:
 
 ```objc
 #import <{{podName}}/{{{classPrefix}}}ApiClient.h>
-#import <{{podName}}/{{{classPrefix}}}Configuration.h>
+#import <{{podName}}/{{{classPrefix}}}DefaultConfiguration.h>
 // load models
 {{#models}}{{#model}}#import <{{podName}}/{{{classname}}}.h>
 {{/model}}{{/models}}// load API classes for accessing endpoints
@@ -66,7 +66,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```objc
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 {{#hasAuthMethods}}
-{{classPrefix}}Configuration *apiConfig = [{{classPrefix}}Configuration sharedConfig];
+{{classPrefix}}DefaultConfiguration *apiConfig = [{{classPrefix}}DefaultConfiguration sharedConfig];
 {{#authMethods}}{{#isBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
 [apiConfig setUsername:@"YOUR_USERNAME"];
 [apiConfig setPassword:@"YOUR_PASSWORD"];

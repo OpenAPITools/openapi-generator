@@ -1,7 +1,7 @@
 /*
  * SamiOrder.h
  * 
- * 
+ * An order for a pets from the pet store
  */
 
 #ifndef SamiOrder_H_

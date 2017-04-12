@@ -11,7 +11,7 @@ import io.swagger.model.Animal;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
+
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed = null;
@@ -24,7 +24,7 @@ public class Cat extends Animal  {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
@@ -35,7 +35,7 @@ public class Cat extends Animal  {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -65,7 +65,7 @@ public class Cat extends Animal  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

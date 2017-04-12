@@ -1,8 +1,8 @@
 resolver: lts-5.11
 extra-deps:
-- servant-0.6
-- servant-client-0.6
-- servant-server-0.6
-- http-api-data-0.2.2
+- servant-0.8.1
+- servant-client-0.8.1
+- servant-server-0.8.1
+- http-api-data-0.2.4
 packages:
 - '.'

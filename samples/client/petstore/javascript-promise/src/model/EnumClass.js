@@ -57,7 +57,7 @@
    * @return {module:model/EnumClass} The enum <code>EnumClass</code> value.
    */
   exports.constructFromObject = function(object) {
-    return exports[object];
+    return object;
   }
 
   return exports;

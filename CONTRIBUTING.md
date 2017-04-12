@@ -16,6 +16,12 @@
 
 ## How to contribute
 
+### git
+
+If you're new to git, you may find the following FAQs useful:
+
+https://github.com/swagger-api/swagger-codegen/wiki/FAQ#git
+
 ### Code generators
 
 All the code generators can be found in [modules/swagger-codegen/src/main/java/io/swagger/codegen/languages](https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen/src/main/java/io/swagger/codegen/languages)
@@ -30,11 +36,15 @@ For a list of variables available in the template, please refer to this [page](h
 ### Style guide
 Code change should conform to the programming style guide of the respective languages:
 - Android: https://source.android.com/source/code-style.html
+- Bash: https://github.com/bahamas10/bash-style-guide
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - C++: https://google.github.io/styleguide/cppguide.html
+- Clojure: https://github.com/bbatsov/clojure-style-guide
+- Elixir: https://github.com/christopheradams/elixir_style_guide
+- Erlang: https://github.com/inaka/erlang_guidelines
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
-- JavaScript: https://github.com/airbnb/javascript/tree/master/es5
+- JavaScript: https://github.com/airbnb/javascript/
 - Groovy: http://groovy-lang.org/style-guide.html
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
@@ -74,3 +84,5 @@ To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all t
 - Document the fix in the code to make the code more readable
 - Make sure test cases passed after the change (one way is to leverage https://travis-ci.org/ to run the CI tests)
 - File a PR with meaningful title, description and commit messages. A good example is [PR-3306](https://github.com/swagger-api/swagger-codegen/pull/3306)
+- Recommended git settings
+   - `git config --global core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 

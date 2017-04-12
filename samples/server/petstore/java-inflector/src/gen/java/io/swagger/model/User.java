@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
+
 public class User   {
   @JsonProperty("id")
   private Long id = null;
@@ -44,7 +44,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -61,7 +61,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -78,7 +78,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
@@ -95,7 +95,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
@@ -112,7 +112,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -129,7 +129,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -146,7 +146,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
     return phone;
@@ -164,7 +164,7 @@ public class User   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "User Status")
+  @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
@@ -175,7 +175,7 @@ public class User   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -219,7 +219,7 @@ public class User   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

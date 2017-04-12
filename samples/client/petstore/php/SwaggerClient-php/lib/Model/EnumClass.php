@@ -29,23 +29,34 @@
 
 namespace Swagger\Client\Model;
 
-use \ArrayAccess;
-
 /**
  * EnumClass Class Doc Comment
  *
- * @category    Class */
-/**
+ * @category    Class
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
 class EnumClass {
+    /**
+     * Possible values of this enum
+     */
     const ABC = '_abc';
     const EFG = '-efg';
     const XYZ = '(xyz)';
     
-
-    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public static function getAllowableEnumValues()
+    {
+        return [
+            self::ABC,
+            self::EFG,
+            self::XYZ,
+        ];
+    }
 }
+
 

@@ -10,7 +10,7 @@ import * as assign from "core-js/library/fn/object/assign";
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
-const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, '');
+const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
 
 export interface FetchArgs {
     url: string;
@@ -34,7 +34,12 @@ export class BaseAPI {
  * {{{description}}}
  */
 {{/description}}
+{{^isEnum}}
 export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{/isEnum}}
+{{#isEnum}}
+export type {{{classname}}} = {{#allowableValues}}{{#values}}"{{{.}}}"{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
+{{/isEnum}}
 {{#vars}}
 {{#description}}
     /**
@@ -43,7 +48,9 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{/description}}
     "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
+{{^isEnum}}
 }
+{{/isEnum}}
 
 {{#hasEnums}}
 {{#vars}}
@@ -63,7 +70,7 @@ export type {{{enumName}}} = {{#allowableValues}}{{#values}}"{{{.}}}"{{^-last}} 
  * {{classname}} - fetch parameter creator{{#description}}
  * {{&description}}{{/description}}
  */
-export const {{classname}}FetchParamCreactor = {
+export const {{classname}}FetchParamCreator = {
 {{#operation}}
     /** {{#summary}}
      * {{summary}}{{/summary}}{{#notes}}
@@ -79,21 +86,25 @@ export const {{classname}}FetchParamCreactor = {
         }
 {{/required}}
 {{/allParams}}
-        const baseUrl = `{{path}}`{{#pathParams}}
+        const baseUrl = `{{{path}}}`{{#pathParams}}
             .replace(`{${"{{baseName}}"}}`, `${ params["{{paramName}}"] }`){{/pathParams}};
         let urlObj = url.parse(baseUrl, true);
 {{#hasQueryParams}}
-        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, { {{#queryParams}}
-            "{{baseName}}": params["{{paramName}}"],{{/queryParams}}
+        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, {
+            {{#queryParams}}
+            "{{baseName}}": params["{{paramName}}"],
+            {{/queryParams}}
         });
 {{/hasQueryParams}}
         let fetchOptions: RequestInit = {{#supportsES6}}Object.{{/supportsES6}}assign({}, { method: "{{httpMethod}}" }, options);
 
-        let contentTypeHeader: Dictionary<string>;
+        let contentTypeHeader: Dictionary<string> = {};
 {{#hasFormParams}}
         contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({ {{#formParams}}
-            "{{baseName}}": params["{{paramName}}"],{{/formParams}}
+        fetchOptions.body = querystring.stringify({
+        {{#formParams}}
+            "{{baseName}}": params["{{paramName}}"],
+        {{/formParams}}
         });
 {{/hasFormParams}}
 {{#hasBodyParam}}
@@ -103,8 +114,8 @@ export const {{classname}}FetchParamCreactor = {
         }{{/bodyParam}}
 {{/hasBodyParam}}
 {{#hasHeaderParams}}
-        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({ {{#headerParams}}
-            "{{baseName}}": params["{{paramName}}"],{{/headerParams}}
+        fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
+            {{#headerParams}}"{{baseName}}": params["{{paramName}}"],{{/headerParams}}
         }, contentTypeHeader);
 {{/hasHeaderParams}}
 {{^hasHeaderParams}}
@@ -131,8 +142,8 @@ export const {{classname}}Fp = {
      * {{notes}}{{/notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{/allParams}}
      */
-    {{nickname}}({{#hasParams}}params: { {{#allParams}}"{{paramName}}"{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }, {{/hasParams}}options?: any): (fetch: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-        const fetchArgs = {{classname}}FetchParamCreactor.{{nickname}}({{#hasParams}}params, {{/hasParams}}options);
+    {{nickname}}({{#hasParams}}params: { {{#allParams}}"{{paramName}}"{{^required}}?{{/required}}: {{{dataType}}}; {{/allParams}} }, {{/hasParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+        const fetchArgs = {{classname}}FetchParamCreator.{{nickname}}({{#hasParams}}params, {{/hasParams}}options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {

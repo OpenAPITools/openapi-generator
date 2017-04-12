@@ -18,7 +18,7 @@ import (
 
 
 type Configuration struct {
-	UserName      string            `json:"userName,omitempty"`
+	Username      string            `json:"userName,omitempty"`
 	Password      string            `json:"password,omitempty"`
 	APIKeyPrefix  map[string]string `json:"APIKeyPrefix,omitempty"`
 	APIKey        map[string]string `json:"APIKey,omitempty"`
@@ -38,7 +38,7 @@ type Configuration struct {
 
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
-		BasePath:      "http://petstore.swagger.io/v2",
+		BasePath:      "http://petstore.swagger.io:80/v2",
 		DefaultHeader: make(map[string]string),
 		APIKey:        make(map[string]string),
 		APIKeyPrefix:  make(map[string]string),
@@ -51,7 +51,7 @@ func NewConfiguration() *Configuration {
 }
 
 func (c *Configuration) GetBasicAuthEncodedString() string {
-	return base64.StdEncoding.EncodeToString([]byte(c.UserName + ":" + c.Password))
+	return base64.StdEncoding.EncodeToString([]byte(c.Username + ":" + c.Password))
 }
 
 func (c *Configuration) AddDefaultHeader(key string, value string) {

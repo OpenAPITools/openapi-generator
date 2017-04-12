@@ -10,8 +10,8 @@ Name | Type | Description | Notes
 **_float** | **Number** |  | [optional] 
 **_double** | **Number** |  | [optional] 
 **_string** | **String** |  | [optional] 
-**_byte** | **String** |  | 
-**binary** | **String** |  | [optional] 
+**_byte** | **Blob** |  | 
+**binary** | **Blob** |  | [optional] 
 **_date** | **Date** |  | 
 **dateTime** | **Date** |  | [optional] 
 **uuid** | **String** |  | [optional] 

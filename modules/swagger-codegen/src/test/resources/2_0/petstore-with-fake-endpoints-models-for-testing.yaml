@@ -1,16 +1,16 @@
 swagger: '2.0'
 info:
   description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
-  version: 1.0.0 
-  title: Swagger Petstore 
+  version: 1.0.0
+  title: Swagger Petstore
   termsOfService: 'http://swagger.io/terms/'
   contact:
-    email: apiteam@swagger.io 
+    email: apiteam@swagger.io
   license:
-    name: Apache 2.0 
+    name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: petstore.swagger.io 
-basePath: /v2 
+host: petstore.swagger.io:80
+basePath: /v2
 tags:
   - name: pet
     description: Everything about your Pets
@@ -324,7 +324,7 @@ paths:
             $ref: '#/definitions/Order'
         '400':
           description: Invalid Order
-  '/store/order/{orderId}':
+  '/store/order/{order_id}':
     get:
       tags:
         - store
@@ -335,7 +335,7 @@ paths:
         - application/xml
         - application/json
       parameters:
-        - name: orderId
+        - name: order_id
           in: path
           description: ID of pet that needs to be fetched
           required: true
@@ -362,12 +362,11 @@ paths:
         - application/xml
         - application/json
       parameters:
-        - name: orderId
+        - name: order_id
           in: path
           description: ID of the order that needs to be deleted
           required: true
           type: string
-          minimum: 1
       responses:
         '400':
           description: Invalid ID supplied
@@ -565,7 +564,7 @@ paths:
       tags:
         - fake
       summary: To test "client" model
-      descriptions: To test "client" model
+      description: To test "client" model
       operationId: testClientModel
       consumes:
         - application/json
@@ -587,7 +586,7 @@ paths:
       tags:
         - fake
       summary: To test enum parameters
-      descriptions: To test enum parameters
+      description: To test enum parameters
       operationId: testEnumParameters
       consumes:
         - "*/*"
@@ -611,7 +610,7 @@ paths:
             - _abc
             - '-efg'
             - (xyz)
-          in: formData 
+          in: formData
           description: Form parameter enum test (string)
         - name: enum_header_string_array
           type: array
@@ -621,7 +620,7 @@ paths:
             enum:
               - '>'
               - '$'
-          in: header 
+          in: header
           description: Header parameter enum test (string array)
         - name: enum_header_string
           type: string
@@ -633,7 +632,7 @@ paths:
           in: header
           description: Header parameter enum test (string)
         - name: enum_query_string_array
-          type: array 
+          type: array
           items:
             type: string
             default: '$'
@@ -649,11 +648,11 @@ paths:
             - _abc
             - '-efg'
             - (xyz)
-          in: query 
+          in: query
           description: Query parameter enum test (string)
         - name: enum_query_integer
-          type: number
-          format: int32 
+          type: integer
+          format: int32
           enum:
             - 1
             - -2
@@ -661,7 +660,7 @@ paths:
           description: Query parameter enum test (double)
         - name: enum_query_double
           type: number
-          format: double 
+          format: double
           enum:
             - 1.1
             - -1.2
@@ -674,7 +673,7 @@ paths:
           description: Not found
     post:
       tags:
-        - fake 
+        - fake
       summary: |
         Fake endpoint for testing various parameters
         假端點
@@ -1046,7 +1045,7 @@ definitions:
         format: date-time
       uuid:
         type: string
-        format: uuid 
+        format: uuid
       password:
         type: string
         format: password
@@ -1067,6 +1066,7 @@ definitions:
         enum:
           - UPPER
           - lower
+          - ''
       enum_integer:
         type: integer
         format: int32
@@ -1080,7 +1080,6 @@ definitions:
           - 1.1
           - -1.2
       outerEnum:
-        type: string
         $ref: '#/definitions/OuterEnum'
   AdditionalPropertiesClass:
     type: object
@@ -1104,7 +1103,7 @@ definitions:
       dateTime:
         type: string
         format: date-time
-      map: 
+      map:
         type: object
         additionalProperties:
           $ref: '#/definitions/Animal'
@@ -1135,6 +1134,23 @@ definitions:
       foo:
         type: string
         readOnly: true
+  Capitalization:
+      type: object
+      properties:
+        smallCamel:
+          type: string
+        CapitalCamel:
+          type: string
+        small_Snake:
+          type: string
+        Capital_Snake:
+          type: string
+        SCA_ETH_Flow_Points:
+          type: string
+        ATT_NAME:
+          description: >
+            Name of the pet
+          type: string
   MapTest:
     type: object
     properties:
@@ -1143,14 +1159,14 @@ definitions:
         additionalProperties:
           type: object
           additionalProperties:
-            type: string  
+            type: string
       # comment out the following (map of map of enum) as many language not yet support this
       #map_map_of_enum:
       #  type: object
       #  additionalProperties:
       #    type: object
       #    additionalProperties:
-      #      type: string  
+      #      type: string
       #      enum:
       #        - UPPER
       #        - lower
@@ -1218,7 +1234,7 @@ definitions:
         type: string
         enum:
           - ">="
-          - "$" 
+          - "$"
       array_enum:
         type: array
         items:

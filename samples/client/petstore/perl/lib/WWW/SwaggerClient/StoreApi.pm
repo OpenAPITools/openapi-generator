@@ -82,8 +82,7 @@ sub delete_order {
     }
 
     # parse inputs
-    my $_resource_path = '/store/order/{orderId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
+    my $_resource_path = '/store/order/{order_id}';
 
     my $_method = 'DELETE';
     my $query_params = {};
@@ -99,7 +98,7 @@ sub delete_order {
 
     # path params
     if ( exists $args{'order_id'}) {
-        my $_base_variable = "{" . "orderId" . "}";
+        my $_base_variable = "{" . "order_id" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
@@ -136,7 +135,6 @@ sub get_inventory {
 
     # parse inputs
     my $_resource_path = '/store/inventory';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'GET';
     my $query_params = {};
@@ -196,8 +194,7 @@ sub get_order_by_id {
     }
 
     # parse inputs
-    my $_resource_path = '/store/order/{orderId}';
-    $_resource_path =~ s/{format}/json/; # default format to json
+    my $_resource_path = '/store/order/{order_id}';
 
     my $_method = 'GET';
     my $query_params = {};
@@ -213,7 +210,7 @@ sub get_order_by_id {
 
     # path params
     if ( exists $args{'order_id'}) {
-        my $_base_variable = "{" . "orderId" . "}";
+        my $_base_variable = "{" . "order_id" . "}";
         my $_base_value = $self->{api_client}->to_path_value($args{'order_id'});
         $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
@@ -265,7 +262,6 @@ sub place_order {
 
     # parse inputs
     my $_resource_path = '/store/order';
-    $_resource_path =~ s/{format}/json/; # default format to json
 
     my $_method = 'POST';
     my $query_params = {};

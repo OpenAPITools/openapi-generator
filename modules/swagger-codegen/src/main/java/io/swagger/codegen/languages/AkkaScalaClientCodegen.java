@@ -154,6 +154,9 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String escapeReservedWord(String name) {
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }        
         return "`" + name + "`";
     }
 
@@ -228,7 +231,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     private String formatIdentifier(String name, boolean capitalized) {
-        String identifier = camelize(name, true);
+        String identifier = camelize(sanitizeName(name), true);
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
         }
@@ -287,6 +290,11 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
+    @Override
+    public String toModelName(final String name) {
+        return formatIdentifier(name, true);
+    }
+
     private static abstract class CustomLambda implements Mustache.Lambda {
         @Override
         public void execute(Template.Fragment frag, Writer out) throws IOException {
@@ -297,7 +305,6 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
 
         public abstract String formatFragment(String fragment);
     }
-
 
     private static class JavadocLambda extends CustomLambda {
         @Override

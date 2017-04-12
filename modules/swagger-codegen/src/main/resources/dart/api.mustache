@@ -25,7 +25,7 @@ class {{classname}} {
     {{/allParams}}
 
     // create path and map variables
-    String path = "{{path}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{paramName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
+    String path = "{{{path}}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
 
     // query params
     List<QueryParam> queryParams = [];

@@ -179,6 +179,7 @@ describe Petstore::ApiClient do
       expect(api_client.json_mime?('')).to eq false
 
       expect(api_client.json_mime?('application/json')).to eq true
+      expect(api_client.json_mime?('application/api.vnd+json')).to eq true
       expect(api_client.json_mime?('application/json; charset=UTF8')).to eq true
       expect(api_client.json_mime?('APPLICATION/JSON')).to eq true
 

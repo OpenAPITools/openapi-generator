@@ -40,7 +40,7 @@ namespace IO.Swagger.Model
         /// <param name="Password">Password.</param>
         /// <param name="Phone">Phone.</param>
         /// <param name="UserStatus">User Status.</param>
-        public User(long? Id = null, string Username = null, string FirstName = null, string LastName = null, string Email = null, string Password = null, string Phone = null, int? UserStatus = null)
+        public User(long? Id = default(long?), string Username = default(string), string FirstName = default(string), string LastName = default(string), string Email = default(string), string Password = default(string), string Phone = default(string), int? UserStatus = default(int?))
         {
             this.Id = Id;
             this.Username = Username;
@@ -218,7 +218,12 @@ namespace IO.Swagger.Model
             }
         }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         { 
             yield break;
         }

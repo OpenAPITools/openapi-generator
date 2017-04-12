@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" version="3.0"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <servlet>
+    <display-name>CXF Non-Spring Jaxrs Servlet</display-name>
+    <servlet-name>CXFNonSpringJaxrsServlet</servlet-name>
+    <servlet-class>org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet</servlet-class>
+{{#apiInfo}}
+    <init-param>
+      <param-name>jaxrs.serviceClasses</param-name>
+      <param-value>{{#apis}}{{package}}.impl.{{classname}}ServiceImpl{{^-last}},{{/-last}}{{/apis}}</param-value>
+    </init-param>
+{{/apiInfo}}
+    <init-param>
+      <param-name>jaxrs.providers</param-name>
+      <param-value>com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>CXFNonSpringJaxrsServlet</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>

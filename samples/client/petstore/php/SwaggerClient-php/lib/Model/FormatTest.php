@@ -34,8 +34,7 @@ use \ArrayAccess;
 /**
  * FormatTest Class Doc Comment
  *
- * @category    Class */
-/**
+ * @category    Class
  * @package     Swagger\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
@@ -191,20 +190,21 @@ class FormatTest implements ArrayAccess
     public function listInvalidProperties()
     {
         $invalid_properties = [];
-        if (!is_null($this->container['integer']) && ($this->container['integer'] > 100.0)) {
-            $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.0.";
+
+        if (!is_null($this->container['integer']) && ($this->container['integer'] > 100)) {
+            $invalid_properties[] = "invalid value for 'integer', must be smaller than or equal to 100.";
         }
 
-        if (!is_null($this->container['integer']) && ($this->container['integer'] < 10.0)) {
-            $invalid_properties[] = "invalid value for 'integer', must be bigger than or equal to 10.0.";
+        if (!is_null($this->container['integer']) && ($this->container['integer'] < 10)) {
+            $invalid_properties[] = "invalid value for 'integer', must be bigger than or equal to 10.";
         }
 
-        if (!is_null($this->container['int32']) && ($this->container['int32'] > 200.0)) {
-            $invalid_properties[] = "invalid value for 'int32', must be smaller than or equal to 200.0.";
+        if (!is_null($this->container['int32']) && ($this->container['int32'] > 200)) {
+            $invalid_properties[] = "invalid value for 'int32', must be smaller than or equal to 200.";
         }
 
-        if (!is_null($this->container['int32']) && ($this->container['int32'] < 20.0)) {
-            $invalid_properties[] = "invalid value for 'int32', must be bigger than or equal to 20.0.";
+        if (!is_null($this->container['int32']) && ($this->container['int32'] < 20)) {
+            $invalid_properties[] = "invalid value for 'int32', must be bigger than or equal to 20.";
         }
 
         if ($this->container['number'] === null) {
@@ -262,20 +262,21 @@ class FormatTest implements ArrayAccess
      * validate all the properties in the model
      * return true if all passed
      *
-     * @return bool True if all properteis are valid
+     * @return bool True if all properties are valid
      */
     public function valid()
     {
-        if ($this->container['integer'] > 100.0) {
+
+        if ($this->container['integer'] > 100) {
             return false;
         }
-        if ($this->container['integer'] < 10.0) {
+        if ($this->container['integer'] < 10) {
             return false;
         }
-        if ($this->container['int32'] > 200.0) {
+        if ($this->container['int32'] > 200) {
             return false;
         }
-        if ($this->container['int32'] < 20.0) {
+        if ($this->container['int32'] < 20) {
             return false;
         }
         if ($this->container['number'] === null) {
@@ -338,11 +339,11 @@ class FormatTest implements ArrayAccess
     public function setInteger($integer)
     {
 
-        if (!is_null($integer) && ($integer > 100.0)) {
-            throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be smaller than or equal to 100.0.');
+        if (!is_null($integer) && ($integer > 100)) {
+            throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be smaller than or equal to 100.');
         }
-        if (!is_null($integer) && ($integer < 10.0)) {
-            throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be bigger than or equal to 10.0.');
+        if (!is_null($integer) && ($integer < 10)) {
+            throw new \InvalidArgumentException('invalid value for $integer when calling FormatTest., must be bigger than or equal to 10.');
         }
 
         $this->container['integer'] = $integer;
@@ -367,11 +368,11 @@ class FormatTest implements ArrayAccess
     public function setInt32($int32)
     {
 
-        if (!is_null($int32) && ($int32 > 200.0)) {
-            throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be smaller than or equal to 200.0.');
+        if (!is_null($int32) && ($int32 > 200)) {
+            throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be smaller than or equal to 200.');
         }
-        if (!is_null($int32) && ($int32 < 20.0)) {
-            throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be bigger than or equal to 20.0.');
+        if (!is_null($int32) && ($int32 < 20)) {
+            throw new \InvalidArgumentException('invalid value for $int32 when calling FormatTest., must be bigger than or equal to 20.');
         }
 
         $this->container['int32'] = $int32;
@@ -703,4 +704,5 @@ class FormatTest implements ArrayAccess
         return json_encode(\Swagger\Client\ObjectSerializer::sanitizeForSerialization($this));
     }
 }
+
 

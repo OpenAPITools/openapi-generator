@@ -16,6 +16,7 @@ Name | Value
 ---- | -----
 UPPER | &quot;UPPER&quot;
 LOWER | &quot;lower&quot;
+EMPTY | &quot;&quot;
 
 
 <a name="EnumIntegerEnum"></a>

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.*;
 
 /**
  * SpecialModelName
@@ -36,6 +37,7 @@ public class SpecialModelName   {
    * Get specialPropertyName
    * @return specialPropertyName
   **/
+  @JsonProperty("$special[property.name]")
   @ApiModelProperty(value = "")
   public Long getSpecialPropertyName() {
     return specialPropertyName;

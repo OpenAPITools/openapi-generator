@@ -41,6 +41,24 @@ public class JaxRSServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setArtifactVersion(JaxRSServerOptionsProvider.ARTIFACT_VERSION_VALUE);
             times = 1;
+            clientCodegen.setArtifactUrl(JaxRSServerOptionsProvider.ARTIFACT_URL_VALUE);
+            times = 1;
+            clientCodegen.setArtifactDescription(JaxRSServerOptionsProvider.ARTIFACT_DESCRIPTION_VALUE);
+            times = 1;
+            clientCodegen.setScmConnection(JaxRSServerOptionsProvider.SCM_CONNECTION_VALUE);
+            times = 1;
+            clientCodegen.setScmDeveloperConnection(JaxRSServerOptionsProvider.SCM_DEVELOPER_CONNECTION_VALUE);
+            times = 1;
+            clientCodegen.setScmUrl(JaxRSServerOptionsProvider.SCM_URL_VALUE);
+            times = 1;
+            clientCodegen.setDeveloperName(JaxRSServerOptionsProvider.DEVELOPER_NAME_VALUE);
+            times = 1;
+            clientCodegen.setDeveloperEmail(JaxRSServerOptionsProvider.DEVELOPER_EMAIL_VALUE);
+            times = 1;
+            clientCodegen.setDeveloperOrganization(JaxRSServerOptionsProvider.DEVELOPER_ORGANIZATION_VALUE);
+            times = 1;
+            clientCodegen.setDeveloperOrganizationUrl(JaxRSServerOptionsProvider.DEVELOPER_ORGANIZATION_URL_VALUE);
+            times = 1;
             clientCodegen.setSourceFolder(JaxRSServerOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
             clientCodegen.setLocalVariablePrefix(JaxRSServerOptionsProvider.LOCAL_PREFIX_VALUE);
@@ -55,6 +73,8 @@ public class JaxRSServerOptionsTest extends AbstractOptionsTest {
             clientCodegen.setDateLibrary("joda");
             times = 1;
             clientCodegen.setSupportJava6(false);
+            times = 1;
+            clientCodegen.setUseBeanValidation(Boolean.valueOf(JaxRSServerOptionsProvider.USE_BEANVALIDATION));
             times = 1;
         }};
     }

@@ -7,7 +7,7 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.validation.constraints.*;
 
 /**
  * A pet for sale in the pet store
@@ -15,6 +15,9 @@ import java.util.List;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+
+import javax.xml.bind.annotation.*;
+
 @ApiModel(description = "A pet for sale in the pet store")
 
 public class Pet   {
@@ -25,22 +28,38 @@ public class Pet   {
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
+@XmlType(name="StatusEnum")
+@XmlEnum(String.class)
+public enum StatusEnum {
 
-@XmlType(name="Pet")
-@XmlEnum
-public enum Pet {
-    {values&#x3D;[available, pending, sold], enumVars&#x3D;[{name&#x3D;AVAILABLE, value&#x3D;&quot;available&quot;}, {name&#x3D;PENDING, value&#x3D;&quot;pending&quot;}, {name&#x3D;SOLD, value&#x3D;&quot;sold&quot;}]}, 
-    
-    public String value() {
-        return name();
+    @XmlEnumValue("available") AVAILABLE(String.valueOf("available")), @XmlEnumValue("pending") PENDING(String.valueOf("pending")), @XmlEnumValue("sold") SOLD(String.valueOf("sold"));
+
+
+    private String value;
+
+    StatusEnum (String v) {
+        value = v;
     }
 
-    public static Pet fromValue(String v) {
-        return valueOf(v);
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(String v) {
+        for (StatusEnum b : StatusEnum.values()) {
+            if (String.valueOf(b.value).equals(v)) {
+                return b;
+            }
+        }
+        return null;
     }
 }
+
   private StatusEnum status = null;
 
   /**
@@ -51,7 +70,7 @@ public enum Pet {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -68,7 +87,7 @@ public enum Pet {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -87,6 +106,7 @@ public enum Pet {
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
+  @NotNull
   public String getName() {
     return name;
   }
@@ -102,8 +122,9 @@ public enum Pet {
   }
 
   
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -119,7 +140,7 @@ public enum Pet {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
@@ -137,7 +158,7 @@ public enum Pet {
   }
 
   
-  @ApiModelProperty(example = "null", value = "pet status in the store")
+  @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -148,7 +169,7 @@ public enum Pet {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -188,7 +209,7 @@ public enum Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

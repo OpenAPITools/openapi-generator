@@ -12,8 +12,8 @@
 
 /*
  * MultipartFormData.h
- * 
- * This class represents a container for building a application/x-multipart-formdata requests. 
+ *
+ * This class represents a container for building a application/x-multipart-formdata requests.
  */
 
 #ifndef MultipartFormData_H_
@@ -48,7 +48,7 @@ public:
     virtual std::shared_ptr<HttpContent> getContent(const utility::string_t& name) const;
     virtual bool hasContent(const utility::string_t& name) const;
     virtual void writeTo( std::ostream& target );
-    
+
 protected:
     std::vector<std::shared_ptr<HttpContent>> m_Contents;
     utility::string_t m_Boundary;

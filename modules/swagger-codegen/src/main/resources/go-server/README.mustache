@@ -14,8 +14,8 @@ To see how to make this your own, look here:
 
 [README](https://github.com/swagger-api/swagger-codegen/blob/master/README.md)
 
-- API version: {{appVersion}}
-- Build date: {{generatedDate}}
+- API version: {{appVersion}}{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}
 {{#infoUrl}}
 For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 {{/infoUrl}}

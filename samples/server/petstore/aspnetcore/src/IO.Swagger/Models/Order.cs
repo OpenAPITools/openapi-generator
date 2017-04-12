@@ -20,12 +20,45 @@ using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
 {
+
     /// <summary>
     /// An order for a pets from the pet store
     /// </summary>
     [DataContract]
     public partial class Order :  IEquatable<Order>
     {
+                /// <summary>
+        /// Order Status
+        /// </summary>
+        /// <value>Order Status</value>
+        public enum StatusEnum
+        {
+            
+            /// <summary>
+            /// Enum PlacedEnum for "placed"
+            /// </summary>
+            [EnumMember(Value = "placed")]
+            PlacedEnum,
+            
+            /// <summary>
+            /// Enum ApprovedEnum for "approved"
+            /// </summary>
+            [EnumMember(Value = "approved")]
+            ApprovedEnum,
+            
+            /// <summary>
+            /// Enum DeliveredEnum for "delivered"
+            /// </summary>
+            [EnumMember(Value = "delivered")]
+            DeliveredEnum
+        }
+        /// <summary>
+        /// Order Status
+        /// </summary>
+        /// <value>Order Status</value>
+        [DataMember(Name="status")]
+        public StatusEnum? Status { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
@@ -35,7 +68,7 @@ namespace IO.Swagger.Models
         /// <param name="ShipDate">ShipDate.</param>
         /// <param name="Status">Order Status.</param>
         /// <param name="Complete">Complete (default to false).</param>
-        public Order(long? Id = null, long? PetId = null, int? Quantity = null, DateTime? ShipDate = null, string Status = null, bool? Complete = null)
+        public Order(long? Id = default(long?), long? PetId = default(long?), int? Quantity = default(int?), DateTime? ShipDate = default(DateTime?), StatusEnum? Status = default(StatusEnum?), bool? Complete = false)
         {
             this.Id = Id;
             this.PetId = PetId;
@@ -59,38 +92,26 @@ namespace IO.Swagger.Models
         /// </summary>
         [DataMember(Name="id")]
         public long? Id { get; set; }
-
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name="petId")]
         public long? PetId { get; set; }
-
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name="quantity")]
         public int? Quantity { get; set; }
-
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         [DataMember(Name="shipDate")]
         public DateTime? ShipDate { get; set; }
-
-        /// <summary>
-        /// Order Status
-        /// </summary>
-        /// <value>Order Status</value>
-        [DataMember(Name="status")]
-        public string Status { get; set; }
-
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name="complete")]
         public bool? Complete { get; set; }
-
 
         /// <summary>
         /// Returns the string presentation of the object

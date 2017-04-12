@@ -13,23 +13,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 public class PetApiTest {
     ApiClient apiClient;
     PetApi api;
+    MockWebServer localServer;
+    ApiClient localClient;
 
     @Before
     public void setup() {
         apiClient = new ApiClient();
         api = apiClient.buildClient(PetApi.class);
+        localServer = new MockWebServer();
+        localClient = new ApiClient();
     }
 
     @Test
     public void testApiClient() {
         // the default api client is used
-        assertEquals("http://petstore.swagger.io/v2", apiClient.getBasePath());
+        assertEquals("http://petstore.swagger.io:80/v2", apiClient.getBasePath());
 
         ApiClient newClient = new ApiClient();
         newClient.setBasePath("http://example.com");
@@ -83,6 +91,21 @@ public class PetApiTest {
         }
 
         assertTrue(found);
+
+        PetApi.FindPetsByStatusQueryParams queryParams = new PetApi.FindPetsByStatusQueryParams()
+                .status(Arrays.asList(new String[]{"available"}));
+        pets = api.findPetsByStatus(queryParams);
+        assertNotNull(pets);
+
+        found = false;
+        for (Pet fetched : pets) {
+            if (fetched.getId().equals(pet.getId())) {
+                found = true;
+                break;
+            }
+        }
+
+        assertTrue(found);
     }
 
     @Test
@@ -103,6 +126,20 @@ public class PetApiTest {
         assertNotNull(pets);
 
         boolean found = false;
+        for (Pet fetched : pets) {
+            if (fetched.getId().equals(pet.getId())) {
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+
+        PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
+                .tags(Arrays.asList(new String[]{"friendly"}));
+        pets = api.findPetsByTags(queryParams);
+        assertNotNull(pets);
+
+        found = false;
         for (Pet fetched : pets) {
             if (fetched.getId().equals(pet.getId())) {
                 found = true;
@@ -180,6 +217,20 @@ public class PetApiTest {
         assertTrue(pet1.hashCode() == pet2.hashCode());
         assertTrue(pet1.equals(pet1));
         assertTrue(pet1.hashCode() == pet1.hashCode());
+    }
+
+    @Test
+    public void testCSVDelimitedArray() throws Exception {
+        localServer.enqueue(new MockResponse().setBody("[{\"id\":5,\"name\":\"rocky\"}]"));
+        localServer.start();
+        PetApi api = localClient.setBasePath(localServer.url("/").toString()).buildClient(PetApi.class);
+        PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
+                .tags(Arrays.asList("friendly","energetic"));
+        List<Pet> pets = api.findPetsByTags(queryParams);
+        assertNotNull(pets);
+        RecordedRequest request = localServer.takeRequest();
+        assertThat(request.getPath()).contains("tags=friendly,energetic");
+        localServer.shutdown();
     }
 
     private Pet createRandomPet() {

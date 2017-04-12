@@ -1,7 +1,7 @@
 import {{{invokerPackage}}}.*;
 import {{{invokerPackage}}}.auth.*;
 import {{{invokerPackage}}}.model.*;
-import {{{package}}}.{{{classname}}};
+import {{{invokerPackage}}}.api.{{{classname}}};
 
 import java.io.File;
 import java.util.*;
@@ -28,7 +28,7 @@ public class {{{classname}}}Example {
 
         {{{classname}}} apiInstance = new {{{classname}}}();
         {{#allParams}}
-        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{unescapedDescription}}}
         {{/allParams}}
         try {
             {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}

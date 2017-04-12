@@ -1,11 +1,9 @@
 'use strict';
 
 var url = require('url');
-
 {{#operations}}
 
 var {{classname}} = require('./{{classname}}Service');
-
 {{#operation}}
 
 module.exports.{{nickname}} = function {{nickname}} (req, res, next) {

@@ -138,6 +138,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
+{{#useBeanValidation}}
+    <!-- Bean Validation API support -->
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+        <scope>provided</scope>
+    </dependency>
+{{/useBeanValidation}}        
+        
     </dependencies>
     <repositories>
         <repository>
@@ -149,7 +159,7 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-core-version>1.5.9</swagger-core-version>
+        <swagger-core-version>1.5.12</swagger-core-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
         <resteasy-version>3.0.11.Final</resteasy-version>
         <slf4j-version>1.6.3</slf4j-version>

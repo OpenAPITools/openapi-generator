@@ -88,18 +88,21 @@ func (c *APIClient) CallAPI(path string, method string,
 	return nil, fmt.Errorf("invalid method %v", method)
 }
 
-func (c *APIClient) ParameterToString(obj interface{},collectionFormat string) string {
-	if reflect.TypeOf(obj).String() == "[]string" {
-		switch	collectionFormat {
-		case "pipes":
-			return strings.Join(obj.([]string), "|")
-		case "ssv":
-			return strings.Join(obj.([]string), " ")
-		case "tsv":
-			return strings.Join(obj.([]string), "\t")	
-		case "csv" :
-			return strings.Join(obj.([]string), ",")
-		}
+func (c *APIClient) ParameterToString(obj interface{}, collectionFormat string) string {
+	delimiter := ""
+	switch collectionFormat {
+	case "pipes":
+		delimiter = "|"
+	case "ssv":
+		delimiter = " "
+	case "tsv":
+		delimiter = "\t"
+	case "csv":
+		delimiter = ","
+	}
+
+	if reflect.TypeOf(obj).Kind() == reflect.Slice {
+		return strings.Trim(strings.Replace(fmt.Sprint(obj), " ", delimiter, -1), "[]")
 	}
 
 	return fmt.Sprintf("%v", obj)

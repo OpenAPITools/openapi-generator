@@ -13,8 +13,7 @@
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 {{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
-
-{{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
 {{classname}} *apiInstance = [[{{classname}} alloc] init];

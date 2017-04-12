@@ -1,7 +1,7 @@
 /*
  * SamiCategory.h
  * 
- * 
+ * A category for a pet
  */
 
 #ifndef SamiCategory_H_

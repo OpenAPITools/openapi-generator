@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```objc
--(NSNumber*) createUserWithBody: (SWGUser*) body
+-(NSURLSessionTask*) createUserWithBody: (SWGUser*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -63,7 +63,7 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```objc
--(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -110,7 +110,7 @@ No authorization required
 
 # **createUsersWithListInput**
 ```objc
--(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -157,7 +157,7 @@ No authorization required
 
 # **deleteUser**
 ```objc
--(NSNumber*) deleteUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) deleteUserWithUsername: (NSString*) username
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -204,7 +204,7 @@ No authorization required
 
 # **getUserByName**
 ```objc
--(NSNumber*) getUserByNameWithUsername: (NSString*) username
+-(NSURLSessionTask*) getUserByNameWithUsername: (NSString*) username
         completionHandler: (void (^)(SWGUser* output, NSError* error)) handler;
 ```
 
@@ -254,7 +254,7 @@ No authorization required
 
 # **loginUser**
 ```objc
--(NSNumber*) loginUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) loginUserWithUsername: (NSString*) username
     password: (NSString*) password
         completionHandler: (void (^)(NSString* output, NSError* error)) handler;
 ```
@@ -308,7 +308,7 @@ No authorization required
 
 # **logoutUser**
 ```objc
--(NSNumber*) logoutUserWithCompletionHandler: 
+-(NSURLSessionTask*) logoutUserWithCompletionHandler: 
         (void (^)(NSError* error)) handler;
 ```
 
@@ -351,7 +351,7 @@ No authorization required
 
 # **updateUser**
 ```objc
--(NSNumber*) updateUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
     body: (SWGUser*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```

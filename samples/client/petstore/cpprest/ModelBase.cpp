@@ -26,7 +26,7 @@ ModelBase::~ModelBase()
 
 web::json::value ModelBase::toJson( const utility::string_t& value )
 {
-	return web::json::value::string(value);
+    return web::json::value::string(value);
 }
 web::json::value ModelBase::toJson( const utility::datetime& value )
 {
@@ -38,7 +38,7 @@ web::json::value ModelBase::toJson( int32_t value )
 }
 web::json::value ModelBase::toJson( int64_t value )
 {
-	return web::json::value::number(value);
+    return web::json::value::number(value);
 }
 web::json::value ModelBase::toJson( double value )
 {
@@ -58,7 +58,7 @@ web::json::value ModelBase::toJson( std::shared_ptr<HttpContent> content )
 std::shared_ptr<HttpContent> ModelBase::fileFromJson(web::json::value& val)
 {
     std::shared_ptr<HttpContent> content(new HttpContent);
-    
+
     if(val.has_field(U("ContentDisposition")))
     {
         content->setContentDisposition( ModelBase::stringFromJson(val[U("ContentDisposition")]) );
@@ -181,14 +181,14 @@ utility::string_t ModelBase::toBase64( std::shared_ptr<std::istream> value )
     {
         case 1:
             value->read( read, 1 );
-            temp = read[0] << 16; 
+            temp = read[0] << 16;
             base64.append( 1, Base64Chars[(temp & 0x00FC0000) >> 18] );
             base64.append( 1, Base64Chars[(temp & 0x0003F000) >> 12] );
             base64.append( 2, Base64PadChar );
             break;
         case 2:
             value->read( read, 2 );
-            temp = read[0] << 16; 
+            temp = read[0] << 16;
             temp += read[1] << 8;
             base64.append( 1, Base64Chars[(temp & 0x00FC0000) >> 18] );
             base64.append( 1, Base64Chars[(temp & 0x0003F000) >> 12] );
@@ -203,7 +203,7 @@ utility::string_t ModelBase::toBase64( std::shared_ptr<std::istream> value )
 std::shared_ptr<std::istream> ModelBase::fromBase64( const utility::string_t& encoded )
 {
     std::shared_ptr<std::stringstream> result(new std::stringstream);
-    
+
     char outBuf[3] = { 0 };
     uint32_t temp = 0;
 
@@ -213,9 +213,9 @@ std::shared_ptr<std::istream> ModelBase::fromBase64( const utility::string_t& en
         for ( size_t quantumPosition = 0; quantumPosition < 4; quantumPosition++ )
         {
             temp <<= 6;
-            if ( *cursor >= 0x41 && *cursor <= 0x5A )   
+            if ( *cursor >= 0x41 && *cursor <= 0x5A )
             {
-                temp |= *cursor - 0x41;		              
+                temp |= *cursor - 0x41;
             }
             else if ( *cursor >= 0x61 && *cursor <= 0x7A )
             {
@@ -295,7 +295,7 @@ double ModelBase::doubleFromJson(web::json::value& val)
 int64_t ModelBase::int64_tFromHttpContent(std::shared_ptr<HttpContent> val)
 {
     utility::string_t str = ModelBase::stringFromHttpContent(val);
-    
+
     utility::stringstream_t ss(str);
     int64_t result = 0;
     ss >> result;
@@ -304,7 +304,7 @@ int64_t ModelBase::int64_tFromHttpContent(std::shared_ptr<HttpContent> val)
 int32_t ModelBase::int32_tFromHttpContent(std::shared_ptr<HttpContent> val)
 {
     utility::string_t str = ModelBase::stringFromHttpContent(val);
-    
+
     utility::stringstream_t ss(str);
     int32_t result = 0;
     ss >> result;
@@ -314,22 +314,22 @@ utility::string_t ModelBase::stringFromHttpContent(std::shared_ptr<HttpContent> 
 {
     std::shared_ptr<std::istream> data = val->getData();
     data->seekg( 0, data->beg );
-    
+
     std::string str((std::istreambuf_iterator<char>(*data.get())),
                  std::istreambuf_iterator<char>());
-    
+
     return utility::conversions::to_string_t(str);
 }
 utility::datetime ModelBase::dateFromHttpContent(std::shared_ptr<HttpContent> val)
 {
-    utility::string_t str = ModelBase::stringFromHttpContent(val);    
+    utility::string_t str = ModelBase::stringFromHttpContent(val);
     return utility::datetime::from_string(str, utility::datetime::ISO_8601);
 }
 
 bool ModelBase::boolFromHttpContent(std::shared_ptr<HttpContent> val)
 {
     utility::string_t str = ModelBase::stringFromHttpContent(val);
-    
+
     utility::stringstream_t ss(str);
     bool result = false;
     ss >> result;
@@ -338,7 +338,7 @@ bool ModelBase::boolFromHttpContent(std::shared_ptr<HttpContent> val)
 double ModelBase::doubleFromHttpContent(std::shared_ptr<HttpContent> val)
 {
     utility::string_t str = ModelBase::stringFromHttpContent(val);
-    
+
     utility::stringstream_t ss(str);
     double result = 0.0;
     ss >> result;

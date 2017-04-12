@@ -54,6 +54,12 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         specialCharReplacements.put(">", "GreaterThan");
         specialCharReplacements.put("<", "LessThan");
 
+        // backslash and double quote need double the escapement for both Java and Haskell
+        specialCharReplacements.remove("\\");
+        specialCharReplacements.remove("\"");
+        specialCharReplacements.put("\\\\", "Back_Slash");
+        specialCharReplacements.put("\\\"", "Double_Quote");
+
         // set the output folder here
         outputFolder = "generated-code/haskell-servant";
 
@@ -154,8 +160,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * @return the escaped term
      */
     @Override
-    public String escapeReservedWord(String name) {
-        return name + "_";
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
     }
 
     public String firstLetterToUpper(String word) {
@@ -386,7 +395,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Query parameters appended to routes
         for (CodegenParameter param : op.queryParams) {
             String paramType = param.dataType;
-            if(param.isListContainer != null && param.isListContainer) {
+            if (param.isListContainer) {
                 paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             path.add("QueryParam \"" + param.baseName + "\" " + paramType);
@@ -417,7 +426,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             path.add("Header \"" + param.baseName + "\" " + param.dataType);
 
             String paramType = param.dataType;
-            if(param.isListContainer != null && param.isListContainer) {
+            if (param.isListContainer) {
                 paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             type.add("Maybe " + paramType);

@@ -1,7 +1,7 @@
 package io.swagger.api;
 
-import io.swagger.model.User;
 import java.util.List;
+import io.swagger.model.User;
 
 import io.swagger.annotations.*;
 
@@ -17,10 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
+import javax.validation.constraints.*;
 
 @Controller
 public class UserApiController implements UserApi {
+
+
 
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body) {
         // do some magic!
@@ -47,8 +49,8 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 
-    public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
-        @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password) {
+    public ResponseEntity<String> loginUser( @NotNull @ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
+         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password) {
         // do some magic!
         return new ResponseEntity<String>(HttpStatus.OK);
     }

@@ -9,7 +9,7 @@
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-core-version>1.5.9</swagger-core-version>
+        <swagger-core-version>1.5.12</swagger-core-version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -68,6 +68,15 @@
             <artifactId>joda-time</artifactId>
         </dependency>
         {{/java8}}
+{{#useBeanValidation}}
+    <!-- Bean Validation API support -->
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+        <scope>provided</scope>
+    </dependency>
+{{/useBeanValidation}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

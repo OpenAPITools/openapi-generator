@@ -3,7 +3,8 @@ package {{package}};
 import {{invokerPackage}}.CollectionFormats.*;
 
 {{#useRxJava}}import rx.Observable;{{/useRxJava}}
-{{^useRxJava}}import retrofit2.Call;{{/useRxJava}}
+{{#useRxJava2}}import io.reactivex.Observable;{{/useRxJava2}}
+{{#doNotUseRx}}import retrofit2.Call;{{/doNotUseRx}}
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
@@ -18,28 +19,38 @@ import java.util.List;
 import java.util.Map;
 {{/fullJavaUtil}}
 
+{{#usePlay24WS}}
+import play.libs.F;
+import retrofit2.Response;
+{{/usePlay24WS}}
+
 {{#operations}}
 public interface {{classname}} {
   {{#operation}}
   /**
    * {{summary}}
    * {{notes}}
-{{#allParams}}   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-{{/allParams}}   * @return Call&lt;{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}&gt;
+{{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+   * @return Call&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object{{/returnType}}&gt;
    */
-  {{#formParams}}{{#-first}}
-  {{#isMultipart}}@retrofit2.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit2.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
+  {{#formParams}}
+  {{#-first}}
+  {{#isMultipart}}@retrofit2.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit2.http.FormUrlEncoded{{/isMultipart}}
+  {{/-first}}
+  {{/formParams}}
   {{^formParams}}
   {{#prioritizedContentTypes}}
   {{#-first}}
   @Headers({
-  	"Content-Type:{{mediaType}}" 
+    "Content-Type:{{mediaType}}"
   })
   {{/-first}}
   {{/prioritizedContentTypes}}
   {{/formParams}}  
-  @{{httpMethod}}("{{path}}")
-  {{#useRxJava}}Observable{{/useRxJava}}{{^useRxJava}}Call{{/useRxJava}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}({{^allParams}});{{/allParams}}
+  @{{httpMethod}}("{{{path}}}")
+  {{^usePlay24WS}}{{^doNotUseRx}}Observable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}{{/usePlay24WS}}{{#usePlay24WS}}F.Promise<Response{{/usePlay24WS}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>{{#usePlay24WS}}>{{/usePlay24WS}} {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
 

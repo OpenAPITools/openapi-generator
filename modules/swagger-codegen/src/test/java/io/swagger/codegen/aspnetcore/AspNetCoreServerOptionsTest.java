@@ -31,6 +31,8 @@ public class AspNetCoreServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             serverCodegen.setSourceFolder(AspNetCoreServerOptionsProvider.SOURCE_FOLDER_VALUE);
             times = 1;
+            serverCodegen.setPackageGuid(AspNetCoreServerOptionsProvider.PROJECT_GUID_VALUE);
+            times = 1;
             serverCodegen.useDateTimeOffset(true);
             times = 1;
             serverCodegen.setUseCollection(false);

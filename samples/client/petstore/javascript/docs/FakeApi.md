@@ -1,6 +1,6 @@
 # SwaggerPetstore.FakeApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,6 +12,8 @@ Method | HTTP request | Description
 <a name="testClientModel"></a>
 # **testClientModel**
 > Client testClientModel(body)
+
+To test \&quot;client\&quot; model
 
 To test \&quot;client\&quot; model
 
@@ -79,7 +81,7 @@ var _double = 1.2; // Number | None
 
 var patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 
-var _byte = "B"; // String | None
+var _byte = B; // Blob | None
 
 var opts = { 
   'integer': 56, // Number | None
@@ -87,7 +89,7 @@ var opts = {
   'int64': 789, // Number | None
   '_float': 3.4, // Number | None
   '_string': "_string_example", // String | None
-  'binary': "B", // String | None
+  'binary': B, // Blob | None
   '_date': new Date("2013-10-20"), // Date | None
   'dateTime': new Date("2013-10-20T19:20:30+01:00"), // Date | None
   'password': "password_example", // String | None
@@ -111,13 +113,13 @@ Name | Type | Description  | Notes
  **_number** | **Number**| None | 
  **_double** | **Number**| None | 
  **patternWithoutDelimiter** | **String**| None | 
- **_byte** | **String**| None | 
+ **_byte** | **Blob**| None | 
  **integer** | **Number**| None | [optional] 
  **int32** | **Number**| None | [optional] 
  **int64** | **Number**| None | [optional] 
  **_float** | **Number**| None | [optional] 
  **_string** | **String**| None | [optional] 
- **binary** | **String**| None | [optional] 
+ **binary** | **Blob**| None | [optional] 
  **_date** | **Date**| None | [optional] 
  **dateTime** | **Date**| None | [optional] 
  **password** | **String**| None | [optional] 
@@ -142,6 +144,8 @@ null (empty response body)
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
@@ -155,7 +159,7 @@ var opts = {
   'enumHeaderString': "-efg", // String | Header parameter enum test (string)
   'enumQueryStringArray': ["enumQueryStringArray_example"], // [String] | Query parameter enum test (string array)
   'enumQueryString': "-efg", // String | Query parameter enum test (string)
-  'enumQueryInteger': 3.4, // Number | Query parameter enum test (double)
+  'enumQueryInteger': 56, // Number | Query parameter enum test (double)
   'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
 };
 

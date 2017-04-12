@@ -9,7 +9,7 @@
     <artifactId>swagger-codegen-project</artifactId>
     <packaging>pom</packaging>
     <name>swagger-codegen-project</name>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.3-SNAPSHOT</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <scm>
         <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
@@ -155,7 +155,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.6.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -312,6 +312,18 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/android/volley</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>bash-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/bash</module>
             </modules>
         </profile>
         <profile>
@@ -531,6 +543,30 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-resteasy-eap-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-resteasy-eap-server-joda</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-server</id>
             <activation>
                 <property>
@@ -743,11 +779,11 @@
                 </property>
             </activation>
             <modules>
-                <!-- run ruby test first which has a random delay script to
-                     avoid issues with running 2 CI jobs in parallel.       -->
                 <!-- clients -->
+                <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/android/volley</module>
+                <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/go</module>
                 <module>samples/client/petstore/java/feign</module>
@@ -757,6 +793,7 @@
                 <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
+                <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/scala</module>
@@ -766,19 +803,29 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
+                <module>samples/client/petstore/typescript-jquery/npm</module>
+                <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
+                <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
                 <!-- servers -->
                 <module>samples/server/petstore/java-inflector</module>
+                <module>samples/server/petstore/java-play-framework</module>
                 <module>samples/server/petstore/undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
+                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
-                <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
-                <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
+                <module>samples/server/petstore/jaxrs-cxf</module>
+                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
+                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
+                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
+
+                <!--<module>samples/server/petstore/java-msf4j</module> note: JDK8 only -->
             </modules>
         </profile>
     </profiles>
@@ -850,13 +897,14 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>1.0.24-SNAPSHOT</swagger-parser-version>
+        <swagger-parser-version>1.0.28</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
-        <felix-version>2.3.4</felix-version>
-        <swagger-core-version>1.5.10</swagger-core-version>
+        <felix-version>3.3.0</felix-version>
+        <swagger-core-version>1.5.12</swagger-core-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
+        <jackson-version>2.8.5</jackson-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>

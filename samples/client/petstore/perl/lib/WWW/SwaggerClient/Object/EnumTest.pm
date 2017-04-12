@@ -163,18 +163,27 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
+    'outer_enum' => {
+    	datatype => 'OuterEnum',
+    	base_name => 'outerEnum',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
 });
 
 __PACKAGE__->swagger_types( {
     'enum_string' => 'string',
     'enum_integer' => 'int',
-    'enum_number' => 'double'
+    'enum_number' => 'double',
+    'outer_enum' => 'OuterEnum'
 } );
 
 __PACKAGE__->attribute_map( {
     'enum_string' => 'enum_string',
     'enum_integer' => 'enum_integer',
-    'enum_number' => 'enum_number'
+    'enum_number' => 'enum_number',
+    'outer_enum' => 'outerEnum'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

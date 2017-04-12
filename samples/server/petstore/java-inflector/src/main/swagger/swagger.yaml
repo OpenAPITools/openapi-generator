@@ -12,7 +12,7 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "petstore.swagger.io"
+host: "petstore.swagger.io:80"
 basePath: "/v2"
 tags:
 - name: "pet"
@@ -30,221 +30,6 @@ tags:
 schemes:
 - "http"
 paths:
-  /fake:
-    get:
-      tags:
-      - "fake"
-      summary: "To test enum parameters"
-      operationId: "testEnumParameters"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "enum_form_string_array"
-        in: "formData"
-        description: "Form parameter enum test (string array)"
-        required: false
-        type: "array"
-      - name: "enum_form_string"
-        in: "formData"
-        description: "Form parameter enum test (string)"
-        required: false
-        type: "string"
-        default: "-efg"
-        enum:
-        - "_abc"
-        - "-efg"
-        - "(xyz)"
-      - name: "enum_header_string_array"
-        in: "header"
-        description: "Header parameter enum test (string array)"
-        required: false
-        type: "array"
-      - name: "enum_header_string"
-        in: "header"
-        description: "Header parameter enum test (string)"
-        required: false
-        type: "string"
-        default: "-efg"
-        enum:
-        - "_abc"
-        - "-efg"
-        - "(xyz)"
-      - name: "enum_query_string_array"
-        in: "query"
-        description: "Query parameter enum test (string array)"
-        required: false
-        type: "array"
-        items:
-          type: "string"
-          default: "$"
-          enum:
-          - ">"
-          - "$"
-      - name: "enum_query_string"
-        in: "query"
-        description: "Query parameter enum test (string)"
-        required: false
-        type: "string"
-        default: "-efg"
-        enum:
-        - "_abc"
-        - "-efg"
-        - "(xyz)"
-      - name: "enum_query_integer"
-        in: "query"
-        description: "Query parameter enum test (double)"
-        required: false
-        type: "number"
-        format: "int32"
-        enum:
-        - null
-        - null
-      - name: "enum_query_double"
-        in: "formData"
-        description: "Query parameter enum test (double)"
-        required: false
-        type: "number"
-        format: "double"
-        enum:
-        - null
-        - null
-      responses:
-        400:
-          description: "Invalid request"
-        404:
-          description: "Not found"
-      x-contentType: "application/json"
-      x-accepts: "application/json"
-    post:
-      tags:
-      - "fake"
-      summary: "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔\
-        드 포인트\n"
-      description: "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n\
-        가짜 엔드 포인트\n"
-      operationId: "testEndpointParameters"
-      consumes:
-      - "application/xml; charset=utf-8"
-      - "application/json; charset=utf-8"
-      produces:
-      - "application/xml; charset=utf-8"
-      - "application/json; charset=utf-8"
-      parameters:
-      - name: "integer"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "integer"
-        maximum: 100.0
-        minimum: 10.0
-      - name: "int32"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "integer"
-        maximum: 200.0
-        minimum: 20.0
-        format: "int32"
-      - name: "int64"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "integer"
-        format: "int64"
-      - name: "number"
-        in: "formData"
-        description: "None"
-        required: true
-        type: "number"
-        maximum: 543.2
-        minimum: 32.1
-      - name: "float"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "number"
-        maximum: 987.6
-        format: "float"
-      - name: "double"
-        in: "formData"
-        description: "None"
-        required: true
-        type: "number"
-        maximum: 123.4
-        minimum: 67.8
-        format: "double"
-      - name: "string"
-        in: "formData"
-        description: "None"
-        required: true
-        type: "string"
-        pattern: "/[a-z]/i"
-      - name: "byte"
-        in: "formData"
-        description: "None"
-        required: true
-        type: "string"
-        format: "byte"
-      - name: "binary"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "string"
-        format: "binary"
-      - name: "date"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "string"
-        format: "date"
-      - name: "dateTime"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "string"
-        format: "date-time"
-      - name: "password"
-        in: "formData"
-        description: "None"
-        required: false
-        type: "string"
-        maxLength: 64
-        minLength: 10
-        format: "password"
-      responses:
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-      security:
-      - http_basic_test: []
-      x-contentType: "application/xml; charset=utf-8"
-      x-accepts: "application/xml; charset=utf-8,application/json; charset=utf-8"
-    patch:
-      tags:
-      - "fake"
-      summary: "To test \"client\" model"
-      operationId: "testClientModel"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "client model"
-        required: true
-        schema:
-          $ref: "#/definitions/Client"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Client"
-      x-contentType: "application/json"
-      x-accepts: "application/json"
   /pet:
     post:
       tags:
@@ -563,7 +348,7 @@ paths:
           description: "Invalid Order"
       x-contentType: "application/json"
       x-accepts: "application/json"
-  /store/order/{orderId}:
+  /store/order/{order_id}:
     get:
       tags:
       - "store"
@@ -575,13 +360,13 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "orderId"
+      - name: "order_id"
         in: "path"
         description: "ID of pet that needs to be fetched"
         required: true
         type: "integer"
-        maximum: 5.0
-        minimum: 1.0
+        maximum: 5
+        minimum: 1
         format: "int64"
       responses:
         200:
@@ -605,12 +390,11 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "orderId"
+      - name: "order_id"
         in: "path"
         description: "ID of the order that needs to be deleted"
         required: true
         type: "string"
-        minimum: 1.0
       responses:
         400:
           description: "Invalid ID supplied"
@@ -820,11 +604,247 @@ paths:
           description: "User not found"
       x-contentType: "application/json"
       x-accepts: "application/json"
+  /fake:
+    get:
+      tags:
+      - "fake"
+      summary: "To test enum parameters"
+      description: "To test enum parameters"
+      operationId: "testEnumParameters"
+      consumes:
+      - "*/*"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "enum_form_string_array"
+        in: "formData"
+        description: "Form parameter enum test (string array)"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+          default: "$"
+          enum:
+          - ">"
+          - "$"
+      - name: "enum_form_string"
+        in: "formData"
+        description: "Form parameter enum test (string)"
+        required: false
+        type: "string"
+        default: "-efg"
+        enum:
+        - "_abc"
+        - "-efg"
+        - "(xyz)"
+      - name: "enum_header_string_array"
+        in: "header"
+        description: "Header parameter enum test (string array)"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+          default: "$"
+          enum:
+          - ">"
+          - "$"
+      - name: "enum_header_string"
+        in: "header"
+        description: "Header parameter enum test (string)"
+        required: false
+        type: "string"
+        default: "-efg"
+        enum:
+        - "_abc"
+        - "-efg"
+        - "(xyz)"
+      - name: "enum_query_string_array"
+        in: "query"
+        description: "Query parameter enum test (string array)"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+          default: "$"
+          enum:
+          - ">"
+          - "$"
+      - name: "enum_query_string"
+        in: "query"
+        description: "Query parameter enum test (string)"
+        required: false
+        type: "string"
+        default: "-efg"
+        enum:
+        - "_abc"
+        - "-efg"
+        - "(xyz)"
+      - name: "enum_query_integer"
+        in: "query"
+        description: "Query parameter enum test (double)"
+        required: false
+        type: "integer"
+        format: "int32"
+        enum:
+        - 1
+        - -2
+      - name: "enum_query_double"
+        in: "formData"
+        description: "Query parameter enum test (double)"
+        required: false
+        type: "number"
+        format: "double"
+        enum:
+        - 1.1
+        - -1.2
+      responses:
+        400:
+          description: "Invalid request"
+        404:
+          description: "Not found"
+      x-contentType: "*/*"
+      x-accepts: "*/*"
+    post:
+      tags:
+      - "fake"
+      summary: "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔\
+        드 포인트\n"
+      description: "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n\
+        가짜 엔드 포인트\n"
+      operationId: "testEndpointParameters"
+      consumes:
+      - "application/xml; charset=utf-8"
+      - "application/json; charset=utf-8"
+      produces:
+      - "application/xml; charset=utf-8"
+      - "application/json; charset=utf-8"
+      parameters:
+      - name: "integer"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "integer"
+        maximum: 100
+        minimum: 10
+      - name: "int32"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "integer"
+        maximum: 200
+        minimum: 20
+        format: "int32"
+      - name: "int64"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "number"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "number"
+        maximum: 543.2
+        minimum: 32.1
+      - name: "float"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "number"
+        maximum: 987.6
+        format: "float"
+      - name: "double"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "number"
+        maximum: 123.4
+        minimum: 67.8
+        format: "double"
+      - name: "string"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        pattern: "/[a-z]/i"
+      - name: "pattern_without_delimiter"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "string"
+        pattern: "^[A-Z].*"
+      - name: "byte"
+        in: "formData"
+        description: "None"
+        required: true
+        type: "string"
+        format: "byte"
+      - name: "binary"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        format: "binary"
+      - name: "date"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        format: "date"
+      - name: "dateTime"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        format: "date-time"
+      - name: "password"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+        maxLength: 64
+        minLength: 10
+        format: "password"
+      - name: "callback"
+        in: "formData"
+        description: "None"
+        required: false
+        type: "string"
+      responses:
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+      security:
+      - http_basic_test: []
+      x-contentType: "application/xml; charset=utf-8"
+      x-accepts: "application/xml; charset=utf-8,application/json; charset=utf-8"
+    patch:
+      tags:
+      - "fake"
+      summary: "To test \"client\" model"
+      description: "To test \"client\" model"
+      operationId: "testClientModel"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "client model"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Client"
+      x-contentType: "application/json"
+      x-accepts: "application/json"
 securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
   petstore_auth:
     type: "oauth2"
     authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
@@ -832,6 +852,10 @@ securityDefinitions:
     scopes:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
   http_basic_test:
     type: "basic"
 definitions:
@@ -999,6 +1023,11 @@ definitions:
     description: "Model for testing model name starting with number"
     xml:
       name: "Name"
+  ClassModel:
+    properties:
+      _class:
+        type: "string"
+    description: "Model for testing model with \"_class\" property"
   Dog:
     allOf:
     - $ref: "#/definitions/Animal"
@@ -1038,13 +1067,13 @@ definitions:
     properties:
       integer:
         type: "integer"
-        minimum: 10.0
-        maximum: 100.0
+        minimum: 10
+        maximum: 100
       int32:
         type: "integer"
         format: "int32"
-        minimum: 20.0
-        maximum: 200.0
+        minimum: 20
+        maximum: 200
       int64:
         type: "integer"
         format: "int64"
@@ -1100,6 +1129,7 @@ definitions:
         enum:
         - "UPPER"
         - "lower"
+        - ""
       enum_integer:
         type: "integer"
         format: "int32"
@@ -1112,6 +1142,8 @@ definitions:
         enum:
         - 1.1
         - -1.2
+      outerEnum:
+        $ref: "#/definitions/OuterEnum"
   AdditionalPropertiesClass:
     type: "object"
     properties:
@@ -1165,6 +1197,22 @@ definitions:
       foo:
         type: "string"
         readOnly: true
+  Capitalization:
+    type: "object"
+    properties:
+      smallCamel:
+        type: "string"
+      CapitalCamel:
+        type: "string"
+      small_Snake:
+        type: "string"
+      Capital_Snake:
+        type: "string"
+      SCA_ETH_Flow_Points:
+        type: "string"
+      ATT_NAME:
+        type: "string"
+        description: "Name of the pet\n"
   MapTest:
     type: "object"
     properties:
@@ -1237,6 +1285,12 @@ definitions:
           enum:
           - "fish"
           - "crab"
+  OuterEnum:
+    type: "string"
+    enum:
+    - "placed"
+    - "approved"
+    - "delivered"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

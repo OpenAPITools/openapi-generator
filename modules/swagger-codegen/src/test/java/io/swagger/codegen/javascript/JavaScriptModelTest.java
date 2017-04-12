@@ -81,8 +81,8 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "Date");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -112,7 +112,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.defaultValue, /*"[]"*/null);
         Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -141,7 +141,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.defaultValue, /*"{}"*/null);
         Assert.assertEquals(property.baseType, "Object");
         Assert.assertEquals(property.containerType, "map");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -170,7 +170,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.defaultValue, /*"{}"*/null);
         Assert.assertEquals(property.baseType, "Object");
         Assert.assertEquals(property.containerType, "map");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -193,7 +193,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.defaultValue, /*"[]"*/null);
         Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -217,7 +217,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "children");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "Children");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
 
@@ -246,7 +246,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.defaultValue, /*"[]"*/null);
         Assert.assertEquals(property.baseType, "Array");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -276,9 +276,9 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.defaultValue, /*"{}"*/ null);
         Assert.assertEquals(property.baseType, "Object");
         Assert.assertEquals(property.containerType, "map");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
-        Assert.assertNull(property.isNotContainer);
+        Assert.assertFalse(property.isNotContainer);
     }
 
     @Test(description = "convert an array model")
@@ -336,7 +336,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "NAME");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
+        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
@@ -362,7 +362,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
+        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
@@ -420,12 +420,12 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.baseName, "inputBinaryData");
         Assert.assertEquals(property.getter, "getInputBinaryData");
         Assert.assertEquals(property.setter, "setInputBinaryData");
-        Assert.assertEquals(property.datatype, "String");
+        Assert.assertEquals(property.datatype, "Blob");
         Assert.assertEquals(property.name, "inputBinaryData");
         Assert.assertEquals(property.defaultValue, null);
-        Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
-        Assert.assertNull(property.required);
+        Assert.assertEquals(property.baseType, "Blob");
+        Assert.assertFalse(property.hasMore);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isNotContainer);
     }
 
@@ -449,7 +449,7 @@ public class JavaScriptModelTest {
         Assert.assertEquals(property.name, "u");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
-        Assert.assertNull(property.hasMore);
+        Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.isNotContainer);
     }
 

@@ -1,6 +1,6 @@
 # IO.Swagger.Api.PetApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -192,7 +192,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List<string>**](string.md)| Status values that need to be considered for filter | 
+ **status** | [**List&lt;string&gt;**](string.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -257,7 +257,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List<string>**](string.md)| Tags to filter by | 
+ **tags** | [**List&lt;string&gt;**](string.md)| Tags to filter by | 
 
 ### Return type
 

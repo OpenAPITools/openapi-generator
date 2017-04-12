@@ -50,14 +50,14 @@
      * @param {<&vendorExtensions.x-jsdoc-type>} opts.<paramName> <description><#defaultValue> (default to <.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
      * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    this.<operationId> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
+</emitJSDoc>    this.<operationId><#usePromises>WithHttpInfo</usePromises> = function(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
       opts = opts || {};</hasOptionalParams>
       var postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
 <#allParams><#required>
       // verify the required parameter '<paramName>' is set
-      if (<paramName> == undefined || <paramName> == null) {
+      if (<paramName> === undefined || <paramName> === null) {
         throw new Error("Missing the required parameter '<paramName>' when calling <operationId>");
       }
 </required></allParams>
@@ -86,6 +86,26 @@
         authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
       );
     }
+<#usePromises>
+    <#emitJSDoc>
+
+    /**<#summary>
+     * <summary></summary><#notes>
+     * <notes></notes><#allParams><#required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} <paramName> <description></required></allParams><#hasOptionalParams>
+     * @param {Object} opts Optional parameters<#allParams><^required>
+     * @param {<&vendorExtensions.x-jsdoc-type>} opts.<paramName> <description><#defaultValue> (default to <.>)</defaultValue></required></allParams></hasOptionalParams><^usePromises>
+     * @param {module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><&classname>~<operationId>Callback} callback The callback function, accepting three arguments: error, data, response<#returnType>
+     * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
+     */
+</emitJSDoc>    this.<operationId> = function(<vendorExtensions.x-codegen-argList>) {
+      return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-argList>)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+</usePromises>
 </operation></operations>  };
 
   return exports;

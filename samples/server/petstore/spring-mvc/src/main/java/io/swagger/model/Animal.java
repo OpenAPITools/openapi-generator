@@ -3,12 +3,19 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
+import javax.validation.constraints.*;
 /**
  * Animal
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true )
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+})
 
 public class Animal   {
   @JsonProperty("className")
@@ -27,6 +34,7 @@ public class Animal   {
    * @return className
   **/
   @ApiModelProperty(required = true, value = "")
+  @NotNull
   public String getClassName() {
     return className;
   }

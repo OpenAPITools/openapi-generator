@@ -11,7 +11,7 @@ namespace {{packageName}}.Client
     /// <summary>
     /// Represents a set of configuration settings
     /// </summary>
-    public class Configuration
+    {{>visibility}} class Configuration
     {
         /// <summary>
         /// Initializes a new instance of the Configuration class with different settings
@@ -56,7 +56,7 @@ namespace {{packageName}}.Client
 
             TempFolderPath = tempFolderPath;
             DateTimeFormat = dateTimeFormat;
-            Timeout = timeout;
+            Timeout = {{#netStandard}}TimeSpan.FromMilliseconds({{/netStandard}}timeout{{#netStandard}}){{/netStandard}};
         }
 
         /// <summary>
@@ -87,7 +87,9 @@ namespace {{packageName}}.Client
         {
             int status = (int) response.StatusCode;
             if (status >= 400) return new ApiException(status, String.Format("Error calling {0}: {1}", methodName, response.Content), response.Content);
+            {{^netStandard}}
             if (status == 0) return new ApiException(status, String.Format("Error calling {0}: {1}", methodName, response.ErrorMessage), response.ErrorMessage);
+            {{/netStandard}}
             return null;
         };
 
@@ -95,7 +97,7 @@ namespace {{packageName}}.Client
         /// Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
         /// </summary>
         /// <value>Timeout.</value>
-        public int Timeout
+        public {{^netStandard}}int{{/netStandard}}{{#netStandard}}TimeSpan?{{/netStandard}} Timeout
         {
             get { return ApiClient.RestClient.Timeout; }
 
@@ -234,7 +236,7 @@ namespace {{packageName}}.Client
                 return apiKeyValue;
         }
 
-        private string _tempFolderPath = Path.GetTempPath();
+        private string _tempFolderPath;
 
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
@@ -242,7 +244,15 @@ namespace {{packageName}}.Client
         /// <value>Folder path.</value>
         public String TempFolderPath
         {
-            get { return _tempFolderPath; }
+            get
+            {
+                // default to Path.GetTempPath() if _tempFolderPath is not set
+                if (String.IsNullOrEmpty(_tempFolderPath))
+                {
+                    _tempFolderPath = Path.GetTempPath();
+                }
+                return _tempFolderPath;
+            }
 
             set
             {
@@ -303,6 +313,7 @@ namespace {{packageName}}.Client
         public static String ToDebugReport()
         {
             String report = "C# SDK ({{{packageName}}}) Debug Report:\n";
+            {{^netStandard}}
             {{^supportsUWP}}
             report += "    OS: " + Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + Assembly
@@ -310,6 +321,10 @@ namespace {{packageName}}.Client
                      .GetReferencedAssemblies()
                      .Where(x => x.Name == "System.Core").First().Version.ToString()  + "\n";
             {{/supportsUWP}}
+            {{/netStandard}}
+            {{#netStandard}}
+            report += "    OS: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription + "\n";
+            {{/netStandard}}
             report += "    Version of the API: {{{version}}}\n";
             report += "    SDK Package Version: {{{packageVersion}}}\n";
 

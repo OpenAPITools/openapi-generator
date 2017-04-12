@@ -91,12 +91,12 @@ void
 SWGUser::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
     ::Swagger::setValue(&username, pJson["username"], "QString", "QString");
-    ::Swagger::setValue(&first_name, pJson["first_name"], "QString", "QString");
-    ::Swagger::setValue(&last_name, pJson["last_name"], "QString", "QString");
+    ::Swagger::setValue(&first_name, pJson["firstName"], "QString", "QString");
+    ::Swagger::setValue(&last_name, pJson["lastName"], "QString", "QString");
     ::Swagger::setValue(&email, pJson["email"], "QString", "QString");
     ::Swagger::setValue(&password, pJson["password"], "QString", "QString");
     ::Swagger::setValue(&phone, pJson["phone"], "QString", "QString");
-    ::Swagger::setValue(&user_status, pJson["user_status"], "qint32", "");
+    ::Swagger::setValue(&user_status, pJson["userStatus"], "qint32", "");
 }
 
 QString
@@ -117,9 +117,9 @@ SWGUser::asJsonObject() {
 
     toJsonValue(QString("username"), username, obj, QString("QString"));
 
-    toJsonValue(QString("first_name"), first_name, obj, QString("QString"));
+    toJsonValue(QString("firstName"), first_name, obj, QString("QString"));
 
-    toJsonValue(QString("last_name"), last_name, obj, QString("QString"));
+    toJsonValue(QString("lastName"), last_name, obj, QString("QString"));
 
     toJsonValue(QString("email"), email, obj, QString("QString"));
 
@@ -127,7 +127,7 @@ SWGUser::asJsonObject() {
 
     toJsonValue(QString("phone"), phone, obj, QString("QString"));
 
-    obj->insert("user_status", QJsonValue(user_status));
+    obj->insert("userStatus", QJsonValue(user_status));
 
     return obj;
 }

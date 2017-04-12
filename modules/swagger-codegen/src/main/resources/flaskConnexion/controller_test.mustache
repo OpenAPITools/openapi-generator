@@ -31,7 +31,7 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#formParams}}
         {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{#hasMore}},{{/hasMore}}{{#-last}}){{/-last}}
         {{/formParams}}
-        response = self.client.open('{{#contextPath}}{{.}}{{/contextPath}}{{path}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/pathParams}},
+        response = self.client.open('{{#contextPath}}{{{.}}}{{/contextPath}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/pathParams}},
                                     method='{{httpMethod}}'{{#bodyParam}},
                                     data=json.dumps({{paramName}}){{^consumes}},
                                     content_type='application/json'{{/consumes}}{{/bodyParam}}{{#headerParams}}{{#-first}},

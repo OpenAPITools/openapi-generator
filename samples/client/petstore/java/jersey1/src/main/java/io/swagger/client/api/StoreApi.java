@@ -63,8 +63,8 @@ public class StoreApi {
     }
     
     // create path and map variables
-    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+    String localVarPath = "/store/order/{order_id}"
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -92,14 +92,14 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Map<String, Integer>
+   * @return Map&lt;String, Integer&gt;
    * @throws ApiException if fails to make API call
    */
   public Map<String, Integer> getInventory() throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/store/inventory".replaceAll("\\{format\\}","json");
+    String localVarPath = "/store/inventory";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -140,8 +140,8 @@ public class StoreApi {
     }
     
     // create path and map variables
-    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+    String localVarPath = "/store/order/{order_id}"
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -182,7 +182,7 @@ public class StoreApi {
     }
     
     // create path and map variables
-    String localVarPath = "/store/order".replaceAll("\\{format\\}","json");
+    String localVarPath = "/store/order";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

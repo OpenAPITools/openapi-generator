@@ -67,4 +67,43 @@ public class FileRuleTest {
         assertFalse(actual);
     }
 
+    @Test
+    public void testGlobbingRecursive() throws Exception {
+        // Arrange
+        final String definition = "*.txt";
+        final String relativePath = "path/to/some/nested/location/xyzzy.txt";
+
+        // Act
+        final List<Part> syntax = Arrays.asList(
+                new Part(IgnoreLineParser.Token.MATCH_ALL),
+                new Part(IgnoreLineParser.Token.DIRECTORY_MARKER),
+                new Part(IgnoreLineParser.Token.MATCH_ANY),
+                new Part(IgnoreLineParser.Token.TEXT, ".txt")
+        );
+
+        Rule rule = new FileRule(syntax, definition);
+        Boolean actual = rule.matches(relativePath);
+
+        // Assert
+        assertTrue(actual);
+    }
+
+    @Test
+    public void testGlobbingNotRecursive() throws Exception {
+        // Arrange
+        final String definition = "*.txt";
+        final String relativePath = "path/to/some/nested/location/xyzzy.txt";
+
+        // Act
+        final List<Part> syntax = Arrays.asList(
+                new Part(IgnoreLineParser.Token.MATCH_ANY),
+                new Part(IgnoreLineParser.Token.TEXT, ".txt")
+        );
+
+        Rule rule = new FileRule(syntax, definition);
+        Boolean actual = rule.matches(relativePath);
+
+        // Assert
+        assertFalse(actual);
+    }
 }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,7 +32,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     protected Map<Character, String> regexModifiers;
 
-	private String testFolder;
+    private String testFolder;
 
     public PythonClientCodegen() {
         super();
@@ -251,7 +252,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 
@@ -288,12 +292,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String apiTestFileFolder() {
-    	return outputFolder + File.separatorChar + testFolder;
+        return outputFolder + File.separatorChar + testFolder;
     }
 
     @Override
     public String modelTestFileFolder() {
-    	return outputFolder + File.separatorChar + testFolder;
+        return outputFolder + File.separatorChar + testFolder;
     }
 
     @Override
@@ -429,8 +433,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelTestFilename(String name) {
-    	return "test_" + toModelFilename(name);
-    };
+        return "test_" + toModelFilename(name);
+    }
 
     @Override
     public String toApiFilename(String name) {
@@ -443,7 +447,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toApiTestFilename(String name) {
-    	return "test_" + toApiFilename(name);
+        return "test_" + toApiFilename(name);
     }
 
     @Override
@@ -516,7 +520,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (p instanceof StringProperty) {
             StringProperty dp = (StringProperty) p;
             if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+                if (Pattern.compile("\r\n|\r|\n").matcher(dp.getDefault()).find())
+                    return "'''" + dp.getDefault() + "'''";
+                else
+                    return "'" + dp.getDefault() + "'";
             }
         } else if (p instanceof BooleanProperty) {
             BooleanProperty dp = (BooleanProperty) p;

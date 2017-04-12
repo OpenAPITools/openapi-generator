@@ -45,7 +45,7 @@ class Configuration(object):
         Constructor
         """
         # Default Base url
-        self.host = "http://petstore.swagger.io/v2"
+        self.host = "http://petstore.swagger.io:80/v2"
         # Default api client
         self.api_client = None
         # Temp file folder for downloading files
@@ -88,6 +88,9 @@ class Configuration(object):
         self.cert_file = None
         # client key file
         self.key_file = None
+
+        # Proxy URL
+        self.proxy = None
 
     @property
     def logger_file(self):

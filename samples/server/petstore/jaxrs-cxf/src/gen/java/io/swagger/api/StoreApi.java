@@ -14,35 +14,50 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.jaxrs.PATCH;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/")
 @Api(value = "/", description = "")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 public interface StoreApi  {
 
     @DELETE
-    @Path("/store/order/{orderId}")
+    @Path("/store/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Delete purchase order by ID", tags={ "store",  })
-    public void  deleteOrder(@PathParam("orderId") String orderId);
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Invalid ID supplied"),
+        @ApiResponse(code = 404, message = "Order not found") })
+    public void deleteOrder(@PathParam("order_id") String orderId);
 
     @GET
     @Path("/store/inventory")
     @Produces({ "application/json" })
     @ApiOperation(value = "Returns pet inventories by status", tags={ "store",  })
-    public Integer  getInventory();
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
+    public Map<String, Integer> getInventory();
 
     @GET
-    @Path("/store/order/{orderId}")
+    @Path("/store/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Find purchase order by ID", tags={ "store",  })
-    public Order  getOrderById(@PathParam("orderId") Long orderId);
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
+        @ApiResponse(code = 400, message = "Invalid ID supplied"),
+        @ApiResponse(code = 404, message = "Order not found") })
+    public Order getOrderById(@PathParam("order_id") @Min(1) @Max(5) Long orderId);
 
     @POST
     @Path("/store/order")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Place an order for a pet", tags={ "store" })
-    public Order  placeOrder(Order body);
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
+        @ApiResponse(code = 400, message = "Invalid Order") })
+    public Order placeOrder(@Valid Order body);
 }
 
