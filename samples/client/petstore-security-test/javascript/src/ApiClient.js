@@ -9,34 +9,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['superagent'], factory);
+    define(['superagent', 'querystring'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('superagent'));
+    module.exports = factory(require('superagent'), require('querystring'));
   } else {
     // Browser globals (root is window)
     if (!root.SwaggerPetstoreEndRnNR) {
       root.SwaggerPetstoreEndRnNR = {};
     }
-    root.SwaggerPetstoreEndRnNR.ApiClient = factory(root.superagent);
+    root.SwaggerPetstoreEndRnNR.ApiClient = factory(root.superagent, root.querystring);
   }
-}(this, function(superagent) {
+}(this, function(superagent, querystring) {
   'use strict';
 
   /**
@@ -55,9 +44,9 @@
     /**
      * The base URL against which to resolve every API call's (relative) path.
      * @type {String}
-     * @default https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+     * @default https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r
      */
-    this.basePath = 'https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r'.replace(/\/+$/, '');
+    this.basePath = 'https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r'.replace(/\/+$/, '');
 
     /**
      * The authentication methods to be included for all API calls.
@@ -80,6 +69,30 @@
      * @default 60000
      */
     this.timeout = 60000;
+
+    /**
+     * If set to false an additional timestamp parameter is added to all API GET calls to
+     * prevent browser caching
+     * @type {Boolean}
+     * @default true
+     */
+    this.cache = true;
+
+    /**
+     * If set to true, the client will save the cookies from each server
+     * response, and return them in the next request.
+     * @default false
+     */
+    this.enableCookies = false;
+
+    /*
+     * Used to save and return cookies in a node.js (non-browser) setting,
+     * if this.enableCookies is set to true.
+     */
+    if (typeof window === 'undefined') {
+      this.agent = new superagent.agent();
+    }
+
   };
 
   /**
@@ -316,13 +329,13 @@
    * @returns A value of the specified type.
    */
   exports.prototype.deserialize = function deserialize(response, returnType) {
-    if (response == null || returnType == null) {
+    if (response == null || returnType == null || response.status == 204) {
       return null;
     }
     // Rely on SuperAgent for parsing response body.
     // See http://visionmedia.github.io/superagent/#parsing-response-bodies
     var data = response.body;
-    if (data == null) {
+    if (data == null || (typeof data === 'object' && typeof data.length === 'undefined' && !Object.keys(data).length)) {
       // SuperAgent does not always produce a body; use the unparsed response as a fallback
       data = response.text;
     }
@@ -366,6 +379,9 @@
     this.applyAuthToRequest(request, authNames);
 
     // set query parameters
+    if (httpMethod.toUpperCase() === 'GET' && this.cache === false) {
+        queryParams['_'] = new Date().getTime();
+    }
     request.query(this.normalizeParams(queryParams));
 
     // set header parameters
@@ -385,7 +401,7 @@
     }
 
     if (contentType === 'application/x-www-form-urlencoded') {
-      request.send(this.normalizeParams(formParams));
+      request.send(querystring.stringify(this.normalizeParams(formParams)));
     } else if (contentType == 'multipart/form-data') {
       var _formParams = this.normalizeParams(formParams);
       for (var key in _formParams) {
@@ -407,12 +423,33 @@
       request.accept(accept);
     }
 
+    if (returnType === 'Blob') {
+      request.responseType('blob');
+    }
+
+    // Attach previously saved cookies, if enabled
+    if (this.enableCookies){
+      if (typeof window === 'undefined') {
+        this.agent.attachCookies(request);
+      }
+      else {
+        request.withCredentials();
+      }
+    }
+
 
     request.end(function(error, response) {
       if (callback) {
         var data = null;
         if (!error) {
-          data = _this.deserialize(response, returnType);
+          try {
+            data = _this.deserialize(response, returnType);
+            if (_this.enableCookies && typeof window === 'undefined'){
+              _this.agent.saveCookies(response);
+            }
+          } catch (err) {
+            error = err;
+          }
         }
         callback(error, data, response);
       }
@@ -437,9 +474,12 @@
    * or the constructor function for a complex type. Pass an array containing the type name to return an array of that type. To
    * return an object, pass an object with one property whose name is the key type and whose value is the corresponding value type:
    * all properties on <code>data<code> will be converted to this type.
-   * @returns An instance of the specified type.
+   * @returns An instance of the specified type or null or undefined if data is null or undefined.
    */
   exports.convertToType = function(data, type) {
+    if (data === null || data === undefined)
+      return data
+
     switch (type) {
       case 'Boolean':
         return Boolean(data);
@@ -451,6 +491,8 @@
         return String(data);
       case 'Date':
         return this.parseDate(String(data));
+      case 'Blob':
+      	return data;
       default:
         if (type === Object) {
           // generic object, return directly

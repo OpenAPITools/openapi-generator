@@ -10,6 +10,8 @@ import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.codegen.CliOption;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +23,9 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
     protected String packageVersion = "1.0.0";
     protected String clientPackage = "IO.Swagger.Client";
     protected String sourceFolder = "src" + File.separator + "main" + File.separator + "CsharpDotNet2";
+    protected String apiDocPath = "docs/"; 
+    protected String modelDocPath = "docs/";
+
 
     public CsharpDotNet2ClientCodegen() {
         super();
@@ -35,6 +40,8 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         embeddedTemplateDir = templateDir = "CsharpDotNet2";
         apiPackage = "IO.Swagger.Api";
         modelPackage = "IO.Swagger.Model";
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -65,6 +72,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
                         "Integer",
                         "Long",
                         "Float",
+                        "Guid?",
                         "System.IO.Stream", // not really a primitive, we include it to avoid model import
                         "Object")
         );
@@ -86,6 +94,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
+        typeMapping.put("uuid", "Guid?");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "C# package name (convention: Camel.Case).")
@@ -120,6 +129,9 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
             additionalProperties.put(CLIENT_PACKAGE, clientPackage);
         }
 
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         supportingFiles.add(new SupportingFile("Configuration.mustache",
                 sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache",
@@ -128,7 +140,7 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
                 sourceFolder + File.separator + clientPackage.replace(".", java.io.File.separator), "ApiException.cs"));
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor", "packages.config"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
-        supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
     }
 
@@ -160,7 +172,10 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 
@@ -220,11 +235,26 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelName(String name) {
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
         name = sanitizeName(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            throw new RuntimeException(name + " (reserved word) cannot be used as a model name");
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
@@ -271,12 +301,18 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toOperationId(String operationId) {
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        return camelize(operationId);
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        return camelize(sanitizeName(operationId));
     }
 
     @Override
@@ -288,6 +324,16 @@ public class CsharpDotNet2ClientCodegen extends DefaultCodegen implements Codege
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
 }

@@ -1,6 +1,6 @@
-var {{{moduleName}}} = require('{{{projectName}}}');
+var {{{jsModuleName}}} = require('{{{jsProjectName}}}');
 {{#hasAuthMethods}}
-var defaultClient = {{{moduleName}}}.ApiClient.instance;
+var defaultClient = {{{jsModuleName}}}.ApiClient.instance;
 {{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
@@ -17,12 +17,12 @@ var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var api = new {{{moduleName}}}.{{{classname}}}(){{#hasParams}}
+var api = new {{{jsModuleName}}}.{{{classname}}}(){{#hasParams}}
 {{#vendorExtensions.x-codegen-hasRequiredParams}}{{#allParams}}{{#required}}
-var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}
+var {{{paramName}}} = {{{example}}}; // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}
 {{/required}}{{/allParams}}{{/vendorExtensions.x-codegen-hasRequiredParams}}{{#hasOptionalParams}}
 var opts = { {{#allParams}}{{^required}}
-  '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{description}}}{{/required}}{{/allParams}}
+  '{{{paramName}}}': {{{example}}}{{#vendorExtensions.x-codegen-hasMoreOptional}},{{/vendorExtensions.x-codegen-hasMoreOptional}} // {{=< >=}}{<&dataType>}<={{ }}=> {{{unescapedDescription}}}{{/required}}{{/allParams}}
 };{{/hasOptionalParams}}{{/hasParams}}
 {{#usePromises}}
 api.{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{#vendorExtensions.x-codegen-hasMoreRequired}}, {{/vendorExtensions.x-codegen-hasMoreRequired}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{{#vendorExtensions.x-codegen-hasRequiredParams}}, {{/vendorExtensions.x-codegen-hasRequiredParams}}opts{{/hasOptionalParams}}).then(function({{#returnType}}data{{/returnType}}) {

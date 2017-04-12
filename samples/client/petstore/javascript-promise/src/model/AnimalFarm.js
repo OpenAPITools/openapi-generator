@@ -61,7 +61,7 @@
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
-      ApiClient.constructFromObject(data, obj, Animal);
+      ApiClient.constructFromObject(data, obj, 'Animal');
 
     }
     return obj;

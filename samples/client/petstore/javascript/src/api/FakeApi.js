@@ -55,6 +55,7 @@
 
     /**
      * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
      * @param {module:model/Client} body client model
      * @param {module:api/FakeApi~testClientModelCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
@@ -63,7 +64,7 @@
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
 
@@ -103,14 +104,14 @@
      * @param {Number} _number None
      * @param {Number} _double None
      * @param {String} patternWithoutDelimiter None
-     * @param {String} _byte None
+     * @param {Blob} _byte None
      * @param {Object} opts Optional parameters
      * @param {Number} opts.integer None
      * @param {Number} opts.int32 None
      * @param {Number} opts.int64 None
      * @param {Number} opts._float None
      * @param {String} opts._string None
-     * @param {String} opts.binary None
+     * @param {Blob} opts.binary None
      * @param {Date} opts._date None
      * @param {Date} opts.dateTime None
      * @param {String} opts.password None
@@ -122,22 +123,22 @@
       var postBody = null;
 
       // verify the required parameter '_number' is set
-      if (_number == undefined || _number == null) {
+      if (_number === undefined || _number === null) {
         throw new Error("Missing the required parameter '_number' when calling testEndpointParameters");
       }
 
       // verify the required parameter '_double' is set
-      if (_double == undefined || _double == null) {
+      if (_double === undefined || _double === null) {
         throw new Error("Missing the required parameter '_double' when calling testEndpointParameters");
       }
 
       // verify the required parameter 'patternWithoutDelimiter' is set
-      if (patternWithoutDelimiter == undefined || patternWithoutDelimiter == null) {
+      if (patternWithoutDelimiter === undefined || patternWithoutDelimiter === null) {
         throw new Error("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
       }
 
       // verify the required parameter '_byte' is set
-      if (_byte == undefined || _byte == null) {
+      if (_byte === undefined || _byte === null) {
         throw new Error("Missing the required parameter '_byte' when calling testEndpointParameters");
       }
 
@@ -187,6 +188,7 @@
 
     /**
      * To test enum parameters
+     * To test enum parameters
      * @param {Object} opts Optional parameters
      * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array)
      * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to -efg)
@@ -194,8 +196,8 @@
      * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to -efg)
      * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
      * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to -efg)
-     * @param {Number} opts.enumQueryInteger Query parameter enum test (double)
-     * @param {Number} opts.enumQueryDouble Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
+     * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
      * @param {module:api/FakeApi~testEnumParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
     this.testEnumParameters = function(opts, callback) {

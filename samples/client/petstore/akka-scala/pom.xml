@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-client</artifactId>
+    <artifactId>scala-akka-petstore-client</artifactId>
     <packaging>jar</packaging>
-    <name>swagger-client</name>
+    <name>scala-akka-petstore-client</name>
     <version>1.0.0</version>
     <prerequisites>
         <maven>2.2.0</maven>
@@ -104,11 +104,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.6.1</version>
                 <configuration>
-                    <source>
-                    1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -217,7 +216,7 @@
         <akka-version>2.3.9</akka-version>
         <joda-version>1.2</joda-version>
         <joda-time-version>2.2</joda-time-version>
-        <swagger-core-version>1.5.9</swagger-core-version>
+        <swagger-core-version>1.5.12</swagger-core-version>
         <maven-plugin.version>1.0.0</maven-plugin.version>
 
         <junit-version>4.8.1</junit-version>

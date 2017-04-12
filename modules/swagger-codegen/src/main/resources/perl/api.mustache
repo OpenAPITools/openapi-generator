@@ -78,8 +78,7 @@ sub {{operationId}} {
     {{/required}}
     {{/allParams}}
     # parse inputs
-    my $_resource_path = '{{path}}';
-    $_resource_path =~ s/{format}/json/; # default format to json
+    my $_resource_path = '{{{path}}}';
 
     my $_method = '{{httpMethod}}';
     my $query_params = {};

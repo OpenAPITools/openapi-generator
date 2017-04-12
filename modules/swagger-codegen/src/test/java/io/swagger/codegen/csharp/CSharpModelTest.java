@@ -47,7 +47,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -70,7 +70,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property.datatype, "Collection<string>");
         Assert.assertEquals(property.baseType, "Collection");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -96,7 +96,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property.baseType, "Collection",
                 "returnICollection option should not modify property baseType");
         Assert.assertEquals(property.containerType, "array");
-        Assert.assertNull(property.required);
+        Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
     }
 
@@ -153,8 +153,8 @@ public class CSharpModelTest {
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime?");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -191,9 +191,9 @@ public class CSharpModelTest {
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "List");
-        Assert.assertNull(property2.hasMore);
+        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
-        Assert.assertNull(property2.required);
+        Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertTrue(property2.isContainer);
     }
@@ -219,7 +219,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.name, "Translations");
         Assert.assertEquals(property1.baseType, "Dictionary");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
         Assert.assertTrue(property1.isPrimitiveType);
     }
@@ -242,7 +242,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.datatype, "Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
 
@@ -267,7 +267,7 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "List");
         Assert.assertEquals(property1.containerType, "array");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 
@@ -293,9 +293,9 @@ public class CSharpModelTest {
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Dictionary");
         Assert.assertEquals(property1.containerType, "map");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertNull(property1.isNotContainer);
+        Assert.assertFalse(property1.isNotContainer);
     }
 
     @Test(description = "convert an array model")

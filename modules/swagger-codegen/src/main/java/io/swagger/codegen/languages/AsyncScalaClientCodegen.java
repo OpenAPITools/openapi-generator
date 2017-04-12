@@ -60,7 +60,7 @@ public class AsyncScalaClientCodegen extends AbstractScalaCodegen implements Cod
         importMapping.remove("Map");
 
         importMapping.put("DateTime", "org.joda.time.DateTime");
-        importMapping.put("ListBuffer", "scala.collections.mutable.ListBuffer");
+        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -96,5 +96,11 @@ public class AsyncScalaClientCodegen extends AbstractScalaCodegen implements Cod
     @Override
     public String getHelp() {
         return "Generates an Asynchronous Scala client library.";
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
     }
 }

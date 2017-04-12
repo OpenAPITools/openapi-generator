@@ -21,7 +21,7 @@ namespace Swagger {
 void
 {{classname}}::{{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     QString fullPath;
-    fullPath.append(this->host).append(this->basePath).append("{{path}}");
+    fullPath.append(this->host).append(this->basePath).append("{{{path}}}");
 
     {{#pathParams}}
     QString {{paramName}}PathParam("{"); {{paramName}}PathParam.append("{{baseName}}").append("}");

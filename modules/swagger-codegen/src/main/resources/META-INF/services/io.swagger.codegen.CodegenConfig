@@ -2,10 +2,12 @@ io.swagger.codegen.languages.AndroidClientCodegen
 io.swagger.codegen.languages.AspNet5ServerCodegen
 io.swagger.codegen.languages.AspNetCoreServerCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
+io.swagger.codegen.languages.BashClientCodegen
 io.swagger.codegen.languages.ConfluenceWikiGenerator
 io.swagger.codegen.languages.CSharpClientCodegen
 io.swagger.codegen.languages.CppRestClientCodegen
 io.swagger.codegen.languages.DartClientCodegen
+io.swagger.codegen.languages.ElixirClientCodegen
 io.swagger.codegen.languages.FlashClientCodegen
 io.swagger.codegen.languages.FlaskConnexionCodegen
 io.swagger.codegen.languages.GoClientCodegen
@@ -15,6 +17,7 @@ io.swagger.codegen.languages.JavaJerseyServerCodegen
 io.swagger.codegen.languages.JavaCXFClientCodegen
 io.swagger.codegen.languages.JavaCXFServerCodegen
 io.swagger.codegen.languages.JavaResteasyServerCodegen
+io.swagger.codegen.languages.JavaResteasyEapServerCodegen
 io.swagger.codegen.languages.JavaJAXRSSpecServerCodegen
 io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen
 io.swagger.codegen.languages.JavaInflectorServerCodegen
@@ -32,11 +35,13 @@ io.swagger.codegen.languages.Qt5CPPGenerator
 io.swagger.codegen.languages.RubyClientCodegen
 io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen
+io.swagger.codegen.languages.FinchServerCodegen
 io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SinatraServerCodegen
 io.swagger.codegen.languages.Rails5ServerCodegen
 io.swagger.codegen.languages.SlimFrameworkServerCodegen
 io.swagger.codegen.languages.SpringCodegen
+io.swagger.codegen.languages.JavaPlayFrameworkCodegen
 io.swagger.codegen.languages.StaticDocCodegen
 io.swagger.codegen.languages.StaticHtmlGenerator
 io.swagger.codegen.languages.StaticHtml2Generator
@@ -47,6 +52,7 @@ io.swagger.codegen.languages.Swift3Codegen
 io.swagger.codegen.languages.TizenClientCodegen
 io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen
 io.swagger.codegen.languages.TypeScriptAngularClientCodegen
+io.swagger.codegen.languages.TypeScriptJqueryClientCodegen
 io.swagger.codegen.languages.TypeScriptNodeClientCodegen
 io.swagger.codegen.languages.TypeScriptFetchClientCodegen
 io.swagger.codegen.languages.AkkaScalaClientCodegen
@@ -58,3 +64,4 @@ io.swagger.codegen.languages.GoServerCodegen
 io.swagger.codegen.languages.ErlangServerCodegen
 io.swagger.codegen.languages.UndertowCodegen
 io.swagger.codegen.languages.JavaMSF4JServerCodegen
+io.swagger.codegen.languages.ZendExpressivePathHandlerServerCodegen

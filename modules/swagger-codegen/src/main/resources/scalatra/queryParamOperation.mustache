@@ -1,13 +1,13 @@
     {{#isQueryParam}}
       {{#collectionFormat}}val {{paramName}}String = params.getAs[String]("{{paramName}}")
-      val {{paramName}} = if("{{collectionFormat}}".equals("default")) {
+      val {{paramName}} = if("{{collectionFormat}}" == "default" || "{{collectionFormat}}" == "csv") {
         {{paramName}}String match {
-          case Some(str) => str.split(",")
-          case None => List()
+          case Some(str) => str.split(",").toSeq
+          case None => Seq()
         }
       }
       else
-        List()
+        Seq()
       {{/collectionFormat}}
       {{^collectionFormat}}val {{paramName}} = params.getAs[{{dataType}}]("{{paramName}}"){{/collectionFormat}}
     {{/isQueryParam}}

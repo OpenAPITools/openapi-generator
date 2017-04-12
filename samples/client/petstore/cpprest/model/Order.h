@@ -12,7 +12,7 @@
 
 /*
  * Order.h
- * 
+ *
  * An order for a pets from the pet store
  */
 
@@ -33,15 +33,15 @@ namespace model {
 /// An order for a pets from the pet store
 /// </summary>
 class  Order
-	: public ModelBase
+    : public ModelBase
 {
 public:
     Order();
     virtual ~Order();
 
-	/////////////////////////////////////////////
-	/// ModelBase overrides
-	
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
     void validate() override;
 
     web::json::value toJson() const override;
@@ -49,10 +49,10 @@ public:
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
-    
- 	/////////////////////////////////////////////
-	/// Order members
-	   
+
+    /////////////////////////////////////////////
+    /// Order members
+
     /// <summary>
     /// 
     /// </summary>
@@ -95,7 +95,7 @@ public:
     void setComplete(bool value);
     bool completeIsSet() const;
     void unsetComplete();
-    
+
 protected:
     int64_t m_Id;
     bool m_IdIsSet;

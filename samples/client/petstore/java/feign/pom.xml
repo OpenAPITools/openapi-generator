@@ -6,14 +6,33 @@
   <packaging>jar</packaging>
   <name>swagger-petstore-feign</name>
   <version>1.0.0</version>
+  <url>https://github.com/swagger-api/swagger-codegen</url>
+  <description>Swagger Java</description>
   <scm>
-    <connection>scm:git:git@github.com:swagger-api/swagger-mustache.git</connection>
+    <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
     <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
     <url>https://github.com/swagger-api/swagger-codegen</url>
   </scm>
   <prerequisites>
     <maven>2.2.0</maven>
   </prerequisites>
+
+  <licenses>
+    <license>
+      <name>Unlicense</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Swagger</name>
+      <email>apiteam@swagger.io</email>
+      <organization>Swagger</organization>
+      <organizationUrl>http://swagger.io</organizationUrl>
+    </developer>
+  </developers>
 
   <build>
     <plugins>
@@ -99,9 +118,55 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.4</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>sign-artifacts</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>io.swagger</groupId>
@@ -111,17 +176,17 @@
 
     <!-- HTTP client: Netflix Feign -->
     <dependency>
-        <groupId>com.netflix.feign</groupId>
+        <groupId>io.github.openfeign</groupId>
         <artifactId>feign-core</artifactId>
         <version>${feign-version}</version>
     </dependency>
     <dependency>
-        <groupId>com.netflix.feign</groupId>
+        <groupId>io.github.openfeign</groupId>
         <artifactId>feign-jackson</artifactId>
         <version>${feign-version}</version>
     </dependency>
     <dependency>
-        <groupId>com.netflix.feign</groupId>
+        <groupId>io.github.openfeign</groupId>
         <artifactId>feign-slf4j</artifactId>
         <version>${feign-version}</version>
     </dependency>
@@ -165,15 +230,27 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>mockwebserver</artifactId>
+      <version>3.6.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>1.7.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <properties>
     <java.version>1.7</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <swagger-core-version>1.5.9</swagger-core-version>
-    <feign-version>8.17.0</feign-version>
-    <feign-form-version>2.0.2</feign-form-version>
-    <jackson-version>2.7.5</jackson-version>
+    <swagger-core-version>1.5.12</swagger-core-version>
+    <feign-version>9.4.0</feign-version>
+    <feign-form-version>2.1.0</feign-form-version>
+    <jackson-version>2.8.7</jackson-version>
     <junit-version>4.12</junit-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <oltu-version>1.0.1</oltu-version>

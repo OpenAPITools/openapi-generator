@@ -36,7 +36,7 @@ public class {{classname}} extends SwaggerApi {
      */
     public function {{nickname}} ({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): String {
         // create path and map variables
-        var path: String = "{{path}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{paramName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
+        var path: String = "{{{path}}}".replace(/{format}/g,"xml"){{#pathParams}}.replace("{" + "{{baseName}}" + "}", getApiInvoker().escapeString({{{paramName}}})){{/pathParams}};
 
         // query params
         var queryParams: Dictionary = new Dictionary();
@@ -50,10 +50,10 @@ public class {{classname}} extends SwaggerApi {
         {{/allParams}}
 
         {{#queryParams}}if("null" != String({{paramName}}))
-            queryParams["{{paramName}}"] = toPathValue({{paramName}});
+            queryParams["{{baseName}}"] = toPathValue({{paramName}});
         {{/queryParams}}
 
-        {{#headerParams}}headerParams["{{paramName}}"] = toPathValue({{paramName}});
+        {{#headerParams}}headerParams["{{baseName}}"] = toPathValue({{paramName}});
         {{/headerParams}}
 
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "{{httpMethod}}", queryParams, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}, headerParams);

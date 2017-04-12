@@ -69,7 +69,7 @@ public class {{classname}}Test {
         api = JAXRSClientFactory.create("http://localhost:" + serverPort + "/services", {{classname}}.class, providers);
 {{/generateSpringBootApplication}}        
 {{^generateSpringBootApplication}}
-        api = JAXRSClientFactory.create("{{basePath}}", {{classname}}.class, providers);
+        api = JAXRSClientFactory.create("{{{basePath}}}", {{classname}}.class, providers);
 {{/generateSpringBootApplication}}
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
         
@@ -103,7 +103,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}org.apache.cxf.jaxrs.ext.multipart.Attachment {{paramName}} = null;{{/isFile}}
         {{/allParams}}
-        //{{^vendorExtensions.x-java-is-response-void}}{{{returnType}}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        //{{^vendorExtensions.x-java-is-response-void}}{{>returnTypes}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{^vendorExtensions.x-java-is-response-void}}//assertNotNull(response);{{/vendorExtensions.x-java-is-response-void}}
         // TODO: test validations
         

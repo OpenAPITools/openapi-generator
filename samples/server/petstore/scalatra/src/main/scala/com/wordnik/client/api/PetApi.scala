@@ -87,14 +87,14 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
     
     
           val statusString = params.getAs[String]("status")
-      val status = if("csv".equals("default")) {
+      val status = if("csv" == "default" || "csv" == "csv") {
         statusString match {
-          case Some(str) => str.split(",")
-          case None => List()
+          case Some(str) => str.split(",").toSeq
+          case None => Seq()
         }
       }
       else
-        List()
+        Seq()
       
 
     println("status: " + status)
@@ -111,14 +111,14 @@ class PetApi (implicit val swagger: Swagger) extends ScalatraServlet
     
     
           val tagsString = params.getAs[String]("tags")
-      val tags = if("csv".equals("default")) {
+      val tags = if("csv" == "default" || "csv" == "csv") {
         tagsString match {
-          case Some(str) => str.split(",")
-          case None => List()
+          case Some(str) => str.split(",").toSeq
+          case None => Seq()
         }
       }
       else
-        List()
+        Seq()
       
 
     println("tags: " + tags)

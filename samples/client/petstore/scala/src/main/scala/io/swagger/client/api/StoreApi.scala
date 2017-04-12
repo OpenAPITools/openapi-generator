@@ -102,7 +102,7 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "map", classOf[Integer]).asInstanceOf[Map[String, Integer]])
+           Some(apiInvoker.deserialize(s, "map", classOf[Integer]).asInstanceOf[Map[String, Integer]])
         case _ => None
       }
     } catch {
@@ -141,7 +141,7 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     try {
       apiInvoker.invokeApi(basePath, path, "GET", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
+           Some(apiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
         case _ => None
       }
     } catch {
@@ -182,7 +182,7 @@ class StoreApi(val defBasePath: String = "http://petstore.swagger.io/v2",
     try {
       apiInvoker.invokeApi(basePath, path, "POST", queryParams.toMap, formParams.toMap, postBody, headerParams.toMap, contentType) match {
         case s: String =>
-           Some(ApiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
+           Some(apiInvoker.deserialize(s, "", classOf[Order]).asInstanceOf[Order])
         case _ => None
       }
     } catch {

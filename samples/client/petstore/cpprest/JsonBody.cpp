@@ -19,7 +19,7 @@ namespace model {
 
 JsonBody::JsonBody( const web::json::value& json)
     : m_Json(json)
-{ 
+{
 }
 
 JsonBody::~JsonBody()

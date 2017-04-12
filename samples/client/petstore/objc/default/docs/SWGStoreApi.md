@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```objc
--(NSNumber*) deleteOrderWithOrderId: (NSString*) orderId
+-(NSURLSessionTask*) deleteOrderWithOrderId: (NSString*) orderId
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -59,7 +59,7 @@ No authorization required
 
 # **getInventory**
 ```objc
--(NSNumber*) getInventoryWithCompletionHandler: 
+-(NSURLSessionTask*) getInventoryWithCompletionHandler: 
         (void (^)(NSDictionary<NSString*, NSNumber*>* output, NSError* error)) handler;
 ```
 
@@ -69,7 +69,7 @@ Returns a map of status codes to quantities
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
@@ -112,7 +112,7 @@ This endpoint does not need any parameter.
 
 # **getOrderById**
 ```objc
--(NSNumber*) getOrderByIdWithOrderId: (NSString*) orderId
+-(NSURLSessionTask*) getOrderByIdWithOrderId: (NSString*) orderId
         completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 ```
 
@@ -162,7 +162,7 @@ No authorization required
 
 # **placeOrder**
 ```objc
--(NSNumber*) placeOrderWithBody: (SWGOrder*) body
+-(NSURLSessionTask*) placeOrderWithBody: (SWGOrder*) body
         completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 ```
 

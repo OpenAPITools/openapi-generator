@@ -8,6 +8,7 @@ package io.swagger.client.model
 
 import io.swagger.client.core.ApiModel
 import org.joda.time.DateTime
+import java.util.UUID
 
 case class Tag (
   id: Option[Long],

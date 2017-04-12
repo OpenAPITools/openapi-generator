@@ -13,7 +13,7 @@ import java.util.List;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
+
 public class EnumArrays   {
   /**
    * Gets or Sets justSymbol
@@ -81,7 +81,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("array_enum")
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private List<ArrayEnumEnum> arrayEnum = null;
 
   /**
    **/
@@ -91,7 +91,7 @@ public class EnumArrays   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -108,7 +108,7 @@ public class EnumArrays   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -119,7 +119,7 @@ public class EnumArrays   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -151,7 +151,7 @@ public class EnumArrays   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

@@ -19,14 +19,14 @@ import javax.xml.bind.annotation.XmlEnumValue;
 @ApiModel(description="{{{description}}}")
 {{/description}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
-  {{#vars}}{{#isEnum}}
+  {{#vars}}{{#isEnum}}{{^isContainer}}
 
-{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}
+{{>enumClass}}{{/isContainer}}{{/isEnum}}{{#items.isEnum}}{{#items}}
 
-{{>enumClass}}{{/items}}{{/items.isEnum}}
+{{^isContainer}}{{>enumClass}}{{/isContainer}}{{/items}}{{/items.isEnum}}
 {{#useJaxbAnnotations}}
-  @XmlElement(name="{{baseName}}")
-{{/useJaxbAnnotations}}  
+  @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
+{{/useJaxbAnnotations}}
   @ApiModelProperty({{#example}}example = "{{example}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
@@ -47,14 +47,37 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
    * @return {{name}}
   **/
 {{#vendorExtensions.extraAnnotation}}
-  {{vendorExtensions.extraAnnotation}}
+  {{{vendorExtensions.extraAnnotation}}}
 {{/vendorExtensions.extraAnnotation}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
+
+  {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
+
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+  {{#isListContainer}}
+
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+  {{/isListContainer}}
+  {{#isMapContainer}}
+
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+  {{/isMapContainer}}
+  {{/isReadOnly}}
+
   {{/vars}}
 
   @Override
@@ -71,7 +94,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

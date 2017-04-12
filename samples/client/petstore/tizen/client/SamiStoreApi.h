@@ -5,10 +5,10 @@
 #include "SamiApiClient.h"
 #include "SamiError.h"
 
-using Tizen::Base::String;
 using Tizen::Base::Integer;
-#include "SamiOrder.h"
 using Tizen::Base::Long;
+#include "SamiOrder.h"
+using Tizen::Base::String;
 
 using namespace Tizen::Net::Http;
 

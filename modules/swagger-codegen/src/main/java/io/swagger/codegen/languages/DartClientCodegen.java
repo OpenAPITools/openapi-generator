@@ -117,8 +117,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         super.processOpts();
 
         if (additionalProperties.containsKey(BROWSER_CLIENT)) {
-            this.setBrowserClient(Boolean.parseBoolean((String) additionalProperties.get(BROWSER_CLIENT)));
-            additionalProperties.put(BROWSER_CLIENT, browserClient);
+            this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
         } else {
             //not set, use to be passed to template
             additionalProperties.put(BROWSER_CLIENT, browserClient);
@@ -149,6 +148,14 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
+        // default HIDE_GENERATION_TIMESTAMP to true
+        if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+            Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+        }
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -174,7 +181,10 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 

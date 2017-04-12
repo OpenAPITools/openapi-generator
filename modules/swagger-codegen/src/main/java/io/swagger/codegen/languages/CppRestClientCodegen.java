@@ -62,7 +62,7 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
 
-        templateDir = "cpprest";
+        embeddedTemplateDir = templateDir = "cpprest";
 
         cliOptions.clear();
 
@@ -113,6 +113,7 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
         typeMapping.put("binary", "std::string");
+        typeMapping.put("number", "double");
 
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");

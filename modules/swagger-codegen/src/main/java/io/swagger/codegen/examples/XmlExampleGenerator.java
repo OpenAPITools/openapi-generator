@@ -9,12 +9,21 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.DateProperty;
 import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.DecimalProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.BaseIntegerProperty;
+import io.swagger.models.properties.AbstractNumericProperty;
+import io.swagger.models.properties.PasswordProperty;
+import io.swagger.models.properties.UUIDProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
-import org.codehaus.plexus.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class XmlExampleGenerator {
+    protected final Logger LOGGER = LoggerFactory.getLogger(XmlExampleGenerator.class);
     public static String NEWLINE = "\n";
     public static String TAG_START = "<";
     public static String CLOSE_TAG = ">";
@@ -163,45 +173,44 @@ public class XmlExampleGenerator {
         return sb.toString();
     }
 
+    /**
+    * Get the example string value for the given Property.
+    *
+    * If an example value was not provided in the specification, a default will be generated.
+    *
+    * @param property Property to get example string for
+    *
+    * @return Example String
+    */
     protected String getExample(Property property) {
-        if (property instanceof DateTimeProperty) {
-            if (property.getExample() != null) {
-                return property.getExample().toString();
-            } else {
-                return "2000-01-23T04:56:07.000Z";
-            }
-        } else if (property instanceof StringProperty) {
-            if (property.getExample() != null) {
-                return property.getExample().toString();
-            } else {
-                return "string";
-            }
+        if (property.getExample() != null) {
+            return property.getExample().toString();
+        } else if (property instanceof DateTimeProperty) {
+            return "2000-01-23T04:56:07.000Z";
         } else if (property instanceof DateProperty) {
-            if (property.getExample() != null) {
-                return property.getExample().toString();
-            } else {
-                return "2000-01-23T04:56:07.000Z";
-            }
-        } else if (property instanceof IntegerProperty) {
-            if (property.getExample() != null) {
-                return property.getExample().toString();
-            } else {
-                return "0";
-            }
+            return "2000-01-23";
         } else if (property instanceof BooleanProperty) {
-            if (property.getExample() != null) {
-                return property.getExample().toString();
-            } else {
-                return "true";
-            }
+            return "true";
         } else if (property instanceof LongProperty) {
-            if (property.getExample() != null) {
-                return property.getExample().toString();
-            } else {
-                return "123456";
-            }
+            return "123456789";
+        } else if (property instanceof DoubleProperty) { // derived from DecimalProperty so make sure this is first
+            return "3.149";
+        }  else if (property instanceof DecimalProperty) {
+            return "1.3579";
+        } else if (property instanceof PasswordProperty) {
+            return "********";
+        } else if (property instanceof UUIDProperty) {
+            return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+        // do these last in case the specific types above are derived from these classes
+        } else if (property instanceof StringProperty) {
+            return "aeiou";
+        } else if (property instanceof BaseIntegerProperty) {
+            return "123";
+        } else if (property instanceof AbstractNumericProperty) {
+            return "1.23";
         }
-        return "not implemented " + property;
+        LOGGER.warn("default example value not implemented for " + property);
+        return "";
     }
 
     @SuppressWarnings("static-method")

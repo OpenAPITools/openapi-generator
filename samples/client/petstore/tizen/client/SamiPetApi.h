@@ -5,11 +5,11 @@
 #include "SamiApiClient.h"
 #include "SamiError.h"
 
-#include "SamiPet.h"
 using Tizen::Base::Long;
-using Tizen::Base::String;
-#include "SamiFile.h"
 #include "SamiApiResponse.h"
+#include "SamiFile.h"
+#include "SamiPet.h"
+using Tizen::Base::String;
 
 using namespace Tizen::Net::Http;
 

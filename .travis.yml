@@ -7,6 +7,24 @@ jdk:
 cache:
   directories:
   - $HOME/.m2
+  - $HOME/.ivy2
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+  - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
+  - $HOME/samples/client/petstore/ruby/venodr/bundle
+  - $HOME/samples/client/petstore/python/.venv/
+  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
+  - $HOME/samples/client/petstore/typescript-node/npm/typings/
+  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
+  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
+  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
+  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
+  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
+  - $HOME/samples/client/petstore/typescript-angular/node_modules
+  - $HOME/samples/client/petstore/typescript-angular/typings
 
 services:
   - docker
@@ -24,8 +42,16 @@ before_install:
   - docker pull swaggerapi/petstore
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   - docker ps -a
+  # Add bats test framework and cURL for Bash script integration tests
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats
+  - sudo apt-get install -qq curl
+
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
+  # show java version
+  - java -version
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -34,8 +60,18 @@ install:
    - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
 
 script:
-  - mvn verify -Psamples
-  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_IMAGE_NAME:latest $DOCKER_IMAGE_NAME:$TRAVIS_TAG; fi && docker push $DOCKER_IMAGE_NAME; fi
+  # fail fast
+  - set -e
+  # fail if templates/generators contain carriage return '\r'
+  - /bin/bash ./bin/utils/detect_carriage_return.sh
+  # fail if generators contain tab '\t'
+  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
+  # run integration tests defined in maven pom.xml
+  - mvn --batch-mode verify -Psamples
+  # docker: build generator image and push to Docker Hub
+  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME; fi; fi
+  # docker: build cli image and push to Docker Hub
+  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/swagger-codegen-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
 
 env:
-  - DOCKER_IMAGE_NAME=swaggerapi/swagger-generator
+  - DOCKER_GENERATOR_IMAGE_NAME=swaggerapi/swagger-generator DOCKER_CODEGEN_CLI_IMAGE_NAME=swaggerapi/swagger-codegen-cli

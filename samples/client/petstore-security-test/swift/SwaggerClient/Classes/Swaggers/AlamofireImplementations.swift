@@ -12,12 +12,37 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
+public struct SynchronizedDictionary<K: Hashable, V> {
+
+    private var dictionary = [K: V]()
+    private let queue = dispatch_queue_create("SynchronizedDictionary", DISPATCH_QUEUE_CONCURRENT)
+
+    public subscript(key: K) -> V? {
+        get {
+            var value: V?
+
+            dispatch_sync(queue) {
+                value = self.dictionary[key]
+            }
+
+            return value
+        }
+
+        set {
+            dispatch_barrier_sync(queue) {
+                self.dictionary[key] = newValue
+            }
+        }
+    }
+
+}
+
 // Store manager to retain its reference
-private var managerStore: [String: Alamofire.Manager] = [:]
+private var managerStore = SynchronizedDictionary<String, Alamofire.Manager>()
 
 class AlamofireRequestBuilder<T>: RequestBuilder<T> {
-    required init(method: String, URLString: String, parameters: [String : AnyObject]?, isBody: Bool) {
-        super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody)
+    required init(method: String, URLString: String, parameters: [String : AnyObject]?, isBody: Bool, headers: [String : String] = [:]) {
+        super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
     }
 
     override func execute(completion: (response: Response<T>?, error: ErrorType?) -> Void) {
@@ -57,15 +82,22 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                 encodingMemoryThreshold: Manager.MultipartFormDataEncodingMemoryThreshold,
                 encodingCompletion: { encodingResult in
                     switch encodingResult {
-                    case .Success(let upload, _, _):
-                        self.processRequest(upload, managerId, completion)
+                    case .Success(let uploadRequest, _, _):
+                        if let onProgressReady = self.onProgressReady {
+                            onProgressReady(uploadRequest.progress)
+                        }
+                        self.processRequest(uploadRequest, managerId, completion)
                     case .Failure(let encodingError):
-                        completion(response: nil, error: encodingError)
+                        completion(response: nil, error: ErrorResponse.Error(415, nil, encodingError))
                     }
                 }
             )
         } else {
-            processRequest(manager.request(xMethod!, URLString, parameters: parameters, encoding: encoding), managerId, completion)
+            let request = manager.request(xMethod!, URLString, parameters: parameters, encoding: encoding)
+            if let onProgressReady = self.onProgressReady {
+                onProgressReady(request.progress)
+            }
+            processRequest(request, managerId, completion)
         }
 
     }
@@ -75,30 +107,99 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
             request.authenticate(usingCredential: credential)
         }
 
-        request.validate().responseJSON(options: .AllowFragments) { response in
-            managerStore.removeValueForKey(managerId)
+        let cleanupRequest = {
+            managerStore[managerId] = nil
+        }
 
-            if response.result.isFailure {
-                completion(response: nil, error: response.result.error)
-                return
-            }
+        let validatedRequest = request.validate()
 
-            if () is T {
-                completion(response: Response(response: response.response!, body: () as! T), error: nil)
-                return
-            }
-            if let json: AnyObject = response.result.value {
-                let body = Decoders.decode(clazz: T.self, source: json)
-                completion(response: Response(response: response.response!, body: body), error: nil)
-                return
-            } else if "" is T {
-                // swagger-parser currently doesn't support void, which will be fixed in future swagger-parser release
-                // https://github.com/swagger-api/swagger-parser/pull/34
-                completion(response: Response(response: response.response!, body: "" as! T), error: nil)
-                return
-            }
+        switch T.self {
+        case is String.Type:
+            validatedRequest.responseString(completionHandler: { (stringResponse) in
+                cleanupRequest()
 
-            completion(response: nil, error: NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"]))
+                if stringResponse.result.isFailure {
+                    completion(
+                        response: nil,
+                        error: ErrorResponse.Error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.result.error!)
+                    )
+                    return
+                }
+
+                completion(
+                    response: Response(
+                        response: stringResponse.response!,
+                        body: (stringResponse.result.value ?? "") as! T
+                    ),
+                    error: nil
+                )
+            })
+        case is Void.Type:
+            validatedRequest.responseData(completionHandler: { (voidResponse) in
+                cleanupRequest()
+
+                if voidResponse.result.isFailure {
+                    completion(
+                        response: nil,
+                        error: ErrorResponse.Error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.result.error!)
+                    )
+                    return
+                }
+
+                completion(
+                    response: Response(
+                        response: voidResponse.response!,
+                        body: nil
+                    ),
+                    error: nil
+                )
+            })
+        case is NSData.Type:
+            validatedRequest.responseData(completionHandler: { (dataResponse) in
+                cleanupRequest()
+
+                if (dataResponse.result.isFailure) {
+                    completion(
+                        response: nil,
+                        error: ErrorResponse.Error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.result.error!)
+                    )
+                    return
+                }
+
+                completion(
+                    response: Response(
+                        response: dataResponse.response!,
+                        body: dataResponse.data as! T
+                    ),
+                    error: nil
+                )
+            })
+        default:
+            validatedRequest.responseJSON(options: .AllowFragments) { response in
+                cleanupRequest()
+
+                if response.result.isFailure {
+                    completion(response: nil, error: ErrorResponse.Error(response.response?.statusCode ?? 500, response.data, response.result.error!))
+                    return
+                }
+
+                if () is T {
+                    completion(response: Response(response: response.response!, body: () as! T), error: nil)
+                    return
+                }
+                if let json: AnyObject = response.result.value {
+                    let body = Decoders.decode(clazz: T.self, source: json)
+                    completion(response: Response(response: response.response!, body: body), error: nil)
+                    return
+                } else if "" is T {
+                    // swagger-parser currently doesn't support void, which will be fixed in future swagger-parser release
+                    // https://github.com/swagger-api/swagger-parser/pull/34
+                    completion(response: Response(response: response.response!, body: "" as! T), error: nil)
+                    return
+                }
+
+                completion(response: nil, error: ErrorResponse.Error(500, nil, NSError(domain: "localhost", code: 500, userInfo: ["reason": "unreacheable code"])))
+            }
         }
     }
 

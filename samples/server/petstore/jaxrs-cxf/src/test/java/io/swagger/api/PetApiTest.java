@@ -1,6 +1,6 @@
 /**
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -25,9 +25,9 @@
 
 package io.swagger.api;
 
-import io.swagger.model.Pet;
-import io.swagger.model.ModelApiResponse;
 import java.io.File;
+import io.swagger.model.ModelApiResponse;
+import io.swagger.model.Pet;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -80,7 +80,7 @@ public class PetApiTest {
     @Test
     public void addPetTest() {
         Pet body = null;
-        //api.addPet(body);
+	//api.addPet(body);
         
         // TODO: test validations
         
@@ -99,7 +99,7 @@ public class PetApiTest {
     public void deletePetTest() {
         Long petId = null;
         String apiKey = null;
-        //api.deletePet(petId, apiKey);
+	//api.deletePet(petId, apiKey);
         
         // TODO: test validations
         
@@ -117,7 +117,7 @@ public class PetApiTest {
     @Test
     public void findPetsByStatusTest() {
         List<String> status = null;
-        //Pet response = api.findPetsByStatus(status);
+        //List<Pet> response = api.findPetsByStatus(status);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -135,7 +135,7 @@ public class PetApiTest {
     @Test
     public void findPetsByTagsTest() {
         List<String> tags = null;
-        //Pet response = api.findPetsByTags(tags);
+        //List<Pet> response = api.findPetsByTags(tags);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -153,7 +153,7 @@ public class PetApiTest {
     @Test
     public void getPetByIdTest() {
         Long petId = null;
-        //Pet response = api.getPetById(petId);
+	//Pet response = api.getPetById(petId);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -171,7 +171,7 @@ public class PetApiTest {
     @Test
     public void updatePetTest() {
         Pet body = null;
-        //api.updatePet(body);
+	//api.updatePet(body);
         
         // TODO: test validations
         
@@ -191,7 +191,7 @@ public class PetApiTest {
         Long petId = null;
         String name = null;
         String status = null;
-        //api.updatePetWithForm(petId, name, status);
+	//api.updatePetWithForm(petId, name, status);
         
         // TODO: test validations
         
@@ -211,7 +211,7 @@ public class PetApiTest {
         Long petId = null;
         String additionalMetadata = null;
         org.apache.cxf.jaxrs.ext.multipart.Attachment file = null;
-        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+	//ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
         //assertNotNull(response);
         // TODO: test validations
         

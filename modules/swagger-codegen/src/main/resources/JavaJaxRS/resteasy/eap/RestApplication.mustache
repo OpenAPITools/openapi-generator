@@ -1,0 +1,55 @@
+package {{invokerPackage}};
+
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+import java.util.Set;
+import java.util.HashSet;
+{{#useSwaggerFeature}}
+import io.swagger.jaxrs.config.BeanConfig;
+{{/useSwaggerFeature}}
+
+{{#apiInfo}}
+{{#apis}}
+import {{package}}.impl.{{classname}}ServiceImpl;
+{{/apis}}
+{{/apiInfo}}   
+
+@ApplicationPath("/")
+public class RestApplication extends Application {
+
+{{#useSwaggerFeature}}
+    public RestApplication() {
+        super();
+        // Customize the dynamic contract
+        BeanConfig beanConfig = new BeanConfig();
+        beanConfig.setTitle("{{appName}}");
+        beanConfig.setVersion("{{version}}");
+        beanConfig.setSchemes(new String[] { "{{scheme}}" });
+        beanConfig.setHost("{{host}}");
+        beanConfig.setBasePath("{{basePathWithoutHost}}");
+        beanConfig.setResourcePackage("{{invokerPackage}}");
+        beanConfig.setScan(true);
+
+    }
+{{/useSwaggerFeature}}
+
+    public Set<Class<?>> getClasses() {
+        Set<Class<?>> resources = new HashSet<Class<?>>();
+{{#apiInfo}}
+{{#apis}}
+        resources.add({{classname}}ServiceImpl.class);
+{{/apis}}
+{{/apiInfo}}        
+
+{{#useSwaggerFeature}}      
+        resources.add(io.swagger.jaxrs.listing.ApiListingResource.class);
+        resources.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+{{/useSwaggerFeature}}       
+        return resources;
+    }
+
+
+
+
+}

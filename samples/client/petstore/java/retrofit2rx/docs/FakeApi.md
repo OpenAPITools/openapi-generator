@@ -1,6 +1,6 @@
 # FakeApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,6 +12,8 @@ Method | HTTP request | Description
 <a name="testClientModel"></a>
 # **testClientModel**
 > Client testClientModel(body)
+
+To test \&quot;client\&quot; model
 
 To test \&quot;client\&quot; model
 
@@ -138,6 +140,8 @@ Name | Type | Description  | Notes
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example
 ```java
 // Import classes:
@@ -152,7 +156,7 @@ List<String> enumHeaderStringArray = Arrays.asList("enumHeaderStringArray_exampl
 String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
 List<String> enumQueryStringArray = Arrays.asList("enumQueryStringArray_example"); // List<String> | Query parameter enum test (string array)
 String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-BigDecimal enumQueryInteger = new BigDecimal(); // BigDecimal | Query parameter enum test (double)
+Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
 Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
 try {
     Void result = apiInstance.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
@@ -173,8 +177,8 @@ Name | Type | Description  | Notes
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryInteger** | **BigDecimal**| Query parameter enum test (double) | [optional]
- **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional]
+ **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
+ **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
 
 ### Return type
 

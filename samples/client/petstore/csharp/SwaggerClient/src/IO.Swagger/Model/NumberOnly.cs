@@ -33,7 +33,7 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="JustNumber">JustNumber.</param>
-        public NumberOnly(decimal? JustNumber = null)
+        public NumberOnly(decimal? JustNumber = default(decimal?))
         {
             this.JustNumber = JustNumber;
         }
@@ -112,7 +112,12 @@ namespace IO.Swagger.Model
             }
         }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         { 
             yield break;
         }

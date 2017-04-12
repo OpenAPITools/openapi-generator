@@ -13,6 +13,7 @@ import java.io.Writer;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,11 +57,15 @@ public abstract class AbstractGenerator {
             if (is == null) {
                 is = new FileInputStream(new File(name)); // May throw but never return a null value
             }
-            return new InputStreamReader(is);
+            return new InputStreamReader(is, "UTF-8");
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
         throw new RuntimeException("can't load template " + name);
+    }
+
+    private String buildLibraryFilePath(String dir, String library, String file) {
+        return dir + File.separator + "libraries" + File.separator + library + File.separator + file;
     }
 
     /**
@@ -72,23 +77,38 @@ public abstract class AbstractGenerator {
      * @return String Full template file path
      */
     public String getFullTemplateFile(CodegenConfig config, String templateFile) {
-        String template = config.templateDir() + File.separator + templateFile;
+        //1st the code will check if there's a <template folder>/libraries/<library> folder containing the file
+        //2nd it will check for the file in the specified <template folder> folder
+        //3rd it will check if there's an <embedded template>/libraries/<library> folder containing the file
+        //4th and last it will assume the file is in <embedded template> folder.
+
+        //check the supplied template library folder for the file
+        final String library = config.getLibrary();
+        if (StringUtils.isNotEmpty(library)) {
+            //look for the file in the library subfolder of the supplied template
+            final String libTemplateFile = buildLibraryFilePath(config.templateDir(), library, templateFile);
+            if (new File(libTemplateFile).exists()) {
+                return libTemplateFile;
+            }
+        }
+
+        //check the supplied template main folder for the file
+        final String template = config.templateDir() + File.separator + templateFile;
         if (new File(template).exists()) {
             return template;
-        } else {
-            String library = config.getLibrary();
-            if (library != null && !"".equals(library)) {
-                String libTemplateFile = config.embeddedTemplateDir() + File.separator +
-                    "libraries" + File.separator + library + File.separator +
-                    templateFile;
-                if (embeddedTemplateExists(libTemplateFile)) {
-                    // Fall back to the template file embedded/packaged in the JAR file...
-                    return libTemplateFile;
-                }
-            }
-            // Fall back to the template file embedded/packaged in the JAR file...
-            return config.embeddedTemplateDir() + File.separator + templateFile;
         }
+
+        //try the embedded template library folder next
+        if (StringUtils.isNotEmpty(library)) {
+            final String embeddedLibTemplateFile = buildLibraryFilePath(config.embeddedTemplateDir(), library, templateFile);
+            if (embeddedTemplateExists(embeddedLibTemplateFile)) {
+                // Fall back to the template file embedded/packaged in the JAR file library folder...
+                return embeddedLibTemplateFile;
+            }
+        }
+            
+        // Fall back to the template file embedded/packaged in the JAR file...
+        return config.embeddedTemplateDir() + File.separator + templateFile;
     }
 
     public String readResourceContents(String resourceFilePath) {

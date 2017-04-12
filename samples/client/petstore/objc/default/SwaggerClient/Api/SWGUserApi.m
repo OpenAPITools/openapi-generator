@@ -1,11 +1,12 @@
 #import "SWGUserApi.h"
 #import "SWGQueryParamCollection.h"
+#import "SWGApiClient.h"
 #import "SWGUser.h"
 
 
 @interface SWGUserApi ()
 
-@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *mutableDefaultHeaders;
 
 @end
 
@@ -19,52 +20,31 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 #pragma mark - Initialize methods
 
 - (instancetype) init {
-    self = [super init];
-    if (self) {
-        SWGConfiguration *config = [SWGConfiguration sharedConfig];
-        if (config.apiClient == nil) {
-            config.apiClient = [[SWGApiClient alloc] init];
-        }
-        _apiClient = config.apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
-    }
-    return self;
+    return [self initWithApiClient:[SWGApiClient sharedClient]];
 }
 
-- (id) initWithApiClient:(SWGApiClient *)apiClient {
+
+-(instancetype) initWithApiClient:(SWGApiClient *)apiClient {
     self = [super init];
     if (self) {
         _apiClient = apiClient;
-        _defaultHeaders = [NSMutableDictionary dictionary];
+        _mutableDefaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+ (instancetype)sharedAPI {
-    static SWGUserApi *sharedAPI;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        sharedAPI = [[self alloc] init];
-    });
-    return sharedAPI;
-}
-
 -(NSString*) defaultHeaderForKey:(NSString*)key {
-    return self.defaultHeaders[key];
-}
-
--(void) addHeader:(NSString*)value forKey:(NSString*)key {
-    [self setDefaultHeaderValue:value forKey:key];
+    return self.mutableDefaultHeaders[key];
 }
 
 -(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
+    [self.mutableDefaultHeaders setValue:value forKey:key];
 }
 
--(NSUInteger) requestQueueSize {
-    return [SWGApiClient requestQueueSize];
+-(NSDictionary *)defaultHeaders {
+    return self.mutableDefaultHeaders;
 }
 
 #pragma mark - Api Methods
@@ -76,13 +56,10 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUserWithBody: (SWGUser*) body
+-(NSURLSessionTask*) createUserWithBody: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -124,8 +101,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -135,13 +111,10 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithArrayInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithArray"];
 
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
-
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
@@ -183,8 +156,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -194,12 +166,9 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
+-(NSURLSessionTask*) createUsersWithListInputWithBody: (NSArray<SWGUser>*) body
     completionHandler: (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/createWithList"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -242,8 +211,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -253,7 +221,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) deleteUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) deleteUserWithUsername: (NSString*) username
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
@@ -267,9 +235,6 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
@@ -314,8 +279,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -325,7 +289,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns SWGUser*
 ///
--(NSNumber*) getUserByNameWithUsername: (NSString*) username
+-(NSURLSessionTask*) getUserByNameWithUsername: (NSString*) username
     completionHandler: (void (^)(SWGUser* output, NSError* error)) handler {
     // verify the required parameter 'username' is set
     if (username == nil) {
@@ -339,9 +303,6 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
@@ -386,8 +347,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((SWGUser*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -399,13 +359,10 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns NSString*
 ///
--(NSNumber*) loginUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) loginUserWithUsername: (NSString*) username
     password: (NSString*) password
     completionHandler: (void (^)(NSString* output, NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/login"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -453,8 +410,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler((NSString*)data, error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -462,12 +418,9 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 /// 
 ///  @returns void
 ///
--(NSNumber*) logoutUserWithCompletionHandler: 
+-(NSURLSessionTask*) logoutUserWithCompletionHandler: 
     (void (^)(NSError* error)) handler {
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/logout"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
 
@@ -509,8 +462,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 ///
@@ -522,7 +474,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
 ///
 ///  @returns void
 ///
--(NSNumber*) updateUserWithUsername: (NSString*) username
+-(NSURLSessionTask*) updateUserWithUsername: (NSString*) username
     body: (SWGUser*) body
     completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'username' is set
@@ -537,9 +489,6 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
     }
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/user/{username}"];
-
-    // remove format in URL if needed
-    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (username != nil) {
@@ -585,8 +534,7 @@ NSInteger kSWGUserApiMissingParamErrorCode = 234513;
                                 if(handler) {
                                     handler(error);
                                 }
-                           }
-          ];
+                            }];
 }
 
 

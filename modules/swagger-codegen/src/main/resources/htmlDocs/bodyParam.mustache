@@ -1,3 +1,3 @@
-{{#isBodyParam}}<div class="param">{{baseName}} {{^required}}(optional){{/required}}{{#required}}(required){{/required}}</div>
+{{#isBodyParam}}<div class="param">{{baseName}} {{#baseType}}<a href="#{{baseType}}">{{baseType}}</a>{{/baseType}} {{^required}}(optional){{/required}}{{#required}}(required){{/required}}</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; {{description}} {{#defaultValue}}default: {{{defaultValue}}}{{/defaultValue}}</div>{{/isBodyParam}}
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; {{unescapedDescription}} {{#defaultValue}}default: {{{defaultValue}}}{{/defaultValue}}</div>{{/isBodyParam}}

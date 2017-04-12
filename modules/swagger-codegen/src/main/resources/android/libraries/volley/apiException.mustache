@@ -12,18 +12,38 @@ public class ApiException extends Exception {
     this.message = message;
   }
 
+  /**
+   * Get the HTTP status code.
+   *
+   * @return HTTP status code
+   */
   public int getCode() {
     return code;
   }
 
+  /**
+   * Set the HTTP status code.
+   *
+   * @param code HTTP status code.
+   */
   public void setCode(int code) {
     this.code = code;
   }
 
+  /**
+   * Get the error message.
+   *
+   * @return Error message.
+   */
   public String getMessage() {
     return message;
   }
 
+  /**
+   * Set the error messages.
+   *
+   * @param message Error message.
+   */
   public void setMessage(String message) {
     this.message = message;
   }

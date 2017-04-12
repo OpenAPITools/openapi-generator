@@ -40,14 +40,14 @@ var routes = Routes{
 	Route{
 		"Index",
 		"GET",
-		"{{basePathWithoutHost}}/",
+		"{{{basePathWithoutHost}}}/",
 		Index,
 	},
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 	Route{
 		"{{operationId}}",
 		"{{httpMethod}}",
-		"{{basePathWithoutHost}}{{path}}",
+		"{{{basePathWithoutHost}}}{{{path}}}",
 		{{operationId}},
 	},
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}

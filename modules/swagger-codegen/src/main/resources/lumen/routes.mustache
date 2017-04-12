@@ -14,12 +14,12 @@ $app->get('/', function () use ($app) {
 {{#operations}}
 {{#operation}}
 /**
- * {{httpMethod}} {{nickname}}
+ * {{httpMethod}} {{operationId}}
  * Summary: {{summary}}
  * Notes: {{notes}}
 {{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
  */
-$app->{{httpMethod}}('{{basePathWithoutHost}}{{path}}', '{{classname}}@{{operationId}}');
+$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{operationId}}');
 {{/operation}}
 {{/operations}}
 {{/apis}}

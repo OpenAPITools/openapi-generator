@@ -13,6 +13,9 @@ import org.apache.commons.lang3.ObjectUtils;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 
 {{#models}}
 {{#model}}

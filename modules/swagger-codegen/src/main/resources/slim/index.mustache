@@ -15,7 +15,7 @@ $app = new Slim\App();
  * Notes: {{notes}}
 {{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
  */
-$app->{{httpMethod}}('{{basePathWithoutHost}}{{path}}', function($request, $response, $args) {
+$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', function($request, $response, $args) {
             {{#hasHeaderParams}}$headers = $request->getHeaders();{{/hasHeaderParams}}
             {{#hasQueryParams}}$queryParams = $request->getQueryParams();
             {{#queryParams}}${{paramName}} = $queryParams['{{paramName}}'];{{newline}}    {{/queryParams}}{{/hasQueryParams}}

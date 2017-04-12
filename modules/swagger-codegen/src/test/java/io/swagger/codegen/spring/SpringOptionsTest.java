@@ -58,6 +58,8 @@ public class SpringOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setInterfaceOnly(Boolean.valueOf(SpringOptionsProvider.INTERFACE_ONLY));
             times = 1;
+            clientCodegen.setDelegatePattern(Boolean.valueOf(SpringOptionsProvider.DELEGATE_PATTERN));
+            times = 1;
             clientCodegen.setSingleContentTypes(Boolean.valueOf(SpringOptionsProvider.SINGLE_CONTENT_TYPES));
             times = 1;
             clientCodegen.setJava8(Boolean.valueOf(SpringOptionsProvider.JAVA_8));
@@ -66,7 +68,12 @@ public class SpringOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setResponseWrapper(SpringOptionsProvider.RESPONSE_WRAPPER);
             times = 1;
-
+            clientCodegen.setUseTags(Boolean.valueOf(SpringOptionsProvider.USE_TAGS));
+            times = 1;
+            clientCodegen.setUseBeanValidation(Boolean.valueOf(SpringOptionsProvider.USE_BEANVALIDATION));
+            times = 1;
+            clientCodegen.setImplicitHeaders(Boolean.valueOf(SpringOptionsProvider.IMPLICIT_HEADERS));
+            times = 1;
         }};
     }
 }

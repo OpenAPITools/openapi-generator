@@ -41,21 +41,15 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_user" if body.nil?
       # resource path
-      local_var_path = "/user".sub('{format}','json')
+      local_var_path = "/user"
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}
@@ -97,21 +91,15 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_array_input" if body.nil?
       # resource path
-      local_var_path = "/user/createWithArray".sub('{format}','json')
+      local_var_path = "/user/createWithArray"
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}
@@ -153,21 +141,15 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_list_input" if body.nil?
       # resource path
-      local_var_path = "/user/createWithList".sub('{format}','json')
+      local_var_path = "/user/createWithList"
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}
@@ -209,21 +191,15 @@ module Petstore
       # verify the required parameter 'username' is set
       fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.delete_user" if username.nil?
       # resource path
-      local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+      local_var_path = "/user/{username}".sub('{' + 'username' + '}', username.to_s)
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}
@@ -265,21 +241,15 @@ module Petstore
       # verify the required parameter 'username' is set
       fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.get_user_by_name" if username.nil?
       # resource path
-      local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+      local_var_path = "/user/{username}".sub('{' + 'username' + '}', username.to_s)
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}
@@ -326,7 +296,7 @@ module Petstore
       # verify the required parameter 'password' is set
       fail ArgumentError, "Missing the required parameter 'password' when calling UserApi.login_user" if password.nil?
       # resource path
-      local_var_path = "/user/login".sub('{format}','json')
+      local_var_path = "/user/login"
 
       # query parameters
       query_params = {}
@@ -335,14 +305,8 @@ module Petstore
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}
@@ -381,21 +345,15 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.logout_user ..."
       end
       # resource path
-      local_var_path = "/user/logout".sub('{format}','json')
+      local_var_path = "/user/logout"
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}
@@ -441,21 +399,15 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.update_user" if body.nil?
       # resource path
-      local_var_path = "/user/{username}".sub('{format}','json').sub('{' + 'username' + '}', username.to_s)
+      local_var_path = "/user/{username}".sub('{' + 'username' + '}', username.to_s)
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml', 'application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
-      # HTTP header 'Content-Type'
-      local_header_content_type = []
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
       form_params = {}

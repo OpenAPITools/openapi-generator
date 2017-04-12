@@ -3,7 +3,6 @@ package io.swagger.codegen.javascript;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.codegen.languages.JavascriptClientCodegen;
 import io.swagger.models.ComposedModel;
 import io.swagger.models.Model;
@@ -74,7 +73,7 @@ public class JavaScriptModelEnumTest {
                 .child(subModel)
                 .interfaces(new ArrayList<RefModel>());
 
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final DefaultCodegen codegen = new JavascriptClientCodegen();
         final Map<String, Model> allModels = new HashMap<String, Model>();
         allModels.put(parentModel.getName(), parentModel);
         allModels.put(subModel.getName(), subModel);
@@ -96,7 +95,7 @@ public class JavaScriptModelEnumTest {
     }
 
     @Test(description = "test enum array model")
-    public void enumArrayMdoelTest() {
+    public void enumArrayModelTest() {
         final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new JavascriptClientCodegen();
         final Model definition = model.getDefinitions().get("EnumArrays");
@@ -127,7 +126,7 @@ public class JavaScriptModelEnumTest {
     }
 
     @Test(description = "test enum model for values (numeric, string, etc)")
-    public void enumMdoelValueTest() {
+    public void enumModelValueTest() {
         final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new JavascriptClientCodegen();
         final Model definition = model.getDefinitions().get("Enum_Test");
@@ -138,7 +137,7 @@ public class JavaScriptModelEnumTest {
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");
         Assert.assertTrue(prope.isEnum);
-        Assert.assertNull(prope.isContainer);
+        Assert.assertFalse(prope.isContainer);
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 

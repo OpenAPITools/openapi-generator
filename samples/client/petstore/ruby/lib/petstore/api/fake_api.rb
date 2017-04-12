@@ -20,7 +20,7 @@ module Petstore
     end
 
     # To test \"client\" model
-    # 
+    # To test \"client\" model
     # @param body client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
@@ -30,7 +30,7 @@ module Petstore
     end
 
     # To test \&quot;client\&quot; model
-    # 
+    # To test \&quot;client\&quot; model
     # @param body client model
     # @param [Hash] opts the optional parameters
     # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
@@ -41,21 +41,17 @@ module Petstore
       # verify the required parameter 'body' is set
       fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_client_model" if body.nil?
       # resource path
-      local_var_path = "/fake".sub('{format}','json')
+      local_var_path = "/fake"
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/json']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
       # HTTP header 'Content-Type'
-      local_header_content_type = ['application/json']
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = {}
@@ -149,20 +145,20 @@ module Petstore
 
       # verify the required parameter 'byte' is set
       fail ArgumentError, "Missing the required parameter 'byte' when calling FakeApi.test_endpoint_parameters" if byte.nil?
-      if !opts[:'integer'].nil? && opts[:'integer'] > 100.0
-        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.0.'
+      if !opts[:'integer'].nil? && opts[:'integer'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.'
       end
 
-      if !opts[:'integer'].nil? && opts[:'integer'] < 10.0
-        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.0.'
+      if !opts[:'integer'].nil? && opts[:'integer'] < 10
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] > 200.0
-        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.0.'
+      if !opts[:'int32'].nil? && opts[:'int32'] > 200
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] < 20.0
-        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.0.'
+      if !opts[:'int32'].nil? && opts[:'int32'] < 20
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.'
       end
 
       if !opts[:'float'].nil? && opts[:'float'] > 987.6
@@ -182,21 +178,17 @@ module Petstore
       end
 
       # resource path
-      local_var_path = "/fake".sub('{format}','json')
+      local_var_path = "/fake"
 
       # query parameters
       query_params = {}
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['application/xml; charset=utf-8', 'application/json; charset=utf-8']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
       # HTTP header 'Content-Type'
-      local_header_content_type = ['application/xml; charset=utf-8', 'application/json; charset=utf-8']
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
 
       # form parameters
       form_params = {}
@@ -231,7 +223,7 @@ module Petstore
     end
 
     # To test enum parameters
-    # 
+    # To test enum parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to -efg)
@@ -239,7 +231,7 @@ module Petstore
     # @option opts [String] :enum_header_string Header parameter enum test (string) (default to -efg)
     # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
     # @option opts [String] :enum_query_string Query parameter enum test (string) (default to -efg)
-    # @option opts [Float] :enum_query_integer Query parameter enum test (double)
+    # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
     # @return [nil]
     def test_enum_parameters(opts = {})
@@ -248,7 +240,7 @@ module Petstore
     end
 
     # To test enum parameters
-    # 
+    # To test enum parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
     # @option opts [String] :enum_form_string Form parameter enum test (string)
@@ -256,7 +248,7 @@ module Petstore
     # @option opts [String] :enum_header_string Header parameter enum test (string)
     # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
     # @option opts [String] :enum_query_string Query parameter enum test (string)
-    # @option opts [Float] :enum_query_integer Query parameter enum test (double)
+    # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_enum_parameters_with_http_info(opts = {})
@@ -281,8 +273,14 @@ module Petstore
       if opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
         fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
       end
+      if opts[:'enum_query_integer'] && !['1', '-2'].include?(opts[:'enum_query_integer'])
+        fail ArgumentError, 'invalid value for "enum_query_integer", must be one of 1, -2'
+      end
+      if opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
+        fail ArgumentError, 'invalid value for "enum_query_double", must be one of 1.1, -1.2'
+      end
       # resource path
-      local_var_path = "/fake".sub('{format}','json')
+      local_var_path = "/fake"
 
       # query parameters
       query_params = {}
@@ -292,14 +290,10 @@ module Petstore
 
       # header parameters
       header_params = {}
-
       # HTTP header 'Accept' (if needed)
-      local_header_accept = ['*/*']
-      local_header_accept_result = @api_client.select_header_accept(local_header_accept) and header_params['Accept'] = local_header_accept_result
-
+      header_params['Accept'] = @api_client.select_header_accept(['*/*'])
       # HTTP header 'Content-Type'
-      local_header_content_type = ['*/*']
-      header_params['Content-Type'] = @api_client.select_header_content_type(local_header_content_type)
+      header_params['Content-Type'] = @api_client.select_header_content_type(['*/*'])
       header_params[:'enum_header_string_array'] = @api_client.build_collection_param(opts[:'enum_header_string_array'], :csv) if !opts[:'enum_header_string_array'].nil?
       header_params[:'enum_header_string'] = opts[:'enum_header_string'] if !opts[:'enum_header_string'].nil?
 

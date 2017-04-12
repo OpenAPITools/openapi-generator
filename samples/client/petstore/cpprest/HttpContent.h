@@ -12,8 +12,8 @@
 
 /*
  * HttpContent.h
- * 
- * This class represents a single item of a multipart-formdata request. 
+ *
+ * This class represents a single item of a multipart-formdata request.
  */
 
 #ifndef HttpContent_H_
@@ -23,7 +23,7 @@
 
 #include <memory>
 
-#include <cpprest/details/basic_types.h> 
+#include <cpprest/details/basic_types.h>
 
 namespace io {
 namespace swagger {
@@ -50,7 +50,7 @@ public:
 
     virtual std::shared_ptr<std::istream> getData();
     virtual void setData( std::shared_ptr<std::istream> value );
-    
+
     virtual void writeTo( std::ostream& stream );
 
 protected:

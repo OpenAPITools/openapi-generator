@@ -74,9 +74,9 @@ SWGOrder::fromJson(QString &json) {
 void
 SWGOrder::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
-    ::Swagger::setValue(&pet_id, pJson["pet_id"], "qint64", "");
+    ::Swagger::setValue(&pet_id, pJson["petId"], "qint64", "");
     ::Swagger::setValue(&quantity, pJson["quantity"], "qint32", "");
-    ::Swagger::setValue(&ship_date, pJson["ship_date"], "QDateTime", "QDateTime");
+    ::Swagger::setValue(&ship_date, pJson["shipDate"], "QDateTime", "QDateTime");
     ::Swagger::setValue(&status, pJson["status"], "QString", "QString");
     ::Swagger::setValue(&complete, pJson["complete"], "bool", "");
 }
@@ -97,11 +97,11 @@ SWGOrder::asJsonObject() {
     
     obj->insert("id", QJsonValue(id));
 
-    obj->insert("pet_id", QJsonValue(pet_id));
+    obj->insert("petId", QJsonValue(pet_id));
 
     obj->insert("quantity", QJsonValue(quantity));
 
-    toJsonValue(QString("ship_date"), ship_date, obj, QString("QDateTime"));
+    toJsonValue(QString("shipDate"), ship_date, obj, QString("QDateTime"));
 
     toJsonValue(QString("status"), status, obj, QString("QString"));
 

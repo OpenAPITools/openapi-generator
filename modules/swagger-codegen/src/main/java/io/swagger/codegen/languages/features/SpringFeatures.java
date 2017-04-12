@@ -14,5 +14,5 @@ public interface SpringFeatures extends BeanValidationFeatures {
 
     public void setUseSpringAnnotationConfig(boolean useSpringAnnotationConfig);
 
-        
+
 }

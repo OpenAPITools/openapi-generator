@@ -14,13 +14,18 @@ public class Swift3CodegenTest {
     Swift3Codegen swiftCodegen = new Swift3Codegen();
 
     @Test
+    public void testCapitalizedReservedWord() throws Exception {
+        Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
+    }
+
+    @Test
     public void testReservedWord() throws Exception {
-	Assert.assertEquals(swiftCodegen.toEnumVarName("Public", null), "_public");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("Public", null), "_public");
     }
 
     @Test
     public void shouldNotBreakNonReservedWord() throws Exception {
-	Assert.assertEquals(swiftCodegen.toEnumVarName("Error", null), "error");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("Error", null), "error");
     }
 
     @Test
@@ -56,6 +61,13 @@ public class Swift3CodegenTest {
     @Test
     public void testLowercaseWithUnderscore() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("entry_name", null), "entryName");
+    }
+
+    @Test
+    public void testStartingWithNumber() throws Exception {
+        Assert.assertEquals(swiftCodegen.toEnumVarName("123EntryName", null), "_123entryName");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("123Entry_name", null), "_123entryName");
+        Assert.assertEquals(swiftCodegen.toEnumVarName("123EntryName123", null), "_123entryName123");
     }
 
     @Test(description = "returns NSData when response format is binary")

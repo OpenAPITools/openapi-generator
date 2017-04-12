@@ -13,13 +13,13 @@ import java.util.Map;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2016-08-20T17:24:26.037+08:00")
+
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_property")
-  private Map<String, String> mapProperty = new HashMap<String, String>();
+  private Map<String, String> mapProperty = null;
 
   @JsonProperty("map_of_map_property")
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
+  private Map<String, Map<String, String>> mapOfMapProperty = null;
 
   /**
    **/
@@ -29,7 +29,7 @@ public class AdditionalPropertiesClass   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("map_property")
   public Map<String, String> getMapProperty() {
     return mapProperty;
@@ -46,7 +46,7 @@ public class AdditionalPropertiesClass   {
   }
 
   
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("map_of_map_property")
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
@@ -57,7 +57,7 @@ public class AdditionalPropertiesClass   {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -89,7 +89,7 @@ public class AdditionalPropertiesClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

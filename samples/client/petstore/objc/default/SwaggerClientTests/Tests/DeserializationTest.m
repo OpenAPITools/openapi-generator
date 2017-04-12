@@ -250,4 +250,16 @@
     XCTAssertTrue([result isEqual:@NO]);
 }
 
+- (void)testDeserializeStringData {
+    NSString *data = @"1233";
+
+    NSError* error;
+    NSString * returnValue = [apiClient.responseDeserializer deserialize:[data dataUsingEncoding:NSUTF8StringEncoding] class:@"NSString*" error:&error];
+    XCTAssertTrue([returnValue isEqual:data]);
+
+    NSNumber *returnNumber = [apiClient.responseDeserializer deserialize:[data dataUsingEncoding:NSUTF8StringEncoding] class:@"NSNumber*" error:&error];
+    XCTAssertTrue([returnNumber isEqual:@1233]);
+}
+
+
 @end

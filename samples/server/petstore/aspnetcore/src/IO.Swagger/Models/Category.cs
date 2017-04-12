@@ -20,18 +20,20 @@ using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
 {
+
     /// <summary>
     /// A category for a pet
     /// </summary>
     [DataContract]
     public partial class Category :  IEquatable<Category>
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
         /// <param name="Id">Id.</param>
         /// <param name="Name">Name.</param>
-        public Category(long? Id = null, string Name = null)
+        public Category(long? Id = default(long?), string Name = default(string))
         {
             this.Id = Id;
             this.Name = Name;
@@ -43,13 +45,11 @@ namespace IO.Swagger.Models
         /// </summary>
         [DataMember(Name="id")]
         public long? Id { get; set; }
-
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name")]
         public string Name { get; set; }
-
 
         /// <summary>
         /// Returns the string presentation of the object

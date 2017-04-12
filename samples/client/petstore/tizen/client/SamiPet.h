@@ -1,7 +1,7 @@
 /*
  * SamiPet.h
  * 
- * 
+ * A pet for sale in the pet store
  */
 
 #ifndef SamiPet_H_

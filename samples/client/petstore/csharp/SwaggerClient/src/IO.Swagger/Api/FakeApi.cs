@@ -28,7 +28,7 @@ namespace IO.Swagger.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -39,7 +39,7 @@ namespace IO.Swagger.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -96,7 +96,7 @@ namespace IO.Swagger.Api
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -108,13 +108,13 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns></returns>
-        void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null);
 
         /// <summary>
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -126,14 +126,14 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -144,7 +144,7 @@ namespace IO.Swagger.Api
         /// To test \&quot;client\&quot; model
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -201,7 +201,7 @@ namespace IO.Swagger.Api
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -213,13 +213,13 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null);
 
         /// <summary>
         /// To test enum parameters
         /// </summary>
         /// <remarks>
-        /// 
+        /// To test enum parameters
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -231,7 +231,7 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null);
         #endregion Asynchronous Operations
     }
 
@@ -345,7 +345,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -357,7 +357,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -390,9 +390,6 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            localVarPathParams.Add("format", "json");
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
@@ -423,7 +420,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -436,7 +433,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test \&quot;client\&quot; model 
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
@@ -469,9 +466,6 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            localVarPathParams.Add("format", "json");
             if (body != null && body.GetType() != typeof(byte[]))
             {
                 localVarPostBody = Configuration.ApiClient.Serialize(body); // http body (model) parameter
@@ -583,9 +577,6 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            localVarPathParams.Add("format", "json");
             if (integer != null) localVarFormParams.Add("integer", Configuration.ApiClient.ParameterToString(integer)); // form parameter
             if (int32 != null) localVarFormParams.Add("int32", Configuration.ApiClient.ParameterToString(int32)); // form parameter
             if (int64 != null) localVarFormParams.Add("int64", Configuration.ApiClient.ParameterToString(int64)); // form parameter
@@ -711,9 +702,6 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            localVarPathParams.Add("format", "json");
             if (integer != null) localVarFormParams.Add("integer", Configuration.ApiClient.ParameterToString(integer)); // form parameter
             if (int32 != null) localVarFormParams.Add("int32", Configuration.ApiClient.ParameterToString(int32)); // form parameter
             if (int64 != null) localVarFormParams.Add("int64", Configuration.ApiClient.ParameterToString(int64)); // form parameter
@@ -756,7 +744,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -768,13 +756,13 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns></returns>
-        public void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public void TestEnumParameters (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
         {
              TestEnumParametersWithHttpInfo(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -786,7 +774,7 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
         {
 
             var localVarPath = "/fake";
@@ -811,9 +799,6 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            localVarPathParams.Add("format", "json");
             if (enumQueryStringArray != null) localVarQueryParams.Add("enum_query_string_array", Configuration.ApiClient.ParameterToString(enumQueryStringArray)); // query parameter
             if (enumQueryString != null) localVarQueryParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // query parameter
             if (enumQueryInteger != null) localVarQueryParams.Add("enum_query_integer", Configuration.ApiClient.ParameterToString(enumQueryInteger)); // query parameter
@@ -844,7 +829,7 @@ namespace IO.Swagger.Api
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -856,14 +841,14 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
         {
              await TestEnumParametersAsyncWithHttpInfo(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
 
         }
 
         /// <summary>
-        /// To test enum parameters 
+        /// To test enum parameters To test enum parameters
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional)</param>
@@ -875,7 +860,7 @@ namespace IO.Swagger.Api
         /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, decimal? enumQueryInteger = null, double? enumQueryDouble = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumFormStringArray = null, string enumFormString = null, List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null)
         {
 
             var localVarPath = "/fake";
@@ -900,9 +885,6 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            // set "format" to json by default
-            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
-            localVarPathParams.Add("format", "json");
             if (enumQueryStringArray != null) localVarQueryParams.Add("enum_query_string_array", Configuration.ApiClient.ParameterToString(enumQueryStringArray)); // query parameter
             if (enumQueryString != null) localVarQueryParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // query parameter
             if (enumQueryInteger != null) localVarQueryParams.Add("enum_query_integer", Configuration.ApiClient.ParameterToString(enumQueryInteger)); // query parameter

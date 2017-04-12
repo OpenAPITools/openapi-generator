@@ -1,1 +1,1 @@
-{{#isPathParam}}@PathParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isPathParam}}
+{{#isPathParam}}@PathParam("{{baseName}}"){{#useBeanValidation}}{{>beanValidationPathParams}}{{/useBeanValidation}} {{{dataType}}} {{paramName}}{{/isPathParam}}

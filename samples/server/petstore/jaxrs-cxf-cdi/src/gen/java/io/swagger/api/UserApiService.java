@@ -4,6 +4,7 @@ import io.swagger.api.*;
 import io.swagger.model.*;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import java.util.List;
 import io.swagger.model.User;
@@ -15,7 +16,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-11-17T08:53:42.205Z")
+
 public interface UserApiService {
       public Response createUser(User body, SecurityContext securityContext);
       public Response createUsersWithArrayInput(List<User> body, SecurityContext securityContext);

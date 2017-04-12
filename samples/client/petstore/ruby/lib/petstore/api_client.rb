@@ -134,7 +134,7 @@ module Petstore
     # @param [String] mime MIME
     # @return [Boolean] True if the MIME is application/json
     def json_mime?(mime)
-       (mime == "*/*") || !(mime =~ /\Aapplication\/json(;.*)?\z/i).nil?
+       (mime == "*/*") || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
     end
 
     # Deserialize the response to the given return type.

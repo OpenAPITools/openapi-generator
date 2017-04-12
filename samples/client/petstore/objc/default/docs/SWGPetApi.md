@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```objc
--(NSNumber*) addPetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -26,7 +26,7 @@ Add a new pet to the store
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -68,7 +68,7 @@ void (empty response body)
 
 # **deletePet**
 ```objc
--(NSNumber*) deletePetWithPetId: (NSNumber*) petId
+-(NSURLSessionTask*) deletePetWithPetId: (NSNumber*) petId
     apiKey: (NSString*) apiKey
         completionHandler: (void (^)(NSError* error)) handler;
 ```
@@ -79,7 +79,7 @@ Deletes a pet
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -124,7 +124,7 @@ void (empty response body)
 
 # **findPetsByStatus**
 ```objc
--(NSNumber*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
+-(NSURLSessionTask*) findPetsByStatusWithStatus: (NSArray<NSString*>*) status
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 ```
 
@@ -134,7 +134,7 @@ Multiple status values can be provided with comma separated strings
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -179,7 +179,7 @@ Name | Type | Description  | Notes
 
 # **findPetsByTags**
 ```objc
--(NSNumber*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
+-(NSURLSessionTask*) findPetsByTagsWithTags: (NSArray<NSString*>*) tags
         completionHandler: (void (^)(NSArray<SWGPet>* output, NSError* error)) handler;
 ```
 
@@ -189,7 +189,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -234,7 +234,7 @@ Name | Type | Description  | Notes
 
 # **getPetById**
 ```objc
--(NSNumber*) getPetByIdWithPetId: (NSNumber*) petId
+-(NSURLSessionTask*) getPetByIdWithPetId: (NSNumber*) petId
         completionHandler: (void (^)(SWGPet* output, NSError* error)) handler;
 ```
 
@@ -244,15 +244,15 @@ Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error cond
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
-
-// Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
-[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
 NSNumber* petId = @789; // ID of pet that needs to be fetched
@@ -283,7 +283,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -294,7 +294,7 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```objc
--(NSNumber*) updatePetWithBody: (SWGPet*) body
+-(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
         completionHandler: (void (^)(NSError* error)) handler;
 ```
 
@@ -304,7 +304,7 @@ Update an existing pet
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -346,7 +346,7 @@ void (empty response body)
 
 # **updatePetWithForm**
 ```objc
--(NSNumber*) updatePetWithFormWithPetId: (NSString*) petId
+-(NSURLSessionTask*) updatePetWithFormWithPetId: (NSString*) petId
     name: (NSString*) name
     status: (NSString*) status
         completionHandler: (void (^)(NSError* error)) handler;
@@ -358,7 +358,7 @@ Updates a pet in the store with form data
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
@@ -406,7 +406,7 @@ void (empty response body)
 
 # **uploadFile**
 ```objc
--(NSNumber*) uploadFileWithPetId: (NSNumber*) petId
+-(NSURLSessionTask*) uploadFileWithPetId: (NSNumber*) petId
     additionalMetadata: (NSString*) additionalMetadata
     file: (NSURL*) file
         completionHandler: (void (^)(NSError* error)) handler;
@@ -418,7 +418,7 @@ uploads an image
 
 ### Example 
 ```objc
-SWGConfiguration *apiConfig = [SWGConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];

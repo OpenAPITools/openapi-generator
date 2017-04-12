@@ -50,13 +50,13 @@
      * Add a new pet to the store
      * 
      * @param {module:model/Pet} body Pet object that needs to be added to the store
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.addPet = function(body) {
+    this.addPetWithHttpInfo = function(body) {
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling addPet");
       }
 
@@ -82,6 +82,19 @@
       );
     }
 
+    /**
+     * Add a new pet to the store
+     * 
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    this.addPet = function(body) {
+      return this.addPetWithHttpInfo(body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Deletes a pet
@@ -89,14 +102,14 @@
      * @param {Number} petId Pet id to delete
      * @param {Object} opts Optional parameters
      * @param {String} opts.apiKey 
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.deletePet = function(petId, opts) {
+    this.deletePetWithHttpInfo = function(petId, opts) {
       opts = opts || {};
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling deletePet");
       }
 
@@ -124,18 +137,33 @@
       );
     }
 
+    /**
+     * Deletes a pet
+     * 
+     * @param {Number} petId Pet id to delete
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.apiKey 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    this.deletePet = function(petId, opts) {
+      return this.deletePetWithHttpInfo(petId, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param {Array.<module:model/String>} status Status values that need to be considered for filter
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Array.<module:model/Pet>} and HTTP response
      */
-    this.findPetsByStatus = function(status) {
+    this.findPetsByStatusWithHttpInfo = function(status) {
       var postBody = null;
 
       // verify the required parameter 'status' is set
-      if (status == undefined || status == null) {
+      if (status === undefined || status === null) {
         throw new Error("Missing the required parameter 'status' when calling findPetsByStatus");
       }
 
@@ -162,18 +190,31 @@
       );
     }
 
+    /**
+     * Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     * @param {Array.<module:model/String>} status Status values that need to be considered for filter
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
+     */
+    this.findPetsByStatus = function(status) {
+      return this.findPetsByStatusWithHttpInfo(status)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param {Array.<String>} tags Tags to filter by
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Array.<module:model/Pet>} and HTTP response
      */
-    this.findPetsByTags = function(tags) {
+    this.findPetsByTagsWithHttpInfo = function(tags) {
       var postBody = null;
 
       // verify the required parameter 'tags' is set
-      if (tags == undefined || tags == null) {
+      if (tags === undefined || tags === null) {
         throw new Error("Missing the required parameter 'tags' when calling findPetsByTags");
       }
 
@@ -200,18 +241,31 @@
       );
     }
 
+    /**
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @param {Array.<String>} tags Tags to filter by
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link Array.<module:model/Pet>}
+     */
+    this.findPetsByTags = function(tags) {
+      return this.findPetsByTagsWithHttpInfo(tags)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Find pet by ID
      * Returns a single pet
      * @param {Number} petId ID of pet to return
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Pet}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Pet} and HTTP response
      */
-    this.getPetById = function(petId) {
+    this.getPetByIdWithHttpInfo = function(petId) {
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling getPetById");
       }
 
@@ -238,18 +292,31 @@
       );
     }
 
+    /**
+     * Find pet by ID
+     * Returns a single pet
+     * @param {Number} petId ID of pet to return
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Pet}
+     */
+    this.getPetById = function(petId) {
+      return this.getPetByIdWithHttpInfo(petId)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Update an existing pet
      * 
      * @param {module:model/Pet} body Pet object that needs to be added to the store
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.updatePet = function(body) {
+    this.updatePetWithHttpInfo = function(body) {
       var postBody = body;
 
       // verify the required parameter 'body' is set
-      if (body == undefined || body == null) {
+      if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling updatePet");
       }
 
@@ -275,6 +342,19 @@
       );
     }
 
+    /**
+     * Update an existing pet
+     * 
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    this.updatePet = function(body) {
+      return this.updatePetWithHttpInfo(body)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * Updates a pet in the store with form data
@@ -283,14 +363,14 @@
      * @param {Object} opts Optional parameters
      * @param {String} opts.name Updated name of the pet
      * @param {String} opts.status Updated status of the pet
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.updatePetWithForm = function(petId, opts) {
+    this.updatePetWithFormWithHttpInfo = function(petId, opts) {
       opts = opts || {};
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling updatePetWithForm");
       }
 
@@ -319,6 +399,22 @@
       );
     }
 
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * @param {Number} petId ID of pet that needs to be updated
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.name Updated name of the pet
+     * @param {String} opts.status Updated status of the pet
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    this.updatePetWithForm = function(petId, opts) {
+      return this.updatePetWithFormWithHttpInfo(petId, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
 
     /**
      * uploads an image
@@ -327,14 +423,14 @@
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @param {File} opts.file file to upload
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/ApiResponse}
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/ApiResponse} and HTTP response
      */
-    this.uploadFile = function(petId, opts) {
+    this.uploadFileWithHttpInfo = function(petId, opts) {
       opts = opts || {};
       var postBody = null;
 
       // verify the required parameter 'petId' is set
-      if (petId == undefined || petId == null) {
+      if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling uploadFile");
       }
 
@@ -361,6 +457,22 @@
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );
+    }
+
+    /**
+     * uploads an image
+     * 
+     * @param {Number} petId ID of pet to update
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.additionalMetadata Additional data to pass to server
+     * @param {File} opts.file file to upload
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/ApiResponse}
+     */
+    this.uploadFile = function(petId, opts) {
+      return this.uploadFileWithHttpInfo(petId, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
     }
   };
 

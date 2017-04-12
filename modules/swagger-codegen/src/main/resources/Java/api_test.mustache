@@ -6,6 +6,7 @@ import {{invokerPackage}}.ApiException;
 {{#imports}}import {{import}};
 {{/imports}}
 import org.junit.Test;
+import org.junit.Ignore;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Map;
 /**
  * API tests for {{classname}}
  */
+@Ignore
 public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();
@@ -35,7 +37,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        // {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
         // TODO: test validations
     }

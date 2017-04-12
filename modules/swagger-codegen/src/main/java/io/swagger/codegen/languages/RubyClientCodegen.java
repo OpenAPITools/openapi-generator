@@ -250,6 +250,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("Rakefile.mustache", "", "Rakefile"));
+        supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
 
         // test files should not be overwritten
         writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
@@ -270,7 +272,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         CodegenParameter lastRequired = null;
         CodegenParameter lastOptional = null;
         for (CodegenParameter p : op.allParams) {
-            if (p.required != null && p.required) {
+            if (p.required) {
                 lastRequired = p;
             } else {
                 lastOptional = p;
@@ -328,7 +330,10 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {
+    public String escapeReservedWord(String name) {           
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
         return "_" + name;
     }
 
@@ -566,6 +571,10 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
         // number
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             String varName = name;

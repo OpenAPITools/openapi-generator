@@ -6,9 +6,9 @@ import io.swagger.exception.ApiError;
 import io.swagger.common.ApiUserCredentials;
 import io.swagger.event.Response;
 import io.swagger.common.SwaggerApi;
-import io.swagger.client.model.Pet;
 import io.swagger.client.model.ApiResponse;
 import flash.filesystem.File;
+import io.swagger.client.model.Pet;
 
 import mx.rpc.AsyncToken;
 import mx.utils.UIDUtil;
@@ -86,7 +86,7 @@ public class PetApi extends SwaggerApi {
         }
 
         
-        headerParams["apiKey"] = toPathValue(apiKey);
+        headerParams["api_key"] = toPathValue(apiKey);
 
         var token:AsyncToken = getApiInvoker().invokeAPI(path, "DELETE", queryParams, null, headerParams);
 

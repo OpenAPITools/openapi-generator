@@ -64,8 +64,8 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(property3.datatype, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
-        Assert.assertNull(property3.hasMore);
-        Assert.assertNull(property3.required);
+        Assert.assertFalse(property3.hasMore);
+        Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
     }
 
@@ -99,8 +99,8 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(property2.datatype, "Array<string>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "Array");
-        Assert.assertNull(property2.hasMore);
-        Assert.assertNull(property2.required);
+        Assert.assertFalse(property2.hasMore);
+        Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isContainer);
     }
 
@@ -123,7 +123,7 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "null");
         Assert.assertEquals(property1.baseType, "models.Children");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
 
@@ -147,7 +147,7 @@ public class TypeScriptAngular2ModelTest {
         Assert.assertEquals(property1.datatype, "Array<models.Children>");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
-        Assert.assertNull(property1.required);
+        Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
 

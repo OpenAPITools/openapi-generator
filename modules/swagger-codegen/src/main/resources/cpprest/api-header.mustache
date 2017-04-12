@@ -1,10 +1,10 @@
 {{>licenseInfo}}
 {{#operations}}/*
  * {{classname}}.h
- * 
+ *
  * {{description}}
  */
- 
+
 #ifndef {{classname}}_H_
 #define {{classname}}_H_
 
@@ -35,11 +35,11 @@ public:
     {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>{{/allParams}}
     pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}
-    
+
 protected:
-    std::shared_ptr<ApiClient> m_ApiClient;    
+    std::shared_ptr<ApiClient> m_ApiClient;
 };
-    
+
 {{#apiNamespaceDeclarations}}
 }
 {{/apiNamespaceDeclarations}}

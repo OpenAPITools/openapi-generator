@@ -1,0 +1,22 @@
+{
+    "name": "@swagger/angular2-typescript-petstore",
+    "version": "0.0.1-SNAPSHOT.201704021610",
+    "description": "JQuery client for @swagger/angular2-typescript-petstore",
+    "main": "api.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "author": "Swagger Codegen Contributors",
+    "license": "MIT",
+    "dependencies": {
+        "bluebird": "^3.3.5",
+        "request": "^2.72.0"
+    },
+    "devDependencies": {
+        "typescript": "^1.8.10",
+        "typings": "^0.8.1"
+    },
+    "publishConfig":{
+        "registry":"https://skimdb.npmjs.com/registry"
+    }
+}

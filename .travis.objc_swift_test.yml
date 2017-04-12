@@ -31,7 +31,8 @@ before_install:
    - gem install xcpretty -N --no-ri --no-rdoc
    - pod --version
    - pod setup --silent > /dev/null
-   - brew install xctool
+   # xctool already pre-installed
+   #- brew install xctool
    - git clone https://github.com/wing328/swagger-samples
    - cd swagger-samples/java/java-jersey-jaxrs && sudo mvn -q jetty:run &
 
@@ -47,6 +48,10 @@ script:
    - cd $SW/samples/client/petstore/swift/promisekit/SwaggerClientTests && pod install && xcodebuild clean test -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
    # test default swift client
    - cd $SW/samples/client/petstore/swift/default/SwaggerClientTests && pod install && xcodebuild clean test -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
+   # test swift3 client with promisekit
+   - cd $SW/samples/client/petstore/swift3/promisekit/SwaggerClientTests && pod install && xcodebuild clean test -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
+   # test default swift3 client
+   - cd $SW/samples/client/petstore/swift3/default/SwaggerClientTests && pod install && xcodebuild clean test -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
 
 env:
   - DOCKER_IMAGE_NAME=swaggerapi/swagger-generator

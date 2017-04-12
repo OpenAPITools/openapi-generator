@@ -12,18 +12,20 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import io.swagger.annotations.*;
+import java.io.InputStream;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import java.util.List;
-
+import javax.validation.constraints.*;
 @Path("/user")
 @RequestScoped
 
 @Api(description = "the user API")
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2016-11-17T08:53:42.205Z")
+
 
 public class UserApi  {
 
@@ -40,7 +42,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response createUser(@ApiParam(value = "Created user object" ,required=true) User body) {
-    	return delegate.createUser(body, securityContext);
+        return delegate.createUser(body, securityContext);
     }
 
     @POST
@@ -51,7 +53,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<User> body) {
-    	return delegate.createUsersWithArrayInput(body, securityContext);
+        return delegate.createUsersWithArrayInput(body, securityContext);
     }
 
     @POST
@@ -62,7 +64,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) List<User> body) {
-    	return delegate.createUsersWithListInput(body, securityContext);
+        return delegate.createUsersWithListInput(body, securityContext);
     }
 
     @DELETE
@@ -74,7 +76,7 @@ public class UserApi  {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = void.class),
         @ApiResponse(code = 404, message = "User not found", response = void.class) })
     public Response deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathParam("username") String username) {
-    	return delegate.deleteUser(username, securityContext);
+        return delegate.deleteUser(username, securityContext);
     }
 
     @GET
@@ -87,7 +89,7 @@ public class UserApi  {
         @ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
         @ApiResponse(code = 404, message = "User not found", response = User.class) })
     public Response getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true) @PathParam("username") String username) {
-    	return delegate.getUserByName(username, securityContext);
+        return delegate.getUserByName(username, securityContext);
     }
 
     @GET
@@ -98,8 +100,8 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
-    public Response loginUser(@ApiParam(value = "The user name for login",required=true)  @QueryParam("username") String username, @ApiParam(value = "The password for login in clear text",required=true)  @QueryParam("password") String password) {
-    	return delegate.loginUser(username, password, securityContext);
+    public Response loginUser( @NotNull @ApiParam(value = "The user name for login",required=true)  @QueryParam("username") String username,  @NotNull @ApiParam(value = "The password for login in clear text",required=true)  @QueryParam("password") String password) {
+        return delegate.loginUser(username, password, securityContext);
     }
 
     @GET
@@ -110,7 +112,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = void.class) })
     public Response logoutUser() {
-    	return delegate.logoutUser(securityContext);
+        return delegate.logoutUser(securityContext);
     }
 
     @PUT
@@ -122,6 +124,6 @@ public class UserApi  {
         @ApiResponse(code = 400, message = "Invalid user supplied", response = void.class),
         @ApiResponse(code = 404, message = "User not found", response = void.class) })
     public Response updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathParam("username") String username, @ApiParam(value = "Updated user object" ,required=true) User body) {
-    	return delegate.updateUser(username, body, securityContext);
+        return delegate.updateUser(username, body, securityContext);
     }
 }

@@ -180,8 +180,8 @@ font-style: italic;
   </head>
   <body>
   <h1>Swagger Petstore</h1>
-    <div class="app-desc">This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.</div>
-    
+    <div class="app-desc">This is a sample server Petstore server.  You can find out more about Swagger at <a href="http://swagger.io">http://swagger.io</a> or on <a href="http://swagger.io/irc/">irc.freenode.net, #swagger</a>.  For this sample, you can use the api key <code>special-key</code> to test the authorization filters.</div>
+    <div class="app-desc">More information: <a href=""></a></div>
     <div class="app-desc">Contact Info: <a href="apiteam@swagger.io">apiteam@swagger.io</a></div>
     <div class="app-desc">Version: 1.0.0</div>
     <div class="app-desc">BasePath:/v2</div>
@@ -246,9 +246,10 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (required)</div>
+      <div class="param">body <a href="#Pet">Pet</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added to the store </div>
+
     </div>  <!-- field-items -->
 
 
@@ -343,30 +344,30 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -416,30 +417,30 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>[ {
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 } ]</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -489,30 +490,30 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Pet>
-  <id>123456</id>
+  <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
-    <photoUrls>string</photoUrls>
+    <photoUrls>aeiou</photoUrls>
   </photoUrls>
   <tags>
   </tags>
-  <status>string</status>
+  <status>aeiou</status>
 </Pet></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "photoUrls" : [ "aeiou" ],
   "name" : "doggie",
-  "id" : 123456789,
+  "id" : 0,
   "category" : {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 6
   },
   "tags" : [ {
     "name" : "aeiou",
-    "id" : 123456789
+    "id" : 1
   } ],
-  "status" : "aeiou"
+  "status" : "available"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -552,9 +553,10 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (required)</div>
+      <div class="param">body <a href="#Pet">Pet</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Pet object that needs to be added to the store </div>
+
     </div>  <!-- field-items -->
 
 
@@ -677,7 +679,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "code" : 123,
+  "code" : 0,
   "type" : "aeiou",
   "message" : "aeiou"
 }</code></pre>
@@ -760,7 +762,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "key" : 123
+  "key" : 0
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -781,7 +783,7 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /store/order/{orderId}</code></pre></div>
     <div class="method-summary">Find purchase order by ID (<span class="nickname">getOrderById</span>)</div>
-    <div class="method-notes">For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</div>
+    <div class="method-notes">For valid response try integer IDs with value &lt;= 5 or &gt; 10. Other values will generated exceptions</div>
 
     <h3 class="field-label">Path parameters</h3>
     <div class="field-items">
@@ -806,22 +808,22 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Order>
-  <id>123456</id>
-  <petId>123456</petId>
-  <quantity>0</quantity>
+  <id>123456789</id>
+  <petId>123456789</petId>
+  <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>string</status>
+  <status>aeiou</status>
   <complete>true</complete>
 </Order></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -855,9 +857,10 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (required)</div>
+      <div class="param">body <a href="#Order">Order</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; order placed for purchasing the pet </div>
+
     </div>  <!-- field-items -->
 
 
@@ -874,22 +877,22 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><Order>
-  <id>123456</id>
-  <petId>123456</petId>
-  <quantity>0</quantity>
+  <id>123456789</id>
+  <petId>123456789</petId>
+  <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>string</status>
+  <status>aeiou</status>
   <complete>true</complete>
 </Order></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "petId" : 123456789,
-  "quantity" : 123,
-  "id" : 123456789,
+  "petId" : 6,
+  "quantity" : 1,
+  "id" : 0,
   "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : true,
-  "status" : "aeiou"
+  "complete" : false,
+  "status" : "placed"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -921,9 +924,10 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (required)</div>
+      <div class="param">body <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Created user object </div>
+
     </div>  <!-- field-items -->
 
 
@@ -942,7 +946,7 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">0</h4>
+    <h4 class="field-label">default</h4>
     successful operation
         <a href="#"></a>
   </div> <!-- method -->
@@ -958,9 +962,10 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (required)</div>
+      <div class="param">body <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
+
     </div>  <!-- field-items -->
 
 
@@ -979,7 +984,7 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">0</h4>
+    <h4 class="field-label">default</h4>
     successful operation
         <a href="#"></a>
   </div> <!-- method -->
@@ -995,9 +1000,10 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (required)</div>
+      <div class="param">body <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; List of user object </div>
+
     </div>  <!-- field-items -->
 
 
@@ -1016,7 +1022,7 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">0</h4>
+    <h4 class="field-label">default</h4>
     successful operation
         <a href="#"></a>
   </div> <!-- method -->
@@ -1072,7 +1078,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">username (required)</div>
 
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing.  </div>
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name that needs to be fetched. Use user1 for testing. </div>
     </div>  <!-- field-items -->
 
 
@@ -1091,14 +1097,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
     <pre class="example"><code><User>
-  <id>123456</id>
-  <username>string</username>
-  <firstName>string</firstName>
-  <lastName>string</lastName>
-  <email>string</email>
-  <password>string</password>
-  <phone>string</phone>
-  <userStatus>0</userStatus>
+  <id>123456789</id>
+  <username>aeiou</username>
+  <firstName>aeiou</firstName>
+  <lastName>aeiou</lastName>
+  <email>aeiou</email>
+  <password>aeiou</password>
+  <phone>aeiou</phone>
+  <userStatus>123</userStatus>
 </User></code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
@@ -1106,9 +1112,9 @@ font-style: italic;
   "firstName" : "aeiou",
   "lastName" : "aeiou",
   "password" : "aeiou",
-  "userStatus" : 123,
+  "userStatus" : 6,
   "phone" : "aeiou",
-  "id" : 123456789,
+  "id" : 0,
   "email" : "aeiou",
   "username" : "aeiou"
 }</code></pre>
@@ -1164,7 +1170,7 @@ font-style: italic;
 
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/xml</div>
-    <pre class="example"><code>string</code></pre>
+    <pre class="example"><code>aeiou</code></pre>
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>"aeiou"</code></pre>
@@ -1212,7 +1218,7 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">0</h4>
+    <h4 class="field-label">default</h4>
     successful operation
         <a href="#"></a>
   </div> <!-- method -->
@@ -1234,9 +1240,10 @@ font-style: italic;
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">body (required)</div>
+      <div class="param">body <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Updated user object </div>
+
     </div>  <!-- field-items -->
 
 
@@ -1264,22 +1271,21 @@ font-style: italic;
   </div> <!-- method -->
   <hr/>
 
-  <div class="up"><a href="#__Models">Up</a></div>
   <h2><a name="__Models">Models</a></h2>
   [ Jump to <a href="#__Methods">Methods</a> ]
 
   <h3>Table of Contents</h3>
   <ol>
-    <li><a href="#ApiResponse"><code>ApiResponse</code></a></li>
-    <li><a href="#Category"><code>Category</code></a></li>
-    <li><a href="#Order"><code>Order</code></a></li>
-    <li><a href="#Pet"><code>Pet</code></a></li>
-    <li><a href="#Tag"><code>Tag</code></a></li>
-    <li><a href="#User"><code>User</code></a></li>
+    <li><a href="#ApiResponse"><code>ApiResponse</code> - An uploaded response</a></li>
+    <li><a href="#Category"><code>Category</code> - Pet catehgry</a></li>
+    <li><a href="#Order"><code>Order</code> - Pet Order</a></li>
+    <li><a href="#Pet"><code>Pet</code> - a Pet</a></li>
+    <li><a href="#Tag"><code>Tag</code> - Pet Tag</a></li>
+    <li><a href="#User"><code>User</code> - a User</a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="ApiResponse">ApiResponse - An uploaded response</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3><a name="ApiResponse"><code>ApiResponse</code> - An uploaded response</a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>Describes the result of uploading an image resource</div>
     <div class="field-items">
       <div class="param">code (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
@@ -1288,7 +1294,7 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Category">Category - Pet catehgry</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3><a name="Category"><code>Category</code> - Pet catehgry</a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>A category for a pet</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
@@ -1296,7 +1302,7 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Order">Order - Pet Order</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3><a name="Order"><code>Order</code> - Pet Order</a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>An order for a pets from the pet store</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
@@ -1310,7 +1316,7 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Pet">Pet - a Pet</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3><a name="Pet"><code>Pet</code> - a Pet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>A pet for sale in the pet store</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
@@ -1324,7 +1330,7 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="Tag">Tag - Pet Tag</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3><a name="Tag"><code>Tag</code> - Pet Tag</a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>A tag for a pet</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>
@@ -1332,7 +1338,7 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="User">User - a User</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3><a name="User"><code>User</code> - a User</a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'>A User who is purchasing from the pet store</div>
     <div class="field-items">
       <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span>  format: int64</div>

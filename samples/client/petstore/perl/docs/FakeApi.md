@@ -5,7 +5,7 @@
 use WWW::SwaggerClient::Object::FakeApi;
 ```
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -16,6 +16,8 @@ Method | HTTP request | Description
 
 # **test_client_model**
 > Client test_client_model(body => $body)
+
+To test \"client\" model
 
 To test \"client\" model
 
@@ -138,6 +140,8 @@ void (empty response body)
 
 To test enum parameters
 
+To test enum parameters
+
 ### Example 
 ```perl
 use Data::Dumper;
@@ -151,7 +155,7 @@ my $enum_header_string_array = []; # ARRAY[string] | Header parameter enum test 
 my $enum_header_string = 'enum_header_string_example'; # string | Header parameter enum test (string)
 my $enum_query_string_array = []; # ARRAY[string] | Query parameter enum test (string array)
 my $enum_query_string = 'enum_query_string_example'; # string | Query parameter enum test (string)
-my $enum_query_integer = 3.4; # Number | Query parameter enum test (double)
+my $enum_query_integer = 56; # int | Query parameter enum test (double)
 my $enum_query_double = 1.2; # double | Query parameter enum test (double)
 
 eval { 
@@ -172,7 +176,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
  **enum_query_string_array** | [**ARRAY[string]**](string.md)| Query parameter enum test (string array) | [optional] 
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
- **enum_query_integer** | **Number**| Query parameter enum test (double) | [optional] 
+ **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional] 
 
 ### Return type

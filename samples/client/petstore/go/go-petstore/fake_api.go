@@ -39,6 +39,7 @@ func NewFakeApiWithBasePath(basePath string) *FakeApi {
 
 /**
  * To test \&quot;client\&quot; model
+ * To test \&quot;client\&quot; model
  *
  * @param body client model
  * @return *Client
@@ -132,7 +133,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 	var localVarFileBytes []byte
 	// authentication '(http_basic_test)' required
 	// http basic authentication required
-	if a.Configuration.UserName != "" || a.Configuration.Password != ""{
+	if a.Configuration.Username != "" || a.Configuration.Password != ""{
 		localVarHeaderParams["Authorization"] =  "Basic " + a.Configuration.GetBasicAuthEncodedString()
 	}
 	// add default headers if any
@@ -191,6 +192,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
 
 /**
  * To test enum parameters
+ * To test enum parameters
  *
  * @param enumFormStringArray Form parameter enum test (string array)
  * @param enumFormString Form parameter enum test (string)
@@ -202,7 +204,7 @@ func (a FakeApi) TestEndpointParameters(number float32, double float64, patternW
  * @param enumQueryDouble Query parameter enum test (double)
  * @return void
  */
-func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString string, enumHeaderStringArray []string, enumHeaderString string, enumQueryStringArray []string, enumQueryString string, enumQueryInteger float32, enumQueryDouble float64) (*APIResponse, error) {
+func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString string, enumHeaderStringArray []string, enumHeaderString string, enumQueryStringArray []string, enumQueryString string, enumQueryInteger int32, enumQueryDouble float64) (*APIResponse, error) {
 
 	var localVarHttpMethod = strings.ToUpper("Get")
 	// create path and map variables
@@ -218,16 +220,11 @@ func (a FakeApi) TestEnumParameters(enumFormStringArray []string, enumFormString
 	for key := range a.Configuration.DefaultHeader {
 		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
 	}
-	var collectionFormat = "csv"
-	if collectionFormat == "multi" {
-		for _, value := range enumQueryStringArray {
-			localVarQueryParams.Add("enum_query_string_array", value)
-		}
-	} else {
-		localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(enumQueryStringArray, collectionFormat))
-	}
-		localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(enumQueryString, ""))
-		localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(enumQueryInteger, ""))
+	var enumQueryStringArrayCollectionFormat = "csv"
+	localVarQueryParams.Add("enum_query_string_array", a.Configuration.APIClient.ParameterToString(enumQueryStringArray, enumQueryStringArrayCollectionFormat))
+
+	localVarQueryParams.Add("enum_query_string", a.Configuration.APIClient.ParameterToString(enumQueryString, ""))
+	localVarQueryParams.Add("enum_query_integer", a.Configuration.APIClient.ParameterToString(enumQueryInteger, ""))
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "*/*",  }

@@ -20,17 +20,18 @@
  */
 
 namespace {{modelPackage}};
+{{^isEnum}}
 
 use \ArrayAccess;
+{{/isEnum}}
 
 /**
  * {{classname}} Class Doc Comment
  *
- * @category    Class */
+ * @category    Class
 {{#description}}
- // @description {{description}}
+ * @description {{description}}
 {{/description}}
-/**
  * @package     {{invokerPackage}}
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen

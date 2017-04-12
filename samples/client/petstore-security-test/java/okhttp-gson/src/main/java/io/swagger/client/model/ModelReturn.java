@@ -36,7 +36,7 @@ public class ModelReturn {
    * property description  *_/ ' \" =end -- \\r\\n \\n \\r
    * @return _return
   **/
-  @ApiModelProperty(example = "null", value = "property description  *_/ ' \" =end -- \\r\\n \\n \\r")
+  @ApiModelProperty(value = "property description  *_/ ' \" =end -- \\r\\n \\n \\r")
   public Integer getReturn() {
     return _return;
   }
