@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Controller
 public class PetApiController implements PetApi {
@@ -30,7 +31,7 @@ public class PetApiController implements PetApi {
     }
 
 
-    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body) {
+    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         // do some magic!
         return delegate.addPet(body);
     }
@@ -56,7 +57,7 @@ public class PetApiController implements PetApi {
         return delegate.getPetById(petId);
     }
 
-    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body) {
+    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         // do some magic!
         return delegate.updatePet(body);
     }

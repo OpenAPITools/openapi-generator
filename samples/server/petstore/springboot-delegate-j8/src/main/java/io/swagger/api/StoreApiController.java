@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Controller
 public class StoreApiController implements StoreApi {
@@ -44,7 +45,7 @@ public class StoreApiController implements StoreApi {
         return delegate.getOrderById(orderId);
     }
 
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body) {
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
         // do some magic!
         return delegate.placeOrder(body);
     }
