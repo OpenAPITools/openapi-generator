@@ -116,6 +116,9 @@ public class EnumArrays {
   }
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (this.arrayEnum == null) {
+      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+    }
     this.arrayEnum.add(arrayEnumItem);
     return this;
   }
