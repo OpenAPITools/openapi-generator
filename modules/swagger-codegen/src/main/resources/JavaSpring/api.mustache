@@ -23,6 +23,7 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{/async}}
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
 @Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
