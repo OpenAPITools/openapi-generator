@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
@@ -32,7 +33,7 @@ public interface FakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default CompletableFuture<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model" ,required=true ) @RequestBody Client body) {
+    default CompletableFuture<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Client>(HttpStatus.OK));
     }
