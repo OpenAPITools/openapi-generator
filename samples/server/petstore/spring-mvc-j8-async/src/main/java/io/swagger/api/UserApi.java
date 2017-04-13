@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Api(value = "user", description = "the user API")
 public interface UserApi {
@@ -29,7 +30,7 @@ public interface UserApi {
     @RequestMapping(value = "/user",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body) {
+    default CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
@@ -42,7 +43,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithArray",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body) {
+    default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
@@ -55,7 +56,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithList",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body) {
+    default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
@@ -125,7 +126,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.PUT)
-    default CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body) {
+    default CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Void>(HttpStatus.OK));
     }
