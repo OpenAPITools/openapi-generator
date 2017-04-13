@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Api(value = "pet", description = "the pet API")
 public interface PetApi {
@@ -35,7 +36,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
-    default ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body) {
+    default ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -129,7 +130,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @RequestBody Pet body) {
+    default ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Api(value = "user", description = "the user API")
 public interface UserApi {
@@ -27,7 +28,7 @@ public interface UserApi {
     @RequestMapping(value = "/user",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body);
+    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
 
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
@@ -37,7 +38,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithArray",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body);
+    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
 
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
@@ -47,7 +48,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithList",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body);
+    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
 
 
     @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
@@ -102,6 +103,6 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body);
+    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Controller
 public class UserApiController implements UserApi {
@@ -29,17 +30,17 @@ public class UserApiController implements UserApi {
     }
 
 
-    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true ) @RequestBody User body) {
+    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
         // do some magic!
         return delegate.createUser(body);
     }
 
-    public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body) {
+    public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
         // do some magic!
         return delegate.createUsersWithArrayInput(body);
     }
 
-    public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @RequestBody List<User> body) {
+    public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
         // do some magic!
         return delegate.createUsersWithListInput(body);
     }
@@ -66,7 +67,7 @@ public class UserApiController implements UserApi {
     }
 
     public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object" ,required=true ) @RequestBody User body) {
+        @ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {
         // do some magic!
         return delegate.updateUser(username, body);
     }
