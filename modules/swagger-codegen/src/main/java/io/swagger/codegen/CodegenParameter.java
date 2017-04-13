@@ -91,6 +91,7 @@ public class CodegenParameter {
         output.dataFormat = this.dataFormat;
         output.collectionFormat = this.collectionFormat;
         output.isCollectionFormatMulti = this.isCollectionFormatMulti;
+        output.isPrimitiveType = this.isPrimitiveType;
         output.description = this.description;
         output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
