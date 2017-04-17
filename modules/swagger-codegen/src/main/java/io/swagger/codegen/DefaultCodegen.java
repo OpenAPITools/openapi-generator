@@ -1739,12 +1739,16 @@ public class DefaultCodegen {
             CodegenProperty cp = fromProperty(property.name, ap.getItems());
             updatePropertyForArray(property, cp);
           } else if (p instanceof MapProperty) {
+            MapProperty ap = (MapProperty) p;
+
             property.isContainer = true;
             property.isMapContainer = true;
             property.containerType = "map";
             property.baseType = getSwaggerType(p);
+            property.minItems = ap.getMinProperties();
+            property.maxItems = ap.getMaxProperties();
+
             // handle inner property
-            MapProperty ap = (MapProperty) p;
             CodegenProperty cp = fromProperty("inner", ap.getAdditionalProperties());
             updatePropertyForMap(property, cp);
         } else {
