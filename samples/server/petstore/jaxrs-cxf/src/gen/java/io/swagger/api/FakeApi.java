@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
 import org.joda.time.LocalDate;
+import io.swagger.model.OuterComposite;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,6 +26,34 @@ import javax.validation.Valid;
 @Path("/")
 @Api(value = "/", description = "")
 public interface FakeApi  {
+
+    @POST
+    @Path("/fake/outer/boolean")
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
+    public Boolean fakeOuterBooleanSerialize(@Valid Boolean body);
+
+    @POST
+    @Path("/fake/outer/composite")
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
+    public OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
+
+    @POST
+    @Path("/fake/outer/number")
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+    public BigDecimal fakeOuterNumberSerialize(@Valid BigDecimal body);
+
+    @POST
+    @Path("/fake/outer/string")
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output string", response = String.class) })
+    public String fakeOuterStringSerialize(@Valid String body);
 
     @PATCH
     @Path("/fake")

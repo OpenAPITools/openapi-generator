@@ -274,6 +274,10 @@ int32_t ModelBase::int32_tFromJson(web::json::value& val)
 {
     return val.as_integer();
 }
+float ModelBase::floatFromJson(web::json::value& val)
+{
+    return val.as_double();
+}
 utility::string_t ModelBase::stringFromJson(web::json::value& val)
 {
     return val.is_string() ? val.as_string() : U("");
@@ -307,6 +311,15 @@ int32_t ModelBase::int32_tFromHttpContent(std::shared_ptr<HttpContent> val)
 
     utility::stringstream_t ss(str);
     int32_t result = 0;
+    ss >> result;
+    return result;
+}
+float ModelBase::floatFromHttpContent(std::shared_ptr<HttpContent> val)
+{
+    utility::string_t str = ModelBase::stringFromHttpContent(val);
+
+    utility::stringstream_t ss(str);
+    float result = 0;
     ss >> result;
     return result;
 }

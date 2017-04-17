@@ -50,6 +50,7 @@ public:
     static utility::string_t parameterToString(utility::string_t value);
     static utility::string_t parameterToString(int32_t value);
     static utility::string_t parameterToString(int64_t value);
+    static utility::string_t parameterToString(float value);
     static utility::string_t parameterToString(const utility::datetime &value);
 
     template<class T>

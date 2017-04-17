@@ -4,10 +4,194 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 
+
+<a name="fakeOuterBooleanSerialize"></a>
+# **fakeOuterBooleanSerialize**
+> Boolean fakeOuterBooleanSerialize(body)
+
+
+
+Test serialization of outer boolean types
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+Boolean body = true; // Boolean | Input boolean as post body
+try {
+    Boolean result = apiInstance.fakeOuterBooleanSerialize(body);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#fakeOuterBooleanSerialize");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**Boolean**](Boolean.md)| Input boolean as post body | [optional]
+
+### Return type
+
+**Boolean**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="fakeOuterCompositeSerialize"></a>
+# **fakeOuterCompositeSerialize**
+> OuterComposite fakeOuterCompositeSerialize(body)
+
+
+
+Test serialization of object with outer number type
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
+try {
+    OuterComposite result = apiInstance.fakeOuterCompositeSerialize(body);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+
+### Return type
+
+[**OuterComposite**](OuterComposite.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="fakeOuterNumberSerialize"></a>
+# **fakeOuterNumberSerialize**
+> BigDecimal fakeOuterNumberSerialize(body)
+
+
+
+Test serialization of outer number types
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+try {
+    BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**BigDecimal**](BigDecimal.md)| Input number as post body | [optional]
+
+### Return type
+
+[**BigDecimal**](BigDecimal.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="fakeOuterStringSerialize"></a>
+# **fakeOuterStringSerialize**
+> String fakeOuterStringSerialize(body)
+
+
+
+Test serialization of outer string types
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+String body = "body_example"; // String | Input string as post body
+try {
+    String result = apiInstance.fakeOuterStringSerialize(body);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**String**](String.md)| Input string as post body | [optional]
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="testClientModel"></a>
 # **testClientModel**

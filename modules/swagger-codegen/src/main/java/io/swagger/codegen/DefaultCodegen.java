@@ -115,6 +115,8 @@ public class DefaultCodegen {
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
+    // When a model is an alias for a simple type
+    protected Map<String, String> typeAliases = new HashMap<>();
 
     protected String ignoreFilePathOverride;
 
@@ -1210,6 +1212,18 @@ public class DefaultCodegen {
     }
 
     /**
+     * Determine the type alias for the given type if it exists. This feature
+     * is only used for Java, because the language does not have a aliasing
+     * mechanism of its own.
+     * @param name The type name.
+     * @return The alias of the given type, if it exists. If there is no alias
+     * for this type, then returns the input type name.
+     */
+    public String getAlias(String name) {
+        return name;
+    }
+
+    /**
      * Output the API (class) name (capitalized) ending with "Api"
      * Return DefaultApi if name is empty
      *
@@ -1373,6 +1387,10 @@ public class DefaultCodegen {
             ModelImpl impl = (ModelImpl) model;
             if (impl.getType() != null) {
                 Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
+                if (!impl.getType().equals("object") && impl.getEnum() == null) {
+                    typeAliases.put(name, impl.getType());
+                    m.isAlias = true;
+                }
                 m.dataType = getSwaggerType(p);
             }
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
@@ -2517,6 +2535,7 @@ public class DefaultCodegen {
                 Model sub = bp.getSchema();
                 if (sub instanceof RefModel) {
                     String name = ((RefModel) sub).getSimpleRef();
+                    name = getAlias(name);
                     if (typeMapping.containsKey(name)) {
                         name = typeMapping.get(name);
                     } else {

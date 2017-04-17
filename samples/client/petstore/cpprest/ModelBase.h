@@ -55,6 +55,7 @@ public:
 
     static int64_t int64_tFromJson(web::json::value& val);
     static int32_t int32_tFromJson(web::json::value& val);
+    static float floatFromJson(web::json::value& val);
     static utility::string_t stringFromJson(web::json::value& val);
     static utility::datetime dateFromJson(web::json::value& val);
     static double doubleFromJson(web::json::value& val);
@@ -71,6 +72,7 @@ public:
 
     static int64_t int64_tFromHttpContent(std::shared_ptr<HttpContent> val);
     static int32_t int32_tFromHttpContent(std::shared_ptr<HttpContent> val);
+    static float floatFromHttpContent(std::shared_ptr<HttpContent> val);
     static utility::string_t stringFromHttpContent(std::shared_ptr<HttpContent> val);
     static utility::datetime dateFromHttpContent(std::shared_ptr<HttpContent> val);
     static bool boolFromHttpContent(std::shared_ptr<HttpContent> val);
