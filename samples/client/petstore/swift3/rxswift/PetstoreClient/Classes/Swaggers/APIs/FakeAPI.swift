@@ -47,9 +47,9 @@ open class FakeAPI: APIBase {
      To test \"client\" model
      - PATCH /fake
      - To test \"client\" model
-     - examples: [{contentType=application/json, example={
+     - examples: [{example={
   "client" : "aeiou"
-}}]
+}, contentType=application/json}]
      
      - parameter body: (body) client model 
 
