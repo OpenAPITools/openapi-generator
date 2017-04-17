@@ -1,8 +1,8 @@
 package io.swagger.api;
 
-import java.io.File;
 import io.swagger.model.ModelApiResponse;
 import io.swagger.model.Pet;
+import org.springframework.core.io.Resource;
 
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
