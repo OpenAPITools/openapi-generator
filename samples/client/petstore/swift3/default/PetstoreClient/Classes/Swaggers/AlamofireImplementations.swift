@@ -197,7 +197,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     return
                 }
                 if let json: Any = response.result.value {
-                    let body = Decoders.decode(clazz: T.self, source: json as AnyObject)
+                    let body = Decoders.decode(clazz: T.self, source: json as AnyObject, instance: nil)
                     completion(Response(response: response.response!, body: body), nil)
                     return
                 } else if "" is T {

@@ -103,9 +103,9 @@ open class StoreAPI: APIBase {
      - API Key:
        - type: apiKey api_key 
        - name: api_key
-     - examples: [{contentType=application/json, example={
+     - examples: [{example={
   "key" : 0
-}}]
+}, contentType=application/json}]
 
      - returns: RequestBuilder<[String:Int32]> 
      */
@@ -158,36 +158,36 @@ open class StoreAPI: APIBase {
      Find purchase order by ID
      - GET /store/order/{order_id}
      - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     - examples: [{contentType=application/xml, example=<Order>
+     - examples: [{example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
+</Order>, contentType=application/xml}, {example={
   "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 6,
   "complete" : false,
-  "status" : "placed"
-}}]
-     - examples: [{contentType=application/xml, example=<Order>
+  "status" : "placed",
+  "quantity" : 1,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+}, contentType=application/json}]
+     - examples: [{example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
+</Order>, contentType=application/xml}, {example={
   "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 6,
   "complete" : false,
-  "status" : "placed"
-}}]
+  "status" : "placed",
+  "quantity" : 1,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+}, contentType=application/json}]
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
 
@@ -243,36 +243,36 @@ open class StoreAPI: APIBase {
      Place an order for a pet
      - POST /store/order
      - 
-     - examples: [{contentType=application/xml, example=<Order>
+     - examples: [{example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
+</Order>, contentType=application/xml}, {example={
   "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 6,
   "complete" : false,
-  "status" : "placed"
-}}]
-     - examples: [{contentType=application/xml, example=<Order>
+  "status" : "placed",
+  "quantity" : 1,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+}, contentType=application/json}]
+     - examples: [{example=<Order>
   <id>123456789</id>
   <petId>123456789</petId>
   <quantity>123</quantity>
   <shipDate>2000-01-23T04:56:07.000Z</shipDate>
   <status>aeiou</status>
   <complete>true</complete>
-</Order>}, {contentType=application/json, example={
-  "petId" : 6,
-  "quantity" : 1,
+</Order>, contentType=application/xml}, {example={
   "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
+  "petId" : 6,
   "complete" : false,
-  "status" : "placed"
-}}]
+  "status" : "placed",
+  "quantity" : 1,
+  "shipDate" : "2000-01-23T04:56:07.000+00:00"
+}, contentType=application/json}]
      
      - parameter body: (body) order placed for purchasing the pet 
 
