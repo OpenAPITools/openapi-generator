@@ -318,7 +318,19 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if(config.importMapping().containsKey(modelName)) {
                     continue;
                 }
-                allModels.add(((List<Object>) models.get("models")).get(0));
+                Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
+                if (config.getName().contains("java") || config.getName().contains("jaxrs")
+                        || config.getName().contains("spring") || config.getName().endsWith("4j")
+                        || config.getName().equals("inflector")) {
+                    // Special handling of aliases only applies to Java
+                    if (modelTemplate != null && modelTemplate.containsKey("model")) {
+                        CodegenModel m = (CodegenModel) modelTemplate.get("model");
+                        if (m.isAlias) {
+                            continue;  // Don't create user-defined classes for aliases
+                        }
+                    }
+                }
+                allModels.add(modelTemplate);
                 for (String templateName : config.modelTemplateFiles().keySet()) {
                     String suffix = config.modelTemplateFiles().get(templateName);
                     String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;

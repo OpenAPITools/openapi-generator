@@ -88,6 +88,306 @@ class FakeApi
     }
 
     /**
+     * Operation fakeOuterBooleanSerialize
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterBoolean $body Input boolean as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\OuterBoolean
+     */
+    public function fakeOuterBooleanSerialize($body = null)
+    {
+        list($response) = $this->fakeOuterBooleanSerializeWithHttpInfo($body);
+        return $response;
+    }
+
+    /**
+     * Operation fakeOuterBooleanSerializeWithHttpInfo
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterBoolean $body Input boolean as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\OuterBoolean, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeOuterBooleanSerializeWithHttpInfo($body = null)
+    {
+        // parse inputs
+        $resourcePath = "/fake/outer/boolean";
+        $httpBody = '';
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept([]);
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
+
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\Swagger\Client\Model\OuterBoolean',
+                '/fake/outer/boolean'
+            );
+
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\OuterBoolean', $httpHeader), $statusCode, $httpHeader];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\OuterBoolean', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeOuterCompositeSerialize
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\OuterComposite
+     */
+    public function fakeOuterCompositeSerialize($body = null)
+    {
+        list($response) = $this->fakeOuterCompositeSerializeWithHttpInfo($body);
+        return $response;
+    }
+
+    /**
+     * Operation fakeOuterCompositeSerializeWithHttpInfo
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\OuterComposite, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeOuterCompositeSerializeWithHttpInfo($body = null)
+    {
+        // parse inputs
+        $resourcePath = "/fake/outer/composite";
+        $httpBody = '';
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept([]);
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
+
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\Swagger\Client\Model\OuterComposite',
+                '/fake/outer/composite'
+            );
+
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\OuterComposite', $httpHeader), $statusCode, $httpHeader];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\OuterComposite', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeOuterNumberSerialize
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\OuterNumber
+     */
+    public function fakeOuterNumberSerialize($body = null)
+    {
+        list($response) = $this->fakeOuterNumberSerializeWithHttpInfo($body);
+        return $response;
+    }
+
+    /**
+     * Operation fakeOuterNumberSerializeWithHttpInfo
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\OuterNumber, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeOuterNumberSerializeWithHttpInfo($body = null)
+    {
+        // parse inputs
+        $resourcePath = "/fake/outer/number";
+        $httpBody = '';
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept([]);
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
+
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\Swagger\Client\Model\OuterNumber',
+                '/fake/outer/number'
+            );
+
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\OuterNumber', $httpHeader), $statusCode, $httpHeader];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\OuterNumber', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeOuterStringSerialize
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return \Swagger\Client\Model\OuterString
+     */
+    public function fakeOuterStringSerialize($body = null)
+    {
+        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($body);
+        return $response;
+    }
+
+    /**
+     * Operation fakeOuterStringSerializeWithHttpInfo
+     *
+     * 
+     *
+     * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
+     * @throws \Swagger\Client\ApiException on non-2xx response
+     * @return array of \Swagger\Client\Model\OuterString, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeOuterStringSerializeWithHttpInfo($body = null)
+    {
+        // parse inputs
+        $resourcePath = "/fake/outer/string";
+        $httpBody = '';
+        $queryParams = [];
+        $headerParams = [];
+        $formParams = [];
+        $_header_accept = $this->apiClient->selectHeaderAccept([]);
+        if (!is_null($_header_accept)) {
+            $headerParams['Accept'] = $_header_accept;
+        }
+        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType([]);
+
+        // body params
+        $_tempBody = null;
+        if (isset($body)) {
+            $_tempBody = $body;
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
+        } elseif (count($formParams) > 0) {
+            $httpBody = $formParams; // for HTTP post (form)
+        }
+        // make the API Call
+        try {
+            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
+                $resourcePath,
+                'POST',
+                $queryParams,
+                $httpBody,
+                $headerParams,
+                '\Swagger\Client\Model\OuterString',
+                '/fake/outer/string'
+            );
+
+            return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\OuterString', $httpHeader), $statusCode, $httpHeader];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\Swagger\Client\Model\OuterString', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
      * Operation testClientModel
      *
      * To test \"client\" model

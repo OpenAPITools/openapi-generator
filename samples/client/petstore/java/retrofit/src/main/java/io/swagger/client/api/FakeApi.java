@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import io.swagger.client.model.Client;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import io.swagger.client.model.OuterComposite;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,102 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * 
+   * Sync method
+   * Test serialization of outer boolean types
+   * @param body Input boolean as post body (optional)
+   * @return Boolean
+   */
+  
+  @POST("/fake/outer/boolean")
+  Boolean fakeOuterBooleanSerialize(
+    @retrofit.http.Body Boolean body
+  );
+
+  /**
+   * 
+   * Async method
+   * @param body Input boolean as post body (optional)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/outer/boolean")
+  void fakeOuterBooleanSerialize(
+    @retrofit.http.Body Boolean body, Callback<Boolean> cb
+  );
+  /**
+   * 
+   * Sync method
+   * Test serialization of object with outer number type
+   * @param body Input composite as post body (optional)
+   * @return OuterComposite
+   */
+  
+  @POST("/fake/outer/composite")
+  OuterComposite fakeOuterCompositeSerialize(
+    @retrofit.http.Body OuterComposite body
+  );
+
+  /**
+   * 
+   * Async method
+   * @param body Input composite as post body (optional)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/outer/composite")
+  void fakeOuterCompositeSerialize(
+    @retrofit.http.Body OuterComposite body, Callback<OuterComposite> cb
+  );
+  /**
+   * 
+   * Sync method
+   * Test serialization of outer number types
+   * @param body Input number as post body (optional)
+   * @return BigDecimal
+   */
+  
+  @POST("/fake/outer/number")
+  BigDecimal fakeOuterNumberSerialize(
+    @retrofit.http.Body BigDecimal body
+  );
+
+  /**
+   * 
+   * Async method
+   * @param body Input number as post body (optional)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/outer/number")
+  void fakeOuterNumberSerialize(
+    @retrofit.http.Body BigDecimal body, Callback<BigDecimal> cb
+  );
+  /**
+   * 
+   * Sync method
+   * Test serialization of outer string types
+   * @param body Input string as post body (optional)
+   * @return String
+   */
+  
+  @POST("/fake/outer/string")
+  String fakeOuterStringSerialize(
+    @retrofit.http.Body String body
+  );
+
+  /**
+   * 
+   * Async method
+   * @param body Input string as post body (optional)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/outer/string")
+  void fakeOuterStringSerialize(
+    @retrofit.http.Body String body, Callback<String> cb
+  );
   /**
    * To test \&quot;client\&quot; model
    * Sync method

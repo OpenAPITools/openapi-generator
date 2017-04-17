@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
 
@@ -26,6 +27,26 @@ import javax.validation.Valid;
 public class FakeApiController implements FakeApi {
 
 
+
+    public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
+        // do some magic!
+        return new ResponseEntity<Boolean>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body) {
+        // do some magic!
+        return new ResponseEntity<OuterComposite>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body) {
+        // do some magic!
+        return new ResponseEntity<BigDecimal>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body) {
+        // do some magic!
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
 
     public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
         // do some magic!

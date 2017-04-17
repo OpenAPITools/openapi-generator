@@ -9,6 +9,82 @@ defmodule SwaggerPetstore.Api.Fake do
   plug Tesla.Middleware.JSON
 
   @doc """
+  
+
+  Test serialization of outer boolean types
+  """
+  def fake_outer_boolean_serialize(body) do
+    method = [method: :post]
+    url = [url: "/fake/outer/boolean"]
+    query_params = []
+    header_params = []
+    body_params = [body: body]
+    form_params = []
+    params = query_params ++ header_params ++ body_params ++ form_params
+    opts = []
+    options = method ++ url ++ params ++ opts
+
+    request(options)
+  end
+
+  @doc """
+  
+
+  Test serialization of object with outer number type
+  """
+  def fake_outer_composite_serialize(body) do
+    method = [method: :post]
+    url = [url: "/fake/outer/composite"]
+    query_params = []
+    header_params = []
+    body_params = [body: body]
+    form_params = []
+    params = query_params ++ header_params ++ body_params ++ form_params
+    opts = []
+    options = method ++ url ++ params ++ opts
+
+    request(options)
+  end
+
+  @doc """
+  
+
+  Test serialization of outer number types
+  """
+  def fake_outer_number_serialize(body) do
+    method = [method: :post]
+    url = [url: "/fake/outer/number"]
+    query_params = []
+    header_params = []
+    body_params = [body: body]
+    form_params = []
+    params = query_params ++ header_params ++ body_params ++ form_params
+    opts = []
+    options = method ++ url ++ params ++ opts
+
+    request(options)
+  end
+
+  @doc """
+  
+
+  Test serialization of outer string types
+  """
+  def fake_outer_string_serialize(body) do
+    method = [method: :post]
+    url = [url: "/fake/outer/string"]
+    query_params = []
+    header_params = []
+    body_params = [body: body]
+    form_params = []
+    params = query_params ++ header_params ++ body_params ++ form_params
+    opts = []
+    options = method ++ url ++ params ++ opts
+
+    request(options)
+  end
+
+  @doc """
   To test \&quot;client\&quot; model
 
   To test \&quot;client\&quot; model

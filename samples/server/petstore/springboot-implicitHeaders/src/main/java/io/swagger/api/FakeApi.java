@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,54 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
+
+    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
+    @ApiImplicitParams({
+    
+    })
+    @RequestMapping(value = "/fake/outer/boolean",
+        method = RequestMethod.POST)
+    ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body);
+
+
+    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
+    @ApiImplicitParams({
+    
+    })
+    @RequestMapping(value = "/fake/outer/composite",
+        method = RequestMethod.POST)
+    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body);
+
+
+    @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+    @ApiImplicitParams({
+    
+    })
+    @RequestMapping(value = "/fake/outer/number",
+        method = RequestMethod.POST)
+    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body);
+
+
+    @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output string", response = String.class) })
+    @ApiImplicitParams({
+    
+    })
+    @RequestMapping(value = "/fake/outer/string",
+        method = RequestMethod.POST)
+    ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body);
+
 
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @ApiResponses(value = { 
@@ -32,7 +78,7 @@ public interface FakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true ) @RequestBody Client body);
+    ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body);
 
 
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {

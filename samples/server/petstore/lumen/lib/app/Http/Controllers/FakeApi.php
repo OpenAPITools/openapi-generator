@@ -183,4 +183,88 @@ class FakeApi extends Controller
 
         return response('How about implementing testEnumParameters as a GET method ?');
     }
+    /**
+     * Operation fakeOuterBooleanSerialize
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeOuterBooleanSerialize()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $body = $input['body'];
+
+
+        return response('How about implementing fakeOuterBooleanSerialize as a POST method ?');
+    }
+    /**
+     * Operation fakeOuterCompositeSerialize
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeOuterCompositeSerialize()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $body = $input['body'];
+
+
+        return response('How about implementing fakeOuterCompositeSerialize as a POST method ?');
+    }
+    /**
+     * Operation fakeOuterNumberSerialize
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeOuterNumberSerialize()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $body = $input['body'];
+
+
+        return response('How about implementing fakeOuterNumberSerialize as a POST method ?');
+    }
+    /**
+     * Operation fakeOuterStringSerialize
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeOuterStringSerialize()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $body = $input['body'];
+
+
+        return response('How about implementing fakeOuterStringSerialize as a POST method ?');
+    }
 }

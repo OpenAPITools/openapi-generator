@@ -43,6 +43,34 @@ $app->POST('/v2/fake', 'FakeApi@testEndpointParameters');
  */
 $app->GET('/v2/fake', 'FakeApi@testEnumParameters');
 /**
+ * POST fakeOuterBooleanSerialize
+ * Summary: 
+ * Notes: Test serialization of outer boolean types
+
+ */
+$app->POST('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
+/**
+ * POST fakeOuterCompositeSerialize
+ * Summary: 
+ * Notes: Test serialization of object with outer number type
+
+ */
+$app->POST('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
+/**
+ * POST fakeOuterNumberSerialize
+ * Summary: 
+ * Notes: Test serialization of outer number types
+
+ */
+$app->POST('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
+/**
+ * POST fakeOuterStringSerialize
+ * Summary: 
+ * Notes: Test serialization of outer string types
+
+ */
+$app->POST('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
+/**
  * POST addPet
  * Summary: Add a new pet to the store
  * Notes: 

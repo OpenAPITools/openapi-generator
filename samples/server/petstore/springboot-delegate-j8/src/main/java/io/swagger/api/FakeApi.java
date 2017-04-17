@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,54 @@ import javax.validation.Valid;
 
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
+
+    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
+    
+    @RequestMapping(value = "/fake/outer/boolean",
+        method = RequestMethod.POST)
+    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
+        // do some magic!
+        return new ResponseEntity<Boolean>(HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
+    
+    @RequestMapping(value = "/fake/outer/composite",
+        method = RequestMethod.POST)
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body) {
+        // do some magic!
+        return new ResponseEntity<OuterComposite>(HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+    
+    @RequestMapping(value = "/fake/outer/number",
+        method = RequestMethod.POST)
+    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body) {
+        // do some magic!
+        return new ResponseEntity<BigDecimal>(HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output string", response = String.class) })
+    
+    @RequestMapping(value = "/fake/outer/string",
+        method = RequestMethod.POST)
+    default ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body) {
+        // do some magic!
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
+
 
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @ApiResponses(value = { 
