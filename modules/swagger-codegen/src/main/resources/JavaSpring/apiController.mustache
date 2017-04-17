@@ -38,27 +38,45 @@ public class {{classname}}Controller implements {{classname}} {
     @org.springframework.beans.factory.annotation.Autowired
     public {{classname}}Controller({{classname}}Delegate delegate) {
         this.delegate = delegate;
-    }{{/isDelegate}}
+    }
 
-{{^jdk8-no-delegate}}{{#operation}}
+{{/isDelegate}}
+{{^jdk8-no-delegate}}
+{{#operation}}
     public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}}) {{#examples}}throws IOException{{/examples}} {
-        // do some magic!{{^isDelegate}}{{^async}}
-
+        {{/hasMore}}{{/allParams}}){{#examples}}{{#-first}} throws IOException{{/-first}}{{/examples}} {
+        // do some magic!
+        {{^isDelegate}}
+        {{^async}}
         {{#examples}}
+        {{#-first}}
+        
         ObjectMapper objectMapper = new ObjectMapper();
-        return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue({{{example}}},{{>exampleReturnTypes}}.class), HttpStatus.OK);
+
+        {{/-first}}
+        if ("{{{contentType}}}".equals("")) { //TODO need to compare HTTP request "Accept"
+            return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{{example}}}",{{>exampleReturnTypes}}.class), HttpStatus.OK);
+        }
+
         {{/examples}}
         {{^examples}}
-        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);{{/examples}}{{/async}}{{#async}}
+        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+        {{/examples}}
+        {{/async}}
+        {{#async}}
         return new Callable<ResponseEntity<{{>returnTypes}}>>() {
             @Override
             public ResponseEntity<{{>returnTypes}}> call() throws Exception {
                 return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
             }
-        };{{/async}}{{/isDelegate}}{{#isDelegate}}
-        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/isDelegate}}
+        };
+        {{/async}}
+        {{/isDelegate}}
+        {{#isDelegate}}
+        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/isDelegate}}
     }
-{{/operation}}{{/jdk8-no-delegate}}
+{{/operation}}
+{{/jdk8-no-delegate}}
 }
 {{/operations}}
