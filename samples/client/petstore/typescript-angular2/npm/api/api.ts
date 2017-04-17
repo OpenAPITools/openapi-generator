@@ -1,7 +1,7 @@
-export * from './PetApi';
-import { PetApi } from './PetApi';
-export * from './StoreApi';
-import { StoreApi } from './StoreApi';
-export * from './UserApi';
-import { UserApi } from './UserApi';
-export const APIS = [PetApi, StoreApi, UserApi];
+export * from './pet.service';
+import { PetService } from './pet.service';
+export * from './store.service';
+import { StoreService } from './store.service';
+export * from './user.service';
+import { UserService } from './user.service';
+export const APIS = [PetService, StoreService, UserService];
