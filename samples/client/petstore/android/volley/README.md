@@ -1,4 +1,4 @@
-# swagger-android-client
+# swagger-petstore-android-volley
 
 ## Requirements
 
@@ -27,7 +27,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
     <groupId>io.swagger</groupId>
-    <artifactId>swagger-android-client</artifactId>
+    <artifactId>swagger-petstore-android-volley</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "io.swagger:swagger-android-client:1.0.0"
+compile "io.swagger:swagger-petstore-android-volley:1.0.0"
 ```
 
 ### Others
@@ -49,7 +49,7 @@ At first generate the JAR by executing:
 
 Then manually install the following JARs:
 
-* target/swagger-android-client-1.0.0.jar
+* target/swagger-petstore-android-volley-1.0.0.jar
 * target/lib/*.jar
 
 ## Getting Started
