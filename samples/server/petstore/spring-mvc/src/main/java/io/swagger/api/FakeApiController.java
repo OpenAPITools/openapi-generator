@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 
 import java.util.List;
 
@@ -24,14 +26,18 @@ import javax.validation.Valid;
 
 @Controller
 public class FakeApiController implements FakeApi {
-
-
-
-    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) throws IOException {
         // do some magic!
-        return new ResponseEntity<Client>(HttpStatus.OK);
-    }
+        
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        if ("application/json".equals("")) { //TODO need to compare HTTP request "Accept"
+            return new ResponseEntity<Client>(objectMapper.readValue("{
+  "client" : "aeiou"
+}",Client.class), HttpStatus.OK);
+        }
+
+    }
     public ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true) @RequestPart(value="number", required=true)  BigDecimal number,
         @ApiParam(value = "None", required=true) @RequestPart(value="double", required=true)  Double _double,
         @ApiParam(value = "None", required=true) @RequestPart(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,
@@ -49,7 +55,6 @@ public class FakeApiController implements FakeApi {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
-
     public ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $") @RequestPart(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestPart(value="enum_form_string", required=false)  String enumFormString,
         @ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray,
@@ -61,5 +66,4 @@ public class FakeApiController implements FakeApi {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
-
 }
