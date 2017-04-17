@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 
 import java.util.List;
 {{#async}}
@@ -40,9 +42,15 @@ public class {{classname}}Controller implements {{classname}} {
 
 {{^jdk8-no-delegate}}{{#operation}}
     public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}}) {
+        {{/hasMore}}{{/allParams}}) {{#examples}}throws IOException{{/examples}} {
         // do some magic!{{^isDelegate}}{{^async}}
-        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);{{/async}}{{#async}}
+
+        {{#examples}}
+        ObjectMapper objectMapper = new ObjectMapper();
+        return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue({{{example}}},{{>exampleReturnTypes}}.class), HttpStatus.OK);
+        {{/examples}}
+        {{^examples}}
+        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);{{/examples}}{{/async}}{{#async}}
         return new Callable<ResponseEntity<{{>returnTypes}}>>() {
             @Override
             public ResponseEntity<{{>returnTypes}}> call() throws Exception {
