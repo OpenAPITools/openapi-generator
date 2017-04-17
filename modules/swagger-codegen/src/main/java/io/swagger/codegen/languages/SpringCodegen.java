@@ -157,6 +157,9 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
             this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
+        typeMapping.put("file", "Resource");
+        importMapping.put("Resource", "org.springframework.core.io.Resource");
+
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -446,6 +449,32 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         }
         name = sanitizeName(name);
         return camelize(name) + "Api";
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("File".equals(type)) {
+            String example;
+
+            if (p.defaultValue == null) {
+                example = p.example;
+            } else {
+                example = p.defaultValue;
+            }
+
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "new org.springframework.core.io.FileSystemResource(new java.io.File(\"" + escapeText(example) + "\"))";
+            p.example = example;
+        } else {
+            super.setParameterExampleValue(p);
+        }
     }
 
     public void setTitle(String title) {
