@@ -794,6 +794,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Stingray](http://www.stingray.com)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
+- [Switch Database](https://www.switchdatabase.com/)
 - [TaskData](http://www.taskdata.com/)
 - [ThoughtWorks](https://www.thoughtworks.com)
 - [Trexle](https://trexle.com/)
