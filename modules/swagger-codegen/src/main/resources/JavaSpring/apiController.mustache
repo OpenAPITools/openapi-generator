@@ -43,8 +43,8 @@ public class {{classname}}Controller implements {{classname}} {
 {{/isDelegate}}
 {{^jdk8-no-delegate}}
 {{#operation}}
-    public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},
-        {{/hasMore}}{{/allParams}}){{#examples}}{{#-first}} throws IOException{{/-first}}{{/examples}} {
+    public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},
+        {{/allParams}}@RequestHeader("Accept") String accept){{#examples}}{{#-first}} throws IOException{{/-first}}{{/examples}} {
         // do some magic!
         {{^isDelegate}}
         {{^async}}
@@ -54,14 +54,12 @@ public class {{classname}}Controller implements {{classname}} {
         ObjectMapper objectMapper = new ObjectMapper();
 
         {{/-first}}
-        if ("{{{contentType}}}".equals("")) { //TODO need to compare HTTP request "Accept"
-            return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{{example}}}",{{>exampleReturnTypes}}.class), HttpStatus.OK);
+        if (accept != null && accept.contains("{{{contentType}}}")) {
+            return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lamdaRemoveLineBreak}}{{#lamdaEscapeDoubleQuote}}{{{example}}}{{/lamdaEscapeDoubleQuote}}{{/lamdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.OK);
         }
 
         {{/examples}}
-        {{^examples}}
         return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
-        {{/examples}}
         {{/async}}
         {{#async}}
         return new Callable<ResponseEntity<{{>returnTypes}}>>() {
@@ -76,6 +74,7 @@ public class {{classname}}Controller implements {{classname}} {
         return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/isDelegate}}
     }
+
 {{/operation}}
 {{/jdk8-no-delegate}}
 }
