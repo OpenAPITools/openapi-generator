@@ -4,6 +4,8 @@ import io.swagger.api.*;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
+
+import io.swagger.model.OuterComposite;
 import org.joda.time.LocalDate;
 
 import java.io.InputStream;
@@ -20,6 +22,30 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.swagger.annotations.Api;
 
 public class FakeApiServiceImpl implements FakeApi {
+    @Override
+    public Boolean fakeOuterBooleanSerialize(Boolean body) {
+        // TODO: Implement...
+        return null;
+    }
+
+    @Override
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) {
+        // TODO: Implement...
+        return null;
+    }
+
+    @Override
+    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) {
+        // TODO: Implement...
+        return null;
+    }
+
+    @Override
+    public String fakeOuterStringSerialize(String body) {
+        // TODO: Implement...
+        return null;
+    }
+
     public Client testClientModel(Client body) {
         // TODO: Implement...
         
