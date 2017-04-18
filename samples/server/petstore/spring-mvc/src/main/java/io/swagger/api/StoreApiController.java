@@ -24,76 +24,56 @@ import javax.validation.Valid;
 
 @Controller
 public class StoreApiController implements StoreApi {
-    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("order_id") String orderId) {
+    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("order_id") String orderId,
+        @RequestHeader("Accept") String accept) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
-    public ResponseEntity<Map<String, Integer>> getInventory() throws IOException {
+
+    public ResponseEntity<Map<String, Integer>> getInventory(@RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         
         ObjectMapper objectMapper = new ObjectMapper();
 
-        if ("application/json".equals("")) { //TODO need to compare HTTP request "Accept"
-            return new ResponseEntity<Map<String, Integer>>(objectMapper.readValue("{
-  "key" : 0
-}",Map.class), HttpStatus.OK);
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<Map<String, Integer>>(objectMapper.readValue("{  \"key\" : 0}", Map.class), HttpStatus.OK);
         }
 
+        return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
     }
-    public ResponseEntity<Order> getOrderById( @Min(1) @Max(5)@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("order_id") Long orderId) throws IOException {
+
+    public ResponseEntity<Order> getOrderById( @Min(1) @Max(5)@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("order_id") Long orderId,
+        @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         
         ObjectMapper objectMapper = new ObjectMapper();
 
-        if ("application/xml".equals("")) { //TODO need to compare HTTP request "Accept"
-            return new ResponseEntity<Order>(objectMapper.readValue("<Order>
-  <id>123456789</id>
-  <petId>123456789</petId>
-  <quantity>123</quantity>
-  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>aeiou</status>
-  <complete>true</complete>
-</Order>",Order.class), HttpStatus.OK);
+        if (accept != null && accept.contains("application/xml")) {
+            return new ResponseEntity<Order>(objectMapper.readValue("<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>", Order.class), HttpStatus.OK);
         }
 
-        if ("application/json".equals("")) { //TODO need to compare HTTP request "Accept"
-            return new ResponseEntity<Order>(objectMapper.readValue("{
-  "petId" : 6,
-  "quantity" : 1,
-  "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : false,
-  "status" : "placed"
-}",Order.class), HttpStatus.OK);
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<Order>(objectMapper.readValue("{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}", Order.class), HttpStatus.OK);
         }
 
+        return new ResponseEntity<Order>(HttpStatus.OK);
     }
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) throws IOException {
+
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body,
+        @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         
         ObjectMapper objectMapper = new ObjectMapper();
 
-        if ("application/xml".equals("")) { //TODO need to compare HTTP request "Accept"
-            return new ResponseEntity<Order>(objectMapper.readValue("<Order>
-  <id>123456789</id>
-  <petId>123456789</petId>
-  <quantity>123</quantity>
-  <shipDate>2000-01-23T04:56:07.000Z</shipDate>
-  <status>aeiou</status>
-  <complete>true</complete>
-</Order>",Order.class), HttpStatus.OK);
+        if (accept != null && accept.contains("application/xml")) {
+            return new ResponseEntity<Order>(objectMapper.readValue("<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>", Order.class), HttpStatus.OK);
         }
 
-        if ("application/json".equals("")) { //TODO need to compare HTTP request "Accept"
-            return new ResponseEntity<Order>(objectMapper.readValue("{
-  "petId" : 6,
-  "quantity" : 1,
-  "id" : 0,
-  "shipDate" : "2000-01-23T04:56:07.000+00:00",
-  "complete" : false,
-  "status" : "placed"
-}",Order.class), HttpStatus.OK);
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<Order>(objectMapper.readValue("{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}", Order.class), HttpStatus.OK);
         }
 
+        return new ResponseEntity<Order>(HttpStatus.OK);
     }
+
 }
