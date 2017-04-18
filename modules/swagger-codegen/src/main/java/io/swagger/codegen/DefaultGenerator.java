@@ -3,6 +3,7 @@ package io.swagger.codegen;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.codegen.ignore.CodegenIgnoreProcessor;
+import io.swagger.codegen.languages.AbstractJavaCodegen;
 import io.swagger.models.*;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
@@ -319,9 +320,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
-                if (config.getName().contains("java") || config.getName().contains("jaxrs")
-                        || config.getName().contains("spring") || config.getName().endsWith("4j")
-                        || config.getName().equals("inflector")) {
+                if (config instanceof AbstractJavaCodegen) {
                     // Special handling of aliases only applies to Java
                     if (modelTemplate != null && modelTemplate.containsKey("model")) {
                         CodegenModel m = (CodegenModel) modelTemplate.get("model");
