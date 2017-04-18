@@ -1,5 +1,7 @@
 package io.swagger.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.codegen.*;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.models.Operation;
@@ -7,7 +9,12 @@ import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class SpringCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String DEFAULT_LIBRARY = "spring-boot";
@@ -268,6 +275,19 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 break;
         }
 
+        // add lamda for mustache templates
+        additionalProperties.put("lamdaEscapeDoubleQuote", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\"")));
+            }
+        });
+        additionalProperties.put("lamdaRemoveLineBreak", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                writer.write(fragment.execute().replaceAll("\\r|\\n", ""));
+            }
+        });
     }
 
     @Override

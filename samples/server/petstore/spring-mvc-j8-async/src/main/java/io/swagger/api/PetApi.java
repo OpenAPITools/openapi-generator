@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -74,7 +75,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<List<Pet>>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status) {
+    default CompletableFuture<ResponseEntity<List<Pet>>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status) throws IOException {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<List<Pet>>(HttpStatus.OK));
     }
@@ -93,7 +94,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<List<Pet>>> findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags) {
+    default CompletableFuture<ResponseEntity<List<Pet>>> findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags) throws IOException {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<List<Pet>>(HttpStatus.OK));
     }
@@ -110,7 +111,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId) {
+    default CompletableFuture<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId) throws IOException {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<Pet>(HttpStatus.OK));
     }
@@ -169,7 +170,7 @@ public interface PetApi {
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @RequestPart("file") MultipartFile file) {
+    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @RequestPart("file") MultipartFile file) throws IOException {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<ModelApiResponse>(HttpStatus.OK));
     }
