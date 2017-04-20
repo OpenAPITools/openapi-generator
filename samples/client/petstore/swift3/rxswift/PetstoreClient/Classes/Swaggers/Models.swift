@@ -173,7 +173,7 @@ class Decoders {
         Decoders.addDecoder(clazz: Animal.self) { (source: AnyObject, instance: AnyObject?) -> Animal in
             let sourceDictionary = source as! [AnyHashable: Any]
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["className"] as? String, discriminator != "Animal"{
+            if let discriminator = sourceDictionary["className"] as? String, instance == nil && discriminator != "Animal" {
                 return Decoders.decode(clazz: Animal.self, discriminator: discriminator, source: source)
             }
 
@@ -289,7 +289,9 @@ class Decoders {
             let sourceDictionary = source as! [AnyHashable: Any]
 
             let result = instance == nil ? Cat() : instance as! Cat
-            _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
+            if decoders["\(Animal.self)"] != nil {
+              _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
+            }
             
             result.className = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?)
             result.color = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?)
@@ -353,7 +355,9 @@ class Decoders {
             let sourceDictionary = source as! [AnyHashable: Any]
 
             let result = instance == nil ? Dog() : instance as! Dog
-            _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
+            if decoders["\(Animal.self)"] != nil {
+              _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
+            }
             
             result.className = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?)
             result.color = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?)

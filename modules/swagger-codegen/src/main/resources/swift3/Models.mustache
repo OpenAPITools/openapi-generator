@@ -179,7 +179,7 @@ class Decoders {
             let sourceDictionary = source as! [AnyHashable: Any]
             {{#discriminator}}
             // Check discriminator to support inheritance
-            if let discriminator = sourceDictionary["{{discriminator}}"] as? String, discriminator != "{{classname}}"{
+            if let discriminator = sourceDictionary["{{discriminator}}"] as? String, instance == nil && discriminator != "{{classname}}" {
                 return Decoders.decode(clazz: {{classname}}.self, discriminator: discriminator, source: source)
             }
             {{/discriminator}}
@@ -197,7 +197,9 @@ class Decoders {
             {{^unwrapRequired}}
             let result = instance == nil ? {{classname}}() : instance as! {{classname}}
             {{#parent}}
-            _ = Decoders.decode(clazz: {{parent}}.self, source: source, instance: result)
+            if decoders["\({{parent}}.self)"] != nil {
+              _ = Decoders.decode(clazz: {{parent}}.self, source: source, instance: result)
+            }
             {{/parent}}
             {{#allVars}}{{#isEnum}}
             if let {{name}} = sourceDictionary["{{baseName}}"] as? {{datatype}} { {{^isContainer}}
