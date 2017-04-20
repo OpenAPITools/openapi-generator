@@ -114,6 +114,7 @@
                         <configuration>
                             <url>https://github.com/swagger-api/swagger-ui/archive/master.tar.gz</url>
                             <unpack>true</unpack>
+                            <skipCache>true</skipCache>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                         </configuration>
                     </execution>
