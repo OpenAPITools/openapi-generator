@@ -197,7 +197,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                     return
                 }
                 if let json: Any = response.result.value {
-                    let decoded = Decoders.decode(clazz: T.self, source: json as AnyObject)
+                    let decoded = Decoders.decode(clazz: T.self, source: json as AnyObject, instance: nil)
                     switch decoded {
                     case let .success(object): completion(Response(response: response.response!, body: object), nil)
                     case let .failure(error): completion(nil, ErrorResponse.DecodeError(response: response.data, decodeError: error))
