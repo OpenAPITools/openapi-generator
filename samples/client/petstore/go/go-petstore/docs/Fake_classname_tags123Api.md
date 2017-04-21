@@ -8,16 +8,14 @@ Method | HTTP request | Description
 
 
 # **TestClassname**
-> Client TestClassname($body)
-
+> Client TestClassname(body)
 To test class name in snake case
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+  **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

@@ -10,18 +10,16 @@ Method | HTTP request | Description
 
 
 # **TestClientModel**
-> Client TestClientModel($body)
-
+> Client TestClientModel(body)
 To test \"client\" model
 
 To test \"client\" model
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+  **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -39,14 +37,24 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestEndpointParameters**
-> TestEndpointParameters($number, $double, $patternWithoutDelimiter, $byte_, $integer, $int32_, $int64_, $float, $string_, $binary, $date, $dateTime, $password, $callback)
-
+> TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte_, optional)
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **number** | **float32**| None | 
+  **double** | **float64**| None | 
+  **patternWithoutDelimiter** | **string**| None | 
+  **byte_** | **string**| None | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -54,22 +62,20 @@ Name | Type | Description  | Notes
  **double** | **float64**| None | 
  **patternWithoutDelimiter** | **string**| None | 
  **byte_** | **string**| None | 
- **integer** | **int32**| None | [optional] 
- **int32_** | **int32**| None | [optional] 
- **int64_** | **int64**| None | [optional] 
- **float** | **float32**| None | [optional] 
- **string_** | **string**| None | [optional] 
- **binary** | **string**| None | [optional] 
- **date** | **time.Time**| None | [optional] 
- **dateTime** | **time.Time**| None | [optional] 
- **password** | **string**| None | [optional] 
- **callback** | **string**| None | [optional] 
-
-Note: Optional parameters are passed through a map[string]interface{}
+ **integer** | **int32**| None | 
+ **int32_** | **int32**| None | 
+ **int64_** | **int64**| None | 
+ **float** | **float32**| None | 
+ **string_** | **string**| None | 
+ **binary** | **string**| None | 
+ **date** | **string**| None | 
+ **dateTime** | **time.Time**| None | 
+ **password** | **string**| None | 
+ **callback** | **string**| None | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -83,31 +89,34 @@ Note: Optional parameters are passed through a map[string]interface{}
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestEnumParameters**
-> TestEnumParameters($enumFormStringArray, $enumFormString, $enumHeaderStringArray, $enumHeaderString, $enumQueryStringArray, $enumQueryString, $enumQueryInteger, $enumQueryDouble)
-
+> TestEnumParameters(optional)
 To test enum parameters
 
 To test enum parameters
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumFormStringArray** | [**[]string**](string.md)| Form parameter enum test (string array) | [optional] 
- **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
- **enumHeaderStringArray** | [**[]string**](string.md)| Header parameter enum test (string array) | [optional] 
- **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
- **enumQueryStringArray** | [**[]string**](string.md)| Query parameter enum test (string array) | [optional] 
- **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
- **enumQueryInteger** | **int32**| Query parameter enum test (double) | [optional] 
- **enumQueryDouble** | **float64**| Query parameter enum test (double) | [optional] 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
 
-Note: Optional parameters are passed through a map[string]interface{}
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enumFormStringArray** | [**[]string**](string.md)| Form parameter enum test (string array) | 
+ **enumFormString** | **string**| Form parameter enum test (string) | [default to -efg]
+ **enumHeaderStringArray** | [**[]string**](string.md)| Header parameter enum test (string array) | 
+ **enumHeaderString** | **string**| Header parameter enum test (string) | [default to -efg]
+ **enumQueryStringArray** | [**[]string**](string.md)| Query parameter enum test (string array) | 
+ **enumQueryString** | **string**| Query parameter enum test (string) | [default to -efg]
+ **enumQueryInteger** | **int32**| Query parameter enum test (double) | 
+ **enumQueryDouble** | **float64**| Query parameter enum test (double) | 
 
 ### Return type
 
-(empty response body)
+ (empty response body)
 
 ### Authorization
 

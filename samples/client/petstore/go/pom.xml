@@ -41,6 +41,34 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>go-get-oauth2</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>go</executable>
+                            <arguments>
+                                <argument>get</argument>
+                                <argument>golang.org/x/oauth2</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>go-get-context</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>go</executable>
+                            <arguments>
+                                <argument>get</argument>
+                                <argument>golang.org/x/net/context</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>go-get-resty</id>
                         <phase>pre-integration-test</phase>
                         <goals>

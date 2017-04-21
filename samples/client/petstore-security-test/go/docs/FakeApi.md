@@ -8,20 +8,25 @@ Method | HTTP request | Description
 
 
 # **TestCodeInjectEndRnNR**
-> TestCodeInjectEndRnNR($testCodeInjectEndRnNR)
-
+> TestCodeInjectEndRnNR(optional)
 To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testCodeInjectEndRnNR** | **string**| To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r | [optional] 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **testCodeInjectEndRnNR** | **string**| To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 

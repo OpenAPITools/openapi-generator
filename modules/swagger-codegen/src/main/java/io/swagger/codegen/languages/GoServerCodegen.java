@@ -11,6 +11,11 @@ import com.google.common.collect.Multimap;
 import io.swagger.codegen.*;
 import io.swagger.models.*;
 import io.swagger.util.Yaml;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.Property;
+import io.swagger.models.parameters.Parameter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +69,11 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
          */
         setReservedWordsLowerCase(
             Arrays.asList(
+                // data type
+                "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
+                "int", "int8", "int16", "int32", "int64", "float32", "float64",
+                "complex64", "complex128", "rune", "byte", "uintptr",
+
                 "break", "default", "func", "interface", "select",
                 "case", "defer", "go", "map", "struct",
                 "chan", "else", "goto", "package", "switch",
@@ -108,7 +118,8 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("double", "float64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
-        typeMapping.put("date", "time.Time");
+        typeMapping.put("UUID", "string");
+        typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
@@ -117,6 +128,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         // the correct solution is to use []byte
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("object", "interface{}");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
@@ -243,11 +255,11 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelFilename(String name) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+            name = modelNamePrefix + name;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
+            name = name +  modelNameSuffix;
         }
 
         name = sanitizeName(name);
@@ -258,7 +270,54 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
-        return underscore(name);
+        return camelize(name);
+    }
+
+    @Override
+    public String getTypeDeclaration(Property p) {
+        if(p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            Property inner = ap.getItems();
+            return "[]" + getTypeDeclaration(inner);
+        }
+        else if (p instanceof MapProperty) {
+            MapProperty mp = (MapProperty) p;
+            Property inner = mp.getAdditionalProperties();
+
+            return getSwaggerType(p) + "[string]" + getTypeDeclaration(inner);
+        }
+        //return super.getTypeDeclaration(p);
+
+        // Not using the supertype invocation, because we want to UpperCamelize
+        // the type.
+        String swaggerType = getSwaggerType(p);
+        if (typeMapping.containsKey(swaggerType)) {
+            return typeMapping.get(swaggerType);
+        }
+
+        if(typeMapping.containsValue(swaggerType)) {
+            return swaggerType;
+        }
+
+        if(languageSpecificPrimitives.contains(swaggerType)) {
+            return swaggerType;
+        }
+
+        return toModelName(swaggerType);
+    }
+    
+    @Override
+    public String getSwaggerType(Property p) {
+        String swaggerType = super.getSwaggerType(p);
+        String type = null;
+        if(typeMapping.containsKey(swaggerType)) {
+            type = typeMapping.get(swaggerType);
+            if(languageSpecificPrimitives.contains(type))
+                return (type);
+        }
+        else
+            type = swaggerType;
+        return type;
     }
 
     @Override
