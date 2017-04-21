@@ -27,6 +27,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String DO_NOT_USE_RX = "doNotUseRx";
     public static final String USE_PLAY24_WS = "usePlay24WS";
     public static final String PARCELABLE_MODEL = "parcelableModel";
+    public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
 
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
@@ -40,6 +41,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
     protected boolean useGzipFeature = false;
+    protected boolean useRuntimeException = false;
 
     public JavaClientCodegen() {
         super();
@@ -58,6 +60,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
+        cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
 
         supportedLibraries.put("jersey1", "HTTP client: Jersey client 1.19.1. JSON processing: Jackson 2.7.0. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put("feign", "HTTP client: OpenFeign 9.4.0. JSON processing: Jackson 2.8.7");
@@ -126,6 +129,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(USE_GZIP_FEATURE)) {
             this.setUseGzipFeature(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE));
+        }
+
+        if (additionalProperties.containsKey(USE_RUNTIME_EXCEPTION)) {
+            this.setUseRuntimeException(convertPropertyToBooleanAndWriteBack(USE_RUNTIME_EXCEPTION));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -289,22 +296,22 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     /**
-     *  Prioritizes consumes mime-type list by moving json-vendor and json mime-types up front, but 
-     *  otherwise preserves original consumes definition order. 
-     *  [application/vnd...+json,... application/json, ..as is..]  
-     *  
+     *  Prioritizes consumes mime-type list by moving json-vendor and json mime-types up front, but
+     *  otherwise preserves original consumes definition order.
+     *  [application/vnd...+json,... application/json, ..as is..]
+     *
      * @param consumes consumes mime-type list
-     * @return 
+     * @return
      */
     static List<Map<String, String>> prioritizeContentTypes(List<Map<String, String>> consumes) {
         if ( consumes.size() <= 1 )
             return consumes;
-        
+
         List<Map<String, String>> prioritizedContentTypes = new ArrayList<>(consumes.size());
-        
+
         List<Map<String, String>> jsonVendorMimeTypes = new ArrayList<>(consumes.size());
         List<Map<String, String>> jsonMimeTypes = new ArrayList<>(consumes.size());
-        
+
         for ( Map<String, String> consume : consumes) {
             if ( isJsonVendorMimeType(consume.get(MEDIA_TYPE))) {
                 jsonVendorMimeTypes.add(consume);
@@ -314,18 +321,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
             else
                 prioritizedContentTypes.add(consume);
-            
+
             consume.put("hasMore", "true");
         }
-        
+
         prioritizedContentTypes.addAll(0, jsonMimeTypes);
         prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
-        
+
         prioritizedContentTypes.get(prioritizedContentTypes.size()-1).put("hasMore", null);
-        
+
         return prioritizedContentTypes;
     }
-    
+
     private static boolean isMultipartType(List<Map<String, String>> consumes) {
         Map<String, String> firstType = consumes.get(0);
         if (firstType != null) {
@@ -413,8 +420,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.useGzipFeature = useGzipFeature;
     }
 
+    public void setUseRuntimeException(boolean useRuntimeException) {
+        this.useRuntimeException = useRuntimeException;
+    }
+
     final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
-    final private static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?"); 
+    final private static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
 
     /**
      * Check if the given MIME is a JSON MIME.
