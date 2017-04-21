@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.List;
 
 {{>generatedAnnotation}}
-public class ApiException extends Exception {
+public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
