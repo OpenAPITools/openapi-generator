@@ -40,6 +40,7 @@ public:
     static web::json::value toJson( int32_t value );
     static web::json::value toJson( int64_t value );
     static web::json::value toJson( double value );
+    static web::json::value toJson( bool value );
 
     static int64_t int64_tFromJson(web::json::value& val);
     static int32_t int32_tFromJson(web::json::value& val);

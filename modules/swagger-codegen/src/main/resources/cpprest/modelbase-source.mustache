@@ -31,6 +31,9 @@ web::json::value ModelBase::toJson( int64_t value )
 web::json::value ModelBase::toJson( double value )
 {
     return web::json::value::number(value);
+} 
+web::json::value ModelBase::toJson(bool value) {
+    return web::json::value::boolean(value);
 }
 
 web::json::value ModelBase::toJson( std::shared_ptr<HttpContent> content )
