@@ -46,8 +46,9 @@ class MapTestTests(unittest.TestCase):
       }
       try:
         map_enum_test = petstore_api.MapTest(map_of_enum_string=black_or_white_dict)
+        self.assertTrue(0)
       except ValueError:
-        self.assertEqual(map_enum_test, None)
+        self.assertTrue(1)
 
 
     def test_maptest_setter(self):

@@ -44,10 +44,22 @@ class Name(object):
             '_123_number': '123Number'
         }
 
-        self._name = name
-        self._snake_case = snake_case
-        self.__property = _property
-        self.__123_number = _123_number
+        self._name = None
+        self._snake_case = None
+        self.__property = None
+        self.__123_number = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if name is not None:
+          self.name = name
+        if snake_case is not None:
+          self.snake_case = snake_case
+        if _property is not None:
+          self._property = _property
+        if _123_number is not None:
+          self._123_number = _123_number
 
     @property
     def name(self):

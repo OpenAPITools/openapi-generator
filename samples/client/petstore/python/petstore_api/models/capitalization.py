@@ -48,12 +48,28 @@ class Capitalization(object):
             'att_name': 'ATT_NAME'
         }
 
-        self._small_camel = small_camel
-        self._capital_camel = capital_camel
-        self._small_snake = small_snake
-        self._capital_snake = capital_snake
-        self._sca_eth_flow_points = sca_eth_flow_points
-        self._att_name = att_name
+        self._small_camel = None
+        self._capital_camel = None
+        self._small_snake = None
+        self._capital_snake = None
+        self._sca_eth_flow_points = None
+        self._att_name = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if small_camel is not None:
+          self.small_camel = small_camel
+        if capital_camel is not None:
+          self.capital_camel = capital_camel
+        if small_snake is not None:
+          self.small_snake = small_snake
+        if capital_snake is not None:
+          self.capital_snake = capital_snake
+        if sca_eth_flow_points is not None:
+          self.sca_eth_flow_points = sca_eth_flow_points
+        if att_name is not None:
+          self.att_name = att_name
 
     @property
     def small_camel(self):
