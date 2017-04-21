@@ -674,6 +674,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             return varName;
         }
 
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return getSymbolName(name).toUpperCase();
+        }
+
         // string
         String enumName = sanitizeName(underscore(name).toUpperCase());
         enumName = enumName.replaceFirst("^_", "");
