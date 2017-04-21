@@ -31,15 +31,18 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-
 ## api_key
-
 - **Type**: API key 
-- **API key parameter name**: api_key  */ ' " =end -- \r\n \n \r
-- **Location**: HTTP header
 
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
+		Key: "APIKEY",
+		Prefix: "Bearer", // Omit if not necessary.
+	})
+    r, err := client.Service.Operation(auth, args)
+```
 ## petstore_auth
-
 - **Type**: OAuth
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
@@ -47,8 +50,23 @@ Class | Method | HTTP request | Description
  - **write:pets**: modify pets in your account  *_/ ' \" =end -- \\r\\n \\n \\r
  - **read:pets**: read your pets  *_/ ' \" =end -- \\r\\n \\n \\r
 
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+    r, err := client.Service.Operation(auth, args)
+```
+
+Or via OAuth2 module to automaticly refresh tokens and perform user authentication.
+```
+	import 	"golang.org/x/oauth2"
+
+    / .. Perform OAuth2 round trip request and obtain a token .. //
+
+    tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
+	auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+    r, err := client.Service.Operation(auth, args)
+```
 
 ## Author
-
 apiteam@swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 

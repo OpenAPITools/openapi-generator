@@ -12,88 +12,81 @@ package petstore
 
 import (
 	"net/url"
+	"net/http"
 	"strings"
+	"golang.org/x/net/context"
 	"encoding/json"
 )
 
-type Fake_classname_tags123Api struct {
-	Configuration *Configuration
-}
+// Linger please
+var (
+	_ context.Context
+)
 
-func NewFake_classname_tags123Api() *Fake_classname_tags123Api {
-	configuration := NewConfiguration()
-	return &Fake_classname_tags123Api{
-		Configuration: configuration,
-	}
-}
+type Fake_classname_tags123ApiService service
 
-func NewFake_classname_tags123ApiWithBasePath(basePath string) *Fake_classname_tags123Api {
-	configuration := NewConfiguration()
-	configuration.BasePath = basePath
 
-	return &Fake_classname_tags123Api{
-		Configuration: configuration,
-	}
-}
+/* Fake_classname_tags123ApiService To test class name in snake case
 
-/**
- * To test class name in snake case
- *
- * @param body client model
- * @return *Client
- */
-func (a Fake_classname_tags123Api) TestClassname(body Client) (*Client, *APIResponse, error) {
+ @param body client model
+ @return Client*/
+func (a *Fake_classname_tags123ApiService) TestClassname(body Client) (Client,  *http.Response, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Patch")
+		localVarPostBody interface{}
+		localVarFileName string
+		localVarFileBytes []byte
+	 	successPayload  Client
+	)
 
-	var localVarHttpMethod = strings.ToUpper("Patch")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/fake_classname_test"
+	localVarPath := a.client.cfg.BasePath + "/fake_classname_test"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
-	localVarFormParams := make(map[string]string)
-	var localVarPostBody interface{}
-	var localVarFileName string
-	var localVarFileBytes []byte
-	// add default headers if any
-	for key := range a.Configuration.DefaultHeader {
-		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
-	}
+	localVarFormParams := url.Values{}
+
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/json",  }
 
 	// set Content-Type header
-	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
 		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
+
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
 		}
 
 	// set Accept header
-	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
 	localVarPostBody = &body
-	var successPayload = new(Client)
-	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-
-	var localVarURL, _ = url.Parse(localVarPath)
-	localVarURL.RawQuery = localVarQueryParams.Encode()
-	var localVarAPIResponse = &APIResponse{Operation: "TestClassname", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
-	if localVarHttpResponse != nil {
-		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
-		localVarAPIResponse.Payload = localVarHttpResponse.Body()
-	}
-
+	r, err := a.client.prepareRequest(nil, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return successPayload, localVarAPIResponse, err
+		return successPayload, nil, err
 	}
-	err = json.Unmarshal(localVarHttpResponse.Body(), &successPayload)
-	return successPayload, localVarAPIResponse, err
+
+	 localVarHttpResponse, err := a.client.callAPI(r)
+	 if err != nil || localVarHttpResponse == nil {
+		  return successPayload, localVarHttpResponse, err
+	 }
+	 defer localVarHttpResponse.Body.Close()
+	 if localVarHttpResponse.StatusCode >= 300 {
+		return successPayload, localVarHttpResponse, reportError(localVarHttpResponse.Status)
+	 }
+	
+	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
+	 	return successPayload, localVarHttpResponse, err
+	}
+
+
+	return successPayload, localVarHttpResponse, err
 }
 

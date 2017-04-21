@@ -97,7 +97,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
-        typeMapping.put("date", "time.Time");
+        typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
@@ -274,8 +274,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         return underscore(name) + "_api";
     }
 
-
-
     /**
      * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
      * This is useful when paramName starts with a lowercase letter, but we need that
@@ -302,7 +300,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         sb.setCharAt(0, Character.toUpperCase(firstChar));
         parameter.vendorExtensions.put("x-exportParamName", sb.toString());
     }
-
 
     @Override
     public String apiDocFileFolder() {
@@ -406,9 +403,10 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (_import.startsWith(apiPackage()))
                 iterator.remove();
         }
-        // if the return type is not primitive, import encoding/json
+
+        // if their is a return type, import encoding/json
         for (CodegenOperation operation : operations) {
-            if(operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
+            if(operation.returnBaseType != null ) {
                 imports.add(createMapping("import", "encoding/json"));
                 break; //just need to import once
             }
@@ -421,7 +419,6 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 break; //just need to import once
             }
         }
-
 
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");

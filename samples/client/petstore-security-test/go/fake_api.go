@@ -12,60 +12,52 @@ package swagger
 
 import (
 	"net/url"
+	"net/http"
 	"strings"
+	"golang.org/x/net/context"
 )
 
-type FakeApi struct {
-	Configuration *Configuration
-}
+// Linger please
+var (
+	_ context.Context
+)
 
-func NewFakeApi() *FakeApi {
-	configuration := NewConfiguration()
-	return &FakeApi{
-		Configuration: configuration,
-	}
-}
+type FakeApiService service
 
-func NewFakeApiWithBasePath(basePath string) *FakeApi {
-	configuration := NewConfiguration()
-	configuration.BasePath = basePath
 
-	return &FakeApi{
-		Configuration: configuration,
-	}
-}
+/* FakeApiService To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
-/**
- * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
- *
- * @param testCodeInjectEndRnNR To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
- * @return void
- */
-func (a FakeApi) TestCodeInjectEndRnNR(testCodeInjectEndRnNR string) (*APIResponse, error) {
+ @param optional (nil or map[string]interface{}) with one or more of:
+     @param "testCodeInjectEndRnNR" (string) To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+ @return */
+func (a *FakeApiService) TestCodeInjectEndRnNR(localVarOptionals map[string]interface{}) ( *http.Response, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Put")
+		localVarPostBody interface{}
+		localVarFileName string
+		localVarFileBytes []byte
+	)
 
-	var localVarHttpMethod = strings.ToUpper("Put")
 	// create path and map variables
-	localVarPath := a.Configuration.BasePath + "/fake"
+	localVarPath := a.client.cfg.BasePath + "/fake"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
-	localVarFormParams := make(map[string]string)
-	var localVarPostBody interface{}
-	var localVarFileName string
-	var localVarFileBytes []byte
-	// add default headers if any
-	for key := range a.Configuration.DefaultHeader {
-		localVarHeaderParams[key] = a.Configuration.DefaultHeader[key]
+	localVarFormParams := url.Values{}
+
+	if err := typeCheckParameter(localVarOptionals["testCodeInjectEndRnNR"], "string", "testCodeInjectEndRnNR"); err != nil {
+		return nil, err
 	}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{ "application/json", "*_/ '  =end --       ",  }
 
 	// set Content-Type header
-	localVarHttpContentType := a.Configuration.APIClient.SelectHeaderContentType(localVarHttpContentTypes)
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
 	if localVarHttpContentType != "" {
 		localVarHeaderParams["Content-Type"] = localVarHttpContentType
 	}
+
 	// to determine the Accept header
 	localVarHttpHeaderAccepts := []string{
 		"application/json",
@@ -73,24 +65,27 @@ func (a FakeApi) TestCodeInjectEndRnNR(testCodeInjectEndRnNR string) (*APIRespon
 		}
 
 	// set Accept header
-	localVarHttpHeaderAccept := a.Configuration.APIClient.SelectHeaderAccept(localVarHttpHeaderAccepts)
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	localVarFormParams["testCodeInjectEndRnNR"] = a.Configuration.APIClient.ParameterToString(testCodeInjectEndRnNR, "")
-	localVarHttpResponse, err := a.Configuration.APIClient.CallAPI(localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-
-	var localVarURL, _ = url.Parse(localVarPath)
-	localVarURL.RawQuery = localVarQueryParams.Encode()
-	var localVarAPIResponse = &APIResponse{Operation: "TestCodeInjectEndRnNR", Method: localVarHttpMethod, RequestURL: localVarURL.String()}
-	if localVarHttpResponse != nil {
-		localVarAPIResponse.Response = localVarHttpResponse.RawResponse
-		localVarAPIResponse.Payload = localVarHttpResponse.Body()
+	if localVarTempParam, localVarOk := localVarOptionals["testCodeInjectEndRnNR"].(string); localVarOk {
+		localVarFormParams.Add("test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r", parameterToString(localVarTempParam, ""))
 	}
-
+	r, err := a.client.prepareRequest(nil, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarAPIResponse, err
+		return nil, err
 	}
-	return localVarAPIResponse, err
+
+	 localVarHttpResponse, err := a.client.callAPI(r)
+	 if err != nil || localVarHttpResponse == nil {
+		  return localVarHttpResponse, err
+	 }
+	 defer localVarHttpResponse.Body.Close()
+	 if localVarHttpResponse.StatusCode >= 300 {
+		return localVarHttpResponse, reportError(localVarHttpResponse.Status)
+	 }
+
+	return localVarHttpResponse, err
 }
 
