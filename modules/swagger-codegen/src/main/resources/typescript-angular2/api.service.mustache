@@ -132,12 +132,7 @@ export class {{classname}} {
             queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
         {{/isDateTime}}
         {{^isDateTime}}
-            {{#isDate}}
-            queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
-            {{/isDate}}
-            {{^isDate}}
             queryParameters.set('{{baseName}}', <any>{{paramName}});
-            {{/isDate}}
         {{/isDateTime}}
         }
         {{/isListContainer}}
