@@ -10,7 +10,7 @@ open class {{projectName}}API {
     open static var basePath = "{{{basePath}}}"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
-    static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
+    open static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
 }
 
 open class APIBase {
