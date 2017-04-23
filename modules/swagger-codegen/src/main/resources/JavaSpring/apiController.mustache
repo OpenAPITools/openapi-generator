@@ -55,7 +55,7 @@ public class {{classname}}Controller implements {{classname}} {
 
         {{/-first}}
         if (accept != null && accept.contains("{{{contentType}}}")) {
-            return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lamdaRemoveLineBreak}}{{#lamdaEscapeDoubleQuote}}{{{example}}}{{/lamdaEscapeDoubleQuote}}{{/lamdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.OK);
+            return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.OK);
         }
 
         {{/examples}}
