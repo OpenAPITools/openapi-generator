@@ -709,7 +709,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if(p.getExample() != null) {
             return escapeText(p.getExample().toString());
         } else {
-        	return super.toExampleValue(p);
+            return super.toExampleValue(p);
         }
     }
     
