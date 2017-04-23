@@ -132,7 +132,8 @@ export class StoreApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
-            search: queryParameters
+            search: queryParameters,
+            withCredentials:true
         });
 
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -170,7 +171,8 @@ export class StoreApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters
+            search: queryParameters,
+            withCredentials:true
         });
 
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -209,7 +211,8 @@ export class StoreApi {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters
+            search: queryParameters,
+            withCredentials:true
         });
 
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -246,7 +249,8 @@ export class StoreApi {
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters
+            search: queryParameters,
+            withCredentials:true
         });
 
         // https://github.com/swagger-api/swagger-codegen/issues/4037
