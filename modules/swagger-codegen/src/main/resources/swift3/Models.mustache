@@ -253,7 +253,6 @@ class Decoders {
 
 {{^isArrayModel}}
         // Decoder for [{{{classname}}}]
-        Decoders.addDecoder(clazz: [{{{classname}}}].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[{{{classname}}}]> in
             return Decoders.decode(clazz: [{{{classname}}}].self, source: source, instance: instance)
         }
         // Decoder for {{{classname}}}

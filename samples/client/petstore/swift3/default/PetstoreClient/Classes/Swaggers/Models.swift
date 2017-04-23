@@ -252,7 +252,6 @@ class Decoders {
         } 
 
         // Decoder for [AdditionalPropertiesClass]
-        Decoders.addDecoder(clazz: [AdditionalPropertiesClass].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[AdditionalPropertiesClass]> in
             return Decoders.decode(clazz: [AdditionalPropertiesClass].self, source: source, instance: instance)
         }
         // Decoder for AdditionalPropertiesClass
@@ -280,7 +279,6 @@ class Decoders {
 
 
         // Decoder for [Animal]
-        Decoders.addDecoder(clazz: [Animal].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Animal]> in
             return Decoders.decode(clazz: [Animal].self, source: source, instance: instance)
         }
         // Decoder for Animal
@@ -315,7 +313,6 @@ class Decoders {
 
 
         // Decoder for [ApiResponse]
-        Decoders.addDecoder(clazz: [ApiResponse].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ApiResponse]> in
             return Decoders.decode(clazz: [ApiResponse].self, source: source, instance: instance)
         }
         // Decoder for ApiResponse
@@ -349,7 +346,6 @@ class Decoders {
 
 
         // Decoder for [ArrayOfArrayOfNumberOnly]
-        Decoders.addDecoder(clazz: [ArrayOfArrayOfNumberOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ArrayOfArrayOfNumberOnly]> in
             return Decoders.decode(clazz: [ArrayOfArrayOfNumberOnly].self, source: source, instance: instance)
         }
         // Decoder for ArrayOfArrayOfNumberOnly
@@ -371,7 +367,6 @@ class Decoders {
 
 
         // Decoder for [ArrayOfNumberOnly]
-        Decoders.addDecoder(clazz: [ArrayOfNumberOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ArrayOfNumberOnly]> in
             return Decoders.decode(clazz: [ArrayOfNumberOnly].self, source: source, instance: instance)
         }
         // Decoder for ArrayOfNumberOnly
@@ -393,7 +388,6 @@ class Decoders {
 
 
         // Decoder for [ArrayTest]
-        Decoders.addDecoder(clazz: [ArrayTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ArrayTest]> in
             return Decoders.decode(clazz: [ArrayTest].self, source: source, instance: instance)
         }
         // Decoder for ArrayTest
@@ -427,7 +421,6 @@ class Decoders {
 
 
         // Decoder for [Capitalization]
-        Decoders.addDecoder(clazz: [Capitalization].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Capitalization]> in
             return Decoders.decode(clazz: [Capitalization].self, source: source, instance: instance)
         }
         // Decoder for Capitalization
@@ -479,7 +472,6 @@ class Decoders {
 
 
         // Decoder for [Cat]
-        Decoders.addDecoder(clazz: [Cat].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Cat]> in
             return Decoders.decode(clazz: [Cat].self, source: source, instance: instance)
         }
         // Decoder for Cat
@@ -516,7 +508,6 @@ class Decoders {
 
 
         // Decoder for [Category]
-        Decoders.addDecoder(clazz: [Category].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Category]> in
             return Decoders.decode(clazz: [Category].self, source: source, instance: instance)
         }
         // Decoder for Category
@@ -544,7 +535,6 @@ class Decoders {
 
 
         // Decoder for [ClassModel]
-        Decoders.addDecoder(clazz: [ClassModel].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ClassModel]> in
             return Decoders.decode(clazz: [ClassModel].self, source: source, instance: instance)
         }
         // Decoder for ClassModel
@@ -566,7 +556,6 @@ class Decoders {
 
 
         // Decoder for [Client]
-        Decoders.addDecoder(clazz: [Client].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Client]> in
             return Decoders.decode(clazz: [Client].self, source: source, instance: instance)
         }
         // Decoder for Client
@@ -588,7 +577,6 @@ class Decoders {
 
 
         // Decoder for [Dog]
-        Decoders.addDecoder(clazz: [Dog].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Dog]> in
             return Decoders.decode(clazz: [Dog].self, source: source, instance: instance)
         }
         // Decoder for Dog
@@ -625,7 +613,6 @@ class Decoders {
 
 
         // Decoder for [EnumArrays]
-        Decoders.addDecoder(clazz: [EnumArrays].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[EnumArrays]> in
             return Decoders.decode(clazz: [EnumArrays].self, source: source, instance: instance)
         }
         // Decoder for EnumArrays
@@ -653,7 +640,6 @@ class Decoders {
 
 
         // Decoder for [EnumClass]
-        Decoders.addDecoder(clazz: [EnumClass].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[EnumClass]> in
             return Decoders.decode(clazz: [EnumClass].self, source: source, instance: instance)
         }
         // Decoder for EnumClass
@@ -664,7 +650,6 @@ class Decoders {
 
 
         // Decoder for [EnumTest]
-        Decoders.addDecoder(clazz: [EnumTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[EnumTest]> in
             return Decoders.decode(clazz: [EnumTest].self, source: source, instance: instance)
         }
         // Decoder for EnumTest
@@ -704,7 +689,6 @@ class Decoders {
 
 
         // Decoder for [FormatTest]
-        Decoders.addDecoder(clazz: [FormatTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[FormatTest]> in
             return Decoders.decode(clazz: [FormatTest].self, source: source, instance: instance)
         }
         // Decoder for FormatTest
@@ -798,7 +782,6 @@ class Decoders {
 
 
         // Decoder for [HasOnlyReadOnly]
-        Decoders.addDecoder(clazz: [HasOnlyReadOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[HasOnlyReadOnly]> in
             return Decoders.decode(clazz: [HasOnlyReadOnly].self, source: source, instance: instance)
         }
         // Decoder for HasOnlyReadOnly
@@ -826,7 +809,6 @@ class Decoders {
 
 
         // Decoder for [List]
-        Decoders.addDecoder(clazz: [List].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[List]> in
             return Decoders.decode(clazz: [List].self, source: source, instance: instance)
         }
         // Decoder for List
@@ -848,7 +830,6 @@ class Decoders {
 
 
         // Decoder for [MapTest]
-        Decoders.addDecoder(clazz: [MapTest].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[MapTest]> in
             return Decoders.decode(clazz: [MapTest].self, source: source, instance: instance)
         }
         // Decoder for MapTest
@@ -876,7 +857,6 @@ class Decoders {
 
 
         // Decoder for [MixedPropertiesAndAdditionalPropertiesClass]
-        Decoders.addDecoder(clazz: [MixedPropertiesAndAdditionalPropertiesClass].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[MixedPropertiesAndAdditionalPropertiesClass]> in
             return Decoders.decode(clazz: [MixedPropertiesAndAdditionalPropertiesClass].self, source: source, instance: instance)
         }
         // Decoder for MixedPropertiesAndAdditionalPropertiesClass
@@ -910,7 +890,6 @@ class Decoders {
 
 
         // Decoder for [Model200Response]
-        Decoders.addDecoder(clazz: [Model200Response].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Model200Response]> in
             return Decoders.decode(clazz: [Model200Response].self, source: source, instance: instance)
         }
         // Decoder for Model200Response
@@ -938,7 +917,6 @@ class Decoders {
 
 
         // Decoder for [Name]
-        Decoders.addDecoder(clazz: [Name].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Name]> in
             return Decoders.decode(clazz: [Name].self, source: source, instance: instance)
         }
         // Decoder for Name
@@ -978,7 +956,6 @@ class Decoders {
 
 
         // Decoder for [NumberOnly]
-        Decoders.addDecoder(clazz: [NumberOnly].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[NumberOnly]> in
             return Decoders.decode(clazz: [NumberOnly].self, source: source, instance: instance)
         }
         // Decoder for NumberOnly
@@ -1000,7 +977,6 @@ class Decoders {
 
 
         // Decoder for [Order]
-        Decoders.addDecoder(clazz: [Order].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Order]> in
             return Decoders.decode(clazz: [Order].self, source: source, instance: instance)
         }
         // Decoder for Order
@@ -1052,7 +1028,6 @@ class Decoders {
 
 
         // Decoder for [OuterEnum]
-        Decoders.addDecoder(clazz: [OuterEnum].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[OuterEnum]> in
             return Decoders.decode(clazz: [OuterEnum].self, source: source, instance: instance)
         }
         // Decoder for OuterEnum
@@ -1063,7 +1038,6 @@ class Decoders {
 
 
         // Decoder for [Pet]
-        Decoders.addDecoder(clazz: [Pet].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Pet]> in
             return Decoders.decode(clazz: [Pet].self, source: source, instance: instance)
         }
         // Decoder for Pet
@@ -1115,7 +1089,6 @@ class Decoders {
 
 
         // Decoder for [ReadOnlyFirst]
-        Decoders.addDecoder(clazz: [ReadOnlyFirst].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[ReadOnlyFirst]> in
             return Decoders.decode(clazz: [ReadOnlyFirst].self, source: source, instance: instance)
         }
         // Decoder for ReadOnlyFirst
@@ -1143,7 +1116,6 @@ class Decoders {
 
 
         // Decoder for [Return]
-        Decoders.addDecoder(clazz: [Return].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Return]> in
             return Decoders.decode(clazz: [Return].self, source: source, instance: instance)
         }
         // Decoder for Return
@@ -1165,7 +1137,6 @@ class Decoders {
 
 
         // Decoder for [SpecialModelName]
-        Decoders.addDecoder(clazz: [SpecialModelName].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[SpecialModelName]> in
             return Decoders.decode(clazz: [SpecialModelName].self, source: source, instance: instance)
         }
         // Decoder for SpecialModelName
@@ -1187,7 +1158,6 @@ class Decoders {
 
 
         // Decoder for [Tag]
-        Decoders.addDecoder(clazz: [Tag].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[Tag]> in
             return Decoders.decode(clazz: [Tag].self, source: source, instance: instance)
         }
         // Decoder for Tag
@@ -1215,7 +1185,6 @@ class Decoders {
 
 
         // Decoder for [User]
-        Decoders.addDecoder(clazz: [User].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[User]> in
             return Decoders.decode(clazz: [User].self, source: source, instance: instance)
         }
         // Decoder for User

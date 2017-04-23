@@ -52,14 +52,34 @@ class User(object):
             'user_status': 'userStatus'
         }
 
-        self._id = id
-        self._username = username
-        self._first_name = first_name
-        self._last_name = last_name
-        self._email = email
-        self._password = password
-        self._phone = phone
-        self._user_status = user_status
+        self._id = None
+        self._username = None
+        self._first_name = None
+        self._last_name = None
+        self._email = None
+        self._password = None
+        self._phone = None
+        self._user_status = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if id is not None:
+          self.id = id
+        if username is not None:
+          self.username = username
+        if first_name is not None:
+          self.first_name = first_name
+        if last_name is not None:
+          self.last_name = last_name
+        if email is not None:
+          self.email = email
+        if password is not None:
+          self.password = password
+        if phone is not None:
+          self.phone = phone
+        if user_status is not None:
+          self.user_status = user_status
 
     @property
     def id(self):

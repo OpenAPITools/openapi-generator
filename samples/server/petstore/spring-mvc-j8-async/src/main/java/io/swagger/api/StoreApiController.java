@@ -7,7 +7,4 @@ import javax.validation.Valid;
 
 @Controller
 public class StoreApiController implements StoreApi {
-
-
-
 }
