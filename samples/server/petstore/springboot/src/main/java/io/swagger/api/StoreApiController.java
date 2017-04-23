@@ -36,7 +36,7 @@ public class StoreApiController implements StoreApi {
         ObjectMapper objectMapper = new ObjectMapper();
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Map<String, Integer>>(objectMapper.readValue("{  \"key\" : 0}",Map.class), HttpStatus.OK);
+            return new ResponseEntity<Map<String, Integer>>(objectMapper.readValue("{  \"key\" : 0}", Map.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
@@ -49,11 +49,11 @@ public class StoreApiController implements StoreApi {
         ObjectMapper objectMapper = new ObjectMapper();
 
         if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>",Order.class), HttpStatus.OK);
+            return new ResponseEntity<Order>(objectMapper.readValue("<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>", Order.class), HttpStatus.OK);
         }
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}",Order.class), HttpStatus.OK);
+            return new ResponseEntity<Order>(objectMapper.readValue("{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}", Order.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<Order>(HttpStatus.OK);
@@ -66,11 +66,11 @@ public class StoreApiController implements StoreApi {
         ObjectMapper objectMapper = new ObjectMapper();
 
         if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>",Order.class), HttpStatus.OK);
+            return new ResponseEntity<Order>(objectMapper.readValue("<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>", Order.class), HttpStatus.OK);
         }
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}",Order.class), HttpStatus.OK);
+            return new ResponseEntity<Order>(objectMapper.readValue("{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}", Order.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<Order>(HttpStatus.OK);

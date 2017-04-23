@@ -33,7 +33,7 @@ public class FakeApiController implements FakeApi {
         ObjectMapper objectMapper = new ObjectMapper();
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Client>(objectMapper.readValue("{  \"client\" : \"aeiou\"}",Client.class), HttpStatus.OK);
+            return new ResponseEntity<Client>(objectMapper.readValue("{  \"client\" : \"aeiou\"}", Client.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<Client>(HttpStatus.OK);
