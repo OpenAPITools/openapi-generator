@@ -25,46 +25,42 @@ public interface UserApi {
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body, @RequestHeader("Accept") String accept);
 
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user/createWithArray",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body, @RequestHeader("Accept") String accept);
 
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user/createWithList",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body, @RequestHeader("Accept") String accept);
 
 
     @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    
     @RequestMapping(value = "/user/{username}",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.DELETE)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username, @RequestHeader("Accept") String accept);
 
 
     @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user", })
@@ -72,46 +68,42 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
         @ApiResponse(code = 404, message = "User not found", response = User.class) })
-    
     @RequestMapping(value = "/user/{username}",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username) throws IOException;
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing. ",required=true ) @PathVariable("username") String username, @RequestHeader("Accept") String accept) throws IOException;
 
 
     @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
-    
     @RequestMapping(value = "/user/login",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser( @NotNull @ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username, @NotNull @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password) throws IOException;
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<String>> loginUser( @NotNull @ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username, @NotNull @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password, @RequestHeader("Accept") String accept) throws IOException;
 
 
     @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user/logout",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> logoutUser();
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> logoutUser( @RequestHeader("Accept") String accept);
 
 
     @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    
     @RequestMapping(value = "/user/{username}",
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.PUT)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body, @RequestHeader("Accept") String accept);
 
 }

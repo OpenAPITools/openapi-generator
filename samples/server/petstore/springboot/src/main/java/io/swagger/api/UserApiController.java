@@ -55,11 +55,11 @@ public class UserApiController implements UserApi {
         ObjectMapper objectMapper = new ObjectMapper();
 
         if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<User>(objectMapper.readValue("<User>  <id>123456789</id>  <username>aeiou</username>  <firstName>aeiou</firstName>  <lastName>aeiou</lastName>  <email>aeiou</email>  <password>aeiou</password>  <phone>aeiou</phone>  <userStatus>123</userStatus></User>",User.class), HttpStatus.OK);
+            return new ResponseEntity<User>(objectMapper.readValue("<User>  <id>123456789</id>  <username>aeiou</username>  <firstName>aeiou</firstName>  <lastName>aeiou</lastName>  <email>aeiou</email>  <password>aeiou</password>  <phone>aeiou</phone>  <userStatus>123</userStatus></User>", User.class), HttpStatus.OK);
         }
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<User>(objectMapper.readValue("{  \"firstName\" : \"aeiou\",  \"lastName\" : \"aeiou\",  \"password\" : \"aeiou\",  \"userStatus\" : 6,  \"phone\" : \"aeiou\",  \"id\" : 0,  \"email\" : \"aeiou\",  \"username\" : \"aeiou\"}",User.class), HttpStatus.OK);
+            return new ResponseEntity<User>(objectMapper.readValue("{  \"firstName\" : \"aeiou\",  \"lastName\" : \"aeiou\",  \"password\" : \"aeiou\",  \"userStatus\" : 6,  \"phone\" : \"aeiou\",  \"id\" : 0,  \"email\" : \"aeiou\",  \"username\" : \"aeiou\"}", User.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<User>(HttpStatus.OK);
@@ -73,11 +73,11 @@ public class UserApiController implements UserApi {
         ObjectMapper objectMapper = new ObjectMapper();
 
         if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<String>(objectMapper.readValue("aeiou",String.class), HttpStatus.OK);
+            return new ResponseEntity<String>(objectMapper.readValue("aeiou", String.class), HttpStatus.OK);
         }
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<String>(objectMapper.readValue("\"aeiou\"",String.class), HttpStatus.OK);
+            return new ResponseEntity<String>(objectMapper.readValue("\"aeiou\"", String.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<String>(HttpStatus.OK);
