@@ -246,7 +246,8 @@ export class {{classname}} {
 {{#isResponseFile}}
             responseType: ResponseContentType.Blob,
 {{/isResponseFile}}
-            search: queryParameters
+            search: queryParameters,
+            withCredentials:true
         });
 
         // https://github.com/swagger-api/swagger-codegen/issues/4037
