@@ -62,19 +62,49 @@ class FormatTest(object):
             'password': 'password'
         }
 
-        self._integer = integer
-        self._int32 = int32
-        self._int64 = int64
-        self._number = number
-        self._float = float
-        self._double = double
-        self._string = string
-        self._byte = byte
-        self._binary = binary
-        self._date = date
-        self._date_time = date_time
-        self._uuid = uuid
-        self._password = password
+        self._integer = None
+        self._int32 = None
+        self._int64 = None
+        self._number = None
+        self._float = None
+        self._double = None
+        self._string = None
+        self._byte = None
+        self._binary = None
+        self._date = None
+        self._date_time = None
+        self._uuid = None
+        self._password = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if integer is not None:
+          self.integer = integer
+        if int32 is not None:
+          self.int32 = int32
+        if int64 is not None:
+          self.int64 = int64
+        if number is not None:
+          self.number = number
+        if float is not None:
+          self.float = float
+        if double is not None:
+          self.double = double
+        if string is not None:
+          self.string = string
+        if byte is not None:
+          self.byte = byte
+        if binary is not None:
+          self.binary = binary
+        if date is not None:
+          self.date = date
+        if date_time is not None:
+          self.date_time = date_time
+        if uuid is not None:
+          self.uuid = uuid
+        if password is not None:
+          self.password = password
 
     @property
     def integer(self):

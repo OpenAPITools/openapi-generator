@@ -42,9 +42,19 @@ class ArrayTest(object):
             'array_array_of_model': 'array_array_of_model'
         }
 
-        self._array_of_string = array_of_string
-        self._array_array_of_integer = array_array_of_integer
-        self._array_array_of_model = array_array_of_model
+        self._array_of_string = None
+        self._array_array_of_integer = None
+        self._array_array_of_model = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if array_of_string is not None:
+          self.array_of_string = array_of_string
+        if array_array_of_integer is not None:
+          self.array_array_of_integer = array_array_of_integer
+        if array_array_of_model is not None:
+          self.array_array_of_model = array_array_of_model
 
     @property
     def array_of_string(self):

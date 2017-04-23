@@ -132,9 +132,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/required}}
         {{#isEnum}}
         {{^isContainer}}
-        $allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}];
+        $allowed_values = $this->{{getter}}AllowableValues();
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}.";
+            $invalid_properties[] = sprintf(
+                "invalid value for '{{name}}', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         {{/isContainer}}
@@ -209,7 +212,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/required}}
         {{#isEnum}}
         {{^isContainer}}
-        $allowed_values = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}];
+        $allowed_values = $this->{{getter}}AllowableValues();
         if (!in_array($this->container['{{name}}'], $allowed_values)) {
             return false;
         }
@@ -275,15 +278,25 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     public function {{setter}}(${{name}})
     {
         {{#isEnum}}
-        $allowed_values = array({{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}});
+        $allowed_values = $this->{{getter}}AllowableValues();
         {{^isContainer}}
-        if ({{^required}}!is_null(${{name}}) && {{/required}}(!in_array(${{{name}}}, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
+        if ({{^required}}!is_null(${{name}}) && {{/required}}!in_array(${{{name}}}, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for '{{name}}', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         {{/isContainer}}
         {{#isContainer}}
-        if ({{^required}}!is_null(${{name}}) && {{/required}}(array_diff(${{{name}}}, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for '{{name}}', must be one of {{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}");
+        if ({{^required}}!is_null(${{name}}) && {{/required}}array_diff(${{{name}}}, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for '{{name}}', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         {{/isContainer}}
         {{/isEnum}}

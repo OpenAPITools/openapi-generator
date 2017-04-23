@@ -178,9 +178,12 @@ class Pet implements ArrayAccess
         if ($this->container['photo_urls'] === null) {
             $invalid_properties[] = "'photo_urls' can't be null";
         }
-        $allowed_values = ["available", "pending", "sold"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'status', must be one of 'available', 'pending', 'sold'.";
+            $invalid_properties[] = sprintf(
+                "invalid value for 'status', must be one of '%s'",
+                implode("', '", $allowed_values)
+            );
         }
 
         return $invalid_properties;
@@ -201,7 +204,7 @@ class Pet implements ArrayAccess
         if ($this->container['photo_urls'] === null) {
             return false;
         }
-        $allowed_values = ["available", "pending", "sold"];
+        $allowed_values = $this->getStatusAllowableValues();
         if (!in_array($this->container['status'], $allowed_values)) {
             return false;
         }
@@ -330,9 +333,14 @@ class Pet implements ArrayAccess
      */
     public function setStatus($status)
     {
-        $allowed_values = array('available', 'pending', 'sold');
-        if (!is_null($status) && (!in_array($status, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'available', 'pending', 'sold'");
+        $allowed_values = $this->getStatusAllowableValues();
+        if (!is_null($status) && !in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'status', must be one of '%s'",
+                    implode("', '", $allowed_values)
+                )
+            );
         }
         $this->container['status'] = $status;
 

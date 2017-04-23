@@ -40,8 +40,16 @@ class MapTest(object):
             'map_of_enum_string': 'map_of_enum_string'
         }
 
-        self._map_map_of_string = map_map_of_string
-        self._map_of_enum_string = map_of_enum_string
+        self._map_map_of_string = None
+        self._map_of_enum_string = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if map_map_of_string is not None:
+          self.map_map_of_string = map_map_of_string
+        if map_of_enum_string is not None:
+          self.map_of_enum_string = map_of_enum_string
 
     @property
     def map_map_of_string(self):
