@@ -705,6 +705,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String toExampleValue(Property p) {
+        if(p.getExample() != null) {
+            return escapeText(p.getExample().toString());
+        } else {
+        	return super.toExampleValue(p);
+        }
+    }
+    
+    @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
 
