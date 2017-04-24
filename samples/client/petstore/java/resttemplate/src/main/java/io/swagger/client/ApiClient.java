@@ -24,7 +24,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.UriUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -436,7 +435,7 @@ public class ApiClient {
         for (String accept : accepts) {
             MediaType mediaType = MediaType.parseMediaType(accept);
             if (isJsonMime(mediaType)) {
-                return Arrays.asList(mediaType);
+                return Collections.singletonList(mediaType);
             }
         }
         return MediaType.parseMediaTypes(StringUtils.arrayToCommaDelimitedString(accepts));
