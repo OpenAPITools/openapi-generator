@@ -1,6 +1,6 @@
 # UserApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -338,7 +338,7 @@ This can only be done by the logged in user.
 
 
 UserApi apiInstance = new UserApi();
-String username = "username_example"; // String | name that need to be updated
+String username = "username_example"; // String | name that need to be deleted
 User body = new User(); // User | Updated user object
 try {
     apiInstance.updateUser(username, body);
@@ -352,7 +352,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be updated |
+ **username** | **String**| name that need to be deleted |
  **body** | [**User**](User.md)| Updated user object |
 
 ### Return type

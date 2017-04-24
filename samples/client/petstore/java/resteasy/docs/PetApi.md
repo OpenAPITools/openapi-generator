@@ -1,6 +1,6 @@
 # PetApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -179,7 +179,7 @@ Name | Type | Description  | Notes
 
 Finds Pets by tags
 
-Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
 ```java

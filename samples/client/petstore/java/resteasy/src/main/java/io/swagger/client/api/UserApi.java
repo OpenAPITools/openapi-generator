@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-01T16:09:12.680-06:00")
+
 public class UserApi {
   private ApiClient apiClient;
 
@@ -323,7 +323,7 @@ public class UserApi {
   /**
    * Updated user
    * This can only be done by the logged in user.
-   * @param username name that need to be updated (required)
+   * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
    * @throws ApiException if fails to make API call
    */
