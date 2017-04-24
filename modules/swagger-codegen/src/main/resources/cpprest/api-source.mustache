@@ -28,13 +28,13 @@ using namespace {{modelNamespace}};
 {{#operation}}
 pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 {
-    {{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
+{{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == nullptr)
     {
         throw ApiException(400, U("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}"));
     }
-    {{/isContainer}}{{/isPrimitiveType}}{{/required}}{{/allParams}}
+{{/isContainer}}{{/isPrimitiveType}}{{/required}}{{/allParams}}
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("{{{path}}}");
