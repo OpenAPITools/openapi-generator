@@ -866,6 +866,7 @@ Here is a list of template creators:
    * Bash: @bkryza
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
+   * C# (.NET Standard 1.3 ): @Gronsak
    * Clojure: @xhh
    * Dart: @yissachar
    * Elixir: @niku
