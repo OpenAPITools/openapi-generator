@@ -69,6 +69,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.2.0. JSON processing: Gson 2.6.1 (Retrofit 2.0.2). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
         supportedLibraries.put("resttemplate", "HTTP client: Spring RestTemplate 4.3.7-RELEASE. JSON processing: Jackson 2.8.8");
+        supportedLibraries.put("resteasy", "HTTP client: Resteasy client 3.0.19.Final. JSON processing: Jackson 2.7.0");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -201,7 +202,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
             additionalProperties.put("gson", "true");
-        } else if("jersey2".equals(getLibrary())) {
+        } else if ("jersey2".equals(getLibrary()) || "resteasy".equals(getLibrary()))  {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             additionalProperties.put("jackson", "true");
         } else if("jersey1".equals(getLibrary())) {

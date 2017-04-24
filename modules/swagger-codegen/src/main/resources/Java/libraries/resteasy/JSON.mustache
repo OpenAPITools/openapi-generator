@@ -1,0 +1,47 @@
+package {{invokerPackage}};
+
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.*;
+{{#java8}}
+import com.fasterxml.jackson.datatype.jsr310.*;
+{{/java8}}
+{{^java8}}
+import com.fasterxml.jackson.datatype.joda.*;
+{{/java8}}
+
+import java.text.DateFormat;
+
+import javax.ws.rs.ext.ContextResolver;
+
+{{>generatedAnnotation}}
+public class JSON implements ContextResolver<ObjectMapper> {
+  private ObjectMapper mapper;
+
+  public JSON() {
+    mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+    mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    mapper.setDateFormat(new RFC3339DateFormat());
+    {{#java8}}
+    mapper.registerModule(new JavaTimeModule());
+    {{/java8}}
+    {{^java8}}
+    mapper.registerModule(new JodaModule());
+    {{/java8}}
+  }
+
+  /**
+   * Set the date format for JSON (de)serialization with Date properties.
+   */
+  public void setDateFormat(DateFormat dateFormat) {
+    mapper.setDateFormat(dateFormat);
+  }
+
+  @Override
+  public ObjectMapper getContext(Class<?> type) {
+    return mapper;
+  }
+}

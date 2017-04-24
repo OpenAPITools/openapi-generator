@@ -1,0 +1,99 @@
+package {{package}};
+
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.Configuration;
+import {{invokerPackage}}.Pair;
+
+import javax.ws.rs.core.GenericType;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}} {
+  private ApiClient {{localVariablePrefix}}apiClient;
+
+  public {{classname}}() {
+    this(Configuration.getDefaultApiClient());
+  }
+
+  public {{classname}}(ApiClient apiClient) {
+    this.{{localVariablePrefix}}apiClient = apiClient;
+  }
+
+  public ApiClient getApiClient() {
+    return {{localVariablePrefix}}apiClient;
+  }
+
+  public void setApiClient(ApiClient apiClient) {
+    this.{{localVariablePrefix}}apiClient = apiClient;
+  }
+
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}{{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}{{#returnType}}
+   * @return {{{returnType}}}{{/returnType}}
+   * @throws ApiException if fails to make API call
+   */
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+    }
+    {{/required}}{{/allParams}}
+    // create path and map variables
+    String {{localVariablePrefix}}localVarPath = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}
+      .replaceAll("\\{" + "{{baseName}}" + "\\}", {{localVariablePrefix}}apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+    // query params
+    {{javaUtilPrefix}}List<Pair> {{localVariablePrefix}}localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
+    {{javaUtilPrefix}}Map<String, String> {{localVariablePrefix}}localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
+    {{javaUtilPrefix}}Map<String, Object> {{localVariablePrefix}}localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
+
+    {{#queryParams}}
+    {{localVariablePrefix}}localVarQueryParams.addAll({{localVariablePrefix}}apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+    {{/queryParams}}
+
+    {{#headerParams}}if ({{paramName}} != null)
+      {{localVariablePrefix}}localVarHeaderParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
+    {{/headerParams}}
+
+    {{#formParams}}if ({{paramName}} != null)
+      {{localVariablePrefix}}localVarFormParams.put("{{baseName}}", {{paramName}});
+    {{/formParams}}
+
+    final String[] {{localVariablePrefix}}localVarAccepts = {
+      {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
+    };
+    final String {{localVariablePrefix}}localVarAccept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}localVarAccepts);
+
+    final String[] {{localVariablePrefix}}localVarContentTypes = {
+      {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
+    };
+    final String {{localVariablePrefix}}localVarContentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}localVarContentTypes);
+
+    String[] {{localVariablePrefix}}localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+
+    {{#returnType}}
+    GenericType<{{{returnType}}}> {{localVariablePrefix}}localVarReturnType = new GenericType<{{{returnType}}}>() {};
+    return {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAccept, {{localVariablePrefix}}localVarContentType, {{localVariablePrefix}}localVarAuthNames, {{localVariablePrefix}}localVarReturnType);
+    {{/returnType}}{{^returnType}}
+    {{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}localVarPath, "{{httpMethod}}", {{localVariablePrefix}}localVarQueryParams, {{localVariablePrefix}}localVarPostBody, {{localVariablePrefix}}localVarHeaderParams, {{localVariablePrefix}}localVarFormParams, {{localVariablePrefix}}localVarAccept, {{localVariablePrefix}}localVarContentType, {{localVariablePrefix}}localVarAuthNames, null);
+    {{/returnType}}
+  }
+  {{/operation}}
+}
+{{/operations}}
