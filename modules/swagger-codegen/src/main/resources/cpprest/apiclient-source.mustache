@@ -40,6 +40,11 @@ utility::string_t ApiClient::parameterToString(int32_t value)
     return utility::conversions::to_string_t(std::to_string(value));
 }
 
+utility::string_t ApiClient::parameterToString(float value)
+{
+    return utility::conversions::to_string_t(std::to_string(value));
+}
+
 utility::string_t ApiClient::parameterToString(const utility::datetime &value)
 {
     return utility::conversions::to_string_t(value.to_string(utility::datetime::ISO_8601));
@@ -108,12 +113,24 @@ pplx::task<web::http::http_response> ApiClient::callApi(
         }
         else
         {
-            web::http::uri_builder formData;
-            for (auto& kvp : formParams)
+            if (contentType == U("application/json"))
             {
-                formData.append_query(kvp.first, kvp.second);
+                web::json::value body_data = web::json::value::object();
+                for (auto& kvp : formParams)
+                {
+                    body_data[U(kvp.first)] = ModelBase::toJson(kvp.second);
+                }
+                request.set_body(body_data);
             }
-            request.set_body(formData.query(), U("application/x-www-form-urlencoded"));
+            else
+            {
+                web::http::uri_builder formData;
+                for (auto& kvp : formParams)
+                {
+                    formData.append_query(kvp.first, kvp.second);
+                }
+                request.set_body(formData.query(), U("application/x-www-form-urlencoded"));
+            }
         }
     }
 

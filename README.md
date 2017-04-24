@@ -794,8 +794,10 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Stingray](http://www.stingray.com)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
+- [Switch Database](https://www.switchdatabase.com/)
 - [TaskData](http://www.taskdata.com/)
 - [ThoughtWorks](https://www.thoughtworks.com)
+- [Trexle](https://trexle.com/)
 - [Upwork](http://upwork.com/)
 - [uShip](https://www.uship.com/)
 - [VMware](https://vmware.com/)
@@ -803,6 +805,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Wealthfront](https://www.wealthfront.com/)
 - [Webever GmbH](https://www.webever.de/)
 - [WEXO A/S](https://www.wexo.dk/)
+- [XSky](http://www.xsky.com/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
 
@@ -863,6 +866,7 @@ Here is a list of template creators:
    * Bash: @bkryza
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
+   * C# (.NET Standard 1.3 ): @Gronsak
    * Clojure: @xhh
    * Dart: @yissachar
    * Elixir: @niku
@@ -873,6 +877,7 @@ Here is a list of template creators:
    * Java (Retrofi2): @emilianobonassi
    * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
+   * Java (RestTemplate): @nbruno
    * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
    * JMeter @davidkiss
