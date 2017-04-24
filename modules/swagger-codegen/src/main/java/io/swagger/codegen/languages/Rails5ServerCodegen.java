@@ -186,7 +186,7 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -285,7 +285,7 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. DefaultController => defaults_controller.rb
-        return underscore(name) + "s_controller";
+        return underscore(name) + "_controller";
     }
 
     @Override
