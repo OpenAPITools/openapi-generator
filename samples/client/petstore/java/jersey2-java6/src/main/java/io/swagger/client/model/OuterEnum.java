@@ -16,6 +16,7 @@ package io.swagger.client.model;
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Gets or Sets OuterEnum
@@ -35,6 +36,7 @@ public enum OuterEnum {
   }
 
   @Override
+  @JsonValue
   public String toString() {
     return String.valueOf(value);
   }
