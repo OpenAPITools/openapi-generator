@@ -29,10 +29,10 @@ import android.os.Parcel;
 
 public class AdditionalPropertiesClass implements Parcelable {
   @SerializedName("map_property")
-  private Map<String, String> mapProperty = new HashMap<String, String>();
+  private Map<String, String> mapProperty = null;
 
   @SerializedName("map_of_map_property")
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
+  private Map<String, Map<String, String>> mapOfMapProperty = null;
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -40,6 +40,9 @@ public class AdditionalPropertiesClass implements Parcelable {
   }
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
+    if (this.mapProperty == null) {
+      this.mapProperty = new HashMap<String, String>();
+    }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
   }
@@ -63,6 +66,9 @@ public class AdditionalPropertiesClass implements Parcelable {
   }
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
+    if (this.mapOfMapProperty == null) {
+      this.mapOfMapProperty = new HashMap<String, Map<String, String>>();
+    }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
   }

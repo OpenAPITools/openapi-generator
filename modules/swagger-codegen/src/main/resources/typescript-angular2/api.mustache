@@ -204,7 +204,8 @@ export class {{classname}} {
 {{#hasFormParams}}
             body: formParams.toString(),
 {{/hasFormParams}}
-            search: queryParameters
+            search: queryParameters,
+            withCredentials:true
         });
 
         // https://github.com/swagger-api/swagger-codegen/issues/4037

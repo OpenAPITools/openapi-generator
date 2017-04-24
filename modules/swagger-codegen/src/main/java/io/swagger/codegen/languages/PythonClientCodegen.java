@@ -196,6 +196,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return str.replaceAll("\\.", "_");
     }
 
+    
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
+    
     @Override
     public void postProcessParameter(CodegenParameter parameter){
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);

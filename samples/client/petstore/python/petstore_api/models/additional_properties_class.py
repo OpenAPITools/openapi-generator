@@ -40,8 +40,16 @@ class AdditionalPropertiesClass(object):
             'map_of_map_property': 'map_of_map_property'
         }
 
-        self._map_property = map_property
-        self._map_of_map_property = map_of_map_property
+        self._map_property = None
+        self._map_of_map_property = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if map_property is not None:
+          self.map_property = map_property
+        if map_of_map_property is not None:
+          self.map_of_map_property = map_of_map_property
 
     @property
     def map_property(self):

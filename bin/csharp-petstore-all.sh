@@ -7,5 +7,4 @@
 ./bin/csharp-property-changed-petstore.sh
 
 # C# Petstore API client (v5.0 for .net standarnd 1.3+)
-./bin/csharp-petstore-v5.sh
-
+./bin/csharp-petstore-net-standard.sh

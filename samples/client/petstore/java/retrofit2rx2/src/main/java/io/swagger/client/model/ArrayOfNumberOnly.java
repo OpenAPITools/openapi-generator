@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ArrayOfNumberOnly {
   @SerializedName("ArrayNumber")
-  private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
+  private List<BigDecimal> arrayNumber = null;
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -35,6 +35,9 @@ public class ArrayOfNumberOnly {
   }
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
+    if (this.arrayNumber == null) {
+      this.arrayNumber = new ArrayList<BigDecimal>();
+    }
     this.arrayNumber.add(arrayNumberItem);
     return this;
   }

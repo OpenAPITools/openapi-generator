@@ -16,6 +16,7 @@ package io.swagger.client.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.ReadOnlyFirst;
@@ -43,6 +44,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    if (this.arrayOfString == null) {
+      this.arrayOfString = new ArrayList<String>();
+    }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
   }
@@ -66,6 +70,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (this.arrayArrayOfInteger == null) {
+      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+    }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
   }
@@ -89,6 +96,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (this.arrayArrayOfModel == null) {
+      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+    }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }

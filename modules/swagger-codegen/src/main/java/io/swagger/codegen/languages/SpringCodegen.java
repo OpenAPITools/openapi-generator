@@ -1,5 +1,7 @@
 package io.swagger.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.codegen.*;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.models.Operation;
@@ -7,7 +9,12 @@ import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class SpringCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String DEFAULT_LIBRARY = "spring-boot";
@@ -157,6 +164,9 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
             this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
+        typeMapping.put("file", "Resource");
+        importMapping.put("Resource", "org.springframework.core.io.Resource");
+
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -265,6 +275,19 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
                 break;
         }
 
+        // add lambda for mustache templates
+        additionalProperties.put("lambdaEscapeDoubleQuote", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\"")));
+            }
+        });
+        additionalProperties.put("lambdaRemoveLineBreak", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                writer.write(fragment.execute().replaceAll("\\r|\\n", ""));
+            }
+        });
     }
 
     @Override
@@ -446,6 +469,32 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         }
         name = sanitizeName(name);
         return camelize(name) + "Api";
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("File".equals(type)) {
+            String example;
+
+            if (p.defaultValue == null) {
+                example = p.example;
+            } else {
+                example = p.defaultValue;
+            }
+
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "new org.springframework.core.io.FileSystemResource(new java.io.File(\"" + escapeText(example) + "\"))";
+            p.example = example;
+        } else {
+            super.setParameterExampleValue(p);
+        }
     }
 
     public void setTitle(String title) {

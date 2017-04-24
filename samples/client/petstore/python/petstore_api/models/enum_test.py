@@ -44,10 +44,22 @@ class EnumTest(object):
             'outer_enum': 'outerEnum'
         }
 
-        self._enum_string = enum_string
-        self._enum_integer = enum_integer
-        self._enum_number = enum_number
-        self._outer_enum = outer_enum
+        self._enum_string = None
+        self._enum_integer = None
+        self._enum_number = None
+        self._outer_enum = None
+
+        # TODO: let required properties as mandatory parameter in the constructor.
+        #       - to check if required property is not None (e.g. by calling setter)
+        #       - ApiClient.__deserialize_model has to be adapted as well
+        if enum_string is not None:
+          self.enum_string = enum_string
+        if enum_integer is not None:
+          self.enum_integer = enum_integer
+        if enum_number is not None:
+          self.enum_number = enum_number
+        if outer_enum is not None:
+          self.outer_enum = outer_enum
 
     @property
     def enum_string(self):
@@ -94,7 +106,7 @@ class EnumTest(object):
         :param enum_integer: The enum_integer of this EnumTest.
         :type: int
         """
-        allowed_values = ["1", "-1"]
+        allowed_values = [1, -1]
         if enum_integer not in allowed_values:
             raise ValueError(
                 "Invalid value for `enum_integer` ({0}), must be one of {1}"
@@ -121,7 +133,7 @@ class EnumTest(object):
         :param enum_number: The enum_number of this EnumTest.
         :type: float
         """
-        allowed_values = ["1.1", "-1.2"]
+        allowed_values = [1.1, -1.2]
         if enum_number not in allowed_values:
             raise ValueError(
                 "Invalid value for `enum_number` ({0}), must be one of {1}"

@@ -16,6 +16,7 @@ package io.swagger.client.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ public class MapTest {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
@@ -70,6 +72,9 @@ public class MapTest {
   }
 
   public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
+    if (this.mapMapOfString == null) {
+      this.mapMapOfString = new HashMap<String, Map<String, String>>();
+    }
     this.mapMapOfString.put(key, mapMapOfStringItem);
     return this;
   }
@@ -93,6 +98,9 @@ public class MapTest {
   }
 
   public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
+    if (this.mapOfEnumString == null) {
+      this.mapOfEnumString = new HashMap<String, InnerEnum>();
+    }
     this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
   }
