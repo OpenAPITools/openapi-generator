@@ -440,20 +440,20 @@ public class ApiClient {
    * Content-Type (only JSON is supported for now).
    */
   public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
-     Entity<?> entity = null;
+    Entity<?> entity = null;
     if (contentType.startsWith("multipart/form-data")) {
-    	MultipartFormDataOutput multipart = new MultipartFormDataOutput();	
+      MultipartFormDataOutput multipart = new MultipartFormDataOutput();  
       //MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
         if (param.getValue() instanceof File) {
           File file = (File) param.getValue();
           try {
-			multipart.addFormData(param.getValue().toString(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
-		} catch (FileNotFoundException e) {
-			throw new ApiException("Could not serialize multipart/form-data "+e.getMessage());
-		}
+            multipart.addFormData(param.getValue().toString(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+          } catch (FileNotFoundException e) {
+            throw new ApiException("Could not serialize multipart/form-data "+e.getMessage());
+          }
         } else {
-        	multipart.addFormData(param.getValue().toString(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+          multipart.addFormData(param.getValue().toString(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
         }
       }
       entity = Entity.entity(multipart.getFormData(), MediaType.MULTIPART_FORM_DATA_TYPE);
@@ -655,7 +655,7 @@ public class ApiClient {
     final ClientConfiguration clientConfig = new ClientConfiguration(ResteasyProviderFactory.getInstance());
     clientConfig.register(json);
     if(debugging){
-    	clientConfig.register(Logger.class);
+      clientConfig.register(Logger.class);
     }
     return ClientBuilder.newClient(clientConfig);
   }
