@@ -1,6 +1,6 @@
 /*
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -14,16 +14,21 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Tag
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-01T16:09:12.680-06:00")
+
 public class Tag {
+  @JsonProperty("id")
   private Long id = null;
 
+  @JsonProperty("name")
   private String name = null;
 
   public Tag id(Long id) {
@@ -35,7 +40,7 @@ public class Tag {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Long getId() {
     return id;
   }
@@ -53,7 +58,7 @@ public class Tag {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getName() {
     return name;
   }

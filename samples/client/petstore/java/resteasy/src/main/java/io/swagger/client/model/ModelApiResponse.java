@@ -1,6 +1,6 @@
 /*
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -14,18 +14,24 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * ModelApiResponse
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-01T16:09:12.680-06:00")
+
 public class ModelApiResponse {
+  @JsonProperty("code")
   private Integer code = null;
 
+  @JsonProperty("type")
   private String type = null;
 
+  @JsonProperty("message")
   private String message = null;
 
   public ModelApiResponse code(Integer code) {
@@ -37,7 +43,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getCode() {
     return code;
   }
@@ -55,7 +61,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getType() {
     return type;
   }
@@ -73,7 +79,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getMessage() {
     return message;
   }

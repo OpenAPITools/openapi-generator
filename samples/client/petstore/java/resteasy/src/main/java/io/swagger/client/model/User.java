@@ -1,6 +1,6 @@
 /*
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -14,28 +14,39 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-01T16:09:12.680-06:00")
+
 public class User {
+  @JsonProperty("id")
   private Long id = null;
 
+  @JsonProperty("username")
   private String username = null;
 
+  @JsonProperty("firstName")
   private String firstName = null;
 
+  @JsonProperty("lastName")
   private String lastName = null;
 
+  @JsonProperty("email")
   private String email = null;
 
+  @JsonProperty("password")
   private String password = null;
 
+  @JsonProperty("phone")
   private String phone = null;
 
+  @JsonProperty("userStatus")
   private Integer userStatus = null;
 
   public User id(Long id) {
@@ -47,7 +58,7 @@ public class User {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Long getId() {
     return id;
   }
@@ -65,7 +76,7 @@ public class User {
    * Get username
    * @return username
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getUsername() {
     return username;
   }
@@ -83,7 +94,7 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getFirstName() {
     return firstName;
   }
@@ -101,7 +112,7 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getLastName() {
     return lastName;
   }
@@ -119,7 +130,7 @@ public class User {
    * Get email
    * @return email
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getEmail() {
     return email;
   }
@@ -137,7 +148,7 @@ public class User {
    * Get password
    * @return password
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getPassword() {
     return password;
   }
@@ -155,7 +166,7 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public String getPhone() {
     return phone;
   }
@@ -173,7 +184,7 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @ApiModelProperty(example = "null", value = "User Status")
+  @ApiModelProperty(value = "User Status")
   public Integer getUserStatus() {
     return userStatus;
   }

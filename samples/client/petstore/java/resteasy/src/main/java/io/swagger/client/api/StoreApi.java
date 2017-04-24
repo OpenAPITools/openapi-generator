@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-01T16:09:12.680-06:00")
+
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -36,11 +36,11 @@ public class StoreApi {
 
   /**
    * Delete purchase order by ID
-   * For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder(Long orderId) throws ApiException {
+  public void deleteOrder(String orderId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -49,8 +49,8 @@ public class StoreApi {
     }
     
     // create path and map variables
-    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+    String localVarPath = "/store/order/{order_id}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -112,7 +112,7 @@ public class StoreApi {
       }
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &gt;&#x3D; 1 and &lt;&#x3D; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException if fails to make API call
@@ -126,8 +126,8 @@ public class StoreApi {
     }
     
     // create path and map variables
-    String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "orderId" + "\\}", apiClient.escapeString(orderId.toString()));
+    String localVarPath = "/store/order/{order_id}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

@@ -1,6 +1,6 @@
 /*
  * Swagger Petstore
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -14,6 +14,9 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
@@ -21,14 +24,18 @@ import org.joda.time.DateTime;
 /**
  * Order
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-01T16:09:12.680-06:00")
+
 public class Order {
+  @JsonProperty("id")
   private Long id = null;
 
+  @JsonProperty("petId")
   private Long petId = null;
 
+  @JsonProperty("quantity")
   private Integer quantity = null;
 
+  @JsonProperty("shipDate")
   private DateTime shipDate = null;
 
   /**
@@ -48,13 +55,26 @@ public class Order {
     }
 
     @Override
+    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
+  @JsonProperty("status")
   private StatusEnum status = null;
 
+  @JsonProperty("complete")
   private Boolean complete = false;
 
   public Order id(Long id) {
@@ -66,7 +86,7 @@ public class Order {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Long getId() {
     return id;
   }
@@ -84,7 +104,7 @@ public class Order {
    * Get petId
    * @return petId
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Long getPetId() {
     return petId;
   }
@@ -102,7 +122,7 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Integer getQuantity() {
     return quantity;
   }
@@ -120,7 +140,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public DateTime getShipDate() {
     return shipDate;
   }
@@ -138,7 +158,7 @@ public class Order {
    * Order Status
    * @return status
   **/
-  @ApiModelProperty(example = "null", value = "Order Status")
+  @ApiModelProperty(value = "Order Status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -156,7 +176,7 @@ public class Order {
    * Get complete
    * @return complete
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(value = "")
   public Boolean getComplete() {
     return complete;
   }

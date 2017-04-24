@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-01T16:09:12.680-06:00")
+
 public class PetApi {
   private ApiClient apiClient;
 
@@ -143,7 +143,7 @@ public class PetApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "status", status));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "status", status));
 
     
     
@@ -164,7 +164,7 @@ public class PetApi {
       }
   /**
    * Finds Pets by tags
-   * Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
    * @return List<Pet>
    * @throws ApiException if fails to make API call
@@ -185,7 +185,7 @@ public class PetApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "tags", tags));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "tags", tags));
 
     
     

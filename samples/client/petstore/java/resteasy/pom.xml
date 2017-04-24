@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>swagger-java-client</artifactId>
+  <artifactId>swagger-petstore-resteasy</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-java-client</name>
+  <name>swagger-petstore-resteasy</name>
   <version>1.0.0</version>
   <scm>
     <connection>scm:git:git@github.com:swagger-api/swagger-mustache.git</connection>
@@ -162,7 +162,11 @@
       <artifactId>migbase64</artifactId>
       <version>2.2</version>
     </dependency>
-
+    <dependency>
+    <groupId>org.jboss.resteasy</groupId>
+    <artifactId>resteasy-jackson-provider</artifactId>
+    <version>2.3.4.Final</version>
+   </dependency>
     <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>
