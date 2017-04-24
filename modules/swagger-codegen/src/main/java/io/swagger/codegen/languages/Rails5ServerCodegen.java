@@ -42,7 +42,7 @@ public class Rails5ServerCodegen extends DefaultCodegen implements CodegenConfig
     protected String layoutsFolder = viewsFolder + File.separator + "layouts";
     protected String binFolder = "bin";
     protected String configFolder = "config";
-    protected String environmentsFolder = configFolder + File.separator + "config";
+    protected String environmentsFolder = configFolder + File.separator + "environments";
     protected String initializersFolder = configFolder + File.separator + "initializers";
     protected String localesFolder = configFolder + File.separator + "locales";
     protected String dbFolder = "db";
