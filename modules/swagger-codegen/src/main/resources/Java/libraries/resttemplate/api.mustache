@@ -1,0 +1,103 @@
+package {{package}};
+
+import {{invokerPackage}}.ApiClient;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{^fullJavaUtil}}import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;{{/fullJavaUtil}}
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
+{{>generatedAnnotation}}
+@Component("{{package}}.{{classname}}")
+{{#operations}}
+public class {{classname}} {
+    private ApiClient {{localVariablePrefix}}apiClient;
+
+    public {{classname}}() {
+        this(new ApiClient());
+    }
+
+    @Autowired
+    public {{classname}}(ApiClient apiClient) {
+        this.{{localVariablePrefix}}apiClient = apiClient;
+    }
+
+    public ApiClient getApiClient() {
+        return {{localVariablePrefix}}apiClient;
+    }
+
+    public void setApiClient(ApiClient apiClient) {
+        this.{{localVariablePrefix}}apiClient = apiClient;
+    }
+
+    {{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}
+{{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
+{{/allParams}}{{#returnType}}     * @return {{returnType}}
+{{/returnType}}     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws RestClientException {
+        Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+        {{#allParams}}{{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if ({{paramName}} == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+        }
+        {{/required}}{{/allParams}}{{#hasPathParams}}
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
+        uriVariables.put("{{baseName}}", {{{paramName}}});{{/pathParams}}{{/hasPathParams}}
+        String {{localVariablePrefix}}path = UriComponentsBuilder.fromPath("{{{path}}}"){{#hasPathParams}}.buildAndExpand(uriVariables){{/hasPathParams}}{{^hasPathParams}}.build(){{/hasPathParams}}.toUriString();
+        
+        final MultiValueMap<String, String> {{localVariablePrefix}}queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders {{localVariablePrefix}}headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> {{localVariablePrefix}}formParams = new LinkedMultiValueMap<String, Object>();{{#hasQueryParams}}
+        
+        {{#queryParams}}{{localVariablePrefix}}queryParams.putAll({{localVariablePrefix}}apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase()){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{#hasMore}}
+        {{/hasMore}}{{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
+        
+        {{#headerParams}}if ({{paramName}} != null)
+        {{localVariablePrefix}}headerParams.add("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));{{#hasMore}}
+        {{/hasMore}}{{/headerParams}}{{/hasHeaderParams}}{{#hasFormParams}}
+        
+        {{#formParams}}if ({{paramName}} != null)
+            {{localVariablePrefix}}formParams.add("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
+        {{/hasMore}}{{/formParams}}{{/hasFormParams}}
+
+        final String[] {{localVariablePrefix}}accepts = { {{#hasProduces}}
+            {{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}}
+        {{/hasProduces}}};
+        final List<MediaType> {{localVariablePrefix}}accept = {{localVariablePrefix}}apiClient.selectHeaderAccept({{localVariablePrefix}}accepts);
+        final String[] {{localVariablePrefix}}contentTypes = { {{#hasConsumes}}
+            {{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}
+        {{/hasConsumes}}};
+        final MediaType {{localVariablePrefix}}contentType = {{localVariablePrefix}}apiClient.selectHeaderContentType({{localVariablePrefix}}contentTypes);
+
+        String[] {{localVariablePrefix}}authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+
+        {{#returnType}}ParameterizedTypeReference<{{{returnType}}}> {{localVariablePrefix}}returnType = new ParameterizedTypeReference<{{{returnType}}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> {{localVariablePrefix}}returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        {{#returnType}}return {{/returnType}}{{localVariablePrefix}}apiClient.invokeAPI({{localVariablePrefix}}path, HttpMethod.{{httpMethod}}, {{localVariablePrefix}}queryParams, {{localVariablePrefix}}postBody, {{localVariablePrefix}}headerParams, {{localVariablePrefix}}formParams, {{localVariablePrefix}}accept, {{localVariablePrefix}}contentType, {{localVariablePrefix}}authNames, {{localVariablePrefix}}returnType);
+    }
+    {{/operation}}
+}
+{{/operations}}

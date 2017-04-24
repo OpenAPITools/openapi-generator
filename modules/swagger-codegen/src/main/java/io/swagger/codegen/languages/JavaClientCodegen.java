@@ -68,6 +68,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put("okhttp-gson", "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.6.2. Enable Parcelable modles on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.2.0. JSON processing: Gson 2.6.1 (Retrofit 2.0.2). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
+        supportedLibraries.put("resttemplate", "HTTP client: Spring RestTemplate 4.3.7-RELEASE. JSON processing: Jackson 2.8.8");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -148,7 +149,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         writeOptional(outputFolder, new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
-        supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+        if(!"resttemplate".equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
+        }
+
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
         supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
@@ -173,7 +177,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiDocTemplateFiles.remove("api_doc.mustache");
         }
 
-        if (!("feign".equals(getLibrary()) || usesAnyRetrofitLibrary())) {
+        if (!("feign".equals(getLibrary()) || "resttemplate".equals(getLibrary()) || usesAnyRetrofitLibrary())) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
@@ -202,6 +206,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             additionalProperties.put("jackson", "true");
         } else if("jersey1".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
+        } else if("resttemplate".equals(getLibrary())) {
+            additionalProperties.put("jackson", "true");
+            supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
@@ -351,6 +358,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             //Needed imports for Jackson based libraries
             if(additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonProperty");
+                model.imports.add("JsonValue");
             }
             if(additionalProperties.containsKey("gson")) {
                 model.imports.add("SerializedName");
@@ -358,6 +366,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else { // enum class
             //Needed imports for Jackson's JsonCreator
             if(additionalProperties.containsKey("jackson")) {
+                model.imports.add("JsonValue");
                 model.imports.add("JsonCreator");
             }
         }
