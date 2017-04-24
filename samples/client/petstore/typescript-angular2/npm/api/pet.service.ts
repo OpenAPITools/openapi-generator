@@ -554,7 +554,7 @@ export class PetService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams,
+            body: formParams.toString(),
             search: queryParameters,
             withCredentials:true
         });
@@ -623,7 +623,7 @@ export class PetService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: formParams,
+            body: formParams.toString(),
             search: queryParameters,
             withCredentials:true
         });

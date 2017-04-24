@@ -241,7 +241,7 @@ export class {{classname}} {
             body: {{paramName}} == null ? '' : JSON.stringify({{paramName}}), // https://github.com/angular/angular/issues/10612
 {{/bodyParam}}
 {{#hasFormParams}}
-            body: formParams,
+            body: formParams.toString(),
 {{/hasFormParams}}
 {{#isResponseFile}}
             responseType: ResponseContentType.Blob,
