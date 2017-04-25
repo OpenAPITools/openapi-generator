@@ -23,11 +23,15 @@ import javax.validation.Valid;
 
 @Controller
 public class FakeClassnameTestApiController implements FakeClassnameTestApi {
+    private final ObjectMapper objectMapper;
+
+    public FakeClassnameTestApiController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body,
         @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
-        
-        ObjectMapper objectMapper = new ObjectMapper();
 
         if (accept != null && accept.contains("application/json")) {
             return new ResponseEntity<Client>(objectMapper.readValue("{  \"client\" : \"aeiou\"}", Client.class), HttpStatus.OK);
