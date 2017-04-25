@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class SpringCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {

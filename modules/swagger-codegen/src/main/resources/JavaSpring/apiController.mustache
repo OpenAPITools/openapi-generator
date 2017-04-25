@@ -32,6 +32,12 @@ import javax.validation.Valid;
 @Controller
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
+    private final ObjectMapper objectMapper;
+
+    public {{classname}}Controller(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
 {{#isDelegate}}
     private final {{classname}}Delegate delegate;
 
@@ -49,11 +55,7 @@ public class {{classname}}Controller implements {{classname}} {
         {{^isDelegate}}
         {{^async}}
         {{#examples}}
-        {{#-first}}
-        
-        ObjectMapper objectMapper = new ObjectMapper();
 
-        {{/-first}}
         if (accept != null && accept.contains("{{{contentType}}}")) {
             return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.OK);
         }
