@@ -145,6 +145,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("integer", "Int");
         typeMapping.put("any", "Value");
+        typeMapping.put("UUID", "Text");
 
         importMapping.clear();
         importMapping.put("Map", "qualified Data.Map as Map");

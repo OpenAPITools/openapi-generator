@@ -56,6 +56,8 @@ public class CSharpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setAllowUnicodeIdentifiers(Boolean.valueOf(CSharpClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
             times = 1;
+            clientCodegen.setNetCoreProjectFileFlag(false);
+            times = 1;
 
         }};
     }

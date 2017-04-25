@@ -67,6 +67,7 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
         typeMapping.put("file", "file");
+        typeMapping.put("UUID", "str");
 
         // set the output folder here
         outputFolder = "generated-code/connexion";
