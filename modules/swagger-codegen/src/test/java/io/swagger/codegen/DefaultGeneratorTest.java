@@ -1,7 +1,9 @@
 package io.swagger.codegen;
 
 import io.swagger.codegen.languages.JavaClientCodegen;
+import io.swagger.models.ExternalDocs;
 import io.swagger.models.Swagger;
+import io.swagger.models.Tag;
 import io.swagger.parser.SwaggerParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,10 +16,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static io.swagger.codegen.CodegenConstants.TEMPLATE_DIR;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -277,6 +276,236 @@ public class DefaultGeneratorTest {
             for(CodegenOperation op : ops) {
                 assertFalse(opIds.contains(op.operationId));
                 opIds.add(op.operationId);
+            }
+        }
+    }
+
+    @Test
+    public void testResolveTagsAgainstSwaggerTagsDefinition() {
+        final File output = folder.getRoot();
+
+        String spec =
+                "swagger: '2.0'\n" +
+                "info:\n" +
+                "  version: 1.0.0\n" +
+                "  title: Swagger Petstore\n" +
+                "tags:\n" +
+                "  - name: pet\n" +
+                "    description: Everything about your Pets\n" +
+                "    externalDocs:\n" +
+                "      description: Find out more\n" +
+                "      url: 'http://swagger.io'\n" +
+                "    x-vendor-ext: 'tag'\n" +
+                "  - name: store\n" +
+                "    description: Access to Petstore orders\n" +
+                "  - name: user\n" +
+                "    description: Operations about user\n" +
+                "    externalDocs:\n" +
+                "      x-vendor-ext: 'foo'\n" +
+                "paths:\n" +
+                "  /pet:\n" +
+                "    get:\n" +
+                "      tags:\n" +
+                "        - pet\n" +
+                "        - store\n" +
+                "        - user\n" +
+                "      responses:\n" +
+                "        '200':\n" +
+                "          description: OK";
+
+        final List<Tag> expectedTags = new ArrayList<Tag>();
+        expectedTags.add(new Tag().name("pet").description("Everything about your Pets").externalDocs(new ExternalDocs().description("Find out more").url("http://swagger.io")));
+        expectedTags.add(new Tag().name("store").description("Access to Petstore orders"));
+        expectedTags.add(new Tag().name("user").description("Operations about user").externalDocs(new ExternalDocs()));
+
+        expectedTags.get(0).getVendorExtensions().put("x-vendor-ext", "tag");
+        expectedTags.get(2).getExternalDocs().getVendorExtensions().put("x-vendor-ext", "foo");
+
+        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        CodegenConfig codegenConfig = new JavaClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput);
+
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        assertEquals(3, paths.size());
+
+        List<String> sanitizedTags = Arrays.asList("Pet", "Store", "User");
+        for (String tag : sanitizedTags) {
+            List<CodegenOperation> operations = paths.get(tag);
+            assertNotNull(operations);
+            for (CodegenOperation operation : operations) {
+                assertOperationHasTags(operation, expectedTags);
+            }
+        }
+    }
+
+    @Test
+    public void testResolveTagsNoSwaggerTagsDefinition() {
+        final File output = folder.getRoot();
+
+        String spec =
+                "swagger: '2.0'\n" +
+                "info:\n" +
+                "  version: 1.0.0\n" +
+                "  title: Swagger Petstore\n" +
+                "paths:\n" +
+                "  /pet:\n" +
+                "    get:\n" +
+                "      tags:\n" +
+                "        - pet\n" +
+                "        - store\n" +
+                "        - user\n" +
+                "      responses:\n" +
+                "        '200':\n" +
+                "          description: OK";
+
+        final List<Tag> expectedTags = new ArrayList<Tag>();
+        expectedTags.add(new Tag().name("pet"));
+        expectedTags.add(new Tag().name("store"));
+        expectedTags.add(new Tag().name("user"));
+
+        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        CodegenConfig codegenConfig = new JavaClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput);
+
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        assertEquals(3, paths.size());
+
+        List<String> sanitizedTags = Arrays.asList("Pet", "Store", "User");
+        for (String tag : sanitizedTags) {
+            List<CodegenOperation> operations = paths.get(tag);
+            assertNotNull(operations);
+            for (CodegenOperation operation : operations) {
+                assertOperationHasTags(operation, expectedTags);
+            }
+        }
+    }
+
+    @Test
+    public void testResolveTagsNoTagsDefined() {
+        final File output = folder.getRoot();
+
+        String spec =
+                "swagger: '2.0'\n" +
+                "info:\n" +
+                "  version: 1.0.0\n" +
+                "  title: Swagger Petstore\n" +
+                "paths:\n" +
+                "  /pet:\n" +
+                "    get:\n" +
+                "      responses:\n" +
+                "        '200':\n" +
+                "          description: OK";
+
+        final List<Tag> expectedTags = new ArrayList<Tag>();
+        expectedTags.add(new Tag().name("default"));
+
+        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        CodegenConfig codegenConfig = new JavaClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput);
+
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        assertEquals(1, paths.size());
+
+        List<String> sanitizedTags = Collections.singletonList("Default");
+        for (String tag : sanitizedTags) {
+            List<CodegenOperation> operations = paths.get(tag);
+            assertNotNull(operations);
+            for (CodegenOperation operation : operations) {
+                assertOperationHasTags(operation, expectedTags);
+            }
+        }
+    }
+
+    @Test
+    public void testResolveTagNotDefinedInSwaggerTagsDefinition() {
+        final File output = folder.getRoot();
+
+        String spec =
+                "swagger: '2.0'\n" +
+                        "info:\n" +
+                        "  version: 1.0.0\n" +
+                        "  title: Swagger Petstore\n" +
+                        "tags:\n" +
+                        "  - name: pet\n" +
+                        "    description: Everything about your Pets\n" +
+                        "paths:\n" +
+                        "  /pet:\n" +
+                        "    get:\n" +
+                        "      tags:\n" +
+                        "        - pet\n" +
+                        "        - store\n" + // Not defined above
+                        "        - user\n" +  // Not defined above
+                        "      responses:\n" +
+                        "        '200':\n" +
+                        "          description: OK";
+
+        final List<Tag> expectedTags = new ArrayList<Tag>();
+        expectedTags.add(new Tag().name("pet").description("Everything about your Pets"));
+        expectedTags.add(new Tag().name("store"));
+        expectedTags.add(new Tag().name("user"));
+
+        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        CodegenConfig codegenConfig = new JavaClientCodegen();
+        codegenConfig.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput);
+
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        assertEquals(3, paths.size());
+
+        List<String> sanitizedTags = Arrays.asList("Pet", "Store", "User");
+        for (String tag : sanitizedTags) {
+            List<CodegenOperation> operations = paths.get(tag);
+            assertNotNull(operations);
+            for (CodegenOperation operation : operations) {
+                assertOperationHasTags(operation, expectedTags);
+            }
+        }
+    }
+
+    private void assertOperationHasTags(CodegenOperation op, List<Tag> expectedTags) {
+        assertNotNull(op.tags);
+        assertEquals(op.tags.size(), expectedTags.size());
+
+        for (Tag tag : expectedTags) {
+            Tag foundTag = null;
+
+            for (Tag opTag : op.tags) {
+                if (tag.getName().equals(opTag.getName())) {
+                    foundTag = opTag;
+                    break;
+                }
+            }
+
+            if (foundTag == null) {
+                fail("Expected tag '" + tag.getName() + "' was not found on operation " + op.operationId);
+            }
+
+            assertEquals(tag, foundTag);
+            if (!tag.getVendorExtensions().isEmpty()) {
+                assertEquals(tag.getVendorExtensions(), foundTag.getVendorExtensions());
+            }
+
+            if (tag.getExternalDocs() != null && !tag.getExternalDocs().getVendorExtensions().isEmpty()) {
+                assertEquals(tag.getExternalDocs().getVendorExtensions(), foundTag.getExternalDocs().getVendorExtensions());
             }
         }
     }
