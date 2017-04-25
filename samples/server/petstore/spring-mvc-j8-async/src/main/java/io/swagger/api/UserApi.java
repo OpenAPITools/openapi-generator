@@ -94,7 +94,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<String>> loginUser( @NotNull @ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username, @NotNull @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password, @RequestHeader("Accept") String accept) throws IOException {
+    default CompletableFuture<ResponseEntity<String>> loginUser( @NotNull@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username, @NotNull@ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password, @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<String>(HttpStatus.OK));
     }

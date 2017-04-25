@@ -130,7 +130,9 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
     content->setName( name );
     content->setContentDisposition( U("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( std::to_string( value ) ) ) );
+	std::stringstream* valueAsStringStream = new std::stringstream();
+	(*valueAsStringStream) << value;
+    content->setData( std::shared_ptr<std::istream>( valueAsStringStream ) );
     return content;
 }
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, int64_t value, const utility::string_t& contentType )
@@ -139,7 +141,9 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
     content->setName( name );
     content->setContentDisposition( U("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( std::to_string( value ) ) ) );
+	std::stringstream* valueAsStringStream = new std::stringstream();
+	(*valueAsStringStream) << value;
+    content->setData( std::shared_ptr<std::istream>( valueAsStringStream) ) ;
     return content;
 }
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, double value, const utility::string_t& contentType )
@@ -148,7 +152,9 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
     content->setName( name );
     content->setContentDisposition( U("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( std::to_string( value ) ) ) );
+	std::stringstream* valueAsStringStream = new std::stringstream();
+	(*valueAsStringStream) << value;
+    content->setData( std::shared_ptr<std::istream>( valueAsStringStream ) );
     return content;
 }
 
@@ -277,6 +283,10 @@ int32_t ModelBase::int32_tFromJson(web::json::value& val)
 {
     return val.as_integer();
 }
+float ModelBase::floatFromJson(web::json::value& val)
+{
+    return val.as_double();
+}
 utility::string_t ModelBase::stringFromJson(web::json::value& val)
 {
     return val.is_string() ? val.as_string() : U("");
@@ -310,6 +320,15 @@ int32_t ModelBase::int32_tFromHttpContent(std::shared_ptr<HttpContent> val)
 
     utility::stringstream_t ss(str);
     int32_t result = 0;
+    ss >> result;
+    return result;
+}
+float ModelBase::floatFromHttpContent(std::shared_ptr<HttpContent> val)
+{
+    utility::string_t str = ModelBase::stringFromHttpContent(val);
+
+    utility::stringstream_t ss(str);
+    float result = 0;
     ss >> result;
     return result;
 }

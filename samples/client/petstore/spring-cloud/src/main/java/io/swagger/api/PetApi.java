@@ -66,7 +66,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status, @RequestHeader("Accept") String accept) throws IOException;
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByStatus( @NotNull@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status, @RequestHeader("Accept") String accept) throws IOException;
 
 
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
@@ -82,7 +82,7 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json",
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags, @RequestHeader("Accept") String accept) throws IOException;
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByTags( @NotNull@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags, @RequestHeader("Accept") String accept) throws IOException;
 
 
     @ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", response = Pet.class, authorizations = {

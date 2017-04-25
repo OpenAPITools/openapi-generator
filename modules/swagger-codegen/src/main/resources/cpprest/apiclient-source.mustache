@@ -33,11 +33,15 @@ utility::string_t ApiClient::parameterToString(utility::string_t value)
 }
 utility::string_t ApiClient::parameterToString(int64_t value)
 {
-    return utility::conversions::to_string_t(std::to_string(value));
+	std::stringstream valueAsStringStream;
+	valueAsStringStream << value;
+    return utility::conversions::to_string_t(valueAsStringStream.str());
 }
 utility::string_t ApiClient::parameterToString(int32_t value)
 {
-    return utility::conversions::to_string_t(std::to_string(value));
+	std::stringstream valueAsStringStream;
+	valueAsStringStream << value;
+    return utility::conversions::to_string_t(valueAsStringStream.str());
 }
 
 utility::string_t ApiClient::parameterToString(float value)

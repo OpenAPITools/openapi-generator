@@ -71,7 +71,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status, @RequestHeader("Accept") String accept) throws IOException {
+    default ResponseEntity<List<Pet>> findPetsByStatus( @NotNull@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status, @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
     }
@@ -89,7 +89,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags, @RequestHeader("Accept") String accept) throws IOException {
+    default ResponseEntity<List<Pet>> findPetsByTags( @NotNull@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags, @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
     }

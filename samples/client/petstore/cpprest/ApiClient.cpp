@@ -45,9 +45,18 @@ utility::string_t ApiClient::parameterToString(utility::string_t value)
 }
 utility::string_t ApiClient::parameterToString(int64_t value)
 {
-    return utility::conversions::to_string_t(std::to_string(value));
+	std::stringstream valueAsStringStream;
+	valueAsStringStream << value;
+    return utility::conversions::to_string_t(valueAsStringStream.str());
 }
 utility::string_t ApiClient::parameterToString(int32_t value)
+{
+	std::stringstream valueAsStringStream;
+	valueAsStringStream << value;
+    return utility::conversions::to_string_t(valueAsStringStream.str());
+}
+
+utility::string_t ApiClient::parameterToString(float value)
 {
     return utility::conversions::to_string_t(std::to_string(value));
 }
@@ -120,12 +129,24 @@ pplx::task<web::http::http_response> ApiClient::callApi(
         }
         else
         {
-            web::http::uri_builder formData;
-            for (auto& kvp : formParams)
+            if (contentType == U("application/json"))
             {
-                formData.append_query(kvp.first, kvp.second);
+                web::json::value body_data = web::json::value::object();
+                for (auto& kvp : formParams)
+                {
+                    body_data[U(kvp.first)] = ModelBase::toJson(kvp.second);
+                }
+                request.set_body(body_data);
             }
-            request.set_body(formData.query(), U("application/x-www-form-urlencoded"));
+            else
+            {
+                web::http::uri_builder formData;
+                for (auto& kvp : formParams)
+                {
+                    formData.append_query(kvp.first, kvp.second);
+                }
+                request.set_body(formData.query(), U("application/x-www-form-urlencoded"));
+            }
         }
     }
 

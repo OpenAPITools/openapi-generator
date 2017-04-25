@@ -38,7 +38,7 @@ public class PetApiController implements PetApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status,
+    public ResponseEntity<List<Pet>> findPetsByStatus( @NotNull@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status,
         @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         
@@ -55,7 +55,7 @@ public class PetApiController implements PetApi {
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags,
+    public ResponseEntity<List<Pet>> findPetsByTags( @NotNull@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags,
         @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         
