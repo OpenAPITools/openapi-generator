@@ -2,6 +2,7 @@ package io.swagger.codegen;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.codegen.cmd.Version;
 import io.swagger.codegen.ignore.CodegenIgnoreProcessor;
 import io.swagger.models.*;
 import io.swagger.models.auth.OAuth2Definition;
@@ -10,14 +11,13 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.util.Json;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
@@ -127,8 +127,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.processOpts();
         config.preprocessSwagger(swagger);
         // TODO need to obtain version from a file instead of hardcoding it
-        config.additionalProperties().put("generatorVersion", "2.2.3-SNAPSHOT");
         config.additionalProperties().put("generatedDate", DateTime.now().toString());
+        config.additionalProperties().put("generatorVersion", Version.readVersionFromResources());
         config.additionalProperties().put("generatorClass", config.getClass().getName());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
         if (swagger.getVendorExtensions() != null) {
