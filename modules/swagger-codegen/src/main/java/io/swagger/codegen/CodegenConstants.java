@@ -107,6 +107,8 @@ public class CodegenConstants {
     public static final String PACKAGE_DESCRIPTION_DESC = "Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
     public static final String PACKAGE_COMPANY = "packageCompany";
     public static final String PACKAGE_COMPANY_DESC = "Specifies an AssemblyCompany for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_AUTHORS = "packageAuthors";
+    public static final String PACKAGE_AUTHORS_DESC = "Specifies Authors property in the .NET Core project file.";
     public static final String PACKAGE_COPYRIGHT = "packageCopyright";
     public static final String PACKAGE_COPYRIGHT_DESC = "Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
 
@@ -117,6 +119,9 @@ public class CodegenConstants {
 
     public static final String OPTIONAL_ASSEMBLY_INFO = "optionalAssemblyInfo";
     public static final String OPTIONAL_ASSEMBLY_INFO_DESC = "Generate AssemblyInfo.cs.";
+
+    public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
+    public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 
     public static final String USE_COLLECTION = "useCollection";
     public static final String USE_COLLECTION_DESC = "Deserialize array types to Collection<T> instead of List<T>.";

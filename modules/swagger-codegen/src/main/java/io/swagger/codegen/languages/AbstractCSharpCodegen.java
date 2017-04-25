@@ -18,6 +18,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
+    protected boolean netCoreProjectFileFlag = false;
 
     protected String packageVersion = "1.0.0";
     protected String packageName = "IO.Swagger";
@@ -26,6 +27,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String packageDescription = "A library generated from a Swagger doc";
     protected String packageCompany = "Swagger";
     protected String packageCopyright = "No Copyright";
+    protected String packageAuthors = "Swagger";
 
     protected String interfacePrefix = "I";
 
@@ -161,6 +163,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.optionalMethodArgumentFlag = flag;
     }
 
+    public void setNetCoreProjectFileFlag(boolean flag) {
+        this.netCoreProjectFileFlag = flag;
+    }
+
     protected void addOption(String key, String description, String defaultValue) {
         CliOption option = new CliOption(key, description);
         if (defaultValue != null) option.defaultValue(defaultValue);
@@ -238,6 +244,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_COPYRIGHT, packageCopyright);
         }
+
+        // {{packageAuthors}}
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_AUTHORS)) {
+            setPackageAuthors((String) additionalProperties.get(CodegenConstants.PACKAGE_AUTHORS));
+        } else {
+            additionalProperties.put(CodegenConstants.PACKAGE_AUTHORS, packageAuthors);
+        }
         
         // {{useDateTimeOffset}}
         if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET)) {
@@ -255,6 +268,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
             setOptionalEmitDefaultValue(Boolean.valueOf(additionalProperties.get(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {
+            setNetCoreProjectFileFlag(Boolean.valueOf(additionalProperties.get(CodegenConstants.NETCORE_PROJECT_FILE).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
@@ -631,6 +648,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     
     public void setPackageCopyright(String packageCopyright) {
         this.packageCopyright = packageCopyright;
+    }
+
+    public void setPackageAuthors(String packageAuthors) {
+        this.packageAuthors = packageAuthors;
     }
     
     public void setSourceFolder(String sourceFolder) {

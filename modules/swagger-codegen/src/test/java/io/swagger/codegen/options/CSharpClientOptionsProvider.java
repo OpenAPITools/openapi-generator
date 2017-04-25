@@ -39,6 +39,7 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.NON_PUBLIC_API, "true")
                 .put(CodegenConstants.INTERFACE_PREFIX, "X")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
+                .put(CodegenConstants.NETCORE_PROJECT_FILE, "false")
                 .build();
     }
 
