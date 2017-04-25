@@ -86,6 +86,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("File", "MultipartFile");
+        typeMapping.put("UUID", "String");
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "String");

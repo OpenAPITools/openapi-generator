@@ -178,6 +178,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("integer", "integer");
     typeMapping.put("ByteArray", "string");
     typeMapping.put("binary", "binary");
+    typeMapping.put("UUID", "string");
 
     /**
      * Additional Properties.  These values can be passed to the templates and
