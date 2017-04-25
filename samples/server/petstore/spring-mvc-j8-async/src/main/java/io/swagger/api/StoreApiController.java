@@ -7,4 +7,10 @@ import javax.validation.Valid;
 
 @Controller
 public class StoreApiController implements StoreApi {
+    private final ObjectMapper objectMapper;
+
+    public StoreApiController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
 }
