@@ -38,13 +38,13 @@ UserApi::~UserApi()
 
 pplx::task<void> UserApi::createUser(std::shared_ptr<User> body)
 {
-    
+
     // verify the required parameter 'body' is set
     if (body == nullptr)
     {
         throw ApiException(400, U("Missing required parameter 'body' when calling UserApi->createUser"));
     }
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user");
@@ -156,7 +156,7 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body)
 }
 pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<User>> body)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user/createWithArray");
@@ -281,7 +281,7 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
 }
 pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<User>> body)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user/createWithList");
@@ -406,7 +406,7 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
 }
 pplx::task<void> UserApi::deleteUser(utility::string_t username)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user/{username}");
@@ -506,7 +506,7 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username)
 }
 pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t username)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user/{username}");
@@ -624,7 +624,7 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
 }
 pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, utility::string_t password)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user/login");
@@ -759,7 +759,7 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
 }
 pplx::task<void> UserApi::logoutUser()
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user/logout");
@@ -858,13 +858,13 @@ pplx::task<void> UserApi::logoutUser()
 }
 pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr<User> body)
 {
-    
+
     // verify the required parameter 'body' is set
     if (body == nullptr)
     {
         throw ApiException(400, U("Missing required parameter 'body' when calling UserApi->updateUser"));
     }
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/user/{username}");

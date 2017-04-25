@@ -38,13 +38,13 @@ PetApi::~PetApi()
 
 pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> body)
 {
-    
+
     // verify the required parameter 'body' is set
     if (body == nullptr)
     {
         throw ApiException(400, U("Missing required parameter 'body' when calling PetApi->addPet"));
     }
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet");
@@ -160,7 +160,7 @@ pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> body)
 }
 pplx::task<void> PetApi::deletePet(int64_t petId, utility::string_t apiKey)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet/{petId}");
@@ -266,7 +266,7 @@ pplx::task<void> PetApi::deletePet(int64_t petId, utility::string_t apiKey)
 }
 pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vector<utility::string_t> status)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet/findByStatus");
@@ -396,7 +396,7 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vect
 }
 pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector<utility::string_t> tags)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet/findByTags");
@@ -526,7 +526,7 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
 }
 pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet/{petId}");
@@ -652,13 +652,13 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId)
 }
 pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> body)
 {
-    
+
     // verify the required parameter 'body' is set
     if (body == nullptr)
     {
         throw ApiException(400, U("Missing required parameter 'body' when calling PetApi->updatePet"));
     }
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet");
@@ -774,7 +774,7 @@ pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> body)
 }
 pplx::task<void> PetApi::updatePetWithForm(int64_t petId, utility::string_t name, utility::string_t status)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet/{petId}");
@@ -885,7 +885,7 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, utility::string_t name
 }
 pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, utility::string_t additionalMetadata, std::shared_ptr<HttpContent> file)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/pet/{petId}/uploadImage");

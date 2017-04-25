@@ -45,13 +45,13 @@ public class PetApiController implements PetApi {
         return delegate.deletePet(petId, apiKey);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByStatus( @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status,
+    public ResponseEntity<List<Pet>> findPetsByStatus( @NotNull@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status,
         @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         return delegate.findPetsByStatus(status);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByTags( @NotNull @ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags,
+    public ResponseEntity<List<Pet>> findPetsByTags( @NotNull@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags,
         @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
         return delegate.findPetsByTags(tags);

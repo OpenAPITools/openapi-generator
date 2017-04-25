@@ -38,7 +38,7 @@ StoreApi::~StoreApi()
 
 pplx::task<void> StoreApi::deleteOrder(utility::string_t orderId)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/store/order/{orderId}");
@@ -138,7 +138,7 @@ pplx::task<void> StoreApi::deleteOrder(utility::string_t orderId)
 }
 pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory()
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/store/inventory");
@@ -267,7 +267,7 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory()
 }
 pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId)
 {
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/store/order/{orderId}");
@@ -385,13 +385,13 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId)
 }
 pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> body)
 {
-    
+
     // verify the required parameter 'body' is set
     if (body == nullptr)
     {
         throw ApiException(400, U("Missing required parameter 'body' when calling StoreApi->placeOrder"));
     }
-    
+
 
     std::shared_ptr<ApiConfiguration> apiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t path = U("/store/order");

@@ -118,7 +118,9 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
     content->setName( name );
     content->setContentDisposition( U("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( std::to_string( value ) ) ) );
+	std::stringstream* valueAsStringStream = new std::stringstream();
+	(*valueAsStringStream) << value;
+    content->setData( std::shared_ptr<std::istream>( valueAsStringStream ) );
     return content;
 }
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, int64_t value, const utility::string_t& contentType )
@@ -127,7 +129,9 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
     content->setName( name );
     content->setContentDisposition( U("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( std::to_string( value ) ) ) );
+	std::stringstream* valueAsStringStream = new std::stringstream();
+	(*valueAsStringStream) << value;
+    content->setData( std::shared_ptr<std::istream>( valueAsStringStream) ) ;
     return content;
 }
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, double value, const utility::string_t& contentType )
@@ -136,7 +140,9 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
     content->setName( name );
     content->setContentDisposition( U("form-data") );
     content->setContentType( contentType );
-    content->setData( std::shared_ptr<std::istream>( new std::stringstream( std::to_string( value ) ) ) );
+	std::stringstream* valueAsStringStream = new std::stringstream();
+	(*valueAsStringStream) << value;
+    content->setData( std::shared_ptr<std::istream>( valueAsStringStream ) );
     return content;
 }
 
