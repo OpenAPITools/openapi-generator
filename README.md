@@ -713,6 +713,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Cachet Financial](http://www.cachetfinancial.com/)
 - [carpolo](http://www.carpolo.co/)
 - [CloudBoost](https://www.CloudBoost.io/)
+- [Cisco](http://www.cisco.com/)
 - [Conplement](http://www.conplement.de/)
 - [Cummins](http://www.cummins.com/)
 - [Cupix](http://www.cupix.com)

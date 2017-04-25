@@ -155,6 +155,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             LOGGER.error("Missing required field info version. Default appVersion set to 1.0.0");
             config.additionalProperties().put("appVersion", "1.0.0");
         }
+        
         if (StringUtils.isEmpty(info.getDescription())) {
             // set a default description if none if provided
             config.additionalProperties().put("appDescription",

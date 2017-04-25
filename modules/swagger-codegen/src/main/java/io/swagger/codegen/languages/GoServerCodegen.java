@@ -129,6 +129,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("object", "interface{}");
+        typeMapping.put("UUID", "string");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");

@@ -95,6 +95,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("file", "std::string");
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("Date", "std::string");
+        typeMapping.put("UUID", "std::string");
 
         importMapping = new HashMap<String, String>();
 
