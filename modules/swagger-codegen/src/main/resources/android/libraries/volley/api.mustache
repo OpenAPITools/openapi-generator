@@ -127,15 +127,15 @@ public class {{classname}} {
     } catch (InterruptedException ex) {
        throw ex;
     } catch (ExecutionException ex) {
-       if (ex.getCause() instanceof VolleyError) {
-         VolleyError volleyError = (VolleyError)ex.getCause();
-         if (volleyError.networkResponse != null) {
-           throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
-         }
-       }
-       throw ex;
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+        }
+      }
+      throw ex;
     } catch (TimeoutException ex) {
-       throw ex;
+      throw ex;
     }
   }
 
@@ -147,13 +147,15 @@ public class {{classname}} {
   public void {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}final Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}String{{/returnType}}> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
 
-  {{#allParams}}{{#required}}
+    {{#allParams}}
+    {{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {
-       VolleyError error = new VolleyError("Missing the required parameter '{{paramName}}' when calling {{nickname}}",
-         new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}"));
+      VolleyError error = new VolleyError("Missing the required parameter '{{paramName}}' when calling {{nickname}}",
+        new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}"));
     }
-    {{/required}}{{/allParams}}
+    {{/required}}
+    {{/allParams}}
 
     // create path and map variables
     String path = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
@@ -199,7 +201,7 @@ public class {{classname}} {
       {{/formParams}}
     }
 
-      String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
+    String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}} };
 
     try {
       apiInvoker.invokeAPI(basePath, path, "{{httpMethod}}", queryParams, postBody, headerParams, formParams, contentType, authNames,
