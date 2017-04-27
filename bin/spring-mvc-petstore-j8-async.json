@@ -1,3 +1,6 @@
 {
-    "library": "j8-async"
+    "java8": true,
+    "async": true,
+    "library": "spring-mvc",
+    "artifactId": "swagger-spring-mvc-server-j8-async"
 }

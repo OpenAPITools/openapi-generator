@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 
 import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -70,8 +69,8 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 
-    public ResponseEntity<String> loginUser( @NotNull @ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
-         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password,
+    public ResponseEntity<String> loginUser( @NotNull@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
+         @NotNull@ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password,
         @RequestHeader("Accept") String accept) throws IOException {
         // do some magic!
 
