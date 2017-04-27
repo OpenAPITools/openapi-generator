@@ -802,8 +802,8 @@
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/scala</module>
                 <!-- only test java-related projects 
+                <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/android/volley</module>
@@ -831,7 +831,7 @@
                 <module>samples/server/petstore/jaxrs-resteasy/eap</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/scalatra</module>
+                <!--<module>samples/server/petstore/scalatra</module>-->
                 <module>samples/server/petstore/spring-mvc</module>
                 <!-- comment out due to change in method signature
                 <module>samples/client/petstore/spring-cloud</module> -->
@@ -841,7 +841,6 @@
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-
                 <!--<module>samples/server/petstore/java-msf4j</module> note: JDK8 only -->
             </modules>
         </profile>
