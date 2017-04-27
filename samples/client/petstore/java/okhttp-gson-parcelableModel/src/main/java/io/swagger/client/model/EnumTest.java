@@ -245,7 +245,7 @@ public class EnumTest implements Parcelable {
     enumString = (EnumStringEnum)in.readValue(null);
     enumInteger = (EnumIntegerEnum)in.readValue(null);
     enumNumber = (EnumNumberEnum)in.readValue(null);
-    outerEnum = (OuterEnum)in.readValue(null);
+    outerEnum = (OuterEnum)in.readValue(OuterEnum.class.getClassLoader());
   }
   
   public int describeContents() {

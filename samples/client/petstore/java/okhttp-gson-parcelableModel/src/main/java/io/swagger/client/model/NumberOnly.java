@@ -98,7 +98,7 @@ public class NumberOnly implements Parcelable {
 
   NumberOnly(Parcel in) {
     
-    justNumber = (BigDecimal)in.readValue(null);
+    justNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
   }
   
   public int describeContents() {
