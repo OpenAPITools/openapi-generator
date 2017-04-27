@@ -792,12 +792,7 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/akka-scala</module>
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/android/volley</module>
-                <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/go</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
@@ -807,9 +802,15 @@
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
+                <module>samples/client/petstore/scala</module>
+                <!-- only test java-related projects 
+                <module>samples/client/petstore/akka-scala</module>
+                <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/android/volley</module>
+                <module>samples/client/petstore/bash</module>
+                <module>samples/client/petstore/go</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
@@ -817,6 +818,7 @@
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-jquery/npm</module>
+                -->
                 <!--module>samples/client/petstore/objc/SwaggerClientTests</module-->
                 <!--module>samples/client/petstore/swift/SwaggerClientTests</module-->
                 <!-- servers -->
