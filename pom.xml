@@ -831,15 +831,13 @@
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/spring-mvc</module>
-                <!-- comment out due to change in method signature
-                <module>samples/client/petstore/spring-cloud</module> -->
+                <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-
                 <!--<module>samples/server/petstore/java-msf4j</module> note: JDK8 only -->
             </modules>
         </profile>
