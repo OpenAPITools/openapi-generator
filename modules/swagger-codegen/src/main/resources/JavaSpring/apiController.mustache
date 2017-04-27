@@ -17,15 +17,16 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-{{^useSpringCloudClient}}
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-{{/useSpringCloudClient}}
 
 import java.util.List;
 {{#async}}
 import java.util.concurrent.Callable;
-{{/async}}{{/jdk8-no-delegate}}
+{{/async}}
+{{/jdk8-no-delegate}}
+{{^useSpringCloudClient}}
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+{{/useSpringCloudClient}}
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
 import javax.validation.Valid;
