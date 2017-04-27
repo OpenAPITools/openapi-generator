@@ -1,4 +1,4 @@
-# Java client, server tests
+# Java-related client, server tests
 machine:
   java:
     version: openjdk8
@@ -10,7 +10,9 @@ machine:
 
 dependencies:
   cache_directories:
-    - ~/.m2
+    - "~/.m2"
+    - "~/.sbt"
+
   pre:
     # to run petstore server locally via docker
     - docker pull swaggerapi/petstore

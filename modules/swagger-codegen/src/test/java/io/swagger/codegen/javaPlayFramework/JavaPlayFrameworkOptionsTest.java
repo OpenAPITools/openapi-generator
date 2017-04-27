@@ -1,19 +1,24 @@
 package io.swagger.codegen.javaPlayFramework;
 
+import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.java.JavaClientOptionsTest;
 import io.swagger.codegen.languages.JavaPlayFrameworkCodegen;
 import io.swagger.codegen.options.JavaPlayFrameworkOptionsProvider;
+import io.swagger.codegen.options.OptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
-public class JavaPlayFrameworkOptionsTest extends JavaClientOptionsTest {
+public class JavaPlayFrameworkOptionsTest extends AbstractOptionsTest {
 
     @Tested
     private JavaPlayFrameworkCodegen clientCodegen;
 
     public JavaPlayFrameworkOptionsTest() {
         super(new JavaPlayFrameworkOptionsProvider());
+    }
+
+    protected JavaPlayFrameworkOptionsTest(OptionsProvider optionsProvider) {
+        super(optionsProvider);
     }
 
     @Override
