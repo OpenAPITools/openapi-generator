@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * A User who is purchasing from the pet store
  */
@@ -46,6 +48,8 @@ public class User   {
    * @return id
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
   public Long getId() {
     return id;
   }
@@ -64,6 +68,8 @@ public class User   {
    * @return username
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
   public String getUsername() {
     return username;
   }
@@ -82,6 +88,8 @@ public class User   {
    * @return firstName
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
   public String getFirstName() {
     return firstName;
   }
@@ -100,6 +108,8 @@ public class User   {
    * @return lastName
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
   public String getLastName() {
     return lastName;
   }
@@ -118,6 +128,8 @@ public class User   {
    * @return email
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
   public String getEmail() {
     return email;
   }
@@ -136,6 +148,8 @@ public class User   {
    * @return password
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
   public String getPassword() {
     return password;
   }
@@ -154,6 +168,8 @@ public class User   {
    * @return phone
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
   public String getPhone() {
     return phone;
   }
@@ -172,6 +188,8 @@ public class User   {
    * @return userStatus
   **/
   @ApiModelProperty(value = "User Status")
+
+  @Valid
   public Integer getUserStatus() {
     return userStatus;
   }
