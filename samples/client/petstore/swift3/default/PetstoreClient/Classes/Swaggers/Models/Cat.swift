@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Cat: Animal {
+
     public var declawed: Bool?
 
     
@@ -17,6 +18,7 @@ open class Cat: Animal {
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
         nillableDictionary["declawed"] = self.declawed
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
