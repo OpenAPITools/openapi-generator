@@ -5,7 +5,10 @@ import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
 
-@ApiModel(description = "")
+/**
+ * A tag for a pet
+ **/
+@ApiModel(description = "A tag for a pet")
 public class Tag  {
   
   @SerializedName("id")

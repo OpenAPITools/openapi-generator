@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+{{^useSpringCloudClient}}
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+{{/useSpringCloudClient}}
 
 import java.util.List;
 {{#async}}
@@ -52,6 +54,25 @@ public class {{classname}}Controller implements {{classname}} {
     public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},
         {{/allParams}}@RequestHeader("Accept") String accept){{#examples}}{{#-first}} throws IOException{{/-first}}{{/examples}} {
         // do some magic!
+{{#useSpringCloudClient}}
+        {{^isDelegate}}
+        {{^async}}
+        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+        {{/async}}
+        {{#async}}
+        return new Callable<ResponseEntity<{{>returnTypes}}>>() {
+            @Override
+            public ResponseEntity<{{>returnTypes}}> call() throws Exception {
+                return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+            }
+        };
+        {{/async}}
+        {{/isDelegate}}
+        {{#isDelegate}}
+        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/isDelegate}}
+{{/useSpringCloudClient}}
+{{^useSpringCloudClient}}
         {{^isDelegate}}
         {{^async}}
         {{#examples}}
@@ -75,6 +96,7 @@ public class {{classname}}Controller implements {{classname}} {
         {{#isDelegate}}
         return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/isDelegate}}
+{{/useSpringCloudClient}}
     }
 
 {{/operation}}
