@@ -106,6 +106,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
@@ -138,5 +139,5 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 ## Author
 
-apiteam@wordnik.com
+apiteam@swagger.io
 

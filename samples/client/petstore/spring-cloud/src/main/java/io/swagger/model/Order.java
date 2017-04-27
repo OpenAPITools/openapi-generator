@@ -11,9 +11,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * An order for a pets from the pet store
+ * Order
  */
-@ApiModel(description = "An order for a pets from the pet store")
 
 public class Order   {
   @JsonProperty("id")
@@ -65,7 +64,7 @@ public class Order   {
   private StatusEnum status = null;
 
   @JsonProperty("complete")
-  private Boolean complete = false;
+  private Boolean complete = null;
 
   public Order id(Long id) {
     this.id = id;
