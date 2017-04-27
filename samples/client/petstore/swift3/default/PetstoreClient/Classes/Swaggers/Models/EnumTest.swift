@@ -9,6 +9,7 @@ import Foundation
 
 
 open class EnumTest: JSONEncodable {
+
     public enum EnumString: String { 
         case upper = "UPPER"
         case lower = "lower"
@@ -36,6 +37,7 @@ open class EnumTest: JSONEncodable {
         nillableDictionary["enum_integer"] = self.enumInteger?.rawValue
         nillableDictionary["enum_number"] = self.enumNumber?.rawValue
         nillableDictionary["outerEnum"] = self.outerEnum?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

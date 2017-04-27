@@ -183,7 +183,10 @@ class Decoders {
                 return Decoders.decode(clazz: {{classname}}.self, discriminator: discriminator, source: source)
             }
             {{/discriminator}}
-
+            {{#additionalPropertiesType}}
+            var propsDictionary = sourceDictionary
+            let keys : [AnyHashable] = [{{#allVars}}{{^-last}}"{{baseName}}", {{/-last}}{{#-last}}"{{baseName}}"{{/-last}}{{/allVars}}]
+            {{/additionalPropertiesType}}
             {{#unwrapRequired}}
             let result = {{classname}}({{#requiredVars}}{{^-first}}, {{/-first}}{{#isEnum}}{{name}}: {{classname}}.{{datatypeWithEnum}}(rawValue: (sourceDictionary["{{baseName}}"] as! {{datatype}}))! {{/isEnum}}{{^isEnum}}{{name}}: Decoders.decode(clazz: {{{baseType}}}.self, source: sourceDictionary["{{baseName}}"]! as AnyObject, instance: nil){{/isEnum}}{{/requiredVars}})
             {{#optionalVars}}{{#isEnum}}
@@ -208,6 +211,18 @@ class Decoders {
             }{{/isEnum}}
             {{^isEnum}}result.{{name}} = Decoders.decodeOptional(clazz: {{{baseType}}}.self, source: sourceDictionary["{{baseName}}"] as AnyObject?){{/isEnum}}{{/allVars}}
             {{/unwrapRequired}}
+            {{#additionalPropertiesType}}
+
+            for key in keys {
+                propsDictionary.removeValue(forKey: key)
+            }
+
+            for key in propsDictionary.keys {
+                if let decodedValue = Decoders.decodeOptional(clazz: String.self, source: propsDictionary[key] as AnyObject?) {
+                    result[key] = decodedValue
+                }
+            }
+            {{/additionalPropertiesType}}
             return result
 {{/allVars.isEmpty}}
 {{/isEnum}}
