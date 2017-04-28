@@ -205,9 +205,8 @@ export class {{classname}} {
             body: formParams.toString(),
 {{/hasFormParams}}
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);

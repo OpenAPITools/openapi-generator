@@ -212,9 +212,8 @@ export class PetApi {
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -264,9 +263,8 @@ export class PetApi {
             method: RequestMethod.Delete,
             headers: headers,
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -314,9 +312,8 @@ export class PetApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -364,9 +361,8 @@ export class PetApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -418,9 +414,8 @@ export class PetApi {
             method: RequestMethod.Get,
             headers: headers,
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -467,9 +462,8 @@ export class PetApi {
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -532,9 +526,8 @@ export class PetApi {
             headers: headers,
             body: formParams.toString(),
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
@@ -597,9 +590,8 @@ export class PetApi {
             headers: headers,
             body: formParams.toString(),
             search: queryParameters,
-            withCredentials:true
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
