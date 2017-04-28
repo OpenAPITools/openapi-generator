@@ -58,6 +58,6 @@ private:
     QString* message;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* SWGApiResponse_H_ */
