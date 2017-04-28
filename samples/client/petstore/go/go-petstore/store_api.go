@@ -41,17 +41,13 @@ func (a *StoreApiService) DeleteOrder(orderId string) ( *http.Response, error) {
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/store/order/{orderId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	orderIdTxt, err := atoi(orderId)
-	if orderIdTxt < 1 {
-			return nil, reportError("orderId must be greater than 1")
-	}
 
 	// to determine the Content-Type header
 	localVarHttpContentTypes := []string{  }
@@ -179,8 +175,8 @@ func (a *StoreApiService) GetOrderById(orderId int64) (Order,  *http.Response, e
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/store/order/{orderId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orderId"+"}", fmt.Sprintf("%v", orderId), -1)
+	localVarPath := a.client.cfg.BasePath + "/store/order/{order_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", fmt.Sprintf("%v", orderId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

@@ -126,17 +126,17 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if number < 32.10000000000000142108547152020037174224853515625 {
-			return nil, reportError("number must be greater than 32.10000000000000142108547152020037174224853515625")
+	if number < 32.1 {
+			return nil, reportError("number must be greater than 32.1")
 	}
-	if number > 543.200000000000045474735088646411895751953125 {
-			return nil, reportError("number must be less than 543.200000000000045474735088646411895751953125")
+	if number > 543.2 {
+			return nil, reportError("number must be less than 543.2")
 	}
-	if double < 67.7999999999999971578290569595992565155029296875 {
-			return nil, reportError("double must be greater than 67.7999999999999971578290569595992565155029296875")
+	if double < 67.8 {
+			return nil, reportError("double must be greater than 67.8")
 	}
-	if double > 123.400000000000005684341886080801486968994140625 {
-			return nil, reportError("double must be less than 123.400000000000005684341886080801486968994140625")
+	if double > 123.4 {
+			return nil, reportError("double must be less than 123.4")
 	}
 	if err := typeCheckParameter(localVarOptionals["integer"], "int32", "integer"); err != nil {
 		return nil, err
@@ -276,7 +276,7 @@ func (a *FakeApiService) TestEnumParameters(localVarOptionals map[string]interfa
 	}
 	if err := typeCheckParameter(localVarOptionals["enumQueryString"], "string", "enumQueryString"); err != nil {
 		return nil, err
-  }
+	}
 	if err := typeCheckParameter(localVarOptionals["enumQueryInteger"], "int32", "enumQueryInteger"); err != nil {
 		return nil, err
 	}
