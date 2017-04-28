@@ -14,7 +14,7 @@ type Pet struct {
 
 	Id int64 `json:"id,omitempty"`
 
-	Category Category `json:"category,omitempty"`
+	Category *Category `json:"category,omitempty"`
 
 	Name string `json:"name"`
 
