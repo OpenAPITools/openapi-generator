@@ -3,4 +3,5 @@ export class Configuration {
     username: string;
     password: string;
     accessToken: string | (() => string);
+    withCredentials: boolean;
 }
