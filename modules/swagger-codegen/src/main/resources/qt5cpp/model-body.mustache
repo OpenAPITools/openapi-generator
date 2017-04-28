@@ -9,8 +9,9 @@
 #include <QObject>
 #include <QDebug>
 
-namespace Swagger {
-
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
 
 {{classname}}::{{classname}}(QString* json) {
     init();
@@ -57,10 +58,10 @@ void
 void
 {{classname}}::fromJsonObject(QJsonObject &pJson) {
     {{#vars}}
-    {{^isContainer}}::Swagger::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{complexType}}");{{/isContainer}}
+    {{^isContainer}}::{{cppNamespace}}::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{complexType}}");{{/isContainer}}
     {{#isContainer}}
-    {{#complexType}}::Swagger::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{complexType}}");{{/complexType}}
-    {{^complexType}}::Swagger::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{items.baseType}}");{{/complexType}}
+    {{#complexType}}::{{cppNamespace}}::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{complexType}}");{{/complexType}}
+    {{^complexType}}::{{cppNamespace}}::setValue(&{{name}}, pJson["{{baseName}}"], "{{baseType}}", "{{items.baseType}}");{{/complexType}}
     {{/isContainer}}
     {{/vars}}
 }
@@ -107,8 +108,9 @@ void
 
 {{/vars}}
 
-
-} /* namespace Swagger */
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
 
 {{/model}}
 {{/models}}

@@ -22,7 +22,6 @@
 
 namespace Swagger {
 
-
 SWGOrder::SWGOrder(QString* json) {
     init();
     this->fromJson(*json);
@@ -165,6 +164,5 @@ SWGOrder::setComplete(bool complete) {
 }
 
 
-
-} /* namespace Swagger */
+}
 

@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 
 namespace Swagger {
+
 SWGPetApi::SWGPetApi() {}
 
 SWGPetApi::~SWGPetApi() {}
@@ -481,4 +482,5 @@ SWGPetApi::uploadFileCallback(HttpRequestWorker * worker) {
     
     emit uploadFileSignal();
 }
-} /* namespace Swagger */
+
+}

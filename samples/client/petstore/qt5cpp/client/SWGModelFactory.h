@@ -21,6 +21,7 @@
 #include "SWGUser.h"
 
 namespace Swagger {
+
   inline void* create(QString type) {
     if(QString("SWGCategory").compare(type) == 0) {
       return new SWGCategory();
@@ -52,6 +53,7 @@ namespace Swagger {
     }
     return nullptr;
   }
-} /* namespace Swagger */
+
+}
 
 #endif /* ModelFactory_H_ */

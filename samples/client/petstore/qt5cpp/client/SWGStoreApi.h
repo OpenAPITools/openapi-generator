@@ -52,5 +52,6 @@ signals:
     void placeOrderSignal(SWGOrder* summary);
     
 };
+
 }
 #endif

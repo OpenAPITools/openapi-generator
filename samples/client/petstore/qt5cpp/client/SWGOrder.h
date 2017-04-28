@@ -71,6 +71,6 @@ private:
     bool complete;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* SWGOrder_H_ */

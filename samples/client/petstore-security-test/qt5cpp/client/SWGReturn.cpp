@@ -22,7 +22,6 @@
 
 namespace Swagger {
 
-
 SWGReturn::SWGReturn(QString* json) {
     init();
     this->fromJson(*json);
@@ -89,6 +88,5 @@ SWGReturn::setReturn(qint32 return) {
 }
 
 
-
-} /* namespace Swagger */
+}
 
