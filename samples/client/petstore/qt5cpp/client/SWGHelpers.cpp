@@ -18,6 +18,7 @@
 #include <QJsonValue>
 #include <QDateTime>
 
+
 namespace Swagger {
 
 void
@@ -130,7 +131,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
     else if(type.startsWith("SWG") && obj.isObject()) {
         // complex type
         QJsonObject jsonObj = obj.toObject();
-        SWGObject * so = (SWGObject*)Swagger::create(type);
+        SWGObject * so = (SWGObject*)::Swagger::create(type);
         if(so != nullptr) {
             so->fromJsonObject(jsonObj);
             SWGObject **val = static_cast<SWGObject**>(value);
@@ -290,4 +291,5 @@ QString
 stringValue(bool value) {
     return QString(value ? "true" : "false");
 }
-} /* namespace Swagger */
+
+}

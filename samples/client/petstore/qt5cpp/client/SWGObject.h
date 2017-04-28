@@ -15,6 +15,8 @@
 
 #include <QJsonValue>
 
+namespace Swagger {
+
 class SWGObject {
   public:
     virtual QJsonObject* asJsonObject() {
@@ -32,5 +34,7 @@ class SWGObject {
         return QString("");
     }
 };
+
+}
 
 #endif /* _SWG_OBJECT_H_ */

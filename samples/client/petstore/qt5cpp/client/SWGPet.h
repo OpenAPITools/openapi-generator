@@ -73,6 +73,6 @@ private:
     QString* status;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* SWGPet_H_ */

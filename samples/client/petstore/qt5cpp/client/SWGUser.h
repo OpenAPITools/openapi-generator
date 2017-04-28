@@ -78,6 +78,6 @@ private:
     qint32 user_status;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* SWGUser_H_ */

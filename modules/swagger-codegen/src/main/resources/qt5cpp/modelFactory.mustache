@@ -5,7 +5,10 @@
 {{#models}}{{#model}}
 #include "{{classname}}.h"{{/model}}{{/models}}
 
-namespace Swagger {
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
   inline void* create(QString type) {
     {{#models}}{{#model}}if(QString("{{classname}}").compare(type) == 0) {
       return new {{classname}}();
@@ -25,6 +28,9 @@ namespace Swagger {
     }
     return nullptr;
   }
-} /* namespace Swagger */
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
 
 #endif /* ModelFactory_H_ */

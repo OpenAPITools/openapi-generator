@@ -22,7 +22,6 @@
 
 namespace Swagger {
 
-
 SWGTag::SWGTag(QString* json) {
     init();
     this->fromJson(*json);
@@ -106,6 +105,5 @@ SWGTag::setName(QString* name) {
 }
 
 
-
-} /* namespace Swagger */
+}
 

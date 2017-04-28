@@ -64,5 +64,6 @@ signals:
     void uploadFileSignal();
     
 };
+
 }
 #endif

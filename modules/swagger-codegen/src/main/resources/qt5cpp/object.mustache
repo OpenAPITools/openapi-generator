@@ -4,6 +4,10 @@
 
 #include <QJsonValue>
 
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
 class {{prefix}}Object {
   public:
     virtual QJsonObject* asJsonObject() {
@@ -21,5 +25,9 @@ class {{prefix}}Object {
         return QString("");
     }
 };
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
 
 #endif /* _{{prefix}}_OBJECT_H_ */

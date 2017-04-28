@@ -54,6 +54,6 @@ private:
     QString* name;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* SWGCategory_H_ */
