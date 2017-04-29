@@ -168,10 +168,10 @@ class {{classname}}(object):
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/pathParams}}
 
-        query_params = {}
+        query_params = []
 {{#queryParams}}
         if '{{paramName}}' in params:
-            query_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}
+            query_params.append(('{{baseName}}', params['{{paramName}}'])){{#isListContainer}}
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}
 {{/queryParams}}
 
