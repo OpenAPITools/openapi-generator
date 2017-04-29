@@ -112,7 +112,7 @@ class StoreApi(object):
         if 'order_id' in params:
             path_params['order_id'] = params['order_id']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -206,7 +206,7 @@ class StoreApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -312,7 +312,7 @@ class StoreApi(object):
         if 'order_id' in params:
             path_params['order_id'] = params['order_id']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -412,7 +412,7 @@ class StoreApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 

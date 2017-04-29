@@ -110,7 +110,7 @@ class FakeApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -277,7 +277,7 @@ class FakeApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -420,14 +420,14 @@ class FakeApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'enum_query_string_array' in params:
-            query_params['enum_query_string_array'] = params['enum_query_string_array']
+            query_params.append(('enum_query_string_array', params['enum_query_string_array']))
             collection_formats['enum_query_string_array'] = 'csv'
         if 'enum_query_string' in params:
-            query_params['enum_query_string'] = params['enum_query_string']
+            query_params.append(('enum_query_string', params['enum_query_string']))
         if 'enum_query_integer' in params:
-            query_params['enum_query_integer'] = params['enum_query_integer']
+            query_params.append(('enum_query_integer', params['enum_query_integer']))
 
         header_params = {}
         if 'enum_header_string_array' in params:
