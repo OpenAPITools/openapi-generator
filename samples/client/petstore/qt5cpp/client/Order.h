@@ -11,7 +11,11 @@
  */
 
 /*
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Order.h
  * Order.h
+=======
+ * SWGOrder.h
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGOrder.h
  * 
  * An order for a pets from the pet store
  */
@@ -71,6 +75,6 @@ private:
     bool complete;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* Order_H_ */

@@ -161,8 +161,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
 
   MixedPropertiesAndAdditionalPropertiesClass(Parcel in) {
     
+<<<<<<< HEAD
     uuid = (UUID)in.readValue(null);
     dateTime = (OffsetDateTime)in.readValue(null);
+=======
+    uuid = (UUID)in.readValue(UUID.class.getClassLoader());
+    dateTime = (DateTime)in.readValue(DateTime.class.getClassLoader());
+>>>>>>> origin/master
     map = (Map<String, Animal>)in.readValue(Animal.class.getClassLoader());
   }
   

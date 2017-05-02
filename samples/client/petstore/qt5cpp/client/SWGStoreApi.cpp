@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 
 namespace Swagger {
+
 SWGStoreApi::SWGStoreApi() {}
 
 SWGStoreApi::~SWGStoreApi() {}
@@ -210,4 +211,5 @@ SWGStoreApi::placeOrderCallback(HttpRequestWorker * worker) {
     emit placeOrderSignal(output);
     
 }
-} /* namespace Swagger */
+
+}

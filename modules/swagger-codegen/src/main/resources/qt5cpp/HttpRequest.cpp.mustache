@@ -6,6 +6,10 @@
 #include <QBuffer>
 
 
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
 HttpRequestInput::HttpRequestInput() {
     initialize();
 }
@@ -298,3 +302,7 @@ void HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
 
     emit on_execution_finished(this);
 }
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

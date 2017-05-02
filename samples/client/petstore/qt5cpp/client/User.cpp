@@ -22,8 +22,12 @@
 
 namespace Swagger {
 
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/User.cpp
 
 User::User(QString* json) {
+=======
+SWGUser::SWGUser(QString* json) {
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGUser.cpp
     init();
     this->fromJson(*json);
 }
@@ -205,6 +209,5 @@ User::setUserStatus(qint32 user_status) {
 }
 
 
-
-} /* namespace Swagger */
+}
 

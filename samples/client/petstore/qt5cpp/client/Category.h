@@ -11,7 +11,11 @@
  */
 
 /*
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Category.h
  * Category.h
+=======
+ * SWGCategory.h
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGCategory.h
  * 
  * A category for a pet
  */
@@ -54,6 +58,6 @@ private:
     QString* name;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* Category_H_ */

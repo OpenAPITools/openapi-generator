@@ -11,7 +11,11 @@
  */
 
 /*
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Pet.h
  * Pet.h
+=======
+ * SWGPet.h
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGPet.h
  * 
  * A pet for sale in the pet store
  */
@@ -73,6 +77,6 @@ private:
     QString* status;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* Pet_H_ */

@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\swagger-codegen\src\test\resources\2_0\petstore.json -l rails5 -o samples\server\petstore\rails5\
+set ags=generate -i modules\swagger-codegen\src\test\resources\2_0\petstore.yaml -l rails5 -o samples\server\petstore\rails5\
 
 java %JAVA_OPTS% -jar %executable% %ags%

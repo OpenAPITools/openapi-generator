@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 
 namespace Swagger {
+
 SWGFakeApi::SWGFakeApi() {}
 
 SWGFakeApi::~SWGFakeApi() {}
@@ -69,4 +70,5 @@ SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rCallback(HttpReq
     
     emit testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rSignal();
 }
-} /* namespace Swagger */
+
+}

@@ -22,8 +22,12 @@
 
 namespace Swagger {
 
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/ApiResponse.cpp
 
 ApiResponse::ApiResponse(QString* json) {
+=======
+SWGApiResponse::SWGApiResponse(QString* json) {
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGApiResponse.cpp
     init();
     this->fromJson(*json);
 }
@@ -123,6 +127,5 @@ ApiResponse::setMessage(QString* message) {
 }
 
 
-
-} /* namespace Swagger */
+}
 

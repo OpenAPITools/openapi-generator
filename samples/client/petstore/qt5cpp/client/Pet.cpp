@@ -22,8 +22,12 @@
 
 namespace Swagger {
 
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Pet.cpp
 
 Pet::Pet(QString* json) {
+=======
+SWGPet::SWGPet(QString* json) {
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGPet.cpp
     init();
     this->fromJson(*json);
 }
@@ -190,6 +194,5 @@ Pet::setStatus(QString* status) {
 }
 
 
-
-} /* namespace Swagger */
+}
 

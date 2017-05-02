@@ -792,6 +792,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [snapCX](https://snapcx.io)
 - [SPINEN](http://www.spinen.com)
 - [SRC](https://www.src.si/)
+- [Stardog Ventures](https://www.stardog.io)
 - [Stingray](http://www.stingray.com)
 - [StyleRecipe](http://stylerecipe.co.jp)
 - [Svenska Spel AB](https://www.svenskaspel.se/)
@@ -879,10 +880,12 @@ Here is a list of template creators:
    * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
    * Java (RestTemplate): @nbruno
+   * Java (RESTEasy): @gayathrigs
    * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
    * JMeter @davidkiss
    * Perl: @wing328
+   * PHP (Guzzle): @baartosz
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * TypeScript (Node):  @mhardorf

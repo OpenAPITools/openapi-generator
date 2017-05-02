@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 
 namespace Swagger {
+
 SWGPetApi::SWGPetApi() {}
 
 SWGPetApi::~SWGPetApi() {}
@@ -476,7 +477,11 @@ SWGPetApi::uploadFileCallback(HttpRequestWorker * worker) {
 
     
         QString json(worker->response);
+<<<<<<< HEAD
     ApiResponse* output = static_cast<ApiResponse*>(create(json, QString("ApiResponse")));
+=======
+    SWGApiResponse* output = static_cast<SWGApiResponse*>(create(json, QString("SWGApiResponse")));
+>>>>>>> origin/master
     
 
     worker->deleteLater();
@@ -484,4 +489,5 @@ SWGPetApi::uploadFileCallback(HttpRequestWorker * worker) {
     emit uploadFileSignal(output);
     
 }
-} /* namespace Swagger */
+
+}

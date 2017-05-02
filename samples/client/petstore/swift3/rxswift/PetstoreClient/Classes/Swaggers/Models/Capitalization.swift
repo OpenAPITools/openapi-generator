@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Capitalization: JSONEncodable {
+
     public var smallCamel: String?
     public var capitalCamel: String?
     public var smallSnake: String?
@@ -28,6 +29,7 @@ open class Capitalization: JSONEncodable {
         nillableDictionary["Capital_Snake"] = self.capitalSnake
         nillableDictionary["SCA_ETH_Flow_Points"] = self.sCAETHFlowPoints
         nillableDictionary["ATT_NAME"] = self.ATT_NAME
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

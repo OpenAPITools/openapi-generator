@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 
 namespace Swagger {
+
 SWGUserApi::SWGUserApi() {}
 
 SWGUserApi::~SWGUserApi() {}
@@ -385,4 +386,5 @@ SWGUserApi::updateUserCallback(HttpRequestWorker * worker) {
     
     emit updateUserSignal();
 }
-} /* namespace Swagger */
+
+}

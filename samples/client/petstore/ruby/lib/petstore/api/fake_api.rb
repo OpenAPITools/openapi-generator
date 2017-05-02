@@ -40,7 +40,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: FakeApi.test_client_model ..."
       end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_client_model" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_client_model"
+      end
       # resource path
       local_var_path = "/fake"
 
@@ -119,62 +121,70 @@ module Petstore
         @api_client.config.logger.debug "Calling API: FakeApi.test_endpoint_parameters ..."
       end
       # verify the required parameter 'number' is set
-      fail ArgumentError, "Missing the required parameter 'number' when calling FakeApi.test_endpoint_parameters" if number.nil?
-      if number > 543.2
+      if @api_client.config.client_side_validation && number.nil?
+        fail ArgumentError, "Missing the required parameter 'number' when calling FakeApi.test_endpoint_parameters"
+      end
+      if @api_client.config.client_side_validation && number > 543.2
         fail ArgumentError, 'invalid value for "number" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 543.2.'
       end
 
-      if number < 32.1
+      if @api_client.config.client_side_validation && number < 32.1
         fail ArgumentError, 'invalid value for "number" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 32.1.'
       end
 
       # verify the required parameter 'double' is set
-      fail ArgumentError, "Missing the required parameter 'double' when calling FakeApi.test_endpoint_parameters" if double.nil?
-      if double > 123.4
+      if @api_client.config.client_side_validation && double.nil?
+        fail ArgumentError, "Missing the required parameter 'double' when calling FakeApi.test_endpoint_parameters"
+      end
+      if @api_client.config.client_side_validation && double > 123.4
         fail ArgumentError, 'invalid value for "double" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 123.4.'
       end
 
-      if double < 67.8
+      if @api_client.config.client_side_validation && double < 67.8
         fail ArgumentError, 'invalid value for "double" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 67.8.'
       end
 
       # verify the required parameter 'pattern_without_delimiter' is set
-      fail ArgumentError, "Missing the required parameter 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters" if pattern_without_delimiter.nil?
-      if pattern_without_delimiter !~ Regexp.new(/^[A-Z].*/)
+      if @api_client.config.client_side_validation && pattern_without_delimiter.nil?
+        fail ArgumentError, "Missing the required parameter 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters"
+      end
+      if @api_client.config.client_side_validation && pattern_without_delimiter !~ Regexp.new(/^[A-Z].*/)
         fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /^[A-Z].*/."
       end
 
       # verify the required parameter 'byte' is set
-      fail ArgumentError, "Missing the required parameter 'byte' when calling FakeApi.test_endpoint_parameters" if byte.nil?
-      if !opts[:'integer'].nil? && opts[:'integer'] > 100
+      if @api_client.config.client_side_validation && byte.nil?
+        fail ArgumentError, "Missing the required parameter 'byte' when calling FakeApi.test_endpoint_parameters"
+      end
+      if @api_client.config.client_side_validation && !opts[:'integer'].nil? && opts[:'integer'] > 100
         fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.'
       end
 
-      if !opts[:'integer'].nil? && opts[:'integer'] < 10
+      if @api_client.config.client_side_validation && !opts[:'integer'].nil? && opts[:'integer'] < 10
         fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] > 200
+      if @api_client.config.client_side_validation && !opts[:'int32'].nil? && opts[:'int32'] > 200
         fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.'
       end
 
-      if !opts[:'int32'].nil? && opts[:'int32'] < 20
+      if @api_client.config.client_side_validation && !opts[:'int32'].nil? && opts[:'int32'] < 20
         fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.'
       end
 
-      if !opts[:'float'].nil? && opts[:'float'] > 987.6
+      if @api_client.config.client_side_validation && !opts[:'float'].nil? && opts[:'float'] > 987.6
         fail ArgumentError, 'invalid value for "opts[:"float"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 987.6.'
       end
 
-      if !opts[:'string'].nil? && opts[:'string'] !~ Regexp.new(/[a-z]/i)
+      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ Regexp.new(/[a-z]/i)
         fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /[a-z]/i."
       end
 
-      if !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
+      if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
         fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be smaller than or equal to 64.'
       end
 
-      if !opts[:'password'].nil? && opts[:'password'].to_s.length < 10
+      if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length < 10
         fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be great than or equal to 10.'
       end
 
@@ -256,28 +266,28 @@ module Petstore
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: FakeApi.test_enum_parameters ..."
       end
-      if opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all?{|item| ['>', '$'].include?(item)}
+      if @api_client.config.client_side_validation && opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all?{|item| ['>', '$'].include?(item)}
         fail ArgumentError, 'invalid value for "enum_form_string_array", must include one of >, $'
       end
-      if opts[:'enum_form_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_form_string'])
+      if @api_client.config.client_side_validation && opts[:'enum_form_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_form_string'])
         fail ArgumentError, 'invalid value for "enum_form_string", must be one of _abc, -efg, (xyz)'
       end
-      if opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all?{|item| ['>', '$'].include?(item)}
+      if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all?{|item| ['>', '$'].include?(item)}
         fail ArgumentError, 'invalid value for "enum_header_string_array", must include one of >, $'
       end
-      if opts[:'enum_header_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_header_string'])
+      if @api_client.config.client_side_validation && opts[:'enum_header_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_header_string'])
         fail ArgumentError, 'invalid value for "enum_header_string", must be one of _abc, -efg, (xyz)'
       end
-      if opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all?{|item| ['>', '$'].include?(item)}
+      if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all?{|item| ['>', '$'].include?(item)}
         fail ArgumentError, 'invalid value for "enum_query_string_array", must include one of >, $'
       end
-      if opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
+      if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
         fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
       end
-      if opts[:'enum_query_integer'] && !['1', '-2'].include?(opts[:'enum_query_integer'])
+      if @api_client.config.client_side_validation && opts[:'enum_query_integer'] && !['1', '-2'].include?(opts[:'enum_query_integer'])
         fail ArgumentError, 'invalid value for "enum_query_integer", must be one of 1, -2'
       end
-      if opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
+      if @api_client.config.client_side_validation && opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
         fail ArgumentError, 'invalid value for "enum_query_double", must be one of 1.1, -1.2'
       end
       # resource path

@@ -40,7 +40,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.create_user ..."
       end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_user" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_user"
+      end
       # resource path
       local_var_path = "/user"
 
@@ -90,7 +92,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.create_users_with_array_input ..."
       end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_array_input" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_array_input"
+      end
       # resource path
       local_var_path = "/user/createWithArray"
 
@@ -140,7 +144,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.create_users_with_list_input ..."
       end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_list_input" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_list_input"
+      end
       # resource path
       local_var_path = "/user/createWithList"
 
@@ -190,7 +196,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.delete_user ..."
       end
       # verify the required parameter 'username' is set
-      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.delete_user" if username.nil?
+      if @api_client.config.client_side_validation && username.nil?
+        fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.delete_user"
+      end
       # resource path
       local_var_path = "/user/{username}".sub('{' + 'username' + '}', username.to_s)
 
@@ -240,7 +248,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.get_user_by_name ..."
       end
       # verify the required parameter 'username' is set
-      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.get_user_by_name" if username.nil?
+      if @api_client.config.client_side_validation && username.nil?
+        fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.get_user_by_name"
+      end
       # resource path
       local_var_path = "/user/{username}".sub('{' + 'username' + '}', username.to_s)
 
@@ -293,9 +303,13 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.login_user ..."
       end
       # verify the required parameter 'username' is set
-      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.login_user" if username.nil?
+      if @api_client.config.client_side_validation && username.nil?
+        fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.login_user"
+      end
       # verify the required parameter 'password' is set
-      fail ArgumentError, "Missing the required parameter 'password' when calling UserApi.login_user" if password.nil?
+      if @api_client.config.client_side_validation && password.nil?
+        fail ArgumentError, "Missing the required parameter 'password' when calling UserApi.login_user"
+      end
       # resource path
       local_var_path = "/user/login"
 
@@ -396,9 +410,13 @@ module Petstore
         @api_client.config.logger.debug "Calling API: UserApi.update_user ..."
       end
       # verify the required parameter 'username' is set
-      fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.update_user" if username.nil?
+      if @api_client.config.client_side_validation && username.nil?
+        fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.update_user"
+      end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.update_user" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.update_user"
+      end
       # resource path
       local_var_path = "/user/{username}".sub('{' + 'username' + '}', username.to_s)
 
