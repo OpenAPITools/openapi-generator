@@ -885,6 +885,7 @@ Here is a list of template creators:
    * Javascript (Closure-annotated Angular) @achew22
    * JMeter @davidkiss
    * Perl: @wing328
+   * PHP (Guzzle): @baartosz
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * TypeScript (Node):  @mhardorf
