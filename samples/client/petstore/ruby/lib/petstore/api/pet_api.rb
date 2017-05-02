@@ -40,7 +40,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.add_pet ..."
       end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.add_pet" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.add_pet"
+      end
       # resource path
       local_var_path = "/pet"
 
@@ -94,7 +96,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.delete_pet ..."
       end
       # verify the required parameter 'pet_id' is set
-      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.delete_pet" if pet_id.nil?
+      if @api_client.config.client_side_validation && pet_id.nil?
+        fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.delete_pet"
+      end
       # resource path
       local_var_path = "/pet/{petId}".sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -145,7 +149,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.find_pets_by_status ..."
       end
       # verify the required parameter 'status' is set
-      fail ArgumentError, "Missing the required parameter 'status' when calling PetApi.find_pets_by_status" if status.nil?
+      if @api_client.config.client_side_validation && status.nil?
+        fail ArgumentError, "Missing the required parameter 'status' when calling PetApi.find_pets_by_status"
+      end
       # resource path
       local_var_path = "/pet/findByStatus"
 
@@ -197,7 +203,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.find_pets_by_tags ..."
       end
       # verify the required parameter 'tags' is set
-      fail ArgumentError, "Missing the required parameter 'tags' when calling PetApi.find_pets_by_tags" if tags.nil?
+      if @api_client.config.client_side_validation && tags.nil?
+        fail ArgumentError, "Missing the required parameter 'tags' when calling PetApi.find_pets_by_tags"
+      end
       # resource path
       local_var_path = "/pet/findByTags"
 
@@ -249,7 +257,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.get_pet_by_id ..."
       end
       # verify the required parameter 'pet_id' is set
-      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id" if pet_id.nil?
+      if @api_client.config.client_side_validation && pet_id.nil?
+        fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id"
+      end
       # resource path
       local_var_path = "/pet/{petId}".sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -300,7 +310,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.update_pet ..."
       end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.update_pet" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.update_pet"
+      end
       # resource path
       local_var_path = "/pet"
 
@@ -356,7 +368,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.update_pet_with_form ..."
       end
       # verify the required parameter 'pet_id' is set
-      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.update_pet_with_form" if pet_id.nil?
+      if @api_client.config.client_side_validation && pet_id.nil?
+        fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.update_pet_with_form"
+      end
       # resource path
       local_var_path = "/pet/{petId}".sub('{' + 'petId' + '}', pet_id.to_s)
 
@@ -414,7 +428,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: PetApi.upload_file ..."
       end
       # verify the required parameter 'pet_id' is set
-      fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.upload_file" if pet_id.nil?
+      if @api_client.config.client_side_validation && pet_id.nil?
+        fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.upload_file"
+      end
       # resource path
       local_var_path = "/pet/{petId}/uploadImage".sub('{' + 'petId' + '}', pet_id.to_s)
 
