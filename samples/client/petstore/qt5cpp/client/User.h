@@ -11,7 +11,11 @@
  */
 
 /*
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/User.h
  * User.h
+=======
+ * SWGUser.h
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGUser.h
  * 
  * A User who is purchasing from the pet store
  */
@@ -78,6 +82,6 @@ private:
     qint32 user_status;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* User_H_ */

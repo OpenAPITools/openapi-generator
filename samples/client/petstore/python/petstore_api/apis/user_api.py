@@ -97,7 +97,7 @@ class UserApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -191,7 +191,7 @@ class UserApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -285,7 +285,7 @@ class UserApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -381,7 +381,7 @@ class UserApi(object):
         if 'username' in params:
             path_params['username'] = params['username']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -475,7 +475,7 @@ class UserApi(object):
         if 'username' in params:
             path_params['username'] = params['username']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -572,11 +572,11 @@ class UserApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'username' in params:
-            query_params['username'] = params['username']
+            query_params.append(('username', params['username']))
         if 'password' in params:
-            query_params['password'] = params['password']
+            query_params.append(('password', params['password']))
 
         header_params = {}
 
@@ -662,7 +662,7 @@ class UserApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -761,7 +761,7 @@ class UserApi(object):
         if 'username' in params:
             path_params['username'] = params['username']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 

@@ -9,6 +9,7 @@ import Foundation
 
 
 open class FormatTest: JSONEncodable {
+
     public var integer: Int32?
     public var int32: Int32?
     public var int64: Int64?
@@ -41,6 +42,7 @@ open class FormatTest: JSONEncodable {
         nillableDictionary["dateTime"] = self.dateTime?.encodeToJSON()
         nillableDictionary["uuid"] = self.uuid?.encodeToJSON()
         nillableDictionary["password"] = self.password
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

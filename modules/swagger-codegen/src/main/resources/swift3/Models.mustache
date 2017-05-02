@@ -277,7 +277,10 @@ class Decoders {
                     return Decoders.decode(clazz: {{classname}}.self, discriminator: discriminator, source: source)
                 }
             {{/discriminator}}
-
+            {{#additionalPropertiesType}}
+            var propsDictionary = sourceDictionary
+            let keys : [AnyHashable] = [{{#allVars}}{{^-last}}"{{baseName}}", {{/-last}}{{#-last}}"{{baseName}}"{{/-last}}{{/allVars}}]
+            {{/additionalPropertiesType}}
             {{#unwrapRequired}}
                 {{#requiredVars}}
                 guard let {{name}}Source = sourceDictionary["{{baseName}}"] as AnyObject? else {
@@ -311,6 +314,18 @@ class Decoders {
                 }
             {{/allVars}}
             {{/unwrapRequired}}
+            {{#additionalPropertiesType}}
+
+                for key in keys {
+                    propsDictionary.removeValue(forKey: key)
+                }
+
+                for key in propsDictionary.keys {
+                    if let decodedValue = Decoders.decodeOptional(clazz: String.self, source: propsDictionary[key] as AnyObject?) {
+                        result[key] = decodedValue
+                    }
+                }
+            {{/additionalPropertiesType}}
                 return .success(result)
             } else {
                 return .failure(.typeMismatch(expected: "{{classname}}", actual: "\(source)"))

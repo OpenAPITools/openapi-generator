@@ -11,7 +11,11 @@
  */
 
 /*
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Tag.h
  * Tag.h
+=======
+ * SWGTag.h
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGTag.h
  * 
  * A tag for a pet
  */
@@ -54,6 +58,6 @@ private:
     QString* name;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* Tag_H_ */

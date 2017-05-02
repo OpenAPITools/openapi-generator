@@ -178,17 +178,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   {{classname}}(Parcel in) {
     {{#parent}} super(in); {{/parent}}
     {{#vars}}
-    {{#isContainer}}
-    {{#complexType}}
+    {{#isPrimitiveType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
     {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
-    {{/complexType}}
-    {{^complexType}}
-    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
-    {{/complexType}}
-    {{/isContainer}}
-    {{^isContainer}}
-    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
-    {{/isContainer}}
+    {{/isPrimitiveType}}
     {{/vars}}
   }
   

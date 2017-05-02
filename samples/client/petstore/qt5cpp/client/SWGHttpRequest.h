@@ -27,6 +27,7 @@
 
 enum HttpRequestVarLayout {NOT_SET, ADDRESS, URL_ENCODED, MULTIPART};
 
+namespace Swagger {
 
 class SWGHttpRequestInputFileElement {
 
@@ -83,5 +84,7 @@ private slots:
     void on_manager_finished(QNetworkReply *reply);
 
 };
+
+}
 
 #endif // HTTPREQUESTWORKER_H

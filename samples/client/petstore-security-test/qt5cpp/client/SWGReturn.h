@@ -49,6 +49,6 @@ private:
     qint32 return;
 };
 
-} /* namespace Swagger */
+}
 
 #endif /* SWGReturn_H_ */

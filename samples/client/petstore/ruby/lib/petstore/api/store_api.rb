@@ -40,7 +40,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: StoreApi.delete_order ..."
       end
       # verify the required parameter 'order_id' is set
-      fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.delete_order" if order_id.nil?
+      if @api_client.config.client_side_validation && order_id.nil?
+        fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.delete_order"
+      end
       # resource path
       local_var_path = "/store/order/{order_id}".sub('{' + 'order_id' + '}', order_id.to_s)
 
@@ -137,12 +139,14 @@ module Petstore
         @api_client.config.logger.debug "Calling API: StoreApi.get_order_by_id ..."
       end
       # verify the required parameter 'order_id' is set
-      fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.get_order_by_id" if order_id.nil?
-      if order_id > 5
+      if @api_client.config.client_side_validation && order_id.nil?
+        fail ArgumentError, "Missing the required parameter 'order_id' when calling StoreApi.get_order_by_id"
+      end
+      if @api_client.config.client_side_validation && order_id > 5
         fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be smaller than or equal to 5.'
       end
 
-      if order_id < 1
+      if @api_client.config.client_side_validation && order_id < 1
         fail ArgumentError, 'invalid value for "order_id" when calling StoreApi.get_order_by_id, must be greater than or equal to 1.'
       end
 
@@ -196,7 +200,9 @@ module Petstore
         @api_client.config.logger.debug "Calling API: StoreApi.place_order ..."
       end
       # verify the required parameter 'body' is set
-      fail ArgumentError, "Missing the required parameter 'body' when calling StoreApi.place_order" if body.nil?
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling StoreApi.place_order"
+      end
       # resource path
       local_var_path = "/store/order"
 

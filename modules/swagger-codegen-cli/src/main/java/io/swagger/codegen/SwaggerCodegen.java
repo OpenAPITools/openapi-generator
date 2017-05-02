@@ -6,6 +6,7 @@ import io.swagger.codegen.cmd.ConfigHelp;
 import io.swagger.codegen.cmd.Generate;
 import io.swagger.codegen.cmd.Langs;
 import io.swagger.codegen.cmd.Meta;
+import io.swagger.codegen.cmd.Validate;
 import io.swagger.codegen.cmd.Version;
 
 /**
@@ -35,6 +36,7 @@ public class SwaggerCodegen {
                         Langs.class,
                         Help.class,
                         ConfigHelp.class,
+                        Validate.class,
                         Version.class
                 );
 

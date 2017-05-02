@@ -97,7 +97,7 @@ class PetApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -199,7 +199,7 @@ class PetApi(object):
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
         if 'api_key' in params:
@@ -293,9 +293,9 @@ class PetApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'status' in params:
-            query_params['status'] = params['status']
+            query_params.append(('status', params['status']))
             collection_formats['status'] = 'csv'
 
         header_params = {}
@@ -388,9 +388,9 @@ class PetApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
         if 'tags' in params:
-            query_params['tags'] = params['tags']
+            query_params.append(('tags', params['tags']))
             collection_formats['tags'] = 'csv'
 
         header_params = {}
@@ -485,7 +485,7 @@ class PetApi(object):
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -577,7 +577,7 @@ class PetApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -681,7 +681,7 @@ class PetApi(object):
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -787,7 +787,7 @@ class PetApi(object):
         if 'pet_id' in params:
             path_params['petId'] = params['pet_id']
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 

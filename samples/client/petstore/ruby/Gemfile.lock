@@ -6,13 +6,13 @@ PATH
       typhoeus (~> 1.0, >= 1.0.1)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     ZenTest (4.11.0)
     addressable (2.3.8)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
-    autotest-fsevent (0.2.11)
+    autotest-fsevent (0.2.12)
       sys-uname
     autotest-growl (0.2.16)
     autotest-rails-pure (4.1.2)
@@ -24,6 +24,7 @@ GEM
     ffi (1.9.8)
     hashdiff (0.3.0)
     json (1.8.3)
+    rake (12.0.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -38,7 +39,7 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
     safe_yaml (1.0.4)
-    sys-uname (0.9.2)
+    sys-uname (1.0.3)
       ffi (>= 1.0.0)
     typhoeus (1.0.1)
       ethon (>= 0.8.0)
@@ -53,10 +54,14 @@ PLATFORMS
 
 DEPENDENCIES
   autotest (~> 4.4, >= 4.4.6)
-  autotest-fsevent (~> 0.2, >= 0.2.11)
+  autotest-fsevent (~> 0.2, >= 0.2.12)
   autotest-growl (~> 0.2, >= 0.2.16)
   autotest-rails-pure (~> 4.1, >= 4.1.2)
   petstore!
+  rake (~> 12.0.0)
   rspec (~> 3.4, >= 3.4.0)
   vcr (~> 3.0, >= 3.0.1)
   webmock (~> 1.24, >= 1.24.3)
+
+BUNDLED WITH
+   1.12.3

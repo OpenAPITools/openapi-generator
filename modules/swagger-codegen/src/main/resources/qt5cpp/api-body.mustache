@@ -6,7 +6,10 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-namespace Swagger {
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
 {{classname}}::{{classname}}() {}
 
 {{classname}}::~{{classname}}() {}
@@ -178,4 +181,7 @@ void
 }
 {{/operation}}
 {{/operations}}
-} /* namespace Swagger */
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

@@ -17,6 +17,8 @@
 #include <QBuffer>
 
 
+namespace Swagger {
+
 HttpRequestInput::HttpRequestInput() {
     initialize();
 }
@@ -308,4 +310,6 @@ void HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     reply->deleteLater();
 
     emit on_execution_finished(this);
+}
+
 }

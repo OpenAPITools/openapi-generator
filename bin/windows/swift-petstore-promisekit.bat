@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\swagger-codegen\src\test\resources\2_0\petstore.json -l swift -c bin\swift-petstore-promisekit.json -o samples\client\petstore\swift\promisekit
+set ags=generate -i modules\swagger-codegen\src\test\resources\2_0\petstore.yaml -l swift -c bin\swift-petstore-promisekit.json -o samples\client\petstore\swift\promisekit
 
 java %JAVA_OPTS% -jar %executable% %ags%

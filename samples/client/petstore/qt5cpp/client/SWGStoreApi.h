@@ -37,7 +37,11 @@ public:
     void deleteOrder(QString* order_id);
     void getInventory();
     void getOrderById(qint64 order_id);
+<<<<<<< HEAD
     void placeOrder(Order body);
+=======
+    void placeOrder(SWGOrder body);
+>>>>>>> origin/master
     
 private:
     void deleteOrderCallback (HttpRequestWorker * worker);
@@ -52,5 +56,6 @@ signals:
     void placeOrderSignal(Order* summary);
     
 };
+
 }
 #endif

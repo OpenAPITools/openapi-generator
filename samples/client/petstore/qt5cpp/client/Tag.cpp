@@ -22,8 +22,12 @@
 
 namespace Swagger {
 
+<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Tag.cpp
 
 Tag::Tag(QString* json) {
+=======
+SWGTag::SWGTag(QString* json) {
+>>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGTag.cpp
     init();
     this->fromJson(*json);
 }
@@ -106,6 +110,5 @@ Tag::setName(QString* name) {
 }
 
 
-
-} /* namespace Swagger */
+}
 

@@ -17,6 +17,7 @@
 #include "SWGReturn.h"
 
 namespace Swagger {
+
   inline void* create(QString type) {
     if(QString("SWGReturn").compare(type) == 0) {
       return new SWGReturn();
@@ -36,6 +37,7 @@ namespace Swagger {
     }
     return nullptr;
   }
-} /* namespace Swagger */
+
+}
 
 #endif /* ModelFactory_H_ */

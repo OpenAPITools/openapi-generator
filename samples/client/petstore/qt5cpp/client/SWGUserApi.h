@@ -64,5 +64,6 @@ signals:
     void updateUserSignal();
     
 };
+
 }
 #endif

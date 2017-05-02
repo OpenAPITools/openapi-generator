@@ -14,17 +14,35 @@
 #define ModelFactory_H_
 
 
+<<<<<<< HEAD
 #include "ApiResponse.h"
 #include "Category.h"
 #include "Order.h"
 #include "Pet.h"
 #include "Tag.h"
 #include "User.h"
+=======
+#include "SWGApiResponse.h"
+#include "SWGCategory.h"
+#include "SWGOrder.h"
+#include "SWGPet.h"
+#include "SWGTag.h"
+#include "SWGUser.h"
+>>>>>>> origin/master
 
 namespace Swagger {
+
   inline void* create(QString type) {
+<<<<<<< HEAD
     if(QString("ApiResponse").compare(type) == 0) {
       return new ApiResponse();
+=======
+    if(QString("SWGApiResponse").compare(type) == 0) {
+      return new SWGApiResponse();
+    }
+    if(QString("SWGCategory").compare(type) == 0) {
+      return new SWGCategory();
+>>>>>>> origin/master
     }
     if(QString("Category").compare(type) == 0) {
       return new Category();
@@ -56,6 +74,7 @@ namespace Swagger {
     }
     return nullptr;
   }
-} /* namespace Swagger */
+
+}
 
 #endif /* ModelFactory_H_ */
