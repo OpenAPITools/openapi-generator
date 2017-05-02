@@ -4,7 +4,7 @@ import java.util.Objects;
 import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
 /**
- * Tag
+ * A tag for a pet
  */
 
 public class Tag   {
