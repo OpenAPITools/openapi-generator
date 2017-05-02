@@ -15,7 +15,7 @@ public interface StoreApiControllerImpInterface {
 
     Map<String, Integer> getInventory() throws Exception;
 
-    Order getOrderById(String orderId) throws Exception;
+    Order getOrderById( @Min(1) @Max(5)Long orderId) throws Exception;
 
     Order placeOrder(Order body) throws Exception;
 

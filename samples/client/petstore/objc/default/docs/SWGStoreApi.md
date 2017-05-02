@@ -53,7 +53,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -106,13 +106,13 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getOrderById**
 ```objc
--(NSURLSessionTask*) getOrderByIdWithOrderId: (NSString*) orderId
+-(NSURLSessionTask*) getOrderByIdWithOrderId: (NSNumber*) orderId
         completionHandler: (void (^)(SWGOrder* output, NSError* error)) handler;
 ```
 
@@ -123,7 +123,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example 
 ```objc
 
-NSString* orderId = @"orderId_example"; // ID of pet that needs to be fetched
+NSNumber* orderId = @789; // ID of pet that needs to be fetched
 
 SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
@@ -143,7 +143,7 @@ SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **NSString***| ID of pet that needs to be fetched | 
+ **orderId** | **NSNumber***| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -156,7 +156,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -173,7 +173,7 @@ Place an order for a pet
 ### Example 
 ```objc
 
-SWGOrder* body = [[SWGOrder alloc] init]; // order placed for purchasing the pet (optional)
+SWGOrder* body = [[SWGOrder alloc] init]; // order placed for purchasing the pet
 
 SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
@@ -193,7 +193,7 @@ SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGOrder***](SWGOrder*.md)| order placed for purchasing the pet | [optional] 
+ **body** | [**SWGOrder***](SWGOrder*.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -206,7 +206,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

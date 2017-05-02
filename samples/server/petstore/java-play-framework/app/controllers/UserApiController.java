@@ -36,12 +36,9 @@ public class UserApiController extends Controller {
     public Result createUser() throws Exception {
         JsonNode nodebody = request().body().asJson();
         User body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), User.class);
-        
-        } else {
-            body = null;
-        }
+
+        body = mapper.readValue(nodebody.toString(), User.class);
+
         imp.createUser(body);
         
         return ok();
@@ -51,12 +48,9 @@ public class UserApiController extends Controller {
     public Result createUsersWithArrayInput() throws Exception {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<List<User>>>(){});
-        
-        } else {
-            body = null;
-        }
+
+        body = mapper.readValue(nodebody.toString(), new TypeReference<List<List<User>>>(){});
+
         imp.createUsersWithArrayInput(body);
         
         return ok();
@@ -66,12 +60,9 @@ public class UserApiController extends Controller {
     public Result createUsersWithListInput() throws Exception {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<List<User>>>(){});
-        
-        } else {
-            body = null;
-        }
+
+        body = mapper.readValue(nodebody.toString(), new TypeReference<List<List<User>>>(){});
+
         imp.createUsersWithListInput(body);
         
         return ok();
@@ -96,20 +87,14 @@ public class UserApiController extends Controller {
     public Result loginUser() throws Exception {
         String valueusername = request().getQueryString("username");
         String username;
-        if (valueusername != null) {
-            username = (String)valueusername;
-        
-        } else {
-            username = "";
-        }
+
+        username = (String)valueusername;
+
         String valuepassword = request().getQueryString("password");
         String password;
-        if (valuepassword != null) {
-            password = (String)valuepassword;
-        
-        } else {
-            password = "";
-        }
+
+        password = (String)valuepassword;
+
         String obj = imp.loginUser(username, password);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -127,12 +112,9 @@ public class UserApiController extends Controller {
     public Result updateUser(String username) throws Exception {
         JsonNode nodebody = request().body().asJson();
         User body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), User.class);
-        
-        } else {
-            body = null;
-        }
+
+        body = mapper.readValue(nodebody.toString(), User.class);
+
         imp.updateUser(username, body);
         
         return ok();

@@ -388,9 +388,9 @@ export class PetApi {
             requestOptions.contentType = reqHasFile ? false : 'application/json; charset=utf-8';
         }
 
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
         this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
