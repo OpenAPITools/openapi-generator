@@ -416,7 +416,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<ModelClient>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (ModelClient) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
-            
         }
 
         /// <summary>
@@ -492,7 +491,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<ModelClient>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (ModelClient) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
-            
         }
 
         /// <summary>
@@ -570,7 +568,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/xml; charset=utf-8", 
+                "application/xml; charset=utf-8",
                 "application/json; charset=utf-8"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
@@ -613,7 +611,6 @@ namespace IO.Swagger.Api
                 if (exception != null) throw exception;
             }
 
-            
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
@@ -695,7 +692,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/xml; charset=utf-8", 
+                "application/xml; charset=utf-8",
                 "application/json; charset=utf-8"
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
@@ -737,7 +734,6 @@ namespace IO.Swagger.Api
                 if (exception != null) throw exception;
             }
 
-            
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
@@ -822,7 +818,6 @@ namespace IO.Swagger.Api
                 if (exception != null) throw exception;
             }
 
-            
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
@@ -908,7 +903,6 @@ namespace IO.Swagger.Api
                 if (exception != null) throw exception;
             }
 
-            
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
