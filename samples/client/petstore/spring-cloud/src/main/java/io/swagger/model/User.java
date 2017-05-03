@@ -9,8 +9,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * User
+ * A User who is purchasing from the pet store
  */
+@ApiModel(description = "A User who is purchasing from the pet store")
 
 public class User   {
   @JsonProperty("id")
