@@ -5,7 +5,7 @@
     {{#generatePropertyChanged}}
     [ImplementPropertyChanged]
     {{/generatePropertyChanged}}
-    {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>{{^netStandard}}, IValidatableObject{{/netStandard}}
+    {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>{{^netStandard}}{{#validatable}}, IValidatableObject{{/validatable}}{{/netStandard}}
     {
         {{#vars}}
         {{#isEnum}}
@@ -196,6 +196,7 @@ this.{{name}} = {{name}};
         }
 
 {{/generatePropertyChanged}}
+{{#validatable}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -236,5 +237,6 @@ this.{{name}} = {{name}};
 {{/pattern}}{{/hasValidation}}{{/vars}}
             yield break;
         }
+{{/validatable}}
 {{/netStandard}}
     }

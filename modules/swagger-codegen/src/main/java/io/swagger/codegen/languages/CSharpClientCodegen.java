@@ -188,12 +188,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-
         additionalProperties.put("clientPackage", clientPackage);
-
         additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
+
+        if (!additionalProperties.containsKey("validatable")) {
+            // default validatable to true if not set
+            additionalProperties.put("validatable", true);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.DOTNET_FRAMEWORK)) {
             setTargetFramework((String) additionalProperties.get(CodegenConstants.DOTNET_FRAMEWORK));
@@ -209,6 +211,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if(additionalProperties.containsKey("supportsAsync")){
                 additionalProperties.remove("supportsAsync");
             }
+            additionalProperties.put("validatable", false);
         } else if (NETSTANDARD.equals(this.targetFramework)){
             setTargetFrameworkNuget("netstandard1.3");
             setSupportsAsync(Boolean.TRUE);

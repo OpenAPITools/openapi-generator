@@ -232,7 +232,7 @@ namespace {{packageName}}.{{apiPackage}}
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
                 {{#produces}}
-                "{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}
+                "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
                 {{/produces}}
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
@@ -306,12 +306,16 @@ namespace {{packageName}}.{{apiPackage}}
                 if (exception != null) throw exception;
             }
 
-            {{#returnType}}return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
+            {{#returnType}}
+            return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
-                ({{{returnType}}}) Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));{{/returnType}}
-            {{^returnType}}return new ApiResponse<Object>(localVarStatusCode,
+                ({{{returnType}}}) Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
+            {{/returnType}}
+            {{^returnType}}
+            return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
-                null);{{/returnType}}
+                null);
+            {{/returnType}}
         }
 
         {{#supportsAsync}}
@@ -363,7 +367,7 @@ namespace {{packageName}}.{{apiPackage}}
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
                 {{#produces}}
-                "{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}
+                "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
                 {{/produces}}
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
@@ -438,12 +442,16 @@ namespace {{packageName}}.{{apiPackage}}
                 if (exception != null) throw exception;
             }
 
-            {{#returnType}}return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
+            {{#returnType}}
+            return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
-                ({{{returnType}}}) Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));{{/returnType}}
-            {{^returnType}}return new ApiResponse<Object>(localVarStatusCode,
+                ({{{returnType}}}) Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
+            {{/returnType}}
+            {{^returnType}}
+            return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
-                null);{{/returnType}}
+                null);
+            {{/returnType}}
         }
 
         {{/supportsAsync}}
