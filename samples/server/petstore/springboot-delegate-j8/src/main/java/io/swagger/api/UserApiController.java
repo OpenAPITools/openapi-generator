@@ -14,16 +14,21 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 
 import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 @Controller
 public class UserApiController implements UserApi {
+    private final ObjectMapper objectMapper;
+
+    public UserApiController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     private final UserApiDelegate delegate;
 
     @org.springframework.beans.factory.annotation.Autowired
