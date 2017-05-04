@@ -120,7 +120,7 @@ class {{classname}}
      * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
 {{/maximum}}
 {{#pattern}}
-     * @DTA\Validator(name="Regex", options={"pattern":"{{pattern}}})
+     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
 {{/pattern}}
 {{/hasValidation}}
      * @var {{datatype}}
