@@ -70,7 +70,7 @@ request_param_info('{{operationId}}', {{^isBodyParam}}'{{baseName}}'{{/isBodyPar
             {exclusive_min, {{exclusiveMinimum}} },{{/exclusiveMinimum}}{{#maxLength}}
             {max_length, {{maxLength}} },{{/maxLength}}{{#minLength}}
             {min_length, {{minLength}} },{{/minLength}}{{#pattern}}
-            {pattern, "{{pattern}}" },{{/pattern}}{{#isBodyParam}}
+            {pattern, "{{{pattern}}}" },{{/pattern}}{{#isBodyParam}}
             schema,{{/isBodyParam}}{{#required}}
             required{{/required}}{{^required}}
             not_required{{/required}}
