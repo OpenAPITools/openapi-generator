@@ -1737,7 +1737,11 @@ public class DefaultCodegen {
             ArrayProperty ap = (ArrayProperty) p;
             property.maxItems = ap.getMaxItems();
             property.minItems = ap.getMinItems();
-            CodegenProperty cp = fromProperty(property.name, ap.getItems());
+            String itemName = (String) p.getVendorExtensions().get("x-item-name");
+            if (itemName == null) {
+                itemName = property.name;
+            }
+            CodegenProperty cp = fromProperty(itemName, ap.getItems());
             updatePropertyForArray(property, cp);
           } else if (p instanceof MapProperty) {
             MapProperty ap = (MapProperty) p;
