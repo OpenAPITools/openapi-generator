@@ -20,8 +20,8 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary&lt;String, int?&gt;</returns>
-        Dictionary<String, int?> GetInventory ();
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>
+        Dictionary<string, int?> GetInventory ();
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
@@ -129,8 +129,8 @@ namespace IO.Swagger.Api
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
-        /// <returns>Dictionary&lt;String, int?&gt;</returns>            
-        public Dictionary<String, int?> GetInventory ()
+        /// <returns>Dictionary&lt;string, int?&gt;</returns>            
+        public Dictionary<string, int?> GetInventory ()
         {
             
     
@@ -155,7 +155,7 @@ namespace IO.Swagger.Api
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetInventory: " + response.ErrorMessage, response.ErrorMessage);
     
-            return (Dictionary<String, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<String, int?>), response.Headers);
+            return (Dictionary<string, int?>) ApiClient.Deserialize(response.Content, typeof(Dictionary<string, int?>), response.Headers);
         }
     
         /// <summary>

@@ -73,7 +73,7 @@ No authorization required
 
 <a name="getinventory"></a>
 # **GetInventory**
-> Dictionary<String, int?> GetInventory ()
+> Dictionary<string, int?> GetInventory ()
 
 Returns pet inventories by status
 
@@ -104,7 +104,7 @@ namespace Example
             try
             {
                 // Returns pet inventories by status
-                Dictionary&lt;String, int?&gt; result = apiInstance.GetInventory();
+                Dictionary&lt;string, int?&gt; result = apiInstance.GetInventory();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -121,7 +121,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dictionary<String, int?>**
+**Dictionary<string, int?>**
 
 ### Authorization
 
