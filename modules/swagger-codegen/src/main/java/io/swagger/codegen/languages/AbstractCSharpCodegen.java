@@ -209,6 +209,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            LOGGER.warn(String.format("%s is not used by C# generators. Please use %s", CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
+        }
         
         // {{packageTitle}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_TITLE)) {
