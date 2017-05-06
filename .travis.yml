@@ -47,6 +47,11 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq bats
   - sudo apt-get install -qq curl
+  # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
+  # - Travis CI does not support rebar3 [yet](https://github.com/travis-ci/travis-ci/issues/6506#issuecomment-275189490).
+  # - Rely on `kerl` for [pre-compiled versions available](https://docs.travis-ci.com/user/languages/erlang#Choosing-OTP-releases-to-test-against). Rely on installation path chosen by [`travis-erlang-builder`](https://github.com/travis-ci/travis-erlang-builder/blob/e6d016b1a91ca7ecac5a5a46395bde917ea13d36/bin/compile#L18).
+  - . ~/otp/18.2.1/activate && erl -version
+  - curl -f -L -o ./rebar3 https://s3.amazonaws.com/rebar3/rebar3 && chmod +x ./rebar3 && ./rebar3 version && export PATH="${TRAVIS_BUILD_DIR}:$PATH"
 
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts

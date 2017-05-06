@@ -839,6 +839,7 @@
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <!--<module>samples/server/petstore/java-msf4j</module> note: JDK8 only -->
+                <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
             </modules>
         </profile>
     </profiles>
