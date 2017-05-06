@@ -178,6 +178,13 @@ class Configuration
     protected $proxyPassword;
 
     /**
+     * Allow Curl encoding header
+     *
+     * @var bool
+     */
+    protected $allowEncoding = false;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -446,6 +453,16 @@ class Configuration
     }
 
     /**
+     * Set whether to accept encoding
+     * @param bool $allowEncoding
+     */
+    public function setAllowEncoding($allowEncoding)
+    {
+        $this->allowEncoding = $allowEncoding;
+        return $this;
+    }
+
+    /**
      * Gets the HTTP connect timeout value
      *
      * @return string HTTP connect timeout value
@@ -455,6 +472,15 @@ class Configuration
         return $this->curlConnectTimeout;
     }
 
+    /**
+     * Get whether to allow encoding
+     *
+     * @return bool
+     */
+    public function getAllowEncoding()
+    {
+        return $this->allowEncoding;
+    }
 
     /**
      * Sets the HTTP Proxy Host
