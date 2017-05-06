@@ -397,7 +397,7 @@ class FakeApi
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return void
      */
-    public function testEnumParameters($enum_form_string_array = null, $enum_form_string = null, $enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null)
+    public function testEnumParameters($enum_form_string_array = null, $enum_form_string = '-efg', $enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null)
     {
         list($response) = $this->testEnumParametersWithHttpInfo($enum_form_string_array, $enum_form_string, $enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double);
         return $response;
@@ -419,7 +419,7 @@ class FakeApi
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEnumParametersWithHttpInfo($enum_form_string_array = null, $enum_form_string = null, $enum_header_string_array = null, $enum_header_string = null, $enum_query_string_array = null, $enum_query_string = null, $enum_query_integer = null, $enum_query_double = null)
+    public function testEnumParametersWithHttpInfo($enum_form_string_array = null, $enum_form_string = '-efg', $enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null)
     {
         // parse inputs
         $resourcePath = "/fake";
