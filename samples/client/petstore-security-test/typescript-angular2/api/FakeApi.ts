@@ -91,9 +91,9 @@ export class FakeApi {
             method: RequestMethod.Put,
             headers: headers,
             body: formParams.toString(),
-            search: queryParameters
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
