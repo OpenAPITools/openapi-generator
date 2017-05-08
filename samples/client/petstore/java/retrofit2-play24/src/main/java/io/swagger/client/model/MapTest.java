@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * MapTest
@@ -83,6 +84,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;

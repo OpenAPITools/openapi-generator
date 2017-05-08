@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Order
@@ -141,6 +142,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public DateTime getShipDate() {
     return shipDate;
