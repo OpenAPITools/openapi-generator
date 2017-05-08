@@ -24,6 +24,7 @@ import io.swagger.client.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Pet
@@ -108,6 +109,7 @@ public class Pet {
    * Get category
    * @return category
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public Category getCategory() {
     return category;
@@ -177,6 +179,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public List<Tag> getTags() {
     return tags;
