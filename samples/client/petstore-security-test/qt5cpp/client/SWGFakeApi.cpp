@@ -56,6 +56,9 @@ SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \r(QString* test_c
 void
 SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rCallback(HttpRequestWorker * worker) {
     QString msg;
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     }
@@ -63,12 +66,11 @@ SWGFakeApi::testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rCallback(HttpReq
         msg = "Error: " + worker->error_str;
     }
 
-    
-
     worker->deleteLater();
 
-    
     emit testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rSignal();
+    emit testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rSignalE(error_type, error_str);
 }
+
 
 }
