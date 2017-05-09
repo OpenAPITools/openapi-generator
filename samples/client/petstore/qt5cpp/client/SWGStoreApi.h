@@ -51,6 +51,11 @@ signals:
     void getOrderByIdSignal(SWGOrder* summary);
     void placeOrderSignal(SWGOrder* summary);
     
+    void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
+    void getInventorySignalE(QMap<QString, qint32>* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getOrderByIdSignalE(SWGOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void placeOrderSignalE(SWGOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    
 };
 
 }

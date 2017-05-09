@@ -90,7 +90,8 @@ void
     HttpRequestWorker *worker = new HttpRequestWorker();
     HttpRequestInput input(fullPath, "{{httpMethod}}");
 
-    {{#formParams}}if ({{paramName}} != nullptr) {
+    {{#formParams}}
+    if ({{paramName}} != nullptr) {
         {{^isFile}}input.add_var("{{baseName}}", *{{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{baseName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
     }
     {{/formParams}}
@@ -125,6 +126,9 @@ void
 void
 {{classname}}::{{nickname}}Callback(HttpRequestWorker * worker) {
     QString msg;
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
     if (worker->error_type == QNetworkReply::NoError) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     }
@@ -132,7 +136,8 @@ void
         msg = "Error: " + worker->error_str;
     }
 
-    {{#returnType}}{{#isListContainer}}
+    {{#returnType}}
+    {{#isListContainer}}
     {{{returnType}}} output = {{{defaultResponse}}};
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
@@ -148,12 +153,12 @@ void
     }
     {{/isListContainer}}
 
-    {{^isListContainer}}{{#returnTypeIsPrimitive}}
+    {{^isListContainer}}
+    {{#returnTypeIsPrimitive}}
     {{{returnType}}} output;  // TODO add primitive output support
     {{/returnTypeIsPrimitive}}
     {{#isMapContainer}} 
     {{{returnType}}} output = {{{defaultResponse}}};
-
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
@@ -164,21 +169,21 @@ void
         setValue(&val, obj[key], "{{returnBaseType}}", "");
         output->insert(key, *val);
     }
-
-
     {{/isMapContainer}}
     {{^isMapContainer}}
-    {{^returnTypeIsPrimitive}}QString json(worker->response);
+    {{^returnTypeIsPrimitive}}
+    QString json(worker->response);
     {{{returnType}}} output = static_cast<{{{returnType}}}>(create(json, QString("{{{returnBaseType}}}")));
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}
-    {{/isListContainer}}{{/returnType}}
-
+    {{/isListContainer}}
+    {{/returnType}}
     worker->deleteLater();
 
-    {{#returnType}}emit {{nickname}}Signal(output);{{/returnType}}
-    {{^returnType}}emit {{nickname}}Signal();{{/returnType}}
+    emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
+    emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
 }
+
 {{/operation}}
 {{/operations}}
 
