@@ -581,7 +581,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             files.add(ignoreFile);
         }
 
-        final String swaggerVersionMetadata = config.outputFolder() + File.separator + ".swagger" + File.separator + "VERSION";
+        final String swaggerVersionMetadata = config.outputFolder() + File.separator + ".swagger-codegen" + File.separator + "VERSION";
         File swaggerVersionMetadataFile = new File(swaggerVersionMetadata);
         try {
             writeToFile(swaggerVersionMetadata, ImplementationVersion.read());
