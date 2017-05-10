@@ -81,7 +81,7 @@ export class {{classname}} {
                     return undefined;
                 } else {
 {{^isResponseFile}}
-                    return response.json();
+                    return response.json() || {};
 {{/isResponseFile}}
 {{#isResponseFile}}
                     return response.blob();

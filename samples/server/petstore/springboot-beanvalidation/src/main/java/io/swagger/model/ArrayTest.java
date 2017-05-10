@@ -44,7 +44,7 @@ public class ArrayTest   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -73,6 +73,7 @@ public class ArrayTest   {
   @ApiModelProperty(value = "")
 
   @Valid
+
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -101,6 +102,7 @@ public class ArrayTest   {
   @ApiModelProperty(value = "")
 
   @Valid
+
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

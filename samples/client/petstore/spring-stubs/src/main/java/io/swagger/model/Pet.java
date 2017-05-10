@@ -81,7 +81,7 @@ public class Pet   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Long getId() {
     return id;
   }
@@ -102,6 +102,7 @@ public class Pet   {
   @ApiModelProperty(value = "")
 
   @Valid
+
   public Category getCategory() {
     return category;
   }
@@ -122,7 +123,7 @@ public class Pet   {
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @NotNull
 
-  @Valid
+
   public String getName() {
     return name;
   }
@@ -148,7 +149,7 @@ public class Pet   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  @Valid
+
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -177,6 +178,7 @@ public class Pet   {
   @ApiModelProperty(value = "")
 
   @Valid
+
   public List<Tag> getTags() {
     return tags;
   }
@@ -196,7 +198,7 @@ public class Pet   {
   **/
   @ApiModelProperty(value = "pet status in the store")
 
-  @Valid
+
   public StatusEnum getStatus() {
     return status;
   }

@@ -30,7 +30,7 @@ public class HasOnlyReadOnly   {
   **/
   @ApiModelProperty(readOnly = true, value = "")
 
-  @Valid
+
   public String getBar() {
     return bar;
   }
@@ -50,7 +50,7 @@ public class HasOnlyReadOnly   {
   **/
   @ApiModelProperty(readOnly = true, value = "")
 
-  @Valid
+
   public String getFoo() {
     return foo;
   }

@@ -31,7 +31,7 @@ public class Tag   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Long getId() {
     return id;
   }
@@ -51,7 +51,7 @@ public class Tag   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getName() {
     return name;
   }

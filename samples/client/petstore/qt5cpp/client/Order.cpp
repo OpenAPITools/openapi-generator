@@ -22,12 +22,7 @@
 
 namespace Swagger {
 
-<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Order.cpp
-
 Order::Order(QString* json) {
-=======
-SWGOrder::SWGOrder(QString* json) {
->>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGOrder.cpp
     init();
     this->fromJson(*json);
 }

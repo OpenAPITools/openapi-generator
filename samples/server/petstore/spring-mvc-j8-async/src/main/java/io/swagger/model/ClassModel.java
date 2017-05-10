@@ -28,7 +28,7 @@ public class ClassModel   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getPropertyClass() {
     return propertyClass;
   }
