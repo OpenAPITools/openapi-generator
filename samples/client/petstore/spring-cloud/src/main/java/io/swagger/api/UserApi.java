@@ -24,7 +24,6 @@ public interface UserApi {
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user",
         produces = "application/json",
         consumes = "application/json",
@@ -35,7 +34,6 @@ public interface UserApi {
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user/createWithArray",
         produces = "application/json",
         consumes = "application/json",
@@ -46,7 +44,6 @@ public interface UserApi {
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user/createWithList",
         produces = "application/json",
         consumes = "application/json",
@@ -58,7 +55,6 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    
     @RequestMapping(value = "/user/{username}",
         produces = "application/json",
         consumes = "application/json",
@@ -71,7 +67,6 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
         @ApiResponse(code = 404, message = "User not found", response = User.class) })
-    
     @RequestMapping(value = "/user/{username}",
         produces = "application/json",
         consumes = "application/json",
@@ -83,7 +78,6 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
-    
     @RequestMapping(value = "/user/login",
         produces = "application/json",
         consumes = "application/json",
@@ -94,7 +88,6 @@ public interface UserApi {
     @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    
     @RequestMapping(value = "/user/logout",
         produces = "application/json",
         consumes = "application/json",
@@ -106,7 +99,6 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    
     @RequestMapping(value = "/user/{username}",
         produces = "application/json",
         consumes = "application/json",
