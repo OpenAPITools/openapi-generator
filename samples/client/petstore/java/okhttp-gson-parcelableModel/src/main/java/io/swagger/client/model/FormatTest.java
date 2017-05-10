@@ -420,15 +420,9 @@ public class FormatTest implements Parcelable {
     string = (String)in.readValue(null);
     _byte = (byte[])in.readValue(null);
     binary = (byte[])in.readValue(null);
-<<<<<<< HEAD
-    date = (LocalDate)in.readValue(null);
-    dateTime = (OffsetDateTime)in.readValue(null);
-    uuid = (UUID)in.readValue(null);
-=======
     date = (LocalDate)in.readValue(LocalDate.class.getClassLoader());
-    dateTime = (DateTime)in.readValue(DateTime.class.getClassLoader());
+    dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
->>>>>>> origin/master
     password = (String)in.readValue(null);
   }
   
