@@ -18,7 +18,6 @@
 #include "ApiResponse.h"
 #include "Pet.h"
 #include <QString>
-#include "SWGApiResponse.h"
 #include "SWGHttpRequest.h"
 
 #include <QObject>
@@ -41,11 +40,7 @@ public:
     void findPetsByStatus(QList<QString*>* status);
     void findPetsByTags(QList<QString*>* tags);
     void getPetById(qint64 pet_id);
-<<<<<<< HEAD
     void updatePet(Pet body);
-=======
-    void updatePet(SWGPet body);
->>>>>>> origin/master
     void updatePetWithForm(qint64 pet_id, QString* name, QString* status);
     void uploadFile(qint64 pet_id, QString* additional_metadata, SWGHttpRequestInputFileElement* file);
     
@@ -67,11 +62,16 @@ signals:
     void getPetByIdSignal(Pet* summary);
     void updatePetSignal();
     void updatePetWithFormSignal();
-<<<<<<< HEAD
     void uploadFileSignal(ApiResponse* summary);
-=======
-    void uploadFileSignal(SWGApiResponse* summary);
->>>>>>> origin/master
+    
+    void addPetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
+    void deletePetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
+    void findPetsByStatusSignalE(QList<Pet*>* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void findPetsByTagsSignalE(QList<Pet*>* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getPetByIdSignalE(Pet* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void updatePetSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
+    void updatePetWithFormSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
+    void uploadFileSignalE(ApiResponse* summary, QNetworkReply::NetworkError error_type, QString& error_str);
     
 };
 

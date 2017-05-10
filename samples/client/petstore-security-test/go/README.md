@@ -68,5 +68,6 @@ Or via OAuth2 module to automaticly refresh tokens and perform user authenticati
 ```
 
 ## Author
+
 apiteam@swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 

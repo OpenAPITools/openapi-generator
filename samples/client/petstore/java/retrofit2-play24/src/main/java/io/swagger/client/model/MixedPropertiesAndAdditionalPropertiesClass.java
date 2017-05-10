@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.threeten.bp.OffsetDateTime;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -50,6 +51,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public UUID getUuid() {
     return uuid;
@@ -68,6 +70,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -94,6 +97,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get map
    * @return map
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public Map<String, Animal> getMap() {
     return map;

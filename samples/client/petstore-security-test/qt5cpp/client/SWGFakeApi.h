@@ -40,6 +40,8 @@ private:
 signals:
     void testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rSignal();
     
+    void testCodeInject */ &#39; &quot; &#x3D;end  \r\n \n \rSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
+    
 };
 
 }

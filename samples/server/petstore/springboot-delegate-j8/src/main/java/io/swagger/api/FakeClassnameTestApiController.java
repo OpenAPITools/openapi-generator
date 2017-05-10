@@ -15,19 +15,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
+
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 @Controller
 public class FakeClassnameTestApiController implements FakeClassnameTestApi {
-    private final ObjectMapper objectMapper;
-
-    public FakeClassnameTestApiController(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
     private final FakeClassnameTestApiDelegate delegate;
 
     @org.springframework.beans.factory.annotation.Autowired
@@ -35,8 +28,8 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
         this.delegate = delegate;
     }
 
-    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body,
-        @RequestHeader("Accept") String accept) throws IOException {
+
+    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
         // do some magic!
         return delegate.testClassname(body);
     }

@@ -274,6 +274,42 @@ public class JavaModelTest {
 
     }
 
+    @Test(description = "convert a model with an array property with item name")
+    public void arrayModelWithItemNameTest() {
+        final Model model = new ModelImpl()
+            .description("a sample model")
+            .property("children", new ArrayProperty()
+                .description("an array property")
+                .items(new RefProperty("#/definitions/Child"))
+                .vendorExtension("x-item-name", "child"));
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("List", "Child")).size(), 2);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "children");
+        Assert.assertEquals(property.complexType, "Child");
+        Assert.assertEquals(property.getter, "getChildren");
+        Assert.assertEquals(property.setter, "setChildren");
+        Assert.assertEquals(property.datatype, "List<Child>");
+        Assert.assertEquals(property.name, "children");
+        Assert.assertEquals(property.defaultValue, "new ArrayList<Child>()");
+        Assert.assertEquals(property.baseType, "List");
+        Assert.assertEquals(property.containerType, "array");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+        Assert.assertFalse(property.isNotContainer);
+
+        final CodegenProperty itemsProperty = property.items;
+        Assert.assertEquals(itemsProperty.baseName,"child");
+        Assert.assertEquals(itemsProperty.name,"child");
+    }
+
     @Test(description = "convert an array model")
     public void arrayModelTest() {
         final Model model = new ArrayModel()

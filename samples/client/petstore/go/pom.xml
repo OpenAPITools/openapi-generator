@@ -78,7 +78,7 @@
                             <executable>go</executable>
                             <arguments>
                                 <argument>get</argument>
-                                <argument>github.com/go-resty/resty</argument>
+                                <argument>gopkg.in/go-resty/resty.v0</argument>
                             </arguments>
                         </configuration>
                     </execution>

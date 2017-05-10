@@ -11,11 +11,7 @@
  */
 
 /*
-<<<<<<< HEAD:samples/client/petstore/qt5cpp/client/Category.h
  * Category.h
-=======
- * SWGCategory.h
->>>>>>> origin/master:samples/client/petstore/qt5cpp/client/SWGCategory.h
  * 
  * A category for a pet
  */

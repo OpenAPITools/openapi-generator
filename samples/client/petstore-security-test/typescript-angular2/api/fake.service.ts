@@ -81,7 +81,7 @@ export class FakeService {
                 if (response.status === 204) {
                     return undefined;
                 } else {
-                    return response.json();
+                    return response.json() || {};
                 }
             });
     }
@@ -123,10 +123,10 @@ export class FakeService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
             headers: headers,
-            body: formParams,
-            search: queryParameters
+            body: formParams.toString(),
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
         });
-
         // https://github.com/swagger-api/swagger-codegen/issues/4037
         if (extraHttpRequestParams) {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);

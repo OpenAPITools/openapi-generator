@@ -97,6 +97,7 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("multipart-source.mustache", "", "MultipartFormData.cpp"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));

@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.OuterEnum;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * EnumTest
@@ -197,6 +198,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
+  @Valid
   @ApiModelProperty(value = "")
   public OuterEnum getOuterEnum() {
     return outerEnum;
