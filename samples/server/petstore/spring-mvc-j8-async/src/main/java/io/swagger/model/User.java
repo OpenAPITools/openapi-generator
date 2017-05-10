@@ -48,7 +48,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Long getId() {
     return id;
   }
@@ -68,7 +68,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getUsername() {
     return username;
   }
@@ -88,7 +88,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getFirstName() {
     return firstName;
   }
@@ -108,7 +108,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getLastName() {
     return lastName;
   }
@@ -128,7 +128,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getEmail() {
     return email;
   }
@@ -148,7 +148,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getPassword() {
     return password;
   }
@@ -168,7 +168,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getPhone() {
     return phone;
   }
@@ -188,7 +188,7 @@ public class User   {
   **/
   @ApiModelProperty(value = "User Status")
 
-  @Valid
+
   public Integer getUserStatus() {
     return userStatus;
   }

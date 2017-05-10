@@ -133,7 +133,7 @@ public class EnumTest   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -153,7 +153,7 @@ public class EnumTest   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -173,7 +173,7 @@ public class EnumTest   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -194,6 +194,7 @@ public class EnumTest   {
   @ApiModelProperty(value = "")
 
   @Valid
+
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

@@ -28,7 +28,7 @@ public class Dog extends Animal  {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getBreed() {
     return breed;
   }
