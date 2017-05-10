@@ -88,10 +88,8 @@
     {{/netStandard}}
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\**\*.cs"/>
-    <Compile Include="Client\**\*.cs"/>
-    <Compile Include="Model\**\*.cs"/>
-    <Compile Include="Properties\**\*.cs"/>
+    <Compile Include="**\*.cs"
+             Exclude="obj\**" />
   </ItemGroup>
   {{^netStandard}}
   <ItemGroup>
