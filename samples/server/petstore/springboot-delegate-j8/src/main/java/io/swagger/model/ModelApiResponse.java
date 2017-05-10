@@ -33,7 +33,7 @@ public class ModelApiResponse   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Integer getCode() {
     return code;
   }
@@ -53,7 +53,7 @@ public class ModelApiResponse   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getType() {
     return type;
   }
@@ -73,7 +73,7 @@ public class ModelApiResponse   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getMessage() {
     return message;
   }

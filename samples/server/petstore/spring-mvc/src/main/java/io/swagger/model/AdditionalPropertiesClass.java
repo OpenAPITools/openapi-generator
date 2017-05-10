@@ -41,7 +41,7 @@ public class AdditionalPropertiesClass   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -70,6 +70,7 @@ public class AdditionalPropertiesClass   {
   @ApiModelProperty(value = "")
 
   @Valid
+
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

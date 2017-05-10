@@ -78,7 +78,7 @@ public class Order   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Long getId() {
     return id;
   }
@@ -98,7 +98,7 @@ public class Order   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Long getPetId() {
     return petId;
   }
@@ -118,7 +118,7 @@ public class Order   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Integer getQuantity() {
     return quantity;
   }
@@ -139,6 +139,7 @@ public class Order   {
   @ApiModelProperty(value = "")
 
   @Valid
+
   public DateTime getShipDate() {
     return shipDate;
   }
@@ -158,7 +159,7 @@ public class Order   {
   **/
   @ApiModelProperty(value = "Order Status")
 
-  @Valid
+
   public StatusEnum getStatus() {
     return status;
   }
@@ -178,7 +179,7 @@ public class Order   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Boolean getComplete() {
     return complete;
   }

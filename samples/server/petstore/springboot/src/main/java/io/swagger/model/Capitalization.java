@@ -42,7 +42,7 @@ public class Capitalization   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -62,7 +62,7 @@ public class Capitalization   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -82,7 +82,7 @@ public class Capitalization   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -102,7 +102,7 @@ public class Capitalization   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -122,7 +122,7 @@ public class Capitalization   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -142,7 +142,7 @@ public class Capitalization   {
   **/
   @ApiModelProperty(value = "Name of the pet ")
 
-  @Valid
+
   public String getATTNAME() {
     return ATT_NAME;
   }

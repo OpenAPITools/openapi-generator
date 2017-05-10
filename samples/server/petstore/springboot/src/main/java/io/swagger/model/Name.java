@@ -38,7 +38,7 @@ public class Name   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-  @Valid
+
   public Integer getName() {
     return name;
   }
@@ -58,7 +58,7 @@ public class Name   {
   **/
   @ApiModelProperty(readOnly = true, value = "")
 
-  @Valid
+
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -78,7 +78,7 @@ public class Name   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getProperty() {
     return property;
   }
@@ -98,7 +98,7 @@ public class Name   {
   **/
   @ApiModelProperty(readOnly = true, value = "")
 
-  @Valid
+
   public Integer get123Number() {
     return _123Number;
   }

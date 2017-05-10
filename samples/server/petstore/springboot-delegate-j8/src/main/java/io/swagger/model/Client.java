@@ -27,7 +27,7 @@ public class Client   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public String getClient() {
     return client;
   }
