@@ -216,7 +216,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", 
+                "application/json",
                 "*_/ '  =end - -       "
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
@@ -239,7 +239,6 @@ namespace IO.Swagger.Api
                 if (exception != null) throw exception;
             }
 
-            
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
@@ -283,7 +282,7 @@ namespace IO.Swagger.Api
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json", 
+                "application/json",
                 "*_/ '  =end - -       "
             };
             String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
@@ -306,7 +305,6 @@ namespace IO.Swagger.Api
                 if (exception != null) throw exception;
             }
 
-            
             return new ApiResponse<Object>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 null);
