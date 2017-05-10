@@ -122,6 +122,10 @@ namespace {{packageName}}.Client
             String contentType)
         {
             var request = new RestRequest(path, method);
+            {{#netStandard}}
+            // disable ResetSharp.Portable built-in serialization
+            request.Serializer = null;
+            {{/netStandard}}
 
             // add path parameter, if any
             foreach(var param in pathParams)
@@ -161,11 +165,21 @@ namespace {{packageName}}.Client
             {
                 if (postBody.GetType() == typeof(String))
                 {
+                    {{#netStandard}}
+                    request.AddParameter(new Parameter { Value = postBody, Type = ParameterType.RequestBody, ContentType = "application/json" });
+                    {{/netStandard}}
+                    {{^netStandard}}
                     request.AddParameter("application/json", postBody, ParameterType.RequestBody);
+                    {{/netStandard}}
                 }
                 else if (postBody.GetType() == typeof(byte[]))
                 {
+                    {{#netStandard}}
+                    request.AddParameter(new Parameter { Value = postBody, Type = ParameterType.RequestBody, ContentType = contentType });
+                    {{/netStandard}}
+                    {{^netStandard}}
                     request.AddParameter(contentType, postBody, ParameterType.RequestBody);
+                    {{/netStandard}}
                 }
             }
 
