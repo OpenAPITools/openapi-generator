@@ -25,7 +25,7 @@ Add a new pet to the store
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
@@ -73,7 +73,7 @@ Deletes a pet
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
@@ -125,7 +125,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
@@ -173,7 +173,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
@@ -221,7 +221,7 @@ Returns a single pet
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];
@@ -271,7 +271,7 @@ Update an existing pet
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
@@ -319,7 +319,7 @@ Updates a pet in the store with form data
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
@@ -373,7 +373,7 @@ uploads an image
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
 var petstore_auth = defaultClient.authentications['petstore_auth'];
