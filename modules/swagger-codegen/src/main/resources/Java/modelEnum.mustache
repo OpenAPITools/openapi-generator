@@ -25,6 +25,10 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
     this.value = value;
   }
 
+  public {{{dataType}}} getValue() {
+    return value;
+  }
+
   @Override
 {{#jackson}}
   @JsonValue

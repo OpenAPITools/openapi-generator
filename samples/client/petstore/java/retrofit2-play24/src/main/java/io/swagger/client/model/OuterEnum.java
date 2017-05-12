@@ -37,6 +37,10 @@ public enum OuterEnum {
     this.value = value;
   }
 
+  public String getValue() {
+    return value;
+  }
+
   @Override
   @JsonValue
   public String toString() {

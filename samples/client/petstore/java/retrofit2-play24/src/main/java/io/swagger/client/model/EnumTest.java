@@ -44,6 +44,10 @@ public class EnumTest {
       this.value = value;
     }
 
+    public String getValue() {
+      return value;
+    }
+
     @Override
     @JsonValue
     public String toString() {
@@ -78,6 +82,10 @@ public class EnumTest {
       this.value = value;
     }
 
+    public Integer getValue() {
+      return value;
+    }
+
     @Override
     @JsonValue
     public String toString() {
@@ -110,6 +118,10 @@ public class EnumTest {
 
     EnumNumberEnum(Double value) {
       this.value = value;
+    }
+
+    public Double getValue() {
+      return value;
     }
 
     @Override
