@@ -41,6 +41,10 @@ public class EnumArrays {
       this.value = value;
     }
 
+    public String getValue() {
+      return value;
+    }
+
     @Override
     @JsonValue
     public String toString() {
@@ -73,6 +77,10 @@ public class EnumArrays {
 
     ArrayEnumEnum(String value) {
       this.value = value;
+    }
+
+    public String getValue() {
+      return value;
     }
 
     @Override

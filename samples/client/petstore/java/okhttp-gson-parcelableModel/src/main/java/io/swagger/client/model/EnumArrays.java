@@ -43,6 +43,10 @@ public class EnumArrays implements Parcelable {
       this.value = value;
     }
 
+    public String getValue() {
+      return value;
+    }
+
     @Override
     public String toString() {
       return String.valueOf(value);
@@ -66,6 +70,10 @@ public class EnumArrays implements Parcelable {
 
     ArrayEnumEnum(String value) {
       this.value = value;
+    }
+
+    public String getValue() {
+      return value;
     }
 
     @Override
