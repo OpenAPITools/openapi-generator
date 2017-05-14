@@ -255,7 +255,7 @@ export class {{classname}} {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: {{{returnType}}}, textStatus: string, jqXHR: JQueryXHR) =>
+            (data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
