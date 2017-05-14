@@ -45,6 +45,10 @@ public class EnumTest implements Parcelable {
       this.value = value;
     }
 
+    public String getValue() {
+      return value;
+    }
+
     @Override
     public String toString() {
       return String.valueOf(value);
@@ -70,6 +74,10 @@ public class EnumTest implements Parcelable {
       this.value = value;
     }
 
+    public Integer getValue() {
+      return value;
+    }
+
     @Override
     public String toString() {
       return String.valueOf(value);
@@ -93,6 +101,10 @@ public class EnumTest implements Parcelable {
 
     EnumNumberEnum(Double value) {
       this.value = value;
+    }
+
+    public Double getValue() {
+      return value;
     }
 
     @Override

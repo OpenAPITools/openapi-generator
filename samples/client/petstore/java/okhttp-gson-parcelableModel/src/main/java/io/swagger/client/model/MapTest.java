@@ -47,6 +47,10 @@ public class MapTest implements Parcelable {
       this.value = value;
     }
 
+    public String getValue() {
+      return value;
+    }
+
     @Override
     public String toString() {
       return String.valueOf(value);

@@ -39,4 +39,14 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("__class"));
     }
 
+    @Test
+    public void toModelNameShouldUseProvidedMapping() throws Exception {
+        fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
+        Assert.assertEquals("com.test.MyClass", fakeJavaCodegen.toModelName("json_myclass"));
+    }
+
+    @Test
+    public void toModelNameUsesPascalCase() throws Exception {
+        Assert.assertEquals("JsonAnotherclass", fakeJavaCodegen.toModelName("json_anotherclass"));
+    }
 }

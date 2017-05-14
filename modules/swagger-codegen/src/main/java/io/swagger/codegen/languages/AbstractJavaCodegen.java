@@ -101,7 +101,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                 "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
                 "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                "native", "super", "while")
+                "native", "super", "while", "null")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -511,6 +511,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if import-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
         final String sanitizedName = sanitizeName(name);
 
         String nameWithPrefixSuffix = sanitizedName;
