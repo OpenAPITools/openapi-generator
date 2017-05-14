@@ -67,7 +67,7 @@ Returns a map of status codes to quantities
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
 var api_key = defaultClient.authentications['api_key'];

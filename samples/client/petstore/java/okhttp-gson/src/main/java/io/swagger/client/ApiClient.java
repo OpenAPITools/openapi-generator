@@ -61,6 +61,7 @@ public class ApiClient {
 
     private InputStream sslCaCert;
     private boolean verifyingSsl;
+    private KeyManager[] keyManagers;
 
     private OkHttpClient httpClient;
     private JSON json;
@@ -195,6 +196,30 @@ public class ApiClient {
         return this;
     }
 
+<<<<<<< HEAD
+=======
+    public KeyManager[] getKeyManagers() {
+        return keyManagers;
+    }
+
+    /**
+     * Configure client keys to use for authorization in an SSL session.
+     * Use null to reset to default.
+     *
+     * @param managers The KeyManagers to use
+     * @return ApiClient
+     */
+    public ApiClient setKeyManagers(KeyManager[] managers) {
+        this.keyManagers = managers;
+        applySslSettings();
+        return this;
+    }
+
+    public DateFormat getDateFormat() {
+        return dateFormat;
+    }
+
+>>>>>>> origin/master
     public ApiClient setDateFormat(DateFormat dateFormat) {
         this.json.setDateFormat(dateFormat);
         return this;
@@ -1027,7 +1052,6 @@ public class ApiClient {
      */
     private void applySslSettings() {
         try {
-            KeyManager[] keyManagers = null;
             TrustManager[] trustManagers = null;
             HostnameVerifier hostnameVerifier = null;
             if (!verifyingSsl) {

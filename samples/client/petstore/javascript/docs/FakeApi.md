@@ -66,7 +66,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure HTTP basic authorization: http_basic_test
 var http_basic_test = defaultClient.authentications['http_basic_test'];
