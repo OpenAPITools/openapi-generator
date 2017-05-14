@@ -196,8 +196,6 @@ public class ApiClient {
         return this;
     }
 
-<<<<<<< HEAD
-=======
     public KeyManager[] getKeyManagers() {
         return keyManagers;
     }
@@ -219,7 +217,6 @@ public class ApiClient {
         return dateFormat;
     }
 
->>>>>>> origin/master
     public ApiClient setDateFormat(DateFormat dateFormat) {
         this.json.setDateFormat(dateFormat);
         return this;
