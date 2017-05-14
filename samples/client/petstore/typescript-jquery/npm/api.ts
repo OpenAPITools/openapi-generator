@@ -195,7 +195,7 @@ export class PetApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -248,7 +248,7 @@ export class PetApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -388,9 +388,9 @@ export class PetApi {
             requestOptions.contentType = reqHasFile ? false : 'application/json; charset=utf-8';
         }
 
-        this.authentications.petstore_auth.applyToRequest(requestOptions);
-
         this.authentications.api_key.applyToRequest(requestOptions);
+
+        this.authentications.petstore_auth.applyToRequest(requestOptions);
 
         this.authentications.default.applyToRequest(requestOptions);
 
@@ -441,7 +441,7 @@ export class PetApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -503,7 +503,7 @@ export class PetApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -566,7 +566,7 @@ export class PetApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -658,7 +658,7 @@ export class StoreApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -879,7 +879,7 @@ export class UserApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -922,7 +922,7 @@ export class UserApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -965,7 +965,7 @@ export class UserApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -1013,7 +1013,7 @@ export class UserApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -1153,7 +1153,7 @@ export class UserApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
@@ -1203,7 +1203,7 @@ export class UserApi {
 
         let dfd = $.Deferred();
         $.ajax(requestOptions).then(
-            (data: , textStatus: string, jqXHR: JQueryXHR) =>
+            (data: any, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({ response: jqXHR, body: data }),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({ response: xhr, body: errorThrown })
