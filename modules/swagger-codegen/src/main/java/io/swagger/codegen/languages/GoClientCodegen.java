@@ -56,7 +56,8 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "case", "defer", "go", "map", "struct",
                 "chan", "else", "goto", "package", "switch",
                 "const", "fallthrough", "if", "range", "type",
-                "continue", "for", "import", "return", "var", "error", "ApiResponse")
+                "continue", "for", "import", "return", "var", "error", "ApiResponse",
+                "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
 

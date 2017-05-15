@@ -64,7 +64,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                     "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
                     "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
                     "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                    "native", "super", "while")
+                    "native", "super", "while", "null")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
