@@ -151,7 +151,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
-        
+
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
@@ -180,10 +180,10 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         // - XName
         // - X_Name
         // ... or maybe a suffix?
-        // - Name_ ... think this will work. 
+        // - Name_ ... think this will work.
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
-        }        
+        }
         return camelize(name) + '_';
     }
 
@@ -465,7 +465,7 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        return objs;
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -498,5 +498,66 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
         customImport.put(key, value);
 
         return customImport;
+    }
+
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return escapeText(value);
+        }
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "_" + value;
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
+        // number
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            String varName = name;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return getSymbolName(name).toUpperCase();
+        }
+
+        // string
+        String enumName = sanitizeName(underscore(name).toUpperCase());
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+            return escapeReservedWord(enumName);
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        String enumName = underscore(toModelName(property.name)).toUpperCase();
+
+        // remove [] for array or map of enum
+        enumName = enumName.replace("[]", "");
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
     }
 }
