@@ -8,7 +8,7 @@ import java.util.List;
 import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
 /**
- * Pet
+ * A pet for sale in the pet store
  */
 
 public class Pet   {

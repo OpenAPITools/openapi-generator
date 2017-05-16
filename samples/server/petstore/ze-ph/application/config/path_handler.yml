@@ -1,6 +1,12 @@
 path_handler:
   routes:
     routes:
+      'fake':
+        type: Literal
+        options:
+          route: /fake
+          defaults:
+            handler: Fake
       'pet':
         type: Literal
         options:
@@ -54,10 +60,10 @@ path_handler:
                 handler: StoreOrder
             may_terminate: true
             child_routes:
-              '{orderId}':
+              '{order_id}':
                 type: Segment
                 options:
-                  route: /:orderId
+                  route: /:order_id
                   defaults:
                     handler: StoreOrderOrderId
       'user':
@@ -112,6 +118,7 @@ path_handler:
 
   handlers:
     invokables:
+      Fake: App\Handler\Fake
       Pet: App\Handler\Pet
       PetFindByStatus: App\Handler\PetFindByStatus
       PetFindByTags: App\Handler\PetFindByTags

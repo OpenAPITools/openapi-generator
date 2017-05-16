@@ -28,9 +28,9 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 echo "Typescript Petstore API client (default)"
-ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l typescript-angular2 -o samples/client/petstore/typescript-angular2/default"
+ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-angular2 -o samples/client/petstore/typescript-angular2/default"
 java $JAVA_OPTS -jar $executable $ags
 
 echo "Typescript Petstore API client (npm setting)"
-ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l typescript-angular2 -c bin/typescript-petstore-npm.json -o samples/client/petstore/typescript-angular2/npm"
+ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-angular2 -c bin/typescript-petstore-npm.json -o samples/client/petstore/typescript-angular2/npm"
 java $JAVA_OPTS -jar $executable $ags

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.InputStream;
+import apimodels.ModelApiResponse;
 import apimodels.Pet;
 
 import play.mvc.Http;
@@ -24,13 +25,13 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public List<Pet> findPetsByStatus( List<String> status) throws Exception {
+    public List<Pet> findPetsByStatus( @NotNull List<String> status) throws Exception {
         //Do your magic!!!
         return new ArrayList<Pet>();
     }
 
     @Override
-    public List<Pet> findPetsByTags( List<String> tags) throws Exception {
+    public List<Pet> findPetsByTags( @NotNull List<String> tags) throws Exception {
         //Do your magic!!!
         return new ArrayList<Pet>();
     }
@@ -48,15 +49,15 @@ public class PetApiControllerImp implements PetApiControllerImpInterface {
     }
 
     @Override
-    public void updatePetWithForm(String petId, String name, String status) throws Exception {
+    public void updatePetWithForm(Long petId, String name, String status) throws Exception {
         //Do your magic!!!
         
     }
 
     @Override
-    public void uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
         //Do your magic!!!
-        
+        return new ModelApiResponse();
     }
 
 }
