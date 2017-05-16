@@ -20,6 +20,194 @@ module Petstore
       @api_client = api_client
     end
 
+    # 
+    # Test serialization of outer boolean types
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterBoolean] :body Input boolean as post body
+    # @return [OuterBoolean]
+    def fake_outer_boolean_serialize(opts = {})
+      data, _status_code, _headers = fake_outer_boolean_serialize_with_http_info(opts)
+      return data
+    end
+
+    # 
+    # Test serialization of outer boolean types
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterBoolean] :body Input boolean as post body
+    # @return [Array<(OuterBoolean, Fixnum, Hash)>] OuterBoolean data, response status code and response headers
+    def fake_outer_boolean_serialize_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: FakeApi.fake_outer_boolean_serialize ..."
+      end
+      # resource path
+      local_var_path = "/fake/outer/boolean"
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(opts[:'body'])
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'OuterBoolean')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#fake_outer_boolean_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # 
+    # Test serialization of object with outer number type
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterComposite] :body Input composite as post body
+    # @return [OuterComposite]
+    def fake_outer_composite_serialize(opts = {})
+      data, _status_code, _headers = fake_outer_composite_serialize_with_http_info(opts)
+      return data
+    end
+
+    # 
+    # Test serialization of object with outer number type
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterComposite] :body Input composite as post body
+    # @return [Array<(OuterComposite, Fixnum, Hash)>] OuterComposite data, response status code and response headers
+    def fake_outer_composite_serialize_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: FakeApi.fake_outer_composite_serialize ..."
+      end
+      # resource path
+      local_var_path = "/fake/outer/composite"
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(opts[:'body'])
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'OuterComposite')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#fake_outer_composite_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # 
+    # Test serialization of outer number types
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterNumber] :body Input number as post body
+    # @return [OuterNumber]
+    def fake_outer_number_serialize(opts = {})
+      data, _status_code, _headers = fake_outer_number_serialize_with_http_info(opts)
+      return data
+    end
+
+    # 
+    # Test serialization of outer number types
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterNumber] :body Input number as post body
+    # @return [Array<(OuterNumber, Fixnum, Hash)>] OuterNumber data, response status code and response headers
+    def fake_outer_number_serialize_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: FakeApi.fake_outer_number_serialize ..."
+      end
+      # resource path
+      local_var_path = "/fake/outer/number"
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(opts[:'body'])
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'OuterNumber')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#fake_outer_number_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # 
+    # Test serialization of outer string types
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterString] :body Input string as post body
+    # @return [OuterString]
+    def fake_outer_string_serialize(opts = {})
+      data, _status_code, _headers = fake_outer_string_serialize_with_http_info(opts)
+      return data
+    end
+
+    # 
+    # Test serialization of outer string types
+    # @param [Hash] opts the optional parameters
+    # @option opts [OuterString] :body Input string as post body
+    # @return [Array<(OuterString, Fixnum, Hash)>] OuterString data, response status code and response headers
+    def fake_outer_string_serialize_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: FakeApi.fake_outer_string_serialize ..."
+      end
+      # resource path
+      local_var_path = "/fake/outer/string"
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(opts[:'body'])
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'OuterString')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#fake_outer_string_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # To test \"client\" model
     # To test \"client\" model
     # @param body client model

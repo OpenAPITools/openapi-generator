@@ -781,6 +781,74 @@ paths:
           description: User not found
       security:
         - http_basic_test: []
+  /fake/outer/number:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer number types
+      operationId: fakeOuterNumberSerialize
+      parameters:
+        - name: body
+          in: body
+          description: Input number as post body
+          schema:
+            $ref: '#/definitions/OuterNumber'
+      responses:
+        '200':
+          description: Output number
+          schema:
+            $ref: '#/definitions/OuterNumber'
+  /fake/outer/string:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer string types
+      operationId: fakeOuterStringSerialize
+      parameters:
+        - name: body
+          in: body
+          description: Input string as post body
+          schema:
+            $ref: '#/definitions/OuterString'
+      responses:
+        '200':
+          description: Output string
+          schema:
+            $ref: '#/definitions/OuterString'
+  /fake/outer/boolean:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer boolean types
+      operationId: fakeOuterBooleanSerialize
+      parameters:
+        - name: body
+          in: body
+          description: Input boolean as post body
+          schema:
+            $ref: '#/definitions/OuterBoolean'
+      responses:
+        '200':
+          description: Output boolean
+          schema:
+            $ref: '#/definitions/OuterBoolean'
+  /fake/outer/composite:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with outer number type
+      operationId: fakeOuterCompositeSerialize
+      parameters:
+        - name: body
+          in: body
+          description: Input composite as post body
+          schema:
+            $ref: '#/definitions/OuterComposite'
+      responses:
+        '200':
+          description: Output composite
+          schema:
+            $ref: '#/definitions/OuterComposite'
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -1258,6 +1326,21 @@ definitions:
     - "placed"
     - "approved"
     - "delivered"
+  OuterNumber:
+    type: number
+  OuterString:
+    type: string
+  OuterBoolean:
+    type: boolean
+  OuterComposite:
+    type: object
+    properties:
+      my_number:
+        $ref: '#/definitions/OuterNumber'
+      my_string:
+        $ref: '#/definitions/OuterString'
+      my_boolean:
+        $ref: '#/definitions/OuterBoolean'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

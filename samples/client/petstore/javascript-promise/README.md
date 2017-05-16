@@ -54,9 +54,10 @@ var SwaggerPetstore = require('swagger_petstore');
 
 var api = new SwaggerPetstore.FakeApi()
 
-var body = new SwaggerPetstore.Client(); // {Client} client model
-
-api.testClientModel(body).then(function(data) {
+var opts = { 
+  'body': new SwaggerPetstore.OuterBoolean() // {OuterBoolean} Input boolean as post body
+};
+api.fakeOuterBooleanSerialize(opts).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -71,6 +72,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*SwaggerPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+*SwaggerPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+*SwaggerPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+*SwaggerPetstore.FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *SwaggerPetstore.FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 *SwaggerPetstore.FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *SwaggerPetstore.FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
@@ -124,7 +129,11 @@ Class | Method | HTTP request | Description
  - [SwaggerPetstore.Name](docs/Name.md)
  - [SwaggerPetstore.NumberOnly](docs/NumberOnly.md)
  - [SwaggerPetstore.Order](docs/Order.md)
+ - [SwaggerPetstore.OuterBoolean](docs/OuterBoolean.md)
+ - [SwaggerPetstore.OuterComposite](docs/OuterComposite.md)
  - [SwaggerPetstore.OuterEnum](docs/OuterEnum.md)
+ - [SwaggerPetstore.OuterNumber](docs/OuterNumber.md)
+ - [SwaggerPetstore.OuterString](docs/OuterString.md)
  - [SwaggerPetstore.Pet](docs/Pet.md)
  - [SwaggerPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SwaggerPetstore.SpecialModelName](docs/SpecialModelName.md)
