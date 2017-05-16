@@ -6,6 +6,7 @@ import io.swagger.model.*;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
+import io.swagger.model.OuterComposite;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -20,6 +21,30 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public class FakeApiServiceImpl extends FakeApiService {
+    @Override
+    public Response fakeOuterBooleanSerialize(Boolean body
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response fakeOuterCompositeSerialize(OuterComposite body
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response fakeOuterNumberSerialize(BigDecimal body
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response fakeOuterStringSerialize(String body
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
     @Override
     public Response testClientModel(Client body
  ) throws NotFoundException {

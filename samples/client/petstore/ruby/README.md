@@ -56,15 +56,15 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 
-body = Petstore::Client.new # Client | client model
-
+opts = { 
+  body: Petstore::OuterBoolean.new # OuterBoolean | Input boolean as post body
+}
 
 begin
-  #To test \"client\" model
-  result = api_instance.test_client_model(body)
+  result = api_instance.fake_outer_boolean_serialize(opts)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_client_model: #{e}"
+  puts "Exception when calling FakeApi->fake_outer_boolean_serialize: #{e}"
 end
 
 ```
@@ -75,6 +75,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
+*Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
+*Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
+*Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *Petstore::FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \"client\" model
 *Petstore::FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *Petstore::FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
@@ -128,7 +132,11 @@ Class | Method | HTTP request | Description
  - [Petstore::Name](docs/Name.md)
  - [Petstore::NumberOnly](docs/NumberOnly.md)
  - [Petstore::Order](docs/Order.md)
+ - [Petstore::OuterBoolean](docs/OuterBoolean.md)
+ - [Petstore::OuterComposite](docs/OuterComposite.md)
  - [Petstore::OuterEnum](docs/OuterEnum.md)
+ - [Petstore::OuterNumber](docs/OuterNumber.md)
+ - [Petstore::OuterString](docs/OuterString.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)

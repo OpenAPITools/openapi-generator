@@ -13,6 +13,218 @@ import RxSwift
 
 open class FakeAPI: APIBase {
     /**
+
+     - parameter body: (body) Input boolean as post body (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func fakeOuterBooleanSerialize(body: OuterBoolean? = nil, completion: @escaping ((_ data: OuterBoolean?,_ error: Error?) -> Void)) {
+        fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+    /**
+
+     - parameter body: (body) Input boolean as post body (optional)
+     - returns: Observable<OuterBoolean>
+     */
+    open class func fakeOuterBooleanSerialize(body: OuterBoolean? = nil) -> Observable<OuterBoolean> {
+        return Observable.create { observer -> Disposable in
+            fakeOuterBooleanSerialize(body: body) { data, error in
+                if let error = error {
+                    observer.on(.error(error as Error))
+                } else {
+                    observer.on(.next(data!))
+                }
+                observer.on(.completed)
+            }
+            return NopDisposable.instance
+        }
+    }
+
+    /**
+     - POST /fake/outer/boolean
+     - Test serialization of outer boolean types
+     - examples: [{contentType=application/json, example={ }}]
+     
+     - parameter body: (body) Input boolean as post body (optional)
+
+     - returns: RequestBuilder<OuterBoolean> 
+     */
+    open class func fakeOuterBooleanSerializeWithRequestBuilder(body: OuterBoolean? = nil) -> RequestBuilder<OuterBoolean> {
+        let path = "/fake/outer/boolean"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<OuterBoolean>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+
+     - parameter body: (body) Input composite as post body (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, completion: @escaping ((_ data: OuterComposite?,_ error: Error?) -> Void)) {
+        fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+    /**
+
+     - parameter body: (body) Input composite as post body (optional)
+     - returns: Observable<OuterComposite>
+     */
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> Observable<OuterComposite> {
+        return Observable.create { observer -> Disposable in
+            fakeOuterCompositeSerialize(body: body) { data, error in
+                if let error = error {
+                    observer.on(.error(error as Error))
+                } else {
+                    observer.on(.next(data!))
+                }
+                observer.on(.completed)
+            }
+            return NopDisposable.instance
+        }
+    }
+
+    /**
+     - POST /fake/outer/composite
+     - Test serialization of object with outer number type
+     - examples: [{contentType=application/json, example={
+  "my_string" : { },
+  "my_number" : { },
+  "my_boolean" : { }
+}}]
+     
+     - parameter body: (body) Input composite as post body (optional)
+
+     - returns: RequestBuilder<OuterComposite> 
+     */
+    open class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
+        let path = "/fake/outer/composite"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<OuterComposite>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+
+     - parameter body: (body) Input number as post body (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func fakeOuterNumberSerialize(body: OuterNumber? = nil, completion: @escaping ((_ data: OuterNumber?,_ error: Error?) -> Void)) {
+        fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+    /**
+
+     - parameter body: (body) Input number as post body (optional)
+     - returns: Observable<OuterNumber>
+     */
+    open class func fakeOuterNumberSerialize(body: OuterNumber? = nil) -> Observable<OuterNumber> {
+        return Observable.create { observer -> Disposable in
+            fakeOuterNumberSerialize(body: body) { data, error in
+                if let error = error {
+                    observer.on(.error(error as Error))
+                } else {
+                    observer.on(.next(data!))
+                }
+                observer.on(.completed)
+            }
+            return NopDisposable.instance
+        }
+    }
+
+    /**
+     - POST /fake/outer/number
+     - Test serialization of outer number types
+     - examples: [{contentType=application/json, example={ }}]
+     
+     - parameter body: (body) Input number as post body (optional)
+
+     - returns: RequestBuilder<OuterNumber> 
+     */
+    open class func fakeOuterNumberSerializeWithRequestBuilder(body: OuterNumber? = nil) -> RequestBuilder<OuterNumber> {
+        let path = "/fake/outer/number"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<OuterNumber>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+
+     - parameter body: (body) Input string as post body (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func fakeOuterStringSerialize(body: OuterString? = nil, completion: @escaping ((_ data: OuterString?,_ error: Error?) -> Void)) {
+        fakeOuterStringSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+    /**
+
+     - parameter body: (body) Input string as post body (optional)
+     - returns: Observable<OuterString>
+     */
+    open class func fakeOuterStringSerialize(body: OuterString? = nil) -> Observable<OuterString> {
+        return Observable.create { observer -> Disposable in
+            fakeOuterStringSerialize(body: body) { data, error in
+                if let error = error {
+                    observer.on(.error(error as Error))
+                } else {
+                    observer.on(.next(data!))
+                }
+                observer.on(.completed)
+            }
+            return NopDisposable.instance
+        }
+    }
+
+    /**
+     - POST /fake/outer/string
+     - Test serialization of outer string types
+     - examples: [{contentType=application/json, example={ }}]
+     
+     - parameter body: (body) Input string as post body (optional)
+
+     - returns: RequestBuilder<OuterString> 
+     */
+    open class func fakeOuterStringSerializeWithRequestBuilder(body: OuterString? = nil) -> RequestBuilder<OuterString> {
+        let path = "/fake/outer/string"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<OuterString>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
      To test \"client\" model
      
      - parameter body: (body) client model 

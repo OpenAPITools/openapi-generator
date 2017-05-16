@@ -296,6 +296,10 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
+            "fakeOuterBooleanSerialize[]" \
+            "fakeOuterCompositeSerialize[]" \
+            "fakeOuterNumberSerialize[]" \
+            "fakeOuterStringSerialize[]" \
             "testClientModel[To test \"client\" model]" \
             "testEndpointParameters[Fake endpoint for testing various parameters
 假端點
@@ -325,6 +329,30 @@ case $state in
     ;;
   args)
     case $line[1] in
+      fakeOuterBooleanSerialize)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeOuterCompositeSerialize)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeOuterNumberSerialize)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      fakeOuterStringSerialize)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
       testClientModel)
         local -a _op_arguments
         _op_arguments=(

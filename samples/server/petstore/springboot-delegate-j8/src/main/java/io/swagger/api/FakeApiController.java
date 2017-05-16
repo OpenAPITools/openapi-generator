@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
 
@@ -31,6 +32,26 @@ public class FakeApiController implements FakeApi {
         this.delegate = delegate;
     }
 
+
+    public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body) {
+        // do some magic!
+        return delegate.fakeOuterBooleanSerialize(body);
+    }
+
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body) {
+        // do some magic!
+        return delegate.fakeOuterCompositeSerialize(body);
+    }
+
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body) {
+        // do some magic!
+        return delegate.fakeOuterNumberSerialize(body);
+    }
+
+    public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body) {
+        // do some magic!
+        return delegate.fakeOuterStringSerialize(body);
+    }
 
     public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
         // do some magic!

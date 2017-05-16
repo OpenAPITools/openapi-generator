@@ -25,6 +25,7 @@ public class CodegenModel {
     public String discriminator;
     public String defaultValue;
     public String arrayModelType;
+    public boolean isAlias; // Is this effectively an alias of another simple type
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
