@@ -32,7 +32,7 @@ public class FakeApiController implements FakeApi {
     }
 
     public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body,
-        @RequestHeader("Accept") String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
@@ -56,7 +56,7 @@ public class FakeApiController implements FakeApi {
         @ApiParam(value = "None") @RequestPart(value="dateTime", required=false)  OffsetDateTime dateTime,
         @ApiParam(value = "None") @RequestPart(value="password", required=false)  String password,
         @ApiParam(value = "None") @RequestPart(value="callback", required=false)  String paramCallback,
-        @RequestHeader("Accept") String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class FakeApiController implements FakeApi {
         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @RequestPart(value="enum_query_double", required=false)  Double enumQueryDouble,
-        @RequestHeader("Accept") String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
