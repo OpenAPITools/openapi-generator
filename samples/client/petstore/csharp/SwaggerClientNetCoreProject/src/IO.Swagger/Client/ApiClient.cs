@@ -115,6 +115,8 @@ namespace IO.Swagger.Client
             String contentType)
         {
             var request = new RestRequest(path, method);
+            // disable ResetSharp.Portable built-in serialization
+            request.Serializer = null;
 
             // add path parameter, if any
             foreach(var param in pathParams)
@@ -142,11 +144,11 @@ namespace IO.Swagger.Client
             {
                 if (postBody.GetType() == typeof(String))
                 {
-                    request.AddParameter("application/json", postBody, ParameterType.RequestBody);
+                    request.AddParameter(new Parameter { Value = postBody, Type = ParameterType.RequestBody, ContentType = "application/json" });
                 }
                 else if (postBody.GetType() == typeof(byte[]))
                 {
-                    request.AddParameter(contentType, postBody, ParameterType.RequestBody);
+                    request.AddParameter(new Parameter { Value = postBody, Type = ParameterType.RequestBody, ContentType = contentType });
                 }
             }
 
