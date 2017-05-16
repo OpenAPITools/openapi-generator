@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Order: JSONEncodable {
+
     public enum Status: String { 
         case placed = "placed"
         case approved = "approved"
@@ -33,6 +34,7 @@ open class Order: JSONEncodable {
         nillableDictionary["shipDate"] = self.shipDate?.encodeToJSON()
         nillableDictionary["status"] = self.status?.rawValue
         nillableDictionary["complete"] = self.complete
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

@@ -24,7 +24,7 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public Order getOrderById(String orderId) throws Exception {
+    public Order getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
         //Do your magic!!!
         return new Order();
     }

@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
 /**
- * Order
+ * An order for a pets from the pet store
  */
 
 public class Order   {
@@ -58,7 +58,7 @@ public class Order   {
   private StatusEnum status = null;
 
   @JsonProperty("complete")
-  private Boolean complete = null;
+  private Boolean complete = false;
 
   public Order id(Long id) {
     this.id = id;

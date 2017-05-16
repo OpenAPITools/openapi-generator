@@ -9,6 +9,7 @@ import Foundation
 
 
 open class AdditionalPropertiesClass: JSONEncodable {
+
     public var mapProperty: [String:String]?
     public var mapOfMapProperty: [String:[String:String]]?
 
@@ -19,6 +20,7 @@ open class AdditionalPropertiesClass: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["map_property"] = self.mapProperty?.encodeToJSON()
         nillableDictionary["map_of_map_property"] = self.mapOfMapProperty?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

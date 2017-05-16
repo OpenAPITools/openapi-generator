@@ -9,6 +9,7 @@ import Foundation
 
 
 open class EnumArrays: JSONEncodable {
+
     public enum JustSymbol: String { 
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
@@ -27,6 +28,7 @@ open class EnumArrays: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["just_symbol"] = self.justSymbol?.rawValue
         nillableDictionary["array_enum"] = self.arrayEnum?.map({$0.rawValue}).encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
