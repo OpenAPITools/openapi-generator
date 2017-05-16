@@ -575,6 +575,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String getAlias(String name) {
+        if (typeAliases.containsKey(name)) {
+            return typeAliases.get(name);
+        }
+        return name;
+    }
+
+    @Override
     public String toDefaultValue(Property p) {
         if (p instanceof ArrayProperty) {
             final ArrayProperty ap = (ArrayProperty) p;
@@ -722,6 +730,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
+
+        swaggerType = getAlias(swaggerType);
 
         // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(swaggerType)) {

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,26 @@ import java.util.List;
  */
 
 public interface FakeApiDelegate {
+
+    /**
+     * @see FakeApi#fakeOuterBooleanSerialize
+     */
+    ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body);
+
+    /**
+     * @see FakeApi#fakeOuterCompositeSerialize
+     */
+    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body);
+
+    /**
+     * @see FakeApi#fakeOuterNumberSerialize
+     */
+    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body);
+
+    /**
+     * @see FakeApi#fakeOuterStringSerialize
+     */
+    ResponseEntity<String> fakeOuterStringSerialize(String body);
 
     /**
      * @see FakeApi#testClientModel

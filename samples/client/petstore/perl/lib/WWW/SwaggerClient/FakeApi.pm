@@ -52,6 +52,246 @@ sub new {
 
 
 #
+# fake_outer_boolean_serialize
+#
+# 
+# 
+# @param OuterBoolean $body Input boolean as post body (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'OuterBoolean',
+        description => 'Input boolean as post body',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'fake_outer_boolean_serialize' } = { 
+    	summary => '',
+        params => $params,
+        returns => 'OuterBoolean',
+        };
+}
+# @return OuterBoolean
+#
+sub fake_outer_boolean_serialize {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/outer/boolean';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('OuterBoolean', $response);
+    return $_response_object;
+}
+
+#
+# fake_outer_composite_serialize
+#
+# 
+# 
+# @param OuterComposite $body Input composite as post body (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'OuterComposite',
+        description => 'Input composite as post body',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'fake_outer_composite_serialize' } = { 
+    	summary => '',
+        params => $params,
+        returns => 'OuterComposite',
+        };
+}
+# @return OuterComposite
+#
+sub fake_outer_composite_serialize {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/outer/composite';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('OuterComposite', $response);
+    return $_response_object;
+}
+
+#
+# fake_outer_number_serialize
+#
+# 
+# 
+# @param OuterNumber $body Input number as post body (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'OuterNumber',
+        description => 'Input number as post body',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'fake_outer_number_serialize' } = { 
+    	summary => '',
+        params => $params,
+        returns => 'OuterNumber',
+        };
+}
+# @return OuterNumber
+#
+sub fake_outer_number_serialize {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/outer/number';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('OuterNumber', $response);
+    return $_response_object;
+}
+
+#
+# fake_outer_string_serialize
+#
+# 
+# 
+# @param OuterString $body Input string as post body (optional)
+{
+    my $params = {
+    'body' => {
+        data_type => 'OuterString',
+        description => 'Input string as post body',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'fake_outer_string_serialize' } = { 
+    	summary => '',
+        params => $params,
+        returns => 'OuterString',
+        };
+}
+# @return OuterString
+#
+sub fake_outer_string_serialize {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/outer/string';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('OuterString', $response);
+    return $_response_object;
+}
+
+#
 # test_client_model
 #
 # To test \"client\" model

@@ -52,14 +52,13 @@ from petstore_api.rest import ApiException
 from pprint import pprint
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
-body = petstore_api.Client() # Client | client model
+body = petstore_api.OuterBoolean() # OuterBoolean | Input boolean as post body (optional)
 
 try:
-    # To test \"client\" model
-    api_response = api_instance.test_client_model(body)
+    api_response = api_instance.fake_outer_boolean_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling FakeApi->test_client_model: %s\n" % e)
+    print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
 
 ```
 
@@ -69,6 +68,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
+*FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
+*FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
+*FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
@@ -122,7 +125,11 @@ Class | Method | HTTP request | Description
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)
+ - [OuterBoolean](docs/OuterBoolean.md)
+ - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterNumber](docs/OuterNumber.md)
+ - [OuterString](docs/OuterString.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)

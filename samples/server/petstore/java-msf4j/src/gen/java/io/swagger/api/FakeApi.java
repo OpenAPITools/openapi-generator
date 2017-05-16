@@ -10,6 +10,7 @@ import io.swagger.jaxrs.*;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
+import io.swagger.model.OuterComposite;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -32,6 +33,54 @@ import javax.ws.rs.*;
 public class FakeApi  {
    private final FakeApiService delegate = FakeApiServiceFactory.getFakeApi();
 
+    @POST
+    @Path("/outer/boolean")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
+    public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" ) Boolean body
+)
+    throws NotFoundException {
+        return delegate.fakeOuterBooleanSerialize(body);
+    }
+    @POST
+    @Path("/outer/composite")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
+    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" ) OuterComposite body
+)
+    throws NotFoundException {
+        return delegate.fakeOuterCompositeSerialize(body);
+    }
+    @POST
+    @Path("/outer/number")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+    public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" ) BigDecimal body
+)
+    throws NotFoundException {
+        return delegate.fakeOuterNumberSerialize(body);
+    }
+    @POST
+    @Path("/outer/string")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class) })
+    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) String body
+)
+    throws NotFoundException {
+        return delegate.fakeOuterStringSerialize(body);
+    }
     @PATCH
     
     @Consumes({ "application/json" })
