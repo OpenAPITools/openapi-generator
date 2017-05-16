@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
 import org.joda.time.LocalDate;
+import io.swagger.model.OuterComposite;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -21,6 +22,50 @@ import javax.validation.constraints.*;
 
 
 public class FakeApi  {
+
+    @POST
+    @Path("/outer/boolean")
+    
+    
+    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
+    public Response fakeOuterBooleanSerialize(Boolean body) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/outer/composite")
+    
+    
+    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
+    public Response fakeOuterCompositeSerialize(OuterComposite body) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/outer/number")
+    
+    
+    @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+    public Response fakeOuterNumberSerialize(BigDecimal body) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/outer/string")
+    
+    
+    @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Output string", response = String.class) })
+    public Response fakeOuterStringSerialize(String body) {
+        return Response.ok().entity("magic!").build();
+    }
 
     @PATCH
     

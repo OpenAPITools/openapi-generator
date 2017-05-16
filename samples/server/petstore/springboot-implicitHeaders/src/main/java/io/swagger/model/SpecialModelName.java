@@ -27,7 +27,7 @@ public class SpecialModelName   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Long getSpecialPropertyName() {
     return specialPropertyName;
   }

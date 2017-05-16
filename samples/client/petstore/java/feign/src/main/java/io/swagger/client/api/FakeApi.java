@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import io.swagger.client.model.Client;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import io.swagger.client.model.OuterComposite;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,58 @@ import feign.*;
 
 public interface FakeApi extends ApiClient.Api {
 
+
+  /**
+   * 
+   * Test serialization of outer boolean types
+    * @param body Input boolean as post body (optional)
+   * @return Boolean
+   */
+  @RequestLine("POST /fake/outer/boolean")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  Boolean fakeOuterBooleanSerialize(Boolean body);
+
+  /**
+   * 
+   * Test serialization of object with outer number type
+    * @param body Input composite as post body (optional)
+   * @return OuterComposite
+   */
+  @RequestLine("POST /fake/outer/composite")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  OuterComposite fakeOuterCompositeSerialize(OuterComposite body);
+
+  /**
+   * 
+   * Test serialization of outer number types
+    * @param body Input number as post body (optional)
+   * @return BigDecimal
+   */
+  @RequestLine("POST /fake/outer/number")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  BigDecimal fakeOuterNumberSerialize(BigDecimal body);
+
+  /**
+   * 
+   * Test serialization of outer string types
+    * @param body Input string as post body (optional)
+   * @return String
+   */
+  @RequestLine("POST /fake/outer/string")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  String fakeOuterStringSerialize(String body);
 
   /**
    * To test \&quot;client\&quot; model

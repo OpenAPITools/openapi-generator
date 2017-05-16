@@ -572,6 +572,35 @@ class Decoders {
         }
 
 
+        // Decoder for [OuterBoolean]
+        Decoders.addDecoder(clazz: [OuterBoolean].self) { (source: AnyObject) -> [OuterBoolean] in
+            return Decoders.decode(clazz: [OuterBoolean].self, source: source)
+        }
+        // Decoder for OuterBoolean
+        Decoders.addDecoder(clazz: OuterBoolean.self) { (source: AnyObject) -> OuterBoolean in
+            if let source = source as? Bool {
+                return source
+            }
+            fatalError("Source \(source) is not convertible to typealias OuterBoolean: Maybe swagger file is insufficient")
+        }
+
+
+        // Decoder for [OuterComposite]
+        Decoders.addDecoder(clazz: [OuterComposite].self) { (source: AnyObject) -> [OuterComposite] in
+            return Decoders.decode(clazz: [OuterComposite].self, source: source)
+        }
+        // Decoder for OuterComposite
+        Decoders.addDecoder(clazz: OuterComposite.self) { (source: AnyObject) -> OuterComposite in
+            let sourceDictionary = source as! [AnyHashable: Any]
+
+            let instance = OuterComposite()
+            instance.myNumber = Decoders.decodeOptional(clazz: OuterNumber.self, source: sourceDictionary["my_number"] as AnyObject?)
+            instance.myString = Decoders.decodeOptional(clazz: OuterString.self, source: sourceDictionary["my_string"] as AnyObject?)
+            instance.myBoolean = Decoders.decodeOptional(clazz: OuterBoolean.self, source: sourceDictionary["my_boolean"] as AnyObject?)
+            return instance
+        }
+
+
         // Decoder for [OuterEnum]
         Decoders.addDecoder(clazz: [OuterEnum].self) { (source: AnyObject, instance: AnyObject?) -> [OuterEnum] in
             return Decoders.decode(clazz: [OuterEnum].self, source: source)
@@ -584,6 +613,32 @@ class Decoders {
                 }
             }
             fatalError("Source \(source) is not convertible to enum type OuterEnum: Maybe swagger file is insufficient")
+        }
+
+
+        // Decoder for [OuterNumber]
+        Decoders.addDecoder(clazz: [OuterNumber].self) { (source: AnyObject) -> [OuterNumber] in
+            return Decoders.decode(clazz: [OuterNumber].self, source: source)
+        }
+        // Decoder for OuterNumber
+        Decoders.addDecoder(clazz: OuterNumber.self) { (source: AnyObject) -> OuterNumber in
+            if let source = source as? Double {
+                return source
+            }
+            fatalError("Source \(source) is not convertible to typealias OuterNumber: Maybe swagger file is insufficient")
+        }
+
+
+        // Decoder for [OuterString]
+        Decoders.addDecoder(clazz: [OuterString].self) { (source: AnyObject) -> [OuterString] in
+            return Decoders.decode(clazz: [OuterString].self, source: source)
+        }
+        // Decoder for OuterString
+        Decoders.addDecoder(clazz: OuterString.self) { (source: AnyObject) -> OuterString in
+            if let source = source as? String {
+                return source
+            }
+            fatalError("Source \(source) is not convertible to typealias OuterString: Maybe swagger file is insufficient")
         }
 
 

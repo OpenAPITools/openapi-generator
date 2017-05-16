@@ -28,7 +28,7 @@ public class ModelReturn   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
+
   public Integer getReturn() {
     return _return;
   }

@@ -66,6 +66,10 @@ declare -A operation_parameters
 # 0 - optional
 # 1 - required
 declare -A operation_parameters_minimum_occurences
+operation_parameters_minimum_occurences["fakeOuterBooleanSerialize:::body"]=0
+operation_parameters_minimum_occurences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_minimum_occurences["fakeOuterNumberSerialize:::body"]=0
+operation_parameters_minimum_occurences["fakeOuterStringSerialize:::body"]=0
 operation_parameters_minimum_occurences["testClientModel:::body"]=1
 operation_parameters_minimum_occurences["testEndpointParameters:::number"]=1
 operation_parameters_minimum_occurences["testEndpointParameters:::double"]=1
@@ -122,6 +126,10 @@ operation_parameters_minimum_occurences["updateUser:::body"]=1
 # N - N values
 # 0 - unlimited
 declare -A operation_parameters_maximum_occurences
+operation_parameters_maximum_occurences["fakeOuterBooleanSerialize:::body"]=0
+operation_parameters_maximum_occurences["fakeOuterCompositeSerialize:::body"]=0
+operation_parameters_maximum_occurences["fakeOuterNumberSerialize:::body"]=0
+operation_parameters_maximum_occurences["fakeOuterStringSerialize:::body"]=0
 operation_parameters_maximum_occurences["testClientModel:::body"]=0
 operation_parameters_maximum_occurences["testEndpointParameters:::number"]=0
 operation_parameters_maximum_occurences["testEndpointParameters:::double"]=0
@@ -175,6 +183,10 @@ operation_parameters_maximum_occurences["updateUser:::body"]=0
 # The type of collection for specifying multiple values for parameter:
 # - multi, csv, ssv, tsv
 declare -A operation_parameters_collection_type
+operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
+operation_parameters_collection_type["fakeOuterCompositeSerialize:::body"]=""
+operation_parameters_collection_type["fakeOuterNumberSerialize:::body"]=""
+operation_parameters_collection_type["fakeOuterStringSerialize:::body"]=""
 operation_parameters_collection_type["testClientModel:::body"]=""
 operation_parameters_collection_type["testEndpointParameters:::number"]=""
 operation_parameters_collection_type["testEndpointParameters:::double"]=""
@@ -711,6 +723,10 @@ EOF
     echo ""
     echo -e "$(tput bold)$(tput setaf 7)[fake]$(tput sgr0)"
 read -d '' ops <<EOF
+  $(tput setaf 6)fakeOuterBooleanSerialize$(tput sgr0);
+  $(tput setaf 6)fakeOuterCompositeSerialize$(tput sgr0);
+  $(tput setaf 6)fakeOuterNumberSerialize$(tput sgr0);
+  $(tput setaf 6)fakeOuterStringSerialize$(tput sgr0);
   $(tput setaf 6)testClientModel$(tput sgr0);To test \"client\" model
   $(tput setaf 6)testEndpointParameters$(tput sgr0);Fake endpoint for testing various parameters
 假端點
@@ -804,6 +820,154 @@ print_version() {
     echo ""
 }
 
+##############################################################################
+#
+# Print help for fakeOuterBooleanSerialize operation
+#
+##############################################################################
+print_fakeOuterBooleanSerialize_help() {
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)fakeOuterBooleanSerialize - $(tput sgr0)"
+    echo -e ""
+    echo -e "Test serialization of outer boolean types" | fold -sw 80
+    echo -e ""
+    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
+    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input boolean as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
+    case 200 in
+        1*)
+        echo -e "$(tput setaf 7)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        2*)
+        echo -e "$(tput setaf 2)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        3*)
+        echo -e "$(tput setaf 3)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        4*)
+        echo -e "$(tput setaf 1)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        5*)
+        echo -e "$(tput setaf 5)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        *)
+        echo -e "$(tput setaf 7)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+    esac
+}
+##############################################################################
+#
+# Print help for fakeOuterCompositeSerialize operation
+#
+##############################################################################
+print_fakeOuterCompositeSerialize_help() {
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)fakeOuterCompositeSerialize - $(tput sgr0)"
+    echo -e ""
+    echo -e "Test serialization of object with outer number type" | fold -sw 80
+    echo -e ""
+    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
+    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input composite as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
+    case 200 in
+        1*)
+        echo -e "$(tput setaf 7)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        2*)
+        echo -e "$(tput setaf 2)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        3*)
+        echo -e "$(tput setaf 3)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        4*)
+        echo -e "$(tput setaf 1)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        5*)
+        echo -e "$(tput setaf 5)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        *)
+        echo -e "$(tput setaf 7)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+    esac
+}
+##############################################################################
+#
+# Print help for fakeOuterNumberSerialize operation
+#
+##############################################################################
+print_fakeOuterNumberSerialize_help() {
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)fakeOuterNumberSerialize - $(tput sgr0)"
+    echo -e ""
+    echo -e "Test serialization of outer number types" | fold -sw 80
+    echo -e ""
+    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
+    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input number as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
+    case 200 in
+        1*)
+        echo -e "$(tput setaf 7)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        2*)
+        echo -e "$(tput setaf 2)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        3*)
+        echo -e "$(tput setaf 3)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        4*)
+        echo -e "$(tput setaf 1)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        5*)
+        echo -e "$(tput setaf 5)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        *)
+        echo -e "$(tput setaf 7)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+    esac
+}
+##############################################################################
+#
+# Print help for fakeOuterStringSerialize operation
+#
+##############################################################################
+print_fakeOuterStringSerialize_help() {
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)fakeOuterStringSerialize - $(tput sgr0)"
+    echo -e ""
+    echo -e "Test serialization of outer string types" | fold -sw 80
+    echo -e ""
+    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
+    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input string as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
+    case 200 in
+        1*)
+        echo -e "$(tput setaf 7)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        2*)
+        echo -e "$(tput setaf 2)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        3*)
+        echo -e "$(tput setaf 3)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        4*)
+        echo -e "$(tput setaf 1)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        5*)
+        echo -e "$(tput setaf 5)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        *)
+        echo -e "$(tput setaf 7)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+    esac
+}
 ##############################################################################
 #
 # Print help for testClientModel operation
@@ -2002,6 +2166,262 @@ print_updateUser_help() {
 
 ##############################################################################
 #
+# Call fakeOuterBooleanSerialize operation
+#
+##############################################################################
+call_fakeOuterBooleanSerialize() {
+    local path_parameter_names=()
+    local query_parameter_names=()
+
+    if [[ $force = false ]]; then
+        validate_request_parameters "/v2/fake/outer/boolean" path_parameter_names query_parameter_names
+    fi
+
+    local path=$(build_request_path "/v2/fake/outer/boolean" path_parameter_names query_parameter_names)
+    local method="POST"
+    local headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
+    fi
+}
+
+##############################################################################
+#
+# Call fakeOuterCompositeSerialize operation
+#
+##############################################################################
+call_fakeOuterCompositeSerialize() {
+    local path_parameter_names=()
+    local query_parameter_names=()
+
+    if [[ $force = false ]]; then
+        validate_request_parameters "/v2/fake/outer/composite" path_parameter_names query_parameter_names
+    fi
+
+    local path=$(build_request_path "/v2/fake/outer/composite" path_parameter_names query_parameter_names)
+    local method="POST"
+    local headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
+    fi
+}
+
+##############################################################################
+#
+# Call fakeOuterNumberSerialize operation
+#
+##############################################################################
+call_fakeOuterNumberSerialize() {
+    local path_parameter_names=()
+    local query_parameter_names=()
+
+    if [[ $force = false ]]; then
+        validate_request_parameters "/v2/fake/outer/number" path_parameter_names query_parameter_names
+    fi
+
+    local path=$(build_request_path "/v2/fake/outer/number" path_parameter_names query_parameter_names)
+    local method="POST"
+    local headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
+    fi
+}
+
+##############################################################################
+#
+# Call fakeOuterStringSerialize operation
+#
+##############################################################################
+call_fakeOuterStringSerialize() {
+    local path_parameter_names=()
+    local query_parameter_names=()
+
+    if [[ $force = false ]]; then
+        validate_request_parameters "/v2/fake/outer/string" path_parameter_names query_parameter_names
+    fi
+
+    local path=$(build_request_path "/v2/fake/outer/string" path_parameter_names query_parameter_names)
+    local method="POST"
+    local headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
+    fi
+}
+
+##############################################################################
+#
 # Call testClientModel operation
 #
 ##############################################################################
@@ -3085,6 +3505,18 @@ case $key in
     --dry-run)
     print_curl=true
     ;;
+    fakeOuterBooleanSerialize)
+    operation="fakeOuterBooleanSerialize"
+    ;;
+    fakeOuterCompositeSerialize)
+    operation="fakeOuterCompositeSerialize"
+    ;;
+    fakeOuterNumberSerialize)
+    operation="fakeOuterNumberSerialize"
+    ;;
+    fakeOuterStringSerialize)
+    operation="fakeOuterStringSerialize"
+    ;;
     testClientModel)
     operation="testClientModel"
     ;;
@@ -3238,6 +3670,18 @@ fi
 
 # Run cURL command based on the operation ID
 case $operation in
+    fakeOuterBooleanSerialize)
+    call_fakeOuterBooleanSerialize
+    ;;
+    fakeOuterCompositeSerialize)
+    call_fakeOuterCompositeSerialize
+    ;;
+    fakeOuterNumberSerialize)
+    call_fakeOuterNumberSerialize
+    ;;
+    fakeOuterStringSerialize)
+    call_fakeOuterStringSerialize
+    ;;
     testClientModel)
     call_testClientModel
     ;;
