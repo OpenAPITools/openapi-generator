@@ -139,9 +139,8 @@ class ApiClientTests(unittest.TestCase):
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
-        pet = petstore_api.Pet()
+        pet = petstore_api.Pet(name=pet_dict["name"], photo_urls=pet_dict["photoUrls"])
         pet.id = pet_dict["id"]
-        pet.name = pet_dict["name"]
         cate = petstore_api.Category()
         cate.id = pet_dict["category"]["id"]
         cate.name = pet_dict["category"]["name"]
@@ -154,7 +153,6 @@ class ApiClientTests(unittest.TestCase):
         tag2.name = pet_dict["tags"][1]["name"]
         pet.tags = [tag1, tag2]
         pet.status = pet_dict["status"]
-        pet.photo_urls = pet_dict["photoUrls"]
 
         data = pet
         result = self.api_client.sanitize_for_serialization(data)

@@ -62,10 +62,8 @@ class PetApiTests(unittest.TestCase):
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "swagger-codegen-python-pet-tag"
-        self.pet = petstore_api.Pet()
+        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
-        self.pet.name = "hello kity"
-        self.pet.photo_urls = ["http://foo.bar.com/1", "http://foo.bar.com/2"]
         self.pet.status = "sold"
         self.pet.category = self.category
         self.pet.tags = [self.tag]
