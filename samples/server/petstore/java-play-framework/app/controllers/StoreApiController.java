@@ -48,7 +48,7 @@ public class StoreApiController extends Controller {
     }
 
     @ApiAction
-    public Result getOrderById(String orderId) throws Exception {
+    public Result getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
         Order obj = imp.getOrderById(orderId);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -59,12 +59,9 @@ public class StoreApiController extends Controller {
     public Result placeOrder() throws Exception {
         JsonNode nodebody = request().body().asJson();
         Order body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Order.class);
-        
-        } else {
-            body = null;
-        }
+
+        body = mapper.readValue(nodebody.toString(), Order.class);
+
         Order obj = imp.placeOrder(body);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);

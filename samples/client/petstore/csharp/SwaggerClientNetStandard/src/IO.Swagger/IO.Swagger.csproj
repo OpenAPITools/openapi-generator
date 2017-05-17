@@ -43,10 +43,8 @@ Contact: apiteam@swagger.io
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\**\*.cs"/>
-    <Compile Include="Client\**\*.cs"/>
-    <Compile Include="Model\**\*.cs"/>
-    <Compile Include="Properties\**\*.cs"/>
+    <Compile Include="**\*.cs"
+             Exclude="obj\**" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

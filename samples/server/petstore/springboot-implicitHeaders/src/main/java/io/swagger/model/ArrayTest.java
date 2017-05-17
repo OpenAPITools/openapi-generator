@@ -8,7 +8,9 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * ArrayTest
  */
@@ -41,6 +43,8 @@ public class ArrayTest   {
    * @return arrayOfString
   **/
   @ApiModelProperty(value = "")
+
+
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -67,6 +71,9 @@ public class ArrayTest   {
    * @return arrayArrayOfInteger
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
+
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -93,6 +100,9 @@ public class ArrayTest   {
    * @return arrayArrayOfModel
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
+
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,38 @@ import java.util.List;
  */
 
 public interface FakeApiDelegate {
+
+    /**
+     * @see FakeApi#fakeOuterBooleanSerialize
+     */
+    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
+    // do some magic!
+    return new ResponseEntity<Boolean>(HttpStatus.OK);
+    }
+
+    /**
+     * @see FakeApi#fakeOuterCompositeSerialize
+     */
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
+    // do some magic!
+    return new ResponseEntity<OuterComposite>(HttpStatus.OK);
+    }
+
+    /**
+     * @see FakeApi#fakeOuterNumberSerialize
+     */
+    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
+    // do some magic!
+    return new ResponseEntity<BigDecimal>(HttpStatus.OK);
+    }
+
+    /**
+     * @see FakeApi#fakeOuterStringSerialize
+     */
+    default ResponseEntity<String> fakeOuterStringSerialize(String body) {
+    // do some magic!
+    return new ResponseEntity<String>(HttpStatus.OK);
+    }
 
     /**
      * @see FakeApi#testClientModel

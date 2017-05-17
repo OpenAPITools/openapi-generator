@@ -809,6 +809,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Webever GmbH](https://www.webever.de/)
 - [WEXO A/S](https://www.wexo.dk/)
 - [XSky](http://www.xsky.com/)
+- [Yelp](http://www.yelp.com/)
 - [Zalando](https://tech.zalando.com)
 - [ZEEF.com](https://zeef.com/)
 

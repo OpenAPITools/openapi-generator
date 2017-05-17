@@ -22,31 +22,34 @@ class OuterEnum(object):
     Do not edit the class manually.
     """
 
+    """
+    allowed enum values
+    """
     PLACED = "placed"
     APPROVED = "approved"
     DELIVERED = "delivered"
 
+    """
+    Attributes:
+      swagger_types (dict): The key is attribute name
+                            and the value is attribute type.
+      attribute_map (dict): The key is attribute name
+                            and the value is json key in definition.
+    """
+    swagger_types = {
+        
+    }
+
+    attribute_map = {
+        
+    }
+
     def __init__(self):
         """
         OuterEnum - a model defined in Swagger
-
-        :param dict swaggerTypes: The key is attribute name
-                                  and the value is attribute type.
-        :param dict attributeMap: The key is attribute name
-                                  and the value is json key in definition.
         """
-        self.swagger_types = {
-            
-        }
-
-        self.attribute_map = {
-            
-        }
 
 
-        # TODO: let required properties as mandatory parameter in the constructor.
-        #       - to check if required property is not None (e.g. by calling setter)
-        #       - ApiClient.__deserialize_model has to be adapted as well
 
     def to_dict(self):
         """

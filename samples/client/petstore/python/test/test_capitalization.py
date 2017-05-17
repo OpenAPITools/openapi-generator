@@ -35,7 +35,9 @@ class TestCapitalization(unittest.TestCase):
         """
         Test Capitalization
         """
-        model = petstore_api.models.capitalization.Capitalization()
+        # FIXME: construct object with required attributes
+        #model = petstore_api.models.capitalization.Capitalization()
+        pass
 
 
 if __name__ == '__main__':

@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * MapTest
  */
@@ -70,6 +72,9 @@ public class MapTest   {
    * @return mapMapOfString
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
+
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -96,6 +101,8 @@ public class MapTest   {
    * @return mapOfEnumString
   **/
   @ApiModelProperty(value = "")
+
+
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }

@@ -69,6 +69,17 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "file");
         typeMapping.put("UUID", "str");
 
+        // from https://docs.python.org/release/2.5.4/ref/keywords.html
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                    // @property
+                    "property",
+                    // python reserved words
+                    "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
+                    "assert", "else", "if", "pass", "yield", "break", "except", "import",
+                    "print", "class", "exec", "in", "raise", "continue", "finally", "is",
+                    "return", "def", "for", "lambda", "try", "self", "None"));
+
         // set the output folder here
         outputFolder = "generated-code/connexion";
 

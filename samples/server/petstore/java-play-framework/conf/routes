@@ -12,13 +12,13 @@ GET     /v2/pet/findByStatus                     controllers.PetApiController.fi
 GET     /v2/pet/findByTags                     controllers.PetApiController.findPetsByTags()
 GET     /v2/pet/:petId                     controllers.PetApiController.getPetById(petId: Long)
 PUT     /v2/pet                     controllers.PetApiController.updatePet()
-POST     /v2/pet/:petId                     controllers.PetApiController.updatePetWithForm(petId: String)
+POST     /v2/pet/:petId                     controllers.PetApiController.updatePetWithForm(petId: Long)
 POST     /v2/pet/:petId/uploadImage                     controllers.PetApiController.uploadFile(petId: Long)
 
 #Functions for Store API
 DELETE     /v2/store/order/:orderId                     controllers.StoreApiController.deleteOrder(orderId: String)
 GET     /v2/store/inventory                     controllers.StoreApiController.getInventory()
-GET     /v2/store/order/:orderId                     controllers.StoreApiController.getOrderById(orderId: String)
+GET     /v2/store/order/:orderId                     controllers.StoreApiController.getOrderById(orderId: Long)
 POST     /v2/store/order                     controllers.StoreApiController.placeOrder()
 
 #Functions for User API

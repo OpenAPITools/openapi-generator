@@ -4,7 +4,7 @@ import java.util.Objects;
 import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
 /**
- * User
+ * A User who is purchasing from the pet store
  */
 
 public class User   {

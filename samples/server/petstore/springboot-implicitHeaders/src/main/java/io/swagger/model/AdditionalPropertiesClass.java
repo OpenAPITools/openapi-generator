@@ -8,7 +8,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * AdditionalPropertiesClass
  */
@@ -38,6 +40,8 @@ public class AdditionalPropertiesClass   {
    * @return mapProperty
   **/
   @ApiModelProperty(value = "")
+
+
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -64,6 +68,9 @@ public class AdditionalPropertiesClass   {
    * @return mapOfMapProperty
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
+
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

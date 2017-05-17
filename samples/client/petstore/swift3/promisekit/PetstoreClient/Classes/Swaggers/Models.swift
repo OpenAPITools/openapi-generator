@@ -1004,6 +1004,51 @@ class Decoders {
         }
 
 
+        // Decoder for [OuterBoolean]
+            return Decoders.decode(clazz: [OuterBoolean].self, source: source, instance: instance)
+        }
+        // Decoder for OuterBoolean
+        Decoders.addDecoder(clazz: OuterBoolean.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OuterBoolean> in
+            if let source = source as? Bool {
+                return .success(source)
+            } else {
+                return .failure(.typeMismatch(expected: "Typealias OuterBoolean", actual: "\(source)"))
+            }
+        }
+
+
+        // Decoder for [OuterComposite]
+            return Decoders.decode(clazz: [OuterComposite].self, source: source, instance: instance)
+        }
+        // Decoder for OuterComposite
+        Decoders.addDecoder(clazz: OuterComposite.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OuterComposite> in
+            if let sourceDictionary = source as? [AnyHashable: Any] {
+                let result = instance == nil ? OuterComposite() : instance as! OuterComposite
+                switch Decoders.decodeOptional(clazz: OuterNumber.self, source: sourceDictionary["my_number"] as AnyObject?) {
+                
+                case let .success(value): result.myNumber = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: OuterString.self, source: sourceDictionary["my_string"] as AnyObject?) {
+                
+                case let .success(value): result.myString = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                switch Decoders.decodeOptional(clazz: OuterBoolean.self, source: sourceDictionary["my_boolean"] as AnyObject?) {
+                
+                case let .success(value): result.myBoolean = value
+                case let .failure(error): return .failure(error)
+                
+                }
+                return .success(result)
+            } else {
+                return .failure(.typeMismatch(expected: "OuterComposite", actual: "\(source)"))
+            }
+        }
+
+
         // Decoder for [OuterEnum]
             return Decoders.decode(clazz: [OuterEnum].self, source: source, instance: instance)
         }
@@ -1011,6 +1056,32 @@ class Decoders {
         Decoders.addDecoder(clazz: OuterEnum.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OuterEnum> in
             //TODO: I don't think we need this anymore
             return Decoders.decode(clazz: OuterEnum.self, source: source, instance: instance)
+        }
+
+
+        // Decoder for [OuterNumber]
+            return Decoders.decode(clazz: [OuterNumber].self, source: source, instance: instance)
+        }
+        // Decoder for OuterNumber
+        Decoders.addDecoder(clazz: OuterNumber.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OuterNumber> in
+            if let source = source as? Double {
+                return .success(source)
+            } else {
+                return .failure(.typeMismatch(expected: "Typealias OuterNumber", actual: "\(source)"))
+            }
+        }
+
+
+        // Decoder for [OuterString]
+            return Decoders.decode(clazz: [OuterString].self, source: source, instance: instance)
+        }
+        // Decoder for OuterString
+        Decoders.addDecoder(clazz: OuterString.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<OuterString> in
+            if let source = source as? String {
+                return .success(source)
+            } else {
+                return .failure(.typeMismatch(expected: "Typealias OuterString", actual: "\(source)"))
+            }
         }
 
 

@@ -29,7 +29,7 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
     }
 
     public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body,
-        @RequestHeader("Accept") String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {

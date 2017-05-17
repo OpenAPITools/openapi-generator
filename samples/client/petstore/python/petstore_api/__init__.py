@@ -40,7 +40,11 @@ from .models.model_return import ModelReturn
 from .models.name import Name
 from .models.number_only import NumberOnly
 from .models.order import Order
+from .models.outer_boolean import OuterBoolean
+from .models.outer_composite import OuterComposite
 from .models.outer_enum import OuterEnum
+from .models.outer_number import OuterNumber
+from .models.outer_string import OuterString
 from .models.pet import Pet
 from .models.read_only_first import ReadOnlyFirst
 from .models.special_model_name import SpecialModelName

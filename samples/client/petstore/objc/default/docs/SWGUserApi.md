@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 ### Example 
 ```objc
 
-SWGUser* body = [[SWGUser alloc] init]; // Created user object (optional)
+SWGUser* body = [[SWGUser alloc] init]; // Created user object
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -44,7 +44,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGUser***](SWGUser*.md)| Created user object | [optional] 
+ **body** | [**SWGUser***](SWGUser*.md)| Created user object | 
 
 ### Return type
 
@@ -57,7 +57,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -74,7 +74,7 @@ Creates list of users with given input array
 ### Example 
 ```objc
 
-NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object (optional)
+NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -91,7 +91,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | [optional] 
+ **body** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | 
 
 ### Return type
 
@@ -104,7 +104,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -121,7 +121,7 @@ Creates list of users with given input array
 ### Example 
 ```objc
 
-NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object (optional)
+NSArray<SWGUser>* body = @[[[SWGUser alloc] init]]; // List of user object
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -138,7 +138,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | [optional] 
+ **body** | [**NSArray&lt;SWGUser&gt;***](SWGUser.md)| List of user object | 
 
 ### Return type
 
@@ -151,7 +151,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -198,7 +198,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -248,7 +248,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -266,8 +266,8 @@ Logs user into the system
 ### Example 
 ```objc
 
-NSString* username = @"username_example"; // The user name for login (optional)
-NSString* password = @"password_example"; // The password for login in clear text (optional)
+NSString* username = @"username_example"; // The user name for login
+NSString* password = @"password_example"; // The password for login in clear text
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -288,8 +288,8 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **NSString***| The user name for login | [optional] 
- **password** | **NSString***| The password for login in clear text | [optional] 
+ **username** | **NSString***| The user name for login | 
+ **password** | **NSString***| The password for login in clear text | 
 
 ### Return type
 
@@ -302,7 +302,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -345,7 +345,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -364,7 +364,7 @@ This can only be done by the logged in user.
 ```objc
 
 NSString* username = @"username_example"; // name that need to be deleted
-SWGUser* body = [[SWGUser alloc] init]; // Updated user object (optional)
+SWGUser* body = [[SWGUser alloc] init]; // Updated user object
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -383,7 +383,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **NSString***| name that need to be deleted | 
- **body** | [**SWGUser***](SWGUser*.md)| Updated user object | [optional] 
+ **body** | [**SWGUser***](SWGUser*.md)| Updated user object | 
 
 ### Return type
 
@@ -396,7 +396,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/xml
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
