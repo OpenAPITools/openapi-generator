@@ -252,7 +252,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<ModelClient>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (ModelClient) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
-            
         }
 
         /// <summary>
@@ -328,7 +327,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<ModelClient>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (ModelClient) Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
-            
         }
 
     }
