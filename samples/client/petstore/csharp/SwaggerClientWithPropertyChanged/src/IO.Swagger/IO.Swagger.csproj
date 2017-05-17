@@ -64,10 +64,8 @@ Contact: apiteam@swagger.io
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\**\*.cs"/>
-    <Compile Include="Client\**\*.cs"/>
-    <Compile Include="Model\**\*.cs"/>
-    <Compile Include="Properties\**\*.cs"/>
+    <Compile Include="**\*.cs"
+             Exclude="obj\**" />
   </ItemGroup>
   <ItemGroup>
       <None Include="packages.config" />
