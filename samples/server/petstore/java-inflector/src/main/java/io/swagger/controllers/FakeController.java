@@ -13,6 +13,7 @@ import io.swagger.model.*;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
+import io.swagger.model.OuterComposite;
 
 
 public class FakeController  {
@@ -21,6 +22,30 @@ public class FakeController  {
    * Directly to operation calls from the routing logic.  Because the inflector
    * Code allows you to implement logic incrementally, they are disabled.
    **/
+
+  /*
+    public ResponseContext fakeOuterBooleanSerialize(RequestContext request , Boolean body) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext fakeOuterCompositeSerialize(RequestContext request , OuterComposite body) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext fakeOuterNumberSerialize(RequestContext request , BigDecimal body) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext fakeOuterStringSerialize(RequestContext request , String body) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
 
   /*
     public ResponseContext testClientModel(RequestContext request , Client body) {

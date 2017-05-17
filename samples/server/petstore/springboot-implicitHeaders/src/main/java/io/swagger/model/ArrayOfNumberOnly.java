@@ -8,7 +8,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * ArrayOfNumberOnly
  */
@@ -35,6 +37,9 @@ public class ArrayOfNumberOnly   {
    * @return arrayNumber
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
+
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

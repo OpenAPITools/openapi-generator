@@ -4,6 +4,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.codegen.ignore.CodegenIgnoreProcessor;
 import io.swagger.codegen.utils.ImplementationVersion;
+import io.swagger.codegen.languages.AbstractJavaCodegen;
 import io.swagger.models.*;
 import io.swagger.models.auth.OAuth2Definition;
 import io.swagger.models.auth.SecuritySchemeDefinition;
@@ -327,7 +328,17 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if(config.importMapping().containsKey(modelName)) {
                     continue;
                 }
-                allModels.add(((List<Object>) models.get("models")).get(0));
+                Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
+                if (config instanceof AbstractJavaCodegen) {
+                    // Special handling of aliases only applies to Java
+                    if (modelTemplate != null && modelTemplate.containsKey("model")) {
+                        CodegenModel m = (CodegenModel) modelTemplate.get("model");
+                        if (m.isAlias) {
+                            continue;  // Don't create user-defined classes for aliases
+                        }
+                    }
+                }
+                allModels.add(modelTemplate);
                 for (String templateName : config.modelTemplateFiles().keySet()) {
                     String suffix = config.modelTemplateFiles().get(templateName);
                     String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;

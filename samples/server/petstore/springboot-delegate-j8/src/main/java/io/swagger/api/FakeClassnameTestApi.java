@@ -29,7 +29,7 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body, @RequestHeader("Accept") String accept) throws IOException {
+    default ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body, @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
         // do some magic!
         return new ResponseEntity<Client>(HttpStatus.OK);
     }

@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * Tag
  */
@@ -27,6 +29,8 @@ public class Tag   {
    * @return id
   **/
   @ApiModelProperty(value = "")
+
+
   public Long getId() {
     return id;
   }
@@ -45,6 +49,8 @@ public class Tag   {
    * @return name
   **/
   @ApiModelProperty(value = "")
+
+
   public String getName() {
     return name;
   }

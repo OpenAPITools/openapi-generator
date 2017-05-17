@@ -9,6 +9,7 @@
 ./bin/java-petstore-retrofit.sh
 ./bin/java-petstore-retrofit2.sh
 ./bin/java-petstore-retrofit2rx.sh
+./bin/java-petstore-retrofit2rx2.sh
 ./bin/java8-petstore-jersey2.sh
 ./bin/java-petstore-retrofit2-play24.sh
 ./bin/java-petstore-jersey2-java6.sh

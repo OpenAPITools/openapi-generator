@@ -35,7 +35,9 @@ class TestClassModel(unittest.TestCase):
         """
         Test ClassModel
         """
-        model = petstore_api.models.class_model.ClassModel()
+        # FIXME: construct object with required attributes
+        #model = petstore_api.models.class_model.ClassModel()
+        pass
 
 
 if __name__ == '__main__':

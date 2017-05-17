@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Animal;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * Dog
  */
@@ -25,6 +27,8 @@ public class Dog extends Animal  {
    * @return breed
   **/
   @ApiModelProperty(value = "")
+
+
   public String getBreed() {
     return breed;
   }

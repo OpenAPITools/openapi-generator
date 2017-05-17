@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import io.swagger.model.Client;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
 
@@ -29,6 +30,50 @@ public class FakeApiController implements FakeApi {
 
     public FakeApiController(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body,
+        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<Boolean>(objectMapper.readValue("{ }", Boolean.class), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Boolean>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body,
+        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<OuterComposite>(objectMapper.readValue("{  \"my_string\" : { },  \"my_number\" : { },  \"my_boolean\" : { }}", OuterComposite.class), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<OuterComposite>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body,
+        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<BigDecimal>(objectMapper.readValue("{ }", BigDecimal.class), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<BigDecimal>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body,
+        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<String>(objectMapper.readValue("{ }", String.class), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body,

@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.OuterEnum;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 /**
  * EnumTest
  */
@@ -130,6 +132,8 @@ public class EnumTest   {
    * @return enumString
   **/
   @ApiModelProperty(value = "")
+
+
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -148,6 +152,8 @@ public class EnumTest   {
    * @return enumInteger
   **/
   @ApiModelProperty(value = "")
+
+
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -166,6 +172,8 @@ public class EnumTest   {
    * @return enumNumber
   **/
   @ApiModelProperty(value = "")
+
+
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -184,6 +192,9 @@ public class EnumTest   {
    * @return outerEnum
   **/
   @ApiModelProperty(value = "")
+
+  @Valid
+
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

@@ -24,6 +24,7 @@ packages/
 .pub
 .packages
 .vagrant/
+.vscode/
 
 .settings
 

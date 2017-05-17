@@ -19,25 +19,23 @@ import unittest
 
 import petstore_api
 from petstore_api.rest import ApiException
-from petstore_api.apis.fake_classname_tags_123_api import FakeClassnameTags123Api
+from petstore_api.models.outer_boolean import OuterBoolean
 
 
-class TestFakeClassnameTags123Api(unittest.TestCase):
-    """ FakeClassnameTags123Api unit test stubs """
+class TestOuterBoolean(unittest.TestCase):
+    """ OuterBoolean unit test stubs """
 
     def setUp(self):
-        self.api = petstore_api.apis.fake_classname_tags_123_api.FakeClassnameTags123Api()
+        pass
 
     def tearDown(self):
         pass
 
-    def test_test_classname(self):
+    def testOuterBoolean(self):
         """
-        Test case for test_classname
-
-        To test class name in snake case
+        Test OuterBoolean
         """
-        pass
+        model = petstore_api.models.outer_boolean.OuterBoolean()
 
 
 if __name__ == '__main__':
