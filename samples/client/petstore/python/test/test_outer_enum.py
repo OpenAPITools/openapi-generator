@@ -35,7 +35,9 @@ class TestOuterEnum(unittest.TestCase):
         """
         Test OuterEnum
         """
-        model = petstore_api.models.outer_enum.OuterEnum()
+        # FIXME: construct object with required attributes
+        #model = petstore_api.models.outer_enum.OuterEnum()
+        pass
 
 
 if __name__ == '__main__':
