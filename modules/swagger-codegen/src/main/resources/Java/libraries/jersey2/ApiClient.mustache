@@ -25,6 +25,7 @@ import java.io.InputStream;
 
 {{^supportJava6}}
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 {{/supportJava6}}
 {{#supportJava6}}
 import org.apache.commons.io.FileUtils;
@@ -581,7 +582,7 @@ public class ApiClient {
     try {
       File file = prepareDownloadFile(response);
 {{^supportJava6}}
-      Files.copy(response.readEntity(InputStream.class), file.toPath());
+      Files.copy(response.readEntity(InputStream.class), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 {{/supportJava6}}
 {{#supportJava6}}
       // Java6 falls back to commons.io for file copying
