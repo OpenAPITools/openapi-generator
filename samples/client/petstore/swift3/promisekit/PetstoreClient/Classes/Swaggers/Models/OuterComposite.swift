@@ -9,6 +9,7 @@ import Foundation
 
 
 open class OuterComposite: JSONEncodable {
+
     public var myNumber: OuterNumber?
     public var myString: OuterString?
     public var myBoolean: OuterBoolean?
@@ -21,6 +22,7 @@ open class OuterComposite: JSONEncodable {
         nillableDictionary["my_number"] = self.myNumber?.encodeToJSON()
         nillableDictionary["my_string"] = self.myString?.encodeToJSON()
         nillableDictionary["my_boolean"] = self.myBoolean?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
