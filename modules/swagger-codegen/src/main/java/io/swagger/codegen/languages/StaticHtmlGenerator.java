@@ -170,6 +170,14 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         return markdownConverter.toHtml(input);
     }
 
+    // DefaultCodegen converts model names to UpperCamelCase
+    // but for static HTML, we want the names to be preserved as coded in the OpenApi
+    // so HTML links work
+    @Override
+    public String toModelName(final String name) {
+        return name;
+    }
+
     public void preprocessSwagger(Swagger swagger) {
         Info info = swagger.getInfo();
         info.setDescription(toHtml(info.getDescription()));
