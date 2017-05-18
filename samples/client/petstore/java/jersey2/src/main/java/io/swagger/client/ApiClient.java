@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -575,7 +576,7 @@ public class ApiClient {
   public File downloadFileFromResponse(Response response) throws ApiException {
     try {
       File file = prepareDownloadFile(response);
-      Files.copy(response.readEntity(InputStream.class), file.toPath());
+      Files.copy(response.readEntity(InputStream.class), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
