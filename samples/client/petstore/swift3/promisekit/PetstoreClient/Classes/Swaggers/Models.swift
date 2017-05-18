@@ -573,11 +573,11 @@ class Decoders {
 
 
         // Decoder for [OuterBoolean]
-        Decoders.addDecoder(clazz: [OuterBoolean].self) { (source: AnyObject) -> [OuterBoolean] in
+        Decoders.addDecoder(clazz: [OuterBoolean].self) { (source: AnyObject, instance: AnyObject?) -> [OuterBoolean] in
             return Decoders.decode(clazz: [OuterBoolean].self, source: source)
         }
         // Decoder for OuterBoolean
-        Decoders.addDecoder(clazz: OuterBoolean.self) { (source: AnyObject) -> OuterBoolean in
+        Decoders.addDecoder(clazz: OuterBoolean.self) { (source: AnyObject, instance: AnyObject?) -> OuterBoolean in
             if let source = source as? Bool {
                 return source
             }
@@ -586,18 +586,18 @@ class Decoders {
 
 
         // Decoder for [OuterComposite]
-        Decoders.addDecoder(clazz: [OuterComposite].self) { (source: AnyObject) -> [OuterComposite] in
+        Decoders.addDecoder(clazz: [OuterComposite].self) { (source: AnyObject, instance: AnyObject?) -> [OuterComposite] in
             return Decoders.decode(clazz: [OuterComposite].self, source: source)
         }
         // Decoder for OuterComposite
-        Decoders.addDecoder(clazz: OuterComposite.self) { (source: AnyObject) -> OuterComposite in
+        Decoders.addDecoder(clazz: OuterComposite.self) { (source: AnyObject, instance: AnyObject?) -> OuterComposite in
             let sourceDictionary = source as! [AnyHashable: Any]
-
-            let instance = OuterComposite()
-            instance.myNumber = Decoders.decodeOptional(clazz: OuterNumber.self, source: sourceDictionary["my_number"] as AnyObject?)
-            instance.myString = Decoders.decodeOptional(clazz: OuterString.self, source: sourceDictionary["my_string"] as AnyObject?)
-            instance.myBoolean = Decoders.decodeOptional(clazz: OuterBoolean.self, source: sourceDictionary["my_boolean"] as AnyObject?)
-            return instance
+            let result = instance == nil ? OuterComposite() : instance as! OuterComposite
+            
+            result.myNumber = Decoders.decodeOptional(clazz: OuterNumber.self, source: sourceDictionary["my_number"] as AnyObject?)
+            result.myString = Decoders.decodeOptional(clazz: OuterString.self, source: sourceDictionary["my_string"] as AnyObject?)
+            result.myBoolean = Decoders.decodeOptional(clazz: OuterBoolean.self, source: sourceDictionary["my_boolean"] as AnyObject?)
+            return result
         }
 
 
@@ -617,11 +617,11 @@ class Decoders {
 
 
         // Decoder for [OuterNumber]
-        Decoders.addDecoder(clazz: [OuterNumber].self) { (source: AnyObject) -> [OuterNumber] in
+        Decoders.addDecoder(clazz: [OuterNumber].self) { (source: AnyObject, instance: AnyObject?) -> [OuterNumber] in
             return Decoders.decode(clazz: [OuterNumber].self, source: source)
         }
         // Decoder for OuterNumber
-        Decoders.addDecoder(clazz: OuterNumber.self) { (source: AnyObject) -> OuterNumber in
+        Decoders.addDecoder(clazz: OuterNumber.self) { (source: AnyObject, instance: AnyObject?) -> OuterNumber in
             if let source = source as? Double {
                 return source
             }
@@ -630,11 +630,11 @@ class Decoders {
 
 
         // Decoder for [OuterString]
-        Decoders.addDecoder(clazz: [OuterString].self) { (source: AnyObject) -> [OuterString] in
+        Decoders.addDecoder(clazz: [OuterString].self) { (source: AnyObject, instance: AnyObject?) -> [OuterString] in
             return Decoders.decode(clazz: [OuterString].self, source: source)
         }
         // Decoder for OuterString
-        Decoders.addDecoder(clazz: OuterString.self) { (source: AnyObject) -> OuterString in
+        Decoders.addDecoder(clazz: OuterString.self) { (source: AnyObject, instance: AnyObject?) -> OuterString in
             if let source = source as? String {
                 return source
             }
