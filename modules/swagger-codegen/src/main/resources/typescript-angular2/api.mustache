@@ -115,7 +115,9 @@ export class {{classname}} {
         }
         {{/isListContainer}}
         {{^isListContainer}}
-        headers.set('{{baseName}}', String({{paramName}}));
+        if ({{paramName}} !== undefined && {{paramName}} !== null) {
+            headers.set('{{baseName}}', String({{paramName}}));
+        }
         {{/isListContainer}}
 
 {{/headerParams}}
