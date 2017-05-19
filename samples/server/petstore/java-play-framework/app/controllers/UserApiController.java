@@ -22,8 +22,8 @@ import swagger.SwaggerUtils.ApiAction;
 
 public class UserApiController extends Controller {
 
-    private UserApiControllerImp imp;
-    private ObjectMapper mapper;
+    private final UserApiControllerImp imp;
+    private final ObjectMapper mapper;
 
     @Inject
     private UserApiController(UserApiControllerImp imp) {

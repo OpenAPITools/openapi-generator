@@ -23,8 +23,8 @@ import swagger.SwaggerUtils.ApiAction;
 
 public class PetApiController extends Controller {
 
-    private PetApiControllerImp imp;
-    private ObjectMapper mapper;
+    private final PetApiControllerImp imp;
+    private final ObjectMapper mapper;
 
     @Inject
     private PetApiController(PetApiControllerImp imp) {
@@ -62,9 +62,7 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result findPetsByStatus() throws Exception {
-        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
-        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
-        //WIP when both bugs will be fixed
+        //TODO: Support this later
         //List<Pair> statusPair = SwaggerUtils.parameterToPairs("csv", "status", request().getQueryString("status"));
         List<String> status = new ArrayList<String>();
         //for (Pair pair : statusPair) {
@@ -78,9 +76,7 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result findPetsByTags() throws Exception {
-        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
-        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
-        //WIP when both bugs will be fixed
+        //TODO: Support this later
         //List<Pair> tagsPair = SwaggerUtils.parameterToPairs("csv", "tags", request().getQueryString("tags"));
         List<String> tags = new ArrayList<String>();
         //for (Pair pair : tagsPair) {
