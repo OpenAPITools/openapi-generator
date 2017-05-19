@@ -1,0 +1,118 @@
+{{>licenseInfo}}
+{{#operations}}
+public class {{classname}} {
+    {{classPrefix}}Client client;
+
+    public {{classname}}({{classPrefix}}Client client) {
+        this.client = client;
+    }
+
+    public {{classname}}() {
+        this.client = new {{classPrefix}}Client();
+    }
+
+    public {{classPrefix}}Client getClient() {
+        return this.client;
+    }
+
+    {{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     {{/allParams}}
+     {{#returnType}}
+     * @return {{{returnType}}}
+     {{/returnType}}
+     * @throws Swagger.ApiException if fails to make API call
+     */
+    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#hasParams}}Map<String, Object> params{{/hasParams}}) {
+    {{#allParams}}
+      {{#required}}
+        client.assertNotNull(params.get('{{paramName}}'), '{{paramName}}');
+      {{/required}}
+    {{/allParams}}
+        List<Swagger.Param> query = new List<Swagger.Param>();
+    {{#hasQueryParams}}
+
+        // cast query params to verify their expected type
+    {{/hasQueryParams}}
+    {{#queryParams}}
+      {{#isListContainer}}
+        {{#isCollectionFormatMulti}}
+        query.addAll(client.makeParams('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+        query.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}'), '{{collectionFormat}}'));
+        {{/isCollectionFormatMulti}}
+      {{/isListContainer}}
+      {{^isListContainer}}
+        query.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
+      {{/isListContainer}}
+      {{^hasMore}}
+
+      {{/hasMore}}
+    {{/queryParams}}
+        List<Swagger.Param> form = new List<Swagger.Param>();
+    {{#hasFormParams}}
+
+        // cast form params to verify their expected type
+    {{/hasFormParams}}
+    {{#formParams}}
+      {{#isListContainer}}
+        {{#isCollectionFormatMulti}}
+        form.addAll(client.makeParams('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+        form.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}'), '{{collectionFormat}}'));
+        {{/isCollectionFormatMulti}}
+      {{/isListContainer}}
+      {{^isListContainer}}
+        form.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
+      {{/isListContainer}}
+    {{/formParams}}
+
+        {{#returnType}}return ({{{returnType}}}) {{/returnType}}client.invoke(
+            '{{httpMethod}}', '{{path}}',{{#bodyParam}}
+            ({{{dataType}}}) params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}} ''{{/bodyParam}},
+            query, form,
+            new Map<String, Object>{{#hasPathParams}}{
+              {{#pathParams}}
+                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{#hasMore}},{{/hasMore}}
+              {{/pathParams}}
+            }{{/hasPathParams}}{{^hasPathParams}}(){{/hasPathParams}},
+            new Map<String, Object>{{#hasHeaderParams}}{
+              {{#headerParams}}
+                '{{baseName}}' => ({{{dataType}}}) params.get('{{paramName}}'){{#hasMore}},{{/hasMore}}
+              {{/headerParams}}
+            }{{/hasHeaderParams}}{{^hasHeaderParams}}(){{/hasHeaderParams}},
+          {{#hasProduces}}
+            new List<String>{ {{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}} },
+          {{/hasProduces}}
+          {{^hasProduces}}
+            new List<String>(),
+          {{/hasProduces}}
+          {{#hasConsumes}}
+            new List<String>{ {{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}} },
+          {{/hasConsumes}}
+          {{^hasConsumes}}
+            new List<String>(),
+          {{/hasConsumes}}
+          {{#hasAuthMethods}}
+            new List<String> { {{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}} },
+          {{/hasAuthMethods}}
+          {{^hasAuthMethods}}
+            new List<String>(),
+          {{/hasAuthMethods}}
+          {{#returnType}}
+            {{{returnType}}}.class
+          {{/returnType}}
+          {{^returnType}}
+            null
+          {{/returnType}}
+        );
+    }
+  {{/operation}}
+}
+{{/operations}}
