@@ -449,6 +449,6 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates an Apex client library.";
+        return "Generates an Apex API client library (beta).";
     }
 }
