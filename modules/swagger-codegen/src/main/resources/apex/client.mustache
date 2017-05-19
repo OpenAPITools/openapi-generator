@@ -1,0 +1,30 @@
+public class {{classPrefix}}Client extends Swagger.ApiClient {
+{{#hasAuthMethods}}
+    public {{classPrefix}}Client() {
+        basePath = '{{basePath}}';
+  {{#authMethods}}
+    {{#isApiKey}}
+      {{#isKeyInQuery}}
+        authentications.put('{{name}}', new Swagger.ApiKeyQueryAuth('{{keyParamName}}'));
+      {{/isKeyInQuery}}
+      {{^isKeyInQuery}}
+        authentications.put('{{name}}', new Swagger.ApiKeyHeaderAuth('{{keyParamName}}'));
+      {{/isKeyInQuery}}
+    {{/isApiKey}}
+    {{^isApiKey}}
+      {{#isBasic}}
+        authentications.put('{{name}}', new Swagger.HttpBasicAuth());
+      {{/isBasic}}
+      {{^isBasic}}
+        authentications.put('{{name}}', new Swagger.OAuth2());
+      {{/isBasic}}
+    {{/isApiKey}}
+  {{/authMethods}}
+    }
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+    public {{classPrefix}}Client() {
+        basePath = '{{basePath}}';
+    }
+{{/hasAuthMethods}}
+}

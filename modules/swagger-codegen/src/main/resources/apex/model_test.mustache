@@ -1,0 +1,130 @@
+{{#models}}
+  {{#model}}
+@isTest
+private class {{classname}}Test {
+{{#isEnum}}
+  {{#allowableValues}}
+    @isTest
+    private static void allowableValues() {
+        Set<{{classname}}> expected = new Set<{{classname}}>{
+          {{#enumVars}}
+            {{classname}}.{{name}}{{^-last}},{{/-last}}
+          {{/enumVars}}
+        };
+        Set<{{classname}}> actual  = new Set<{{classname}}>({{classname}}.values());
+        System.assertEquals(expected, actual);
+    }
+  {{/allowableValues}}
+{{/isEnum}}
+{{^isEnum}}
+    @isTest
+    private static void equalsSameInstance() {
+        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}2 = {{classVarName}}1;
+        {{classname}} {{classVarName}}3 = new {{classname}}();
+        {{classname}} {{classVarName}}4 = {{classVarName}}3;
+
+        System.assert({{classVarName}}1.equals({{classVarName}}2));
+        System.assert({{classVarName}}2.equals({{classVarName}}1));
+        System.assert({{classVarName}}1.equals({{classVarName}}1));
+        System.assert({{classVarName}}3.equals({{classVarName}}4));
+        System.assert({{classVarName}}4.equals({{classVarName}}3));
+        System.assert({{classVarName}}3.equals({{classVarName}}3));
+    }
+
+    @isTest
+    private static void equalsIdenticalInstance() {
+        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}2 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}3 = new {{classname}}();
+        {{classname}} {{classVarName}}4 = new {{classname}}();
+
+        System.assert({{classVarName}}1.equals({{classVarName}}2));
+        System.assert({{classVarName}}2.equals({{classVarName}}1));
+        System.assert({{classVarName}}3.equals({{classVarName}}4));
+        System.assert({{classVarName}}4.equals({{classVarName}}3));
+    }
+
+    @isTest
+    private static void notEqualsUnlikeInstance() {
+        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}2 = new {{classname}}();
+
+        System.assertEquals(false, {{classVarName}}1.equals({{classVarName}}2));
+        System.assertEquals(false, {{classVarName}}2.equals({{classVarName}}1));
+    }
+
+    @isTest
+    private static void notEqualsDifferentType() {
+        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}2 = new {{classname}}();
+
+        System.assertEquals(false, {{classVarName}}1.equals('foo'));
+        System.assertEquals(false, {{classVarName}}2.equals('foo'));
+    }
+
+    @isTest
+    private static void notEqualsNull() {
+        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}2 = new {{classname}}();
+        {{classname}} {{classVarName}}3;
+
+        System.assertEquals(false, {{classVarName}}1.equals({{classVarName}}3));
+        System.assertEquals(false, {{classVarName}}2.equals({{classVarName}}3));
+    }
+
+    @isTest
+    private static void consistentHashCodeValue() {
+        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}2 = new {{classname}}();
+
+        System.assertEquals({{classVarName}}1.hashCode(), {{classVarName}}1.hashCode());
+        System.assertEquals({{classVarName}}2.hashCode(), {{classVarName}}2.hashCode());
+    }
+
+    @isTest
+    private static void equalInstancesHaveSameHashCode() {
+        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}2 = {{classname}}.getExample();
+        {{classname}} {{classVarName}}3 = new {{classname}}();
+        {{classname}} {{classVarName}}4 = new {{classname}}();
+
+        System.assert({{classVarName}}1.equals({{classVarName}}2));
+        System.assert({{classVarName}}3.equals({{classVarName}}4));
+        System.assertEquals({{classVarName}}1.hashCode(), {{classVarName}}2.hashCode());
+        System.assertEquals({{classVarName}}3.hashCode(), {{classVarName}}4.hashCode());
+    }
+  {{#vendorExtensions}}
+    {{#hasPropertyMappings}}
+
+    @isTest
+    private static void maintainRenamedProperties() {
+        {{classname}} {{classVarName}} = new {{classname}}();
+        Map<String, String> propertyMappings = {{classVarName}}.getPropertyMappings();
+      {{#propertyMappings}}
+        System.assertEquals('{{internalName}}', propertyMappings.get('{{externalName}}'));
+      {{/propertyMappings}}
+    }
+    {{/hasPropertyMappings}}
+    {{#hasDefaultValues}}
+
+    @isTest
+    private static void defaultValuesPopulated() {
+        {{classname}} {{classVarName}} = new {{classname}}();
+      {{#vars}}
+        {{#defaultValue}}
+        System.assertEquals({{{defaultValue}}}, {{classVarName}}.{{name}});
+        {{/defaultValue}}
+      {{/vars}}
+      {{#vars}}
+        {{^defaultValue}}
+        System.assertEquals(null, {{classVarName}}.{{name}});
+        {{/defaultValue}}
+      {{/vars}}
+    }
+    {{/hasDefaultValues}}
+  {{/vendorExtensions}}
+{{/isEnum}}
+}
+  {{/model}}
+{{/models}}

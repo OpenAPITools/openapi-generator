@@ -1,0 +1,84 @@
+/**
+ * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ */
+public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfaces}}{{#-first}} implements {{/-first}}{{^-first}}, {{/-first}}{{.}}{{/interfaces}} {
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+{{>modelInnerEnum}}
+    {{/isContainer}}
+    {{/isEnum}}
+    {{#items.isEnum}}
+      {{#items}}
+      {{^isContainer}}
+{{>modelInnerEnum}}
+      {{/isContainer}}
+      {{/items}}
+    {{/items.isEnum}}
+    /**
+    {{#description}}
+     * {{{description}}}
+    {{/description}}
+    {{^description}}
+     * Get {{name}}
+    {{/description}}
+    {{#minimum}}
+     * minimum: {{minimum}}
+    {{/minimum}}
+    {{#maximum}}
+     * maximum: {{maximum}}
+    {{/maximum}}
+     * @return {{name}}
+     */
+    public {{{datatypeWithEnum}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
+  {{/vars}}
+{{#vendorExtensions}}
+  {{#hasPropertyMappings}}
+    private static final Map<String, String> propertyMappings = new Map<String, String>{
+      {{#propertyMappings}}
+        '{{externalName}}' => '{{internalName}}'{{^-last}},{{/-last}}
+      {{/propertyMappings}}
+    };
+
+    public Map<String, String> getPropertyMappings() {
+        return propertyMappings;
+    }
+
+  {{/hasPropertyMappings}}
+  {{#hasDefaultValues}}
+    public {{classname}}() {
+    {{#vars}}
+      {{#defaultValue}}
+        {{name}} = {{{defaultValue}}};
+      {{/defaultValue}}
+    {{/vars}}
+    }
+
+  {{/hasDefaultValues}}
+{{/vendorExtensions}}
+    public static {{classname}} getExample() {
+        {{classname}} {{classVarName}} = new {{classname}}();
+      {{#vars}}
+        {{classVarName}}.{{name}} = {{{example}}};
+      {{/vars}}
+        return {{classVarName}};
+    }
+
+    public Boolean equals(Object obj) {
+        if (obj instanceof {{classname}}) {
+            {{classname}} {{classVarName}} = ({{classname}}) obj;
+            return {{#vars}}this.{{name}} == {{classVarName}}.{{name}}{{#hasMore}}
+                && {{/hasMore}}{{/vars}};
+        }
+        return false;
+    }
+
+    public Integer hashCode() {
+        Integer hashCode = 43;
+      {{#vars}}
+        hashCode = (17 * hashCode) + ({{name}} == null ? 0 : System.hashCode({{name}}));
+      {{/vars}}
+        return hashCode;
+    }
+}
