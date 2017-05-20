@@ -127,7 +127,7 @@ class StoreApi
             $resourcePath = str_replace('{' . 'order_id' . '}', ObjectSerializer::toPathValue($order_id), $resourcePath);
         }
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -249,7 +249,7 @@ class StoreApi
 
 
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -411,7 +411,7 @@ class StoreApi
             $resourcePath = str_replace('{' . 'order_id' . '}', ObjectSerializer::toPathValue($order_id), $resourcePath);
         }
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

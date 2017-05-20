@@ -523,7 +523,7 @@ class UserApi
             $resourcePath = str_replace('{' . 'username' . '}', ObjectSerializer::toPathValue($username), $resourcePath);
         }
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -655,7 +655,7 @@ class UserApi
             $resourcePath = str_replace('{' . 'username' . '}', ObjectSerializer::toPathValue($username), $resourcePath);
         }
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -815,7 +815,7 @@ class UserApi
         }
 
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -954,7 +954,7 @@ class UserApi
 
 
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

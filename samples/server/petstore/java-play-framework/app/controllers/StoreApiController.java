@@ -22,8 +22,8 @@ import swagger.SwaggerUtils.ApiAction;
 
 public class StoreApiController extends Controller {
 
-    private StoreApiControllerImp imp;
-    private ObjectMapper mapper;
+    private final StoreApiControllerImp imp;
+    private final ObjectMapper mapper;
 
     @Inject
     private StoreApiController(StoreApiControllerImp imp) {

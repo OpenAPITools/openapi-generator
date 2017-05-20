@@ -56,7 +56,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         // at the moment
         importMapping.clear();
 
-
         supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "php";
         modelTemplateFiles.put("model.mustache", ".php");
