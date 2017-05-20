@@ -649,7 +649,7 @@ class FakeApi
         if ($callback !== null) {
             $formParams['callback'] = $this->apiClient->getSerializer()->toFormValue($callback);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -771,7 +771,7 @@ class FakeApi
         if ($enum_query_double !== null) {
             $formParams['enum_query_double'] = $this->apiClient->getSerializer()->toFormValue($enum_query_double);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
