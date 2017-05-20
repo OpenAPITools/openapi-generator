@@ -171,6 +171,10 @@ public interface CodegenConfig {
 
     void setSkipOverwrite(boolean skipOverwrite);
 
+    boolean isRemoveOperationIdPrefix();
+
+    void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix);
+
     Map<String, String> supportedLibraries();
 
     void setLibrary(String library);

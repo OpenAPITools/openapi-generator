@@ -228,7 +228,8 @@ use \{{invokerPackage}}\ObjectSerializer;
             {{/isFile}}
         }
         {{/formParams}}
-        {{#bodyParams}}// body params
+        {{#bodyParams}}
+        // body params
         $_tempBody = null;
         if (isset(${{paramName}})) {
             $_tempBody = ${{paramName}};

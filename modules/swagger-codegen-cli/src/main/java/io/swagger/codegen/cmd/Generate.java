@@ -125,6 +125,9 @@ public class Generate implements Runnable {
     @Option(name = {"--ignore-file-override"}, title = "ignore file override location", description = CodegenConstants.IGNORE_FILE_OVERRIDE_DESC)
     private String ignoreFileOverride;
     
+    @Option(name = {"--remove-operation-id-prefix"}, title = "remove prefix of the operationId", description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
+    private Boolean removeOperationIdPrefix;
+
     @Override
     public void run() {
 
@@ -220,6 +223,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(ignoreFileOverride)) {
             configurator.setIgnoreFileOverride(ignoreFileOverride);
+        }
+
+        if (removeOperationIdPrefix != null) {
+            configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
         }
 
         applySystemPropertiesKvp(systemProperties, configurator);

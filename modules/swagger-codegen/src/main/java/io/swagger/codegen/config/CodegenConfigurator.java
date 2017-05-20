@@ -44,6 +44,7 @@ public class CodegenConfigurator implements Serializable {
     private String outputDir;
     private boolean verbose;
     private boolean skipOverwrite;
+    private boolean removeOperationIdPrefix;
     private String templateDir;
     private String auth;
     private String apiPackage;
@@ -113,6 +114,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setModelNamePrefix(String prefix) {
         this.modelNamePrefix = prefix;
+        return this;
+    }
+
+    public boolean getRemoveOperationIdPrefix() {
+        return removeOperationIdPrefix;
+    }
+
+    public CodegenConfigurator setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
+        this.removeOperationIdPrefix = removeOperationIdPrefix;
         return this;
     }
 
@@ -383,6 +393,7 @@ public class CodegenConfigurator implements Serializable {
         config.setOutputDir(outputDir);
         config.setSkipOverwrite(skipOverwrite);
         config.setIgnoreFilePathOverride(ignoreFileOverride);
+        config.setRemoveOperationIdPrefix(removeOperationIdPrefix);
 
         config.instantiationTypes().putAll(instantiationTypes);
         config.typeMapping().putAll(typeMappings);

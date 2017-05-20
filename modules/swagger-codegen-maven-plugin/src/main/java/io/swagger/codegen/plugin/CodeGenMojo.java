@@ -109,6 +109,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean skipOverwrite;
 
     /**
+     * Specifies if the existing files should be overwritten during the generation.
+     */
+    @Parameter(name="removeOperationIdPrefix", required=false)
+    private Boolean removeOperationIdPrefix;
+
+    /**
      * The package to use for generated api objects/classes
      */
     @Parameter(name = "apiPackage")
@@ -281,6 +287,10 @@ public class CodeGenMojo extends AbstractMojo {
 
         if(skipOverwrite != null) {
             configurator.setSkipOverwrite(skipOverwrite);
+        }
+
+        if(removeOperationIdPrefix != null) {
+            configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
         }
 
         if(isNotEmpty(inputSpec)) {

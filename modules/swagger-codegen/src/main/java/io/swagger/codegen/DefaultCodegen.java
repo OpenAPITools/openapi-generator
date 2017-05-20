@@ -102,6 +102,7 @@ public class DefaultCodegen {
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
+    protected boolean removeOperationIdPrefix;
     protected boolean supportsInheritance;
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
@@ -159,6 +160,11 @@ public class DefaultCodegen {
 
         if(additionalProperties.containsKey(CodegenConstants.MODEL_NAME_SUFFIX)){
             this.setModelNameSuffix((String) additionalProperties.get(CodegenConstants.MODEL_NAME_SUFFIX));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
+            this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
         }
     }
 
@@ -849,7 +855,7 @@ public class DefaultCodegen {
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
 
-        //name formatting options
+        // name formatting options
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, CodegenConstants
                 .ALLOW_UNICODE_IDENTIFIERS_DESC).defaultValue(Boolean.FALSE.toString()));
 
@@ -1982,6 +1988,13 @@ public class DefaultCodegen {
         op.vendorExtensions = operation.getVendorExtensions();
 
         String operationId = getOrGenerateOperationId(operation, path, httpMethod);
+        // remove prefix in operationId
+        if (removeOperationIdPrefix) {
+            int offset = operationId.indexOf('_');
+            if (offset > -1) {
+                operationId = operationId.substring(offset+1);
+            }
+        }
         operationId = removeNonNameElementToCamelCase(operationId);
         op.path = path;
         op.operationId = toOperationId(operationId);
@@ -3193,6 +3206,14 @@ public class DefaultCodegen {
 
     public void setSkipOverwrite(boolean skipOverwrite) {
         this.skipOverwrite = skipOverwrite;
+    }
+
+    public boolean isRemoveOperationIdPrefix() {
+        return removeOperationIdPrefix;
+    }
+
+    public void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
+        this.removeOperationIdPrefix = removeOperationIdPrefix;
     }
 
     /**
