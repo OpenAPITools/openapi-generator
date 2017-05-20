@@ -27,8 +27,8 @@ import swagger.SwaggerUtils.ApiAction;
 {{#operations}}
 public class {{classname}}Controller extends Controller {
 
-    private {{classname}}ControllerImp imp;
-    private ObjectMapper mapper;
+    private final {{classname}}ControllerImp imp;
+    private final ObjectMapper mapper;
 
     @Inject
     private {{classname}}Controller({{classname}}ControllerImp imp) {
@@ -42,8 +42,7 @@ public class {{classname}}Controller extends Controller {
     public Result {{operationId}}({{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
         {{#bodyParams}}
         {{#collectionFormat}}
-        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
-        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
+        //TODO: Support this later
         {{/collectionFormat}}
         {{^collectionFormat}}
         JsonNode node{{paramName}} = request().body().asJson();
@@ -60,9 +59,7 @@ public class {{classname}}Controller extends Controller {
         {{/bodyParams}}
         {{#queryParams}}
         {{#collectionFormat}}
-        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
-        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
-        //WIP when both bugs will be fixed
+        //TODO: Support this later
         //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", request().getQueryString("{{baseName}}"));
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         //for (Pair pair : {{paramName}}Pair) {
@@ -92,9 +89,7 @@ public class {{classname}}Controller extends Controller {
         {{/notFile}}
         {{#notFile}}
         {{#collectionFormat}}
-        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
-        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
-        //WIP when both bugs will be fixed
+        //TODO: Support this later
         //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0]);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         //for (Pair pair : {{paramName}}Pair) {
@@ -117,9 +112,7 @@ public class {{classname}}Controller extends Controller {
         {{/formParams}}
         {{#headerParams}}
         {{#collectionFormat}}
-        //TODO: Maybe implement this in the future if we can support collection in the body params: see bug in swagger-play: https://github.com/swagger-api/swagger-play/issues/130
-        //TODO: Tt seems it is not detected that it's a list based on the collectionFormat field?
-        //WIP when both bugs will be fixed
+        //TODO: Support this later
         //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", request().getHeader("{{baseName}}"));
         //{{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         //for (Pair pair : {{paramName}}Pair) {

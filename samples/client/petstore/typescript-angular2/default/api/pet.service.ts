@@ -267,7 +267,9 @@ export class PetService {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
-        headers.set('api_key', String(apiKey));
+        if (apiKey !== undefined && apiKey !== null) {
+            headers.set('api_key', String(apiKey));
+        }
 
 
         // to determine the Accept header

@@ -269,7 +269,7 @@ class PetApi
             $resourcePath = str_replace('{' . 'petId' . '}', ObjectSerializer::toPathValue($pet_id), $resourcePath);
         }
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -408,7 +408,7 @@ class PetApi
         }
 
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -565,7 +565,7 @@ class PetApi
         }
 
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -719,7 +719,7 @@ class PetApi
             $resourcePath = str_replace('{' . 'petId' . '}', ObjectSerializer::toPathValue($pet_id), $resourcePath);
         }
 
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1021,7 +1021,7 @@ class PetApi
         if ($status !== null) {
             $formParams['status'] = ObjectSerializer::toFormValue($status);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -1170,7 +1170,7 @@ class PetApi
             $multipart = true;
             $formParams['file'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($file), 'rb');
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

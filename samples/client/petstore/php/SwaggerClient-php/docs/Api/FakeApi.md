@@ -25,7 +25,7 @@ Test serialization of outer boolean types
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\OuterBoolean(); // \Swagger\Client\Model\OuterBoolean | Input boolean as post body
 
 try {
@@ -70,7 +70,7 @@ Test serialization of object with outer number type
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\OuterComposite(); // \Swagger\Client\Model\OuterComposite | Input composite as post body
 
 try {
@@ -115,7 +115,7 @@ Test serialization of outer number types
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\OuterNumber(); // \Swagger\Client\Model\OuterNumber | Input number as post body
 
 try {
@@ -160,7 +160,7 @@ Test serialization of outer string types
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\FakeApi();
+$api_instance = new Swagger\Client\Api\FakeApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\OuterString(); // \Swagger\Client\Model\OuterString | Input string as post body
 
 try {

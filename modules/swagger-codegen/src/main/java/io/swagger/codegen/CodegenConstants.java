@@ -191,4 +191,6 @@ public class CodegenConstants {
     public static final String IGNORE_FILE_OVERRIDE = "ignoreFileOverride";
     public static final String IGNORE_FILE_OVERRIDE_DESC = "Specifies an override location for the .swagger-codegen-ignore file. Most useful on initial generation.";
 
+    public static final String REMOVE_OPERATION_ID_PREFIX = "removeOperationIdPrefix";
+    public static final String REMOVE_OPERATION_ID_PREFIX_DESC = "Remove prefix of operationId, e.g. config_getId => getId";
 }

@@ -867,6 +867,7 @@ Swagger Codegen core team members are contributors who have been making signific
 Here is a list of template creators:
  * API Clients:
    * Akka-Scala: @cchafer
+   * Apex: @asnelling
    * Bash: @bkryza
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
