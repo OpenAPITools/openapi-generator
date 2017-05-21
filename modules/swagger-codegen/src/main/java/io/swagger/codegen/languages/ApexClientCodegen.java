@@ -19,7 +19,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     private static final String API_VERSION = "apiVersion";
     private static final Logger LOGGER = LoggerFactory.getLogger(ApexClientCodegen.class);
     private String classPrefix = "Swag";
-    private String apiVersion = "36.0";
+    private String apiVersion = "39.0";
 
     public ApexClientCodegen() {
         super();
