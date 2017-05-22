@@ -823,13 +823,13 @@ Presentations/Videos/Tutorials/Books
 - 2016/01/15 - [How to end manual REST-API client coding](https://www.youtube.com/watch?v=RzZRdqZp6Oo) by [Johannes Fiala](https://github.com/jfiala) @ dotJS 2015
 - 2016/04/27 - [Automated REST API Development](https://yos.io/2016/04/27/automated-api-development/) by [Yos Riady](https://www.linkedin.com/in/yosriady)
 - 2016/05/29 - [Generating Java Spring-MVC code from Swagger Spec](https://www.clianz.com/2016/05/29/java-mvc-swagger-gen/) by @icha024
-- 2016/11/05 - [How to generate a REST Application](https://www.youtube.com/watch?v=iyC9BWMe75Q) by [Johannes Fiala](https://github.com/jfiala) @ DevFest Vienna 2016 
+- 2016/11/05 - [How to generate a REST Application](https://www.youtube.com/watch?v=iyC9BWMe75Q) by [Johannes Fiala](https://github.com/jfiala) @ DevFest Vienna 2016
 - 2016/11/10 - [Building an AEM API clients ecosystem](http://blog.cliffano.com/2016/11/10/adobe-marketing-cloud-community-expo/) by Cliffano Subagio, Michael Diender, Stephen Shim from Shine Solutions @ [Adobe Marketing Cloud Community Expo (AMCCE)](https://www.meetup.com/Melbourne-AEM-CQ-Meetup/events/233363101/)
 - 2016/11/18 - [How to generate a REST CXF3 application from Swagger-Contract](https://www.slideshare.net/johannes_fiala/how-to-generate-a-rest-cxf3-application-from-swagger-apacheconeu-2016) by [Johannes Fiala](https://github.com/jfiala) @ ApacheConEU 2016
 - 2016/11/25 - [Swagger Codegen for Swift3 and NodeJS](https://normand1.github.io/blog/swift/swagger/codegen/2016/11/25/Swagger-Codegen-for-Swift3-and-NodeJS.html) by [David Norman](https://github.com/normand1)
 - 2017/03/03 - [Swagger Codegen の使い方の簡単な説明です](https://speakerdeck.com/wagyu298/swagger-codegen) by [wagyu298](https://github.com/wagyu298)
-- 2017/04/27 - [Swagger Codegen のPHP実装があまりにアレだったので、ライブラリ自作して公開してみた](http://qiita.com/imunew/items/2e9c472e0097e329f2cd) by [imunew](http://qiita.com/imunew) 
-
+- 2017/04/27 - [Swagger Codegen のPHP実装があまりにアレだったので、ライブラリ自作して公開してみた](http://qiita.com/imunew/items/2e9c472e0097e329f2cd) by [imunew](http://qiita.com/imunew)
+- 2017/05/17 - [Diseño de APIs con OpenAPI](https://www.slideshare.net/pjmolina/diseo-de-apis-con-openapi) by [Pedro J. Molina](https://github.com/pjmolina) @ [JSDayES 2017](http://2017.jsday.es/)
 
 # Swagger Codegen Core Team
 
