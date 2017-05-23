@@ -1,0 +1,31 @@
+{{>licenseInfo}}
+import { Headers }                                           from '@angular/http';
+
+import { Observable }                                        from 'rxjs/Observable';
+
+import * as models                                           from '../model/models';
+import { Configuration }                                     from '../configuration';
+
+{{#operations}}
+
+{{#description}}
+    /**
+    * {{&description}}
+    */
+{{/description}}
+export interface {{classname}}Interface {
+    defaultHeaders: Headers;
+    configuration: Configuration;
+    [others: string]: any;
+
+{{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}* @param {{paramName}} {{description}}
+    {{/allParams}}*/
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}>;
+
+{{/operation}}
+}
+{{/operations}}
