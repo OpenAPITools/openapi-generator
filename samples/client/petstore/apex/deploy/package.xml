@@ -33,5 +33,5 @@ Generated with Swagger Codegen (github.com/swagger-api/swagger-codegen)</descrip
       <members>Swagger_Petstore</members>
       <name>RemoteSiteSetting</name>
     </types>
-    <version>36.0</version>
+    <version>39.0</version>
 </Package>
