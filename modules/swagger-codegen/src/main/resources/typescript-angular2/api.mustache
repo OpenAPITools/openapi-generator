@@ -10,6 +10,9 @@ import 'rxjs/add/operator/map';
 import * as models                                           from '../model/models';
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+{{#withInterfaces}}
+import { {{classname}}Interface }                            from './{{classname}}Interface';
+{{/withInterfaces}}
 
 /* tslint:disable:no-unused-variable member-ordering */
 
@@ -21,7 +24,13 @@ import { Configuration }                                     from '../configurat
  */
 {{/description}}
 @Injectable()
+{{#withInterfaces}}
+export class {{classname}} implements {{classname}}Interface {
+{{/withInterfaces}}
+{{^withInterfaces}}
 export class {{classname}} {
+{{/withInterfaces}}
+
     protected basePath = '{{{basePath}}}';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();

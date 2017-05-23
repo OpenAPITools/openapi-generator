@@ -28,6 +28,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     public static final String SNAPSHOT = "snapshot";
     public static final String USE_OPAQUE_TOKEN = "useOpaqueToken";
     public static final String INJECTION_TOKEN = "injectionToken";
+    public static final String WITH_INTERFACES = "withInterfaces";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -51,6 +52,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_OPAQUE_TOKEN, "When setting this property to true, OpaqueToken is used instead of InjectionToken", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -88,6 +90,13 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             this.setOpaqueToken();
         }
         additionalProperties.put(INJECTION_TOKEN, this.injectionToken);
+
+        if(additionalProperties.containsKey(WITH_INTERFACES)) {
+            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
+            if (withInterfaces) {
+                apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
+            }
+        }
     }
 
     private void addNpmPackageGeneration() {
