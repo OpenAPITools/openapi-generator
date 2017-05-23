@@ -288,6 +288,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             private Model getParent(Model model) {
                 if (model instanceof ComposedModel) {
                     Model parent = ((ComposedModel) model).getParent();
+                    if (parent == null) {
+                        // check for interfaces
+                        List<RefModel> interfaces = ((ComposedModel) model).getInterfaces();
+                        if (interfaces.size() > 0) {
+                            RefModel interf = interfaces.get(0);
+                            return definitions.get(interf.getSimpleRef());
+                        }
+                    }
                     if(parent != null) {
                         return definitions.get(parent.getReference());
                     }
