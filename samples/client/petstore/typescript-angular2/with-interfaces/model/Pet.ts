@@ -10,18 +10,20 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
+import { Category } from './category';
+import { Tag } from './tag';
+
 
 export interface Pet {
     id?: number;
 
-    category?: models.Category;
+    category?: Category;
 
     name: string;
 
     photoUrls: Array<string>;
 
-    tags?: Array<models.Tag>;
+    tags?: Array<Tag>;
 
     /**
      * pet status in the store

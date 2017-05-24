@@ -26,6 +26,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -179,6 +180,9 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "configOptions")
     private Map<?, ?> configOptions;
+
+    @Parameter(name = "importMappings")
+    private List<String> importMappings;
 
     /**
      * Generate the apis
@@ -387,7 +391,7 @@ public class CodeGenMojo extends AbstractMojo {
                 applyInstantiationTypesKvp(configOptions.get("instantiation-types").toString(), configurator);
             }
 
-            if(configOptions.containsKey("import-mappings")) {
+            if(importMappings == null && configOptions.containsKey("import-mappings")) {
                 applyImportMappingsKvp(configOptions.get("import-mappings").toString(), configurator);
             }
 
@@ -402,10 +406,15 @@ public class CodeGenMojo extends AbstractMojo {
             if(configOptions.containsKey("additional-properties")) {
                 applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(), configurator);
             }
-            
+
             if(configOptions.containsKey("reserved-words-mappings")) {
                 applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings").toString(), configurator);
             }
+        }
+
+        if (importMappings != null && !configOptions.containsKey("import-mappings")) {
+            String importMappingsAsString = importMappings.toString();
+            applyImportMappingsKvp(importMappingsAsString.substring(0, importMappingsAsString.length() - 1), configurator);
         }
 
         if (environmentVariables != null) {
