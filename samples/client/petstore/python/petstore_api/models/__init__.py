@@ -22,11 +22,9 @@ from .array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from .array_of_number_only import ArrayOfNumberOnly
 from .array_test import ArrayTest
 from .capitalization import Capitalization
-from .cat import Cat
 from .category import Category
 from .class_model import ClassModel
 from .client import Client
-from .dog import Dog
 from .enum_arrays import EnumArrays
 from .enum_class import EnumClass
 from .enum_test import EnumTest
@@ -50,3 +48,5 @@ from .read_only_first import ReadOnlyFirst
 from .special_model_name import SpecialModelName
 from .tag import Tag
 from .user import User
+from .cat import Cat
+from .dog import Dog
