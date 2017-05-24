@@ -13,7 +13,6 @@ import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.models.ArrayModel;
-import io.swagger.models.ComposedModel;
 import io.swagger.models.Info;
 import io.swagger.models.License;
 import io.swagger.models.Model;
@@ -22,7 +21,6 @@ import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.ByteArrayProperty;
 import io.swagger.models.properties.DateProperty;
 import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.DoubleProperty;
@@ -41,7 +39,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +57,28 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String USE_INHERITANCE = "useInheritance";
     public static final String EMIT_MODEL_METHODS = "emitModelMethods";
     public static final String EMIT_JS_DOC = "emitJSDoc";
+    public static final String USE_ES6 = "useES6";
+
+    final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][] {
+            new String[] {"package.mustache", "package.json"},
+            new String[] {"index.mustache", "src/index.js"},
+            new String[] {"ApiClient.mustache", "src/ApiClient.js"},
+            new String[] {"git_push.sh.mustache", "git_push.sh"},
+            new String[] {"README.mustache", "README.md"},
+            new String[] {"mocha.opts", "mocha.opts"},
+            new String[] {"travis.yml", ".travis.yml"}
+    };
+
+    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][] {
+            new String[] {"package.mustache", "package.json"},
+            new String[] {"index.mustache", "src/index.js"},
+            new String[] {"ApiClient.mustache", "src/ApiClient.js"},
+            new String[] {"git_push.sh.mustache", "git_push.sh"},
+            new String[] {"README.mustache", "README.md"},
+            new String[] {"mocha.opts", "mocha.opts"},
+            new String[] {"travis.yml", ".travis.yml"},
+            new String[] {".babelrc.mustache", ".babelrc"}
+    };
 
     protected String projectName;
     protected String moduleName;
@@ -77,6 +96,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "api/";
     protected String modelTestPath = "model/";
+    protected boolean useES6;
 
     public JavascriptClientCodegen() {
         super();
@@ -174,6 +194,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(USE_ES6,
+                "use JavaScript ES6 (ECMAScript 6)")
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -242,6 +265,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(EMIT_JS_DOC)) {
             setEmitJSDoc(convertPropertyToBooleanAndWriteBack(EMIT_JS_DOC));
         }
+        if (additionalProperties.containsKey(USE_ES6)) {
+            setUseES6(convertPropertyToBooleanAndWriteBack(USE_ES6));
+        }
     }
 
     @Override
@@ -298,18 +324,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(USE_INHERITANCE, supportsInheritance);
         additionalProperties.put(EMIT_MODEL_METHODS, emitModelMethods);
         additionalProperties.put(EMIT_JS_DOC, emitJSDoc);
+        additionalProperties.put(USE_ES6, useES6);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("mocha.opts", "", "mocha.opts"));
-        supportingFiles.add(new SupportingFile("travis.yml", "", ".travis.yml"));
+        String[][] supportingTemplateFiles = JAVASCRIPT_SUPPORTING_FILES;
+        if (useES6) {
+            supportingTemplateFiles = JAVASCRIPT_ES6_SUPPORTING_FILES;
+        }
+
+        for (String[] supportingTemplateFile :supportingTemplateFiles) {
+            supportingFiles.add(new SupportingFile(supportingTemplateFile[0], "", supportingTemplateFile[1]));
+        }
     }
 
     @Override
@@ -397,6 +425,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public void setUsePromises(boolean usePromises) {
         this.usePromises = usePromises;
+    }
+
+    public void setUseES6(boolean useES6) {
+        this.useES6 = useES6;
+        if (useES6) {
+            embeddedTemplateDir = templateDir = "Javascript-es6";
+        } else {
+            embeddedTemplateDir = templateDir = "Javascript";
+        }
     }
 
     public void setUseInheritance(boolean useInheritance) {

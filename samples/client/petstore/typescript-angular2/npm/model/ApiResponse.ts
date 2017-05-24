@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
+
 
 /**
  * Describes the result of uploading an image resource
