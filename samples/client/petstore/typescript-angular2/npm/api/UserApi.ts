@@ -27,6 +27,7 @@ import { Configuration }                                     from '../configurat
 
 @Injectable()
 export class UserApi {
+
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
