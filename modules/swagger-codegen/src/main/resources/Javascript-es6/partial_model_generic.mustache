@@ -1,0 +1,119 @@
+
+{{#models}}{{#model}}
+
+{{#emitJSDoc}}/**
+* The {{classname}} model module.
+* @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+* @version {{projectVersion}}
+*/{{/emitJSDoc}}
+export default class {{classname}} {
+    {{#emitJSDoc}}/**
+    * Constructs a new <code>{{classname}}</code>.{{#description}}
+    * {{description}}{{/description}}
+    * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+    * @class{{#useInheritance}}{{#parent}}
+    * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-isArray}}Array{{/vendorExtensions.x-isArray}}{{#vendorExtensions.x-isMap}}Object{{/vendorExtensions.x-isMap}}{{/parentModel}}{{/parent}}{{#interfaces}}
+    * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+    * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{#description}}{{{description}}}{{/description}}{{/vendorExtensions.x-all-required}}
+    */{{/emitJSDoc}}
+
+    constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) {
+        {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}
+        this = new Array();
+        Object.setPrototypeOf(this, exports);{{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}
+
+        {{#useInheritance}}
+        {{#parentModel}}{{classname}}.call(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/parentModel}}
+        {{#interfaceModels}}{{classname}}.call(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/interfaceModels}}
+        {{/useInheritance}}
+
+        {{#vars}}{{#required}}this['{{baseName}}'] = {{name}};{{/required}}{{/vars}}
+
+        {{#parent}}{{^parentModel}}return this;{{/parentModel}}{{/parent}}
+    }
+
+    {{#emitJSDoc}}/**
+    * Constructs a <code>{{classname}}</code> from a plain JavaScript object, optionally creating a new instance.
+    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+    * @param {Object} data The plain JavaScript object bearing properties of interest.
+    * @param {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> obj Optional instance to populate.
+    * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
+    */{{/emitJSDoc}}
+    static constructFromObject(data, obj) {
+        if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
+            obj = obj || new exports();
+
+            {{#parent}}{{^parentModel}}ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-itemType}}');{{/parentModel}}
+            {{/parent}}
+
+            {{#useInheritance}}{{#parentModel}}{{classname}}.constructFromObject(data, obj);{{/parentModel}}
+            {{#interfaces}}{{.}}.constructFromObject(data, obj);{{/interfaces}}
+            {{/useInheritance}}
+
+            {{#vars}}
+            if (data.hasOwnProperty('{{baseName}}')) {
+                obj['{{baseName}}']{{{defaultValueWithParam}}}
+            }
+            {{/vars}}
+        }
+        return obj;
+    }
+
+{{#vars}}
+    {{#emitJSDoc}}/**{{#description}}
+    * {{{description}}}{{/description}}
+    * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
+    * @default {{{defaultValue}}}{{/defaultValue}}
+    */{{/emitJSDoc}}
+    {{baseName}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+{{/vars}}
+
+{{#useInheritance}}{{#interfaceModels}}
+    // Implement {{classname}} interface:
+    {{#allVars}}{{#emitJSDoc}}/**{{#description}}
+    * {{{description}}}{{/description}}
+    * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
+    * @default {{{defaultValue}}}{{/defaultValue}}
+    */{{/emitJSDoc}}
+    {{baseName}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+    {{/allVars}}
+{{/interfaceModels}}{{/useInheritance}}
+
+
+{{#emitModelMethods}}{{#vars}}
+    {{#emitJSDoc}}/**{{#description}}
+    * Returns {{{description}}}{{/description}}{{#minimum}}
+    * minimum: {{minimum}}{{/minimum}}{{#maximum}}
+    * maximum: {{maximum}}{{/maximum}}
+    * @return {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=>
+    */{{/emitJSDoc}}
+    {{getter}}() {
+        return this.{{baseName}};
+    }
+
+    {{#emitJSDoc}}/**{{#description}}
+    * Sets {{{description}}}{{/description}}
+    * @param {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{name}}{{#description}} {{{description}}}{{/description}}
+    */{{/emitJSDoc}}
+    {{setter}}({{name}}) {
+        this['{{baseName}}'] = {{name}};
+    }
+{{/vars}}{{/emitModelMethods}}
+
+{{#vars}}
+{{#isEnum}}
+{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}
+{{/isEnum}}
+{{#items.isEnum}}
+{{#items}}
+{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}
+{{/items}}
+{{/items.isEnum}}
+{{/vars}}
+
+{{/model}}{{/models}}
+}
