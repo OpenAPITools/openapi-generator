@@ -114,11 +114,9 @@ Class | Method | HTTP request | Description
  - [SwaggerPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [SwaggerPetstore.ArrayTest](docs/ArrayTest.md)
  - [SwaggerPetstore.Capitalization](docs/Capitalization.md)
- - [SwaggerPetstore.Cat](docs/Cat.md)
  - [SwaggerPetstore.Category](docs/Category.md)
  - [SwaggerPetstore.ClassModel](docs/ClassModel.md)
  - [SwaggerPetstore.Client](docs/Client.md)
- - [SwaggerPetstore.Dog](docs/Dog.md)
  - [SwaggerPetstore.EnumArrays](docs/EnumArrays.md)
  - [SwaggerPetstore.EnumClass](docs/EnumClass.md)
  - [SwaggerPetstore.EnumTest](docs/EnumTest.md)
@@ -142,6 +140,8 @@ Class | Method | HTTP request | Description
  - [SwaggerPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [SwaggerPetstore.Tag](docs/Tag.md)
  - [SwaggerPetstore.User](docs/User.md)
+ - [SwaggerPetstore.Cat](docs/Cat.md)
+ - [SwaggerPetstore.Dog](docs/Dog.md)
 
 
 ## Documentation for Authorization
