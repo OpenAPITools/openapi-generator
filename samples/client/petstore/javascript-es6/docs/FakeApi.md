@@ -4,10 +4,202 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 
+
+<a name="fakeOuterBooleanSerialize"></a>
+# **fakeOuterBooleanSerialize**
+> OuterBoolean fakeOuterBooleanSerialize(opts)
+
+
+
+Test serialization of outer boolean types
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger_petstore');
+
+var apiInstance = new SwaggerPetstore.FakeApi();
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterBoolean() // OuterBoolean | Input boolean as post body
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.fakeOuterBooleanSerialize(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | [optional] 
+
+### Return type
+
+[**OuterBoolean**](OuterBoolean.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="fakeOuterCompositeSerialize"></a>
+# **fakeOuterCompositeSerialize**
+> OuterComposite fakeOuterCompositeSerialize(opts)
+
+
+
+Test serialization of object with outer number type
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger_petstore');
+
+var apiInstance = new SwaggerPetstore.FakeApi();
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterComposite() // OuterComposite | Input composite as post body
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.fakeOuterCompositeSerialize(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+
+### Return type
+
+[**OuterComposite**](OuterComposite.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="fakeOuterNumberSerialize"></a>
+# **fakeOuterNumberSerialize**
+> OuterNumber fakeOuterNumberSerialize(opts)
+
+
+
+Test serialization of outer number types
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger_petstore');
+
+var apiInstance = new SwaggerPetstore.FakeApi();
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterNumber() // OuterNumber | Input number as post body
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.fakeOuterNumberSerialize(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | [optional] 
+
+### Return type
+
+[**OuterNumber**](OuterNumber.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="fakeOuterStringSerialize"></a>
+# **fakeOuterStringSerialize**
+> OuterString fakeOuterStringSerialize(opts)
+
+
+
+Test serialization of outer string types
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger_petstore');
+
+var apiInstance = new SwaggerPetstore.FakeApi();
+
+var opts = { 
+  'body': new SwaggerPetstore.OuterString() // OuterString | Input string as post body
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.fakeOuterStringSerialize(opts, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
+
+### Return type
+
+[**OuterString**](OuterString.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="testClientModel"></a>
 # **testClientModel**
@@ -66,7 +258,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.default;
+var defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure HTTP basic authorization: http_basic_test
 var http_basic_test = defaultClient.authentications['http_basic_test'];
