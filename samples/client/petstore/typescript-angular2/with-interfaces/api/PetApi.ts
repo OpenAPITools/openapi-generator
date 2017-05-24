@@ -240,7 +240,9 @@ export class PetApi implements PetApiInterface {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
-        headers.set('api_key', String(apiKey));
+        if (apiKey !== undefined && apiKey !== null) {
+            headers.set('api_key', String(apiKey));
+        }
 
         // to determine the Content-Type header
         let consumes: string[] = [
