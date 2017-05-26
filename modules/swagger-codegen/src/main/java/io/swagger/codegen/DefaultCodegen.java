@@ -2888,6 +2888,7 @@ public class DefaultCodegen {
         co.operationId = uniqueName;
         co.operationIdLowerCase = uniqueName.toLowerCase();
         co.operationIdCamelCase = DefaultCodegen.camelize(uniqueName);
+        co.operationIdSnakeCase = DefaultCodegen.underscore(uniqueName);
         opList.add(co);
         co.baseName = tag;
     }
