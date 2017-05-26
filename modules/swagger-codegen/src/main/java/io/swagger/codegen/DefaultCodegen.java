@@ -2561,7 +2561,9 @@ public class DefaultCodegen {
                     name = getAlias(name);
                     if (typeMapping.containsKey(name)) {
                         name = typeMapping.get(name);
+                        p.baseType = name;
                     } else {
+                        p.baseType = name;
                         name = toModelName(name);
                         if (defaultIncludes.contains(name)) {
                             imports.add(name);
@@ -2570,7 +2572,6 @@ public class DefaultCodegen {
                         name = getTypeDeclaration(name);
                     }
                     p.dataType = name;
-                    p.baseType = name;
                 }
             }
             p.paramName = toParamName(bp.getName());
