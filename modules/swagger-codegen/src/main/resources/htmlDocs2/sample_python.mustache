@@ -22,7 +22,7 @@ api_instance = {{{pythonPackageName}}}.{{{classname}}}()
 
 try: 
 {{#summary}}    # {{{.}}}
-{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
+{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationIdSnakeCase}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
     pprint(api_response){{/returnType}}
 except ApiException as e:
     print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
