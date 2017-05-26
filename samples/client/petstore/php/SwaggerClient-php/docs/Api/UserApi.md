@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Created user object |
+ **body** | [**\Swagger\Client\Model\User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -71,7 +71,7 @@ Creates list of users with given input array
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\UserApi();
-$body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
+$body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
     $api_instance->createUsersWithArrayInput($body);
@@ -115,7 +115,7 @@ Creates list of users with given input array
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\UserApi();
-$body = array(new User()); // \Swagger\Client\Model\User[] | List of user object
+$body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
     $api_instance->createUsersWithListInput($body);
@@ -351,7 +351,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **body** | [**\Swagger\Client\Model\User**](../Model/\Swagger\Client\Model\User.md)| Updated user object |
+ **body** | [**\Swagger\Client\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type
 
