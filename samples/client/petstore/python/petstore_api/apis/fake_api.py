@@ -100,7 +100,7 @@ class FakeApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -193,7 +193,7 @@ class FakeApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -286,7 +286,7 @@ class FakeApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 
@@ -379,7 +379,7 @@ class FakeApi(object):
 
         path_params = {}
 
-        query_params = {}
+        query_params = []
 
         header_params = {}
 

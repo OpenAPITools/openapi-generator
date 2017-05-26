@@ -1012,7 +1012,7 @@ margin-bottom: 20px;
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-addPet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-addPet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1143,7 +1143,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-addPet-0-php">
@@ -1199,7 +1200,7 @@ body =  # Pet | Pet object that needs to be added to the store
 
 try: 
     # Add a new pet to the store
-    api_instance.addPet(body)
+    api_instance.add_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->addPet: %s\n" % e)</code></pre>
                             </div>
@@ -1298,7 +1299,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-deletePet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-deletePet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1437,7 +1438,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-deletePet-0-php">
@@ -1496,7 +1498,7 @@ apiKey = apiKey_example # String |  (optional)
 
 try: 
     # Deletes a pet
-    api_instance.deletePet(petId, apiKey=apiKey)
+    api_instance.delete_pet(petId, apiKey=apiKey)
 except ApiException as e:
     print("Exception when calling PetApi->deletePet: %s\n" % e)</code></pre>
                             </div>
@@ -1633,7 +1635,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-findPetsByStatus-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/pet/findByStatus?status="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/pet/findByStatus?status="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1770,7 +1772,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-php">
@@ -1828,7 +1831,7 @@ status =  # array[String] | Status values that need to be considered for filter
 
 try: 
     # Finds Pets by status
-    api_response = api_instance.findPetsByStatus(status)
+    api_response = api_instance.find_pets_by_status(status)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->findPetsByStatus: %s\n" % e)</code></pre>
@@ -1861,8 +1864,8 @@ except ApiException as e:
   "type" : "array",
   "items" : {
     "type" : "string",
-    "default" : "available",
-    "enum" : [ "available", "pending", "sold" ]
+    "enum" : [ "available", "pending", "sold" ],
+    "default" : "available"
   },
   "collectionFormat" : "csv"
 };
@@ -1978,7 +1981,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-findPetsByTags-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/pet/findByTags?tags="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/pet/findByTags?tags="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2115,7 +2118,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-findPetsByTags-0-php">
@@ -2173,7 +2177,7 @@ tags =  # array[String] | Tags to filter by
 
 try: 
     # Finds Pets by tags
-    api_response = api_instance.findPetsByTags(tags)
+    api_response = api_instance.find_pets_by_tags(tags)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->findPetsByTags: %s\n" % e)</code></pre>
@@ -2321,7 +2325,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-getPetById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-getPetById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2466,7 +2470,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-getPetById-0-php">
@@ -2530,7 +2535,7 @@ petId = 789 # Long | ID of pet to return
 
 try: 
     # Find pet by ID
-    api_response = api_instance.getPetById(petId)
+    api_response = api_instance.get_pet_by_id(petId)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->getPetById: %s\n" % e)</code></pre>
@@ -2680,7 +2685,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-updatePet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">put</span> "http://petstore.swagger.io/v2/pet"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "http://petstore.swagger.io/v2/pet"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2811,7 +2816,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-updatePet-0-php">
@@ -2867,7 +2873,7 @@ body =  # Pet | Pet object that needs to be added to the store
 
 try: 
     # Update an existing pet
-    api_instance.updatePet(body)
+    api_instance.update_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->updatePet: %s\n" % e)</code></pre>
                             </div>
@@ -2982,7 +2988,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-updatePetWithForm-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3127,7 +3133,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-php">
@@ -3189,7 +3196,7 @@ status = status_example # String | Updated status of the pet (optional)
 
 try: 
     # Updates a pet in the store with form data
-    api_instance.updatePetWithForm(petId, name=name, status=status)
+    api_instance.update_pet_with_form(petId, name=name, status=status)
 except ApiException as e:
     print("Exception when calling PetApi->updatePetWithForm: %s\n" % e)</code></pre>
                             </div>
@@ -3360,7 +3367,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pet-uploadFile-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/pet/{petId}/uploadImage"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/pet/{petId}/uploadImage"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3511,7 +3518,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Pet-uploadFile-0-php">
@@ -3575,7 +3583,7 @@ file = /path/to/file.txt # File | file to upload (optional)
 
 try: 
     # uploads an image
-    api_response = api_instance.uploadFile(petId, additionalMetadata=additionalMetadata, file=file)
+    api_response = api_instance.upload_file(petId, additionalMetadata=additionalMetadata, file=file)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->uploadFile: %s\n" % e)</code></pre>
@@ -3785,7 +3793,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-deleteOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3898,7 +3906,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-php">
@@ -3945,7 +3954,7 @@ orderId = orderId_example # String | ID of the order that needs to be deleted
 
 try: 
     # Delete purchase order by ID
-    api_instance.deleteOrder(orderId)
+    api_instance.delete_order(orderId)
 except ApiException as e:
     print("Exception when calling StoreApi->deleteOrder: %s\n" % e)</code></pre>
                             </div>
@@ -4050,7 +4059,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-getInventory-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/store/inventory"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET -H "api_key: [[apiKey]]" "http://petstore.swagger.io/v2/store/inventory"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getInventory-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4188,7 +4197,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-getInventory-0-php">
@@ -4249,7 +4259,7 @@ api_instance = swagger_client.StoreApi()
 
 try: 
     # Returns pet inventories by status
-    api_response = api_instance.getInventory()
+    api_response = api_instance.get_inventory()
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StoreApi->getInventory: %s\n" % e)</code></pre>
@@ -4346,7 +4356,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-getOrderById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/store/order/{orderId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-getOrderById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4465,7 +4475,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-getOrderById-0-php">
@@ -4514,7 +4525,7 @@ orderId = 789 # Long | ID of pet that needs to be fetched
 
 try: 
     # Find purchase order by ID
-    api_response = api_instance.getOrderById(orderId)
+    api_response = api_instance.get_order_by_id(orderId)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StoreApi->getOrderById: %s\n" % e)</code></pre>
@@ -4666,7 +4677,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Store-placeOrder-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/store/order"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/store/order"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Store-placeOrder-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4785,7 +4796,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-Store-placeOrder-0-php">
@@ -4834,7 +4846,7 @@ body =  # Order | order placed for purchasing the pet
 
 try: 
     # Place an order for a pet
-    api_response = api_instance.placeOrder(body)
+    api_response = api_instance.place_order(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StoreApi->placeOrder: %s\n" % e)</code></pre>
@@ -4980,7 +4992,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5093,7 +5105,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUser-0-php">
@@ -5140,7 +5153,7 @@ body =  # User | Created user object
 
 try: 
     # Create user
-    api_instance.createUser(body)
+    api_instance.create_user(body)
 except ApiException as e:
     print("Exception when calling UserApi->createUser: %s\n" % e)</code></pre>
                             </div>
@@ -5239,7 +5252,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithArrayInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithArray"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5352,7 +5365,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-php">
@@ -5399,7 +5413,7 @@ body =  # array[User] | List of user object
 
 try: 
     # Creates list of users with given input array
-    api_instance.createUsersWithArrayInput(body)
+    api_instance.create_users_with_array_input(body)
 except ApiException as e:
     print("Exception when calling UserApi->createUsersWithArrayInput: %s\n" % e)</code></pre>
                             </div>
@@ -5501,7 +5515,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-createUsersWithListInput-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">post</span> "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v2/user/createWithList"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5614,7 +5628,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-php">
@@ -5661,7 +5676,7 @@ body =  # array[User] | List of user object
 
 try: 
     # Creates list of users with given input array
-    api_instance.createUsersWithListInput(body)
+    api_instance.create_users_with_list_input(body)
 except ApiException as e:
     print("Exception when calling UserApi->createUsersWithListInput: %s\n" % e)</code></pre>
                             </div>
@@ -5763,7 +5778,7 @@ $(document).ready(function() {
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-deleteUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">delete</span> "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-deleteUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5876,7 +5891,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-deleteUser-0-php">
@@ -5923,7 +5939,7 @@ username = username_example # String | The name that needs to be deleted
 
 try: 
     # Delete user
-    api_instance.deleteUser(username)
+    api_instance.delete_user(username)
 except ApiException as e:
     print("Exception when calling UserApi->deleteUser: %s\n" % e)</code></pre>
                             </div>
@@ -6028,7 +6044,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-getUserByName-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-getUserByName-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6147,7 +6163,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-getUserByName-0-php">
@@ -6196,7 +6213,7 @@ username = username_example # String | The name that needs to be fetched. Use us
 
 try: 
     # Get user by user name
-    api_response = api_instance.getUserByName(username)
+    api_response = api_instance.get_user_by_name(username)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling UserApi->getUserByName: %s\n" % e)</code></pre>
@@ -6345,7 +6362,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-loginUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/login?username=&password="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/login?username=&password="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-loginUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6471,7 +6488,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-loginUser-0-php">
@@ -6523,7 +6541,7 @@ password = password_example # String | The password for login in clear text
 
 try: 
     # Logs user into the system
-    api_response = api_instance.loginUser(username, password)
+    api_response = api_instance.login_user(username, password)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling UserApi->loginUser: %s\n" % e)</code></pre>
@@ -6734,7 +6752,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-logoutUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">get</span> "http://petstore.swagger.io/v2/user/logout"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v2/user/logout"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-logoutUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6840,7 +6858,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-logoutUser-0-php">
@@ -6884,7 +6903,7 @@ api_instance = swagger_client.UserApi()
 
 try: 
     # Logs out current logged in user session
-    api_instance.logoutUser()
+    api_instance.logout_user()
 except ApiException as e:
     print("Exception when calling UserApi->logoutUser: %s\n" % e)</code></pre>
                             </div>
@@ -6941,7 +6960,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-updateUser-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X <span style="text-transform: uppercase;">put</span> "http://petstore.swagger.io/v2/user/{username}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "http://petstore.swagger.io/v2/user/{username}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-updateUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -7061,7 +7080,8 @@ namespace Example
             }
         }
     }
-}</code></pre>
+}
+</code></pre>
                             </div>
 
                             <div class="tab-pane" id="examples-User-updateUser-0-php">
@@ -7111,7 +7131,7 @@ body =  # User | Updated user object
 
 try: 
     # Updated user
-    api_instance.updateUser(username, body)
+    api_instance.update_user(username, body)
 except ApiException as e:
     print("Exception when calling UserApi->updateUser: %s\n" % e)</code></pre>
                             </div>

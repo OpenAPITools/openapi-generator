@@ -19,7 +19,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -66,7 +66,7 @@ Returns a map of status codes to quantities
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -116,7 +116,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
@@ -164,7 +164,7 @@ Place an order for a pet
 
 ### Example 
 ```python
-from __future__ import print_statement
+from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
