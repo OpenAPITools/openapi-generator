@@ -44,7 +44,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -286,7 +286,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Pet**](../Model/\Swagger\Client\Model\Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 

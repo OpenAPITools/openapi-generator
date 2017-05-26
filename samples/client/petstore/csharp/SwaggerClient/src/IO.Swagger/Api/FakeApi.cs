@@ -579,7 +579,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterBoolean>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterBoolean) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterBoolean)));
-            
         }
 
         /// <summary>
@@ -650,7 +649,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterBoolean>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterBoolean) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterBoolean)));
-            
         }
 
         /// <summary>
@@ -720,7 +718,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterComposite>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterComposite) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterComposite)));
-            
         }
 
         /// <summary>
@@ -791,7 +788,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterComposite>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterComposite) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterComposite)));
-            
         }
 
         /// <summary>
@@ -861,7 +857,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterNumber>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterNumber) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterNumber)));
-            
         }
 
         /// <summary>
@@ -932,7 +927,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterNumber>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterNumber) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterNumber)));
-            
         }
 
         /// <summary>
@@ -1002,7 +996,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterString>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterString) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterString)));
-            
         }
 
         /// <summary>
@@ -1073,7 +1066,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterString>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (OuterString) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterString)));
-            
         }
 
         /// <summary>

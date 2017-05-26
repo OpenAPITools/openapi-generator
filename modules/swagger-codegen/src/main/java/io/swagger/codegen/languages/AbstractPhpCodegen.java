@@ -560,7 +560,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             example = "new \\DateTime(\"" + escapeText(example) + "\")";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
-            example = "new " + type + "()";
+            example = "new " + getTypeDeclaration(type) + "()";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }
