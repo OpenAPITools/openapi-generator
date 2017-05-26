@@ -785,6 +785,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Riffyn](https://riffyn.com)
 - [Royal Bank of Canada (RBC)](http://www.rbc.com/canada.html)
 - [Saritasa](https://www.saritasa.com/)
+- [SAS](https://www.sas.com)
 - [SCOOP Software GmbH](http://www.scoop-software.de)
 - [Shine Solutions](https://shinesolutions.com/)
 - [Simpfony](https://www.simpfony.com/)
