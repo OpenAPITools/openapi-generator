@@ -38,6 +38,7 @@ public class CodegenOperation {
     public String nickname; // legacy support
     public String operationIdLowerCase; // for markdown documentation
     public String operationIdCamelCase; // for class names
+    public String operationIdSnakeCase;
 
     /**
      * Check if there's at least one parameter
