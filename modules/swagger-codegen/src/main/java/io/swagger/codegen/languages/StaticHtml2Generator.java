@@ -190,6 +190,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         }
         op.vendorExtensions.put("x-codegen-hasRequiredParams", lastRequired != null);
 
+        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", httpMethod.toUpperCase());
+
         return op;
     }
 
