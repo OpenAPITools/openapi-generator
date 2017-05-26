@@ -12,7 +12,7 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/xml" "application/json"]
+             :accepts       ["application/json" "application/xml"]
              :auth-names    []}))
 
 (defn delete-order
@@ -31,7 +31,7 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/json"]
+             :accepts       ["application/json" "application/xml"]
              :auth-names    ["api_key"]}))
 
 (defn get-inventory
@@ -50,7 +50,7 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       ["application/xml" "application/json"]
+             :accepts       ["application/json" "application/xml"]
              :auth-names    []}))
 
 (defn get-order-by-id
@@ -62,20 +62,22 @@
 (defn place-order-with-http-info
   "Place an order for a pet
   "
-  [body ]
-  (call-api "/store/order" :post
-            {:path-params   {}
-             :header-params {}
-             :query-params  {}
-             :form-params   {}
-             :body-param    body
-             :content-types []
-             :accepts       ["application/xml" "application/json"]
-             :auth-names    []}))
+  ([] (place-order-with-http-info nil))
+  ([{:keys [body ]}]
+   (call-api "/store/order" :post
+             {:path-params   {}
+              :header-params {}
+              :query-params  {}
+              :form-params   {}
+              :body-param    body
+              :content-types []
+              :accepts       ["application/json" "application/xml"]
+              :auth-names    []})))
 
 (defn place-order
   "Place an order for a pet
   "
-  [body ]
-  (:data (place-order-with-http-info body)))
+  ([] (place-order nil))
+  ([optional-params]
+   (:data (place-order-with-http-info optional-params))))
 
