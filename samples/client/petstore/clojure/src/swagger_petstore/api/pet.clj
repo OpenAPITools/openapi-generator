@@ -98,7 +98,7 @@
              :form-params   {}
              :content-types []
              :accepts       ["application/json" "application/xml"]
-             :auth-names    ["petstore_auth" "api_key"]}))
+             :auth-names    ["api_key" "petstore_auth"]}))
 
 (defn get-pet-by-id
   "Find pet by ID
