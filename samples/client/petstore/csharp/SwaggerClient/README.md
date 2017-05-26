@@ -132,10 +132,8 @@ Class | Method | HTTP request | Description
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Model.ArrayTest](docs/ArrayTest.md)
  - [Model.Capitalization](docs/Capitalization.md)
- - [Model.Cat](docs/Cat.md)
  - [Model.Category](docs/Category.md)
  - [Model.ClassModel](docs/ClassModel.md)
- - [Model.Dog](docs/Dog.md)
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
@@ -160,6 +158,8 @@ Class | Method | HTTP request | Description
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
+ - [Model.Cat](docs/Cat.md)
+ - [Model.Dog](docs/Dog.md)
 
 
 <a name="documentation-for-authorization"></a>
