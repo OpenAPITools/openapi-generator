@@ -114,11 +114,9 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Petstore::ArrayTest](docs/ArrayTest.md)
  - [Petstore::Capitalization](docs/Capitalization.md)
- - [Petstore::Cat](docs/Cat.md)
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
- - [Petstore::Dog](docs/Dog.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
@@ -142,6 +140,8 @@ Class | Method | HTTP request | Description
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
+ - [Petstore::Cat](docs/Cat.md)
+ - [Petstore::Dog](docs/Dog.md)
 
 
 ## Documentation for Authorization
