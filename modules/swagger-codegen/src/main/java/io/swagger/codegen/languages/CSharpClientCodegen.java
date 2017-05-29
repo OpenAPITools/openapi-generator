@@ -560,6 +560,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if ("int?".equalsIgnoreCase(datatype) || "long?".equalsIgnoreCase(datatype) ||
             "double?".equalsIgnoreCase(datatype) || "float?".equalsIgnoreCase(datatype)) {
             return value;
+        } else if ("float?".equalsIgnoreCase(datatype)) {
+            // for float in C#, append "f". e.g. 3.14 => 3.14f
+            return value + "f";
         } else {
             return "\"" + escapeText(value) + "\"";
         }
