@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import io.swagger.client.model.Client;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import io.swagger.client.model.OuterComposite;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,114 @@ public class FakeApi {
         this.apiClient = apiClient;
     }
 
+    /**
+     * 
+     * Test serialization of outer boolean types
+     * <p><b>200</b> - Output boolean
+     * @param body Input boolean as post body
+     * @return Boolean
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public Boolean fakeOuterBooleanSerialize(Boolean body) throws RestClientException {
+        Object postBody = body;
+        
+        String path = UriComponentsBuilder.fromPath("/fake/outer/boolean").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Boolean> returnType = new ParameterizedTypeReference<Boolean>() {};
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * 
+     * Test serialization of object with outer number type
+     * <p><b>200</b> - Output composite
+     * @param body Input composite as post body
+     * @return OuterComposite
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws RestClientException {
+        Object postBody = body;
+        
+        String path = UriComponentsBuilder.fromPath("/fake/outer/composite").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<OuterComposite> returnType = new ParameterizedTypeReference<OuterComposite>() {};
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * 
+     * Test serialization of outer number types
+     * <p><b>200</b> - Output number
+     * @param body Input number as post body
+     * @return BigDecimal
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws RestClientException {
+        Object postBody = body;
+        
+        String path = UriComponentsBuilder.fromPath("/fake/outer/number").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<BigDecimal> returnType = new ParameterizedTypeReference<BigDecimal>() {};
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * 
+     * Test serialization of outer string types
+     * <p><b>200</b> - Output string
+     * @param body Input string as post body
+     * @return String
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public String fakeOuterStringSerialize(String body) throws RestClientException {
+        Object postBody = body;
+        
+        String path = UriComponentsBuilder.fromPath("/fake/outer/string").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<String> returnType = new ParameterizedTypeReference<String>() {};
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
