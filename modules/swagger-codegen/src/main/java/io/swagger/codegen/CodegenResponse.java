@@ -23,6 +23,10 @@ public class CodegenResponse {
     public String jsonSchema;
     public Map<String, Object> vendorExtensions;
 
+    public boolean isWildcard() {
+        return "0".equals(code) || "default".equals(code);
+    }
+
     @Override
     public String toString() {
         return String.format("%s(%s)", code, containerType);
