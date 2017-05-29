@@ -1,0 +1,24 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+/**
+* {{{description}}}
+{{#vars}}
+* @param {{name}} {{{description}}}
+{{/vars}}
+*/
+data class {{classname}} (
+  {{#vars}}
+  {{#description}}
+  /* {{{description}}} */
+  {{/description}}
+  val {{{name}}}: {{{datatype}}}{{^required}}?{{/required}}{{#hasMore}},{{/hasMore}}
+  {{/vars}}
+)
+{{/model}}
+{{/models}}
