@@ -173,7 +173,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Order**](../Model/\Swagger\Client\Model\Order.md)| order placed for purchasing the pet |
+ **body** | [**\Swagger\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

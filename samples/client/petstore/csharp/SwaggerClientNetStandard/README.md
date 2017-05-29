@@ -47,7 +47,7 @@ namespace Example
     {
         public void main()
         {
-            
+
             var apiInstance = new FakeApi();
             var body = new OuterBoolean(); // OuterBoolean | Input boolean as post body (optional) 
 
@@ -60,6 +60,7 @@ namespace Example
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterBooleanSerialize: " + e.Message );
             }
+
         }
     }
 }
