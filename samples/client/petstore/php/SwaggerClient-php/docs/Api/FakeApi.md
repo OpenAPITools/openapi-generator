@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterBoolean**](../Model/\Swagger\Client\Model\OuterBoolean.md)| Input boolean as post body | [optional]
+ **body** | [**\Swagger\Client\Model\OuterBoolean**](../Model/OuterBoolean.md)| Input boolean as post body | [optional]
 
 ### Return type
 
@@ -86,7 +86,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterComposite**](../Model/\Swagger\Client\Model\OuterComposite.md)| Input composite as post body | [optional]
+ **body** | [**\Swagger\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -131,7 +131,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterNumber**](../Model/\Swagger\Client\Model\OuterNumber.md)| Input number as post body | [optional]
+ **body** | [**\Swagger\Client\Model\OuterNumber**](../Model/OuterNumber.md)| Input number as post body | [optional]
 
 ### Return type
 
@@ -176,7 +176,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\OuterString**](../Model/\Swagger\Client\Model\OuterString.md)| Input string as post body | [optional]
+ **body** | [**\Swagger\Client\Model\OuterString**](../Model/OuterString.md)| Input string as post body | [optional]
 
 ### Return type
 
@@ -221,7 +221,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\Swagger\Client\Model\Client**](../Model/\Swagger\Client\Model\Client.md)| client model |
+ **body** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -265,8 +265,8 @@ $int64 = 789; // int | None
 $float = 3.4; // float | None
 $string = "string_example"; // string | None
 $binary = "B"; // string | None
-$date = new \DateTime(); // \DateTime | None
-$date_time = new \DateTime(); // \DateTime | None
+$date = new \DateTime("2013-10-20"); // \DateTime | None
+$date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $password = "password_example"; // string | None
 $callback = "callback_example"; // string | None
 

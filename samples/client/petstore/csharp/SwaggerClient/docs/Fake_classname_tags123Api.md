@@ -27,7 +27,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new Fake_classname_tags123Api();
             var body = new ModelClient(); // ModelClient | client model
 

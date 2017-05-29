@@ -17,21 +17,27 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
     private static final String CLASS_PREFIX = "classPrefix";
     private static final String API_VERSION = "apiVersion";
+    private static final String BUILD_METHOD = "buildMethod";
+    private static final String NAMED_CREDENTIAL = "namedCredential";
     private static final Logger LOGGER = LoggerFactory.getLogger(ApexClientCodegen.class);
     private String classPrefix = "Swag";
     private String apiVersion = "39.0";
+    private String buildMethod = "sfdx";
+    private String namedCredential = classPrefix;
+    private String srcPath = "force-app/main/default/";
 
     public ApexClientCodegen() {
         super();
 
         importMapping.clear();
 
+        testFolder = sourceFolder = srcPath;
+
         embeddedTemplateDir = templateDir = "apex";
         outputFolder = "generated-code" + File.separator + "apex";
-        testFolder = sourceFolder = "deploy";
         apiPackage = "classes";
         modelPackage = "classes";
-        testPackage = "deploy.classes";
+        testPackage = "force-app.main.default.classes";
         modelNamePrefix = classPrefix;
         dateLibrary = "";
 
@@ -46,22 +52,15 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
         cliOptions.add(CliOption.newString(CLASS_PREFIX, "Prefix for generated classes. Set this to avoid overwriting existing classes in your org."));
         cliOptions.add(CliOption.newString(API_VERSION, "The Metadata API version number to use for components in this package."));
+        cliOptions.add(CliOption.newString(BUILD_METHOD, "The build method for this package."));
+        cliOptions.add(CliOption.newString(NAMED_CREDENTIAL, "The named credential name for the HTTP callouts"));
 
-        supportingFiles.add(new SupportingFile("package.mustache", "deploy", "package.xml"));
-        supportingFiles.add(new SupportingFile("package.mustache", "undeploy", "destructiveChanges.xml"));
-        supportingFiles.add(new SupportingFile("build.mustache", "build.xml"));
-        supportingFiles.add(new SupportingFile("build.properties", "build.properties"));
-        supportingFiles.add(new SupportingFile("remove.package.mustache", "undeploy", "package.xml"));
-        supportingFiles.add(new SupportingFile("Swagger.cls", "deploy/classes", "Swagger.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", "deploy/classes", "Swagger.cls-meta.xml"));
-        supportingFiles.add(new SupportingFile("SwaggerTest.cls", "deploy/classes", "SwaggerTest.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", "deploy/classes", "SwaggerTest.cls-meta.xml"));
-        supportingFiles.add(new SupportingFile("SwaggerResponseMock.cls", "deploy/classes", "SwaggerResponseMock.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", "deploy/classes", "SwaggerResponseMock.cls-meta.xml"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("Swagger.cls", srcPath + "classes", "Swagger.cls"));
+        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "Swagger.cls-meta.xml"));
+        supportingFiles.add(new SupportingFile("SwaggerTest.cls", srcPath + "classes", "SwaggerTest.cls"));
+        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "SwaggerTest.cls-meta.xml"));
+        supportingFiles.add(new SupportingFile("SwaggerResponseMock.cls", srcPath + "classes", "SwaggerResponseMock.cls"));
+        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "SwaggerResponseMock.cls-meta.xml"));
 
         typeMapping.put("BigDecimal", "Double");
         typeMapping.put("binary", "String");
@@ -113,6 +112,16 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             setApiVersion(toApiVersion((String) additionalProperties.get(API_VERSION)));
         }
         additionalProperties.put(API_VERSION, apiVersion);
+
+        if (additionalProperties.containsKey(BUILD_METHOD)) {
+            setBuildMethod((String)additionalProperties.get(BUILD_METHOD));
+        }
+        additionalProperties.put(BUILD_METHOD, buildMethod);
+
+        if (additionalProperties.containsKey(NAMED_CREDENTIAL)) {
+            setNamedCredential((String)additionalProperties.get(NAMED_CREDENTIAL));
+        }
+        additionalProperties.put(NAMED_CREDENTIAL, namedCredential);
 
         postProcessOpts();
     }
@@ -232,18 +241,20 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     @Override
     public void preprocessSwagger(Swagger swagger) {
         Info info = swagger.getInfo();
-        String description = info.getDescription();
-        String sanitized = sanitizeName(info.getTitle());
-        additionalProperties.put("sanitizedName", sanitized);
-        supportingFiles.add(new SupportingFile("remoteSite.mustache", "deploy/remoteSiteSettings",
-            sanitized + ".remoteSite"
+        String calloutLabel = info.getTitle();
+        additionalProperties.put("calloutLabel", calloutLabel);
+        String sanitized = sanitizeName(calloutLabel);
+        additionalProperties.put("calloutName", sanitized);
+        supportingFiles.add(new SupportingFile("namedCredential.mustache", srcPath + "/namedCredentials",
+            sanitized + ".namedCredential"
         ));
 
-        // max length for description for a Remote Site setting
-        if (description != null && description.length() > 255) {
-            description = description.substring(0, 255);
+        if (additionalProperties.get(BUILD_METHOD).equals("sfdx")) {
+            generateSfdxSupportingFiles();
+        } else if (additionalProperties.get(BUILD_METHOD).equals("ant")) {
+            generateAntSupportingFiles();
         }
-        additionalProperties.put("shortDescription", description);
+
     }
 
     @Override
@@ -289,6 +300,20 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         return input.replace("'", "\\'");
     }
 
+    public void setBuildMethod(String buildMethod) {
+        if (buildMethod.equals("ant")) {
+            this.srcPath = "deploy/";
+        } else {
+            this.srcPath = "src/";
+        }
+        testFolder = sourceFolder = srcPath;
+        this.buildMethod = buildMethod;
+    }
+
+    public void setNamedCredential(String namedCredential) {
+        this.namedCredential = namedCredential;
+    }
+
     public void setClassPrefix(String classPrefix) {
         // the best thing we can do without namespacing in Apex
         modelNamePrefix = classPrefix;
@@ -310,8 +335,8 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
     private void postProcessOpts() {
         supportingFiles.add(
-            new SupportingFile("client.mustache", "deploy/classes", classPrefix + "Client.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", "deploy/classes",
+            new SupportingFile("client.mustache", srcPath + "classes", classPrefix + "Client.cls"));
+        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes",
             classPrefix + "Client.cls-meta.xml"
         ));
     }
@@ -451,4 +476,28 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     public String getHelp() {
         return "Generates an Apex API client library (beta).";
     }
+
+    private void generateAntSupportingFiles() {
+
+        supportingFiles.add(new SupportingFile("package.mustache", "deploy", "package.xml"));
+        supportingFiles.add(new SupportingFile("package.mustache", "undeploy", "destructiveChanges.xml"));
+        supportingFiles.add(new SupportingFile("build.mustache", "build.xml"));
+        supportingFiles.add(new SupportingFile("build.properties", "build.properties"));
+        supportingFiles.add(new SupportingFile("remove.package.mustache", "undeploy", "package.xml"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
+        writeOptional(outputFolder, new SupportingFile("README_ant.mustache", "README.md"));
+
+    }
+
+    private void generateSfdxSupportingFiles() {
+
+        supportingFiles.add(new SupportingFile("sfdx.mustache", "", "sfdx-oss-manifest.json"));
+
+        writeOptional(outputFolder, new SupportingFile("README_sfdx.mustache", "README.md"));
+
+    }
+
+
 }
