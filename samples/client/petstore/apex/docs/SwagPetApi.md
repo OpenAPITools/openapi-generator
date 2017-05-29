@@ -47,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagPet**](SwagPet.md)| Pet object that needs to be added to the store |
+ **body** | [**SwagPet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -292,7 +292,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagPet**](SwagPet.md)| Pet object that needs to be added to the store |
+ **body** | [**SwagPet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 

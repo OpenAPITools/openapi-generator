@@ -42,7 +42,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagUser**](SwagUser.md)| Created user object |
+ **body** | [**SwagUser**](User.md)| Created user object |
 
 ### Return type
 
@@ -342,7 +342,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted |
- **body** | [**SwagUser**](SwagUser.md)| Updated user object |
+ **body** | [**SwagUser**](User.md)| Updated user object |
 
 ### Return type
 
