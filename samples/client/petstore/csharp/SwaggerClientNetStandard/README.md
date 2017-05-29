@@ -47,20 +47,20 @@ namespace Example
     {
         public void main()
         {
-            
+
             var apiInstance = new FakeApi();
-            var body = new ModelClient(); // ModelClient | client model
+            var body = new OuterBoolean(); // OuterBoolean | Input boolean as post body (optional) 
 
             try
             {
-                // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(body);
+                OuterBoolean result = apiInstance.FakeOuterBooleanSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling FakeApi.TestClientModel: " + e.Message );
+                Debug.Print("Exception when calling FakeApi.FakeOuterBooleanSerialize: " + e.Message );
             }
+
         }
     }
 }
@@ -73,6 +73,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
+*FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
+*FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
+*FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
@@ -109,10 +113,8 @@ Class | Method | HTTP request | Description
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Model.ArrayTest](docs/ArrayTest.md)
  - [Model.Capitalization](docs/Capitalization.md)
- - [Model.Cat](docs/Cat.md)
  - [Model.Category](docs/Category.md)
  - [Model.ClassModel](docs/ClassModel.md)
- - [Model.Dog](docs/Dog.md)
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
@@ -127,12 +129,18 @@ Class | Method | HTTP request | Description
  - [Model.Name](docs/Name.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.Order](docs/Order.md)
+ - [Model.OuterBoolean](docs/OuterBoolean.md)
+ - [Model.OuterComposite](docs/OuterComposite.md)
  - [Model.OuterEnum](docs/OuterEnum.md)
+ - [Model.OuterNumber](docs/OuterNumber.md)
+ - [Model.OuterString](docs/OuterString.md)
  - [Model.Pet](docs/Pet.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
+ - [Model.Cat](docs/Cat.md)
+ - [Model.Dog](docs/Dog.md)
 
 
 <a name="documentation-for-authorization"></a>

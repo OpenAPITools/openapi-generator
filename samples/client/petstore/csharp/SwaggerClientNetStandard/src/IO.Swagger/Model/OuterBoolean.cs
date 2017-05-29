@@ -12,16 +12,12 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using PropertyChanged;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace IO.Swagger.Model
 {
@@ -29,8 +25,7 @@ namespace IO.Swagger.Model
     /// OuterBoolean
     /// </summary>
     [DataContract]
-    [ImplementPropertyChanged]
-    public partial class OuterBoolean :  IEquatable<OuterBoolean>, IValidatableObject
+    public partial class OuterBoolean :  IEquatable<OuterBoolean>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterBoolean" /> class.
@@ -99,36 +94,6 @@ namespace IO.Swagger.Model
                 // Suitable nullity checks etc, of course :)
                 return hash;
             }
-        }
-
-        /// <summary>
-        /// Property changed event handler
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Trigger when a property changed
-        /// </summary>
-        /// <param name="propertyName">Property Name</param>
-        public virtual void OnPropertyChanged(string propertyName)
-        {
-            // NOTE: property changed is handled via "code weaving" using Fody.
-            // Properties with setters are modified at compile time to notify of changes.
-            var propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-            {
-                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
         }
     }
 

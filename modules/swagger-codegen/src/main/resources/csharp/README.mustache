@@ -102,18 +102,27 @@ namespace Example
     {
         public void main()
         {
-            {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+            {{#hasAuthMethods}}
+            {{#authMethods}}
+            {{#isBasic}}
             // Configure HTTP basic authorization: {{{name}}}
             Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";{{/isBasic}}{{#isApiKey}}
+            Configuration.Default.Password = "YOUR_PASSWORD";
+            {{/isBasic}}
+            {{#isApiKey}}
             // Configure API key authorization: {{{name}}}
             Configuration.Default.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");{{/isApiKey}}{{#isOAuth}}
+            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");
+            {{/isApiKey}}
+            {{#isOAuth}}
             // Configure OAuth2 access token for authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";{{/isOAuth}}{{/authMethods}}
-            {{/hasAuthMethods}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isOAuth}}
+            {{/authMethods}}
 
+            {{/hasAuthMethods}}
             var apiInstance = new {{classname}}();
             {{#allParams}}
             {{#isPrimitiveType}}
@@ -136,9 +145,10 @@ namespace Example
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
             }
+{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }
     }
-}{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+}
 ```
 
 <a name="documentation-for-api-endpoints"></a>

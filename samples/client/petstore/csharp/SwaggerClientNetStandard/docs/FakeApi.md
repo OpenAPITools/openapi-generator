@@ -4,10 +4,254 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
+[**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
+[**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
+[**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 
+
+<a name="fakeouterbooleanserialize"></a>
+# **FakeOuterBooleanSerialize**
+> OuterBoolean FakeOuterBooleanSerialize (OuterBoolean body = null)
+
+
+
+Test serialization of outer boolean types
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class FakeOuterBooleanSerializeExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var body = new OuterBoolean(); // OuterBoolean | Input boolean as post body (optional) 
+
+            try
+            {
+                OuterBoolean result = apiInstance.FakeOuterBooleanSerialize(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.FakeOuterBooleanSerialize: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | [optional] 
+
+### Return type
+
+[**OuterBoolean**](OuterBoolean.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="fakeoutercompositeserialize"></a>
+# **FakeOuterCompositeSerialize**
+> OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
+
+
+
+Test serialization of object with outer number type
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class FakeOuterCompositeSerializeExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var body = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
+
+            try
+            {
+                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.FakeOuterCompositeSerialize: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+
+### Return type
+
+[**OuterComposite**](OuterComposite.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="fakeouternumberserialize"></a>
+# **FakeOuterNumberSerialize**
+> OuterNumber FakeOuterNumberSerialize (OuterNumber body = null)
+
+
+
+Test serialization of outer number types
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class FakeOuterNumberSerializeExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var body = new OuterNumber(); // OuterNumber | Input number as post body (optional) 
+
+            try
+            {
+                OuterNumber result = apiInstance.FakeOuterNumberSerialize(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.FakeOuterNumberSerialize: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | [optional] 
+
+### Return type
+
+[**OuterNumber**](OuterNumber.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="fakeouterstringserialize"></a>
+# **FakeOuterStringSerialize**
+> OuterString FakeOuterStringSerialize (OuterString body = null)
+
+
+
+Test serialization of outer string types
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class FakeOuterStringSerializeExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var body = new OuterString(); // OuterString | Input string as post body (optional) 
+
+            try
+            {
+                OuterString result = apiInstance.FakeOuterStringSerialize(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.FakeOuterStringSerialize: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
+
+### Return type
+
+[**OuterString**](OuterString.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testclientmodel"></a>
 # **TestClientModel**
@@ -31,7 +275,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new FakeApi();
             var body = new ModelClient(); // ModelClient | client model
 
@@ -93,7 +336,6 @@ namespace Example
     {
         public void main()
         {
-            
             // Configure HTTP basic authorization: http_basic_test
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
@@ -184,7 +426,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new FakeApi();
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional) 
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
