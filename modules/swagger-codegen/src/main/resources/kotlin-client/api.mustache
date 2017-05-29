@@ -1,0 +1,55 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import {{packageName}}.infrastructure.*
+
+{{#operations}}
+class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(basePath) {
+
+    {{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    */{{#returnType}}
+    @Suppress("UNCHECKED_CAST"){{/returnType}}
+    fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+        val localVariableBody: kotlin.Any? = {{#hasBodyParam}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to "${{paramName}}"{{#hasMore}}, {{/hasMore}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
+        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = {{^hasQueryParams}}mapOf(){{/hasQueryParams}}{{#hasQueryParams}}mapOf({{#queryParams}}"{{paramName}}" to {{#isContainer}}{{paramName}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}){{/hasQueryParams}}
+        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = {{^headerParams}}mapOf({{#hasFormParams}}"Content-Type" to "multipart/form-data"{{/hasFormParams}}){{/headerParams}}{{#headerParams}}mapOf("{{paramName}}" to {{#isContainer}}{{paramName}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}){{/headerParams}}
+        val localVariableConfig = RequestConfig(
+            RequestMethod.{{httpMethod}},
+            "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+            query = localVariableQuery,
+            headers = localVariableHeaders
+        )
+        val response = request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Any?{{/returnType}}>(
+            localVariableConfig,
+            localVariableBody
+        )
+
+        return when (response.responseType) {
+            ResponseType.Success -> {{#returnType}}(response as Success<*>).data as {{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
+            ResponseType.Informational -> TODO()
+            ResponseType.Redirection -> TODO()
+            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
+            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            else -> throw kotlin.IllegalStateException("Undefined ResponseType.")
+        }
+    }
+
+    {{/operation}}
+
+    private fun collectionDelimiter(collectionFormat: kotlin.String) = when(collectionFormat) {
+        "csv" -> ","
+        "tsv" -> "\t"
+        "pipes" -> "|"
+        "ssv" -> " "
+        else -> ""
+    }
+}
+{{/operations}}
