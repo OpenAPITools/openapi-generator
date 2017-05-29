@@ -168,7 +168,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SwagOrder**](SwagOrder.md)| order placed for purchasing the pet |
+ **body** | [**SwagOrder**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

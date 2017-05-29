@@ -37,18 +37,10 @@ private class {{classname}}Test {
 
     {{#authMethods}}
         client = new {{classPrefix}}Client();
-        api = new {{classname}}(client);{{#isBasic}}
-        ((Swagger.HttpBasicAuth){{/isBasic}}{{#isOAuth}}
-        ((Swagger.OAuth2){{/isOAuth}}{{#isApiKey}}
-        ((Swagger.ApiKeyAuth){{/isApiKey}} client.getAuthentication('{{name}}'))
-      {{#isBasic}}
-            .setCredentials('username', 'password');
-      {{/isBasic}}
-      {{#isOAuth}}
-            .setAccessToken('foo-bar-access-token');
-      {{/isOAuth}}
+        api = new {{classname}}(client);{{#isApiKey}}
+        ((Swagger.ApiKeyAuth){{/isApiKey}} client.getAuthentication('{{name}}');
       {{#isApiKey}}
-            .setApiKey('foo-bar-api-key');
+            client.setApiKey('foo-bar-api-key');
       {{/isApiKey}}
       {{#examples}}
 
