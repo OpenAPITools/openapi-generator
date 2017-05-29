@@ -123,7 +123,9 @@ module Petstore
         end
       end
 
-      Typhoeus::Request.new(url, req_opts)
+      request = Typhoeus::Request.new(url, req_opts)
+      download_file(request) if opts[:return_type] == 'File'
+      request
     end
 
     # Check if the given MIME is a JSON MIME.
@@ -144,13 +146,15 @@ module Petstore
     # @param [String] return_type some examples: "User", "Array[User]", "Hash[String,Integer]"
     def deserialize(response, return_type)
       body = response.body
+
+      # handle file downloading - return the File instance processed in request callbacks
+      # note that response body is empty when the file is written in chunks in request on_body callback
+      return @tempfile if return_type == 'File'
+
       return nil if body.nil? || body.empty?
 
       # return response body directly for String return type
       return body if return_type == 'String'
-
-      # handle file downloading - save response body into a tmp file and return the File instance
-      return download_file(response) if return_type == 'File'
 
       # ensuring a default content type
       content_type = response.headers['Content-Type'] || 'application/json'
@@ -214,30 +218,38 @@ module Petstore
 
     # Save response body into a file in (the defined) temporary folder, using the filename
     # from the "Content-Disposition" header if provided, otherwise a random filename.
+    # The response body is written to the file in chunks in order to handle files which
+    # size is larger than maximum Ruby String or even larger than the maximum memory a Ruby
+    # process can use.
     #
     # @see Configuration#temp_folder_path
-    # @return [Tempfile] the file downloaded
-    def download_file(response)
-      content_disposition = response.headers['Content-Disposition']
-      if content_disposition and content_disposition =~ /filename=/i
-        filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-        prefix = sanitize_filename(filename)
-      else
-        prefix = 'download-'
-      end
-      prefix = prefix + '-' unless prefix.end_with?('-')
-
+    def download_file(request)
       tempfile = nil
-      encoding = response.body.encoding
-      Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding) do |file|
-        file.write(response.body)
-        tempfile = file
+      encoding = nil
+      request.on_headers do |response|
+        content_disposition = response.headers['Content-Disposition']
+        if content_disposition and content_disposition =~ /filename=/i
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+          prefix = sanitize_filename(filename)
+        else
+          prefix = 'download-'
+        end
+        prefix = prefix + '-' unless prefix.end_with?('-')
+        encoding = response.body.encoding
+        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        @tempfile = tempfile
       end
-      @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                          "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                          "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                          "explicitly with `tempfile.delete`"
-      tempfile
+      request.on_body do |chunk|
+        chunk.force_encoding(encoding)
+        tempfile.write(chunk)
+      end
+      request.on_complete do |response|
+        tempfile.close
+        @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                            "explicitly with `tempfile.delete`"
+      end
     end
 
     # Sanitize filename by removing path.
