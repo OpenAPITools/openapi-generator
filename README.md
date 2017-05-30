@@ -850,13 +850,14 @@ Swagger Codegen core team members are contributors who have been making signific
 |:-------------|:-------------|
 | ActionScript | |
 | C++      |  |  
-| C#      | @jimschubert (2016/05/01) |  |
+| C#      | @jimschubert (2016/05/01) |
 | Clojure | @xhh (2016/05/01) |
 | Dart      |  |  
 | Groovy     |  |  
 | Go     |  @guohuang (2016/05/01) @neilotoole (2016/05/01) |  
 | Java      | @cbornet (2016/05/01) @xhh (2016/05/01) @epaul (2016/06/04) |
 | Java (Spring Cloud) | @cbornet (2016/07/19) |
+| Kotlin      | @jimschubert (2016/05/01) |
 | NodeJS/Javascript | @xhh (2016/05/01) |
 | ObjC      | @mateuszmackowiak (2016/05/09) |
 | Perl      | @wing328 (2016/05/01) |
@@ -916,6 +917,7 @@ Here is a list of template creators:
    * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
    * JMeter @davidkiss
+   * Kotlin @jimschubert
    * Perl: @wing328
    * PHP (Guzzle): @baartosz
    * Swift: @tkqubo

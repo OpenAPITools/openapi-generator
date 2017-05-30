@@ -85,10 +85,10 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     * Finds Pets by status
     * Multiple status values can be provided with comma separated strings
     * @param status Status values that need to be considered for filter 
-    * @return kotlin.Array<Pet>
+    * @return kotlin.collections.List<Pet>
     */
     @Suppress("UNCHECKED_CAST")
-    fun findPetsByStatus(status: kotlin.Array<kotlin.String>) : kotlin.Array<Pet> {
+    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("status" to status.joinToString(separator = collectionDelimiter("csv")))
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
@@ -98,13 +98,13 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<kotlin.Array<Pet>>(
+        val response = request<kotlin.collections.List<Pet>>(
             localVariableConfig,
             localVariableBody
         )
 
         return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Array<Pet>
+            ResponseType.Success -> (response as Success<*>).data as kotlin.collections.List<Pet>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
@@ -117,10 +117,10 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     * Finds Pets by tags
     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     * @param tags Tags to filter by 
-    * @return kotlin.Array<Pet>
+    * @return kotlin.collections.List<Pet>
     */
     @Suppress("UNCHECKED_CAST")
-    fun findPetsByTags(tags: kotlin.Array<kotlin.String>) : kotlin.Array<Pet> {
+    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("tags" to tags.joinToString(separator = collectionDelimiter("csv")))
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
@@ -130,13 +130,13 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<kotlin.Array<Pet>>(
+        val response = request<kotlin.collections.List<Pet>>(
             localVariableConfig,
             localVariableBody
         )
 
         return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Array<Pet>
+            ResponseType.Success -> (response as Success<*>).data as kotlin.collections.List<Pet>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
