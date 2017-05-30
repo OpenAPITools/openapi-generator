@@ -54,7 +54,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     * @param body List of user object 
     * @return void
     */
-    fun createUsersWithArrayInput(body: kotlin.Array<User>) : Unit {
+    fun createUsersWithArrayInput(body: kotlin.collections.List<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
@@ -85,7 +85,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     * @param body List of user object 
     * @return void
     */
-    fun createUsersWithListInput(body: kotlin.Array<User>) : Unit {
+    fun createUsersWithListInput(body: kotlin.collections.List<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
