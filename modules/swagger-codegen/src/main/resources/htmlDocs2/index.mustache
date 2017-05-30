@@ -59,11 +59,6 @@
         });
       }
 
-
-      // load google web fonts
-      loadGoogleFontCss();
-
-
       // Bootstrap Scrollspy
       $(this).scrollspy({ target: '#scrollingNav', offset: 18 });
 
@@ -105,21 +100,6 @@
 
       //Convert elements with "marked" class to markdown
       processMarked();
-
-      /**
-       * Load google fonts.
-       */
-      function loadGoogleFontCss() {
-        WebFont.load({
-          active: function() {
-            // Update scrollspy
-            $(window).scrollspy('refresh')
-          },
-          google: {
-            families: ['Source Code Pro', 'Source Sans Pro:n4,n6,n7']
-          }
-        });
-      }
     });
   </script>
   <style type="text/css">
@@ -132,10 +112,10 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-    {{#models}}
-    {{#model}}
-    defs.{{name}} = {{{modelJson}}};
-    {{/model}}
+        {{#models}}
+        {{#model}}
+            defs.{{name}} = {{{modelJson}}};
+        {{/model}}
     {{/models}}
   </script>
 
@@ -359,7 +339,7 @@
                               {{#schema}}
                                 <div class="tab-pane active" id="responses-{{nickname}}-{{code}}-schema">
                                   <div id='responses-{{nickname}}-{{code}}-schema-{{code}}' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {{{jsonSchema}}};
                                         var schema = schemaWrapper.schema;
