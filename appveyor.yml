@@ -21,7 +21,7 @@ install:
   - cmd: dir/w
 #  - cmd: RMDIR "C:\projects\swagger-codegen\swagger-samples" /S /Q
   - git clone https://github.com/wing328/swagger-samples
-  - ps: Start-Process -FilePath 'C:\maven\apache-maven-3.2.5\bin\mvn' -ArgumentList 'jetty:run' -WorkingDirectory "$env:appveyor_build_folder\swagger-samples\java\java-jersey-jaxrs"
+  - ps: Start-Process -FilePath 'C:\maven\apache-maven-3.2.5\bin\mvn' -ArgumentList 'jetty:run' -WorkingDirectory "$env:appveyor_build_folder\swagger-samples\java\java-jersey-jaxrs-ci"
 build_script:
   # build C# API client
   - nuget restore samples\client\petstore\csharp\SwaggerClient\IO.Swagger.sln
