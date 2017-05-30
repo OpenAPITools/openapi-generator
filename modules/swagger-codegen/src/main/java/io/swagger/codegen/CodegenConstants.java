@@ -173,8 +173,14 @@ public class CodegenConstants {
     public static final String EXCLUDE_TESTS = "excludeTests";
     public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
 
+    // Not user-configurable. System provided for use in templates.
+    public static final String GENERATE_API_DOCS = "generateApiDocs";
+
     public static final String GENERATE_API_TESTS = "generateApiTests";
     public static final String GENERATE_API_TESTS_DESC = "Specifies that api tests are to be generated.";
+
+    // Not user-configurable. System provided for use in templates.
+    public static final String GENERATE_MODEL_DOCS = "generateModelDocs";
 
     public static final String GENERATE_MODEL_TESTS = "generateModelTests";
     public static final String GENERATE_MODEL_TESTS_DESC = "Specifies that model tests are to be generated.";
