@@ -258,7 +258,7 @@ var JSONSchemaView = (function () {
       }
 
       if (this.isArray) {
-        var view = new JSONSchemaView(this.schema.items, this.open - 1);
+        var view = new JSONSchemaView(this.schema.items, Infinity);
         inner.appendChild(view.render());
       }
 
