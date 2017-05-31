@@ -1,7 +1,9 @@
 {{>partial_header}}
 using System;
 using System.Reflection;
+{{^net35}}
 using System.Collections.Concurrent;
+{{/net35}}
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -107,9 +109,9 @@ namespace {{packageName}}.Client
         {
             UserAgent = "{{#httpUserAgent}}{{.}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{packageVersion}}/csharp{{/httpUserAgent}}";
             BasePath = "{{{basePath}}}";
-            DefaultHeader = new ConcurrentDictionary<string, string>();
-            ApiKey = new ConcurrentDictionary<string, string>();
-            ApiKeyPrefix = new ConcurrentDictionary<string, string>();
+            DefaultHeader = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
+            ApiKey = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
+            ApiKeyPrefix = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
 
             // Setting Timeout has side effects (forces ApiClient creation).
             Timeout = 100000;
@@ -124,7 +126,7 @@ namespace {{packageName}}.Client
             IDictionary<string, string> apiKeyPrefix,
             string basePath = "{{{basePath}}}") : this()
         {
-            if (string.IsNullOrWhiteSpace(basePath))
+            if (string.{{^net35}}IsNullOrWhiteSpace{{/net35}}{{#net35}}IsNullOrEmpty{{/net35}}(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
             if (defaultHeader == null)
                 throw new ArgumentNullException("defaultHeader");
@@ -264,11 +266,11 @@ namespace {{packageName}}.Client
         public virtual string Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the access token for OAuth2 authentication.
+        /// Gets the API key with prefix.
         /// </summary>
         /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
         /// <returns>API key with prefix.</returns>
-        public string GetApiKeyWithPrefix (string apiKeyIdentifier)
+        public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
             var apiKeyValue = "";
             ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);

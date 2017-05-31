@@ -267,11 +267,11 @@ namespace IO.Swagger.Client
         public virtual string Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the access token for OAuth2 authentication.
+        /// Gets the API key with prefix.
         /// </summary>
         /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
         /// <returns>API key with prefix.</returns>
-        public string GetApiKeyWithPrefix (string apiKeyIdentifier)
+        public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
             var apiKeyValue = "";
             ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);

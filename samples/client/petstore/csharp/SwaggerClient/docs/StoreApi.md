@@ -93,9 +93,9 @@ namespace Example
         public void main()
         {
             // Configure API key authorization: api_key
-            Configuration.Default.ApiKey.Add("api_key", "YOUR_API_KEY");
+            Configuration.Default.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
+            // Configuration.Default.AddApiKeyPrefix("api_key", "Bearer");
 
             var apiInstance = new StoreApi();
 
