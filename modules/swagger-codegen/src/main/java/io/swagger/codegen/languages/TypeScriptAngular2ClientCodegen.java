@@ -46,7 +46,6 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.service.mustache", ".ts");
         languageSpecificPrimitives.add("Blob");
-        typeMapping.put("date","string");
         typeMapping.put("file","Blob");
         apiPackage = "api";
         modelPackage = "model";
