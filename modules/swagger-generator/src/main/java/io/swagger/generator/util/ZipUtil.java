@@ -34,18 +34,19 @@ import java.util.zip.ZipOutputStream;
  */
 public class ZipUtil {
     /**
-     * A constants for buffer size used to read/write data
+     * A constants for buffer size used to read/write data.
      */
     private static final int BUFFER_SIZE = 4096;
 
     /**
-     * Compresses a collection of files to a destination zip file
+     * Compresses a collection of files to a destination zip file.
      * @param listFiles A collection of files and directories
      * @param destZipFile The path of the destination zip file
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException if file not found
+     * @throws IOException if IO exception occurs
      */
-    public void compressFiles(List<File> listFiles, String destZipFile) throws FileNotFoundException, IOException {
+    public void compressFiles(List<File> listFiles, String destZipFile)
+            throws FileNotFoundException, IOException {
 
         ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destZipFile));
 
@@ -62,12 +63,12 @@ public class ZipUtil {
     }
 
     /**
-     * Adds a directory to the current zip output stream
+     * Adds a directory to the current zip output stream.
      * @param folder the directory to be  added
      * @param parentFolder the path of parent directory
      * @param zos the current zip output stream
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException if file not found
+     * @throws IOException if IO exception occurs
      */
     private void addFolderToZip(File folder, String parentFolder,
                                 ZipOutputStream zos) throws FileNotFoundException, IOException {
@@ -97,11 +98,11 @@ public class ZipUtil {
     }
 
     /**
-     * Adds a file to the current zip output stream
+     * Adds a file to the current zip output stream.
      * @param file the file to be added
      * @param zos the current zip output stream
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException if file not found
+     * @throws IOException if IO exception occurs
      */
     private static void addFileToZip(File file, ZipOutputStream zos)
             throws FileNotFoundException, IOException {
