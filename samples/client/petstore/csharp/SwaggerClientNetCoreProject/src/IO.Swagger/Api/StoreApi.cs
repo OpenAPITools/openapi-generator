@@ -206,15 +206,9 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public StoreApi(String basePath)
         {
-            this.Configuration = new Configuration(new ApiClient(basePath));
+            this.Configuration = new Configuration { BasePath = basePath };
 
             ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
-
-            // ensure API client has configuration ready
-            if (Configuration.ApiClient.Configuration == null)
-            {
-                this.Configuration.ApiClient.Configuration = this.Configuration;
-            }
         }
 
         /// <summary>
@@ -231,12 +225,6 @@ namespace IO.Swagger.Api
                 this.Configuration = configuration;
 
             ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
-
-            // ensure API client has configuration ready
-            if (Configuration.ApiClient.Configuration == null)
-            {
-                this.Configuration.ApiClient.Configuration = this.Configuration;
-            }
         }
 
         /// <summary>
@@ -285,9 +273,9 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <returns>Dictionary of HTTP header</returns>
         [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public Dictionary<String, String> DefaultHeader()
+        public IDictionary<String, String> DefaultHeader()
         {
-            return this.Configuration.DefaultHeader;
+            return new ReadOnlyDictionary<string, string>(this.Configuration.DefaultHeader);
         }
 
         /// <summary>
@@ -327,7 +315,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -394,7 +382,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -456,7 +444,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/inventory";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -523,7 +511,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/inventory";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -593,7 +581,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -661,7 +649,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/order/{order_id}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -728,7 +716,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/order";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -803,7 +791,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./store/order";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();

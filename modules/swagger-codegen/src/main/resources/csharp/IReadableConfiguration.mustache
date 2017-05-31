@@ -1,0 +1,26 @@
+{{>partial_header}}
+
+using System.Collections.Generic;
+
+namespace {{packageName}}.Client
+{
+    /// <summary>
+    /// Represents a readable-only configuration contract.
+    /// </summary>
+    public interface IReadableConfiguration
+    {
+        string AccessToken { get; }
+        IDictionary<string, string> ApiKey { get; }
+        IDictionary<string, string> ApiKeyPrefix { get; }
+        string BasePath { get; }
+        string DateTimeFormat { get; }
+        IDictionary<string, string> DefaultHeader { get; }
+        string Password { get; }
+        string TempFolderPath { get; }
+        int Timeout { get; }
+        string UserAgent { get; }
+        string Username { get; }
+
+        string GetApiKeyWithPrefix(string apiKeyIdentifier);
+    }
+}

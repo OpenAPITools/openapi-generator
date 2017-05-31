@@ -49,11 +49,11 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" /> class
-        /// with default configuration and base path ({{{basePath}}}).
+        /// with default configuration.
         /// </summary>
         public ApiClient()
         {
-            Configuration = Configuration.Default;
+            Configuration = {{packageName}}.Client.Configuration.Default;
             RestClient = new RestClient("{{{basePath}}}");
             {{#netStandard}}
             RestClient.IgnoreResponseStatusCode = true;
@@ -65,14 +65,11 @@ namespace {{packageName}}.Client
         /// with default base path ({{{basePath}}}).
         /// </summary>
         /// <param name="config">An instance of Configuration.</param>
-        public ApiClient(Configuration config = null)
+        public ApiClient(Configuration config)
         {
-            if (config == null)
-                Configuration = Configuration.Default;
-            else
-                Configuration = config;
+            Configuration = config ?? {{packageName}}.Client.Configuration.Default;
 
-            RestClient = new RestClient("{{{basePath}}}");
+            RestClient = new RestClient(Configuration.BasePath);
             {{#netStandard}}
             RestClient.IgnoreResponseStatusCode = true;
             {{/netStandard}}
@@ -92,7 +89,7 @@ namespace {{packageName}}.Client
             {{#netStandard}}
             RestClient.IgnoreResponseStatusCode = true;
             {{/netStandard}}
-            Configuration = Configuration.Default;
+            Configuration = Client.Configuration.Default;
         }
 
         /// <summary>
@@ -103,10 +100,15 @@ namespace {{packageName}}.Client
         public static ApiClient Default;
 
         /// <summary>
-        /// Gets or sets the Configuration.
+        /// Gets or sets an instance of the IReadableConfiguration.
         /// </summary>
-        /// <value>An instance of the Configuration.</value>
-        public Configuration Configuration { get; set; }
+        /// <value>An instance of the IReadableConfiguration.</value>
+        /// <remarks>
+        /// <see cref="IReadableConfiguration"/> helps us to avoid modifying possibly global
+        /// configuration values from within a given client. It does not gaurantee thread-safety
+        /// of the <see cref="Configuration"/> instance in any way.
+        /// </remarks>
+        public IReadableConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Gets or sets the RestClient.
@@ -210,7 +212,8 @@ namespace {{packageName}}.Client
                 pathParams, contentType);
 
             // set timeout
-            RestClient.Timeout = Configuration.Timeout;
+            {{#netStandard}}RestClient.Timeout = TimeSpan.FromMilliseconds(Configuration.Timeout);{{/netStandard}}
+            {{^netStandard}}RestClient.Timeout = Configuration.Timeout;{{/netStandard}}
             // set user agent
             RestClient.UserAgent = Configuration.UserAgent;
 
@@ -334,6 +337,7 @@ namespace {{packageName}}.Client
                 return response.RawBytes;
             }
 
+            // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
                 if (headers != null)

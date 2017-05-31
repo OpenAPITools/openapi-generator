@@ -47,7 +47,7 @@ namespace Example
     {
         public void main()
         {
-            
+
             var apiInstance = new FakeApi();
             var body = new OuterBoolean(); // OuterBoolean | Input boolean as post body (optional) 
 
@@ -60,6 +60,7 @@ namespace Example
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterBooleanSerialize: " + e.Message );
             }
+
         }
     }
 }
@@ -79,6 +80,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+*Fake_classname_tags123Api* | [**TestClassname**](docs/Fake_classname_tags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
@@ -112,10 +114,8 @@ Class | Method | HTTP request | Description
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [Model.ArrayTest](docs/ArrayTest.md)
  - [Model.Capitalization](docs/Capitalization.md)
- - [Model.Cat](docs/Cat.md)
  - [Model.Category](docs/Category.md)
  - [Model.ClassModel](docs/ClassModel.md)
- - [Model.Dog](docs/Dog.md)
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
@@ -140,6 +140,8 @@ Class | Method | HTTP request | Description
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
+ - [Model.Cat](docs/Cat.md)
+ - [Model.Dog](docs/Dog.md)
 
 
 <a name="documentation-for-authorization"></a>

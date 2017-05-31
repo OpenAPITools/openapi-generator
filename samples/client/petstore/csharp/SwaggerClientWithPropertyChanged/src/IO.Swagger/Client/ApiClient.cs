@@ -48,11 +48,11 @@ namespace IO.Swagger.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" /> class
-        /// with default configuration and base path (http://petstore.swagger.io:80/v2).
+        /// with default configuration.
         /// </summary>
         public ApiClient()
         {
-            Configuration = Configuration.Default;
+            Configuration = IO.Swagger.Client.Configuration.Default;
             RestClient = new RestClient("http://petstore.swagger.io:80/v2");
         }
 
@@ -61,14 +61,11 @@ namespace IO.Swagger.Client
         /// with default base path (http://petstore.swagger.io:80/v2).
         /// </summary>
         /// <param name="config">An instance of Configuration.</param>
-        public ApiClient(Configuration config = null)
+        public ApiClient(Configuration config)
         {
-            if (config == null)
-                Configuration = Configuration.Default;
-            else
-                Configuration = config;
+            Configuration = config ?? IO.Swagger.Client.Configuration.Default;
 
-            RestClient = new RestClient("http://petstore.swagger.io:80/v2");
+            RestClient = new RestClient(Configuration.BasePath);
         }
 
         /// <summary>
@@ -82,7 +79,7 @@ namespace IO.Swagger.Client
                 throw new ArgumentException("basePath cannot be empty");
 
             RestClient = new RestClient(basePath);
-            Configuration = Configuration.Default;
+            Configuration = Client.Configuration.Default;
         }
 
         /// <summary>
@@ -93,10 +90,15 @@ namespace IO.Swagger.Client
         public static ApiClient Default;
 
         /// <summary>
-        /// Gets or sets the Configuration.
+        /// Gets or sets an instance of the IReadableConfiguration.
         /// </summary>
-        /// <value>An instance of the Configuration.</value>
-        public Configuration Configuration { get; set; }
+        /// <value>An instance of the IReadableConfiguration.</value>
+        /// <remarks>
+        /// <see cref="IReadableConfiguration"/> helps us to avoid modifying possibly global
+        /// configuration values from within a given client. It does not gaurantee thread-safety
+        /// of the <see cref="Configuration"/> instance in any way.
+        /// </remarks>
+        public IReadableConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Gets or sets the RestClient.
@@ -174,6 +176,7 @@ namespace IO.Swagger.Client
                 pathParams, contentType);
 
             // set timeout
+            
             RestClient.Timeout = Configuration.Timeout;
             // set user agent
             RestClient.UserAgent = Configuration.UserAgent;
@@ -286,6 +289,7 @@ namespace IO.Swagger.Client
                 return response.RawBytes;
             }
 
+            // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
                 if (headers != null)
