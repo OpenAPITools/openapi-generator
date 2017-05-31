@@ -1,4 +1,6 @@
 {{>licenseInfo}}
+/* tslint:disable:no-unused-variable member-ordering */
+
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { Http, Headers, URLSearchParams }                    from '@angular/http';
 import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
@@ -16,8 +18,6 @@ import { Configuration }                                     from '../configurat
 {{#withInterfaces}}
 import { {{classname}}Interface }                            from './{{classname}}Interface';
 {{/withInterfaces}}
-
-/* tslint:disable:no-unused-variable member-ordering */
 
 {{#operations}}
 
