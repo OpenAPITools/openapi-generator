@@ -7,11 +7,7 @@ import io.swagger.codegen.languages.TypeScriptNodeClientCodegen;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.*;
 
 import com.google.common.collect.Sets;
 import org.testng.Assert;
@@ -27,6 +23,7 @@ public class TypeScriptNodeModelTest {
                 .property("id", new LongProperty())
                 .property("name", new StringProperty())
                 .property("createdAt", new DateTimeProperty())
+                .property("birthDate", new DateProperty())
                 .required("id")
                 .required("name");
         final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
@@ -35,7 +32,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.vars.size(), 4);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -63,9 +60,19 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property3.datatype, "Date");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "birthDate");
+        Assert.assertEquals(property4.complexType, null);
+        Assert.assertEquals(property4.datatype, "string");
+        Assert.assertEquals(property4.name, "birthDate");
+        Assert.assertEquals(property4.defaultValue, "null");
+        Assert.assertFalse(property4.hasMore);
+        Assert.assertFalse(property4.required);
+        Assert.assertTrue(property4.isNotContainer);
     }
 
     @Test(description = "convert a model with list property")
