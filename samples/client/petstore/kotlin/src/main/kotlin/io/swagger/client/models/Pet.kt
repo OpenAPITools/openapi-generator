@@ -27,8 +27,8 @@ data class Pet (
   val id: kotlin.Long?,
   val category: Category?,
   val name: kotlin.String,
-  val photoUrls: kotlin.Array<kotlin.String>,
-  val tags: kotlin.Array<Tag>?,
+  val photoUrls: kotlin.collections.List<kotlin.String>,
+  val tags: kotlin.collections.List<Tag>?,
   /* pet status in the store */
   val status: kotlin.String?
 )

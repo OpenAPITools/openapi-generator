@@ -20,6 +20,8 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     protected String artifactVersion = "1.0.0";
     protected String sourceFolder = "src/main/kotlin";
     protected String packageName = "io.swagger.client";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     /**
      * Constructs an instance of `KotlinClientCodegen`.
@@ -30,7 +32,8 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         outputFolder = "generated-code" + File.separator + "kotlin-client";
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
-        // TODO: Documentation generation
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "kotlin-client";
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
@@ -122,7 +125,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("date-time", "java.time.LocalDateTime");
         typeMapping.put("date", "java.time.LocalDateTime");
         typeMapping.put("file", "java.io.File");
-        typeMapping.put("array", "kotlin.Array");
+        typeMapping.put("array", "kotlin.collections.List");
         typeMapping.put("list", "kotlin.collections.List");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
@@ -130,7 +133,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("Date", "java.time.LocalDateTime");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "arrayOf");
+        instantiationTypes.put("array", "listOf");
         instantiationTypes.put("list", "listOf");
         instantiationTypes.put("map", "mapOf");
 
@@ -227,7 +230,10 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
-        supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
@@ -256,9 +262,20 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
 
     @Override
     public String modelFileFolder() {
