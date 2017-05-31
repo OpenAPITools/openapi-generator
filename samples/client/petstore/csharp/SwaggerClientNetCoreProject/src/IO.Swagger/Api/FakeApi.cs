@@ -416,15 +416,9 @@ namespace IO.Swagger.Api
         /// <returns></returns>
         public FakeApi(String basePath)
         {
-            this.Configuration = new Configuration(new ApiClient(basePath));
+            this.Configuration = new Configuration { BasePath = basePath };
 
             ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
-
-            // ensure API client has configuration ready
-            if (Configuration.ApiClient.Configuration == null)
-            {
-                this.Configuration.ApiClient.Configuration = this.Configuration;
-            }
         }
 
         /// <summary>
@@ -441,12 +435,6 @@ namespace IO.Swagger.Api
                 this.Configuration = configuration;
 
             ExceptionFactory = IO.Swagger.Client.Configuration.DefaultExceptionFactory;
-
-            // ensure API client has configuration ready
-            if (Configuration.ApiClient.Configuration == null)
-            {
-                this.Configuration.ApiClient.Configuration = this.Configuration;
-            }
         }
 
         /// <summary>
@@ -495,9 +483,9 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <returns>Dictionary of HTTP header</returns>
         [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public Dictionary<String, String> DefaultHeader()
+        public IDictionary<String, String> DefaultHeader()
         {
-            return this.Configuration.DefaultHeader;
+            return new ReadOnlyDictionary<string, string>(this.Configuration.DefaultHeader);
         }
 
         /// <summary>
@@ -535,7 +523,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/boolean";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -579,7 +567,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterBoolean>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterBoolean) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterBoolean)));
-            
         }
 
         /// <summary>
@@ -606,7 +593,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/boolean";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -650,7 +637,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterBoolean>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterBoolean) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterBoolean)));
-            
         }
 
         /// <summary>
@@ -676,7 +662,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/composite";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -720,7 +706,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterComposite>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterComposite) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterComposite)));
-            
         }
 
         /// <summary>
@@ -747,7 +732,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/composite";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -791,7 +776,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterComposite>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterComposite) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterComposite)));
-            
         }
 
         /// <summary>
@@ -817,7 +801,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/number";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -861,7 +845,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterNumber>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterNumber) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterNumber)));
-            
         }
 
         /// <summary>
@@ -888,7 +871,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/number";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -932,7 +915,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterNumber>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterNumber) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterNumber)));
-            
         }
 
         /// <summary>
@@ -958,7 +940,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/string";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1002,7 +984,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterString>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterString) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterString)));
-            
         }
 
         /// <summary>
@@ -1029,7 +1010,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake/outer/string";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1073,7 +1054,6 @@ namespace IO.Swagger.Api
             return new ApiResponse<OuterString>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Key, x => x.Value.ToString()),
                 (OuterString) Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterString)));
-            
         }
 
         /// <summary>
@@ -1102,7 +1082,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1177,7 +1157,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1285,7 +1265,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1409,7 +1389,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1507,7 +1487,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1527,9 +1507,9 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (enumQueryStringArray != null) localVarQueryParams.Add("enum_query_string_array", Configuration.ApiClient.ParameterToString(enumQueryStringArray)); // query parameter
-            if (enumQueryString != null) localVarQueryParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // query parameter
-            if (enumQueryInteger != null) localVarQueryParams.Add("enum_query_integer", Configuration.ApiClient.ParameterToString(enumQueryInteger)); // query parameter
+            if (enumQueryStringArray != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("csv", "enum_query_string_array", enumQueryStringArray)); // query parameter
+            if (enumQueryString != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_string", enumQueryString)); // query parameter
+            if (enumQueryInteger != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_integer", enumQueryInteger)); // query parameter
             if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
             if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", Configuration.ApiClient.ParameterToString(enumFormStringArray)); // form parameter
@@ -1592,7 +1572,7 @@ namespace IO.Swagger.Api
 
             var localVarPath = "./fake";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
@@ -1612,9 +1592,9 @@ namespace IO.Swagger.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (enumQueryStringArray != null) localVarQueryParams.Add("enum_query_string_array", Configuration.ApiClient.ParameterToString(enumQueryStringArray)); // query parameter
-            if (enumQueryString != null) localVarQueryParams.Add("enum_query_string", Configuration.ApiClient.ParameterToString(enumQueryString)); // query parameter
-            if (enumQueryInteger != null) localVarQueryParams.Add("enum_query_integer", Configuration.ApiClient.ParameterToString(enumQueryInteger)); // query parameter
+            if (enumQueryStringArray != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("csv", "enum_query_string_array", enumQueryStringArray)); // query parameter
+            if (enumQueryString != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_string", enumQueryString)); // query parameter
+            if (enumQueryInteger != null) localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "enum_query_integer", enumQueryInteger)); // query parameter
             if (enumHeaderStringArray != null) localVarHeaderParams.Add("enum_header_string_array", Configuration.ApiClient.ParameterToString(enumHeaderStringArray)); // header parameter
             if (enumHeaderString != null) localVarHeaderParams.Add("enum_header_string", Configuration.ApiClient.ParameterToString(enumHeaderString)); // header parameter
             if (enumFormStringArray != null) localVarFormParams.Add("enum_form_string_array", Configuration.ApiClient.ParameterToString(enumFormStringArray)); // form parameter
