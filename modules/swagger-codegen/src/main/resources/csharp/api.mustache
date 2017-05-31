@@ -157,7 +157,7 @@ namespace {{packageName}}.{{apiPackage}}
         [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
         public IDictionary<String, String> DefaultHeader()
         {
-            return new ReadOnlyDictionary<string, string>(this.Configuration.DefaultHeader);
+            return new {{^net35}}ReadOnly{{/net35}}Dictionary<string, string>(this.Configuration.DefaultHeader);
         }
 
         /// <summary>

@@ -212,6 +212,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 additionalProperties.remove("supportsAsync");
             }
             additionalProperties.put("validatable", false);
+            additionalProperties.put("net35", true);
         } else if (NETSTANDARD.equals(this.targetFramework)){
             setTargetFrameworkNuget("netstandard1.3");
             setSupportsAsync(Boolean.TRUE);
