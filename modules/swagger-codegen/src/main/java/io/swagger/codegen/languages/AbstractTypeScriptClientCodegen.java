@@ -84,6 +84,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("object", "any");
         typeMapping.put("integer", "number");
         typeMapping.put("Map", "any");
+        typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
         //TODO binary should be mapped to byte array
         // mapped to String as a workaround
