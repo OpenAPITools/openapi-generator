@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 public class FakeClassnameTestApiController implements FakeClassnameTestApi {
 
-    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true ) @RequestBody Client body) {
+    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true ) @RequestBody Client body) throws Exception {
         // do some magic!
         return new ResponseEntity<Client>(HttpStatus.OK);
     }

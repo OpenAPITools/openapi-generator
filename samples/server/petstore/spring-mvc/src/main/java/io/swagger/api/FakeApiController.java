@@ -24,7 +24,7 @@ import java.util.List;
 @Controller
 public class FakeApiController implements FakeApi {
 
-    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true ) @RequestBody Client body) {
+    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true ) @RequestBody Client body) throws Exception {
         // do some magic!
         return new ResponseEntity<Client>(HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class FakeApiController implements FakeApi {
         @ApiParam(value = "None" ) @RequestPart(value="date", required=false)  LocalDate date,
         @ApiParam(value = "None" ) @RequestPart(value="dateTime", required=false)  OffsetDateTime dateTime,
         @ApiParam(value = "None" ) @RequestPart(value="password", required=false)  String password,
-        @ApiParam(value = "None" ) @RequestPart(value="paramCallback", required=false)  String paramCallback) {
+        @ApiParam(value = "None" ) @RequestPart(value="paramCallback", required=false)  String paramCallback) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class FakeApiController implements FakeApi {
         @ApiParam(value = "Query parameter enum test (string array)", allowableValues = "GREATER_THAN, DOLLAR") @RequestParam(value = "enumQueryStringArray", required = false) List<String> enumQueryStringArray,
         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_ABC, _EFG, _XYZ_", defaultValue = "-efg") @RequestParam(value = "enumQueryString", required = false, defaultValue="-efg") String enumQueryString,
         @ApiParam(value = "Query parameter enum test (double)") @RequestParam(value = "enumQueryInteger", required = false) Integer enumQueryInteger,
-        @ApiParam(value = "Query parameter enum test (double)" ) @RequestPart(value="enumQueryDouble", required=false)  Double enumQueryDouble) {
+        @ApiParam(value = "Query parameter enum test (double)" ) @RequestPart(value="enumQueryDouble", required=false)  Double enumQueryDouble) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

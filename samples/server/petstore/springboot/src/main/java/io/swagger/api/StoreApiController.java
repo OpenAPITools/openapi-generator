@@ -22,22 +22,22 @@ import java.util.List;
 @Controller
 public class StoreApiController implements StoreApi {
 
-    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId) {
+    public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Map<String, Integer>> getInventory() {
+    public ResponseEntity<Map<String, Integer>> getInventory() throws Exception {
         // do some magic!
         return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId) {
+    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId) throws Exception {
         // do some magic!
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body) {
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @RequestBody Order body) throws Exception {
         // do some magic!
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
