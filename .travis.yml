@@ -37,6 +37,7 @@ before_install:
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
   - npm install -g typescript
+  - npm config set registry http://registry.npmjs.org/
   - sudo pip install virtualenv
   # to run petstore server locally via docker
   - docker pull swaggerapi/petstore
