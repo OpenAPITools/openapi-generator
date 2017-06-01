@@ -717,6 +717,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Balance Internet](https://www.balanceinternet.com.au/)
 - [beemo](http://www.beemo.eu)
 - [bitly](https://bitly.com)
+- [BeezUP](http://www.beezup.com)
 - [Box](https://box.com)
 - [Bufferfly Network](https://www.butterflynetinc.com/)
 - [Cachet Financial](http://www.cachetfinancial.com/)
