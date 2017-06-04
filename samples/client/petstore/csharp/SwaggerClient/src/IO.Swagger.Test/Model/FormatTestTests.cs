@@ -8,6 +8,7 @@ using IO.Swagger.Api;
 using IO.Swagger.Model;
 using IO.Swagger.Client;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace IO.Swagger.Test
 {
@@ -128,7 +129,23 @@ namespace IO.Swagger.Test
         [Test]
         public void DateTest()
         {
-            // TODO: unit test for the property 'Date'
+            var item = new FormatTest(Integer: 1, 
+                Int32: 1, 
+                Int64: 1, 
+                Number: 1, 
+                _Float: 1.0f, 
+                _Double: 1.0d, 
+                _String: "", 
+                _Byte: new byte[0], 
+                Binary: null, 
+                Date: new DateTime(year: 2000, month: 5, day: 13), 
+                DateTime: null, 
+                Uuid: null, 
+                Password: "");
+
+            var serialized = JsonConvert.SerializeObject(item);
+            Console.WriteLine(serialized);
+            Assert.Greater(serialized.IndexOf("\"2000-05-13\""), 0);
         }
         /// <summary>
         /// Test the property 'DateTime'
