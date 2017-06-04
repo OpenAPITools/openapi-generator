@@ -123,7 +123,18 @@ class FakeApi
         if ($test_code_inject____end____rn_n_r !== null) {
             $formParams['test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r'] = ObjectSerializer::toFormValue($test_code_inject____end____rn_n_r);
         }
-        
+
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json', '*_/  \" =end --']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json', '*_/  \" =end --'],
+                ['application/json', '*_/  \" =end --']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -139,20 +150,12 @@ class FakeApi
                 }
                 $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-        }
-
-        if ($httpBody instanceof MultipartStream) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
-                ['application/json', '*_/  \" =end --']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json', '*_/  \" =end --'],
-                ['application/json', '*_/  \" =end --']
-            );
         }
 
 
