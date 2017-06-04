@@ -6,19 +6,6 @@ package {{modelPackage}}
 
 {{#models}}
 {{#model}}
-/**
-* {{{description}}}
-{{#vars}}
-* @param {{name}} {{{description}}}
-{{/vars}}
-*/
-data class {{classname}} (
-  {{#vars}}
-  {{#description}}
-  /* {{{description}}} */
-  {{/description}}
-  val {{{name}}}: {{{datatype}}}{{^required}}?{{/required}}{{#hasMore}},{{/hasMore}}
-  {{/vars}}
-)
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{>data_class}}{{/isEnum}}
 {{/model}}
 {{/models}}

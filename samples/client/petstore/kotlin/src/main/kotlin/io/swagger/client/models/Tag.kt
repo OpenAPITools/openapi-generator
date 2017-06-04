@@ -13,11 +13,13 @@ package io.swagger.client.models
 
 
 /**
-* A tag for a pet
-* @param id 
-* @param name 
-*/
+ * A tag for a pet
+ * @param id 
+ * @param name 
+ */
 data class Tag (
-  val id: kotlin.Long?,
-  val name: kotlin.String?
-)
+    val id: kotlin.Long? = null,
+    val name: kotlin.String? = null
+) {
+
+}
