@@ -39,7 +39,6 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -47,7 +46,6 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -55,7 +53,6 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -63,7 +60,6 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
@@ -71,18 +67,15 @@ class {{classname}}Test extends \PHPUnit_Framework_TestCase
      */
     public function test{{classname}}()
     {
-
     }
-
 {{#vars}}
+
     /**
      * Test attribute "{{name}}"
      */
     public function testProperty{{nameInCamelCase}}()
     {
-
     }
-
 {{/vars}}
 }
 {{/model}}

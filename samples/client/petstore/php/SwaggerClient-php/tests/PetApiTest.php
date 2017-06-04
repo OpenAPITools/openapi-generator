@@ -349,7 +349,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $response = $pet_api->uploadFile($pet_id, "test meta", "./composer.json");
         // return ApiResponse
         $this->assertInstanceOf('Swagger\Client\Model\ApiResponse', $response);
-
     }
   
     // test get inventory
@@ -402,7 +401,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $new_pet = new Model\Pet;
         // the empty object should be serialised to {}
         $this->assertSame("{}", "$new_pet");
-
     }
 
     // test inheritance in the model
@@ -493,6 +491,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $pet_host = $pet_api->getApiClient()->getConfig()->getHost();
         $this->assertSame($pet_host, $new_default->getHost());
 
-        Configuration::setDefaultConfiguration($orig_default); // Reset to original to prevent failure of other tests that rely on this state
+        // Reset to original to prevent failure of other tests that rely on this state
+        Configuration::setDefaultConfiguration($orig_default);
     }
 }

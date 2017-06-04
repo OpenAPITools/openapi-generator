@@ -90,8 +90,6 @@ class FakeApi
     /**
      * Operation fakeOuterBooleanSerialize
      *
-     * 
-     *
      * @param \Swagger\Client\Model\OuterBoolean $body Input boolean as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return \Swagger\Client\Model\OuterBoolean
@@ -104,8 +102,6 @@ class FakeApi
 
     /**
      * Operation fakeOuterBooleanSerializeWithHttpInfo
-     *
-     * 
      *
      * @param \Swagger\Client\Model\OuterBoolean $body Input boolean as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
@@ -165,8 +161,6 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerialize
      *
-     * 
-     *
      * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return \Swagger\Client\Model\OuterComposite
@@ -179,8 +173,6 @@ class FakeApi
 
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
-     *
-     * 
      *
      * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
@@ -240,8 +232,6 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerialize
      *
-     * 
-     *
      * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return \Swagger\Client\Model\OuterNumber
@@ -254,8 +244,6 @@ class FakeApi
 
     /**
      * Operation fakeOuterNumberSerializeWithHttpInfo
-     *
-     * 
      *
      * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
@@ -315,8 +303,6 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerialize
      *
-     * 
-     *
      * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @return \Swagger\Client\Model\OuterString
@@ -329,8 +315,6 @@ class FakeApi
 
     /**
      * Operation fakeOuterStringSerializeWithHttpInfo
-     *
-     * 
      *
      * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
