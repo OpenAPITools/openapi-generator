@@ -130,6 +130,17 @@ class Fake_classname_tags123Api
             $_tempBody = $body;
         }
 
+        if ($multipart) {
+            $headers= $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present
@@ -145,20 +156,12 @@ class Fake_classname_tags123Api
                 }
                 $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
 
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
             } else {
                 $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
             }
-        }
-
-        if ($httpBody instanceof MultipartStream) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
-                ['application/json']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json'],
-                ['application/json']
-            );
         }
 
 

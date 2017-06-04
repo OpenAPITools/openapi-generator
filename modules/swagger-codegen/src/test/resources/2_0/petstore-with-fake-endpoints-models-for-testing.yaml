@@ -872,6 +872,29 @@ paths:
           description: Output composite
           schema:
             $ref: '#/definitions/OuterComposite'
+  /fake/jsonFormData:
+    get:
+      tags:
+        - fake
+      summary: test json serialization of form data
+      description: ''
+      operationId: testJsonFormData
+      consumes:
+        - application/json
+      parameters:
+        - name: param
+          in: formData
+          description: field1
+          required: true
+          type: string
+        - name: param2
+          in: formData
+          description: field2
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
 securityDefinitions:
   petstore_auth:
     type: oauth2

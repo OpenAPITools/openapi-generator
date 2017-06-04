@@ -37,12 +37,13 @@ class ResponseTypesTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Pet::class, $result);
     }
 
+    /**
+     * @expectedException \Swagger\Client\ApiException
+     * @expectedExceptionCode 400
+     */
     public function testDefinedErrorException()
     {
         $statusCode = 400;
-
-        $this->expectException(ApiException::class);
-        $this->expectExceptionCode($statusCode);
 
         $this->fakeHttpClient->setResponse(new Response($statusCode, [], '{}'));
         $this->api->getPetById(123);
@@ -67,12 +68,13 @@ class ResponseTypesTest extends \PHPUnit_Framework_TestCase
 //        $this->assertInstanceOf(Error::class, $result);
 //    }
 
+    /**
+     * @expectedException \Swagger\Client\ApiException
+     * @expectedExceptionCode 404
+     */
     public function testDefaultErrorException()
     {
         $statusCode = 404;
-
-        $this->expectException(ApiException::class);
-        $this->expectExceptionCode($statusCode);
 
         $this->fakeHttpClient->setResponse(new Response($statusCode, [], '{}'));
         $this->api->getPetById(123);

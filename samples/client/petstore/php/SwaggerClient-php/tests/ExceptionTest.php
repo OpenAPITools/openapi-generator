@@ -6,12 +6,13 @@ use GuzzleHttp\Client;
 
 class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @expectedException \Swagger\Client\ApiException
+     * @expectedExceptionCode 404
+     * @expectedExceptionMessage http://petstore.swagger.io/INVALID_URL/store/inventory
+     */
     public function testNotFound()
     {
-        $this->expectException(ApiException::class);
-        $this->expectExceptionCode(404);
-        $this->expectExceptionMessage('http://petstore.swagger.io/INVALID_URL/store/inventory');
-
         $config = new Configuration();
         $config->setHost('http://petstore.swagger.io/INVALID_URL');
 
@@ -22,11 +23,12 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
         $api->getInventory();
     }
 
+    /**
+     * @expectedException \Swagger\Client\ApiException
+     * @expectedExceptionMessage Could not resolve host
+     */
     public function testWrongHost()
     {
-        $this->expectException(ApiException::class);
-        $this->expectExceptionMessage('Could not resolve host');
-
         $config = new Configuration();
         $config->setHost('http://wrong_host.zxc');
 
