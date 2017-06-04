@@ -20,6 +20,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -47,16 +48,19 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="array_of_string", EmitDefaultValue=false)]
         public List<string> ArrayOfString { get; set; }
+
         /// <summary>
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [DataMember(Name="array_array_of_integer", EmitDefaultValue=false)]
         public List<List<long?>> ArrayArrayOfInteger { get; set; }
+
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [DataMember(Name="array_array_of_model", EmitDefaultValue=false)]
         public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
