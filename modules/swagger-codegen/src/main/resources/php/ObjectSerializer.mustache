@@ -32,16 +32,18 @@ class ObjectSerializer
     /**
      * Serialize data
      *
-     * @param mixed $data the data to serialize
+     * @param mixed  $data   the data to serialize
+     * @param string $type   the SwaggerType of the data
+     * @param string $format the format of the Swagger type of the data
      *
      * @return string|object serialized form of $data
      */
-    public static function sanitizeForSerialization($data)
+    public static function sanitizeForSerialization($data, $type = null, $format = null)
     {
         if (is_scalar($data) || null === $data) {
             return $data;
         } elseif ($data instanceof \DateTime) {
-            return $data->format(\DateTime::ATOM);
+            return ($format === 'date') ? $data->format('Y-m-d') : $data->format(\DateTime::ATOM);
         } elseif (is_array($data)) {
             foreach ($data as $property => $value) {
                 $data[$property] = self::sanitizeForSerialization($value);
@@ -49,6 +51,7 @@ class ObjectSerializer
             return $data;
         } elseif (is_object($data)) {
             $values = [];
+            $formats = $data::swaggerFormats();
             foreach ($data::swaggerTypes() as $property => $swaggerType) {
                 $getter = $data::getters()[$property];
                 $value = $data->$getter();
@@ -58,7 +61,7 @@ class ObjectSerializer
                     throw new \InvalidArgumentException("Invalid value for enum '$swaggerType', must be one of: '$imploded'");
                 }
                 if ($value !== null) {
-                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value);
+                    $values[$data::attributeMap()[$property]] = self::sanitizeForSerialization($value, $swaggerType, $formats[$property]);
                 }
             }
             return (object)$values;

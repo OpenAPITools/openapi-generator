@@ -58,9 +58,23 @@ class AdditionalPropertiesClass implements ArrayAccess
         'map_of_map_property' => 'map[string,map[string,string]]'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'map_property' => null,
+        'map_of_map_property' => null
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

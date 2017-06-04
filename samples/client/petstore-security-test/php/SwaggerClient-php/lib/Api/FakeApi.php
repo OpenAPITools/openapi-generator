@@ -129,7 +129,7 @@ class FakeApi
         if ($test_code_inject____end____rn_n_r !== null) {
             $formParams['test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r'] = $this->apiClient->getSerializer()->toFormValue($test_code_inject____end____rn_n_r);
         }
-        
+
         // for model (json/xml)
         if (isset($_tempBody)) {
             $httpBody = $_tempBody; // $_tempBody is the method argument, if present

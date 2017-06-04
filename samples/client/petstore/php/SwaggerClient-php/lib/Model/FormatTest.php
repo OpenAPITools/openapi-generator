@@ -69,9 +69,34 @@ class FormatTest implements ArrayAccess
         'password' => 'string'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'integer' => null,
+        'int32' => 'int32',
+        'int64' => 'int64',
+        'number' => null,
+        'float' => 'float',
+        'double' => 'double',
+        'string' => null,
+        'byte' => 'byte',
+        'binary' => 'binary',
+        'date' => 'date',
+        'date_time' => 'date-time',
+        'uuid' => 'uuid',
+        'password' => 'password'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

@@ -29,6 +29,5 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
             $response,
             "response string starts with 'logged in user session'"
         );
-
     }
 }
