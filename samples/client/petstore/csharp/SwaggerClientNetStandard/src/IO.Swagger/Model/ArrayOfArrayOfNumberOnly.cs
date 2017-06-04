@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -41,6 +42,7 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="ArrayArrayNumber", EmitDefaultValue=false)]
         public List<List<decimal?>> ArrayArrayNumber { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

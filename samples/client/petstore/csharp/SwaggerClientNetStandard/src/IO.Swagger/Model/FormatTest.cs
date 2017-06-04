@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -102,66 +103,80 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="integer", EmitDefaultValue=false)]
         public int? Integer { get; set; }
+
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name="int32", EmitDefaultValue=false)]
         public int? Int32 { get; set; }
+
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name="int64", EmitDefaultValue=false)]
         public long? Int64 { get; set; }
+
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name="number", EmitDefaultValue=false)]
         public decimal? Number { get; set; }
+
         /// <summary>
         /// Gets or Sets _Float
         /// </summary>
         [DataMember(Name="float", EmitDefaultValue=false)]
         public float? _Float { get; set; }
+
         /// <summary>
         /// Gets or Sets _Double
         /// </summary>
         [DataMember(Name="double", EmitDefaultValue=false)]
         public double? _Double { get; set; }
+
         /// <summary>
         /// Gets or Sets _String
         /// </summary>
         [DataMember(Name="string", EmitDefaultValue=false)]
         public string _String { get; set; }
+
         /// <summary>
         /// Gets or Sets _Byte
         /// </summary>
         [DataMember(Name="byte", EmitDefaultValue=false)]
         public byte[] _Byte { get; set; }
+
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
         [DataMember(Name="binary", EmitDefaultValue=false)]
         public byte[] Binary { get; set; }
+
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
         [DataMember(Name="date", EmitDefaultValue=false)]
+        [JsonConverter(typeof(SwaggerDateConverter))]
         public DateTime? Date { get; set; }
+
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
         public DateTime? DateTime { get; set; }
+
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name="uuid", EmitDefaultValue=false)]
         public Guid? Uuid { get; set; }
+
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password", EmitDefaultValue=false)]
         public string Password { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

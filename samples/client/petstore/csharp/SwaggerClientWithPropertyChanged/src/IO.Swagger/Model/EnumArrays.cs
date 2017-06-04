@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using PropertyChanged;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -94,6 +95,8 @@ namespace IO.Swagger.Model
             this.ArrayEnum = ArrayEnum;
         }
         
+
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

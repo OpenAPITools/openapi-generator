@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -45,16 +46,19 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="my_number", EmitDefaultValue=false)]
         public OuterNumber MyNumber { get; set; }
+
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
         [DataMember(Name="my_string", EmitDefaultValue=false)]
         public OuterString MyString { get; set; }
+
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name="my_boolean", EmitDefaultValue=false)]
         public OuterBoolean MyBoolean { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -56,21 +57,25 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
         public int? _Name { get; set; }
+
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name="snake_case", EmitDefaultValue=false)]
         public int? SnakeCase { get; private set; }
+
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
         [DataMember(Name="property", EmitDefaultValue=false)]
         public string Property { get; set; }
+
         /// <summary>
         /// Gets or Sets _123Number
         /// </summary>
         [DataMember(Name="123Number", EmitDefaultValue=false)]
         public int? _123Number { get; private set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
