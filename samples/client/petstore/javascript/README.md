@@ -24,7 +24,7 @@ npm install swagger_petstore --save
 ```
 
 #### git
-#
+
 If the library is hosted at a git repository, e.g.
 https://github.com/GIT_USER_ID/GIT_REPO_ID
 then install it via:
@@ -68,6 +68,31 @@ var callback = function(error, data, response) {
 api.fakeOuterBooleanSerialize(opts, callback);
 
 ```
+
+### Webpack Configuration
+
+Using Webpack you may encounter the following error: "Module not found: Error: Cannot resolve module", most certainly you should disable AMD loader:
+
+1. Add `imports-loader` package:
+
+    ```bash
+    npm install --save-dev imports-loader
+    ```
+2. Add the following sections to your webpack config (replace `MY_API_CLIENT_NAME` with your module name):
+
+    ```javascript
+    module: {
+      rules: [
+        {
+          test: /MY_API_CLIENT_NAME[\/\\]+.*\.js$/,
+          use: 'imports-loader?define=>false'
+        }
+      ]
+    },
+    node: {
+      fs: 'empty'
+    }
+    ```
 
 ## Documentation for API Endpoints
 
