@@ -420,6 +420,8 @@
 
     if (returnType === 'Blob') {
       request.responseType('blob');
+    } else if (returnType === 'String') {
+      request.responseType('string');
     }
 
     // Attach previously saved cookies, if enabled
