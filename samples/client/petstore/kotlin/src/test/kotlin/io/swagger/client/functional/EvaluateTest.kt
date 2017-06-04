@@ -9,7 +9,7 @@ class EvaluateTest : ShouldSpec() {
     init {
         should("query against pet statuses") {
             val api = PetApi()
-            val results = api.findPetsByStatus(listOf("available", "pending"))
+            val results = api.findPetsByStatus(listOf("sold"))
 
             results.size should beGreaterThan(1)
         }
