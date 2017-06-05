@@ -1039,4 +1039,138 @@ public class FakeApi {
         apiClient.executeAsync(call, callback);
         return call;
     }
+    /**
+     * Build call for testJsonFormData
+     * @param param field1 (required)
+     * @param param2 field2 (required)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call testJsonFormDataCall(String param, String param2, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/fake/jsonFormData";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        if (param != null)
+        localVarFormParams.put("param", param);
+        if (param2 != null)
+        localVarFormParams.put("param2", param2);
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call testJsonFormDataValidateBeforeCall(String param, String param2, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new ApiException("Missing the required parameter 'param' when calling testJsonFormData(Async)");
+        }
+        
+        // verify the required parameter 'param2' is set
+        if (param2 == null) {
+            throw new ApiException("Missing the required parameter 'param2' when calling testJsonFormData(Async)");
+        }
+        
+        
+        com.squareup.okhttp.Call call = testJsonFormDataCall(param, param2, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * test json serialization of form data
+     * 
+     * @param param field1 (required)
+     * @param param2 field2 (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void testJsonFormData(String param, String param2) throws ApiException {
+        testJsonFormDataWithHttpInfo(param, param2);
+    }
+
+    /**
+     * test json serialization of form data
+     * 
+     * @param param field1 (required)
+     * @param param2 field2 (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws ApiException {
+        com.squareup.okhttp.Call call = testJsonFormDataValidateBeforeCall(param, param2, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     * test json serialization of form data (asynchronously)
+     * 
+     * @param param field1 (required)
+     * @param param2 field2 (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call testJsonFormDataAsync(String param, String param2, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = testJsonFormDataValidateBeforeCall(param, param2, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
 }

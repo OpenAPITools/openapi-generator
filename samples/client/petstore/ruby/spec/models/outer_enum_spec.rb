@@ -27,7 +27,7 @@ describe 'OuterEnum' do
   end
 
   describe 'test an instance of OuterEnum' do
-    it 'should create an instact of OuterEnum' do
+    it 'should create an instance of OuterEnum' do
       expect(@instance).to be_instance_of(Petstore::OuterEnum)
     end
   end

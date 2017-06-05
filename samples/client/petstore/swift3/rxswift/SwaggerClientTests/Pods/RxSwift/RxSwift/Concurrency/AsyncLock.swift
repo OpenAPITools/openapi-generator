@@ -1,12 +1,10 @@
 //
 //  AsyncLock.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 3/21/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
-
-import Foundation
 
 /**
 In case nobody holds this lock, the work will be queued and executed immediately
@@ -18,7 +16,7 @@ and pending work.
 
 That means that enqueued work could possibly be executed later on a different thread.
 */
-class AsyncLock<I: InvocableType>
+final class AsyncLock<I: InvocableType>
     : Disposable
     , Lock
     , SynchronizedDisposeType {

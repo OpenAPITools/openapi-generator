@@ -1,9 +1,6 @@
 sudo: required
-language: java
-jdk:
-  - oraclejdk7
-  - oraclejdk8
-
+language: objective-c
+osx_image: xcode8.2
 cache:
   directories:
   - $HOME/.m2
@@ -25,39 +22,60 @@ cache:
   - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
   - $HOME/samples/client/petstore/typescript-angular/node_modules
   - $HOME/samples/client/petstore/typescript-angular/typings
+  - $HOME/.cocoapods/repos/master
+# note: docker is not yet supported in iOS build
+#services:
+#  - docker
 
-services:
-  - docker
-
+# comment out the host table change to use the public petstore server
 addons:
   hosts:
     - petstore.swagger.io
 
 before_install:
-  # required when sudo: required for the Ruby petstore tests
-  - gem install bundler
+  - export SW=`pwd`
+  - rvm list
+  - rvm use 2.2.5
+  - gem environment 
+  - gem install bundler -N --no-ri --no-rdoc
+  - gem install cocoapods -v 1.2.1 -N --no-ri --no-rdoc
+  - gem install xcpretty -N --no-ri --no-rdoc
+  - pod --version
+  # comment out below to avoid errors
+  #- pod repo update
+  - pod setup --silent > /dev/null
   - npm install -g typescript
   - npm config set registry http://registry.npmjs.org/
-  - sudo pip install virtualenv
+  - brew install sbt
+  - brew install leiningen
+  - brew install bats
+  - brew install curl
+  - brew install python3
+  - pip install virtualenv
+  # start local petstore server
+  - git clone -b docker --single-branch https://github.com/wing328/swagger-samples
+  - cd swagger-samples/java/java-jersey-jaxrs
+  - sudo mvn jetty:run &
+  - cd $SW
+  # NOTE: iOS build not support docker at the moment
   # to run petstore server locally via docker
-  - docker pull swaggerapi/petstore
-  - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-  - docker ps -a
-  # Add bats test framework and cURL for Bash script integration tests
-  - sudo add-apt-repository ppa:duggan/bats --yes
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq bats
-  - sudo apt-get install -qq curl
+  #- docker pull swaggerapi/petstore
+  #- docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  #- docker ps -a
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
   # - Travis CI does not support rebar3 [yet](https://github.com/travis-ci/travis-ci/issues/6506#issuecomment-275189490).
   # - Rely on `kerl` for [pre-compiled versions available](https://docs.travis-ci.com/user/languages/erlang#Choosing-OTP-releases-to-test-against). Rely on installation path chosen by [`travis-erlang-builder`](https://github.com/travis-ci/travis-erlang-builder/blob/e6d016b1a91ca7ecac5a5a46395bde917ea13d36/bin/compile#L18).
-  - . ~/otp/18.2.1/activate && erl -version
-  - curl -f -L -o ./rebar3 https://s3.amazonaws.com/rebar3/rebar3 && chmod +x ./rebar3 && ./rebar3 version && export PATH="${TRAVIS_BUILD_DIR}:$PATH"
 
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
   # show java version
   - java -version
+  # show brew version
+  - brew --version
+  # show xcpretty version
+  - xcpretty -v
+  # show go version
+  - go version
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -75,9 +93,9 @@ script:
   # run integration tests defined in maven pom.xml
   - mvn -q --batch-mode verify -Psamples
   # docker: build generator image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME; fi; fi
-  # docker: build cli image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/swagger-codegen-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
+  #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/swagger-generator && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME; fi; fi
+  ## docker: build cli image and push to Docker Hub
+  #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/swagger-codegen-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=swaggerapi/swagger-generator DOCKER_CODEGEN_CLI_IMAGE_NAME=swaggerapi/swagger-codegen-cli

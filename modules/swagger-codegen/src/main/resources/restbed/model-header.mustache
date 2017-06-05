@@ -1,0 +1,58 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <memory>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+class {{declspec}} {{classname}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+    
+    std::string toJsonString();
+    void fromJsonString(std::string const& jsonString);
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+    
+    {{#vars}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{^isNotContainer}}{{{datatype}}}& {{getter}}();
+    {{/isNotContainer}}{{#isNotContainer}}{{{datatype}}} {{getter}}() const;
+    void {{setter}}({{{datatype}}} value);
+    {{/isNotContainer}}
+    {{/vars}}
+
+protected:
+    {{#vars}}
+    {{{datatype}}} m_{{name}};
+    {{/vars}}
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{classname}}_H_ */
+{{/model}}
+{{/models}}

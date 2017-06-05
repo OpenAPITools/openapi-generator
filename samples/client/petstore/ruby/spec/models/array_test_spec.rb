@@ -39,7 +39,7 @@ describe 'ArrayTest' do
   end
 
   describe 'test an instance of ArrayTest' do
-    it 'should create an instact of ArrayTest' do
+    it 'should create an instance of ArrayTest' do
       expect(@instance).to be_instance_of(Petstore::ArrayTest)
     end
   end

@@ -1,12 +1,10 @@
 //
 //  ConnectableObservableType.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 3/1/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
-
-import Foundation
 
 /**
 Represents an observable sequence wrapper that can be connected and disconnected from its underlying observable sequence.

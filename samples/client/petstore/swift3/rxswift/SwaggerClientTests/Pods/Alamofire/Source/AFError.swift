@@ -132,6 +132,16 @@ public enum AFError: Error {
     case responseSerializationFailed(reason: ResponseSerializationFailureReason)
 }
 
+// MARK: - Adapt Error
+
+struct AdaptError: Error {
+    let error: Error
+}
+
+extension Error {
+    var underlyingAdaptError: Error? { return (self as? AdaptError)?.error }
+}
+
 // MARK: - Error Booleans
 
 extension AFError {
@@ -144,7 +154,7 @@ extension AFError {
     /// Returns whether the AFError is a parameter encoding error. When `true`, the `underlyingError` property will
     /// contain the associated value.
     public var isParameterEncodingError: Bool {
-        if case .multipartEncodingFailed = self { return true }
+        if case .parameterEncodingFailed = self { return true }
         return false
     }
 
@@ -297,8 +307,8 @@ extension AFError.ResponseValidationFailureReason {
 
     var responseContentType: String? {
         switch self {
-        case .unacceptableContentType(_, let reponseType):
-            return reponseType
+        case .unacceptableContentType(_, let responseType):
+            return responseType
         default:
             return nil
         }

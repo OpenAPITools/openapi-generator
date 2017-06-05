@@ -404,4 +404,47 @@ open class FakeAPI: APIBase {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
     }
 
+    /**
+     test json serialization of form data
+     
+     - parameter param: (form) field1 
+     - parameter param2: (form) field2 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testJsonFormData(param: String, param2: String, completion: @escaping ((_ error: ErrorResponse?) -> Void)) {
+        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (response, error) -> Void in
+            completion(error)
+        }
+    }
+
+
+    /**
+     test json serialization of form data
+     - GET /fake/jsonFormData
+     - 
+     
+     - parameter param: (form) field1 
+     - parameter param2: (form) field2 
+
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {
+        let path = "/fake/jsonFormData"
+        let URLString = PetstoreClientAPI.basePath + path
+        let formParams: [String:Any?] = [
+            "param": param,
+            "param2": param2
+        ]
+
+        let nonNullParameters = APIHelper.rejectNil(formParams)
+        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
 }

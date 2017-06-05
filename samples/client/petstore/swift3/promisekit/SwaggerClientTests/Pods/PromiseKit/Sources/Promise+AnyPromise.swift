@@ -8,7 +8,7 @@ extension Promise {
      - Parameter body: The closure that is executed when this promise fulfills.
      - Returns: A new promise that resolves when the `AnyPromise` returned from the provided closure resolves. For example:
 
-           NSURLSession.GET(url).then { (data: NSData) -> AnyPromise in
+           URLSession.GET(url).then { (data: NSData) -> AnyPromise in
                //…
                return SCNetworkReachability()
            }.then { _ in

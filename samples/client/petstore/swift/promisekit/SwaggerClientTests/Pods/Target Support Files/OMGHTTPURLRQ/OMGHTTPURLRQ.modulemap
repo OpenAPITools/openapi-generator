@@ -1,6 +1,0 @@
-framework module OMGHTTPURLRQ {
-  umbrella header "OMGHTTPURLRQ-umbrella.h"
-
-  export *
-  module * { export * }
-}

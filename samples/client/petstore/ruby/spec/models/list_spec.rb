@@ -39,7 +39,7 @@ describe 'List' do
   end
 
   describe 'test an instance of List' do
-    it 'should create an instact of List' do
+    it 'should create an instance of List' do
       expect(@instance).to be_instance_of(Petstore::List)
     end
   end

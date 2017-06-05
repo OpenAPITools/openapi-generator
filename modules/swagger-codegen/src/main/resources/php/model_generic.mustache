@@ -17,9 +17,23 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
         {{/hasMore}}{{/vars}}
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        {{#vars}}'{{name}}' => {{#dataFormat}}'{{{dataFormat}}}'{{/dataFormat}}{{^dataFormat}}null{{/dataFormat}}{{#hasMore}},
+        {{/hasMore}}{{/vars}}
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes{{#parentSchema}} + parent::swaggerTypes(){{/parentSchema}};
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats{{#parentSchema}} + parent::swaggerFormats(){{/parentSchema}};
     }
 
     /**

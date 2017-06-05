@@ -15,10 +15,10 @@
 public func wrap<T>(_ body: (@escaping (T?, Error?) -> Void) throws -> Void) -> Promise<T> {
     return Promise { fulfill, reject in
         try body { obj, err in
-            if let obj = obj {
-                fulfill(obj)
-            } else if let err = err {
+            if let err = err {
                 reject(err)
+            } else if let obj = obj {
+                fulfill(obj)
             } else {
                 reject(PMKError.invalidCallingConvention)
             }
@@ -39,14 +39,14 @@ public func wrap<T>(_ body: (@escaping (T, Error?) -> Void) throws -> Void) -> P
     }
 }
 
-/// Some APIs unwiesly invert the Cocoa standard for completion-handlers.
+/// Some APIs unwisely invert the Cocoa standard for completion-handlers.
 public func wrap<T>(_ body: (@escaping (Error?, T?) -> Void) throws -> Void) -> Promise<T> {
     return Promise { fulfill, reject in
         try body { err, obj in
-            if let obj = obj {
-                fulfill(obj)
-            } else if let err = err {
+            if let err = err {
                 reject(err)
+            } else if let obj = obj {
+                fulfill(obj)
             } else {
                 reject(PMKError.invalidCallingConvention)
             }

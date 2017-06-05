@@ -40,7 +40,7 @@ open class StoreAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -93,7 +93,7 @@ open class StoreAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -151,7 +151,7 @@ open class StoreAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -236,7 +236,7 @@ open class StoreAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 

@@ -23,6 +23,7 @@
 //
 
 import Dispatch
+import Foundation
 
 extension DispatchQueue {
     static var userInteractive: DispatchQueue { return DispatchQueue.global(qos: .userInteractive) }
@@ -32,11 +33,5 @@ extension DispatchQueue {
 
     func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
         asyncAfter(deadline: .now() + delay, execute: closure)
-    }
-
-    func syncResult<T>(_ closure: () -> T) -> T {
-        var result: T!
-        sync { result = closure() }
-        return result
     }
 }

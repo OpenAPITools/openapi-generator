@@ -32,7 +32,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store
+SWGPet* body = [[Pet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -49,7 +49,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGPet***](SWGPet*.md)| Pet object that needs to be added to the store | 
+ **body** | [**SWGPet***](Pet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -62,7 +62,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -118,7 +118,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -140,7 +140,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSArray<NSString*>* status = @[@"status_example"]; // Status values that need to be considered for filter
+NSArray<NSString*>* status = @[@"available"]; // Status values that need to be considered for filter (optional) (default to available)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -160,7 +160,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Status values that need to be considered for filter | 
+ **status** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Status values that need to be considered for filter | [optional] [default to available]
 
 ### Return type
 
@@ -173,7 +173,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -195,7 +195,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSArray<NSString*>* tags = @[@"tags_example"]; // Tags to filter by
+NSArray<NSString*>* tags = @[@"tags_example"]; // Tags to filter by (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -215,7 +215,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Tags to filter by | 
+ **tags** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| Tags to filter by | [optional] 
 
 ### Return type
 
@@ -228,7 +228,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -240,7 +240,7 @@ Name | Type | Description  | Notes
 
 Find pet by ID
 
-Returns a single pet
+Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
 ### Example 
 ```objc
@@ -251,8 +251,11 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
+// Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-NSNumber* petId = @789; // ID of pet to return
+
+NSNumber* petId = @789; // ID of pet that needs to be fetched
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -272,7 +275,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **NSNumber***| ID of pet to return | 
+ **petId** | **NSNumber***| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -280,12 +283,12 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -307,7 +310,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store
+SWGPet* body = [[Pet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -324,7 +327,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGPet***](SWGPet*.md)| Pet object that needs to be added to the store | 
+ **body** | [**SWGPet***](Pet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -337,13 +340,13 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePetWithForm**
 ```objc
--(NSURLSessionTask*) updatePetWithFormWithPetId: (NSNumber*) petId
+-(NSURLSessionTask*) updatePetWithFormWithPetId: (NSString*) petId
     name: (NSString*) name
     status: (NSString*) status
         completionHandler: (void (^)(NSError* error)) handler;
@@ -361,7 +364,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-NSNumber* petId = @789; // ID of pet that needs to be updated
+NSString* petId = @"petId_example"; // ID of pet that needs to be updated
 NSString* name = @"name_example"; // Updated name of the pet (optional)
 NSString* status = @"status_example"; // Updated status of the pet (optional)
 
@@ -382,7 +385,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **NSNumber***| ID of pet that needs to be updated | 
+ **petId** | **NSString***| ID of pet that needs to be updated | 
  **name** | **NSString***| Updated name of the pet | [optional] 
  **status** | **NSString***| Updated status of the pet | [optional] 
 
@@ -397,7 +400,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -406,7 +409,7 @@ void (empty response body)
 -(NSURLSessionTask*) uploadFileWithPetId: (NSNumber*) petId
     additionalMetadata: (NSString*) additionalMetadata
     file: (NSURL*) file
-        completionHandler: (void (^)(SWGApiResponse* output, NSError* error)) handler;
+        completionHandler: (void (^)(NSError* error)) handler;
 ```
 
 uploads an image
@@ -431,10 +434,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 [apiInstance uploadFileWithPetId:petId
               additionalMetadata:additionalMetadata
               file:file
-          completionHandler: ^(SWGApiResponse* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
+          completionHandler: ^(NSError* error) {
                         if (error) {
                             NSLog(@"Error calling SWGPetApi->uploadFile: %@", error);
                         }
@@ -451,7 +451,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SWGApiResponse***](SWGApiResponse.md)
+void (empty response body)
 
 ### Authorization
 
@@ -460,7 +460,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+ - **Accept**: application/json, application/xml
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

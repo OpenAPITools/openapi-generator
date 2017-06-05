@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using PropertyChanged;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -74,6 +75,8 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="map_map_of_string", EmitDefaultValue=false)]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using PropertyChanged;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -50,16 +51,19 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="uuid", EmitDefaultValue=false)]
         public Guid? Uuid { get; set; }
+
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
         public DateTime? DateTime { get; set; }
+
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
         [DataMember(Name="map", EmitDefaultValue=false)]
         public Dictionary<string, Animal> Map { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
