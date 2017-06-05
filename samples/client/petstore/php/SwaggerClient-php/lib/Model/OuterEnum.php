@@ -37,7 +37,8 @@ namespace Swagger\Client\Model;
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class OuterEnum {
+class OuterEnum
+{
     /**
      * Possible values of this enum
      */

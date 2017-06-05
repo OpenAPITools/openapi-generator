@@ -14,9 +14,14 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Parcelable;
@@ -30,11 +35,10 @@ public class EnumArrays implements Parcelable {
   /**
    * Gets or Sets justSymbol
    */
+  @JsonAdapter(JustSymbolEnum.Adapter.class)
   public enum JustSymbolEnum {
-    @SerializedName(">=")
     GREATER_THAN_OR_EQUAL_TO(">="),
     
-    @SerializedName("$")
     DOLLAR("$");
 
     private String value;
@@ -51,6 +55,28 @@ public class EnumArrays implements Parcelable {
     public String toString() {
       return String.valueOf(value);
     }
+
+    public static JustSymbolEnum fromValue(String text) {
+      for (JustSymbolEnum b : JustSymbolEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<JustSymbolEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final JustSymbolEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public JustSymbolEnum read(final JsonReader jsonReader) throws IOException {
+        String value = jsonReader.nextString();
+        return JustSymbolEnum.fromValue(String.valueOf(value));
+      }
+    }
   }
 
   @SerializedName("just_symbol")
@@ -59,11 +85,10 @@ public class EnumArrays implements Parcelable {
   /**
    * Gets or Sets arrayEnum
    */
+  @JsonAdapter(ArrayEnumEnum.Adapter.class)
   public enum ArrayEnumEnum {
-    @SerializedName("fish")
     FISH("fish"),
     
-    @SerializedName("crab")
     CRAB("crab");
 
     private String value;
@@ -79,6 +104,28 @@ public class EnumArrays implements Parcelable {
     @Override
     public String toString() {
       return String.valueOf(value);
+    }
+
+    public static ArrayEnumEnum fromValue(String text) {
+      for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<ArrayEnumEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final ArrayEnumEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public ArrayEnumEnum read(final JsonReader jsonReader) throws IOException {
+        String value = jsonReader.nextString();
+        return ArrayEnumEnum.fromValue(String.valueOf(value));
+      }
     }
   }
 

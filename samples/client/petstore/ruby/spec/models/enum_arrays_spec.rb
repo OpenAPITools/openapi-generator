@@ -39,7 +39,7 @@ describe 'EnumArrays' do
   end
 
   describe 'test an instance of EnumArrays' do
-    it 'should create an instact of EnumArrays' do
+    it 'should create an instance of EnumArrays' do
       expect(@instance).to be_instance_of(Petstore::EnumArrays)
     end
   end

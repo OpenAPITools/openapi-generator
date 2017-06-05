@@ -13,20 +13,29 @@ package io.swagger.client.models
 
 
 /**
-* An order for a pets from the pet store
-* @param id 
-* @param petId 
-* @param quantity 
-* @param shipDate 
-* @param status Order Status
-* @param complete 
-*/
+ * An order for a pets from the pet store
+ * @param id 
+ * @param petId 
+ * @param quantity 
+ * @param shipDate 
+ * @param status Order Status
+ * @param complete 
+ */
 data class Order (
-  val id: kotlin.Long?,
-  val petId: kotlin.Long?,
-  val quantity: kotlin.Int?,
-  val shipDate: java.time.LocalDateTime?,
-  /* Order Status */
-  val status: kotlin.String?,
-  val complete: kotlin.Boolean?
-)
+    val id: kotlin.Long? = null,
+    val petId: kotlin.Long? = null,
+    val quantity: kotlin.Int? = null,
+    val shipDate: java.time.LocalDateTime? = null,
+    /* Order Status */
+    val status: Order.Status? = null,
+    val complete: kotlin.Boolean? = null
+) {
+
+    enum class Status(val value: kotlin.String) {
+        placed("placed"),
+        approved("approved"),
+        delivered("delivered");
+    }
+
+
+}

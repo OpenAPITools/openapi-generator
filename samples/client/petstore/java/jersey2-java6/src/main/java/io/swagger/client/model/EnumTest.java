@@ -42,12 +42,12 @@ public class EnumTest {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
@@ -80,12 +80,12 @@ public class EnumTest {
       this.value = value;
     }
 
+    @JsonValue
     public Integer getValue() {
       return value;
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }
@@ -118,12 +118,12 @@ public class EnumTest {
       this.value = value;
     }
 
+    @JsonValue
     public Double getValue() {
       return value;
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }

@@ -9,6 +9,6 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/swagger-api/swagger-codegen'
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/Swaggers/**/*.swift'
-  s.dependency 'RxSwift', '~> 3.0.0-beta.1'
+  s.dependency 'RxSwift', '~> 3.4.1'
   s.dependency 'Alamofire', '~> 4.0'
 end

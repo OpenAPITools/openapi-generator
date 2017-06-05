@@ -110,7 +110,7 @@ void {{classname}}::fromJson(web::json::value& val)
     {{/isDateTime}}{{^isDateTime}}{{#vendorExtensions.x-codegen-file}}{{setter}}(ModelBase::fileFromJson(val[U("{{baseName}}")]));
     {{/vendorExtensions.x-codegen-file}}{{^vendorExtensions.x-codegen-file}}{{{datatype}}} new{{name}}({{{defaultValue}}});
     new{{name}}->fromJson(val[U("{{baseName}}")]);
-    {{setter}}( newItem );
+    {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
 }
 

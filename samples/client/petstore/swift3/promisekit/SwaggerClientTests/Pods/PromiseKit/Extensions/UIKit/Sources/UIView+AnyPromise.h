@@ -34,7 +34,7 @@
  @return A promise that fulfills with a boolean NSNumber indicating
  whether or not the animations actually finished.
 */
-+ (AnyPromise *)promiseWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations;
++ (AnyPromise *)promiseWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations NS_REFINED_FOR_SWIFT;
 
 /**
  Animate changes to one or more views using the specified duration, delay,

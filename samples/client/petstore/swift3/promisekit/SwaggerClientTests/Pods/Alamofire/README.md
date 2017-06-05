@@ -5,6 +5,7 @@
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/cocoapods/p/Alamofire.svg?style=flat)](http://cocoadocs.org/docsets/Alamofire)
 [![Twitter](https://img.shields.io/badge/twitter-@AlamofireSF-blue.svg?style=flat)](http://twitter.com/AlamofireSF)
+[![Gitter](https://badges.gitter.im/Alamofire/Alamofire.svg)](https://gitter.im/Alamofire/Alamofire?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Alamofire is an HTTP networking library written in Swift.
 
@@ -55,8 +56,8 @@ In order to keep Alamofire focused specifically on core networking implementatio
 
 ## Requirements
 
-- iOS 9.0+ / Mac OS X 10.11+ / tvOS 9.0+ / watchOS 2.0+
-- Xcode 8.0+
+- iOS 8.0+ / macOS 10.10+ / tvOS 9.0+ / watchOS 2.0+
+- Xcode 8.1+
 - Swift 3.0+
 
 ## Migration Guides
@@ -93,7 +94,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'Alamofire', '~> 4.0'
+    pod 'Alamofire', '~> 4.4'
 end
 ```
 
@@ -117,10 +118,22 @@ $ brew install carthage
 To integrate Alamofire into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Alamofire/Alamofire" ~> 4.0
+github "Alamofire/Alamofire" ~> 4.4
 ```
 
 Run `carthage update` to build the framework and drag the built `Alamofire.framework` into your Xcode project.
+
+### Swift Package Manager
+
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler. It is in early development, but Alamofire does support its use on supported platforms. 
+
+Once you have your Swift package set up, adding Alamofire as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+
+```swift
+dependencies: [
+    .Package(url: "https://github.com/Alamofire/Alamofire.git", majorVersion: 4)
+]
+```
 
 ### Manually
 
@@ -130,13 +143,13 @@ If you prefer not to use either of the aforementioned dependency managers, you c
 
 - Open up Terminal, `cd` into your top-level project directory, and run the following command "if" your project is not initialized as a git repository:
 
-```bash
+  ```bash
 $ git init
 ```
 
 - Add Alamofire as a git [submodule](http://git-scm.com/docs/git-submodule) by running the following command:
 
-```bash
+  ```bash
 $ git submodule add https://github.com/Alamofire/Alamofire.git
 ```
 
@@ -158,7 +171,7 @@ $ git submodule add https://github.com/Alamofire/Alamofire.git
 
 - And that's it!
 
-> The `Alamofire.framework` is automagically added as a target dependency, linked framework and embedded framework in a copy files build phase which is all you need to build on the simulator and a device.
+  > The `Alamofire.framework` is automagically added as a target dependency, linked framework and embedded framework in a copy files build phase which is all you need to build on the simulator and a device.
 
 ---
 
@@ -199,7 +212,7 @@ Alamofire contains five different response handlers by default including:
 // Response Handler - Unserialized Response
 func response(
     queue: DispatchQueue?,
-    completionHandler: @escaping (DefaultDownloadResponse) -> Void)
+    completionHandler: @escaping (DefaultDataResponse) -> Void)
     -> Self
 
 // Response Data Handler - Serialized into Data
@@ -240,9 +253,9 @@ The `response` handler does NOT evaluate any of the response data. It merely for
 Alamofire.request("https://httpbin.org/get").response { response in
     print("Request: \(response.request)")
     print("Response: \(response.response)")
-    print("Error: \(response.data)")
+    print("Error: \(response.error)")
 
-    if let data = data, let utf8Text = String(data: data, encoding: .utf8) {
+    if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
     	print("Data: \(utf8Text)")
     }
 }
@@ -311,7 +324,7 @@ Alamofire.request("https://httpbin.org/get")
 
 #### Response Handler Queue
 
-Reponse handlers by default are executed on the main dispatch queue. However, a custom dispatch queue can be provided instead.
+Response handlers by default are executed on the main dispatch queue. However, a custom dispatch queue can be provided instead.
 
 ```swift
 let utilityQueue = DispatchQueue.global(qos: .utility)
@@ -331,7 +344,7 @@ By default, Alamofire treats any completed request to be successful, regardless 
 Alamofire.request("https://httpbin.org/get")
     .validate(statusCode: 200..<300)
     .validate(contentType: ["application/json"])
-    .response { response in
+    .responseData { response in
 	    switch response.result {
 	    case .success:
     	    print("Validation Successful")
@@ -360,7 +373,7 @@ Alamofire.request("https://httpbin.org/get").validate().responseJSON { response 
 
 Response Caching is handled on the system framework level by [`URLCache`](https://developer.apple.com/reference/foundation/urlcache). It provides a composite in-memory and on-disk cache and lets you manipulate the sizes of both the in-memory and on-disk portions.
 
-> By default, Alamofire leverages the shared `URLCache`. In order to customize it, see the [Session Manager Configurations](#session-manager-configurations) section.
+> By default, Alamofire leverages the shared `URLCache`. In order to customize it, see the [Session Manager Configurations](#session-manager) section.
 
 ### HTTP Methods
 
@@ -433,9 +446,9 @@ let parameters: Parameters = [
 ]
 
 // All three of these calls are equivalent
-Alamofire.request("https://httpbin.org/post", parameters: parameters)
-Alamofire.request("https://httpbin.org/post", parameters: parameters, encoding: URLEncoding.default)
-Alamofire.request("https://httpbin.org/post", parameters: parameters, encoding: URLEncoding.httpBody)
+Alamofire.request("https://httpbin.org/post", method: .post, parameters: parameters)
+Alamofire.request("https://httpbin.org/post", method: .post, parameters: parameters, encoding: URLEncoding.default)
+Alamofire.request("https://httpbin.org/post", method: .post, parameters: parameters, encoding: URLEncoding.httpBody)
 
 // HTTP body: foo=bar&baz[]=a&baz[]=1&qux[x]=1&qux[y]=2&qux[z]=3
 ```
@@ -520,7 +533,7 @@ Alamofire.request("https://httpbin.org/headers", headers: headers).responseJSON 
 }
 ```
 
-> For HTTP headers that do not change, it is recommended to set them on the `URLSessionConfiguration` so they are automatically applied to any `URLSessionTask` created by the underlying `URLSession`. For more information, see the [Session Manager Configurations](#session-manager-configurations) section.
+> For HTTP headers that do not change, it is recommended to set them on the `URLSessionConfiguration` so they are automatically applied to any `URLSessionTask` created by the underlying `URLSession`. For more information, see the [Session Manager Configurations](#session-manager) section.
 
 The default Alamofire `SessionManager` provides a default set of headers for every `Request`. These include:
 
@@ -528,7 +541,7 @@ The default Alamofire `SessionManager` provides a default set of headers for eve
 - `Accept-Language`, which defaults to up to the top 6 preferred languages on the system, formatted like `en;q=1.0`, per [RFC 7231 §5.3.5](https://tools.ietf.org/html/rfc7231#section-5.3.5).
 - `User-Agent`, which contains versioning information about the current app. For example: `iOS Example/1.0 (com.alamofire.iOS-Example; build:1; iOS 10.0.0) Alamofire/4.0.0`, per [RFC 7231 §5.5.3](https://tools.ietf.org/html/rfc7231#section-5.5.3).
 
-If you need to customize these headers, a custom `URLSessionManagerConfiguration` should be created, the `defaultHTTPHeaders` property updated and the configuration applied to a new `SessionManager` instance.
+If you need to customize these headers, a custom `URLSessionConfiguration` should be created, the `defaultHTTPHeaders` property updated and the configuration applied to a new `SessionManager` instance.
 
 ### Authentication
 
@@ -595,6 +608,8 @@ Alamofire.request("https://httpbin.org/basic-auth/\(user)/\(password)")
 
 Requests made in Alamofire that fetch data from a server can download the data in-memory or on-disk. The `Alamofire.request` APIs used in all the examples so far always downloads the server data in-memory. This is great for smaller payloads because it's more efficient, but really bad for larger payloads because the download could run your entire application out-of-memory. Because of this, you can also use the `Alamofire.download` APIs to download the server data to a temporary file on-disk.
 
+> This will only work on `macOS` as is. Other platforms don't allow access to the filesystem outside of your app's sandbox. To download files on other platforms, see the [Download File Destination](#download-file-destination) section.
+
 ```swift
 Alamofire.download("https://httpbin.org/image/png").responseData { response in
 	if let data = response.result.value {
@@ -603,7 +618,7 @@ Alamofire.download("https://httpbin.org/image/png").responseData { response in
 }
 ```
 
-> The `Alamofire.download` APIs should also be used if you need to download data while your app is in the background. For more information, please see the [Session Manager Configurations](#session-manager-configurations) section.
+> The `Alamofire.download` APIs should also be used if you need to download data while your app is in the background. For more information, please see the [Session Manager Configurations](#session-manager) section.
 
 #### Download File Destination
 
@@ -623,7 +638,7 @@ let destination: DownloadRequest.DownloadFileDestination = { _, _ in
 Alamofire.download(urlString, to: destination).response { response in
     print(response)
 
-	if response.result.isSuccess, let imagePath = response.destinationURL?.path {
+	if response.error == nil, let imagePath = response.destinationURL?.path {
 	    let image = UIImage(contentsOfFile: imagePath)
 	}
 }
@@ -672,6 +687,8 @@ Alamofire.download("https://httpbin.org/image/png")
 
 If a `DownloadRequest` is cancelled or interrupted, the underlying URL session may generate resume data for the active `DownloadRequest`. If this happens, the resume data can be re-used to restart the `DownloadRequest` where it left off. The resume data can be accessed through the download response, then reused when trying to restart the request.
 
+> **IMPORTANT:** On the latest release of all the Apple platforms (iOS 10, macOS 10.12, tvOS 10, watchOS 3), `resumeData` is broken on background URL session configurations. There's an underlying bug in the `resumeData` generation logic where the data is written incorrectly and will always fail to resume the download. For more information about the bug and possible workarounds, please see this Stack Overflow [post](http://stackoverflow.com/a/39347461/1342462).
+
 ```swift
 class ImageRequestor {
 	private var resumeData: Data?
@@ -711,7 +728,7 @@ class ImageRequestor {
 
 When sending relatively small amounts of data to a server using JSON or URL encoded parameters, the `Alamofire.request` APIs are usually sufficient. If you need to send much larger amounts of data from a file URL or an `InputStream`, then the `Alamofire.upload` APIs are what you want to use.
 
-> The `Alamofire.upload` APIs should also be used if you need to upload data while your app is in the background. For more information, please see the [Session Manager Configurations](#session-manager-configurations) section.
+> The `Alamofire.upload` APIs should also be used if you need to upload data while your app is in the background. For more information, please see the [Session Manager Configurations](#session-manager) section.
 
 #### Uploading Data
 
@@ -897,7 +914,7 @@ let sessionManager = Alamofire.SessionManager(configuration: configuration)
 #### Modifying the Session Configuration
 
 ```swift
-var defaultHeaders = Alamofire.SessionManager.default.defaultHTTPHeaders
+var defaultHeaders = Alamofire.SessionManager.defaultHTTPHeaders
 defaultHeaders["DNT"] = "1 (Do Not Track Enabled)"
 
 let configuration = URLSessionConfiguration.default
@@ -1008,8 +1025,8 @@ Alamofire.request(urlString, method: .post)
 let url = URL(string: urlString)!
 Alamofire.request(url, method: .post)
 
-let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
-Alamofire.request(.post, URLComponents)
+let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+Alamofire.request(urlComponents, method: .post)
 ```
 
 Applications interacting with web applications in a significant manner are encouraged to have custom types conform to `URLConvertible` as a convenient way to map domain-specific models to server resources.
@@ -1086,7 +1103,7 @@ enum Router: URLRequestConvertible {
 ```
 
 ```swift
-Alamofire.request(Router.search(query: "foo bar", page: 1)) // ?q=foo%20bar&offset=50
+Alamofire.request(Router.search(query: "foo bar", page: 1)) // https://example.com/search?q=foo%20bar&offset=50
 ```
 
 ##### CRUD & Authorization
@@ -1151,7 +1168,7 @@ enum Router: URLRequestConvertible {
 ```
 
 ```swift
-Alamofire.request(Router.readUser("mattt")) // GET /users/mattt
+Alamofire.request(Router.readUser("mattt")) // GET https://example.com/users/mattt
 ```
 
 ### Adapting and Retrying Requests
@@ -1175,7 +1192,7 @@ class AccessTokenAdapter: RequestAdapter {
 	func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
 	    var urlRequest = urlRequest
 
-	    if urlRequest.urlString.hasPrefix("https://httpbin.org") {
+        if let urlString = urlRequest.url?.absoluteString, urlString.hasPrefix("https://httpbin.org") {
 		    urlRequest.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
 	    }
 
@@ -1232,7 +1249,7 @@ class OAuth2Handler: RequestAdapter, RequestRetrier {
     // MARK: - RequestAdapter
 
     func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        if let url = urlRequest.url, url.urlString.hasPrefix(baseURLString) {
+        if let urlString = urlRequest.url?.absoluteString, urlString.hasPrefix(baseURLString) {
             var urlRequest = urlRequest
             urlRequest.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
             return urlRequest
@@ -1246,7 +1263,7 @@ class OAuth2Handler: RequestAdapter, RequestRetrier {
     func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         lock.lock() ; defer { lock.unlock() }
 
-        if let response = request.task.response as? HTTPURLResponse, response.statusCode == 401 {
+        if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
             requestsToRetry.append(completion)
 
             if !isRefreshing {
@@ -1289,8 +1306,12 @@ class OAuth2Handler: RequestAdapter, RequestRetrier {
             .responseJSON { [weak self] response in
                 guard let strongSelf = self else { return }
 
-                if let json = response.result.value as? [String: String] {
-                    completion(true, json["access_token"], json["refresh_token"])
+                if 
+                    let json = response.result.value as? [String: Any], 
+                    let accessToken = json["access_token"] as? String, 
+                    let refreshToken = json["refresh_token"] as? String 
+                {
+                    completion(true, accessToken, refreshToken)
                 } else {
                     completion(false, nil, nil)
                 }
@@ -1332,6 +1353,94 @@ Another important note is that this authentication system could be shared betwee
 
 ### Custom Response Serialization
 
+Alamofire provides built-in response serialization for data, strings, JSON, and property lists:
+
+```swift
+Alamofire.request(...).responseData { (resp: DataResponse<Data>) in ... }
+Alamofire.request(...).responseString { (resp: DataResponse<String>) in ... }
+Alamofire.request(...).responseJSON { (resp: DataResponse<Any>) in ... }
+Alamofire.request(...).responsePropertyList { resp: DataResponse<Any>) in ... }
+```
+
+Those responses wrap deserialized *values* (Data, String, Any) or *errors* (network, validation errors), as well as *meta-data* (URL request, HTTP headers, status code, [metrics](#statistical-metrics), ...).
+
+You have several ways to customize all of those response elements:
+
+- [Response Mapping](#response-mapping)
+- [Handling Errors](#handling-errors)
+- [Creating a Custom Response Serializer](#creating-a-custom-response-serializer)
+- [Generic Response Object Serialization](#generic-response-object-serialization)
+
+#### Response Mapping
+
+Response mapping is the simplest way to produce customized responses. It transforms the value of a response, while preserving eventual errors and meta-data. For example, you can turn a json response `DataResponse<Any>` into a response that holds an application model, such as `DataResponse<User>`. You perform response mapping with the `DataResponse.map` method:
+
+```swift
+Alamofire.request("https://example.com/users/mattt").responseJSON { (response: DataResponse<Any>) in
+    let userResponse = response.map { json in
+        // We assume an existing User(json: Any) initializer
+        return User(json: json)
+    }
+
+    // Process userResponse, of type DataResponse<User>:
+    if let user = userResponse.value {
+        print("User: { username: \(user.username), name: \(user.name) }")
+    }
+}
+```
+
+When the transformation may throw an error, use `flatMap` instead:
+
+```swift
+Alamofire.request("https://example.com/users/mattt").responseJSON { response in
+    let userResponse = response.flatMap { json in
+        try User(json: json)
+    }
+}
+```
+
+Response mapping is a good fit for your custom completion handlers:
+
+```swift
+@discardableResult
+func loadUser(completionHandler: @escaping (DataResponse<User>) -> Void) -> Alamofire.DataRequest {
+    return Alamofire.request("https://example.com/users/mattt").responseJSON { response in
+        let userResponse = response.flatMap { json in
+            try User(json: json)
+        }
+
+        completionHandler(userResponse)
+    }
+}
+
+loadUser { response in
+    if let user = userResponse.value {
+        print("User: { username: \(user.username), name: \(user.name) }")
+    }
+}
+```
+
+When the map/flatMap closure may process a big amount of data, make sure you execute it outside of the main thread:
+
+```swift
+@discardableResult
+func loadUser(completionHandler: @escaping (DataResponse<User>) -> Void) -> Alamofire.DataRequest {
+    let utilityQueue = DispatchQueue.global(qos: .utility)
+
+    return Alamofire.request("https://example.com/users/mattt").responseJSON(queue: utilityQueue) { response in
+        let userResponse = response.flatMap { json in
+            try User(json: json)
+        }
+
+        DispatchQueue.main.async {
+            completionHandler(userResponse)
+        }
+    }
+}
+```
+
+`map` and `flatMap` are also available for [download responses](#downloading-data-to-a-file).
+
 #### Handling Errors
 
 Before implementing custom response serializers or object serialization methods, it's important to consider how to handle any errors that may occur. There are two basic options: passing existing errors along unmodified, to be dealt with at response time; or, wrapping all errors in an `Error` type specific to your app.
@@ -1362,9 +1471,9 @@ extension DataRequest {
             guard error == nil else { return .failure(BackendError.network(error: error!)) }
 
             // Use Alamofire's existing data serializer to extract the data, passing the error as nil, as it has
-            // alreaady been handled.
+            // already been handled.
             let result = Request.serializeResponseData(response: response, data: data, error: nil)
-            
+
             guard case let .success(validData) = result else {
                 return .failure(BackendError.dataSerialization(error: result.error! as! AFError))
             }
@@ -1413,7 +1522,7 @@ extension DataRequest {
 
             let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             let result = jsonResponseSerializer.serializeResponse(request, response, data, nil)
-            
+
             guard case let .success(jsonObject) = result else {
                 return .failure(BackendError.jsonSerialization(error: result.error!))
             }
@@ -1498,7 +1607,7 @@ extension DataRequest {
 
             let jsonSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             let result = jsonSerializer.serializeResponse(request, response, data, nil)
-            
+
             guard case let .success(jsonObject) = result else {
                 return .failure(BackendError.jsonSerialization(error: result.error!))
             }
@@ -1558,7 +1667,7 @@ The `ServerTrustPolicy` enumeration evaluates the server trust generally provide
 
 ```swift
 let serverTrustPolicy = ServerTrustPolicy.pinCertificates(
-    certificates: ServerTrustPolicy.certificatesInBundle(),
+    certificates: ServerTrustPolicy.certificates(),
     validateCertificateChain: true,
     validateHost: true
 )
@@ -1579,7 +1688,7 @@ The `ServerTrustPolicyManager` is responsible for storing an internal mapping of
 ```swift
 let serverTrustPolicies: [String: ServerTrustPolicy] = [
     "test.example.com": .pinCertificates(
-        certificates: ServerTrustPolicy.certificatesInBundle(),
+        certificates: ServerTrustPolicy.certificates(),
         validateCertificateChain: true,
         validateHost: true
     ),
@@ -1680,6 +1789,7 @@ manager?.startListening()
 ```
 
 > Make sure to remember to retain the `manager` in the above example, or no status changes will be reported.
+> Also, do not include the scheme in the `host` string or reachability won't function correctly.
 
 There are some important things to remember when using network reachability to determine what to do next.
 
@@ -1696,7 +1806,7 @@ There are some important things to remember when using network reachability to d
 
 ## Open Radars
 
-The following radars have some affect on the current implementation of Alamofire.
+The following radars have some effect on the current implementation of Alamofire.
 
 - [`rdar://21349340`](http://www.openradar.me/radar?id=5517037090635776) - Compiler throwing warning due to toll-free bridging issue in test case
 - [`rdar://26761490`](http://www.openradar.me/radar?id=5010235949318144) - Swift string interpolation causing memory leak with common usage
@@ -1735,7 +1845,7 @@ The [ASF](https://github.com/Alamofire/Foundation#members) is looking to raise m
 - Potentially fund test servers to make it easier for us to test the edge cases
 - Potentially fund developers to work on one of our projects full-time
 
-The community adoption of the ASF libraries has been amazing. We are greatly humbled by your enthusiam around the projects, and want to continue to do everything we can to move the needle forward. With your continued support, the ASF will be able to improve its reach and also provide better legal safety for the core members. If you use any of our libraries for work, see if your employers would be interested in donating. Our initial goal is to raise $1000 to get all our legal ducks in a row and kickstart this campaign. Any amount you can donate today to help us reach our goal would be greatly appreciated.
+The community adoption of the ASF libraries has been amazing. We are greatly humbled by your enthusiasm around the projects, and want to continue to do everything we can to move the needle forward. With your continued support, the ASF will be able to improve its reach and also provide better legal safety for the core members. If you use any of our libraries for work, see if your employers would be interested in donating. Our initial goal is to raise $1000 to get all our legal ducks in a row and kickstart this campaign. Any amount you can donate today to help us reach our goal would be greatly appreciated.
 
 <a href='https://pledgie.com/campaigns/31474'><img alt='Click here to lend your support to: Alamofire Software Foundation and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/31474.png?skin_name=chrome' border='0' ></a>
 

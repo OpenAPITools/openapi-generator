@@ -27,7 +27,7 @@ describe 'OuterString' do
   end
 
   describe 'test an instance of OuterString' do
-    it 'should create an instact of OuterString' do
+    it 'should create an instance of OuterString' do
       expect(@instance).to be_instance_of(Petstore::OuterString)
     end
   end

@@ -64,9 +64,29 @@ class User implements ArrayAccess
         'user_status' => 'int'
     ];
 
+    /**
+      * Array of property to format mappings. Used for (de)serialization
+      * @var string[]
+      */
+    protected static $swaggerFormats = [
+        'id' => 'int64',
+        'username' => null,
+        'first_name' => null,
+        'last_name' => null,
+        'email' => null,
+        'password' => null,
+        'phone' => null,
+        'user_status' => 'int32'
+    ];
+
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
+    }
+
+    public static function swaggerFormats()
+    {
+        return self::$swaggerFormats;
     }
 
     /**

@@ -112,6 +112,61 @@ class Configuration
     protected $tempFolderPath;
 
     /**
+<<<<<<< HEAD
+=======
+     * Indicates if SSL verification should be enabled or disabled.
+     *
+     * This is useful if the host uses a self-signed SSL certificate.
+     *
+     * @var boolean True if the certificate should be validated, false otherwise.
+     */
+    protected $sslVerification = true;
+
+    /**
+     * Curl proxy host
+     *
+     * @var string
+     */
+    protected $proxyHost;
+
+    /**
+     * Curl proxy port
+     *
+     * @var integer
+     */
+    protected $proxyPort;
+
+    /**
+     * Curl proxy type, e.g. CURLPROXY_HTTP or CURLPROXY_SOCKS5
+     *
+     * @see https://secure.php.net/manual/en/function.curl-setopt.php
+     * @var integer
+     */
+    protected $proxyType;
+
+    /**
+     * Curl proxy username
+     *
+     * @var string
+     */
+    protected $proxyUser;
+
+    /**
+     * Curl proxy password
+     *
+     * @var string
+     */
+    protected $proxyPassword;
+
+    /**
+     * Allow Curl encoding header
+     *
+     * @var bool
+     */
+    protected $allowEncoding = false;
+
+    /**
+>>>>>>> origin/master
      * Constructor
      */
     public function __construct()
@@ -292,6 +347,200 @@ class Configuration
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Sets the HTTP timeout value
+     *
+     * @param integer $seconds Number of seconds before timing out [set to 0 for no timeout]
+     *
+     * @throws \InvalidArgumentException
+     * @return $this
+     */
+    public function setCurlTimeout($seconds)
+    {
+        if (!is_numeric($seconds) || $seconds < 0) {
+            throw new \InvalidArgumentException('Timeout value must be numeric and a non-negative number.');
+        }
+
+        $this->curlTimeout = $seconds;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP timeout value
+     *
+     * @return string HTTP timeout value
+     */
+    public function getCurlTimeout()
+    {
+        return $this->curlTimeout;
+    }
+
+    /**
+     * Sets the HTTP connect timeout value
+     *
+     * @param integer $seconds Number of seconds before connection times out [set to 0 for no timeout]
+     *
+     * @throws \InvalidArgumentException
+     * @return $this
+     */
+    public function setCurlConnectTimeout($seconds)
+    {
+        if (!is_numeric($seconds) || $seconds < 0) {
+            throw new \InvalidArgumentException('Connect timeout value must be numeric and a non-negative number.');
+        }
+
+        $this->curlConnectTimeout = $seconds;
+        return $this;
+    }
+
+    /**
+     * Set whether to accept encoding
+     * @param bool $allowEncoding
+     */
+    public function setAllowEncoding($allowEncoding)
+    {
+        $this->allowEncoding = $allowEncoding;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP connect timeout value
+     *
+     * @return string HTTP connect timeout value
+     */
+    public function getCurlConnectTimeout()
+    {
+        return $this->curlConnectTimeout;
+    }
+
+    /**
+     * Get whether to allow encoding
+     *
+     * @return bool
+     */
+    public function getAllowEncoding()
+    {
+        return $this->allowEncoding;
+    }
+
+    /**
+     * Sets the HTTP Proxy Host
+     *
+     * @param string $proxyHost HTTP Proxy URL
+     *
+     * @return $this
+     */
+    public function setCurlProxyHost($proxyHost)
+    {
+        $this->proxyHost = $proxyHost;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Host
+     *
+     * @return string
+     */
+    public function getCurlProxyHost()
+    {
+        return $this->proxyHost;
+    }
+
+    /**
+     * Sets the HTTP Proxy Port
+     *
+     * @param integer $proxyPort HTTP Proxy Port
+     *
+     * @return $this
+     */
+    public function setCurlProxyPort($proxyPort)
+    {
+        $this->proxyPort = $proxyPort;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Port
+     *
+     * @return integer
+     */
+    public function getCurlProxyPort()
+    {
+        return $this->proxyPort;
+    }
+
+    /**
+     * Sets the HTTP Proxy Type
+     *
+     * @param integer $proxyType HTTP Proxy Type
+     *
+     * @return $this
+     */
+    public function setCurlProxyType($proxyType)
+    {
+        $this->proxyType = $proxyType;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Type
+     *
+     * @return integer
+     */
+    public function getCurlProxyType()
+    {
+        return $this->proxyType;
+    }
+
+    /**
+     * Sets the HTTP Proxy User
+     *
+     * @param string $proxyUser HTTP Proxy User
+     *
+     * @return $this
+     */
+    public function setCurlProxyUser($proxyUser)
+    {
+        $this->proxyUser = $proxyUser;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy User
+     *
+     * @return string
+     */
+    public function getCurlProxyUser()
+    {
+        return $this->proxyUser;
+    }
+
+    /**
+     * Sets the HTTP Proxy Password
+     *
+     * @param string $proxyPassword HTTP Proxy Password
+     *
+     * @return $this
+     */
+    public function setCurlProxyPassword($proxyPassword)
+    {
+        $this->proxyPassword = $proxyPassword;
+        return $this;
+    }
+
+    /**
+     * Gets the HTTP Proxy Password
+     *
+     * @return string
+     */
+    public function getCurlProxyPassword()
+    {
+        return $this->proxyPassword;
+    }
+
+    /**
+>>>>>>> origin/master
      * Sets debug flag
      *
      * @param bool $debug Debug flag

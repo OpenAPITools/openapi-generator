@@ -27,7 +27,7 @@ describe 'OuterComposite' do
   end
 
   describe 'test an instance of OuterComposite' do
-    it 'should create an instact of OuterComposite' do
+    it 'should create an instance of OuterComposite' do
       expect(@instance).to be_instance_of(Petstore::OuterComposite)
     end
   end

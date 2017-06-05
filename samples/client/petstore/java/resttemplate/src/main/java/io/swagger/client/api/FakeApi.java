@@ -340,4 +340,48 @@ public class FakeApi {
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
+    /**
+     * test json serialization of form data
+     * 
+     * <p><b>200</b> - successful operation
+     * @param param field1
+     * @param param2 field2
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void testJsonFormData(String param, String param2) throws RestClientException {
+        Object postBody = null;
+        
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testJsonFormData");
+        }
+        
+        // verify the required parameter 'param2' is set
+        if (param2 == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param2' when calling testJsonFormData");
+        }
+        
+        String path = UriComponentsBuilder.fromPath("/fake/jsonFormData").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        
+        if (param != null)
+            formParams.add("param", param);
+        if (param2 != null)
+            formParams.add("param2", param2);
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "application/json"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
 }
