@@ -32,7 +32,7 @@ describe 'ReadOnlyFirst' do
   end
 
   describe 'test an instance of ReadOnlyFirst' do
-    it 'should create an instact of ReadOnlyFirst' do
+    it 'should create an instance of ReadOnlyFirst' do
       expect(@instance).to be_instance_of(Petstore::ReadOnlyFirst)
     end
   end

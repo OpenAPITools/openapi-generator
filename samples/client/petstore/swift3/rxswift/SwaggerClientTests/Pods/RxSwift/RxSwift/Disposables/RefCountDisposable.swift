@@ -1,33 +1,25 @@
 //
 //  RefCountDisposable.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Junior B. on 10/29/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
-
-/**
-    Represents a disposable resource that only disposes its underlying disposable resource when all dependent disposable objects have been disposed.
- */
+/// Represents a disposable resource that only disposes its underlying disposable resource when all dependent disposable objects have been disposed.
 public final class RefCountDisposable : DisposeBase, Cancelable {
     private var _lock = SpinLock()
     private var _disposable = nil as Disposable?
     private var _primaryDisposed = false
     private var _count = 0
 
-    /**
-     - returns: Was resource disposed.
-     */
+    /// - returns: Was resource disposed.
     public var isDisposed: Bool {
         _lock.lock(); defer { _lock.unlock() }
         return _disposable == nil
     }
 
-    /**
-     Initializes a new instance of the `RefCountDisposable`.
-     */
+    /// Initializes a new instance of the `RefCountDisposable`.
     public init(disposable: Disposable) {
         _disposable = disposable
         super.init()
@@ -55,9 +47,7 @@ public final class RefCountDisposable : DisposeBase, Cancelable {
         }
     }
 
-    /**
-     Disposes the underlying disposable only when all dependent disposables have been disposed.
-     */
+    /// Disposes the underlying disposable only when all dependent disposables have been disposed.
     public func dispose() {
         let oldDisposable: Disposable? = _lock.calculateLocked {
             if let oldDisposable = _disposable, !_primaryDisposed

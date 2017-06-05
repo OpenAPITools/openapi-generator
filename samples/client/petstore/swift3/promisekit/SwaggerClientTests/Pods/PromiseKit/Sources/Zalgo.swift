@@ -55,7 +55,7 @@ public let zalgo = DispatchQueue(label: "Zalgo")
  then is going to take some time and doesn’t interact with the UI.
 
  Please note (again) that generally you should not use `zalgo` or `waldo`.
- The performance gains are neglible and we provide these functions only out
+ The performance gains are negligible and we provide these functions only out
  of a misguided sense that library code should be as optimized as possible.
  If you use either without tests proving their correctness you may
  unwillingly introduce horrendous, near-impossible-to-trace bugs.

@@ -40,7 +40,7 @@ public func join<T>(_ promises: [Promise<T>]) -> Promise<[T]> {
     return Promise { fulfill, reject in
         for promise in promises {
             promise.state.pipe { resolution in
-                __dispatch_barrier_sync(barrier) {
+                barrier.sync(flags: .barrier) {
                     if case .rejected(_, let token) = resolution {
                         token.consumed = true  // the parent Error.Join consumes all
                         rejected = true

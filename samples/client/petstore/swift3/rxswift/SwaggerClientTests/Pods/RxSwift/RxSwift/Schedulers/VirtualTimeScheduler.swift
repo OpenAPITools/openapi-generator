@@ -1,19 +1,14 @@
 //
 //  VirtualTimeScheduler.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 2/14/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
-
-/**
-Base class for virtual time schedulers using a priority queue for scheduled items.
-*/
+/// Base class for virtual time schedulers using a priority queue for scheduled items.
 open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
-    : SchedulerType
-    , CustomDebugStringConvertible {
+    : SchedulerType {
 
     public typealias VirtualTime = Converter.VirtualTimeUnit
     public typealias VirtualTimeInterval = Converter.VirtualTimeIntervalUnit
@@ -27,25 +22,19 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
 
     private var _nextId = 0
 
-    /**
-    - returns: Current time.
-    */
+    /// - returns: Current time.
     public var now: RxTime {
         return _converter.convertFromVirtualTime(clock)
     }
 
-    /**
-    - returns: Scheduler's absolute time clock value.
-    */
+    /// - returns: Scheduler's absolute time clock value.
     public var clock: VirtualTime {
         return _clock
     }
 
-    /**
-     Creates a new virtual time scheduler.
-     
-     - parameter initialClock: Initial value for the clock.
-    */
+    /// Creates a new virtual time scheduler.
+    ///
+    /// - parameter initialClock: Initial value for the clock.
     public init(initialClock: VirtualTime, converter: Converter) {
         _clock = initialClock
         _running = false
@@ -59,9 +48,9 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
             case .greaterThan:
                 return false
             }
-        })
+        }, isEqual: { $0 === $1 })
         #if TRACE_RESOURCES
-            let _ = AtomicIncrement(&resourceCount)
+            let _ = Resources.incrementTotal()
         #endif
     }
 
@@ -133,16 +122,12 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
         return compositeDisposable
     }
 
-    /**
-    Adjusts time of scheduling before adding item to schedule queue.
-    */
+    /// Adjusts time of scheduling before adding item to schedule queue.
     open func adjustScheduledTime(_ time: Converter.VirtualTimeUnit) -> Converter.VirtualTimeUnit {
         return time
     }
 
-    /**
-    Starts the virtual time scheduler.
-    */
+    /// Starts the virtual time scheduler.
     public func start() {
         MainScheduler.ensureExecutingOnScheduler()
 
@@ -180,11 +165,9 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
         return nil
     }
 
-    /**
-     Advances the scheduler's clock to the specified time, running all work till that point.
-     
-     - parameter virtualTime: Absolute time to advance the scheduler's clock to.
-    */
+    /// Advances the scheduler's clock to the specified time, running all work till that point.
+    ///
+    /// - parameter virtualTime: Absolute time to advance the scheduler's clock to.
     public func advanceTo(_ virtualTime: VirtualTime) {
         MainScheduler.ensureExecutingOnScheduler()
 
@@ -214,9 +197,7 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
         _running = false
     }
 
-    /**
-    Advances the scheduler's clock by the specified relative time.
-    */
+    /// Advances the scheduler's clock by the specified relative time.
     public func sleep(_ virtualInterval: VirtualTimeInterval) {
         MainScheduler.ensureExecutingOnScheduler()
 
@@ -228,9 +209,7 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
         _clock = sleepTo
     }
 
-    /**
-    Stops the virtual time scheduler.
-    */
+    /// Stops the virtual time scheduler.
     public func stop() {
         MainScheduler.ensureExecutingOnScheduler()
 
@@ -239,23 +218,21 @@ open class VirtualTimeScheduler<Converter: VirtualTimeConverterType>
 
     #if TRACE_RESOURCES
         deinit {
-            _ = AtomicDecrement(&resourceCount)
+            _ = Resources.decrementTotal()
         }
     #endif
 }
 
 // MARK: description
 
-extension VirtualTimeScheduler {
-    /**
-    A textual representation of `self`, suitable for debugging.
-    */
+extension VirtualTimeScheduler: CustomDebugStringConvertible {
+    /// A textual representation of `self`, suitable for debugging.
     public var debugDescription: String {
         return self._schedulerQueue.debugDescription
     }
 }
 
-class VirtualSchedulerItem<Time>
+final class VirtualSchedulerItem<Time>
     : Disposable {
     typealias Action = () -> Disposable
     
@@ -276,7 +253,7 @@ class VirtualSchedulerItem<Time>
     }
 
     func invoke() {
-         self.disposable.disposable = action()
+         self.disposable.setDisposable(action())
     }
     
     func dispose() {

@@ -32,7 +32,7 @@ describe 'Name' do
   end
 
   describe 'test an instance of Name' do
-    it 'should create an instact of Name' do
+    it 'should create an instance of Name' do
       expect(@instance).to be_instance_of(Petstore::Name)
     end
   end

@@ -32,7 +32,7 @@ describe 'ApiResponse' do
   end
 
   describe 'test an instance of ApiResponse' do
-    it 'should create an instact of ApiResponse' do
+    it 'should create an instance of ApiResponse' do
       expect(@instance).to be_instance_of(Petstore::ApiResponse)
     end
   end

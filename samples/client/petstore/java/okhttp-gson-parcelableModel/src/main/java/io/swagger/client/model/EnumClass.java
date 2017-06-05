@@ -18,19 +18,22 @@ import com.google.gson.annotations.SerializedName;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import java.io.IOException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 /**
  * Gets or Sets EnumClass
  */
+@JsonAdapter(EnumClass.Adapter.class)
 public enum EnumClass {
   
-  @SerializedName("_abc")
   _ABC("_abc"),
   
-  @SerializedName("-efg")
   _EFG("-efg"),
   
-  @SerializedName("(xyz)")
   _XYZ_("(xyz)");
 
   private String value;
@@ -46,6 +49,28 @@ public enum EnumClass {
   @Override
   public String toString() {
     return String.valueOf(value);
+  }
+
+  public static EnumClass fromValue(String text) {
+    for (EnumClass b : EnumClass.values()) {
+      if (String.valueOf(b.value).equals(text)) {
+        return b;
+      }
+    }
+    return null;
+  }
+
+  public static class Adapter extends TypeAdapter<EnumClass> {
+    @Override
+    public void write(final JsonWriter jsonWriter, final EnumClass enumeration) throws IOException {
+      jsonWriter.value(enumeration.getValue());
+    }
+
+    @Override
+    public EnumClass read(final JsonReader jsonReader) throws IOException {
+      String value = jsonReader.nextString();
+      return EnumClass.fromValue(String.valueOf(value));
+    }
   }
 }
 

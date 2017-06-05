@@ -39,7 +39,7 @@ describe 'HasOnlyReadOnly' do
   end
 
   describe 'test an instance of HasOnlyReadOnly' do
-    it 'should create an instact of HasOnlyReadOnly' do
+    it 'should create an instance of HasOnlyReadOnly' do
       expect(@instance).to be_instance_of(Petstore::HasOnlyReadOnly)
     end
   end

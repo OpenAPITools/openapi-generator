@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -92,26 +93,32 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
+
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name="petId", EmitDefaultValue=false)]
         public long? PetId { get; set; }
+
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name="quantity", EmitDefaultValue=false)]
         public int? Quantity { get; set; }
+
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
         public DateTime? ShipDate { get; set; }
+
+
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name="complete", EmitDefaultValue=false)]
         public bool? Complete { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

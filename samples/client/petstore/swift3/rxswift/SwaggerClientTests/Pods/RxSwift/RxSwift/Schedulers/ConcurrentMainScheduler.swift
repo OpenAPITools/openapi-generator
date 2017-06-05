@@ -1,12 +1,14 @@
 //
 //  ConcurrentMainScheduler.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 10/17/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
+import struct Foundation.Date
+import struct Foundation.TimeInterval
+import Dispatch
 
 /**
 Abstracts work that needs to be performed on `MainThread`. In case `schedule` methods are called from main thread, it will perform action immediately without scheduling.
@@ -21,9 +23,7 @@ public final class ConcurrentMainScheduler : SchedulerType {
     private let _mainScheduler: MainScheduler
     private let _mainQueue: DispatchQueue
 
-    /**
-    - returns: Current time.
-    */
+    /// - returns: Current time.
     public var now : Date {
         return _mainScheduler.now as Date
     }
@@ -33,9 +33,7 @@ public final class ConcurrentMainScheduler : SchedulerType {
         _mainScheduler = mainScheduler
     }
 
-    /**
-    Singleton instance of `ConcurrentMainScheduler`
-    */
+    /// Singleton instance of `ConcurrentMainScheduler`
     public static let instance = ConcurrentMainScheduler(mainScheduler: MainScheduler.instance)
 
     /**
@@ -46,7 +44,7 @@ public final class ConcurrentMainScheduler : SchedulerType {
     - returns: The disposable object used to cancel the scheduled action (best effort).
     */
     public func schedule<StateType>(_ state: StateType, action: @escaping (StateType) -> Disposable) -> Disposable {
-        if Thread.current.isMainThread {
+        if DispatchQueue.isMain {
             return action(state)
         }
 
@@ -57,7 +55,7 @@ public final class ConcurrentMainScheduler : SchedulerType {
                 return
             }
 
-            cancel.disposable = action(state)
+            cancel.setDisposable(action(state))
         }
 
         return cancel

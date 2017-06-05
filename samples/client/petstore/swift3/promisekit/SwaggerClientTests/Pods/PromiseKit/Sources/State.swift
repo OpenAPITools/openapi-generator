@@ -1,5 +1,4 @@
 import class Dispatch.DispatchQueue
-import func Dispatch.__dispatch_barrier_sync
 import func Foundation.NSLog
 
 enum Seal<T> {
@@ -31,6 +30,14 @@ class State<T> {
             case .pending(let handlers):
                 handlers.append(body)
             case .resolved(let resolution):
+                body(resolution)
+            }
+        }
+    }
+
+    final func pipe(on q: DispatchQueue, to body: @escaping (Resolution<T>) -> Void) {
+        pipe { resolution in
+            contain_zalgo(q) {
                 body(resolution)
             }
         }
@@ -82,7 +89,7 @@ class UnsealedState<T>: State<T> {
      Quick return, but will not provide the handlers array because
      it could be modified while you are using it by another thread.
      If you need the handlers, use the second `get` variant.
-    */
+     */
     override func get() -> Resolution<T>? {
         var result: Resolution<T>?
         barrier.sync {
@@ -104,7 +111,7 @@ class UnsealedState<T>: State<T> {
             }
         }
         if !sealed {
-            __dispatch_barrier_sync(barrier) {
+            barrier.sync(flags: .barrier) {
                 switch (self.seal) {
                 case .pending:
                     body(self.seal)
@@ -123,7 +130,7 @@ class UnsealedState<T>: State<T> {
         super.init()
         resolver = { resolution in
             var handlers: Handlers<T>?
-            __dispatch_barrier_sync(self.barrier) {
+            self.barrier.sync(flags: .barrier) {
                 if case .pending(let hh) = self.seal {
                     self.seal = .resolved(resolution)
                     handlers = hh

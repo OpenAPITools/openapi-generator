@@ -16,7 +16,7 @@
   "source_files": "PetstoreClient/Classes/Swaggers/**/*.swift",
   "dependencies": {
     "RxSwift": [
-      "~> 3.0.0-beta.1"
+      "~> 3.4.1"
     ],
     "Alamofire": [
       "~> 4.0"

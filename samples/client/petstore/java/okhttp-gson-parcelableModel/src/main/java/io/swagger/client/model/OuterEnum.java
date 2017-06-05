@@ -18,19 +18,22 @@ import com.google.gson.annotations.SerializedName;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import java.io.IOException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 /**
  * Gets or Sets OuterEnum
  */
+@JsonAdapter(OuterEnum.Adapter.class)
 public enum OuterEnum {
   
-  @SerializedName("placed")
   PLACED("placed"),
   
-  @SerializedName("approved")
   APPROVED("approved"),
   
-  @SerializedName("delivered")
   DELIVERED("delivered");
 
   private String value;
@@ -46,6 +49,28 @@ public enum OuterEnum {
   @Override
   public String toString() {
     return String.valueOf(value);
+  }
+
+  public static OuterEnum fromValue(String text) {
+    for (OuterEnum b : OuterEnum.values()) {
+      if (String.valueOf(b.value).equals(text)) {
+        return b;
+      }
+    }
+    return null;
+  }
+
+  public static class Adapter extends TypeAdapter<OuterEnum> {
+    @Override
+    public void write(final JsonWriter jsonWriter, final OuterEnum enumeration) throws IOException {
+      jsonWriter.value(enumeration.getValue());
+    }
+
+    @Override
+    public OuterEnum read(final JsonReader jsonReader) throws IOException {
+      String value = jsonReader.nextString();
+      return OuterEnum.fromValue(String.valueOf(value));
+    }
   }
 }
 

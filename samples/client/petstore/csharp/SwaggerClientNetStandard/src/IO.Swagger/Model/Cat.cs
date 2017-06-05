@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -66,16 +67,19 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="className", EmitDefaultValue=false)]
         public string ClassName { get; set; }
+
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name="color", EmitDefaultValue=false)]
         public string Color { get; set; }
+
         /// <summary>
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name="declawed", EmitDefaultValue=false)]
         public bool? Declawed { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

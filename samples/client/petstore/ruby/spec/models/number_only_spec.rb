@@ -39,7 +39,7 @@ describe 'NumberOnly' do
   end
 
   describe 'test an instance of NumberOnly' do
-    it 'should create an instact of NumberOnly' do
+    it 'should create an instance of NumberOnly' do
       expect(@instance).to be_instance_of(Petstore::NumberOnly)
     end
   end

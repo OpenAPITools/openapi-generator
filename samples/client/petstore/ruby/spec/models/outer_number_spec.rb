@@ -27,7 +27,7 @@ describe 'OuterNumber' do
   end
 
   describe 'test an instance of OuterNumber' do
-    it 'should create an instact of OuterNumber' do
+    it 'should create an instance of OuterNumber' do
       expect(@instance).to be_instance_of(Petstore::OuterNumber)
     end
   end

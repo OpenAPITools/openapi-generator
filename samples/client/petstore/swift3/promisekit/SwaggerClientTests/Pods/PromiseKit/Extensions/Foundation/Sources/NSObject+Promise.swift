@@ -48,7 +48,7 @@ private class KVOProxy: NSObject {
         observee.addObserver(self, forKeyPath: keyPath, options: NSKeyValueObservingOptions.new, context: pointer)
     }
 
-    private override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    fileprivate override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let change = change, context == pointer {
             defer { retainCycle = nil }
             fulfill(change[NSKeyValueChangeKey.newKey])
