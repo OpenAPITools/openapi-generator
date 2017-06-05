@@ -22,7 +22,7 @@ cache:
   - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
   - $HOME/samples/client/petstore/typescript-angular/node_modules
   - $HOME/samples/client/petstore/typescript-angular/typings
-  - /Users/travis/.cocoapods/repos/master
+  - $HOME/.cocoapods/repos/master
 # note: docker is not yet supported in iOS build
 #services:
 #  - docker
@@ -41,7 +41,8 @@ before_install:
   - gem install cocoapods -v 1.2.1 -N --no-ri --no-rdoc
   - gem install xcpretty -N --no-ri --no-rdoc
   - pod --version
-  - pod repo update
+  # comment out below to avoid errors
+  #- pod repo update
   - pod setup --silent > /dev/null
   - npm install -g typescript
   - npm config set registry http://registry.npmjs.org/
