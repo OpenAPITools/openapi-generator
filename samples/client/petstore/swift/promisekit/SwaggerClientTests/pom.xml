@@ -27,35 +27,13 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>install-pods</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>pod</executable>
-                            <arguments>
-                                <argument>install</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>xcodebuild-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>xcodebuild</executable>
-                            <arguments>
-                                <argument>-workspace</argument>
-                                <argument>SwaggerClient.xcworkspace</argument>
-                                <argument>-scheme</argument>
-                                <argument>SwaggerClient</argument>
-                                <argument>test</argument>
-                                <argument>-destination</argument>
-                                <argument>platform=iOS Simulator,name=iPhone 6,OS=9.3</argument>
-                            </arguments>
+                            <executable>./run_xcodebuild.sh</executable>
                         </configuration>
                     </execution>
                 </executions>

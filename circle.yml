@@ -14,6 +14,10 @@ dependencies:
     - "~/.sbt"
 
   pre:
+    - sudo add-apt-repository ppa:duggan/bats --yes
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq bats
+    - sudo apt-get install -qq curl
     # to run petstore server locally via docker
     - docker pull swaggerapi/petstore
     - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore

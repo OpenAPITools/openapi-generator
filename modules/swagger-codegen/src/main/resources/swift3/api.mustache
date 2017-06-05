@@ -80,7 +80,7 @@ open class {{classname}}: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 {{/useRxSwift}}

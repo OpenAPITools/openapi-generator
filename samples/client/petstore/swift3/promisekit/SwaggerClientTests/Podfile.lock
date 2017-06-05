@@ -1,18 +1,18 @@
 PODS:
-  - Alamofire (4.0.0)
+  - Alamofire (4.4.0)
   - PetstoreClient (0.0.1):
     - Alamofire (~> 4.0)
-    - PromiseKit (~> 4.0)
-  - PromiseKit (4.0.1):
-    - PromiseKit/Foundation (= 4.0.1)
-    - PromiseKit/QuartzCore (= 4.0.1)
-    - PromiseKit/UIKit (= 4.0.1)
-  - PromiseKit/CorePromise (4.0.1)
-  - PromiseKit/Foundation (4.0.1):
+    - PromiseKit (~> 4.2.2)
+  - PromiseKit (4.2.2):
+    - PromiseKit/Foundation (= 4.2.2)
+    - PromiseKit/QuartzCore (= 4.2.2)
+    - PromiseKit/UIKit (= 4.2.2)
+  - PromiseKit/CorePromise (4.2.2)
+  - PromiseKit/Foundation (4.2.2):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.0.1):
+  - PromiseKit/QuartzCore (4.2.2):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.0.1):
+  - PromiseKit/UIKit (4.2.2):
     - PromiseKit/CorePromise
 
 DEPENDENCIES:
@@ -20,13 +20,13 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   PetstoreClient:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
-  PetstoreClient: 7a2e162d0d84c57a8f501833f4b1ebdeb04d8eaf
-  PromiseKit: ae9e7f97ee758e23f7b9c5e80380a2e78d6338c5
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  PetstoreClient: 87f5c85fc96f3c001c6a9f9030e3cf1a070aff4f
+  PromiseKit: 00e8886881f151c7e573d06b437915b0bb2970ec
 
 PODFILE CHECKSUM: da9f5a7ad6086f2c7abb73cf2c35cefce04a9a30
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1
