@@ -20,10 +20,10 @@ import PromiseKit
 */
 extension NotificationCenter {
     /// Observe the named notification once
-    public func observe(once name: String) -> NotificationPromise {
+    public func observe(once name: Notification.Name, object: Any? = nil) -> NotificationPromise {
         let (promise, fulfill) = NotificationPromise.go()
-        let id = addObserver(forName: NSNotification.Name(rawValue: name), object: nil, queue: nil, using: fulfill)
-        _ = promise.then(on: zalgo) { _ in self.removeObserver(id) }
+        let id = addObserver(forName: name, object: object, queue: nil, using: fulfill)
+        _ = promise.always { self.removeObserver(id) }
         return promise
     }
 }

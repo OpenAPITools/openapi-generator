@@ -6,13 +6,13 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
+import struct Foundation.Date
+import struct Foundation.TimeInterval
+import Dispatch
 
-/**
-Abstracts the work that needs to be performed on a specific `dispatch_queue_t`. You can also pass a serial dispatch queue, it shouldn't cause any problems.
-
-This scheduler is suitable when some work needs to be performed in background.
-*/
+/// Abstracts the work that needs to be performed on a specific `dispatch_queue_t`. You can also pass a serial dispatch queue, it shouldn't cause any problems.
+///
+/// This scheduler is suitable when some work needs to be performed in background.
 public class ConcurrentDispatchQueueScheduler: SchedulerType {
     public typealias TimeInterval = Foundation.TimeInterval
     public typealias Time = Date
@@ -23,26 +23,21 @@ public class ConcurrentDispatchQueueScheduler: SchedulerType {
 
     let configuration: DispatchQueueConfiguration
     
-    /**
-    Constructs new `ConcurrentDispatchQueueScheduler` that wraps `queue`.
-    
-    - parameter queue: Target dispatch queue.
-    */
+    /// Constructs new `ConcurrentDispatchQueueScheduler` that wraps `queue`.
+    ///
+    /// - parameter queue: Target dispatch queue.
     public init(queue: DispatchQueue, leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
         configuration = DispatchQueueConfiguration(queue: queue, leeway: leeway)
     }
     
-    /**
-     Convenience init for scheduler that wraps one of the global concurrent dispatch queues.
-     
-     - parameter globalConcurrentQueueQOS: Target global dispatch queue, by quality of service class.
-     */
+    /// Convenience init for scheduler that wraps one of the global concurrent dispatch queues.
+    ///
+    /// - parameter qos: Target global dispatch queue, by quality of service class.
     @available(iOS 8, OSX 10.10, *)
-    public convenience init(globalConcurrentQueueQOS: DispatchQueueSchedulerQOS, leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
-        let priority = globalConcurrentQueueQOS.qos
+    public convenience init(qos: DispatchQoS, leeway: DispatchTimeInterval = DispatchTimeInterval.nanoseconds(0)) {
         self.init(queue: DispatchQueue(
-            label: "rxswift.queue.\(globalConcurrentQueueQOS)",
-            qos: priority,
+            label: "rxswift.queue.\(qos)",
+            qos: qos,
             attributes: [DispatchQueue.Attributes.concurrent],
             target: nil),
             leeway: leeway

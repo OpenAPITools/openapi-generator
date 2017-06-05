@@ -91,9 +91,11 @@ this.{{name}} = {{name}};
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{description}}</value>{{/description}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]{{#isDate}}
+        [JsonConverter(typeof(SwaggerDateConverter))]{{/isDate}}
         public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
         {{/isEnum}}
+
         {{/vars}}
         /// <summary>
         /// Returns the string presentation of the object

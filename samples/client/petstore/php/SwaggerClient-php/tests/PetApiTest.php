@@ -259,7 +259,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $response = $this->api->uploadFile($pet_id, 'test meta', __DIR__ . '/../composer.json');
         // return ApiResponse
         $this->assertInstanceOf(ApiResponse::class, $response);
-
     }
 
     /*
@@ -297,7 +296,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $new_pet = new Model\Pet;
         // the empty object should be serialised to {}
         $this->assertSame("{}", "$new_pet");
-
     }
 
     // test inheritance in the model
@@ -391,5 +389,4 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 //            'path' => sys_get_temp_dir() . '/' . $result->getFilename()
 //        ]);
 //    }
-
 }

@@ -32,7 +32,7 @@ describe 'Category' do
   end
 
   describe 'test an instance of Category' do
-    it 'should create an instact of Category' do
+    it 'should create an instance of Category' do
       expect(@instance).to be_instance_of(Petstore::Category)
     end
   end

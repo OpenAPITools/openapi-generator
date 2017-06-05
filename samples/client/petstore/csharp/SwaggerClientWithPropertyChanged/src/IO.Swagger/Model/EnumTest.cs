@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using PropertyChanged;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -128,11 +129,15 @@ namespace IO.Swagger.Model
             this.OuterEnum = OuterEnum;
         }
         
+
+
+
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
         [DataMember(Name="outerEnum", EmitDefaultValue=false)]
         public OuterEnum OuterEnum { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

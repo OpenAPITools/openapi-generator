@@ -180,4 +180,17 @@ public interface FakeApi extends ApiClient.Api {
       return this;
     }
   }
+
+  /**
+   * test json serialization of form data
+   * 
+    * @param param field1 (required)
+    * @param param2 field2 (required)
+   */
+  @RequestLine("GET /fake/jsonFormData")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testJsonFormData(@Param("param") String param, @Param("param2") String param2);
 }

@@ -1,96 +1,84 @@
 //
 //  CurrentThreadScheduler.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 8/30/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
+import class Foundation.NSObject
+import protocol Foundation.NSCopying
+import class Foundation.Thread
+import Dispatch
 
 #if os(Linux)
-    let CurrentThreadSchedulerKeyInstance       = "RxSwift.CurrentThreadScheduler.SchedulerKey"
-    let CurrentThreadSchedulerQueueKeyInstance  = "RxSwift.CurrentThreadScheduler.Queue"
-
-    typealias CurrentThreadSchedulerValue       = NSString
-    let CurrentThreadSchedulerValueInstance     = "RxSwift.CurrentThreadScheduler.SchedulerKey" as NSString
+    import struct Foundation.pthread_key_t
+    import func Foundation.pthread_setspecific
+    import func Foundation.pthread_getspecific
+    import func Foundation.pthread_key_create
+    
+    fileprivate enum CurrentThreadSchedulerQueueKey {
+        fileprivate static let instance = "RxSwift.CurrentThreadScheduler.Queue"
+    }
 #else
-    // temporary workaround
-
-    let CurrentThreadSchedulerKeyInstance       = "RxSwift.CurrentThreadScheduler.SchedulerKey"
-    let CurrentThreadSchedulerQueueKeyInstance  = "RxSwift.CurrentThreadScheduler.Queue"
-
-    typealias CurrentThreadSchedulerValue       = NSString
-    let CurrentThreadSchedulerValueInstance     = "RxSwift.CurrentThreadScheduler.SchedulerKey" as NSString
-
-    /*
-    let CurrentThreadSchedulerKeyInstance       = CurrentThreadSchedulerKey()
-    let CurrentThreadSchedulerQueueKeyInstance  = CurrentThreadSchedulerQueueKey()
-
-    typealias CurrentThreadSchedulerValue       = CurrentThreadSchedulerKey
-    let CurrentThreadSchedulerValueInstance     = CurrentThreadSchedulerKeyInstance
-
-    @objc class CurrentThreadSchedulerKey : NSObject, NSCopying {
-        override func isEqual(_ object: AnyObject?) -> Bool {
-          return object === CurrentThreadSchedulerKeyInstance
+    fileprivate class CurrentThreadSchedulerQueueKey: NSObject, NSCopying {
+        static let instance = CurrentThreadSchedulerQueueKey()
+        private override init() {
+            super.init()
         }
 
-        override var hash: Int { return -904739208 }
+        override var hash: Int {
+            return 0
+        }
 
-        //func copy(with zone: NSZone? = nil) -> AnyObject {
-        func copyWithZone(zone: NSZone) -> AnyObject {
-            return CurrentThreadSchedulerKeyInstance
+        public func copy(with zone: NSZone? = nil) -> Any {
+            return self
         }
     }
-
-    @objc class CurrentThreadSchedulerQueueKey : NSObject, NSCopying {
-        override func isEqual(_ object: AnyObject?) -> Bool {
-          return object === CurrentThreadSchedulerQueueKeyInstance
-        }
-
-        override var hash: Int { return -904739207 }
-
-        //func copy(with: NSZone?) -> AnyObject {
-        func copyWithZone(zone: NSZone) -> AnyObject {
-          return CurrentThreadSchedulerQueueKeyInstance
-        }
-    }*/
 #endif
 
-/**
-Represents an object that schedules units of work on the current thread.
-
-This is the default scheduler for operators that generate elements.
-
-This scheduler is also sometimes called `trampoline scheduler`.
-*/
+/// Represents an object that schedules units of work on the current thread.
+///
+/// This is the default scheduler for operators that generate elements.
+///
+/// This scheduler is also sometimes called `trampoline scheduler`.
 public class CurrentThreadScheduler : ImmediateSchedulerType {
     typealias ScheduleQueue = RxMutableBox<Queue<ScheduledItemType>>
 
-    /**
-    The singleton instance of the current thread scheduler.
-    */
+    /// The singleton instance of the current thread scheduler.
     public static let instance = CurrentThreadScheduler()
+
+    private static var isScheduleRequiredKey: pthread_key_t = { () -> pthread_key_t in
+        let key = UnsafeMutablePointer<pthread_key_t>.allocate(capacity: 1)
+        if pthread_key_create(key, nil) != 0 {
+            rxFatalError("isScheduleRequired key creation failed")
+        }
+
+        return key.pointee
+    }()
+
+    private static var scheduleInProgressSentinel: UnsafeRawPointer = { () -> UnsafeRawPointer in
+        return UnsafeRawPointer(UnsafeMutablePointer<Int>.allocate(capacity: 1))
+    }()
 
     static var queue : ScheduleQueue? {
         get {
-            return Thread.getThreadLocalStorageValueForKey(CurrentThreadSchedulerQueueKeyInstance as NSString)
+            return Thread.getThreadLocalStorageValueForKey(CurrentThreadSchedulerQueueKey.instance)
         }
         set {
-            Thread.setThreadLocalStorageValue(newValue, forKey: CurrentThreadSchedulerQueueKeyInstance as NSString)
+            Thread.setThreadLocalStorageValue(newValue, forKey: CurrentThreadSchedulerQueueKey.instance)
         }
     }
 
-    /**
-    Gets a value that indicates whether the caller must call a `schedule` method.
-    */
+    /// Gets a value that indicates whether the caller must call a `schedule` method.
     public static fileprivate(set) var isScheduleRequired: Bool {
         get {
-            let value: CurrentThreadSchedulerValue? = Thread.getThreadLocalStorageValueForKey(CurrentThreadSchedulerKeyInstance as NSString)
-            return value == nil
+            return pthread_getspecific(CurrentThreadScheduler.isScheduleRequiredKey) == nil
         }
         set(isScheduleRequired) {
-            Thread.setThreadLocalStorageValue(isScheduleRequired ? nil : CurrentThreadSchedulerValueInstance, forKey: CurrentThreadSchedulerKeyInstance as NSString)
+            if pthread_setspecific(CurrentThreadScheduler.isScheduleRequiredKey, isScheduleRequired ? nil : scheduleInProgressSentinel) != 0 {
+                rxFatalError("pthread_setspecific failed")
+            }
         }
     }
 
@@ -142,9 +130,7 @@ public class CurrentThreadScheduler : ImmediateSchedulerType {
 
         let scheduledItem = ScheduledItem(action: action, state: state)
         queue.value.enqueue(scheduledItem)
-        
-        // In Xcode 7.3, `return scheduledItem` causes segmentation fault 11 on release build.
-        // To workaround this compiler issue, returns AnonymousDisposable that disposes scheduledItem.
-        return Disposables.create(with: scheduledItem.dispose)
+
+        return scheduledItem
     }
 }

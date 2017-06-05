@@ -1,12 +1,13 @@
 //
 //  DispatchQueueConfiguration.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 7/23/16.
 //  Copyright © 2016 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
+import Dispatch
+import struct Foundation.TimeInterval
 
 struct DispatchQueueConfiguration {
     let queue: DispatchQueue
@@ -30,7 +31,7 @@ extension DispatchQueueConfiguration {
             }
 
 
-            cancel.disposable = action(state)
+            cancel.setDisposable(action(state))
         }
 
         return cancel

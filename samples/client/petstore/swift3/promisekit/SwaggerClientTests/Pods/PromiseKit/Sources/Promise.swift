@@ -35,8 +35,8 @@ open class Promise<T> {
          }
 
      - Parameter resolvers: The provided closure is called immediately on the active thread; commence your asynchronous task, calling either fulfill or reject when it completes.
-      - Parameter fulfill: Fulfills this promise with the provided value.
-      - Parameter reject: Rejects this promise with the provided error.
+     - Parameter fulfill: Fulfills this promise with the provided value.
+     - Parameter reject: Rejects this promise with the provided error.
 
      - Returns: A new promise.
 
@@ -69,6 +69,8 @@ open class Promise<T> {
 
     /**
      Create an already fulfilled promise.
+    
+     To create a resolved `Void` promise, do: `Promise(value: ())`
      */
     required public init(value: T) {
         state = SealedState(resolution: .fulfilled(value))
@@ -137,7 +139,7 @@ open class Promise<T> {
      - Parameter body: The closure that is executed when this Promise is fulfilled.
      - Returns: A new promise that is resolved with the value returned from the provided closure. For example:
 
-           NSURLSession.GET(url).then { data -> Int in
+           URLSession.GET(url).then { data -> Int in
                //…
                return data.length
            }.then { length in
@@ -168,15 +170,64 @@ open class Promise<T> {
            }
      */
     public func then<U>(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> Promise<U>) -> Promise<U> {
-        var rv: Promise<U>!
-        rv = Promise<U> { resolve in
-            state.then(on: q, else: resolve) { value in
-                let promise = try body(value)
-                guard promise !== rv else { throw PMKError.returnedSelf }
-                promise.state.pipe(resolve)
-            }
+        var resolve: ((Resolution<U>) -> Void)!
+        let rv = Promise<U>{ resolve = $0 }
+        state.then(on: q, else: resolve) { value in
+            let promise = try body(value)
+            guard promise !== rv else { throw PMKError.returnedSelf }
+            promise.state.pipe(resolve)
         }
         return rv
+    }
+
+    /**
+     The provided closure executes when this promise resolves.
+
+     This variant of `then` allows returning a tuple of promises within provided closure. All of the returned
+     promises needs be fulfilled for this promise to be marked as resolved.
+
+     - Note: At maximum 5 promises may be returned in a tuple
+     - Note: If *any* of the tuple-provided promises reject, the returned promise is immediately rejected with that error.
+     - Warning: In the event of rejection the other promises will continue to resolve and, as per any other promise, will either fulfill or reject.
+     - Parameter on: The queue to which the provided closure dispatches.
+     - Parameter execute: The closure that executes when this promise fulfills.
+     - Returns: A new promise that resolves when all promises returned from the provided closure resolve. For example:
+
+           loginPromise.then { _ -> (Promise<Data>, Promise<UIImage>)
+               return (URLSession.GET(userUrl), URLSession.dataTask(with: avatarUrl).asImage())
+           }.then { userData, avatarImage in
+               //…
+           }
+     */
+    public func then<U, V>(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> (Promise<U>, Promise<V>)) -> Promise<(U, V)> {
+        return then(on: q, execute: body) { when(fulfilled: $0.0, $0.1) }
+    }
+
+    /// This variant of `then` allows returning a tuple of promises within provided closure.
+    public func then<U, V, X>(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> (Promise<U>, Promise<V>, Promise<X>)) -> Promise<(U, V, X)> {
+        return then(on: q, execute: body) { when(fulfilled: $0.0, $0.1, $0.2) }
+    }
+
+    /// This variant of `then` allows returning a tuple of promises within provided closure.
+    public func then<U, V, X, Y>(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> (Promise<U>, Promise<V>, Promise<X>, Promise<Y>)) -> Promise<(U, V, X, Y)> {
+        return then(on: q, execute: body) { when(fulfilled: $0.0, $0.1, $0.2, $0.3) }
+    }
+
+    /// This variant of `then` allows returning a tuple of promises within provided closure.
+    public func then<U, V, X, Y, Z>(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> (Promise<U>, Promise<V>, Promise<X>, Promise<Y>, Promise<Z>)) -> Promise<(U, V, X, Y, Z)> {
+        return then(on: q, execute: body) { when(fulfilled: $0.0, $0.1, $0.2, $0.3, $0.4) }
+    }
+
+    /// utility function to serve `then` implementations with `body` returning tuple of promises
+    private func then<U, V>(on q: DispatchQueue, execute body: @escaping (T) throws -> V, when: @escaping (V) -> Promise<U>) -> Promise<U> {
+        return Promise<U> { resolve in
+            state.then(on: q, else: resolve) { value in
+                let promise = try body(value)
+
+                // since when(promise) switches to `zalgo`, we have to pipe back to `q`
+                when(promise).state.pipe(on: q, to: resolve)
+            }
+        }
     }
 
     /**
@@ -216,13 +267,12 @@ open class Promise<T> {
      - SeeAlso: [Cancellation](http://promisekit.org/docs/)
      */
     public func recover(on q: DispatchQueue = .default, policy: CatchPolicy = .allErrorsExceptCancellation, execute body: @escaping (Error) throws -> Promise) -> Promise {
-        var rv: Promise!
-        rv = Promise { resolve in
-            state.catch(on: q, policy: policy, else: resolve) { error in
-                let promise = try body(error)
-                guard promise !== rv else { throw PMKError.returnedSelf }
-                promise.state.pipe(resolve)
-            }
+        var resolve: ((Resolution<T>) -> Void)!
+        let rv = Promise{ resolve = $0 }
+        state.catch(on: q, policy: policy, else: resolve) { error in
+            let promise = try body(error)
+            guard promise !== rv else { throw PMKError.returnedSelf }
+            promise.state.pipe(resolve)
         }
         return rv
     }
@@ -267,6 +317,7 @@ open class Promise<T> {
      - Parameter execute: The closure that executes when this promise resolves.
      - Returns: A new promise, resolved with this promise’s resolution.
      */
+	@discardableResult
     public func always(on q: DispatchQueue = .default, execute body: @escaping () -> Void) -> Promise {
         state.always(on: q) { resolution in
             body()
@@ -275,11 +326,11 @@ open class Promise<T> {
     }
 
     /**
-     `tap` allows you to “tap” into a promise chain and inspect its result.
+     Allows you to “tap” into a promise chain and inspect its result.
      
      The function you provide cannot mutate the chain.
  
-         NSURLSession.GET(/*…*/).tap { result in
+         URLSession.GET(/*…*/).tap { result in
              print(result)
          }
 
@@ -332,6 +383,9 @@ open class Promise<T> {
     @available(*, unavailable, renamed: "catch")
     public func report(policy: CatchPolicy = .allErrors, execute body: (Error) -> Void) { fatalError() }
 
+    @available(*, unavailable, renamed: "init(value:)")
+    public init(_ value: T) { fatalError() }
+
 //MARK: disallow `Promise<Error>`
 
     @available(*, unavailable, message: "cannot instantiate Promise<Error>")
@@ -368,25 +422,74 @@ extension Promise: CustomStringConvertible {
 
  Compare:
 
-     NSURLSession.GET(url1).then {
-         NSURLSession.GET(url2)
+     URLSession.GET(url1).then {
+         URLSession.GET(url2)
      }.then {
-         NSURLSession.GET(url3)
+         URLSession.GET(url3)
      }
 
  With:
 
      firstly {
-         NSURLSession.GET(url1)
+         URLSession.GET(url1)
      }.then {
-         NSURLSession.GET(url2)
+         URLSession.GET(url2)
      }.then {
-         NSURLSession.GET(url3)
+         URLSession.GET(url3)
      }
  */
 public func firstly<T>(execute body: () throws -> Promise<T>) -> Promise<T> {
+    return firstly(execute: body) { $0 }
+}
+
+/**
+ Judicious use of `firstly` *may* make chains more readable.
+ Firstly allows to return tuple of promises
+
+ Compare:
+
+     when(fulfilled: URLSession.GET(url1), URLSession.GET(url2)).then {
+         URLSession.GET(url3)
+     }.then {
+         URLSession.GET(url4)
+     }
+
+ With:
+
+     firstly {
+         (URLSession.GET(url1), URLSession.GET(url2))
+     }.then { _, _ in
+         URLSession.GET(url2)
+     }.then {
+         URLSession.GET(url3)
+     }
+
+ - Note: At maximum 5 promises may be returned in a tuple
+ - Note: If *any* of the tuple-provided promises reject, the returned promise is immediately rejected with that error.
+ */
+public func firstly<T, U>(execute body: () throws -> (Promise<T>, Promise<U>)) -> Promise<(T, U)> {
+    return firstly(execute: body) { when(fulfilled: $0.0, $0.1) }
+}
+
+/// Firstly allows to return tuple of promises
+public func firstly<T, U, V>(execute body: () throws -> (Promise<T>, Promise<U>, Promise<V>)) -> Promise<(T, U, V)> {
+    return firstly(execute: body) { when(fulfilled: $0.0, $0.1, $0.2) }
+}
+
+/// Firstly allows to return tuple of promises
+public func firstly<T, U, V, W>(execute body: () throws -> (Promise<T>, Promise<U>, Promise<V>, Promise<W>)) -> Promise<(T, U, V, W)> {
+    return firstly(execute: body) { when(fulfilled: $0.0, $0.1, $0.2, $0.3) }
+}
+
+/// Firstly allows to return tuple of promises
+public func firstly<T, U, V, W, X>(execute body: () throws -> (Promise<T>, Promise<U>, Promise<V>, Promise<W>, Promise<X>)) -> Promise<(T, U, V, W, X)> {
+    return firstly(execute: body) { when(fulfilled: $0.0, $0.1, $0.2, $0.3, $0.4) }
+}
+
+/// utility function to serve `firstly` implementations with `body` returning tuple of promises
+fileprivate func firstly<U, V>(execute body: () throws -> V, when: (V) -> Promise<U>) -> Promise<U> {
     do {
-        return try body()
+        return when(try body())
     } catch {
         return Promise(error: error)
     }
@@ -398,6 +501,9 @@ public func firstly<T: Error>(execute body: () throws -> T) -> Promise<T> { fata
 @available(*, unavailable, message: "use DispatchQueue.promise")
 public func firstly<T>(on: DispatchQueue, execute body: () throws -> Promise<T>) -> Promise<T> { fatalError() }
 
+/**
+ - SeeAlso: `DispatchQueue.promise(group:qos:flags:execute:)`
+ */
 @available(*, deprecated: 4.0, renamed: "DispatchQueue.promise")
 public func dispatch_promise<T>(_ on: DispatchQueue, _ body: @escaping () throws -> T) -> Promise<T> {
     return Promise(value: ()).then(on: on, execute: body)
@@ -406,7 +512,7 @@ public func dispatch_promise<T>(_ on: DispatchQueue, _ body: @escaping () throws
 
 /**
  The underlying resolved state of a promise.
- - remark: Same as `Resolution<T>` but without the associated `ErrorConsumptionToken`.
+ - Remark: Same as `Resolution<T>` but without the associated `ErrorConsumptionToken`.
 */
 public enum Result<T> {
     /// Fulfillment
@@ -422,21 +528,101 @@ public enum Result<T> {
             self = .rejected(error)
         }
     }
+
+    /**
+     - Returns: `true` if the result is `fulfilled` or `false` if it is `rejected`.
+     */
+    public var boolValue: Bool {
+        switch self {
+        case .fulfilled:
+            return true
+        case .rejected:
+            return false
+        }
+    }
 }
 
+/**
+ An object produced by `Promise.joint()`, along with a promise to which it is bound.
 
+ Joining with a promise via `Promise.join(_:)` will pipe the resolution of that promise to
+ the joint's bound promise.
+
+ - SeeAlso: `Promise.joint()`
+ - SeeAlso: `Promise.join(_:)`
+ */
 public class PMKJoint<T> {
     fileprivate var resolve: ((Resolution<T>) -> Void)!
 }
 
 extension Promise {
-    public final class func joint() -> (Promise<T>, (PMKJoint<T>)) {
+    /**
+     Provides a safe way to instantiate a `Promise` and resolve it later via its joint and another
+     promise.
+
+         class Engine {
+            static func make() -> Promise<Engine> {
+                let (enginePromise, joint) = Promise<Engine>.joint()
+                let cylinder: Cylinder = Cylinder(explodeAction: {
+
+                    // We *could* use an IUO, but there are no guarantees about when
+                    // this callback will be called. Having an actual promise is safe.
+
+                    enginePromise.then { engine in
+                        engine.checkOilPressure()
+                    }
+                })
+
+                firstly {
+                    Ignition.default.start()
+                }.then { plugs in
+                    Engine(cylinders: [cylinder], sparkPlugs: plugs)
+                }.join(joint)
+
+                return enginePromise
+            }
+         }
+
+     - Returns: A new promise and its joint.
+     - SeeAlso: `Promise.join(_:)`
+     */
+    public final class func joint() -> (Promise<T>, PMKJoint<T>) {
         let pipe = PMKJoint<T>()
         let promise = Promise(sealant: { pipe.resolve = $0 })
         return (promise, pipe)
     }
 
+    /**
+     Pipes the value of this promise to the promise created with the joint.
+
+     - Parameter joint: The joint on which to join.
+     - SeeAlso: `Promise.joint()`
+     */
     public func join(_ joint: PMKJoint<T>) {
         state.pipe(joint.resolve)
+    }
+}
+
+
+extension Promise where T: Collection {
+    /**
+     Transforms a `Promise` where `T` is a `Collection` into a `Promise<[U]>`
+
+         URLSession.shared.dataTask(url: /*…*/).asArray().map { result in
+             return download(result)
+         }.then { images in
+             // images is `[UIImage]`
+         }
+
+     - Parameter on: The queue to which the provided closure dispatches.
+     - Parameter transform: The closure that executes when this promise resolves.
+     - Returns: A new promise, resolved with this promise’s resolution.
+     */
+    public func map<U>(on: DispatchQueue = .default, transform: @escaping (T.Iterator.Element) throws -> Promise<U>) -> Promise<[U]> {
+        return Promise<[U]> { resolve in
+            return state.then(on: zalgo, else: resolve) { tt in
+                when(fulfilled: try tt.map(transform)).state.pipe(resolve)
+            }
+        }
     }
 }

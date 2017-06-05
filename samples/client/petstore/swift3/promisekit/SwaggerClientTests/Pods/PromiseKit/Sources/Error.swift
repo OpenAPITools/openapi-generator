@@ -5,19 +5,19 @@ public enum PMKError: Error {
      The ErrorType for a rejected `join`.
      - Parameter 0: The promises passed to this `join` that did not *all* fulfill.
      - Note: The array is untyped because Swift generics are fussy with enums.
-    */
+     */
     case join([AnyObject])
 
     /**
      The completionHandler with form (T?, ErrorType?) was called with (nil, nil)
      This is invalid as per Cocoa/Apple calling conventions.
-    */
+     */
     case invalidCallingConvention
 
     /**
      A handler returned its own promise. 99% of the time, this is likely a 
      programming error. It is also invalid per Promises/A+.
-    */
+     */
     case returnedSelf
 
     /** `when()` was called with a concurrency of <= 0 */
@@ -27,29 +27,29 @@ public enum PMKError: Error {
     case castError(Any.Type)
 }
 
-public enum URLError: Error {
+public enum PMKURLError: Error {
     /**
      The URLRequest succeeded but a valid UIImage could not be decoded from
      the data that was received.
-    */
+     */
     case invalidImageData(URLRequest, Data)
 
     /**
      The HTTP request returned a non-200 status code.
-    */
+     */
     case badResponse(URLRequest, Data?, URLResponse?)
 
     /**
      The data could not be decoded using the encoding specified by the HTTP
      response headers.
-    */
+     */
     case stringEncoding(URLRequest, Data, URLResponse)
 
     /**
-     Usually the `NSURLResponse` is actually an `NSHTTPURLResponse`, if so you
+     Usually the `URLResponse` is actually an `HTTPURLResponse`, if so you
      can access it using this property. Since it is returned as an unwrapped
      optional: be sure.
-    */
+     */
     public var NSHTTPURLResponse: Foundation.HTTPURLResponse! {
         switch self {
         case .invalidImageData:
@@ -58,6 +58,21 @@ public enum URLError: Error {
             return rsp as! Foundation.HTTPURLResponse
         case .stringEncoding(_, _, let rsp):
             return rsp as! Foundation.HTTPURLResponse
+        }
+    }
+}
+
+extension PMKURLError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .badResponse(rq, data, rsp):
+            if let data = data, let str = String(data: data, encoding: .utf8), let rsp = rsp {
+                return "PromiseKit: badResponse: \(rq): \(rsp)\n\(str)"
+            } else {
+                fallthrough
+            }
+        default:
+            return "\(self)"
         }
     }
 }
@@ -146,7 +161,11 @@ class ErrorConsumptionToken {
 
     deinit {
         if !consumed {
+#if os(Linux)
+            PMKUnhandledErrorHandler(error)
+#else
             PMKUnhandledErrorHandler(error as NSError)
+#endif
         }
     }
 }

@@ -40,7 +40,7 @@ open class Fake_classname_tags123API: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 

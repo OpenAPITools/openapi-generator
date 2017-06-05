@@ -374,4 +374,54 @@ if (enumQueryDouble != null)
 
     apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
+  /**
+   * test json serialization of form data
+   * 
+   * @param param field1 (required)
+   * @param param2 field2 (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testJsonFormData(String param, String param2) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'param' is set
+    if (param == null) {
+      throw new ApiException(400, "Missing the required parameter 'param' when calling testJsonFormData");
+    }
+    
+    // verify the required parameter 'param2' is set
+    if (param2 == null) {
+      throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/jsonFormData";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    if (param != null)
+      localVarFormParams.put("param", param);
+if (param2 != null)
+      localVarFormParams.put("param2", param2);
+
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
 }

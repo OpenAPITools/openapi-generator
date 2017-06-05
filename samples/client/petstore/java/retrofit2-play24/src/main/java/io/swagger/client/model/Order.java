@@ -56,12 +56,12 @@ public class Order {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
     }

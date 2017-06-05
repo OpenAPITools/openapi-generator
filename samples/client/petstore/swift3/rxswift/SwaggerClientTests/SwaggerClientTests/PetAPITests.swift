@@ -59,7 +59,7 @@ class PetAPITests: XCTestCase {
     func test3DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")
         PetAPI.deletePet(petId: 1000).subscribe(onNext: {
-//            expectation.fulfill()
+                expectation.fulfill()
             }, onError: { errorType in
                 // The server gives us no data back so alamofire parsing fails - at least
                 // verify that is the error we get here

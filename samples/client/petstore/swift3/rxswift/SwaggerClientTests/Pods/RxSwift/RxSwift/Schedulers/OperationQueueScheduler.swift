@@ -1,26 +1,24 @@
 //
 //  OperationQueueScheduler.swift
-//  Rx
+//  RxSwift
 //
 //  Created by Krunoslav Zaher on 4/4/15.
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
+import class Foundation.OperationQueue
+import class Foundation.BlockOperation
+import Dispatch
 
-/**
-Abstracts the work that needs to be performed on a specific `NSOperationQueue`.
-
-This scheduler is suitable for cases when there is some bigger chunk of work that needs to be performed in background and you want to fine tune concurrent processing using `maxConcurrentOperationCount`.
-*/
+/// Abstracts the work that needs to be performed on a specific `NSOperationQueue`.
+///
+/// This scheduler is suitable for cases when there is some bigger chunk of work that needs to be performed in background and you want to fine tune concurrent processing using `maxConcurrentOperationCount`.
 public class OperationQueueScheduler: ImmediateSchedulerType {
     public let operationQueue: OperationQueue
     
-    /**
-    Constructs new instance of `OperationQueueScheduler` that performs work on `operationQueue`.
-    
-    - parameter operationQueue: Operation queue targeted to perform work on.
-    */
+    /// Constructs new instance of `OperationQueueScheduler` that performs work on `operationQueue`.
+    ///
+    /// - parameter operationQueue: Operation queue targeted to perform work on.
     public init(operationQueue: OperationQueue) {
         self.operationQueue = operationQueue
     }
@@ -33,25 +31,20 @@ public class OperationQueueScheduler: ImmediateSchedulerType {
     - returns: The disposable object used to cancel the scheduled action (best effort).
     */
     public func schedule<StateType>(_ state: StateType, action: @escaping (StateType) -> Disposable) -> Disposable {
-        
-        let compositeDisposable = CompositeDisposable()
-        
-        weak var compositeDisposableWeak = compositeDisposable
-        
+        let cancel = SingleAssignmentDisposable()
+
         let operation = BlockOperation {
-            if compositeDisposableWeak?.isDisposed ?? false {
+            if cancel.isDisposed {
                 return
             }
-            
-            let disposable = action(state)
-            let _ = compositeDisposableWeak?.insert(disposable)
+
+
+            cancel.setDisposable(action(state))
         }
 
         self.operationQueue.addOperation(operation)
         
-        let _ = compositeDisposable.insert(Disposables.create(with: operation.cancel))
-
-        return compositeDisposable
+        return cancel
     }
 
 }

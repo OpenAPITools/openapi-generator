@@ -32,7 +32,7 @@ describe 'FormatTest' do
   end
 
   describe 'test an instance of FormatTest' do
-    it 'should create an instact of FormatTest' do
+    it 'should create an instance of FormatTest' do
       expect(@instance).to be_instance_of(Petstore::FormatTest)
     end
   end

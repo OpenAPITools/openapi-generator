@@ -27,7 +27,7 @@ describe 'OuterBoolean' do
   end
 
   describe 'test an instance of OuterBoolean' do
-    it 'should create an instact of OuterBoolean' do
+    it 'should create an instance of OuterBoolean' do
       expect(@instance).to be_instance_of(Petstore::OuterBoolean)
     end
   end
