@@ -40,7 +40,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -99,7 +99,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -171,7 +171,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -277,7 +277,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -383,7 +383,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -487,7 +487,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -548,7 +548,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -618,7 +618,7 @@ open class PetAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 

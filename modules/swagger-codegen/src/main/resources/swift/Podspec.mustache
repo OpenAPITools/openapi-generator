@@ -27,10 +27,10 @@ Pod::Spec.new do |s|
   {{/podDocumentationURL}}
   s.source_files = '{{projectName}}/Classes/Swaggers/**/*.swift'
   {{#usePromiseKit}}
-  s.dependency 'PromiseKit', '~> 3.1.1'
+  s.dependency 'PromiseKit', '~> 3.5.3'
   {{/usePromiseKit}}
   {{#useRxSwift}}
-  s.dependency 'RxSwift', '~> 2.0'
+  s.dependency 'RxSwift', '~> 2.6.1'
   {{/useRxSwift}}
-  s.dependency 'Alamofire', '~> 3.4.1'
+  s.dependency 'Alamofire', '~> 3.5.1'
 end

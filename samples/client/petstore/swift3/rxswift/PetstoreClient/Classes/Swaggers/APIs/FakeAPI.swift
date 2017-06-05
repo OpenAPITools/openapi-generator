@@ -38,7 +38,7 @@ open class FakeAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -90,7 +90,7 @@ open class FakeAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -146,7 +146,7 @@ open class FakeAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -198,7 +198,7 @@ open class FakeAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -252,7 +252,7 @@ open class FakeAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -335,7 +335,7 @@ open class FakeAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
@@ -504,7 +504,7 @@ open class FakeAPI: APIBase {
                 }
                 observer.on(.completed)
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
