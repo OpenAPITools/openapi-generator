@@ -31,7 +31,7 @@ describe 'PetApi' do
   end
 
   describe 'test an instance of PetApi' do
-    it 'should create an instact of PetApi' do
+    it 'should create an instance of PetApi' do
       expect(@instance).to be_instance_of(Petstore::PetApi)
     end
   end

@@ -32,7 +32,7 @@ describe 'EnumClass' do
   end
 
   describe 'test an instance of EnumClass' do
-    it 'should create an instact of EnumClass' do
+    it 'should create an instance of EnumClass' do
       expect(@instance).to be_instance_of(Petstore::EnumClass)
     end
   end
