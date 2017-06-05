@@ -39,7 +39,7 @@ describe 'ArrayOfArrayOfNumberOnly' do
   end
 
   describe 'test an instance of ArrayOfArrayOfNumberOnly' do
-    it 'should create an instact of ArrayOfArrayOfNumberOnly' do
+    it 'should create an instance of ArrayOfArrayOfNumberOnly' do
       expect(@instance).to be_instance_of(Petstore::ArrayOfArrayOfNumberOnly)
     end
   end
