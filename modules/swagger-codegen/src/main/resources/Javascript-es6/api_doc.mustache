@@ -22,7 +22,7 @@ Method | HTTP request | Description
 ```javascript
 import {{{moduleName}}} from '{{{projectName}}}';
 {{#hasAuthMethods}}
-let defaultClient = {{{moduleName}}}.ApiClient.default;
+let defaultClient = {{{moduleName}}}.ApiClient.instance;
 {{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 let {{{name}}} = defaultClient.authentications['{{{name}}}'];
