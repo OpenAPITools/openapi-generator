@@ -576,10 +576,10 @@ export default class ApiClient {
             }
         }
     };
-
-    {{#emitJSDoc}}/**
-    * The default API client implementation.
-    * @type {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient}
-    */{{/emitJSDoc}}
-    static instance = new ApiClient();
 }
+
+{{#emitJSDoc}}/**
+* The default API client implementation.
+* @type {module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}ApiClient}
+*/{{/emitJSDoc}}
+ApiClient.instance = new ApiClient();
