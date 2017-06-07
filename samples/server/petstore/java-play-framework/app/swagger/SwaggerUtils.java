@@ -7,10 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SwaggerUtils {
 
@@ -20,8 +17,8 @@ public class SwaggerUtils {
     public @interface ApiAction {
     }
 
-    public static Map<String, String> parameterToPairs(String collectionFormat, String name, Object value){
-        Map<String, String> params = new HashMap<>();
+    public static List<String> parametersToList(String collectionFormat, String name, Object value){
+        List<String> params = new ArrayList<>();
 
         // preconditions
         if (name == null || name.isEmpty() || value == null) return params;
@@ -30,7 +27,7 @@ public class SwaggerUtils {
         if (value instanceof Collection) {
             valueCollection = (Collection) value;
         } else {
-            params.put(name, parameterToString(value));
+            params.add(parameterToString(value));
             return params;
         }
 
@@ -44,7 +41,7 @@ public class SwaggerUtils {
         // create the params based on the collection format
         if (collectionFormat.equals("multi")) {
             for (Object item : valueCollection) {
-                params.put(name, parameterToString(item));
+                params.add(parameterToString(item));
             }
 
             return params;
@@ -68,7 +65,7 @@ public class SwaggerUtils {
             sb.append(parameterToString(item));
         }
 
-        params.put(name, sb.substring(1));
+        params.add(sb.substring(1));
 
         return params;
     }
