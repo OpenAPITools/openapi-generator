@@ -122,7 +122,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
                 web::json::value body_data = web::json::value::object();
                 for (auto& kvp : formParams)
                 {
-                    body_data[U(kvp.first)] = ModelBase::toJson(kvp.second);
+                    body_data[kvp.first] = ModelBase::toJson(kvp.second);
                 }
                 request.set_body(body_data);
             }
