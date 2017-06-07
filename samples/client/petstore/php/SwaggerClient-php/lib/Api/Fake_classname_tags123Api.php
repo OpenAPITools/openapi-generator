@@ -109,6 +109,126 @@ class Fake_classname_tags123Api
      */
     public function testClassnameWithHttpInfo($body)
     {
+        $returnType = '\Swagger\Client\Model\Client';
+        $request = $this->testClassnameRequest($body);
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Client', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation testClassnameAsync
+     *
+     * To test class name in snake case
+     *
+     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testClassnameAsync($body)
+    {
+        return $this->testClassnameAsyncWithHttpInfo($body)->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation testClassnameAsyncWithHttpInfo
+     *
+     * To test class name in snake case
+     *
+     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testClassnameAsyncWithHttpInfo($body)
+    {
+        $returnType = '\Swagger\Client\Model\Client';
+        $request = $this->testClassnameRequest($body);
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation 'testClassname'
+     *
+     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function testClassnameRequest($body)
+    {
         // verify the required parameter 'body' is set
         if ($body === null) {
             throw new \InvalidArgumentException('Missing the required parameter $body when calling testClassname');
@@ -120,7 +240,6 @@ class Fake_classname_tags123Api
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-        $returnType = '\Swagger\Client\Model\Client';
 
 
 
@@ -179,60 +298,12 @@ class Fake_classname_tags123Api
             $headers
         );
 
-        $request = new Request(
+        return new Request(
             'PATCH',
             $url,
             $headers,
             $httpBody
         );
-
-        try {
-
-            try {
-                $response = $this->client->send($request);
-            } catch (RequestException $e) {
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
-                );
-            }
-
-            $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    "[$statusCode] Error connecting to the API ($url)",
-                    $statusCode,
-                    $response->getHeaders(),
-                    $response->getBody()
-                );
-            }
-
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Client', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-            throw $e;
-        }
     }
+
 }

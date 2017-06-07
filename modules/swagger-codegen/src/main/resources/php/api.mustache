@@ -116,6 +116,154 @@ use {{invokerPackage}}\ObjectSerializer;
      */
     public function {{operationId}}WithHttpInfo({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
+        $returnType = '{{returnType}}';
+        $request = $this->{{operationId}}Request({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+        try {
+
+            try {
+                $response = $this->client->send($request);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            {{#returnType}}
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+            {{/returnType}}
+            {{^returnType}}
+            return [null, $statusCode, $response->getHeaders()];
+            {{/returnType}}
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+        {{#responses}}
+            {{#dataType}}
+                {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            {{/dataType}}
+        {{/responses}}
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation {{{operationId}}}Async
+     *
+     * {{{summary}}}
+     *
+{{#description}}
+     * {{.}}
+     *
+{{/description}}
+{{#allParams}}
+     * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function {{operationId}}Async({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    {
+        return $this->{{operationId}}AsyncWithHttpInfo({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})->then(function ($response) {
+            return $response[0];
+        });
+    }
+
+    /**
+     * Operation {{{operationId}}}AsyncWithHttpInfo
+     *
+     * {{{summary}}}
+     *
+{{#description}}
+     * {{.}}
+     *
+{{/description}}
+{{#allParams}}
+     * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function {{operationId}}AsyncWithHttpInfo({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    {
+        $returnType = '{{returnType}}';
+        $request = $this->{{operationId}}Request({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
+            {{#returnType}}
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+            {{/returnType}}
+            {{^returnType}}
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+            {{/returnType}}
+        }, function ($exception) {
+            $response = $exception->getResponse();
+            $statusCode = $response->getStatusCode();
+            throw new ApiException(
+                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
+                $statusCode,
+                $response->getHeaders(),
+                $response->getBody()
+            );
+        });
+    }
+
+    /**
+     * Create request for operation '{{{operationId}}}'
+     *
+{{#allParams}}
+     * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function {{operationId}}Request({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    {
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set
@@ -169,7 +317,6 @@ use {{invokerPackage}}\ObjectSerializer;
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
-        $returnType = '{{returnType}}';
 
         {{#queryParams}}
         // query params
@@ -296,71 +443,14 @@ use {{invokerPackage}}\ObjectSerializer;
             $headers
         );
 
-        $request = new Request(
+        return new Request(
             '{{httpMethod}}',
             $url,
             $headers,
             $httpBody
         );
-
-        try {
-
-            try {
-                $response = $this->client->send($request);
-            } catch (RequestException $e) {
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null
-                );
-            }
-
-            $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    "[$statusCode] Error connecting to the API ($url)",
-                    $statusCode,
-                    $response->getHeaders(),
-                    $response->getBody()
-                );
-            }
-
-            {{#returnType}}
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-            {{/returnType}}
-            {{^returnType}}
-            return [null, $statusCode, $response->getHeaders()];
-            {{/returnType}}
-
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-        {{#responses}}
-            {{#dataType}}
-                {{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '{{dataType}}', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            {{/dataType}}
-        {{/responses}}
-            }
-            throw $e;
-        }
     }
+
     {{/operation}}
 }
 {{/operations}}
