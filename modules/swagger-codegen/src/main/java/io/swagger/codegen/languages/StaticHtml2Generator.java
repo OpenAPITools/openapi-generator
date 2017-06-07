@@ -10,6 +10,8 @@ import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Info;
+import org.yaml.snakeyaml.error.Mark;
+import io.swagger.codegen.utils.Markdown;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
@@ -153,6 +155,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         additionalProperties.put("jsProjectName", jsProjectName);
         additionalProperties.put("jsModuleName", jsModuleName);
+
+        preparHtmlForGlobalDescription(swagger);
     }
 
     @Override
@@ -195,6 +199,21 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         return op;
     }
 
+    /**
+     * Parse Markdown to HTML for the main "Description" attribute
+     *
+     * @param swagger The base object containing the global description through "Info" class
+     * @return Void
+     */
+    private void preparHtmlForGlobalDescription(Swagger swagger) {
+        String currentDescription = swagger.getInfo().getDescription();
+        if (currentDescription != null && !currentDescription.isEmpty()) {
+            Markdown markInstance = new Markdown();
+            swagger.getInfo().setDescription( markInstance.toHtml(currentDescription) );
+        } else {
+            LOGGER.error("Swagger object description is empty [" + swagger.getInfo().getTitle() + "]");
+        }
+    }
 
     private String sanitizePath(String p) {
         //prefer replace a ', instead of a fuLL URL encode for readability
