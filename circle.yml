@@ -7,6 +7,9 @@ machine:
   # Override /etc/hosts
   hosts:
     petstore.swagger.io: 127.0.0.1
+  environment:
+    DOCKER_GENERATOR_IMAGE_NAME: swaggerapi/swagger-generator
+    DOCKER_CODEGEN_CLI_IMAGE_NAME: swaggerapi/swagger-codegen-cli
 
 dependencies:
   cache_directories:
