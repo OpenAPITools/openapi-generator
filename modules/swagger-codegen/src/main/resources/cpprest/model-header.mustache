@@ -8,8 +8,10 @@
 #ifndef {{classname}}_H_
 #define {{classname}}_H_
 
+{{^parent}}
 {{{defaultInclude}}}
 #include "ModelBase.h"
+{{/parent}}
 
 {{#imports}}{{{this}}}
 {{/imports}}
@@ -22,7 +24,7 @@ namespace {{this}} {
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public ModelBase
+    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();
@@ -43,6 +45,7 @@ public:
     /// {{classname}} members
 
     {{#vars}}
+    {{^isInherited}}
     /// <summary>
     /// {{description}}
     /// </summary>
@@ -52,12 +55,16 @@ public:
     {{/isNotContainer}}{{^required}}bool {{baseName}}IsSet() const;
     void unset{{name}}();
     {{/required}}
+    {{/isInherited}}
     {{/vars}}
 
 protected:
-    {{#vars}}{{{datatype}}} m_{{name}};
+    {{#vars}}
+    {{^isInherited}}
+    {{{datatype}}} m_{{name}};
     {{^required}}bool m_{{name}}IsSet;
     {{/required}}
+    {{/isInherited}}
     {{/vars}}
 };
 
