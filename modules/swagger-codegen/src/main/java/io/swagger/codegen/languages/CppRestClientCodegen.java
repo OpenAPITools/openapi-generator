@@ -1,7 +1,10 @@
 package io.swagger.codegen.languages;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import io.swagger.codegen.*;
 import io.swagger.codegen.examples.ExampleGenerator;
+import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Response;
@@ -11,6 +14,8 @@ import io.swagger.models.properties.*;
 import java.util.*;
 import java.io.File;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String DECLSPEC = "declspec";
@@ -19,6 +24,9 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
     protected String defaultInclude = "";
+
+    private final Set<String> parentModels = new HashSet<>();
+    private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
 
     /**
      * Configures the type of generator.
@@ -236,6 +244,13 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
         if (isFileProperty(property)) {
             property.vendorExtensions.put("x-codegen-file", true);
         }
+
+        if (!isNullOrEmpty(model.parent)) {
+            parentModels.add(model.parent);
+            if (!childrenByParent.containsEntry(model.parent, model)) {
+                childrenByParent.put(model.parent, model);
+            }
+        }
     }
 
     protected boolean isFileProperty(CodegenProperty property) {
@@ -395,6 +410,40 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
+
+        final Map<String, Object> processed =  super.postProcessAllModels(models);
+        postProcessParentModels(models);
+        return processed;
+    }
+
+    private void postProcessParentModels(final Map<String, Object> models) {
+        for (final String parent : parentModels) {
+            final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
+            final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
+            for (final CodegenModel child : childrenModels) {
+                processParentPropertiesInChildModel(parentModel, child);
+            }
+        }
+    }
+
+    /**
+     * Sets the child property's isInherited flag to true if it is an inherited property
+     */
+    private void processParentPropertiesInChildModel(final CodegenModel parent, final CodegenModel child) {
+        final Map<String, CodegenProperty> childPropertiesByName = new HashMap<>(child.vars.size());
+        for (final CodegenProperty childProperty : child.vars) {
+            childPropertiesByName.put(childProperty.name, childProperty);
+        }
+        for (final CodegenProperty parentProperty : parent.vars) {
+            final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
+            if (duplicatedByParent != null) {
+                duplicatedByParent.isInherited = true;
+            }
+        }
     }
 
 }

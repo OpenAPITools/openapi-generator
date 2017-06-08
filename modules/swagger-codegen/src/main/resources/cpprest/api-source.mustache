@@ -325,7 +325,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
                 {{#vendorExtensions.x-codegen-response.items.isPrimitiveType}}result[item.first] = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(item.second);
                 {{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.isString}}result[item.first] = ModelBase::stringFromJson(item.second);
                 {{/vendorExtensions.x-codegen-response.items.isString}}{{^vendorExtensions.x-codegen-response.items.isString}}{{{vendorExtensions.x-codegen-response.items.datatype}}} itemObj({{{vendorExtensions.x-codegen-response.items.defaultValue}}});
-                itemObj->fromJson(item);
+                itemObj->fromJson(item.second);
                 result[item.first] = itemObj;
                 {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
             }
