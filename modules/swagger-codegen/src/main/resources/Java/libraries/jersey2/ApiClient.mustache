@@ -443,7 +443,7 @@ public class ApiClient {
    */
   public boolean isJsonMime(String mime) {
     String jsonMime = "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
-    return mime != null && mime.matches(jsonMime);
+    return mime != null && (mime.matches(jsonMime) || mime.equalsIgnoreCase("application/json-patch+json"));
   }
 
   /**
