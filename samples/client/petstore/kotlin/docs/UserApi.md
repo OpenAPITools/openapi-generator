@@ -75,7 +75,7 @@ Creates list of users with given input array
 //import io.swagger.client.models.*
 
 val apiInstance = UserApi()
-val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
+val body : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
 try {
     apiInstance.createUsersWithArrayInput(body)
 } catch (e: ClientException) {
@@ -91,7 +91,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
+ **body** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -121,7 +121,7 @@ Creates list of users with given input array
 //import io.swagger.client.models.*
 
 val apiInstance = UserApi()
-val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
+val body : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
 try {
     apiInstance.createUsersWithListInput(body)
 } catch (e: ClientException) {
@@ -137,7 +137,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
+ **body** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 

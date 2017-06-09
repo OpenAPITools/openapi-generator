@@ -60,7 +60,11 @@ open class ApiClient(val baseUrl: String) {
         var urlBuilder = httpUrl.newBuilder()
                 .addPathSegments(requestConfig.path.trimStart('/'))
 
-        requestConfig.query.forEach { k, v -> urlBuilder = urlBuilder.addQueryParameter(k,v) }
+        requestConfig.query.forEach { k, v ->
+            v.forEach { queryValue ->
+                urlBuilder = urlBuilder.addQueryParameter(k,queryValue)
+            }
+        }
 
         val url = urlBuilder.build()
         val headers = requestConfig.headers + defaultHeaders
@@ -73,6 +77,7 @@ open class ApiClient(val baseUrl: String) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
+        // TODO: support multiple contentType,accept options here.
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
         val accept = (headers[Accept] as String).substringBefore(";").toLowerCase()
 
