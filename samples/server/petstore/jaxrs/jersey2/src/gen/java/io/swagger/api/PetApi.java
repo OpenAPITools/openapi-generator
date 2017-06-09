@@ -19,6 +19,7 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -31,7 +32,28 @@ import javax.validation.constraints.*;
 @io.swagger.annotations.Api(description = "the pet API")
 
 public class PetApi  {
-   private final PetApiService delegate = PetApiServiceFactory.getPetApi();
+   private final PetApiService delegate;
+
+   public PetApi(@Context ServletConfig servletContext) {
+      PetApiService delegate = null;
+
+      if (servletContext != null) {
+         String implClass = servletContext.getInitParameter("PetApi.implementation");
+         if (implClass != null && !"".equals(implClass.trim())) {
+            try {
+               delegate = (PetApiService) Class.forName(implClass).newInstance();
+            } catch (Exception e) {
+               throw new RuntimeException(e);
+            }
+         } 
+      }
+
+      if (delegate == null) {
+         delegate = PetApiServiceFactory.getPetApi();
+      }
+
+      this.delegate = delegate;
+   }
 
     @POST
     

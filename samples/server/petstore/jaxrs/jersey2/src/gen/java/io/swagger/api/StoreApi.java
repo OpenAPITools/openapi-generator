@@ -18,6 +18,7 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -30,7 +31,28 @@ import javax.validation.constraints.*;
 @io.swagger.annotations.Api(description = "the store API")
 
 public class StoreApi  {
-   private final StoreApiService delegate = StoreApiServiceFactory.getStoreApi();
+   private final StoreApiService delegate;
+
+   public StoreApi(@Context ServletConfig servletContext) {
+      StoreApiService delegate = null;
+
+      if (servletContext != null) {
+         String implClass = servletContext.getInitParameter("StoreApi.implementation");
+         if (implClass != null && !"".equals(implClass.trim())) {
+            try {
+               delegate = (StoreApiService) Class.forName(implClass).newInstance();
+            } catch (Exception e) {
+               throw new RuntimeException(e);
+            }
+         } 
+      }
+
+      if (delegate == null) {
+         delegate = StoreApiServiceFactory.getStoreApi();
+      }
+
+      this.delegate = delegate;
+   }
 
     @DELETE
     @Path("/order/{order_id}")
