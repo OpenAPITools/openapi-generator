@@ -791,17 +791,12 @@
                 </property>
             </activation>
             <modules>
+                <!-- servers -->
+                <module>samples/server/petstore/scalatra</module>
+                <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
                 <!-- clients -->
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/promisekit/SwaggerClientTests</module>
-                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>
-                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
-                <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>
                 <!--<module>samples/client/petstore/bash</module>-->
+                <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
@@ -813,9 +808,14 @@
                 <module>samples/client/petstore/typescript-angular</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-jquery/npm</module>
-                <!-- servers -->
-                <module>samples/server/petstore/scalatra</module>
-                <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
+                <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>
             </modules>
         </profile>
     </profiles>
