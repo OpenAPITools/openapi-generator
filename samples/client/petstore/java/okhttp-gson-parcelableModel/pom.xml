@@ -194,6 +194,13 @@
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
     </dependency>
+    <!-- Needed for Parcelable support-->
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>android</artifactId>
+      <version>4.1.1.4</version>
+      <scope>provided</scope>
+    </dependency>
     <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>
