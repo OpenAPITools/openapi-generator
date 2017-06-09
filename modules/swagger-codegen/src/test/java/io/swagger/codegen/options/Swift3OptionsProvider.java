@@ -13,6 +13,7 @@ public class Swift3OptionsProvider implements OptionsProvider {
     public static final String PROJECT_NAME_VALUE = "Swagger";
     public static final String RESPONSE_AS_VALUE = "test";
     public static final String UNWRAP_REQUIRED_VALUE = "true";
+    public static final String LENIENT_TYPE_CAST_VALUE = "false";
     public static final String POD_SOURCE_VALUE = "{ :git => 'git@github.com:swagger-api/swagger-mustache.git'," +
             " :tag => 'v1.0.0-SNAPSHOT' }";
     public static final String POD_VERSION_VALUE = "v1.0.0-SNAPSHOT";
@@ -41,6 +42,7 @@ public class Swift3OptionsProvider implements OptionsProvider {
                 .put(Swift3Codegen.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .put(Swift3Codegen.RESPONSE_AS, RESPONSE_AS_VALUE)
                 .put(Swift3Codegen.UNWRAP_REQUIRED, UNWRAP_REQUIRED_VALUE)
+                .put(Swift3Codegen.LENIENT_TYPE_CAST, LENIENT_TYPE_CAST_VALUE)
                 .put(Swift3Codegen.POD_SOURCE, POD_SOURCE_VALUE)
                 .put(CodegenConstants.POD_VERSION, POD_VERSION_VALUE)
                 .put(Swift3Codegen.POD_AUTHORS, POD_AUTHORS_VALUE)

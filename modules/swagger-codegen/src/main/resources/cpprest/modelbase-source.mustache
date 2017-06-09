@@ -273,7 +273,7 @@ int32_t ModelBase::int32_tFromJson(web::json::value& val)
 }
 float ModelBase::floatFromJson(web::json::value& val)
 {
-    return val.as_double();
+    return static_cast<float>(val.as_double());
 }
 utility::string_t ModelBase::stringFromJson(web::json::value& val)
 {

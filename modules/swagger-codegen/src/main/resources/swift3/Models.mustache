@@ -140,6 +140,20 @@ class Decoders {
         if let intermediate = source as? String, let value = Data(base64Encoded: intermediate) as? T {
             return .success(value)
         }
+        {{#lenientTypeCast}}
+        if T.self is Int32.Type && source is String {
+            return (source as! NSString).intValue as! T
+        }
+        if T.self is Int64.Type && source is String {
+            return (source as! NSString).intValue as! T
+        }
+        if T.self is Bool.Type && source is String {
+            return (source as! NSString).boolValue as! T
+        }
+        if T.self is String.Type && source is NSNumber {
+            return String(describing: source) as! T
+        }
+        {{/lenientTypeCast}}
 
         let key = "\(T.self)"
         if let decoder = decoders[key], let value = decoder(source, instance) as? Decoded<T> {
