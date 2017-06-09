@@ -19,7 +19,7 @@ class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(base
     @Suppress("UNCHECKED_CAST"){{/returnType}}
     fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         val localVariableBody: kotlin.Any? = {{#hasBodyParam}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to "${{paramName}}"{{#hasMore}}, {{/hasMore}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = {{^hasQueryParams}}mapOf(){{/hasQueryParams}}{{#hasQueryParams}}mapOf({{#queryParams}}"{{paramName}}" to {{#isContainer}}{{paramName}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}){{/hasQueryParams}}
+        val localVariableQuery: MultiValueMap = {{^hasQueryParams}}mapOf(){{/hasQueryParams}}{{#hasQueryParams}}mapOf({{#queryParams}}"{{paramName}}" to {{#isContainer}}toMultiValue({{paramName}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{paramName}}"){{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/queryParams}}){{/hasQueryParams}}
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = {{^headerParams}}mapOf({{#hasFormParams}}"Content-Type" to "multipart/form-data"{{/hasFormParams}}){{/headerParams}}{{#headerParams}}mapOf("{{paramName}}" to {{#isContainer}}{{paramName}}.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}){{/headerParams}}
         val localVariableConfig = RequestConfig(
             RequestMethod.{{httpMethod}},
@@ -43,13 +43,5 @@ class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") : ApiClient(base
     }
 
     {{/operation}}
-
-    private fun collectionDelimiter(collectionFormat: kotlin.String) = when(collectionFormat) {
-        "csv" -> ","
-        "tsv" -> "\t"
-        "pipes" -> "|"
-        "ssv" -> " "
-        else -> ""
-    }
 }
 {{/operations}}

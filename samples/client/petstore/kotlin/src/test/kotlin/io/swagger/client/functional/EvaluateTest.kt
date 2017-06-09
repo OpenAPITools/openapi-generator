@@ -2,16 +2,21 @@ package io.swagger.client.functional
 
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.beGreaterThan
+import io.kotlintest.matchers.shouldEqual
 import io.kotlintest.specs.ShouldSpec
 import io.swagger.client.apis.PetApi
+import io.swagger.client.models.Pet
 
 class EvaluateTest : ShouldSpec() {
     init {
         should("query against pet statuses") {
             val api = PetApi()
-            val results = api.findPetsByStatus(listOf("sold"))
+            val results = api.findPetsByStatus(arrayOf("sold"))
 
             results.size should beGreaterThan(1)
+
+            // Pet is lazily deserialized here. Need to iterate to verify all "sold" statuses.
+            results.all { it.status == Pet.Status.sold } shouldEqual true
         }
 
 // TODO: Handle default (200) response
