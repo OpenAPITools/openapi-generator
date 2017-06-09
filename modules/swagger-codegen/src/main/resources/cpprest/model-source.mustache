@@ -9,11 +9,11 @@ namespace {{this}} {
 
 {{classname}}::{{classname}}()
 {
-    {{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
+    {{#vars}}{{^isInherited}}{{#isNotContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
     {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
     {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
     {{/isDateTime}}{{/isPrimitiveType}}{{/isNotContainer}}{{^required}}m_{{name}}IsSet = false;
-    {{/required}}{{/vars}}
+    {{/required}}{{/isInherited}}{{/vars}}
 }
 
 {{classname}}::~{{classname}}()
@@ -27,9 +27,10 @@ void {{classname}}::validate()
 
 web::json::value {{classname}}::toJson() const
 {
-    web::json::value val = web::json::value::object();
+    {{#parent}}web::json::value val = this->{{{parent}}}::toJson(); {{/parent}}
+    {{^parent}}web::json::value val = web::json::value::object();{{/parent}}
 
-    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
+    {{#vars}}{{^isInherited}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
     {
         val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
     }
@@ -53,14 +54,16 @@ web::json::value {{classname}}::toJson() const
         val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
     }
     {{/required}}{{#required}}val[U("{{baseName}}")] = ModelBase::toJson(m_{{name}});
-    {{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
+    {{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/isInherited}}{{/vars}}
 
     return val;
 }
 
 void {{classname}}::fromJson(web::json::value& val)
 {
-    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(val.has_field(U("{{baseName}}")))
+    {{#parent}}this->{{{parent}}}::fromJson(val); {{/parent}}
+
+    {{#vars}}{{^isInherited}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(val.has_field(U("{{baseName}}")))
     {
         {{setter}}(ModelBase::{{baseType}}FromJson(val[U("{{baseName}}")]));
     }
@@ -111,7 +114,7 @@ void {{classname}}::fromJson(web::json::value& val)
     {{/vendorExtensions.x-codegen-file}}{{^vendorExtensions.x-codegen-file}}{{{datatype}}} new{{name}}({{{defaultValue}}});
     new{{name}}->fromJson(val[U("{{baseName}}")]);
     {{setter}}( new{{name}} );
-    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
+    {{/vendorExtensions.x-codegen-file}}{{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/isInherited}}{{/vars}}
 }
 
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
@@ -222,7 +225,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 }
 
 
-{{#vars}}{{^isNotContainer}}{{{datatype}}}& {{classname}}::{{getter}}()
+{{#vars}}{{^isInherited}}{{^isNotContainer}}{{{datatype}}}& {{classname}}::{{getter}}()
 {
     return m_{{name}};
 }
@@ -245,6 +248,7 @@ void {{classname}}::unset{{name}}()
     m_{{name}}IsSet = false;
 }
 {{/required}}
+{{/isInherited}}
 {{/vars}}
 
 {{#modelNamespaceDeclarations}}

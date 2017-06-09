@@ -12,6 +12,7 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.StringProperty;
@@ -228,34 +229,13 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
     private void postProcessParentModels(final Map<String, Object> models) {
         log.debug("Processing parents:  " + parentModels);
         for (final String parent : parentModels) {
-            final CodegenModel parentModel = modelByName(parent, models);
+            final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
             parentModel.hasChildren = true;
             final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
             for (final CodegenModel child : childrenModels) {
                 processParentPropertiesInChildModel(parentModel, child);
             }
         }
-    }
-
-    private CodegenModel modelByName(final String name, final Map<String, Object> models) {
-        final Object data = models.get(name);
-        if (data instanceof Map) {
-            final Map<?, ?> dataMap = (Map<?, ?>) data;
-            final Object dataModels = dataMap.get("models");
-            if (dataModels instanceof List) {
-                final List<?> dataModelsList = (List<?>) dataModels;
-                for (final Object entry : dataModelsList) {
-                    if (entry instanceof Map) {
-                        final Map<?, ?> entryMap = (Map<?, ?>) entry;
-                        final Object model = entryMap.get("model");
-                        if (model instanceof CodegenModel) {
-                            return (CodegenModel) model;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     private void processParentPropertiesInChildModel(final CodegenModel parent, final CodegenModel child) {

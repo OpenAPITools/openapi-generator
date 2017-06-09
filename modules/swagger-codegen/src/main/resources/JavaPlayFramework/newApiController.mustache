@@ -41,9 +41,6 @@ public class {{classname}}Controller extends Controller {
     {{#wrapCalls}}@ApiAction{{/wrapCalls}}
     public Result {{operationId}}({{#pathParams}}{{>pathParams}}{{#hasMore}},{{/hasMore}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
         {{#bodyParams}}
-        {{#collectionFormat}}
-        //TODO: Support this later
-        {{/collectionFormat}}
         {{^collectionFormat}}
         JsonNode node{{paramName}} = request().body().asJson();
         {{{dataType}}} {{paramName}};
@@ -59,12 +56,12 @@ public class {{classname}}Controller extends Controller {
         {{/bodyParams}}
         {{#queryParams}}
         {{#collectionFormat}}
-        //TODO: Support this later
-        //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", request().getQueryString("{{baseName}}"));
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", "{{paramName}}", request().getQueryString("{{baseName}}"));
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
-        //for (Pair pair : {{paramName}}Pair) {
-        //    {{paramName}}.add({{>conversionBegin}}pair.getValue(){{>conversionEnd}});
-        //}
+        for (String curParam : {{paramName}}List) {
+            //noinspection UseBulkOperation
+            {{paramName}}.add({{>conversionBegin}}curParam{{>conversionEnd}});
+        }
         {{/collectionFormat}}
         {{^collectionFormat}}
         String value{{paramName}} = request().getQueryString("{{paramName}}");
@@ -89,15 +86,15 @@ public class {{classname}}Controller extends Controller {
         {{/notFile}}
         {{#notFile}}
         {{#collectionFormat}}
-        //TODO: Support this later
-        //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0]);
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", "{{paramName}}", (request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0]);
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
-        //for (Pair pair : {{paramName}}Pair) {
-        //    {{paramName}}.add({{>conversionBegin}}pair.getValue(){{>conversionEnd}});
-        //}
+        for (String curParam : {{paramName}}List) {
+            //noinspection UseBulkOperation
+            {{paramName}}.add({{>conversionBegin}}curParam{{>conversionEnd}});
+        }
         {{/collectionFormat}}
         {{^collectionFormat}}
-        String value{{paramName}} = ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0];
+        String value{{paramName}} = (request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0];
         {{{dataType}}} {{paramName}};
         {{^required}}
         if (value{{paramName}} != null) {
@@ -112,12 +109,12 @@ public class {{classname}}Controller extends Controller {
         {{/formParams}}
         {{#headerParams}}
         {{#collectionFormat}}
-        //TODO: Support this later
-        //List<Pair> {{paramName}}Pair = SwaggerUtils.parameterToPairs("{{collectionFormat}}", "{{paramName}}", request().getHeader("{{baseName}}"));
-        //{{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
-        //for (Pair pair : {{paramName}}Pair) {
-        //    {{paramName}}.add({{>conversionBegin}}pair.getValue(){{>conversionEnd}});
-        //}
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", "{{paramName}}", request().getHeader("{{baseName}}"));
+        {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
+        for (String curParam : {{paramName}}List) {
+            //noinspection UseBulkOperation
+            {{paramName}}.add({{>conversionBegin}}curParam{{>conversionEnd}});
+        }
         {{/collectionFormat}}
         {{^collectionFormat}}
         String value{{paramName}} = request().getHeader("{{baseName}}");

@@ -160,9 +160,15 @@ export default class ApiClient {
     */
     {{/emitJSDoc}}
     isFileParam(param) {
-        // fs.ReadStream in Node.js (but not in runtime like browserify)
-        if (typeof window === 'undefined' && typeof require === 'function' && require('fs') && param instanceof require('fs').ReadStream) {
-            return true;
+        // fs.ReadStream in Node.js and Electron (but not in runtime like browserify)
+        if (typeof require === 'function') {
+            let fs;
+            try {
+                fs = require('fs');
+            } catch (err) {}
+            if (fs && fs.ReadStream && param instanceof fs.ReadStream) {
+                return true;
+            }
         }
 
         // Buffer in Node.js

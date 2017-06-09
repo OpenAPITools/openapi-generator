@@ -62,12 +62,12 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result findPetsByStatus() throws Exception {
-        //TODO: Support this later
-        //List<Pair> statusPair = SwaggerUtils.parameterToPairs("csv", "status", request().getQueryString("status"));
+        List<String> statusList = SwaggerUtils.parametersToList("csv", "status", request().getQueryString("status"));
         List<String> status = new ArrayList<String>();
-        //for (Pair pair : statusPair) {
-        //    status.add(pair.getValue());
-        //}
+        for (String curParam : statusList) {
+            //noinspection UseBulkOperation
+            status.add(curParam);
+        }
         List<Pet> obj = imp.findPetsByStatus(status);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -76,12 +76,12 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result findPetsByTags() throws Exception {
-        //TODO: Support this later
-        //List<Pair> tagsPair = SwaggerUtils.parameterToPairs("csv", "tags", request().getQueryString("tags"));
+        List<String> tagsList = SwaggerUtils.parametersToList("csv", "tags", request().getQueryString("tags"));
         List<String> tags = new ArrayList<String>();
-        //for (Pair pair : tagsPair) {
-        //    tags.add(pair.getValue());
-        //}
+        for (String curParam : tagsList) {
+            //noinspection UseBulkOperation
+            tags.add(curParam);
+        }
         List<Pet> obj = imp.findPetsByTags(tags);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
@@ -110,7 +110,7 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result updatePetWithForm(Long petId) throws Exception {
-        String valuename = ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
+        String valuename = (request().body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
         String name;
         if (valuename != null) {
             name = (String)valuename;
@@ -118,7 +118,7 @@ public class PetApiController extends Controller {
         } else {
             name = "";
         }
-        String valuestatus = ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
+        String valuestatus = (request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
         String status;
         if (valuestatus != null) {
             status = (String)valuestatus;
@@ -133,7 +133,7 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result uploadFile(Long petId) throws Exception {
-        String valueadditionalMetadata = ((String[]) request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
+        String valueadditionalMetadata = (request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {
             additionalMetadata = (String)valueadditionalMetadata;
