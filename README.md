@@ -742,6 +742,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [Fotition](https://www.fotition.com/)
 - [Gear Zero Network](https://www.gearzero.ca)
+- [General Electric](https://www.ge.com/)
 - [Germin8](http://www.germin8.com)
 - [GigaSpaces](http://www.gigaspaces.com)
 - [goTransverse](http://www.gotransverse.com/api)
