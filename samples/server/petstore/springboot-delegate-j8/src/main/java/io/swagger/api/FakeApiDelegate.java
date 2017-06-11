@@ -97,4 +97,13 @@ public interface FakeApiDelegate {
     return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    /**
+     * @see FakeApi#testJsonFormData
+     */
+    default ResponseEntity<Void> testJsonFormData(String param,
+        String param2) {
+    // do some magic!
+    return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
 }
