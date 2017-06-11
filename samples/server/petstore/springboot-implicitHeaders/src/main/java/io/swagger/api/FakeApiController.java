@@ -33,7 +33,7 @@ public class FakeApiController implements FakeApi {
     }
 
     public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Boolean body,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
@@ -44,7 +44,7 @@ public class FakeApiController implements FakeApi {
     }
 
     public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody OuterComposite body,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
@@ -55,7 +55,7 @@ public class FakeApiController implements FakeApi {
     }
 
     public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody BigDecimal body,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
@@ -66,7 +66,7 @@ public class FakeApiController implements FakeApi {
     }
 
     public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
@@ -77,7 +77,7 @@ public class FakeApiController implements FakeApi {
     }
 
     public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
@@ -101,7 +101,7 @@ public class FakeApiController implements FakeApi {
         @ApiParam(value = "None") @RequestPart(value="dateTime", required=false)  OffsetDateTime dateTime,
         @ApiParam(value = "None") @RequestPart(value="password", required=false)  String password,
         @ApiParam(value = "None") @RequestPart(value="callback", required=false)  String paramCallback,
-        @RequestHeader(value = "Accept", required = false) String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -112,7 +112,14 @@ public class FakeApiController implements FakeApi {
         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @RequestPart(value="enum_query_double", required=false)  Double enumQueryDouble,
-        @RequestHeader(value = "Accept", required = false) String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+        // do some magic!
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> testJsonFormData(@ApiParam(value = "field1", required=true) @RequestPart(value="param", required=true)  String param,
+        @ApiParam(value = "field2", required=true) @RequestPart(value="param2", required=true)  String param2,
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
