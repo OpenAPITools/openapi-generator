@@ -2,8 +2,6 @@ package io.swagger.client.api;
 
 import io.swagger.client.CollectionFormats.*;
 
-
-
 import retrofit2.Call;
 import retrofit2.http.*;
 
