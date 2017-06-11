@@ -18,6 +18,7 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -33,7 +34,28 @@ import javax.validation.constraints.*;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}}  {
-   private final {{classname}}Service delegate = {{classname}}ServiceFactory.get{{classname}}();
+   private final {{classname}}Service delegate;
+
+   public {{classname}}(@Context ServletConfig servletContext) {
+      {{classname}}Service delegate = null;
+
+      if (servletContext != null) {
+         String implClass = servletContext.getInitParameter("{{classname}}.implementation");
+         if (implClass != null && !"".equals(implClass.trim())) {
+            try {
+               delegate = ({{classname}}Service) Class.forName(implClass).newInstance();
+            } catch (Exception e) {
+               throw new RuntimeException(e);
+            }
+         } 
+      }
+
+      if (delegate == null) {
+         delegate = {{classname}}ServiceFactory.get{{classname}}();
+      }
+
+      this.delegate = delegate;
+   }
 
 {{#operation}}
     @{{httpMethod}}

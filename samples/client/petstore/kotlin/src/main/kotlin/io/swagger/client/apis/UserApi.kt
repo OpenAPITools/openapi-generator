@@ -25,7 +25,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun createUser(body: User) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -54,9 +54,9 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     * @param body List of user object 
     * @return void
     */
-    fun createUsersWithArrayInput(body: kotlin.collections.List<User>) : Unit {
+    fun createUsersWithArrayInput(body: kotlin.Array<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -85,9 +85,9 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     * @param body List of user object 
     * @return void
     */
-    fun createUsersWithListInput(body: kotlin.collections.List<User>) : Unit {
+    fun createUsersWithListInput(body: kotlin.Array<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.POST,
@@ -118,7 +118,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun deleteUser(username: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
@@ -150,7 +150,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     @Suppress("UNCHECKED_CAST")
     fun getUserByName(username: kotlin.String) : User {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -183,7 +183,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     @Suppress("UNCHECKED_CAST")
     fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("username" to username, "password" to password)
+        val localVariableQuery: MultiValueMap = mapOf("username" to listOf("$username"), "password" to listOf("$password"))
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -213,7 +213,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun logoutUser() : Unit {
         val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -245,7 +245,7 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     */
     fun updateUser(username: kotlin.String, body: User) : Unit {
         val localVariableBody: kotlin.Any? = body
-        val localVariableQuery: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.PUT,
@@ -268,12 +268,4 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
         }
     }
 
-
-    private fun collectionDelimiter(collectionFormat: kotlin.String) = when(collectionFormat) {
-        "csv" -> ","
-        "tsv" -> "\t"
-        "pipes" -> "|"
-        "ssv" -> " "
-        else -> ""
-    }
 }

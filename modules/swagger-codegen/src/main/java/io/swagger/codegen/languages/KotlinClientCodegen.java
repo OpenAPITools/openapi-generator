@@ -125,16 +125,16 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("date-time", "java.time.LocalDateTime");
         typeMapping.put("date", "java.time.LocalDateTime");
         typeMapping.put("file", "java.io.File");
-        typeMapping.put("array", "kotlin.collections.List");
-        typeMapping.put("list", "kotlin.collections.List");
+        typeMapping.put("array", "kotlin.Array");
+        typeMapping.put("list", "kotlin.Array");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
         typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
         typeMapping.put("Date", "java.time.LocalDateTime");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "listOf");
-        instantiationTypes.put("list", "listOf");
+        instantiationTypes.put("array", "arrayOf");
+        instantiationTypes.put("list", "arrayOf");
         instantiationTypes.put("map", "mapOf");
 
         importMapping = new HashMap<String, String>();
@@ -241,6 +241,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
 
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiInfrastructureResponse.kt.mustache", infrastructureFolder, "ApiInfrastructureResponse.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
