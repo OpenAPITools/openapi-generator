@@ -263,9 +263,11 @@ class Decoders {
             } else {
             	return .failure(.typeMismatch(expected: "ISO date", actual: "\(source)"))
             }
-        } {{#models}}{{#model}}
+        }
 
-{{^isArrayModel}}        
+        {{#models}}
+        {{#model}}
+        {{^isArrayModel}}        
         // Decoder for {{{classname}}}
         Decoders.addDecoder(clazz: {{{classname}}}.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<{{{classname}}}> in
 {{#isEnum}}
@@ -302,12 +304,12 @@ class Decoders {
                 }
                 {{/requiredVars}}
                 let result = {{classname}}({{#requiredVars}}{{^-first}}, {{/-first}}{{name}}: {{name}}{{/requiredVars}})
-            {{#optionalVars}}
+                {{#optionalVars}}
                 switch Decoders.decodeOptional(clazz: {{#isEnum}}{{^isListContainer}}{{classname}}.{{enumName}}.self{{/isListContainer}}{{#isListContainer}}Array<{{classname}}.{{enumName}}>.self{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{datatype}}}.self{{/isEnum}}, source: sourceDictionary["{{baseName}}"] as AnyObject?) {
                 case let .success(value): instance.{{name}} = value
                 case let .failure(error): return .failure(error)
                 }
-            {{/optionalVars}}
+                {{/optionalVars}}
             {{/unwrapRequired}}
             {{^unwrapRequired}}
                 let result = instance == nil ? {{classname}}() : instance as! {{classname}}
@@ -323,7 +325,7 @@ class Decoders {
                 case let .failure(error): return .failure(error)
                 {{#isEnum}}{{#isMapContainer}}*/ default: break //TODO: handle enum map scenario{{/isMapContainer}}{{/isEnum}}
                 }
-            {{/allVars}}
+                {{/allVars}}
             {{/unwrapRequired}}
             {{#additionalPropertiesType}}
 
@@ -343,7 +345,9 @@ class Decoders {
             }
 {{/allVars.isEmpty}}
 {{/isEnum}}
-        }{{/isArrayModel}}{{/model}}
+        }
+        {{/isArrayModel}}
+        {{/model}}
         {{/models}}
     }()
 
