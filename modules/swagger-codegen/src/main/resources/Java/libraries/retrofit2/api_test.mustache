@@ -25,7 +25,8 @@ public class {{classname}}Test {
         api = new ApiClient().createService({{classname}}.class);
     }
 
-    {{#operations}}{{#operation}}
+    {{#operations}}
+    {{#operation}}
     /**
      * {{summary}}
      *
@@ -40,5 +41,6 @@ public class {{classname}}Test {
 
         // TODO: test validations
     }
-    {{/operation}}{{/operations}}
+    {{/operation}}
+    {{/operations}}
 }

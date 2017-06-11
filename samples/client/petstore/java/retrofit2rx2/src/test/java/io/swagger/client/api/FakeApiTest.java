@@ -3,8 +3,9 @@ package io.swagger.client.api;
 import io.swagger.client.ApiClient;
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import io.swagger.client.model.OuterComposite;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,54 @@ public class FakeApiTest {
         api = new ApiClient().createService(FakeApi.class);
     }
 
-    
+    /**
+     * 
+     *
+     * Test serialization of outer boolean types
+     */
+    @Test
+    public void fakeOuterBooleanSerializeTest() {
+        Boolean body = null;
+        // Boolean response = api.fakeOuterBooleanSerialize(body);
+
+        // TODO: test validations
+    }
+    /**
+     * 
+     *
+     * Test serialization of object with outer number type
+     */
+    @Test
+    public void fakeOuterCompositeSerializeTest() {
+        OuterComposite body = null;
+        // OuterComposite response = api.fakeOuterCompositeSerialize(body);
+
+        // TODO: test validations
+    }
+    /**
+     * 
+     *
+     * Test serialization of outer number types
+     */
+    @Test
+    public void fakeOuterNumberSerializeTest() {
+        BigDecimal body = null;
+        // BigDecimal response = api.fakeOuterNumberSerialize(body);
+
+        // TODO: test validations
+    }
+    /**
+     * 
+     *
+     * Test serialization of outer string types
+     */
+    @Test
+    public void fakeOuterStringSerializeTest() {
+        String body = null;
+        // String response = api.fakeOuterStringSerialize(body);
+
+        // TODO: test validations
+    }
     /**
      * To test \&quot;client\&quot; model
      *
@@ -38,7 +86,6 @@ public class FakeApiTest {
 
         // TODO: test validations
     }
-    
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
@@ -57,14 +104,13 @@ public class FakeApiTest {
         String string = null;
         byte[] binary = null;
         LocalDate date = null;
-        DateTime dateTime = null;
+        OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
         // Void response = api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 
         // TODO: test validations
     }
-    
     /**
      * To test enum parameters
      *
@@ -84,5 +130,17 @@ public class FakeApiTest {
 
         // TODO: test validations
     }
-    
+    /**
+     * test json serialization of form data
+     *
+     * 
+     */
+    @Test
+    public void testJsonFormDataTest() {
+        String param = null;
+        String param2 = null;
+        // Void response = api.testJsonFormData(param, param2);
+
+        // TODO: test validations
+    }
 }
