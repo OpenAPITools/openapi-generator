@@ -71,22 +71,12 @@ public class FakeApiExample {
     public static void main(String[] args) {
         
         FakeApi apiInstance = new FakeApi();
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
-        Double _double = 3.4D; // Double | None
-        String string = "string_example"; // String | None
-        byte[] _byte = B; // byte[] | None
-        Integer integer = 56; // Integer | None
-        Integer int32 = 56; // Integer | None
-        Long int64 = 789L; // Long | None
-        Float _float = 3.4F; // Float | None
-        byte[] binary = B; // byte[] | None
-        LocalDate date = new LocalDate(); // LocalDate | None
-        DateTime dateTime = new DateTime(); // DateTime | None
-        String password = "password_example"; // String | None
+        Boolean body = true; // Boolean | Input boolean as post body
         try {
-            apiInstance.testEndpointParameters(number, _double, string, _byte, integer, int32, int64, _float, binary, date, dateTime, password);
+            Boolean result = apiInstance.fakeOuterBooleanSerialize(body);
+            System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling FakeApi#testEndpointParameters");
+            System.err.println("Exception when calling FakeApi#fakeOuterBooleanSerialize");
             e.printStackTrace();
         }
     }
@@ -96,12 +86,17 @@ public class FakeApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+*FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+*FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+*FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-*FakeApi* | [**testEnumQueryParameters**](docs/FakeApi.md#testEnumQueryParameters) | **GET** /fake | To test enum query parameters
+*FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**findPetsByStatus**](docs/PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
@@ -110,9 +105,9 @@ Class | Method | HTTP request | Description
 *PetApi* | [**updatePet**](docs/PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**uploadFile**](docs/PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-*StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**getInventory**](docs/StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-*StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
+*StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
 *StoreApi* | [**placeOrder**](docs/StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
 *UserApi* | [**createUser**](docs/UserApi.md#createUser) | **POST** /user | Create user
 *UserApi* | [**createUsersWithArrayInput**](docs/UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
@@ -132,9 +127,11 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
- - [Cat](docs/Cat.md)
+ - [Capitalization](docs/Capitalization.md)
  - [Category](docs/Category.md)
- - [Dog](docs/Dog.md)
+ - [ClassModel](docs/ClassModel.md)
+ - [Client](docs/Client.md)
+ - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [FormatTest](docs/FormatTest.md)
@@ -147,11 +144,15 @@ Class | Method | HTTP request | Description
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)
+ - [OuterComposite](docs/OuterComposite.md)
+ - [OuterEnum](docs/OuterEnum.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
+ - [Cat](docs/Cat.md)
+ - [Dog](docs/Dog.md)
 
 
 ## Documentation for Authorization
@@ -162,6 +163,10 @@ Authentication schemes defined for the API:
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+### http_basic_test
+
+- **Type**: HTTP basic authentication
 
 ### petstore_auth
 
@@ -175,7 +180,7 @@ Authentication schemes defined for the API:
 
 ## Recommendation
 
-It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issue.
+It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
 
 ## Author
 

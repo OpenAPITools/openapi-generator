@@ -104,10 +104,10 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.getter, "getExamples");
         Assert.assertEquals(property.setter, "setExamples");
-        Assert.assertEquals(property.datatype, "kotlin.collections.List<kotlin.String>");
+        Assert.assertEquals(property.datatype, "kotlin.Array<kotlin.String>");
         Assert.assertEquals(property.name, "examples");
         Assert.assertEquals(property.defaultValue, "null");
-        Assert.assertEquals(property.baseType, "kotlin.collections.List");
+        Assert.assertEquals(property.baseType, "kotlin.Array");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);

@@ -20,6 +20,7 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -32,7 +33,28 @@ import javax.validation.constraints.*;
 @io.swagger.annotations.Api(description = "the fake API")
 
 public class FakeApi  {
-   private final FakeApiService delegate = FakeApiServiceFactory.getFakeApi();
+   private final FakeApiService delegate;
+
+   public FakeApi(@Context ServletConfig servletContext) {
+      FakeApiService delegate = null;
+
+      if (servletContext != null) {
+         String implClass = servletContext.getInitParameter("FakeApi.implementation");
+         if (implClass != null && !"".equals(implClass.trim())) {
+            try {
+               delegate = (FakeApiService) Class.forName(implClass).newInstance();
+            } catch (Exception e) {
+               throw new RuntimeException(e);
+            }
+         } 
+      }
+
+      if (delegate == null) {
+         delegate = FakeApiServiceFactory.getFakeApi();
+      }
+
+      this.delegate = delegate;
+   }
 
     @POST
     @Path("/outer/boolean")
