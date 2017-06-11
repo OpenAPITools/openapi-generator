@@ -31,19 +31,19 @@ public class PetApiController implements PetApi {
     }
 
     public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body,
-        @RequestHeader(value = "Accept", required = false) String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true ) @PathVariable("petId") Long petId,
-        @RequestHeader(value = "Accept", required = false) String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<List<Pet>> findPetsByStatus( @NotNull@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/xml")) {
@@ -59,7 +59,7 @@ public class PetApiController implements PetApi {
     }
 
     public ResponseEntity<List<Pet>> findPetsByTags( @NotNull@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/xml")) {
@@ -75,7 +75,7 @@ public class PetApiController implements PetApi {
     }
 
     public ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/xml")) {
@@ -91,7 +91,7 @@ public class PetApiController implements PetApi {
     }
 
     public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body,
-        @RequestHeader(value = "Accept", required = false) String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -99,7 +99,7 @@ public class PetApiController implements PetApi {
     public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true ) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,
         @ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status,
-        @RequestHeader(value = "Accept", required = false) String accept) {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
@@ -107,7 +107,7 @@ public class PetApiController implements PetApi {
     public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,
         @ApiParam(value = "file detail") @RequestPart("file") MultipartFile file,
-        @RequestHeader(value = "Accept", required = false) String accept) throws IOException {
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {

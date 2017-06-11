@@ -75,4 +75,10 @@ public interface FakeApiDelegate {
         Integer enumQueryInteger,
         Double enumQueryDouble);
 
+    /**
+     * @see FakeApi#testJsonFormData
+     */
+    ResponseEntity<Void> testJsonFormData(String param,
+        String param2);
+
 }
