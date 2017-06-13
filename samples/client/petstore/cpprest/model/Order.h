@@ -99,15 +99,15 @@ public:
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
-int64_t m_PetId;
+    int64_t m_PetId;
     bool m_PetIdIsSet;
-int32_t m_Quantity;
+    int32_t m_Quantity;
     bool m_QuantityIsSet;
-utility::datetime m_ShipDate;
+    utility::datetime m_ShipDate;
     bool m_ShipDateIsSet;
-utility::string_t m_Status;
+    utility::string_t m_Status;
     bool m_StatusIsSet;
-bool m_Complete;
+    bool m_Complete;
     bool m_CompleteIsSet;
 };
 

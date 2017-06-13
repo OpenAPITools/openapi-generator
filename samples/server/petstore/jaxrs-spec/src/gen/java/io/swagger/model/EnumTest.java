@@ -217,3 +217,4 @@ public enum EnumNumberEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

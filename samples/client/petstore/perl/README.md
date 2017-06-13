@@ -239,11 +239,9 @@ use WWW::SwaggerClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::SwaggerClient::Object::ArrayOfNumberOnly;
 use WWW::SwaggerClient::Object::ArrayTest;
 use WWW::SwaggerClient::Object::Capitalization;
-use WWW::SwaggerClient::Object::Cat;
 use WWW::SwaggerClient::Object::Category;
 use WWW::SwaggerClient::Object::ClassModel;
 use WWW::SwaggerClient::Object::Client;
-use WWW::SwaggerClient::Object::Dog;
 use WWW::SwaggerClient::Object::EnumArrays;
 use WWW::SwaggerClient::Object::EnumClass;
 use WWW::SwaggerClient::Object::EnumTest;
@@ -267,6 +265,8 @@ use WWW::SwaggerClient::Object::ReadOnlyFirst;
 use WWW::SwaggerClient::Object::SpecialModelName;
 use WWW::SwaggerClient::Object::Tag;
 use WWW::SwaggerClient::Object::User;
+use WWW::SwaggerClient::Object::Cat;
+use WWW::SwaggerClient::Object::Dog;
 
 ````
 
@@ -292,11 +292,9 @@ use WWW::SwaggerClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::SwaggerClient::Object::ArrayOfNumberOnly;
 use WWW::SwaggerClient::Object::ArrayTest;
 use WWW::SwaggerClient::Object::Capitalization;
-use WWW::SwaggerClient::Object::Cat;
 use WWW::SwaggerClient::Object::Category;
 use WWW::SwaggerClient::Object::ClassModel;
 use WWW::SwaggerClient::Object::Client;
-use WWW::SwaggerClient::Object::Dog;
 use WWW::SwaggerClient::Object::EnumArrays;
 use WWW::SwaggerClient::Object::EnumClass;
 use WWW::SwaggerClient::Object::EnumTest;
@@ -320,6 +318,8 @@ use WWW::SwaggerClient::Object::ReadOnlyFirst;
 use WWW::SwaggerClient::Object::SpecialModelName;
 use WWW::SwaggerClient::Object::Tag;
 use WWW::SwaggerClient::Object::User;
+use WWW::SwaggerClient::Object::Cat;
+use WWW::SwaggerClient::Object::Dog;
 
 # for displaying the API response data
 use Data::Dumper;
@@ -383,11 +383,9 @@ Class | Method | HTTP request | Description
  - [WWW::SwaggerClient::Object::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [WWW::SwaggerClient::Object::ArrayTest](docs/ArrayTest.md)
  - [WWW::SwaggerClient::Object::Capitalization](docs/Capitalization.md)
- - [WWW::SwaggerClient::Object::Cat](docs/Cat.md)
  - [WWW::SwaggerClient::Object::Category](docs/Category.md)
  - [WWW::SwaggerClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::SwaggerClient::Object::Client](docs/Client.md)
- - [WWW::SwaggerClient::Object::Dog](docs/Dog.md)
  - [WWW::SwaggerClient::Object::EnumArrays](docs/EnumArrays.md)
  - [WWW::SwaggerClient::Object::EnumClass](docs/EnumClass.md)
  - [WWW::SwaggerClient::Object::EnumTest](docs/EnumTest.md)
@@ -411,6 +409,8 @@ Class | Method | HTTP request | Description
  - [WWW::SwaggerClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::SwaggerClient::Object::Tag](docs/Tag.md)
  - [WWW::SwaggerClient::Object::User](docs/User.md)
+ - [WWW::SwaggerClient::Object::Cat](docs/Cat.md)
+ - [WWW::SwaggerClient::Object::Dog](docs/Dog.md)
 
 
 # DOCUMENTATION FOR AUTHORIZATION
