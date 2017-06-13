@@ -24,8 +24,9 @@ import org.apache.commons.lang3.StringUtils;
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PACKAGE_URL = "packageUrl";
 
-    protected String packageName;
+    protected String packageName; // e.g. petstore_api
     protected String packageVersion;
+    protected String projectName; // for setup.py, e.g. petstore-api
     protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -114,6 +115,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
                 .defaultValue("swagger_client"));
+        cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "python project name in setup.py (e.g. petstore-api)."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(PACKAGE_URL, "python package URL."));
@@ -139,6 +141,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageName("swagger_client");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
+            setProjectName((String) additionalProperties.get(CodegenConstants.PROJECT_NAME));
+        }
+        else {
+            // default: set project based on package name
+            // e.g. petstore_api (package name) => petstore-api (project name)
+            setProjectName(packageName.replaceAll("_", "-"));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         }
@@ -154,6 +165,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                     Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
+        additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
@@ -196,13 +208,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return str.replaceAll("\\.", "_");
     }
 
-    
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
-    
+
     @Override
     public void postProcessParameter(CodegenParameter parameter){
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
@@ -259,7 +270,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -492,6 +503,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName= projectName;
     }
 
     public void setPackageVersion(String packageVersion) {
