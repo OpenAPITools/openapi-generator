@@ -7,6 +7,37 @@ path_handler:
           route: /fake
           defaults:
             handler: Fake
+        may_terminate: true
+        child_routes:
+          'outer':
+            type: Literal
+            options:
+              route: /outer
+            child_routes:
+              'boolean':
+                type: Literal
+                options:
+                  route: /boolean
+                  defaults:
+                    handler: FakeOuterBoolean
+              'composite':
+                type: Literal
+                options:
+                  route: /composite
+                  defaults:
+                    handler: FakeOuterComposite
+              'number':
+                type: Literal
+                options:
+                  route: /number
+                  defaults:
+                    handler: FakeOuterNumber
+              'string':
+                type: Literal
+                options:
+                  route: /string
+                  defaults:
+                    handler: FakeOuterString
       'pet':
         type: Literal
         options:
@@ -119,6 +150,10 @@ path_handler:
   handlers:
     invokables:
       Fake: App\Handler\Fake
+      FakeOuterBoolean: App\Handler\FakeOuterBoolean
+      FakeOuterComposite: App\Handler\FakeOuterComposite
+      FakeOuterNumber: App\Handler\FakeOuterNumber
+      FakeOuterString: App\Handler\FakeOuterString
       Pet: App\Handler\Pet
       PetFindByStatus: App\Handler\PetFindByStatus
       PetFindByTags: App\Handler\PetFindByTags
