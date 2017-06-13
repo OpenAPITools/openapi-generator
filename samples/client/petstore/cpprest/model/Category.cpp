@@ -39,6 +39,7 @@ void Category::validate()
 
 web::json::value Category::toJson() const
 {
+    
     web::json::value val = web::json::value::object();
 
     if(m_IdIsSet)
@@ -56,6 +57,8 @@ web::json::value Category::toJson() const
 
 void Category::fromJson(web::json::value& val)
 {
+    
+
     if(val.has_field(U("id")))
     {
         setId(ModelBase::int64_tFromJson(val[U("id")]));

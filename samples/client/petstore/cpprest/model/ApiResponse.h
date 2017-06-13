@@ -78,9 +78,9 @@ public:
 protected:
     int32_t m_Code;
     bool m_CodeIsSet;
-utility::string_t m_Type;
+    utility::string_t m_Type;
     bool m_TypeIsSet;
-utility::string_t m_Message;
+    utility::string_t m_Message;
     bool m_MessageIsSet;
 };
 

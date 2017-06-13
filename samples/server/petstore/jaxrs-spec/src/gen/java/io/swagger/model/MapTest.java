@@ -119,3 +119,4 @@ public enum InnerEnum {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

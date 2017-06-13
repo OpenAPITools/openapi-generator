@@ -71,7 +71,7 @@ public:
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
-utility::string_t m_Name;
+    utility::string_t m_Name;
     bool m_NameIsSet;
 };
 
