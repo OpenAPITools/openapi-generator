@@ -23,32 +23,19 @@ using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// ReadOnlyFirst
+    /// OuterBoolean
     /// </summary>
     [DataContract]
-    public partial class ReadOnlyFirst :  IEquatable<ReadOnlyFirst>
+    public partial class OuterBoolean :  IEquatable<OuterBoolean>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
+        /// Initializes a new instance of the <see cref="OuterBoolean" /> class.
         /// </summary>
-        /// <param name="Baz">Baz.</param>
-        public ReadOnlyFirst(string Baz = default(string))
+        [JsonConstructorAttribute]
+        public OuterBoolean()
         {
-            this.Baz = Baz;
         }
         
-        /// <summary>
-        /// Gets or Sets Bar
-        /// </summary>
-        [DataMember(Name="bar", EmitDefaultValue=false)]
-        public string Bar { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Baz
-        /// </summary>
-        [DataMember(Name="baz", EmitDefaultValue=false)]
-        public string Baz { get; set; }
-
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -56,9 +43,7 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class ReadOnlyFirst {\n");
-            sb.Append("  Bar: ").Append(Bar).Append("\n");
-            sb.Append("  Baz: ").Append(Baz).Append("\n");
+            sb.Append("class OuterBoolean {\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -80,31 +65,21 @@ namespace IO.Swagger.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as ReadOnlyFirst);
+            return this.Equals(obj as OuterBoolean);
         }
 
         /// <summary>
-        /// Returns true if ReadOnlyFirst instances are equal
+        /// Returns true if OuterBoolean instances are equal
         /// </summary>
-        /// <param name="other">Instance of ReadOnlyFirst to be compared</param>
+        /// <param name="other">Instance of OuterBoolean to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ReadOnlyFirst other)
+        public bool Equals(OuterBoolean other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
                 return false;
 
-            return 
-                (
-                    this.Bar == other.Bar ||
-                    this.Bar != null &&
-                    this.Bar.Equals(other.Bar)
-                ) && 
-                (
-                    this.Baz == other.Baz ||
-                    this.Baz != null &&
-                    this.Baz.Equals(other.Baz)
-                );
+            return false;
         }
 
         /// <summary>
@@ -118,10 +93,6 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.Bar != null)
-                    hash = hash * 59 + this.Bar.GetHashCode();
-                if (this.Baz != null)
-                    hash = hash * 59 + this.Baz.GetHashCode();
                 return hash;
             }
         }

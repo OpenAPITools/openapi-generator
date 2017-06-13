@@ -23,41 +23,41 @@ using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 namespace IO.Swagger.Model
 {
     /// <summary>
-    /// MixedPropertiesAndAdditionalPropertiesClass
+    /// OuterComposite
     /// </summary>
     [DataContract]
-    public partial class MixedPropertiesAndAdditionalPropertiesClass :  IEquatable<MixedPropertiesAndAdditionalPropertiesClass>
+    public partial class OuterComposite :  IEquatable<OuterComposite>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
+        /// Initializes a new instance of the <see cref="OuterComposite" /> class.
         /// </summary>
-        /// <param name="Uuid">Uuid.</param>
-        /// <param name="DateTime">DateTime.</param>
-        /// <param name="Map">Map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid? Uuid = default(Guid?), DateTime? DateTime = default(DateTime?), Dictionary<string, Animal> Map = default(Dictionary<string, Animal>))
+        /// <param name="MyNumber">MyNumber.</param>
+        /// <param name="MyString">MyString.</param>
+        /// <param name="MyBoolean">MyBoolean.</param>
+        public OuterComposite(OuterNumber MyNumber = default(OuterNumber), OuterString MyString = default(OuterString), OuterBoolean MyBoolean = default(OuterBoolean))
         {
-            this.Uuid = Uuid;
-            this.DateTime = DateTime;
-            this.Map = Map;
+            this.MyNumber = MyNumber;
+            this.MyString = MyString;
+            this.MyBoolean = MyBoolean;
         }
         
         /// <summary>
-        /// Gets or Sets Uuid
+        /// Gets or Sets MyNumber
         /// </summary>
-        [DataMember(Name="uuid", EmitDefaultValue=false)]
-        public Guid? Uuid { get; set; }
+        [DataMember(Name="my_number", EmitDefaultValue=false)]
+        public OuterNumber MyNumber { get; set; }
 
         /// <summary>
-        /// Gets or Sets DateTime
+        /// Gets or Sets MyString
         /// </summary>
-        [DataMember(Name="dateTime", EmitDefaultValue=false)]
-        public DateTime? DateTime { get; set; }
+        [DataMember(Name="my_string", EmitDefaultValue=false)]
+        public OuterString MyString { get; set; }
 
         /// <summary>
-        /// Gets or Sets Map
+        /// Gets or Sets MyBoolean
         /// </summary>
-        [DataMember(Name="map", EmitDefaultValue=false)]
-        public Dictionary<string, Animal> Map { get; set; }
+        [DataMember(Name="my_boolean", EmitDefaultValue=false)]
+        public OuterBoolean MyBoolean { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -66,10 +66,10 @@ namespace IO.Swagger.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            sb.Append("  Map: ").Append(Map).Append("\n");
+            sb.Append("class OuterComposite {\n");
+            sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
+            sb.Append("  MyString: ").Append(MyString).Append("\n");
+            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -91,15 +91,15 @@ namespace IO.Swagger.Model
         public override bool Equals(object obj)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as MixedPropertiesAndAdditionalPropertiesClass);
+            return this.Equals(obj as OuterComposite);
         }
 
         /// <summary>
-        /// Returns true if MixedPropertiesAndAdditionalPropertiesClass instances are equal
+        /// Returns true if OuterComposite instances are equal
         /// </summary>
-        /// <param name="other">Instance of MixedPropertiesAndAdditionalPropertiesClass to be compared</param>
+        /// <param name="other">Instance of OuterComposite to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(MixedPropertiesAndAdditionalPropertiesClass other)
+        public bool Equals(OuterComposite other)
         {
             // credit: http://stackoverflow.com/a/10454552/677735
             if (other == null)
@@ -107,19 +107,19 @@ namespace IO.Swagger.Model
 
             return 
                 (
-                    this.Uuid == other.Uuid ||
-                    this.Uuid != null &&
-                    this.Uuid.Equals(other.Uuid)
+                    this.MyNumber == other.MyNumber ||
+                    this.MyNumber != null &&
+                    this.MyNumber.Equals(other.MyNumber)
                 ) && 
                 (
-                    this.DateTime == other.DateTime ||
-                    this.DateTime != null &&
-                    this.DateTime.Equals(other.DateTime)
+                    this.MyString == other.MyString ||
+                    this.MyString != null &&
+                    this.MyString.Equals(other.MyString)
                 ) && 
                 (
-                    this.Map == other.Map ||
-                    this.Map != null &&
-                    this.Map.SequenceEqual(other.Map)
+                    this.MyBoolean == other.MyBoolean ||
+                    this.MyBoolean != null &&
+                    this.MyBoolean.Equals(other.MyBoolean)
                 );
         }
 
@@ -134,12 +134,12 @@ namespace IO.Swagger.Model
             {
                 int hash = 41;
                 // Suitable nullity checks etc, of course :)
-                if (this.Uuid != null)
-                    hash = hash * 59 + this.Uuid.GetHashCode();
-                if (this.DateTime != null)
-                    hash = hash * 59 + this.DateTime.GetHashCode();
-                if (this.Map != null)
-                    hash = hash * 59 + this.Map.GetHashCode();
+                if (this.MyNumber != null)
+                    hash = hash * 59 + this.MyNumber.GetHashCode();
+                if (this.MyString != null)
+                    hash = hash * 59 + this.MyString.GetHashCode();
+                if (this.MyBoolean != null)
+                    hash = hash * 59 + this.MyBoolean.GetHashCode();
                 return hash;
             }
         }
