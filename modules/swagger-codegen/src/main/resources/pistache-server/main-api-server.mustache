@@ -1,0 +1,21 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include "pistache/endpoint.h"
+#include "pistache/http.h"
+#include "pistache/router.h"
+#include "{{classname}}Impl.h"
+
+using namespace {{apiNamespace}};
+
+int main() {
+    Net::Address addr(Net::Ipv4::any(), Net::Port(8080));
+
+    {{classname}}Impl server(addr);
+    server.init(2);
+    server.start();
+
+    server.shutdown();
+}
+
+{{/operations}}
