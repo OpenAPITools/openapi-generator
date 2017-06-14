@@ -1,5 +1,6 @@
 package io.swagger.codegen.languages;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -181,7 +182,7 @@ public class RestbedCodegen extends DefaultCodegen implements CodegenConfig {
    * when the class is instantiated
    */
   public String modelFileFolder() {
-      return outputFolder + "/model";
+      return (outputFolder + "/model").replace("/", File.separator);
   }
 
   /**
@@ -190,7 +191,7 @@ public class RestbedCodegen extends DefaultCodegen implements CodegenConfig {
    */
   @Override
   public String apiFileFolder() {
-      return outputFolder + "/api";
+      return (outputFolder + "/api").replace("/", File.separator);
   }
 
   @Override
