@@ -168,9 +168,57 @@ public class ApiClientTest {
     }
 
     @Test
+    public void testParameterToPairWhenNameIsInvalid() throws Exception {
+        List<Pair> pairs_a = apiClient.parameterToPair(null, new Integer(1));
+        List<Pair> pairs_b = apiClient.parameterToPair("", new Integer(1));
+
+        assertTrue(pairs_a.isEmpty());
+        assertTrue(pairs_b.isEmpty());
+    }
+
+    @Test
+    public void testParameterToPairWhenValueIsNull() throws Exception {
+        List<Pair> pairs = apiClient.parameterToPair("param-a", null);
+
+        assertTrue(pairs.isEmpty());
+    }
+
+    @Test
+    public void testParameterToPairWhenValueIsEmptyString() throws Exception {
+        // single empty string
+        List<Pair> pairs = apiClient.parameterToPair("param-a", " ");
+        assertEquals(1, pairs.size());
+    }
+
+    @Test
+    public void testParameterToPairWhenValueIsNotCollection() throws Exception {
+        String name = "param-a";
+        Integer value = 1;
+
+        List<Pair> pairs = apiClient.parameterToPair(name, value);
+
+        assertEquals(1, pairs.size());
+        assertEquals(value, Integer.valueOf(pairs.get(0).getValue()));
+    }
+
+    @Test
+    public void testParameterToPairWhenValueIsCollection() throws Exception {
+        List<Object> values = new ArrayList<Object>();
+        values.add("value-a");
+        values.add(123);
+        values.add(new Date());
+
+        List<Pair> pairs = apiClient.parameterToPair("param-a", values);
+        assertEquals(0, pairs.size());
+    }
+
+    @Test
     public void testParameterToPairsWhenNameIsInvalid() throws Exception {
-        List<Pair> pairs_a = apiClient.parameterToPairs("csv", null, new Integer(1));
-        List<Pair> pairs_b = apiClient.parameterToPairs("csv", "", new Integer(1));
+        List<Integer> objects = new ArrayList<Integer>();
+        objects.add(new Integer(1));
+
+        List<Pair> pairs_a = apiClient.parameterToPairs("csv", null, objects);
+        List<Pair> pairs_b = apiClient.parameterToPairs("csv", "", objects);
 
         assertTrue(pairs_a.isEmpty());
         assertTrue(pairs_b.isEmpty());
@@ -185,11 +233,6 @@ public class ApiClientTest {
 
     @Test
     public void testParameterToPairsWhenValueIsEmptyStrings() throws Exception {
-
-        // single empty string
-        List<Pair> pairs = apiClient.parameterToPairs("csv", "param-a", " ");
-        assertEquals(1, pairs.size());
-
         // list of empty strings
         List<String> strs = new ArrayList<String>();
         strs.add(" ");
@@ -203,23 +246,12 @@ public class ApiClientTest {
     }
 
     @Test
-    public void testParameterToPairsWhenValueIsNotCollection() throws Exception {
-        String name = "param-a";
-        Integer value = 1;
-
-        List<Pair> pairs = apiClient.parameterToPairs("csv", name, value);
-
-        assertEquals(1, pairs.size());
-        assertEquals(value, Integer.valueOf(pairs.get(0).getValue()));
-    }
-
-    @Test
     public void testParameterToPairsWhenValueIsCollection() throws Exception {
         Map<String, String> collectionFormatMap = new HashMap<String, String>();
         collectionFormatMap.put("csv", ",");
         collectionFormatMap.put("tsv", "\t");
         collectionFormatMap.put("ssv", " ");
-        collectionFormatMap.put("pipes", "\\|");
+        collectionFormatMap.put("pipes", "|");
         collectionFormatMap.put("", ","); // no format, must default to csv
         collectionFormatMap.put("unknown", ","); // all other formats, must default to csv
 
@@ -233,6 +265,9 @@ public class ApiClientTest {
         // check for multi separately
         List<Pair> multiPairs = apiClient.parameterToPairs("multi", name, values);
         assertEquals(values.size(), multiPairs.size());
+        for (int i = 0; i < values.size(); i++) {
+            assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), multiPairs.get(i).getValue());
+        }
 
         // all other formats
         for (String collectionFormat : collectionFormatMap.keySet()) {
@@ -241,10 +276,17 @@ public class ApiClientTest {
             assertEquals(1, pairs.size());
 
             String delimiter = collectionFormatMap.get(collectionFormat);
+            if (!delimiter.equals(",")) {
+                // commas are not escaped because they are reserved characters in URIs
+                delimiter = apiClient.escapeString(delimiter);
+            }
             String[] pairValueSplit = pairs.get(0).getValue().split(delimiter);
 
             // must equal input values
             assertEquals(values.size(), pairValueSplit.length);
+            for (int i = 0; i < values.size(); i++) {
+                assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), pairValueSplit[i]);
+            }
         }
     }
 }
