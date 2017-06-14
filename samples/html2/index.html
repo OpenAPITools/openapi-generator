@@ -112,11 +112,6 @@ h={};g()}};typeof define==="function"&&define.amd&&define("google-code-prettify"
         });
       }
 
-
-      // load google web fonts
-      loadGoogleFontCss();
-
-
       // Bootstrap Scrollspy
       $(this).scrollspy({ target: '#scrollingNav', offset: 18 });
 
@@ -158,21 +153,6 @@ h={};g()}};typeof define==="function"&&define.amd&&define("google-code-prettify"
 
       //Convert elements with "marked" class to markdown
       processMarked();
-
-      /**
-       * Load google fonts.
-       */
-      function loadGoogleFontCss() {
-        WebFont.load({
-          active: function() {
-            // Update scrollspy
-            $(window).scrollspy('refresh')
-          },
-          google: {
-            families: ['Source Code Pro', 'Source Sans Pro:n4,n6,n7']
-          }
-        });
-      }
     });
   </script>
   <style type="text/css">
@@ -291,6 +271,11 @@ li.L8 {
   /* ------------------------------------------------------------------------------------------
  * Content
  * ------------------------------------------------------------------------------------------ */
+
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+* {
+  font-family: 'Source Code Pro', sans-serif;
+}
 body {
   min-width: 980px;
 }
@@ -710,7 +695,7 @@ margin-bottom: 20px;
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-    defs.ApiResponse = {
+            defs.ApiResponse = {
   "type" : "object",
   "properties" : {
     "code" : {
@@ -727,7 +712,7 @@ margin-bottom: 20px;
   "title" : "An uploaded response",
   "description" : "Describes the result of uploading an image resource"
 };
-    defs.Category = {
+            defs.Category = {
   "type" : "object",
   "properties" : {
     "id" : {
@@ -744,7 +729,7 @@ margin-bottom: 20px;
     "name" : "Category"
   }
 };
-    defs.Order = {
+            defs.Order = {
   "type" : "object",
   "properties" : {
     "id" : {
@@ -779,7 +764,7 @@ margin-bottom: 20px;
     "name" : "Order"
   }
 };
-    defs.Pet = {
+            defs.Pet = {
   "type" : "object",
   "required" : [ "name", "photoUrls" ],
   "properties" : {
@@ -826,7 +811,7 @@ margin-bottom: 20px;
     "name" : "Pet"
   }
 };
-    defs.Tag = {
+            defs.Tag = {
   "type" : "object",
   "properties" : {
     "id" : {
@@ -843,7 +828,7 @@ margin-bottom: 20px;
     "name" : "Tag"
   }
 };
-    defs.User = {
+            defs.User = {
   "type" : "object",
   "properties" : {
     "id" : {
@@ -1516,33 +1501,25 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "petId",
-  "in" : "path",
-  "description" : "Pet id to delete",
-  "required" : true,
-  "type" : "integer",
-  "format" : "int64"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_deletePet_petId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_deletePet_petId');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_deletePet_petId"></div>
+                    <div class="inner description">
+                        Pet id to delete
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -1558,31 +1535,16 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "api_key",
-  "in" : "header",
-  "required" : false,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_deletePet_apiKey">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_deletePet_apiKey');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_deletePet_apiKey"></div>
+            </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -1854,38 +1816,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "status",
-  "in" : "query",
-  "description" : "Status values that need to be considered for filter",
-  "required" : true,
-  "type" : "array",
-  "items" : {
-    "type" : "string",
-    "enum" : [ "available", "pending", "sold" ],
-    "default" : "available"
-  },
-  "collectionFormat" : "csv"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_findPetsByStatus_status">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    array[String]
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_findPetsByStatus_status');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_findPetsByStatus_status"></div>
+                    <div class="inner description">
+                        Status values that need to be considered for filter
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -1904,7 +1850,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-findPetsByStatus-200-schema">
                                   <div id='responses-findPetsByStatus-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -2200,36 +2146,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "tags",
-  "in" : "query",
-  "description" : "Tags to filter by",
-  "required" : true,
-  "type" : "array",
-  "items" : {
-    "type" : "string"
-  },
-  "collectionFormat" : "csv"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_findPetsByTags_tags">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    array[String]
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_findPetsByTags_tags');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_findPetsByTags_tags"></div>
+                    <div class="inner description">
+                        Tags to filter by
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -2248,7 +2180,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-findPetsByTags-200-schema">
                                   <div id='responses-findPetsByTags-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -2554,33 +2486,25 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "petId",
-  "in" : "path",
-  "description" : "ID of pet to return",
-  "required" : true,
-  "type" : "integer",
-  "format" : "int64"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_getPetById_petId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_getPetById_petId');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_getPetById_petId"></div>
+                    <div class="inner description">
+                        ID of pet to return
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -2603,7 +2527,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-getPetById-200-schema">
                                   <div id='responses-getPetById-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -3214,33 +3138,25 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "petId",
-  "in" : "path",
-  "description" : "ID of pet that needs to be updated",
-  "required" : true,
-  "type" : "integer",
-  "format" : "int64"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_updatePetWithForm_petId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_updatePetWithForm_petId');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_updatePetWithForm_petId"></div>
+                    <div class="inner description">
+                        ID of pet that needs to be updated
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -3258,32 +3174,19 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "name",
-  "in" : "formData",
-  "description" : "Updated name of the pet",
-  "required" : false,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_updatePetWithForm_name">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_updatePetWithForm_name');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_updatePetWithForm_name"></div>
+                    <div class="inner description">
+                        Updated name of the pet
+                    </div>
+            </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -3291,32 +3194,19 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "status",
-  "in" : "formData",
-  "description" : "Updated status of the pet",
-  "required" : false,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_updatePetWithForm_status">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_updatePetWithForm_status');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_updatePetWithForm_status"></div>
+                    <div class="inner description">
+                        Updated status of the pet
+                    </div>
+            </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -3602,33 +3492,25 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "petId",
-  "in" : "path",
-  "description" : "ID of pet to update",
-  "required" : true,
-  "type" : "integer",
-  "format" : "int64"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_uploadFile_petId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_uploadFile_petId');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_uploadFile_petId"></div>
+                    <div class="inner description">
+                        ID of pet to update
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -3646,32 +3528,19 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "additionalMetadata",
-  "in" : "formData",
-  "description" : "Additional data to pass to server",
-  "required" : false,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_uploadFile_additionalMetadata">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_uploadFile_additionalMetadata');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_uploadFile_additionalMetadata"></div>
+                    <div class="inner description">
+                        Additional data to pass to server
+                    </div>
+            </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -3679,32 +3548,19 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "file",
-  "in" : "formData",
-  "description" : "file to upload",
-  "required" : false,
-  "type" : "file"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_uploadFile_file">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    File
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_uploadFile_file');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_uploadFile_file"></div>
+                    <div class="inner description">
+                        file to upload
+                    </div>
+            </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -3724,7 +3580,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-uploadFile-200-schema">
                                   <div id='responses-uploadFile-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -3972,32 +3828,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "orderId",
-  "in" : "path",
-  "description" : "ID of the order that needs to be deleted",
-  "required" : true,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_deleteOrder_orderId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_deleteOrder_orderId');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_deleteOrder_orderId"></div>
+                    <div class="inner description">
+                        ID of the order that needs to be deleted
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -4286,7 +4132,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-getInventory-200-schema">
                                   <div id='responses-getInventory-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -4544,35 +4390,25 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "orderId",
-  "in" : "path",
-  "description" : "ID of pet that needs to be fetched",
-  "required" : true,
-  "type" : "integer",
-  "maximum" : 5,
-  "minimum" : 1,
-  "format" : "int64"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_getOrderById_orderId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_getOrderById_orderId');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_getOrderById_orderId"></div>
+                    <div class="inner description">
+                        ID of pet that needs to be fetched
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -4595,7 +4431,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-getOrderById-200-schema">
                                   <div id='responses-getOrderById-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -4915,7 +4751,7 @@ $(document).ready(function() {
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-placeOrder-200-schema">
                                   <div id='responses-placeOrder-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -5957,32 +5793,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "username",
-  "in" : "path",
-  "description" : "The name that needs to be deleted",
-  "required" : true,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_deleteUser_username">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_deleteUser_username');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_deleteUser_username"></div>
+                    <div class="inner description">
+                        The name that needs to be deleted
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -6232,32 +6058,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "username",
-  "in" : "path",
-  "description" : "The name that needs to be fetched. Use user1 for testing. ",
-  "required" : true,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_getUserByName_username">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_getUserByName_username');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_getUserByName_username"></div>
+                    <div class="inner description">
+                        The name that needs to be fetched. Use user1 for testing. 
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -6280,7 +6096,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-getUserByName-200-schema">
                                   <div id='responses-getUserByName-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -6564,32 +6380,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "username",
-  "in" : "query",
-  "description" : "The user name for login",
-  "required" : true,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_loginUser_username">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_loginUser_username');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_loginUser_username"></div>
+                    <div class="inner description">
+                        The user name for login
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -6597,32 +6403,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "password",
-  "in" : "query",
-  "description" : "The password for login in clear text",
-  "required" : true,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_loginUser_password">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_loginUser_password');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_loginUser_password"></div>
+                    <div class="inner description">
+                        The password for login in clear text
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -6644,7 +6440,7 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                                 <div class="tab-pane active" id="responses-loginUser-200-schema">
                                   <div id='responses-loginUser-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                                               <script>
+                                    <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
@@ -7149,32 +6945,22 @@ except ApiException as e:
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {
-  "name" : "username",
-  "in" : "path",
-  "description" : "name that need to be deleted",
-  "required" : true,
-  "type" : "string"
-};
-													var schema = schemaWrapper;
+    <div id="d2e199_updateUser_username">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_updateUser_username');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_updateUser_username"></div>
+                    <div class="inner description">
+                        name that need to be deleted
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
 </td>
 </tr>
 
@@ -8488,7 +8274,7 @@ var JSONSchemaView = (function () {
       }
 
       if (this.isArray) {
-        var view = new JSONSchemaView(this.schema.items, this.open - 1);
+        var view = new JSONSchemaView(this.schema.items, Infinity);
         inner.appendChild(view.render());
       }
 
