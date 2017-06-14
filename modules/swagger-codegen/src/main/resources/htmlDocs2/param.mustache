@@ -2,25 +2,39 @@
 <td>
 
 
-<script>
-												$(document).ready(function() {
-													var schemaWrapper = {{{jsonSchema}}};
-													var schema = schemaWrapper;
+    <div id="d2e199_{{nickname}}_{{paramName}}">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    {{dataType}}
+                </span>
+                {{#dataFormat}}
+                    <span class="format">
+                        ({{dataFormat}})
+                    </span>
+                {{/dataFormat}}
 
-
-
-
-													var view = new JSONSchemaView(schema,1);
-													var result = $('#d2e199_{{nickname}}_{{paramName}}');
-													result.empty();
-													result.append(view.render());
-
-
-
-
-
-												});
-												</script>
-												<div id="d2e199_{{nickname}}_{{paramName}}"></div>
+                {{#description}}
+                    <div class="inner description">
+                        {{description}}
+                    </div>
+                {{/description}}
+            </div>
+            {{#isEnum}}
+                {{#vendorExtensions.x-eumFormatted}}
+                    <div class="inner enums" id="{{nickname}}_{{paramName}}_enum">
+                        <span class="inner">
+                            <b>Enum: </b>{{{vendorExtensions.x-eumFormatted}}}
+                        </span>
+                    </div>
+                {{/vendorExtensions.x-eumFormatted}}
+            {{/isEnum}}
+            {{#required}}
+                <div class="inner required">
+                    Required
+                </div>
+            {{/required}}
+        </div>
+    </div>
 </td>
 </tr>
