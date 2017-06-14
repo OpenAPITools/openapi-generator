@@ -9,6 +9,7 @@ import io.swagger.models.Swagger;
 import io.swagger.models.properties.*;
 
 import javax.validation.constraints.Null;
+import java.io.File;
 import java.util.*;
 
 public class PistacheServerCodegen extends DefaultCodegen implements CodegenConfig {
@@ -139,8 +140,7 @@ public class PistacheServerCodegen extends DefaultCodegen implements CodegenConf
                 if (methodResponse.getSchema() != null) {
                     CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
                     op.vendorExtensions.put("x-codegen-response", cm);
-                    if(cm.datatype == "HttpContent")
-                    {
+                    if(cm.datatype == "HttpContent") {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }
@@ -206,9 +206,6 @@ public class PistacheServerCodegen extends DefaultCodegen implements CodegenConf
             }
             op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson);
             op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported);
-
-
-
         }
 
         return objs;
@@ -331,7 +328,7 @@ public class PistacheServerCodegen extends DefaultCodegen implements CodegenConf
      * when the class is instantiated
      */
     public String modelFileFolder() {
-        return outputFolder + "/model";
+        return (outputFolder + "/model").replace("/", File.separator);
     }
 
     /**
@@ -340,11 +337,11 @@ public class PistacheServerCodegen extends DefaultCodegen implements CodegenConf
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/api";
+        return (outputFolder + "/api").replace("/", File.separator);
     }
 
     private String implFileFolder() {
-        return outputFolder + "/" + implFolder;
+        return (outputFolder + "/" + implFolder).replace("/", File.separator);
     }
 
     /**
