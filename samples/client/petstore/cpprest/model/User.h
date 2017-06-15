@@ -113,19 +113,19 @@ public:
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
-utility::string_t m_Username;
+    utility::string_t m_Username;
     bool m_UsernameIsSet;
-utility::string_t m_FirstName;
+    utility::string_t m_FirstName;
     bool m_FirstNameIsSet;
-utility::string_t m_LastName;
+    utility::string_t m_LastName;
     bool m_LastNameIsSet;
-utility::string_t m_Email;
+    utility::string_t m_Email;
     bool m_EmailIsSet;
-utility::string_t m_Password;
+    utility::string_t m_Password;
     bool m_PasswordIsSet;
-utility::string_t m_Phone;
+    utility::string_t m_Phone;
     bool m_PhoneIsSet;
-int32_t m_UserStatus;
+    int32_t m_UserStatus;
     bool m_UserStatusIsSet;
 };
 

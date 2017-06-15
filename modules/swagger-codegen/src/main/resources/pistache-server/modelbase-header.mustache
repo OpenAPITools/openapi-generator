@@ -1,0 +1,45 @@
+{{>licenseInfo}}
+/*
+ * ModelBase.h
+ *
+ * This is the base class for all model classes
+ */
+
+#ifndef ModelBase_H_
+#define ModelBase_H_
+
+{{{defaultInclude}}}
+#include "json.hpp"
+#include <ctime>
+#include <string>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+class {{declspec}} ModelBase
+{
+public:
+    ModelBase();
+    virtual ~ModelBase();
+
+    virtual void validate() = 0;
+
+    virtual nlohmann::json toJson() const = 0;
+    virtual void fromJson(nlohmann::json& json) = 0;
+
+    static std::string toJson( const std::string& value );
+    static std::string toJson( const std::time_t& value );
+    static int32_t toJson( int32_t value );
+    static int64_t toJson( int64_t value );
+    static double toJson( double value );
+    static bool toJson( bool value );
+    static nlohmann::json toJson( std::shared_ptr<ModelBase> content );
+
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* ModelBase_H_ */

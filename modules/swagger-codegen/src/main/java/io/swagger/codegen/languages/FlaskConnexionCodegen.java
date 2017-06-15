@@ -141,6 +141,8 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                 defaultValue("default_controller"));
         cliOptions.add(new CliOption(SUPPORT_PYTHON2, "support python2").
                 defaultValue("false"));
+        cliOptions.add(new CliOption("serverPort", "TCP port to listen to in app.run").
+                defaultValue("8080"));
     }
 
     @Override

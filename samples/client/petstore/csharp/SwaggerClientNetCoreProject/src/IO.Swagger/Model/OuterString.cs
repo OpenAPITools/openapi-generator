@@ -18,6 +18,10 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+<<<<<<< HEAD
+=======
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
+>>>>>>> origin/master
 
 namespace IO.Swagger.Model
 {
