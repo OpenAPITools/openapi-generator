@@ -196,7 +196,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return str.replaceAll("\\.", "_");
     }
 
-    
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // process enum in models
@@ -259,7 +258,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -633,12 +632,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         p.example = example;
     }
-    
+
     @Override
     public String sanitizeTag(String tag) {
         return sanitizeName(tag);
     }
-
 
     @Override
     public String escapeQuotationMark(String input) {
