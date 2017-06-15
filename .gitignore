@@ -62,6 +62,7 @@ samples/client/petstore/java/hello.txt
 samples/client/petstore/java/okhttp-gson/hello.txt
 samples/client/petstore/java/jersey1/hello.txt
 samples/client/petstore/java/jersey2-java8/hello.txt
+samples/client/petstore/java/jersey2/hello.txt
 samples/client/petstore/android/default/hello.txt
 samples/client/petstore/android/volley/.gradle/
 samples/client/petstore/android/volley/build/
