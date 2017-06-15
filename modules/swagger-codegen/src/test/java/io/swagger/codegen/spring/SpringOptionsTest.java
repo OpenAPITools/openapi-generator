@@ -75,6 +75,8 @@ public class SpringOptionsTest extends JavaClientOptionsTest {
             times = 1;
             clientCodegen.setImplicitHeaders(Boolean.valueOf(SpringOptionsProvider.IMPLICIT_HEADERS));
             times = 1;
+            clientCodegen.setSwaggerDocketConfig(Boolean.valueOf(SpringOptionsProvider.SWAGGER_DOCKET_CONFIG));
+            times = 1;
         }};
     }
 }
