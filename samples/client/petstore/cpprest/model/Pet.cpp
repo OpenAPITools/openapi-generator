@@ -42,6 +42,7 @@ void Pet::validate()
 
 web::json::value Pet::toJson() const
 {
+    
     web::json::value val = web::json::value::object();
 
     if(m_IdIsSet)
@@ -84,6 +85,8 @@ web::json::value Pet::toJson() const
 
 void Pet::fromJson(web::json::value& val)
 {
+    
+
     if(val.has_field(U("id")))
     {
         setId(ModelBase::int64_tFromJson(val[U("id")]));

@@ -39,6 +39,7 @@ void Tag::validate()
 
 web::json::value Tag::toJson() const
 {
+    
     web::json::value val = web::json::value::object();
 
     if(m_IdIsSet)
@@ -56,6 +57,8 @@ web::json::value Tag::toJson() const
 
 void Tag::fromJson(web::json::value& val)
 {
+    
+
     if(val.has_field(U("id")))
     {
         setId(ModelBase::int64_tFromJson(val[U("id")]));

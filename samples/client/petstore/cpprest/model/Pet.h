@@ -96,13 +96,13 @@ public:
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
-std::shared_ptr<Category> m_Category;
+    std::shared_ptr<Category> m_Category;
     bool m_CategoryIsSet;
-utility::string_t m_Name;
-    std::vector<utility::string_t> m_PhotoUrls;
-    std::vector<std::shared_ptr<Tag>> m_Tags;
+    utility::string_t m_Name;
+        std::vector<utility::string_t> m_PhotoUrls;
+        std::vector<std::shared_ptr<Tag>> m_Tags;
     bool m_TagsIsSet;
-utility::string_t m_Status;
+    utility::string_t m_Status;
     bool m_StatusIsSet;
 };
 

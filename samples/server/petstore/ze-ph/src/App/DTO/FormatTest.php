@@ -57,7 +57,7 @@ class FormatTest
     /**
      * @DTA\Data(field="string", nullable=true)
      * @DTA\Validator(name="Type", options={"type":"string"})
-     * @DTA\Validator(name="Regex", options={"pattern":"/[a-z]/i})
+     * @DTA\Validator(name="Regex", options={"pattern":"/[a-z]/i"})
      * @var string
      */
     public $string;

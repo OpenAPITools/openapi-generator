@@ -41,6 +41,7 @@ void ApiResponse::validate()
 
 web::json::value ApiResponse::toJson() const
 {
+    
     web::json::value val = web::json::value::object();
 
     if(m_CodeIsSet)
@@ -62,6 +63,8 @@ web::json::value ApiResponse::toJson() const
 
 void ApiResponse::fromJson(web::json::value& val)
 {
+    
+
     if(val.has_field(U("code")))
     {
         setCode(ModelBase::int32_tFromJson(val[U("code")]));

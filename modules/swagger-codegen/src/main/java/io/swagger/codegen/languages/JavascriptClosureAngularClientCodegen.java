@@ -3,6 +3,7 @@ package io.swagger.codegen.languages;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.*;
 import io.swagger.models.properties.*;
+import io.swagger.models.Swagger;
 
 import java.util.TreeSet;
 import java.util.*;
@@ -11,8 +12,14 @@ import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
+
+    public static final String USE_ES6 = "useEs6";
+
+    protected boolean useEs6;
+
     public JavascriptClosureAngularClientCodegen() {
         super();
+        outputFolder = "generated-code/javascript-closure-angular";
 
         supportsInheritance = false;
         setReservedWordsLowerCase(Arrays.asList("abstract",
@@ -64,15 +71,11 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         typeMapping.put("binary", "string");
 
-        outputFolder = "generated-code/javascript-closure-angular";
-        modelTemplateFiles.put("model.mustache", ".js");
-        apiTemplateFiles.put("api.mustache", ".js");
-        embeddedTemplateDir = templateDir = "Javascript-Closure-Angular";
-        apiPackage = "API.Client";
-        modelPackage = "API.Client";
-
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(USE_ES6,
+                "use ES6 templates")
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -82,6 +85,28 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         // default HIDE_GENERATION_TIMESTAMP to true
         if (!additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
+        }
+
+        if (additionalProperties.containsKey(USE_ES6)) {
+            setUseEs6(convertPropertyToBooleanAndWriteBack(USE_ES6));
+        }
+    }
+
+    @Override
+    public void preprocessSwagger(Swagger swagger) {
+        super.preprocessSwagger(swagger);
+
+        if (useEs6) {
+            embeddedTemplateDir = templateDir = "Javascript-Closure-Angular/es6";
+            apiPackage = "resources";
+            apiTemplateFiles.put("api.mustache", ".js");
+            supportingFiles.add(new SupportingFile("module.mustache", "", "module.js"));
+        } else {
+            modelTemplateFiles.put("model.mustache", ".js");
+            apiTemplateFiles.put("api.mustache", ".js");
+            embeddedTemplateDir = templateDir = "Javascript-Closure-Angular";
+            apiPackage = "API.Client";
+            modelPackage = "API.Client";
         }
     }
 
@@ -102,7 +127,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -121,7 +146,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); 
+        name = sanitizeName(name);
 
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
@@ -273,4 +298,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    public void setUseEs6(boolean useEs6) {
+        this.useEs6 = useEs6;
+    }
 }
