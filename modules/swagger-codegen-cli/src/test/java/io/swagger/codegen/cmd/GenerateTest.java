@@ -114,6 +114,15 @@ public class GenerateTest {
             times = 1;
         }};
 
+        setupAndRunGenericTest("-Dhello=world,foo=bar");
+
+        new FullVerifications() {{
+            configurator.addSystemProperty("hello", "world");
+            times = 1;
+            configurator.addSystemProperty("foo", "bar");
+            times = 1;
+        }};
+
         setupAndRunGenericTest("-D", "hello=world,key=,foo=bar");
 
         new FullVerifications() {{
@@ -121,8 +130,41 @@ public class GenerateTest {
             times = 1;
             configurator.addSystemProperty("foo", "bar");
             times = 1;
-            configurator.addSystemProperty("key", anyString);
-            times = 0;
+            configurator.addSystemProperty("key", "");
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("-D", "hello=world,key,foo=bar");
+
+        new FullVerifications() {{
+            configurator.addSystemProperty("hello", "world");
+            times = 1;
+            configurator.addSystemProperty("foo", "bar");
+            times = 1;
+            configurator.addSystemProperty("key", "");
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("-D", "hello=world", "-D", "key", "-D", "foo=bar");
+
+        new FullVerifications() {{
+            configurator.addSystemProperty("hello", "world");
+            times = 1;
+            configurator.addSystemProperty("foo", "bar");
+            times = 1;
+            configurator.addSystemProperty("key", "");
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("-Dhello=world", "-Dkey", "-Dfoo=bar");
+
+        new FullVerifications() {{
+            configurator.addSystemProperty("hello", "world");
+            times = 1;
+            configurator.addSystemProperty("foo", "bar");
+            times = 1;
+            configurator.addSystemProperty("key", "");
+            times = 1;
         }};
     }
 
@@ -183,8 +225,8 @@ public class GenerateTest {
             times = 1;
             configurator.addInstantiationType("foo", "bar");
             times = 1;
-            configurator.addInstantiationType("key", anyString);
-            times = 0;
+            configurator.addInstantiationType("key", "");
+            times = 1;
         }};
     }
 
@@ -197,8 +239,8 @@ public class GenerateTest {
             times = 1;
             configurator.addTypeMapping("foo", "bar");
             times = 1;
-            configurator.addTypeMapping("key", anyString);
-            times = 0;
+            configurator.addTypeMapping("key", "");
+            times = 1;
         }};
     }
 
@@ -211,8 +253,8 @@ public class GenerateTest {
             times = 1;
             configurator.addAdditionalProperty("foo", "bar");
             times = 1;
-            configurator.addAdditionalProperty("key", anyString);
-            times = 0;
+            configurator.addAdditionalProperty("key", "");
+            times = 1;
         }};
     }
 
@@ -241,8 +283,8 @@ public class GenerateTest {
             times = 1;
             configurator.addImportMapping("foo", "bar");
             times = 1;
-            configurator.addImportMapping("key", anyString);
-            times = 0;
+            configurator.addImportMapping("key", "");
+            times = 1;
         }};
     }
 
