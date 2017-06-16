@@ -216,7 +216,7 @@
         <akka-version>2.3.9</akka-version>
         <joda-version>1.2</joda-version>
         <joda-time-version>2.2</joda-time-version>
-        <swagger-core-version>1.5.12</swagger-core-version>
+        <swagger-core-version>1.5.15</swagger-core-version>
         <maven-plugin.version>1.0.0</maven-plugin.version>
 
         <junit-version>4.8.1</junit-version>
