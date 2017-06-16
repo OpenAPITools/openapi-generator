@@ -236,6 +236,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("APIHelper.mustache", sourceFolder, "APIHelper.swift"));
         supportingFiles.add(new SupportingFile("AlamofireImplementations.mustache", sourceFolder,
                 "AlamofireImplementations.swift"));
+        supportingFiles.add(new SupportingFile("Configuration.mustache", sourceFolder, "Configuration.swift"));
         supportingFiles.add(new SupportingFile("Extensions.mustache", sourceFolder, "Extensions.swift"));
         supportingFiles.add(new SupportingFile("Models.mustache", sourceFolder, "Models.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache", sourceFolder, "APIs.swift"));

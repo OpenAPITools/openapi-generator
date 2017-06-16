@@ -70,10 +70,10 @@ class Decoders {
     static func decode<T>(clazz: T.Type, source: AnyObject, instance: AnyObject?) -> T {
         initialize()
         if T.self is Int32.Type && source is NSNumber {
-            return (source as! NSNumber).int32Value as! T;
+            return (source as! NSNumber).int32Value as! T
         }
         if T.self is Int64.Type && source is NSNumber {
-            return source.int64Value as! T;
+            return (source as! NSNumber).int64Value as! T
         }
         if T.self is UUID.Type && source is String {
             return UUID(uuidString: source as! String) as! T
@@ -273,25 +273,6 @@ class Decoders {
         }
 
 
-        // Decoder for [Cat]
-        Decoders.addDecoder(clazz: [Cat].self) { (source: AnyObject, instance: AnyObject?) -> [Cat] in
-            return Decoders.decode(clazz: [Cat].self, source: source)
-        }
-        // Decoder for Cat
-        Decoders.addDecoder(clazz: Cat.self) { (source: AnyObject, instance: AnyObject?) -> Cat in
-            let sourceDictionary = source as! [AnyHashable: Any]
-            let result = instance == nil ? Cat() : instance as! Cat
-            if decoders["\(Animal.self)"] != nil {
-              _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
-            }
-            
-            result.className = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?)
-            result.color = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?)
-            result.declawed = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["declawed"] as AnyObject?)
-            return result
-        }
-
-
         // Decoder for [Category]
         Decoders.addDecoder(clazz: [Category].self) { (source: AnyObject, instance: AnyObject?) -> [Category] in
             return Decoders.decode(clazz: [Category].self, source: source)
@@ -331,25 +312,6 @@ class Decoders {
             let result = instance == nil ? Client() : instance as! Client
             
             result.client = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["client"] as AnyObject?)
-            return result
-        }
-
-
-        // Decoder for [Dog]
-        Decoders.addDecoder(clazz: [Dog].self) { (source: AnyObject, instance: AnyObject?) -> [Dog] in
-            return Decoders.decode(clazz: [Dog].self, source: source)
-        }
-        // Decoder for Dog
-        Decoders.addDecoder(clazz: Dog.self) { (source: AnyObject, instance: AnyObject?) -> Dog in
-            let sourceDictionary = source as! [AnyHashable: Any]
-            let result = instance == nil ? Dog() : instance as! Dog
-            if decoders["\(Animal.self)"] != nil {
-              _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
-            }
-            
-            result.className = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?)
-            result.color = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?)
-            result.breed = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["breed"] as AnyObject?)
             return result
         }
 
@@ -739,6 +701,44 @@ class Decoders {
             result.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"] as AnyObject?)
             result.phone = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["phone"] as AnyObject?)
             result.userStatus = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["userStatus"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [Cat]
+        Decoders.addDecoder(clazz: [Cat].self) { (source: AnyObject, instance: AnyObject?) -> [Cat] in
+            return Decoders.decode(clazz: [Cat].self, source: source)
+        }
+        // Decoder for Cat
+        Decoders.addDecoder(clazz: Cat.self) { (source: AnyObject, instance: AnyObject?) -> Cat in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Cat() : instance as! Cat
+            if decoders["\(Animal.self)"] != nil {
+              _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
+            }
+            
+            result.className = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?)
+            result.color = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?)
+            result.declawed = Decoders.decodeOptional(clazz: Bool.self, source: sourceDictionary["declawed"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [Dog]
+        Decoders.addDecoder(clazz: [Dog].self) { (source: AnyObject, instance: AnyObject?) -> [Dog] in
+            return Decoders.decode(clazz: [Dog].self, source: source)
+        }
+        // Decoder for Dog
+        Decoders.addDecoder(clazz: Dog.self) { (source: AnyObject, instance: AnyObject?) -> Dog in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? Dog() : instance as! Dog
+            if decoders["\(Animal.self)"] != nil {
+              _ = Decoders.decode(clazz: Animal.self, source: source, instance: result)
+            }
+            
+            result.className = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["className"] as AnyObject?)
+            result.color = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["color"] as AnyObject?)
+            result.breed = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["breed"] as AnyObject?)
             return result
         }
     }()
