@@ -23,22 +23,21 @@ Test serialization of outer boolean types
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterBoolean() // OuterBoolean | Input boolean as post body
 };
 
-var callback = function(error, data, response) {
+apiInstance.fakeOuterBooleanSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.fakeOuterBooleanSerialize(opts, callback);
+});
 ```
 
 ### Parameters
@@ -70,22 +69,21 @@ Test serialization of object with outer number type
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
 
-var callback = function(error, data, response) {
+apiInstance.fakeOuterCompositeSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.fakeOuterCompositeSerialize(opts, callback);
+});
 ```
 
 ### Parameters
@@ -117,22 +115,21 @@ Test serialization of outer number types
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterNumber() // OuterNumber | Input number as post body
 };
 
-var callback = function(error, data, response) {
+apiInstance.fakeOuterNumberSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.fakeOuterNumberSerialize(opts, callback);
+});
 ```
 
 ### Parameters
@@ -164,22 +161,21 @@ Test serialization of outer string types
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterString() // OuterString | Input string as post body
 };
 
-var callback = function(error, data, response) {
+apiInstance.fakeOuterStringSerialize(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.fakeOuterStringSerialize(opts, callback);
+});
 ```
 
 ### Parameters
@@ -211,21 +207,20 @@ To test \&quot;client\&quot; model
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var body = new SwaggerPetstore.Client(); // Client | client model
+let body = new SwaggerPetstore.Client(); // Client | client model
 
 
-var callback = function(error, data, response) {
+apiInstance.testClientModel(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.testClientModel(body, callback);
+});
 ```
 
 ### Parameters
@@ -257,25 +252,25 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure HTTP basic authorization: http_basic_test
-var http_basic_test = defaultClient.authentications['http_basic_test'];
+let http_basic_test = defaultClient.authentications['http_basic_test'];
 http_basic_test.username = 'YOUR USERNAME';
 http_basic_test.password = 'YOUR PASSWORD';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var _number = 3.4; // Number | None
+let _number = 3.4; // Number | None
 
-var _double = 1.2; // Number | None
+let _double = 1.2; // Number | None
 
-var patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
+let patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 
-var _byte = B; // Blob | None
+let _byte = B; // Blob | None
 
-var opts = { 
+let opts = { 
   'integer': 56, // Number | None
   'int32': 56, // Number | None
   'int64': 789, // Number | None
@@ -288,14 +283,13 @@ var opts = {
   'callback': "callback_example" // String | None
 };
 
-var callback = function(error, data, response) {
+apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts, callback);
+});
 ```
 
 ### Parameters
@@ -340,11 +334,11 @@ To test enum parameters
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'enumFormStringArray': ["enumFormStringArray_example"], // [String] | Form parameter enum test (string array)
   'enumFormString': "-efg", // String | Form parameter enum test (string)
   'enumHeaderStringArray': ["enumHeaderStringArray_example"], // [String] | Header parameter enum test (string array)
@@ -355,14 +349,13 @@ var opts = {
   'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
 };
 
-var callback = function(error, data, response) {
+apiInstance.testEnumParameters(opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.testEnumParameters(opts, callback);
+});
 ```
 
 ### Parameters
