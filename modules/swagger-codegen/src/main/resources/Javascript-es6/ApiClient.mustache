@@ -449,7 +449,7 @@ export default class ApiClient {
         }
 
         {{#usePromises}}return new Promise((resolve, reject) => {
-            request.end(function(error, response) {
+            request.end((error, response) => {
                 if (error) {
                     reject(error);
                 } else {
