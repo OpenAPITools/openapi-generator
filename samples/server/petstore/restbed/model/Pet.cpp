@@ -85,13 +85,21 @@ void Pet::setName(std::string value)
 {
     m_Name = value;
 }
-std::vector<std::string>& Pet::getPhotoUrls()
+std::vector<std::string> Pet::getPhotoUrls() const
 {
     return m_PhotoUrls;
 }
-std::vector<std::shared_ptr<Tag>>& Pet::getTags()
+void Pet::setPhotoUrls(std::vector<std::string> value)
+{
+    m_PhotoUrls = value;
+}
+std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 {
     return m_Tags;
+}
+void Pet::setTags(std::vector<std::shared_ptr<Tag>> value)
+{
+    m_Tags = value;
 }
 std::string Pet::getStatus() const
 {
