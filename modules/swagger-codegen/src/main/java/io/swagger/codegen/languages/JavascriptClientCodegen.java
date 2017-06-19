@@ -105,7 +105,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         modelTestTemplateFiles.put("model_test.mustache", ".js");
         apiTemplateFiles.put("api.mustache", ".js");
         apiTestTemplateFiles.put("api_test.mustache", ".js");
-        embeddedTemplateDir = templateDir = "Javascript";
+        // subfolder Javascript/es6
+        embeddedTemplateDir = templateDir = "Javascript" + File.separator + "es6";
         apiPackage = "api";
         modelPackage = "model";
         modelDocTemplateFiles.put("model_doc.mustache", ".md");

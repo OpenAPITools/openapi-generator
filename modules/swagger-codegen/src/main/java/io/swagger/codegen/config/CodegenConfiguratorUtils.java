@@ -16,6 +16,12 @@ import java.util.*;
  */
 public final class CodegenConfiguratorUtils {
 
+    public static void applySystemPropertiesKvpList(List<String> systemProperties, CodegenConfigurator configurator) {
+        for(String propString : systemProperties) {
+            applySystemPropertiesKvp(propString, configurator);
+        }
+    }
+
     public static void applySystemPropertiesKvp(String systemProperties, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(systemProperties);
         for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -81,6 +87,4 @@ public final class CodegenConfiguratorUtils {
 
         return result;
     }
-    
-    
 }

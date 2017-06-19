@@ -15,21 +15,20 @@ To test class name in snake case
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.Fake_classname_tags123Api();
+let apiInstance = new SwaggerPetstore.Fake_classname_tags123Api();
 
-var body = new SwaggerPetstore.Client(); // Client | client model
+let body = new SwaggerPetstore.Client(); // Client | client model
 
 
-var callback = function(error, data, response) {
+apiInstance.testClassname(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.testClassname(body, callback);
+});
 ```
 
 ### Parameters

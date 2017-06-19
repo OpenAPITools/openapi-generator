@@ -164,7 +164,7 @@ export class {{classname}} {
         // to determine the Content-Type header
         let consumes: string[] = [
             {{#consumes}}
-            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/consumes}}
         ];
         let canConsumeForm = this.canConsumeForm(consumes);
@@ -182,7 +182,7 @@ export class {{classname}} {
         // to determine the Accept header
         let produces: string[] = [
             {{#produces}}
-            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/produces}}
         ];
 

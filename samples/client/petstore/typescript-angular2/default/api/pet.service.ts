@@ -225,7 +225,7 @@ export class PetService {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -280,7 +280,7 @@ export class PetService {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -330,7 +330,7 @@ export class PetService {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -380,7 +380,7 @@ export class PetService {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -427,7 +427,7 @@ export class PetService {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -469,7 +469,7 @@ export class PetService {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -530,7 +530,7 @@ export class PetService {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 

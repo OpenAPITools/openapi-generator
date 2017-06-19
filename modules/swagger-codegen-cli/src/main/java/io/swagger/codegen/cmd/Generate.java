@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * User: lanwen
  * Date: 24.03.15
@@ -48,8 +51,8 @@ public class Generate implements Runnable {
     private String auth;
 
     @Option(name = {"-D"}, title = "system properties", description = "sets specified system properties in " +
-            "the format of name=value,name=value")
-    private String systemProperties;
+            "the format of name=value,name=value (or multiple options, each with name=value)")
+    private List<String> systemProperties = new ArrayList<>();
 
     @Option(name = {"-c", "--config"}, title = "configuration file", description = "Path to json configuration file. " +
             "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} " +
@@ -229,7 +232,7 @@ public class Generate implements Runnable {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
         }
 
-        applySystemPropertiesKvp(systemProperties, configurator);
+        applySystemPropertiesKvpList(systemProperties, configurator);
         applyInstantiationTypesKvp(instantiationTypes, configurator);
         applyImportMappingsKvp(importMappings, configurator);
         applyTypeMappingsKvp(typeMappings, configurator);
