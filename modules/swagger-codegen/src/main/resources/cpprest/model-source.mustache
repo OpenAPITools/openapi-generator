@@ -408,6 +408,11 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     return m_{{name}};
 }
 
+void {{classname}}::{{setter}}({{{datatype}}} value)
+{
+    m_{{name}} = value;
+    {{^required}}m_{{name}}IsSet = true;{{/required}}
+}
 {{/isNotContainer}}
 {{#isNotContainer}}
 {{{datatype}}} {{classname}}::{{getter}}() const
@@ -415,12 +420,12 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     return m_{{name}};
 }
 
+
 void {{classname}}::{{setter}}({{{datatype}}} value)
 {
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
-
 {{/isNotContainer}}
 {{^required}}
 bool {{classname}}::{{baseName}}IsSet() const
