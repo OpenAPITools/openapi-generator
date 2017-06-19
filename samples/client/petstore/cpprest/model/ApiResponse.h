@@ -57,23 +57,23 @@ public:
     /// 
     /// </summary>
     int32_t getCode() const;
-    void setCode(int32_t value);
     bool codeIsSet() const;
     void unsetCode();
+    void setCode(int32_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getType() const;
-    void setType(utility::string_t value);
     bool typeIsSet() const;
     void unsetType();
+    void setType(utility::string_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getMessage() const;
-    void setMessage(utility::string_t value);
     bool messageIsSet() const;
     void unsetMessage();
+    void setMessage(utility::string_t value);
 
 protected:
     int32_t m_Code;

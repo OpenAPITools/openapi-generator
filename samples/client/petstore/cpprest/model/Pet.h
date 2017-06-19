@@ -60,38 +60,40 @@ public:
     /// 
     /// </summary>
     int64_t getId() const;
-    void setId(int64_t value);
     bool idIsSet() const;
     void unsetId();
+    void setId(int64_t value);
     /// <summary>
     /// 
     /// </summary>
     std::shared_ptr<Category> getCategory() const;
-    void setCategory(std::shared_ptr<Category> value);
     bool categoryIsSet() const;
     void unsetCategory();
+    void setCategory(std::shared_ptr<Category> value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getName() const;
-    void setName(utility::string_t value);
-        /// <summary>
+        void setName(utility::string_t value);
+    /// <summary>
     /// 
     /// </summary>
     std::vector<utility::string_t>& getPhotoUrls();
-        /// <summary>
+        void setPhotoUrls(std::vector<utility::string_t> value);
+    /// <summary>
     /// 
     /// </summary>
     std::vector<std::shared_ptr<Tag>>& getTags();
     bool tagsIsSet() const;
     void unsetTags();
+    void setTags(std::vector<std::shared_ptr<Tag>> value);
     /// <summary>
     /// pet status in the store
     /// </summary>
     utility::string_t getStatus() const;
-    void setStatus(utility::string_t value);
     bool statusIsSet() const;
     void unsetStatus();
+    void setStatus(utility::string_t value);
 
 protected:
     int64_t m_Id;
