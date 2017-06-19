@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
 <a name="fakeOuterBooleanSerialize"></a>
@@ -390,4 +391,53 @@ No authorization required
 
  - **Content-Type**: */*
  - **Accept**: */*
+
+<a name="testJsonFormData"></a>
+# **testJsonFormData**
+> testJsonFormData(param, param2)
+
+test json serialization of form data
+
+
+
+### Example
+```javascript
+var SwaggerPetstore = require('swagger_petstore');
+
+var apiInstance = new SwaggerPetstore.FakeApi();
+
+var param = "param_example"; // String | field1
+
+var param2 = "param2_example"; // String | field2
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+apiInstance.testJsonFormData(param, param2, callback);
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | **String**| field1 | 
+ **param2** | **String**| field2 | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 

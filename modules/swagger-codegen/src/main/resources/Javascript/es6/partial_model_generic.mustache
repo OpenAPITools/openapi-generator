@@ -20,7 +20,7 @@ export default class {{classname}} {
     constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) {
         {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}
         this = new Array();
-        Object.setPrototypeOf(this, exports);{{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}
+        Object.setPrototypeOf(this, {{classname}});{{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}
 
         {{#useInheritance}}
         {{#parentModel}}{{classname}}.call(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/parentModel}}
@@ -41,7 +41,7 @@ export default class {{classname}} {
     */{{/emitJSDoc}}
     static constructFromObject(data, obj) {
         if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
-            obj = obj || new exports();
+            obj = obj || new {{classname}}();
 
             {{#parent}}{{^parentModel}}ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-itemType}}');{{/parentModel}}
             {{/parent}}

@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
 <a name="fakeOuterBooleanSerialize"></a>
@@ -23,16 +24,16 @@ Test serialization of outer boolean types
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterBoolean() // OuterBoolean | Input boolean as post body
 };
-apiInstance.fakeOuterBooleanSerialize(opts).then(function(data) {
+apiInstance.fakeOuterBooleanSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
@@ -67,16 +68,16 @@ Test serialization of object with outer number type
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
-apiInstance.fakeOuterCompositeSerialize(opts).then(function(data) {
+apiInstance.fakeOuterCompositeSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
@@ -111,16 +112,16 @@ Test serialization of outer number types
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterNumber() // OuterNumber | Input number as post body
 };
-apiInstance.fakeOuterNumberSerialize(opts).then(function(data) {
+apiInstance.fakeOuterNumberSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
@@ -155,16 +156,16 @@ Test serialization of outer string types
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'body': new SwaggerPetstore.OuterString() // OuterString | Input string as post body
 };
-apiInstance.fakeOuterStringSerialize(opts).then(function(data) {
+apiInstance.fakeOuterStringSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
@@ -199,15 +200,15 @@ To test \&quot;client\&quot; model
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var body = new SwaggerPetstore.Client(); // Client | client model
+let body = new SwaggerPetstore.Client(); // Client | client model
 
-apiInstance.testClientModel(body).then(function(data) {
+apiInstance.testClientModel(body).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
@@ -242,25 +243,25 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure HTTP basic authorization: http_basic_test
-var http_basic_test = defaultClient.authentications['http_basic_test'];
+let http_basic_test = defaultClient.authentications['http_basic_test'];
 http_basic_test.username = 'YOUR USERNAME';
 http_basic_test.password = 'YOUR PASSWORD';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var _number = 3.4; // Number | None
+let _number = 3.4; // Number | None
 
-var _double = 1.2; // Number | None
+let _double = 1.2; // Number | None
 
-var patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
+let patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 
-var _byte = B; // Blob | None
+let _byte = B; // Blob | None
 
-var opts = { 
+let opts = { 
   'integer': 56, // Number | None
   'int32': 56, // Number | None
   'int64': 789, // Number | None
@@ -272,9 +273,9 @@ var opts = {
   'password': "password_example", // String | None
   'callback': "callback_example" // String | None
 };
-apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts).then(function() {
+apiInstance.testEndpointParameters(_number, _double, patternWithoutDelimiter, _byte, opts).then(() => {
   console.log('API called successfully.');
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
@@ -322,11 +323,11 @@ To test enum parameters
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.FakeApi();
+let apiInstance = new SwaggerPetstore.FakeApi();
 
-var opts = { 
+let opts = { 
   'enumFormStringArray': ["enumFormStringArray_example"], // [String] | Form parameter enum test (string array)
   'enumFormString': "-efg", // String | Form parameter enum test (string)
   'enumHeaderStringArray': ["enumHeaderStringArray_example"], // [String] | Header parameter enum test (string array)
@@ -336,9 +337,9 @@ var opts = {
   'enumQueryInteger': 56, // Number | Query parameter enum test (double)
   'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
 };
-apiInstance.testEnumParameters(opts).then(function() {
+apiInstance.testEnumParameters(opts).then(() => {
   console.log('API called successfully.');
-}, function(error) {
+}, (error) => {
   console.error(error);
 });
 
@@ -369,4 +370,50 @@ No authorization required
 
  - **Content-Type**: */*
  - **Accept**: */*
+
+<a name="testJsonFormData"></a>
+# **testJsonFormData**
+> testJsonFormData(param, param2)
+
+test json serialization of form data
+
+
+
+### Example
+```javascript
+import SwaggerPetstore from 'swagger_petstore';
+
+let apiInstance = new SwaggerPetstore.FakeApi();
+
+let param = "param_example"; // String | field1
+
+let param2 = "param2_example"; // String | field2
+
+apiInstance.testJsonFormData(param, param2).then(() => {
+  console.log('API called successfully.');
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | **String**| field1 | 
+ **param2** | **String**| field2 | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 

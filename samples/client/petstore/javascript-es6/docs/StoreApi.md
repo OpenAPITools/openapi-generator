@@ -20,21 +20,20 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.StoreApi();
+let apiInstance = new SwaggerPetstore.StoreApi();
 
-var orderId = "orderId_example"; // String | ID of the order that needs to be deleted
+let orderId = "orderId_example"; // String | ID of the order that needs to be deleted
 
 
-var callback = function(error, data, response) {
+apiInstance.deleteOrder(orderId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.deleteOrder(orderId, callback);
+});
 ```
 
 ### Parameters
@@ -66,25 +65,24 @@ Returns a map of status codes to quantities
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
-var api_key = defaultClient.authentications['api_key'];
+let api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix = 'Token';
 
-var apiInstance = new SwaggerPetstore.StoreApi();
+let apiInstance = new SwaggerPetstore.StoreApi();
 
-var callback = function(error, data, response) {
+apiInstance.getInventory((error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getInventory(callback);
+});
 ```
 
 ### Parameters
@@ -113,21 +111,20 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.StoreApi();
+let apiInstance = new SwaggerPetstore.StoreApi();
 
-var orderId = 789; // Number | ID of pet that needs to be fetched
+let orderId = 789; // Number | ID of pet that needs to be fetched
 
 
-var callback = function(error, data, response) {
+apiInstance.getOrderById(orderId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getOrderById(orderId, callback);
+});
 ```
 
 ### Parameters
@@ -159,21 +156,20 @@ Place an order for a pet
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.StoreApi();
+let apiInstance = new SwaggerPetstore.StoreApi();
 
-var body = new SwaggerPetstore.Order(); // Order | order placed for purchasing the pet
+let body = new SwaggerPetstore.Order(); // Order | order placed for purchasing the pet
 
 
-var callback = function(error, data, response) {
+apiInstance.placeOrder(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.placeOrder(body, callback);
+});
 ```
 
 ### Parameters
