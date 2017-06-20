@@ -1,0 +1,33 @@
+#region Import functions
+
+'API', 'Model', 'Private' | Get-ChildItem -Path {
+    Join-Path $PSScriptRoot $_
+} -Filter '*.ps1' | ForEach-Object {
+    Write-Verbose "Importing file: $($_.BaseName)"
+    try {
+        . $_.FullName
+    } catch {
+        Write-Verbose "Can't import function!"
+    }
+}
+
+#endregion
+
+
+#region Initialize APIs
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+{{#-first}}
+'Creating object: {{{packageName}}}.Api.{{{classname}}}' | Write-Verbose
+$Script:{{{classname}}}= New-Object -TypeName {{{packageName}}}.Api.{{{classname}}} -ArgumentList @($null)
+
+{{/-first}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+#endregion

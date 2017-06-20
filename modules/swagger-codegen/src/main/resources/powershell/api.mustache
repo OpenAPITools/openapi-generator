@@ -1,0 +1,30 @@
+{{#operations}}
+{{#operation}}
+function Invoke-{{{classname}}}{{{operationId}}} {
+    [CmdletBinding()]
+    Param (
+    {{#allParams}}
+        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = {{#required}}$true{{/required}}{{^required}}$false{{/required}})]
+        [{{^isContainer}}{{^isPrimitiveType}}{{^isFile}}{{{packageName}}}.Model.{{/isFile}}{{/isPrimitiveType}}{{/isContainer}}{{{dataType}}}]
+        {{=<% %>=}}
+        ${<%paramName%>}<%^-last%>,<%/-last%>
+        <%={{ }}=%>
+    {{/allParams}}
+    )
+
+    Process {
+        'Calling method: {{{classname}}}-{{{operationId}}}' | Write-Verbose
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $Script:{{{classname}}}.{{{operationId}}}(
+        {{#allParams}}
+            {{=<% %>=}}
+            ${<%paramName%>}<%^-last%>,<%/-last%>
+            <%={{ }}=%>
+        {{/allParams}}
+        )
+    }
+}
+
+{{/operation}}
+{{/operations}}
