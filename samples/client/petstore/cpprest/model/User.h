@@ -57,58 +57,58 @@ public:
     /// 
     /// </summary>
     int64_t getId() const;
-    void setId(int64_t value);
     bool idIsSet() const;
     void unsetId();
+    void setId(int64_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getUsername() const;
-    void setUsername(utility::string_t value);
     bool usernameIsSet() const;
     void unsetUsername();
+    void setUsername(utility::string_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getFirstName() const;
-    void setFirstName(utility::string_t value);
     bool firstNameIsSet() const;
     void unsetFirstName();
+    void setFirstName(utility::string_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getLastName() const;
-    void setLastName(utility::string_t value);
     bool lastNameIsSet() const;
     void unsetLastName();
+    void setLastName(utility::string_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getEmail() const;
-    void setEmail(utility::string_t value);
     bool emailIsSet() const;
     void unsetEmail();
+    void setEmail(utility::string_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getPassword() const;
-    void setPassword(utility::string_t value);
     bool passwordIsSet() const;
     void unsetPassword();
+    void setPassword(utility::string_t value);
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getPhone() const;
-    void setPhone(utility::string_t value);
     bool phoneIsSet() const;
     void unsetPhone();
+    void setPhone(utility::string_t value);
     /// <summary>
     /// User Status
     /// </summary>
     int32_t getUserStatus() const;
-    void setUserStatus(int32_t value);
     bool userStatusIsSet() const;
     void unsetUserStatus();
+    void setUserStatus(int32_t value);
 
 protected:
     int64_t m_Id;
