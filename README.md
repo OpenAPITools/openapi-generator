@@ -916,7 +916,6 @@ Here is a list of template creators:
    * Java (okhttp-gson): @xhh
    * Java (RestTemplate): @nbruno
    * Java (RESTEasy): @gayathrigs
-   * Kotlin: @jimschubert
    * Javascript/NodeJS: @jfiala
    * Javascript (Closure-annotated Angular) @achew22
    * JMeter @davidkiss
