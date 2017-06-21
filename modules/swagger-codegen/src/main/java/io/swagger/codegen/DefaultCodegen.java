@@ -2410,7 +2410,12 @@ public class DefaultCodegen {
                 p.baseType = pr.datatype;
                 p.isContainer = true;
                 p.isListContainer = true;
-                imports.add(pr.baseType);
+
+                // recursively add import
+                while (pr != null) {
+                    imports.add(pr.baseType);
+                    pr = pr.items;
+                }
             } else if ("object".equals(type)) { // for map parameter
                 Property inner = qp.getItems();
                 if (inner == null) {
@@ -2424,7 +2429,11 @@ public class DefaultCodegen {
                 p.baseType = pr.datatype;
                 p.isContainer = true;
                 p.isMapContainer = true;
-                imports.add(pr.baseType);
+                // recursively add import
+                while (pr != null) {
+                    imports.add(pr.baseType);
+                    pr = pr.items;
+                }
             } else {
                 Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
                 String format = qp.getFormat();
@@ -2502,6 +2511,7 @@ public class DefaultCodegen {
             }
 
         } else {
+            LOGGER.info("proessing body parameter ...");
             if (!(param instanceof BodyParameter)) {
                 LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
             }
@@ -2545,6 +2555,14 @@ public class DefaultCodegen {
                     imports.add(cp.complexType);
                 }
                 imports.add(cp.baseType);
+
+                // recursively add import
+                CodegenProperty innerCp = cp;
+                while(innerCp != null) {
+                    imports.add(innerCp.complexType);
+                    innerCp = innerCp.items;
+                }
+
                 p.items = cp;
                 p.dataType = cp.datatype;
                 p.baseType = cp.complexType;
