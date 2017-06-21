@@ -815,6 +815,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Upwork](http://upwork.com/)
 - [uShip](https://www.uship.com/)
 - [VMware](https://vmware.com/)
+- [Viavi Solutions Inc.](https://www.viavisolutions.com)
 - [W.UP](http://wup.hu/?siteLang=en)
 - [Wealthfront](https://www.wealthfront.com/)
 - [Webever GmbH](https://www.webever.de/)
