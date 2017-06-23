@@ -2511,7 +2511,6 @@ public class DefaultCodegen {
             }
 
         } else {
-            LOGGER.info("proessing body parameter ...");
             if (!(param instanceof BodyParameter)) {
                 LOGGER.error("Cannot use Parameter " + param + " as Body Parameter");
             }
