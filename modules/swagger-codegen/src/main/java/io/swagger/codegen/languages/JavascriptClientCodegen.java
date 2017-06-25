@@ -96,7 +96,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "api/";
     protected String modelTestPath = "model/";
-    protected boolean useES6 = false; // default is ES5
+    protected boolean useES6 = true; // default is ES6
 
     public JavascriptClientCodegen() {
         super();
@@ -269,7 +269,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(USE_ES6)) {
             setUseES6(convertPropertyToBooleanAndWriteBack(USE_ES6));
         } else {
-            setUseES6(false);
+            setUseES6(true); // default to ES6
         }
     }
 
