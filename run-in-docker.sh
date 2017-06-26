@@ -11,7 +11,7 @@ docker run --rm -it \
         -w /gen \
         -e GEN_DIR=/gen \
         -e MAVEN_CONFIG=/var/maven/.m2 \
-        -u "$(id -u):$(id -u)" \
+        -u "$(id -u):$(id -g)" \
         -v "${PWD}:/gen" \
         -v "${maven_cache_repo}:/var/maven/.m2/repository" \
         --entrypoint /gen/docker-entrypoint.sh \
