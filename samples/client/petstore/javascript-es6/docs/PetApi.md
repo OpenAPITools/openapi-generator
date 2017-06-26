@@ -24,26 +24,25 @@ Add a new pet to the store
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
+let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var body = new SwaggerPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+let body = new SwaggerPetstore.Pet(); // Pet | Pet object that needs to be added to the store
 
 
-var callback = function(error, data, response) {
+apiInstance.addPet(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.addPet(body, callback);
+});
 ```
 
 ### Parameters
@@ -75,29 +74,28 @@ Deletes a pet
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
+let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var petId = 789; // Number | Pet id to delete
+let petId = 789; // Number | Pet id to delete
 
-var opts = { 
+let opts = { 
   'apiKey': "apiKey_example" // String | 
 };
 
-var callback = function(error, data, response) {
+apiInstance.deletePet(petId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.deletePet(petId, opts, callback);
+});
 ```
 
 ### Parameters
@@ -130,26 +128,25 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
+let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var status = ["status_example"]; // [String] | Status values that need to be considered for filter
+let status = ["status_example"]; // [String] | Status values that need to be considered for filter
 
 
-var callback = function(error, data, response) {
+apiInstance.findPetsByStatus(status, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.findPetsByStatus(status, callback);
+});
 ```
 
 ### Parameters
@@ -181,26 +178,25 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
+let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var tags = ["tags_example"]; // [String] | Tags to filter by
+let tags = ["tags_example"]; // [String] | Tags to filter by
 
 
-var callback = function(error, data, response) {
+apiInstance.findPetsByTags(tags, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.findPetsByTags(tags, callback);
+});
 ```
 
 ### Parameters
@@ -232,28 +228,27 @@ Returns a single pet
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure API key authorization: api_key
-var api_key = defaultClient.authentications['api_key'];
+let api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //api_key.apiKeyPrefix = 'Token';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var petId = 789; // Number | ID of pet to return
+let petId = 789; // Number | ID of pet to return
 
 
-var callback = function(error, data, response) {
+apiInstance.getPetById(petId, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getPetById(petId, callback);
+});
 ```
 
 ### Parameters
@@ -285,26 +280,25 @@ Update an existing pet
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
+let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var body = new SwaggerPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+let body = new SwaggerPetstore.Pet(); // Pet | Pet object that needs to be added to the store
 
 
-var callback = function(error, data, response) {
+apiInstance.updatePet(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.updatePet(body, callback);
+});
 ```
 
 ### Parameters
@@ -336,30 +330,29 @@ Updates a pet in the store with form data
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
+let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var petId = 789; // Number | ID of pet that needs to be updated
+let petId = 789; // Number | ID of pet that needs to be updated
 
-var opts = { 
+let opts = { 
   'name': "name_example", // String | Updated name of the pet
   'status': "status_example" // String | Updated status of the pet
 };
 
-var callback = function(error, data, response) {
+apiInstance.updatePetWithForm(petId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.updatePetWithForm(petId, opts, callback);
+});
 ```
 
 ### Parameters
@@ -393,30 +386,29 @@ uploads an image
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
-var defaultClient = SwaggerPetstore.ApiClient.instance;
+import SwaggerPetstore from 'swagger_petstore';
+let defaultClient = SwaggerPetstore.ApiClient.instance;
 
 // Configure OAuth2 access token for authorization: petstore_auth
-var petstore_auth = defaultClient.authentications['petstore_auth'];
+let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
-var apiInstance = new SwaggerPetstore.PetApi();
+let apiInstance = new SwaggerPetstore.PetApi();
 
-var petId = 789; // Number | ID of pet to update
+let petId = 789; // Number | ID of pet to update
 
-var opts = { 
+let opts = { 
   'additionalMetadata': "additionalMetadata_example", // String | Additional data to pass to server
   'file': "/path/to/file.txt" // File | file to upload
 };
 
-var callback = function(error, data, response) {
+apiInstance.uploadFile(petId, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.uploadFile(petId, opts, callback);
+});
 ```
 
 ### Parameters

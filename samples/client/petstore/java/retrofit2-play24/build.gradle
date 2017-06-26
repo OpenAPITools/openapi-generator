@@ -96,11 +96,11 @@ if(hasProperty('target') && target == 'android') {
 ext {
     oltu_version = "1.0.1"
     retrofit_version = "2.1.0"
-    jackson_version = "2.7.5"
+    jackson_version = "2.8.9"
     play_version = "2.4.11"
-    swagger_annotations_version = "1.5.12"
+    swagger_annotations_version = "1.5.15"
     junit_version = "4.12"
-    jodatime_version = "2.9.4"
+    jodatime_version = "2.9.9"
 }
 
 dependencies {

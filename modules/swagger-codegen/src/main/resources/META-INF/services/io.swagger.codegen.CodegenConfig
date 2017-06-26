@@ -42,6 +42,7 @@ io.swagger.codegen.languages.NodeJSServerCodegen
 io.swagger.codegen.languages.ObjcClientCodegen
 io.swagger.codegen.languages.PerlClientCodegen
 io.swagger.codegen.languages.PhpClientCodegen
+io.swagger.codegen.languages.PowerShellClientCodegen
 io.swagger.codegen.languages.PistacheServerCodegen
 io.swagger.codegen.languages.PythonClientCodegen
 io.swagger.codegen.languages.Qt5CPPGenerator

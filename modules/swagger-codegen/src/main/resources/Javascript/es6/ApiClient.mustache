@@ -347,7 +347,7 @@ export default class ApiClient {
             data = response.text;
         }
 
-        return exports.convertToType(data, returnType);
+        return ApiClient.convertToType(data, returnType);
     }
 
     {{#emitJSDoc}}{{^usePromises}}/**
@@ -449,7 +449,7 @@ export default class ApiClient {
         }
 
         {{#usePromises}}return new Promise((resolve, reject) => {
-            request.end(function(error, response) {
+            request.end((error, response) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -521,7 +521,7 @@ export default class ApiClient {
             case 'String':
                 return String(data);
             case 'Date':
-                return this.parseDate(String(data));
+                return ApiClient.parseDate(String(data));
             case 'Blob':
                 return data;
             default:
@@ -536,7 +536,7 @@ export default class ApiClient {
                     var itemType = type[0];
 
                     return data.map((item) => {
-                        return exports.convertToType(item, itemType);
+                        return ApiClient.convertToType(item, itemType);
                     });
                 } else if (typeof type === 'object') {
                     // for plain object type like: {'String': 'Integer'}
@@ -552,8 +552,8 @@ export default class ApiClient {
                     var result = {};
                     for (var k in data) {
                         if (data.hasOwnProperty(k)) {
-                            var key = exports.convertToType(k, keyType);
-                            var value = exports.convertToType(data[k], valueType);
+                            var key = ApiClient.convertToType(k, keyType);
+                            var value = ApiClient.convertToType(data[k], valueType);
                             result[key] = value;
                         }
                     }
@@ -575,12 +575,12 @@ export default class ApiClient {
         if (Array.isArray(data)) {
             for (var i = 0; i < data.length; i++) {
                 if (data.hasOwnProperty(i))
-                    obj[i] = exports.convertToType(data[i], itemType);
+                    obj[i] = ApiClient.convertToType(data[i], itemType);
             }
         } else {
             for (var k in data) {
                 if (data.hasOwnProperty(k))
-                    obj[k] = exports.convertToType(data[k], itemType);
+                    obj[k] = ApiClient.convertToType(data[k], itemType);
             }
         }
     };
