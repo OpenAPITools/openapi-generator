@@ -450,7 +450,7 @@
             if (_this.enableCookies && typeof window === 'undefined'){
               _this.agent.saveCookies(response);
             }
-            resolve({data, response});
+            resolve({data: data, response: response});
           } catch (err) {
             reject(err);
           }

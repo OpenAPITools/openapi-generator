@@ -73,11 +73,8 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 	{{/vars}}
 }
 
-{{#vars}}{{^isNotContainer}}{{{datatype}}}& {{classname}}::{{getter}}()
-{
-    return m_{{name}};
-}
-{{/isNotContainer}}{{#isNotContainer}}{{{datatype}}} {{classname}}::{{getter}}() const
+{{#vars}}
+{{{datatype}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
@@ -85,7 +82,6 @@ void {{classname}}::{{setter}}({{{datatype}}} value)
 {
     m_{{name}} = value;
 }
-{{/isNotContainer}}
 {{/vars}}
 
 {{#modelNamespaceDeclarations}}

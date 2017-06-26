@@ -24,21 +24,20 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var body = new SwaggerPetstore.User(); // User | Created user object
+let body = new SwaggerPetstore.User(); // User | Created user object
 
 
-var callback = function(error, data, response) {
+apiInstance.createUser(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.createUser(body, callback);
+});
 ```
 
 ### Parameters
@@ -70,21 +69,20 @@ Creates list of users with given input array
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var body = [new SwaggerPetstore.User()]; // [User] | List of user object
+let body = [new SwaggerPetstore.User()]; // [User] | List of user object
 
 
-var callback = function(error, data, response) {
+apiInstance.createUsersWithArrayInput(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.createUsersWithArrayInput(body, callback);
+});
 ```
 
 ### Parameters
@@ -116,21 +114,20 @@ Creates list of users with given input array
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var body = [new SwaggerPetstore.User()]; // [User] | List of user object
+let body = [new SwaggerPetstore.User()]; // [User] | List of user object
 
 
-var callback = function(error, data, response) {
+apiInstance.createUsersWithListInput(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.createUsersWithListInput(body, callback);
+});
 ```
 
 ### Parameters
@@ -162,21 +159,20 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var username = "username_example"; // String | The name that needs to be deleted
+let username = "username_example"; // String | The name that needs to be deleted
 
 
-var callback = function(error, data, response) {
+apiInstance.deleteUser(username, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.deleteUser(username, callback);
+});
 ```
 
 ### Parameters
@@ -208,21 +204,20 @@ Get user by user name
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing. 
+let username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing. 
 
 
-var callback = function(error, data, response) {
+apiInstance.getUserByName(username, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.getUserByName(username, callback);
+});
 ```
 
 ### Parameters
@@ -254,23 +249,22 @@ Logs user into the system
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var username = "username_example"; // String | The user name for login
+let username = "username_example"; // String | The user name for login
 
-var password = "password_example"; // String | The password for login in clear text
+let password = "password_example"; // String | The password for login in clear text
 
 
-var callback = function(error, data, response) {
+apiInstance.loginUser(username, password, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully. Returned data: ' + data);
   }
-};
-apiInstance.loginUser(username, password, callback);
+});
 ```
 
 ### Parameters
@@ -303,18 +297,17 @@ Logs out current logged in user session
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var callback = function(error, data, response) {
+apiInstance.logoutUser((error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.logoutUser(callback);
+});
 ```
 
 ### Parameters
@@ -343,23 +336,22 @@ This can only be done by the logged in user.
 
 ### Example
 ```javascript
-var SwaggerPetstore = require('swagger_petstore');
+import SwaggerPetstore from 'swagger_petstore';
 
-var apiInstance = new SwaggerPetstore.UserApi();
+let apiInstance = new SwaggerPetstore.UserApi();
 
-var username = "username_example"; // String | name that need to be deleted
+let username = "username_example"; // String | name that need to be deleted
 
-var body = new SwaggerPetstore.User(); // User | Updated user object
+let body = new SwaggerPetstore.User(); // User | Updated user object
 
 
-var callback = function(error, data, response) {
+apiInstance.updateUser(username, body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
     console.log('API called successfully.');
   }
-};
-apiInstance.updateUser(username, body, callback);
+});
 ```
 
 ### Parameters

@@ -27,7 +27,6 @@ ApiResponse::ApiResponse()
     m_TypeIsSet = false;
     m_Message = U("");
     m_MessageIsSet = false;
-    
 }
 
 ApiResponse::~ApiResponse()
@@ -41,7 +40,6 @@ void ApiResponse::validate()
 
 web::json::value ApiResponse::toJson() const
 {
-    
     web::json::value val = web::json::value::object();
 
     if(m_CodeIsSet)
@@ -56,15 +54,12 @@ web::json::value ApiResponse::toJson() const
     {
         val[U("message")] = ModelBase::toJson(m_Message);
     }
-    
 
     return val;
 }
 
 void ApiResponse::fromJson(web::json::value& val)
 {
-    
-
     if(val.has_field(U("code")))
     {
         setCode(ModelBase::int32_tFromJson(val[U("code")]));
@@ -72,14 +67,11 @@ void ApiResponse::fromJson(web::json::value& val)
     if(val.has_field(U("type")))
     {
         setType(ModelBase::stringFromJson(val[U("type")]));
-        
     }
     if(val.has_field(U("message")))
     {
         setMessage(ModelBase::stringFromJson(val[U("message")]));
-        
     }
-    
 }
 
 void ApiResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
@@ -104,7 +96,6 @@ void ApiResponse::toMultipart(std::shared_ptr<MultipartFormData> multipart, cons
         multipart->add(ModelBase::toHttpContent(namePrefix + U("message"), m_Message));
         
     }
-    
 }
 
 void ApiResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
@@ -122,21 +113,19 @@ void ApiResponse::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, co
     if(multipart->hasContent(U("type")))
     {
         setType(ModelBase::stringFromHttpContent(multipart->getContent(U("type"))));
-        
     }
     if(multipart->hasContent(U("message")))
     {
         setMessage(ModelBase::stringFromHttpContent(multipart->getContent(U("message"))));
-        
     }
-    
 }
-
 
 int32_t ApiResponse::getCode() const
 {
     return m_Code;
 }
+
+
 void ApiResponse::setCode(int32_t value)
 {
     m_Code = value;
@@ -146,14 +135,18 @@ bool ApiResponse::codeIsSet() const
 {
     return m_CodeIsSet;
 }
+
 void ApiResponse::unsetCode()
 {
     m_CodeIsSet = false;
 }
+
 utility::string_t ApiResponse::getType() const
 {
     return m_Type;
 }
+
+
 void ApiResponse::setType(utility::string_t value)
 {
     m_Type = value;
@@ -163,14 +156,18 @@ bool ApiResponse::typeIsSet() const
 {
     return m_TypeIsSet;
 }
+
 void ApiResponse::unsetType()
 {
     m_TypeIsSet = false;
 }
+
 utility::string_t ApiResponse::getMessage() const
 {
     return m_Message;
 }
+
+
 void ApiResponse::setMessage(utility::string_t value)
 {
     m_Message = value;
@@ -180,6 +177,7 @@ bool ApiResponse::messageIsSet() const
 {
     return m_MessageIsSet;
 }
+
 void ApiResponse::unsetMessage()
 {
     m_MessageIsSet = false;

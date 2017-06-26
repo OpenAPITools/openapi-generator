@@ -25,7 +25,6 @@ Category::Category()
     m_IdIsSet = false;
     m_Name = U("");
     m_NameIsSet = false;
-    
 }
 
 Category::~Category()
@@ -39,7 +38,6 @@ void Category::validate()
 
 web::json::value Category::toJson() const
 {
-    
     web::json::value val = web::json::value::object();
 
     if(m_IdIsSet)
@@ -50,15 +48,12 @@ web::json::value Category::toJson() const
     {
         val[U("name")] = ModelBase::toJson(m_Name);
     }
-    
 
     return val;
 }
 
 void Category::fromJson(web::json::value& val)
 {
-    
-
     if(val.has_field(U("id")))
     {
         setId(ModelBase::int64_tFromJson(val[U("id")]));
@@ -66,9 +61,7 @@ void Category::fromJson(web::json::value& val)
     if(val.has_field(U("name")))
     {
         setName(ModelBase::stringFromJson(val[U("name")]));
-        
     }
-    
 }
 
 void Category::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
@@ -88,7 +81,6 @@ void Category::toMultipart(std::shared_ptr<MultipartFormData> multipart, const u
         multipart->add(ModelBase::toHttpContent(namePrefix + U("name"), m_Name));
         
     }
-    
 }
 
 void Category::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
@@ -106,16 +98,15 @@ void Category::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
     if(multipart->hasContent(U("name")))
     {
         setName(ModelBase::stringFromHttpContent(multipart->getContent(U("name"))));
-        
     }
-    
 }
-
 
 int64_t Category::getId() const
 {
     return m_Id;
 }
+
+
 void Category::setId(int64_t value)
 {
     m_Id = value;
@@ -125,14 +116,18 @@ bool Category::idIsSet() const
 {
     return m_IdIsSet;
 }
+
 void Category::unsetId()
 {
     m_IdIsSet = false;
 }
+
 utility::string_t Category::getName() const
 {
     return m_Name;
 }
+
+
 void Category::setName(utility::string_t value)
 {
     m_Name = value;
@@ -142,6 +137,7 @@ bool Category::nameIsSet() const
 {
     return m_NameIsSet;
 }
+
 void Category::unsetName()
 {
     m_NameIsSet = false;
