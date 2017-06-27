@@ -1,0 +1,18 @@
+<settings>
+  <localRepository/>
+  <interactiveMode/>
+  <usePluginRegistry/>
+  <offline/>
+  <pluginGroups/>
+  <servers>
+    <server>
+      <id>sonatype-nexus-snapshots</id>
+      <username>${env.SONATYPE_USERNAME}</username>
+      <password>${env.SONATYPE_PASSWORD}</password>
+    </server>
+  </servers>
+  <mirrors/>
+  <proxies/>
+  <profiles/>
+  <activeProfiles/>
+</settings>
