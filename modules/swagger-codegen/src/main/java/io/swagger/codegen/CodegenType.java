@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum CodegenType {
-    CLIENT, SERVER, DOCUMENTATION, OTHER;
+    CLIENT, SERVER, DOCUMENTATION, CONFIG, OTHER;
 
     private static Map<String, CodegenType> names = new HashMap<String, CodegenType>();
 
