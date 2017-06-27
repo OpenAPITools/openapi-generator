@@ -171,6 +171,10 @@ export class {{classname}} {
         return this._basePath;
     }
 
+    public setDefaultAuthentication(auth: Authentication) {
+	this.authentications.default = auth;
+    }
+
     public setApiKey(key: {{classname}}ApiKeys, value: string) {
         this.authentications[{{classname}}ApiKeys[key]].apiKey = value;
     }

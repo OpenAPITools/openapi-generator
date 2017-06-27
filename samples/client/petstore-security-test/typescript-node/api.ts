@@ -123,6 +123,10 @@ export class FakeApi {
         return this._basePath;
     }
 
+    public setDefaultAuthentication(auth: Authentication) {
+	this.authentications.default = auth;
+    }
+
     public setApiKey(key: FakeApiApiKeys, value: string) {
         this.authentications[FakeApiApiKeys[key]].apiKey = value;
     }
