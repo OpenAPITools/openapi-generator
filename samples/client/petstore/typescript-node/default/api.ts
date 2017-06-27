@@ -175,6 +175,10 @@ export class PetApi {
         return this._basePath;
     }
 
+    public setDefaultAuthentication(auth: Authentication) {
+	this.authentications.default = auth;
+    }
+
     public setApiKey(key: PetApiApiKeys, value: string) {
         this.authentications[PetApiApiKeys[key]].apiKey = value;
     }
@@ -667,6 +671,10 @@ export class StoreApi {
         return this._basePath;
     }
 
+    public setDefaultAuthentication(auth: Authentication) {
+	this.authentications.default = auth;
+    }
+
     public setApiKey(key: StoreApiApiKeys, value: string) {
         this.authentications[StoreApiApiKeys[key]].apiKey = value;
     }
@@ -911,6 +919,10 @@ export class UserApi {
 
     get basePath() {
         return this._basePath;
+    }
+
+    public setDefaultAuthentication(auth: Authentication) {
+	this.authentications.default = auth;
     }
 
     public setApiKey(key: UserApiApiKeys, value: string) {
