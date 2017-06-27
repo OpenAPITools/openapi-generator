@@ -1123,8 +1123,6 @@ public class DefaultCodegen {
         String datatype = null;
         if (p instanceof StringProperty && "number".equals(p.getFormat())) {
             datatype = "BigDecimal";
-        } else if (p instanceof StringProperty) {
-            datatype = "string";
         } else if (p instanceof ByteArrayProperty) {
             datatype = "ByteArray";
         } else if (p instanceof BinaryProperty) {
@@ -1163,6 +1161,8 @@ public class DefaultCodegen {
                 datatype = "Object";
                 LOGGER.error(e.getMessage(), e);
             }
+        } else if (p instanceof StringProperty) {
+            datatype = "string";
         } else {
             if (p != null) {
                 datatype = p.getType();
