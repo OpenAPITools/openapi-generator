@@ -99,3 +99,9 @@ script:
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=swaggerapi/swagger-generator DOCKER_CODEGEN_CLI_IMAGE_NAME=swaggerapi/swagger-codegen-cli
+
+after_success:
+  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ $TRAVIS_PULL_REQUEST == false ]; then
+      mvn clean deploy --settings .travis/settings.xml;
+    fi;
+
