@@ -218,7 +218,7 @@ public class GenerateTest {
     @Test
     public void testInstantiationTypes() throws Exception {
 
-        setupAndRunGenericTest("--instantiation-types", "hello=world,key=,foo=bar");
+        setupAndRunGenericTest("--instantiation-types", "hello=world,key=,foo=bar,key2");
 
         new FullVerifications() {{
             configurator.addInstantiationType("hello", "world");
@@ -227,12 +227,30 @@ public class GenerateTest {
             times = 1;
             configurator.addInstantiationType("key", "");
             times = 1;
+            configurator.addInstantiationType("key2", "");
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("--instantiation-types", "hello=world",
+                "--instantiation-types", "key=",
+                "--instantiation-types", "foo=bar",
+                "--instantiation-types", "key2");
+
+        new FullVerifications() {{
+            configurator.addInstantiationType("hello", "world");
+            times = 1;
+            configurator.addInstantiationType("foo", "bar");
+            times = 1;
+            configurator.addInstantiationType("key", "");
+            times = 1;
+            configurator.addInstantiationType("key2", "");
+            times = 1;
         }};
     }
 
     @Test
     public void testTypeMappings() throws Exception {
-        setupAndRunGenericTest("--type-mappings", "hello=world,key=,foo=bar");
+        setupAndRunGenericTest("--type-mappings", "hello=world,key=,foo=bar,key2");
 
         new FullVerifications() {{
             configurator.addTypeMapping("hello", "world");
@@ -241,12 +259,30 @@ public class GenerateTest {
             times = 1;
             configurator.addTypeMapping("key", "");
             times = 1;
+            configurator.addTypeMapping("key2", "");
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("--type-mappings", "hello=world",
+                "--type-mappings", "key=",
+                "--type-mappings", "foo=bar",
+                "--type-mappings", "key2");
+
+        new FullVerifications() {{
+            configurator.addTypeMapping("hello", "world");
+            times = 1;
+            configurator.addTypeMapping("foo", "bar");
+            times = 1;
+            configurator.addTypeMapping("key", "");
+            times = 1;
+            configurator.addTypeMapping("key2", "");
+            times = 1;
         }};
     }
 
     @Test
     public void testAdditionalProperties() throws Exception {
-        setupAndRunGenericTest("--additional-properties", "hello=world,key=,foo=bar");
+        setupAndRunGenericTest("--additional-properties", "hello=world,key=,foo=bar,key2");
 
         new FullVerifications() {{
             configurator.addAdditionalProperty("hello", "world");
@@ -255,12 +291,31 @@ public class GenerateTest {
             times = 1;
             configurator.addAdditionalProperty("key", "");
             times = 1;
+            configurator.addAdditionalProperty("key2", "");
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("--additional-properties", "hello=world",
+                "--additional-properties", "key=",
+                "--additional-properties", "foo=bar",
+                "--additional-properties", "key2");
+
+        new FullVerifications() {{
+            configurator.addAdditionalProperty("hello", "world");
+            times = 1;
+            configurator.addAdditionalProperty("foo", "bar");
+            times = 1;
+            configurator.addAdditionalProperty("key", "");
+            times = 1;
+            configurator.addAdditionalProperty("key2", "");
+            times = 1;
         }};
     }
 
     @Test
     public void testLanguageSpecificPrimitives() throws Exception {
-        setupAndRunGenericTest("--language-specific-primitives", "foo,bar,,hello,world");
+        setupAndRunGenericTest("--language-specific-primitives", "foo,,bar",
+                               "--language-specific-primitives", "hello,world");
 
         new FullVerifications() {{
             configurator.addLanguageSpecificPrimitive("foo");
@@ -276,7 +331,7 @@ public class GenerateTest {
 
     @Test
     public void testImportMappings() throws Exception {
-        setupAndRunGenericTest("--import-mappings", "hello=world,key=,foo=bar");
+        setupAndRunGenericTest("--import-mappings", "hello=world,key=,foo=bar,key2");
 
         new FullVerifications() {{
             configurator.addImportMapping("hello", "world");
@@ -284,6 +339,24 @@ public class GenerateTest {
             configurator.addImportMapping("foo", "bar");
             times = 1;
             configurator.addImportMapping("key", "");
+            times = 1;
+            configurator.addImportMapping("key2", "");
+            times = 1;
+        }};
+
+        setupAndRunGenericTest("--import-mappings", "hello=world",
+                "--import-mappings", "key=",
+                "--import-mappings", "foo=bar",
+                "--import-mappings", "key2");
+
+        new FullVerifications() {{
+            configurator.addImportMapping("hello", "world");
+            times = 1;
+            configurator.addImportMapping("foo", "bar");
+            times = 1;
+            configurator.addImportMapping("key", "");
+            times = 1;
+            configurator.addImportMapping("key2", "");
             times = 1;
         }};
     }
