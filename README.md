@@ -265,22 +265,29 @@ NAME
 SYNOPSIS
         swagger-codegen-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--additional-properties <additional properties>]
+                [--additional-properties <additional properties>...]
                 [--api-package <api package>] [--artifact-id <artifact id>]
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>] [--group-id <group id>]
+                [-D <system properties>...] [--git-repo-id <git repo id>]
+                [--git-user-id <git user id>] [--group-id <group id>]
+                [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
-                [--import-mappings <import mappings>]
-                [--instantiation-types <instantiation types>]
+                [--ignore-file-override <ignore file override location>]
+                [--import-mappings <import mappings>...]
+                [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
                 (-l <language> | --lang <language>)
-                [--language-specific-primitives <language specific primitives>]
-                [--library <library>] [--model-package <model package>]
+                [--language-specific-primitives <language specific primitives>...]
+                [--library <library>] [--model-name-prefix <model name prefix>]
+                [--model-name-suffix <model name suffix>]
+                [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)]
+                [--release-note <release note>] [--remove-operation-id-prefix]
+                [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)]
                 [(-t <template directory> | --template-dir <template directory>)]
-                [--type-mappings <type mappings>] [(-v | --verbose)]
+                [--type-mappings <type mappings>...] [(-v | --verbose)]
 
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -558,8 +565,13 @@ To specify an import mapping, use the `--import-mappings` argument and specify t
 Or for multiple mappings:
 
 ```
-Pet=my.models.MyPet,Order=my.models.MyOrder
+--import-mappings Pet=my.models.MyPet,Order=my.models.MyOrder
 ```
+or
+```
+--import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
+```
+
 
 ### Validating your OpenAPI Spec
 
