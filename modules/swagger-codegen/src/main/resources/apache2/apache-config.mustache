@@ -1,0 +1,44 @@
+{{#operations}}
+{{#operation}}
+<Location "{{basePathWithoutHost}}{{path}}">
+	{{>authConf}}
+	<LimitExcept GET POST PUT DELETE>
+		Require valid-user
+	</LimitExcept>
+{{#hasAuthMethods}}
+{{#authMethods}}
+	{{#isOAuth}}
+	<Limit {{httpMethod}}>
+	{{#scopes}}
+		Require group {{scope}}
+	{{/scopes}}
+	</Limit>
+	{{/isOAuth}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+	<Limit {{httpMethod}}>
+		Require valid-user
+	</Limit>
+{{/hasAuthMethods}}
+{{#vendorExtensions.x-codegen-otherMethods}}
+{{#hasAuthMethods}}
+{{#authMethods}}
+	{{#isOAuth}}
+	<Limit {{httpMethod}}>
+	{{#scopes}}
+		Require group {{scope}}
+	{{/scopes}}
+	</Limit>
+	{{/isOAuth}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+	<Limit {{httpMethod}}>
+		Require valid-user
+	</Limit>
+{{/hasAuthMethods}}
+{{/vendorExtensions.x-codegen-otherMethods}}
+</Location>
+{{/operation}}
+{{/operations}}
