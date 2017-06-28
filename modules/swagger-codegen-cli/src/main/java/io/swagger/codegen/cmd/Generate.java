@@ -76,23 +76,29 @@ public class Generate implements Runnable {
     private String modelNameSuffix;
 
     @Option(name = {"--instantiation-types"}, title = "instantiation types", description = "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType." +
-            "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code.")
-    private String instantiationTypes;
+            "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code."
+            + " You can also have multiple occurrences of this option.")
+    private List<String> instantiationTypes = new ArrayList<>();
 
     @Option(name = {"--type-mappings"}, title = "type mappings", description = "sets mappings between swagger spec types and generated code types " +
-            "in the format of swaggerType=generatedType,swaggerType=generatedType. For example: array=List,map=Map,string=String")
-    private String typeMappings;
+            "in the format of swaggerType=generatedType,swaggerType=generatedType. For example: array=List,map=Map,string=String."
+            + " You can also have multiple occurrences of this option.")
+    private List<String> typeMappings = new ArrayList<>();
 
-    @Option(name = {"--additional-properties"}, title = "additional properties", description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value")
-    private String additionalProperties;
+    @Option(name = {"--additional-properties"}, title = "additional properties",
+            description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> additionalProperties = new ArrayList<>();
 
     @Option(name = {"--language-specific-primitives"}, title = "language specific primitives",
-            description = "specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double")
-    private String languageSpecificPrimitives;
+            description = "specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> languageSpecificPrimitives = new ArrayList<>();
 
     @Option(name = {"--import-mappings"}, title = "import mappings",
-            description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import")
-    private String importMappings;
+            description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> importMappings = new ArrayList<>();
 
     @Option(name = {"--invoker-package"}, title = "invoker package", description = CodegenConstants.INVOKER_PACKAGE_DESC)
     private String invokerPackage;
@@ -121,9 +127,10 @@ public class Generate implements Runnable {
     @Option(name = {"--http-user-agent"}, title = "http user agent", description = CodegenConstants.HTTP_USER_AGENT_DESC)
     private String httpUserAgent;
     
-    @Option(name = {"--reserved-words-mappings"}, title = "import mappings",
-            description = "specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier")
-    private String reservedWordsMappings;
+    @Option(name = {"--reserved-words-mappings"}, title = "reserved word mappings",
+            description = "specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> reservedWordsMappings = new ArrayList<>();
 
     @Option(name = {"--ignore-file-override"}, title = "ignore file override location", description = CodegenConstants.IGNORE_FILE_OVERRIDE_DESC)
     private String ignoreFileOverride;
@@ -233,12 +240,12 @@ public class Generate implements Runnable {
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);
-        applyInstantiationTypesKvp(instantiationTypes, configurator);
-        applyImportMappingsKvp(importMappings, configurator);
-        applyTypeMappingsKvp(typeMappings, configurator);
-        applyAdditionalPropertiesKvp(additionalProperties, configurator);
-        applyLanguageSpecificPrimitivesCsv(languageSpecificPrimitives, configurator);
-        applyReservedWordsMappingsKvp(reservedWordsMappings, configurator);
+        applyInstantiationTypesKvpList(instantiationTypes, configurator);
+        applyImportMappingsKvpList(importMappings, configurator);
+        applyTypeMappingsKvpList(typeMappings, configurator);
+        applyAdditionalPropertiesKvpList(additionalProperties, configurator);
+        applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
+        applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
         new DefaultGenerator().opts(clientOptInput).generate();
