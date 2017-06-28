@@ -776,6 +776,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Kubernetes](https://kubernetes.io/)
 - [LANDR Audio](https://www.landr.com/)
 - [Lascaux](http://www.lascaux.it/)
+- [Leanix](http://www.leanix.net/)
 - [Leica Geosystems AG](http://leica-geosystems.com)
 - [LiveAgent](https://www.ladesk.com/)
 - [LXL Tech](http://lxltech.com)
