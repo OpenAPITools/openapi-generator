@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="/Users/williamcheng/Code/sep2016/swagger-codegen/samples/client/petstore/csharp/SwaggerClientWithPropertyChanged/src/IO.Swagger.Test/bin/Debug/IO.Swagger.Test.dll" total="136" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2016-09-14" time="16:47:45">
-  <environment nunit-version="2.6.4.14350" clr-version="4.0.30319.17020" os-version="Unix 15.6.0.0" platform="Unix" cwd="/Users/williamcheng/Code/sep2016/swagger-codegen/samples/client/petstore/csharp/SwaggerClientWithPropertyChanged" machine-name="Williams-MacBook-Pro.local" user="williamcheng" user-domain="Williams-MacBook-Pro.local" />
+<test-results name="/private/tmp/swagger-codegen/samples/client/petstore/csharp/SwaggerClientWithPropertyChanged/src/IO.Swagger.Test/bin/Debug/IO.Swagger.Test.dll" total="153" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2017-06-27" time="22:47:41">
+  <environment nunit-version="2.6.4.14350" clr-version="4.0.30319.42000" os-version="Unix 16.6.0.0" platform="Unix" cwd="/private/tmp/swagger-codegen/samples/client/petstore/csharp/SwaggerClientWithPropertyChanged" machine-name="Williams-MacBook-Pro.local" user="williamcheng" user-domain="Williams-MacBook-Pro.local" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Assembly" name="/Users/williamcheng/Code/sep2016/swagger-codegen/samples/client/petstore/csharp/SwaggerClientWithPropertyChanged/src/IO.Swagger.Test/bin/Debug/IO.Swagger.Test.dll" executed="True" result="Success" success="True" time="0.119" asserts="0">
+  <test-suite type="Assembly" name="/private/tmp/swagger-codegen/samples/client/petstore/csharp/SwaggerClientWithPropertyChanged/src/IO.Swagger.Test/bin/Debug/IO.Swagger.Test.dll" executed="True" result="Success" success="True" time="0.154" asserts="0">
     <results>
-      <test-suite type="Namespace" name="IO" executed="True" result="Success" success="True" time="0.113" asserts="0">
+      <test-suite type="Namespace" name="IO" executed="True" result="Success" success="True" time="0.147" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Swagger" executed="True" result="Success" success="True" time="0.113" asserts="0">
+          <test-suite type="Namespace" name="Swagger" executed="True" result="Success" success="True" time="0.147" asserts="0">
             <results>
-              <test-suite type="Namespace" name="Test" executed="True" result="Success" success="True" time="0.113" asserts="0">
+              <test-suite type="Namespace" name="Test" executed="True" result="Success" success="True" time="0.147" asserts="0">
                 <results>
-                  <test-suite type="TestFixture" name="AdditionalPropertiesClassTests" executed="True" result="Success" success="True" time="0.013" asserts="0">
+                  <test-suite type="TestFixture" name="AdditionalPropertiesClassTests" executed="True" result="Success" success="True" time="0.024" asserts="0">
                     <results>
-                      <test-case name="IO.Swagger.Test.AdditionalPropertiesClassTests.AdditionalPropertiesClassInstanceTest" executed="True" result="Success" success="True" time="0.006" asserts="0" />
+                      <test-case name="IO.Swagger.Test.AdditionalPropertiesClassTests.AdditionalPropertiesClassInstanceTest" executed="True" result="Success" success="True" time="0.012" asserts="0" />
                       <test-case name="IO.Swagger.Test.AdditionalPropertiesClassTests.MapOfMapPropertyTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.AdditionalPropertiesClassTests.MapPropertyTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="AnimalFarmTests" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                  <test-suite type="TestFixture" name="AnimalFarmTests" executed="True" result="Success" success="True" time="0.001" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.AnimalFarmTests.AnimalFarmInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
@@ -58,6 +58,17 @@
                       <test-case name="IO.Swagger.Test.ArrayTestTests.ArrayTestInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
+                  <test-suite type="TestFixture" name="CapitalizationTests" executed="True" result="Success" success="True" time="0.006" asserts="0">
+                    <results>
+                      <test-case name="IO.Swagger.Test.CapitalizationTests.ATT_NAMETest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.CapitalizationTests.CapitalCamelTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.CapitalizationTests.CapitalizationInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.CapitalizationTests.CapitalSnakeTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.CapitalizationTests.SCAETHFlowPointsTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.CapitalizationTests.SmallCamelTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.CapitalizationTests.SmallSnakeTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                    </results>
+                  </test-suite>
                   <test-suite type="TestFixture" name="CategoryTests" executed="True" result="Success" success="True" time="0.001" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.CategoryTests.CategoryInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
@@ -71,6 +82,12 @@
                       <test-case name="IO.Swagger.Test.CatTests.ClassNameTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.CatTests.ColorTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.CatTests.DeclawedTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="ClassModelTests" executed="True" result="Success" success="True" time="0.001" asserts="0">
+                    <results>
+                      <test-case name="IO.Swagger.Test.ClassModelTests._ClassTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.ClassModelTests.ClassModelInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
                   <test-suite type="TestFixture" name="DogTests" executed="True" result="Success" success="True" time="0.002" asserts="0">
@@ -88,7 +105,7 @@
                       <test-case name="IO.Swagger.Test.EnumArraysTests.JustSymbolTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="EnumClassTests" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                  <test-suite type="TestFixture" name="EnumClassTests" executed="True" result="Success" success="True" time="0.001" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.EnumClassTests.EnumClassInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
@@ -101,15 +118,15 @@
                       <test-case name="IO.Swagger.Test.EnumTestTests.EnumTestInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="FakeApiTests" executed="True" result="Success" success="True" time="0.011" asserts="0">
+                  <test-suite type="TestFixture" name="FakeApiTests" executed="True" result="Success" success="True" time="0.012" asserts="0">
                     <results>
-                      <test-case name="IO.Swagger.Test.FakeApiTests.InstanceTest" executed="True" result="Success" success="True" time="0.008" asserts="0" />
+                      <test-case name="IO.Swagger.Test.FakeApiTests.InstanceTest" executed="True" result="Success" success="True" time="0.010" asserts="0" />
                       <test-case name="IO.Swagger.Test.FakeApiTests.TestClientModelTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.FakeApiTests.TestEndpointParametersTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.FakeApiTests.TestEnumParametersTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="FormatTestTests" executed="True" result="Success" success="True" time="0.006" asserts="0">
+                  <test-suite type="TestFixture" name="FormatTestTests" executed="True" result="Success" success="True" time="0.009" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.FormatTestTests._ByteTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.FormatTestTests._DoubleTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
@@ -127,7 +144,7 @@
                       <test-case name="IO.Swagger.Test.FormatTestTests.UuidTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="HasOnlyReadOnlyTests" executed="True" result="Success" success="True" time="0.001" asserts="0">
+                  <test-suite type="TestFixture" name="HasOnlyReadOnlyTests" executed="True" result="Success" success="True" time="0.002" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.HasOnlyReadOnlyTests.BarTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.HasOnlyReadOnlyTests.FooTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
@@ -200,6 +217,34 @@
                       <test-case name="IO.Swagger.Test.OrderTests.StatusTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
+                  <test-suite type="TestFixture" name="OuterBooleanTests" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                    <results>
+                      <test-case name="IO.Swagger.Test.OuterBooleanTests.OuterBooleanInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="OuterCompositeTests" executed="True" result="Success" success="True" time="0.002" asserts="0">
+                    <results>
+                      <test-case name="IO.Swagger.Test.OuterCompositeTests.MyBooleanTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.OuterCompositeTests.MyNumberTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.OuterCompositeTests.MyStringTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                      <test-case name="IO.Swagger.Test.OuterCompositeTests.OuterCompositeInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="OuterEnumTests" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                    <results>
+                      <test-case name="IO.Swagger.Test.OuterEnumTests.OuterEnumInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="OuterNumberTests" executed="True" result="Success" success="True" time="0.001" asserts="0">
+                    <results>
+                      <test-case name="IO.Swagger.Test.OuterNumberTests.OuterNumberInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="OuterStringTests" executed="True" result="Success" success="True" time="0.000" asserts="0">
+                    <results>
+                      <test-case name="IO.Swagger.Test.OuterStringTests.OuterStringInstanceTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
+                    </results>
+                  </test-suite>
                   <test-suite type="TestFixture" name="PetApiTests" executed="True" result="Success" success="True" time="0.004" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.PetApiTests.AddPetTest" executed="True" result="Success" success="True" time="0.001" asserts="0" />
@@ -213,7 +258,7 @@
                       <test-case name="IO.Swagger.Test.PetApiTests.UploadFileTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="PetTests" executed="True" result="Success" success="True" time="0.003" asserts="0">
+                  <test-suite type="TestFixture" name="PetTests" executed="True" result="Success" success="True" time="0.004" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.PetTests.CategoryTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.PetTests.IdTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
@@ -237,7 +282,7 @@
                       <test-case name="IO.Swagger.Test.SpecialModelNameTests.SpecialPropertyNameTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="StoreApiTests" executed="True" result="Success" success="True" time="0.002" asserts="0">
+                  <test-suite type="TestFixture" name="StoreApiTests" executed="True" result="Success" success="True" time="0.003" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.StoreApiTests.DeleteOrderTest" executed="True" result="Success" success="True" time="0.001" asserts="0" />
                       <test-case name="IO.Swagger.Test.StoreApiTests.GetInventoryTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
@@ -266,7 +311,7 @@
                       <test-case name="IO.Swagger.Test.UserApiTests.UpdateUserTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                     </results>
                   </test-suite>
-                  <test-suite type="TestFixture" name="UserTests" executed="True" result="Success" success="True" time="0.004" asserts="0">
+                  <test-suite type="TestFixture" name="UserTests" executed="True" result="Success" success="True" time="0.005" asserts="0">
                     <results>
                       <test-case name="IO.Swagger.Test.UserTests.EmailTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
                       <test-case name="IO.Swagger.Test.UserTests.FirstNameTest" executed="True" result="Success" success="True" time="0.000" asserts="0" />
