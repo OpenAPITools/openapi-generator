@@ -108,7 +108,7 @@ export const PetApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -134,7 +134,7 @@ export const PetApiFetchParamCreator = {
         let contentTypeHeader: Dictionary<string> = {};
         fetchOptions.headers = assign({
             "api_key": params["apiKey"],
-        }, contentTypeHeader);
+        }, contentTypeHeader, fetchOptions.headers);
         return {
             url: url.format(urlObj),
             options: fetchOptions,
@@ -155,7 +155,7 @@ export const PetApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -177,7 +177,7 @@ export const PetApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -201,7 +201,7 @@ export const PetApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -224,7 +224,7 @@ export const PetApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -255,7 +255,7 @@ export const PetApiFetchParamCreator = {
             "status": params["status"],
         });
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -286,7 +286,7 @@ export const PetApiFetchParamCreator = {
             "file": params["file"],
         });
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -616,7 +616,7 @@ export const StoreApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -634,7 +634,7 @@ export const StoreApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -658,7 +658,7 @@ export const StoreApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -681,7 +681,7 @@ export const StoreApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -860,7 +860,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -883,7 +883,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -906,7 +906,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -930,7 +930,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -954,7 +954,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -978,7 +978,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -996,7 +996,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
@@ -1025,7 +1025,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
         return {
             url: url.format(urlObj),
