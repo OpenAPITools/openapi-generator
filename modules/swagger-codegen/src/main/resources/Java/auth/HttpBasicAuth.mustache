@@ -4,12 +4,20 @@ package {{invokerPackage}}.auth;
 
 import {{invokerPackage}}.Pair;
 
+{{^java8}}
 import com.migcomponents.migbase64.Base64;
+{{/java8}}
+{{#java8}}
+import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+{{/java8}}
 
 import java.util.Map;
 import java.util.List;
 
+{{^java8}}
 import java.io.UnsupportedEncodingException;
+{{/java8}}
 
 {{>generatedAnnotation}}
 public class HttpBasicAuth implements Authentication {
@@ -38,10 +46,15 @@ public class HttpBasicAuth implements Authentication {
       return;
     }
     String str = (username == null ? "" : username) + ":" + (password == null ? "" : password);
+{{^java8}}
     try {
       headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.getBytes("UTF-8"), false));
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
+{{/java8}}
+{{#java8}}
+    headerParams.put("Authorization", "Basic " + Base64.getEncoder().encodeToString(str.getBytes(StandardCharsets.UTF_8)));
+{{/java8}}
   }
 }

@@ -109,11 +109,11 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "available"
           enum:
           - "available"
           - "pending"
           - "sold"
-          default: "available"
         collectionFormat: "csv"
       responses:
         200:
@@ -623,10 +623,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
       - name: "enum_form_string"
         in: "formData"
         description: "Form parameter enum test (string)"
@@ -644,10 +644,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
       - name: "enum_header_string"
         in: "header"
         description: "Header parameter enum test (string)"
@@ -665,10 +665,10 @@ paths:
         type: "array"
         items:
           type: "string"
+          default: "$"
           enum:
           - ">"
           - "$"
-          default: "$"
       - name: "enum_query_string"
         in: "query"
         description: "Query parameter enum test (string)"
@@ -964,6 +964,13 @@ definitions:
       complete:
         type: "boolean"
         default: false
+    example:
+      petId: 6
+      quantity: 1
+      id: 0
+      shipDate: "2000-01-23T04:56:07.000+00:00"
+      complete: false
+      status: "placed"
     xml:
       name: "Order"
   Category:
@@ -974,6 +981,9 @@ definitions:
         format: "int64"
       name:
         type: "string"
+    example:
+      name: "aeiou"
+      id: 6
     xml:
       name: "Category"
   User:
@@ -999,6 +1009,15 @@ definitions:
         type: "integer"
         format: "int32"
         description: "User Status"
+    example:
+      firstName: "aeiou"
+      lastName: "aeiou"
+      password: "aeiou"
+      userStatus: 6
+      phone: "aeiou"
+      id: 0
+      email: "aeiou"
+      username: "aeiou"
     xml:
       name: "User"
   Tag:
@@ -1009,6 +1028,9 @@ definitions:
         format: "int64"
       name:
         type: "string"
+    example:
+      name: "aeiou"
+      id: 1
     xml:
       name: "Tag"
   Pet:
@@ -1047,6 +1069,18 @@ definitions:
         - "available"
         - "pending"
         - "sold"
+    example:
+      photoUrls:
+      - "aeiou"
+      name: "doggie"
+      id: 0
+      category:
+        name: "aeiou"
+        id: 6
+      tags:
+      - name: "aeiou"
+        id: 1
+      status: "available"
     xml:
       name: "Pet"
   ApiResponse:
@@ -1059,6 +1093,10 @@ definitions:
         type: "string"
       message:
         type: "string"
+    example:
+      code: 0
+      type: "aeiou"
+      message: "aeiou"
   $special[model.name]:
     properties:
       $special[property.name]:
@@ -1260,6 +1298,8 @@ definitions:
     properties:
       client:
         type: "string"
+    example:
+      client: "aeiou"
   ReadOnlyFirst:
     type: "object"
     properties:
@@ -1386,6 +1426,10 @@ definitions:
         $ref: "#/definitions/OuterString"
       my_boolean:
         $ref: "#/definitions/OuterBoolean"
+    example:
+      my_string: {}
+      my_number: {}
+      my_boolean: {}
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
