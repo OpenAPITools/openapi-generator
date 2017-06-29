@@ -116,11 +116,11 @@ export const {{classname}}FetchParamCreator = {
 {{#hasHeaderParams}}
         fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({
             {{#headerParams}}"{{baseName}}": params["{{paramName}}"],{{/headerParams}}
-        }, contentTypeHeader);
+        }, contentTypeHeader, fetchOptions.headers);
 {{/hasHeaderParams}}
 {{^hasHeaderParams}}
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = {{#supportsES6}}Object.{{/supportsES6}}assign({}, contentTypeHeader, fetchOptions.headers);
         }
 {{/hasHeaderParams}}
         return {
