@@ -14,12 +14,12 @@ lazy val root = (project in file(".")).
       "com.squareup.retrofit2" % "converter-scalars" % "2.1.0" % "compile",
       "com.squareup.retrofit2" % "converter-gson" % "2.1.0" % "compile",
       "com.squareup.retrofit2" % "converter-jackson" % "2.1.0" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.7.5" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.5" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.7.5" % "compile",
-      "io.swagger" % "swagger-annotations" % "1.5.12" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.8.9" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.8.9" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.9" % "compile",
+      "io.swagger" % "swagger-annotations" % "1.5.15" % "compile",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
-      "joda-time" % "joda-time" % "2.9.4" % "compile",
+      "joda-time" % "joda-time" % "2.9.9" % "compile",
       "junit" % "junit" % "4.12" % "test",
       "com.novocode" % "junit-interface" % "0.11" % "test"
     )
