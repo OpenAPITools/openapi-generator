@@ -218,8 +218,8 @@
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.github.joschi.jackson</groupId>
-      <artifactId>jackson-datatype-threetenbp</artifactId>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-joda</artifactId>
       <version>${jackson-version}</version>
     </dependency>
 
@@ -244,7 +244,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <swagger-annotations-version>1.5.15</swagger-annotations-version>
     <jersey-version>1.19.4</jersey-version>
-    <jackson-version>2.6.4</jackson-version>
+    <jackson-version>2.7.5</jackson-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>

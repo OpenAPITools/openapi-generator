@@ -22,7 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.threeten.bp.OffsetDateTime;
+import org.joda.time.DateTime;
 
 /**
  * Order
@@ -39,7 +39,7 @@ public class Order {
   private Integer quantity = null;
 
   @SerializedName("shipDate")
-  private OffsetDateTime shipDate = null;
+  private DateTime shipDate = null;
 
   /**
    * Order Status
@@ -150,7 +150,7 @@ public class Order {
     this.quantity = quantity;
   }
 
-  public Order shipDate(OffsetDateTime shipDate) {
+  public Order shipDate(DateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
@@ -160,11 +160,11 @@ public class Order {
    * @return shipDate
   **/
   @ApiModelProperty(value = "")
-  public OffsetDateTime getShipDate() {
+  public DateTime getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(DateTime shipDate) {
     this.shipDate = shipDate;
   }
 

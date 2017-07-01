@@ -275,7 +275,7 @@ Float _float = 3.4F; // Float | None
 String string = "string_example"; // String | None
 byte[] binary = B; // byte[] | None
 LocalDate date = new LocalDate(); // LocalDate | None
-OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+DateTime dateTime = new DateTime(); // DateTime | None
 String password = "password_example"; // String | None
 String paramCallback = "paramCallback_example"; // String | None
 try {
@@ -301,7 +301,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional]
  **binary** | **byte[]**| None | [optional]
  **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional]
+ **dateTime** | **DateTime**| None | [optional]
  **password** | **String**| None | [optional]
  **paramCallback** | **String**| None | [optional]
 

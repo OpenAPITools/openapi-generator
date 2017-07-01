@@ -29,6 +29,7 @@ public class JavaOptionsProvider implements OptionsProvider {
     public static final String LOCAL_PREFIX_VALUE = "tst";
     public static final String SERIALIZABLE_MODEL_VALUE = "false";
     public static final String FULL_JAVA_UTIL_VALUE = "true";
+    public static final String JAVA8_MODE_VALUE = "true";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     //public static final String SUPPORT_JAVA6 = "true";
     public static final String USE_BEANVALIDATION = "false";
@@ -65,6 +66,7 @@ public class JavaOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LOCAL_VARIABLE_PREFIX, LOCAL_PREFIX_VALUE)
                 .put(CodegenConstants.SERIALIZABLE_MODEL, SERIALIZABLE_MODEL_VALUE)
                 .put(JavaClientCodegen.FULL_JAVA_UTIL, FULL_JAVA_UTIL_VALUE)
+                .put(JavaClientCodegen.JAVA8_MODE, JAVA8_MODE_VALUE)
                 .put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true")
                 .put(JavaClientCodegen.DATE_LIBRARY, "joda")
                 .put("hideGenerationTimestamp", "true")

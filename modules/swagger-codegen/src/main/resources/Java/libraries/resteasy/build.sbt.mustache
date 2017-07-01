@@ -22,8 +22,8 @@ lazy val root = (project in file(".")).
 	  {{^java8}}
       "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.7.5",
       "joda-time" % "joda-time" % "2.9.4",
-      {{/java8}}
       "com.brsanthu" % "migbase64" % "2.2",
+      {{/java8}}
       {{#supportJava6}}
       "org.apache.commons" % "commons-lang3" % "3.5",
       "commons-io" % "commons-io" % "2.5",

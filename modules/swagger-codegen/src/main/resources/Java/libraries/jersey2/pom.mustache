@@ -244,12 +244,14 @@
     </dependency>
     {{/threetenbp}}
 
+    {{^java8}}
     <!-- Base64 encoding that works in both JVM and Android -->
     <dependency>
       <groupId>com.brsanthu</groupId>
       <artifactId>migbase64</artifactId>
       <version>2.2</version>
     </dependency>
+    {{/java8}}
     {{#supportJava6}}
     <dependency>
       <groupId>org.apache.commons</groupId>
