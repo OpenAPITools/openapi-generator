@@ -45,9 +45,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String JAVA8_MODE = "java8";
     public static final String SUPPORT_JAVA6 = "supportJava6";
 
     protected String dateLibrary = "threetenbp";
+    protected boolean java8Mode = false;
     protected String invokerPackage = "io.swagger";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java";
@@ -149,14 +151,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<String, String>();
-        dateOptions.put("java8", "Java 8 native JSR310 (preferred for jdk 1.8+)");
+        dateOptions.put("java8", "Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets \"" + JAVA8_MODE + "\" to true");
         dateOptions.put("threetenbp", "Backport of JSR310 (preferred for jdk < 1.8)");
         dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
         dateOptions.put("joda", "Joda (for legacy app only)");
         dateOptions.put("legacy", "Legacy java.util.Date (if you really have a good reason not to use threetenbp");
         dateLibrary.setEnum(dateOptions);
-
         cliOptions.add(dateLibrary);
+
+        CliOption java8Mode = new CliOption(JAVA8_MODE, "Option. Use Java8 classes instead of third party equivalents");
+        Map<String, String> java8ModeOptions = new HashMap<String, String>();
+        java8ModeOptions.put("true", "Use Java 8 classes such as Base64");
+        java8ModeOptions.put("false", "Various third party libraries as needed");
+        java8Mode.setEnum(java8ModeOptions);
+        cliOptions.add(java8Mode);
 
     }
 
@@ -359,6 +367,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
+
+        if(additionalProperties.containsKey(JAVA8_MODE)) {
+            setJava8Mode(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
+            if ( java8Mode ) {
+                additionalProperties.put("java8", "true");
+            }
+        }
 
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
             setDateLibrary(additionalProperties.get("dateLibrary").toString());
@@ -1132,6 +1147,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
+    }
+
+    public void setJava8Mode(boolean enabled) {
+        this.java8Mode = enabled;
     }
 
     @Override

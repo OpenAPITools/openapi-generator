@@ -15,43 +15,38 @@ package io.swagger.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.TypeAdapter;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Type;
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
-public class JSON {
-    private ApiClient apiClient;
-    private Gson gson;
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.util.Date;
 
-    /**
-     * JSON constructor.
-     *
-     * @param apiClient An instance of ApiClient
-     */
-    public JSON(ApiClient apiClient) {
-        this.apiClient = apiClient;
+public class JSON {
+    private Gson gson;
+    private boolean isLenientOnJson = false;
+    private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
+    private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
+    private DateTimeTypeAdapter dateTimeTypeAdapter = new DateTimeTypeAdapter();
+    private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+
+    public JSON() {
         gson = new GsonBuilder()
-            .registerTypeAdapter(Date.class, new DateAdapter(apiClient))
-            .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-            .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+            .registerTypeAdapter(Date.class, dateTypeAdapter)
+            .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
+            .registerTypeAdapter(DateTime.class, dateTimeTypeAdapter)
+            .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             .create();
     }
 
@@ -68,9 +63,16 @@ public class JSON {
      * Set Gson.
      *
      * @param gson Gson
+     * @return JSON
      */
-    public void setGson(Gson gson) {
+    public JSON setGson(Gson gson) {
         this.gson = gson;
+        return this;
+    }
+
+    public JSON setLenientOnJson(boolean lenientOnJson) {
+        isLenientOnJson = lenientOnJson;
+        return this;
     }
 
     /**
@@ -86,15 +88,15 @@ public class JSON {
     /**
      * Deserialize the given JSON string to Java object.
      *
-     * @param <T> Type
-     * @param body The JSON string
+     * @param <T>        Type
+     * @param body       The JSON string
      * @param returnType The type to deserialize into
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
     public <T> T deserialize(String body, Type returnType) {
         try {
-            if (apiClient.isLenientOnJson()) {
+            if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
                 // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
                 jsonReader.setLenient(true);
@@ -104,122 +106,227 @@ public class JSON {
             }
         } catch (JsonParseException e) {
             // Fallback processing when failed to parse JSON form response body:
-            //   return the response body string directly for the String return type;
-            //   parse response body into date or datetime for the Date return type.
+            // return the response body string directly for the String return type;
             if (returnType.equals(String.class))
                 return (T) body;
-            else if (returnType.equals(Date.class))
-                return (T) apiClient.parseDateOrDatetime(body);
-            else throw(e);
-        }
-    }
-}
-
-class DateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
-    private final ApiClient apiClient;
-
-    /**
-     * Constructor for DateAdapter
-     *
-     * @param apiClient Api client
-     */
-    public DateAdapter(ApiClient apiClient) {
-        super();
-        this.apiClient = apiClient;
-    }
-
-    /**
-     * Serialize
-     *
-     * @param src Date
-     * @param typeOfSrc Type
-     * @param context Json Serialization Context
-     * @return Json Element
-     */
-    @Override
-    public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-        if (src == null) {
-            return JsonNull.INSTANCE;
-        } else {
-            return new JsonPrimitive(apiClient.formatDatetime(src));
+            else throw (e);
         }
     }
 
     /**
-     * Deserialize
-     *
-     * @param json Json element
-     * @param date Type
-     * @param context Json Serialization Context
-     * @return Date
-     * @throws JsonParseException if fail to parse
+     * Gson TypeAdapter for Joda DateTime type
      */
-    @Override
-    public Date deserialize(JsonElement json, Type date, JsonDeserializationContext context) throws JsonParseException {
-        String str = json.getAsJsonPrimitive().getAsString();
-        try {
-            return apiClient.parseDateOrDatetime(str);
-        } catch (RuntimeException e) {
-            throw new JsonParseException(e);
+    public static class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
+
+        private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
+        private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
+
+        public DateTimeTypeAdapter() {
+            this(ISODateTimeFormat.dateTime().withOffsetParsed());
         }
-    }
-}
 
-/**
- * Gson TypeAdapter for Joda DateTime type
- */
-class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
-
-    private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
-    private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
-
-    @Override
-    public void write(JsonWriter out, DateTime date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(printFormatter.print(date));
+        public DateTimeTypeAdapter(DateTimeFormatter formatter) {
+            this.formatter = formatter;
         }
-    }
 
-    @Override
-    public DateTime read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                return parseFormatter.parseDateTime(date);
+        public void setFormat(DateTimeFormatter dateFormat) {
+            this.formatter = dateFormat;
         }
-    }
-}
 
-/**
- * Gson TypeAdapter for Joda LocalDate type
- */
-class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+        @Override
+        public void write(JsonWriter out, DateTime date) throws IOException {
+            if (date == null) {
+                out.nullValue();
+            } else {
+                out.value(printFormatter.print(date));
+            }
+        }
 
-    private final DateTimeFormatter formatter = ISODateTimeFormat.date();
-
-    @Override
-    public void write(JsonWriter out, LocalDate date) throws IOException {
-        if (date == null) {
-            out.nullValue();
-        } else {
-            out.value(formatter.print(date));
+        @Override
+        public DateTime read(JsonReader in) throws IOException {
+            switch (in.peek()) {
+                case NULL:
+                    in.nextNull();
+                    return null;
+                default:
+                    String date = in.nextString();
+                    return parseFormatter.parseDateTime(date);
+            }
         }
     }
 
-    @Override
-    public LocalDate read(JsonReader in) throws IOException {
-        switch (in.peek()) {
-            case NULL:
-                in.nextNull();
-                return null;
-            default:
-                String date = in.nextString();
-                return formatter.parseLocalDate(date);
+    /**
+     * Gson TypeAdapter for Joda LocalDate type
+     */
+    public class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+
+        private DateTimeFormatter formatter;
+
+        public LocalDateTypeAdapter() {
+            this(ISODateTimeFormat.date());
+        }
+
+        public LocalDateTypeAdapter(DateTimeFormatter formatter) {
+            this.formatter = formatter;
+        }
+
+        public void setFormat(DateTimeFormatter dateFormat) {
+            this.formatter = dateFormat;
+        }
+
+        @Override
+        public void write(JsonWriter out, LocalDate date) throws IOException {
+            if (date == null) {
+                out.nullValue();
+            } else {
+                out.value(formatter.print(date));
+            }
+        }
+
+        @Override
+        public LocalDate read(JsonReader in) throws IOException {
+            switch (in.peek()) {
+                case NULL:
+                    in.nextNull();
+                    return null;
+                default:
+                    String date = in.nextString();
+                    return formatter.parseLocalDate(date);
+            }
         }
     }
+
+    public JSON setDateTimeFormat(DateTimeFormatter dateFormat) {
+        dateTimeTypeAdapter.setFormat(dateFormat);
+        return this;
+    }
+
+    public JSON setLocalDateFormat(DateTimeFormatter dateFormat) {
+        localDateTypeAdapter.setFormat(dateFormat);
+        return this;
+    }
+
+    /**
+     * Gson TypeAdapter for java.sql.Date type
+     * If the dateFormat is null, a simple "yyyy-MM-dd" format will be used
+     * (more efficient than SimpleDateFormat).
+     */
+    public static class SqlDateTypeAdapter extends TypeAdapter<java.sql.Date> {
+
+        private DateFormat dateFormat;
+
+        public SqlDateTypeAdapter() {
+        }
+
+        public SqlDateTypeAdapter(DateFormat dateFormat) {
+            this.dateFormat = dateFormat;
+        }
+
+        public void setFormat(DateFormat dateFormat) {
+            this.dateFormat = dateFormat;
+        }
+
+        @Override
+        public void write(JsonWriter out, java.sql.Date date) throws IOException {
+            if (date == null) {
+                out.nullValue();
+            } else {
+                String value;
+                if (dateFormat != null) {
+                    value = dateFormat.format(date);
+                } else {
+                    value = date.toString();
+                }
+                out.value(value);
+            }
+        }
+
+        @Override
+        public java.sql.Date read(JsonReader in) throws IOException {
+            switch (in.peek()) {
+                case NULL:
+                    in.nextNull();
+                    return null;
+                default:
+                    String date = in.nextString();
+                    try {
+                        if (dateFormat != null) {
+                            return new java.sql.Date(dateFormat.parse(date).getTime());
+                        }
+                        return new java.sql.Date(ISO8601Utils.parse(date, new ParsePosition(0)).getTime());
+                    } catch (ParseException e) {
+                        throw new JsonParseException(e);
+                    }
+            }
+        }
+    }
+
+    /**
+     * Gson TypeAdapter for java.util.Date type
+     * If the dateFormat is null, ISO8601Utils will be used.
+     */
+    public static class DateTypeAdapter extends TypeAdapter<Date> {
+
+        private DateFormat dateFormat;
+
+        public DateTypeAdapter() {
+        }
+
+        public DateTypeAdapter(DateFormat dateFormat) {
+            this.dateFormat = dateFormat;
+        }
+
+        public void setFormat(DateFormat dateFormat) {
+            this.dateFormat = dateFormat;
+        }
+
+        @Override
+        public void write(JsonWriter out, Date date) throws IOException {
+            if (date == null) {
+                out.nullValue();
+            } else {
+                String value;
+                if (dateFormat != null) {
+                    value = dateFormat.format(date);
+                } else {
+                    value = ISO8601Utils.format(date, true);
+                }
+                out.value(value);
+            }
+        }
+
+        @Override
+        public Date read(JsonReader in) throws IOException {
+            try {
+                switch (in.peek()) {
+                    case NULL:
+                        in.nextNull();
+                        return null;
+                    default:
+                        String date = in.nextString();
+                        try {
+                            if (dateFormat != null) {
+                                return dateFormat.parse(date);
+                            }
+                            return ISO8601Utils.parse(date, new ParsePosition(0));
+                        } catch (ParseException e) {
+                            throw new JsonParseException(e);
+                        }
+                }
+            } catch (IllegalArgumentException e) {
+                throw new JsonParseException(e);
+            }
+        }
+    }
+
+    public JSON setDateFormat(DateFormat dateFormat) {
+        dateTypeAdapter.setFormat(dateFormat);
+        return this;
+    }
+
+    public JSON setSqlDateFormat(DateFormat dateFormat) {
+        sqlDateTypeAdapter.setFormat(dateFormat);
+        return this;
+    }
+
 }

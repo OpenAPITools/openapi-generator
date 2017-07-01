@@ -161,6 +161,7 @@
       <artifactId>migbase64</artifactId>
       <version>2.2</version>
     </dependency>
+
     <dependency>
     <groupId>org.jboss.resteasy</groupId>
     <artifactId>resteasy-jackson-provider</artifactId>

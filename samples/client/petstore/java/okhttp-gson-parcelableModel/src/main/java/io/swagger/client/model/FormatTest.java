@@ -24,8 +24,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.UUID;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -65,7 +65,7 @@ public class FormatTest implements Parcelable {
   private LocalDate date = null;
 
   @SerializedName("dateTime")
-  private OffsetDateTime dateTime = null;
+  private DateTime dateTime = null;
 
   @SerializedName("uuid")
   private UUID uuid = null;
@@ -263,7 +263,7 @@ public class FormatTest implements Parcelable {
     this.date = date;
   }
 
-  public FormatTest dateTime(OffsetDateTime dateTime) {
+  public FormatTest dateTime(DateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -273,11 +273,11 @@ public class FormatTest implements Parcelable {
    * @return dateTime
   **/
   @ApiModelProperty(value = "")
-  public OffsetDateTime getDateTime() {
+  public DateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(DateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -426,7 +426,7 @@ public class FormatTest implements Parcelable {
     _byte = (byte[])in.readValue(null);
     binary = (byte[])in.readValue(null);
     date = (LocalDate)in.readValue(LocalDate.class.getClassLoader());
-    dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
+    dateTime = (DateTime)in.readValue(DateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
     password = (String)in.readValue(null);
   }

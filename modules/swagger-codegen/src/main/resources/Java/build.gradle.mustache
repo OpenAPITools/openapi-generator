@@ -130,6 +130,8 @@ dependencies {
     {{#threetenbp}}
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version",
     {{/threetenbp}}
+    {{^java8}}
     compile "com.brsanthu:migbase64:2.2"
+    {{/java8}}
     testCompile "junit:junit:$junit_version"
 }
