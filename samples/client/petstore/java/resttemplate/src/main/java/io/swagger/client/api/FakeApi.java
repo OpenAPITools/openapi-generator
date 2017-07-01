@@ -4,8 +4,8 @@ import io.swagger.client.ApiClient;
 
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
 
 import java.util.ArrayList;
@@ -214,7 +214,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, DateTime dateTime, String password, String paramCallback) throws RestClientException {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'number' is set

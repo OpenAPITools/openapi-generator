@@ -26,7 +26,7 @@
         <!-- Dependencies are automatically installed when the package is installed -->
         <dependencies>
 
-            <dependency id="NewtonSoft.Json" version="8.0.3" />
+            <dependency id="NewtonSoft.Json" version="10.0.3" />
             <dependency id="RestSharp" version="105.1.0" />
 
         </dependencies>
@@ -36,5 +36,6 @@
         <!-- A readme.txt will be displayed when the package is installed -->
         <file src="..\..\README.md" target="" />
         <file src="..\..\docs\**\*.*" target="docs" />
+
     </files>
 </package>

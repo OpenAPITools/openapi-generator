@@ -80,7 +80,7 @@
       <!-- build WAR file -->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>3.1.0</version>
         <configuration>
            <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>

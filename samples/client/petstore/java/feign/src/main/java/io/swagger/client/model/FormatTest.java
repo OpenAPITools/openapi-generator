@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.UUID;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 
 /**
  * FormatTest
@@ -60,7 +60,7 @@ public class FormatTest {
   private LocalDate date = null;
 
   @JsonProperty("dateTime")
-  private DateTime dateTime = null;
+  private OffsetDateTime dateTime = null;
 
   @JsonProperty("uuid")
   private UUID uuid = null;
@@ -258,7 +258,7 @@ public class FormatTest {
     this.date = date;
   }
 
-  public FormatTest dateTime(DateTime dateTime) {
+  public FormatTest dateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -268,11 +268,11 @@ public class FormatTest {
    * @return dateTime
   **/
   @ApiModelProperty(value = "")
-  public DateTime getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(DateTime dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 

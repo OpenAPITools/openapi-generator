@@ -25,6 +25,7 @@ public class JavaClientOptionsProvider extends JavaOptionsProvider {
         options.put(JavaClientCodegen.PERFORM_BEANVALIDATION, PERFORM_BEANVALIDATION);
         options.put(JavaClientCodegen.USE_GZIP_FEATURE, "false");
         options.put(JavaClientCodegen.USE_RUNTIME_EXCEPTION, "false");
+        options.put(JavaClientCodegen.JAVA8_MODE, "false");
         return options;
     }
 

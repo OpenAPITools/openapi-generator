@@ -244,7 +244,6 @@
       <version>${jackson-version}</version>
     </dependency>
     {{/threetenbp}}
-
     {{^java8}}
     <!-- Base64 encoding that works in both JVM and Android -->
     <dependency>
@@ -253,14 +252,12 @@
       <version>2.2</version>
     </dependency>
     {{/java8}}
-
     {{#supportJava6}}
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons_lang3_version}</version>
     </dependency>
-
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -276,7 +273,6 @@
         <scope>provided</scope>
     </dependency>
 {{/useBeanValidation}}
-
     {{#parcelableModel}}
     <!-- Needed for Parcelable support-->
     <dependency>
@@ -286,7 +282,6 @@
       <scope>provided</scope>
     </dependency>
     {{/parcelableModel}}
-
     <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>

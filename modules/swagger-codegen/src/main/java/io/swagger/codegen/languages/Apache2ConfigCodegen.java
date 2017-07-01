@@ -78,8 +78,8 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
           item = "*";
         }
         splitPath.add(item);
+        op.path += item + "/";
       }
-      op.path = String.join("/", splitPath);
       op.vendorExtensions.put("x-codegen-userInfoPath", userInfoPath);
       boolean foundInNewList = false;
       for (CodegenOperation op1 : newOpList) {

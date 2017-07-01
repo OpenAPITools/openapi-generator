@@ -2579,8 +2579,8 @@ public class DefaultCodegen {
                         name = typeMapping.get(name);
                         p.baseType = name;
                     } else {
-                        p.baseType = name;
                         name = toModelName(name);
+                        p.baseType = name;
                         if (defaultIncludes.contains(name)) {
                             imports.add(name);
                         }

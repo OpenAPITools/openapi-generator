@@ -80,7 +80,7 @@
       <!-- build WAR file -->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>3.1.0</version>
         <configuration>
            <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
@@ -212,7 +212,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
-            <version>2.1.8-M1</version>
+            <version>3.0.17</version>
         </dependency>
 {{/useSwaggerUI}}
   </dependencies>
@@ -238,10 +238,10 @@
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>
 {{/useBeanValidation}}    
 {{#generateSpringApplication}}    
-    <spring-version>4.2.5.RELEASE</spring-version>
+    <spring-version>4.3.9.RELEASE</spring-version>
 {{/generateSpringApplication}}    
 {{#generateSpringBootApplication}}
-    <spring.boot-version>1.3.3.RELEASE</spring.boot-version>
+    <spring.boot-version>1.4.7.RELEASE</spring.boot-version>
 {{/generateSpringBootApplication}}    
     <cxf-version>3.1.11</cxf-version>
     <jackson-jaxrs-version>2.8.9</jackson-jaxrs-version>

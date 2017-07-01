@@ -139,7 +139,7 @@ export const PetApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (petstore_auth) required
         // oauth required
@@ -173,7 +173,7 @@ export const PetApiFetchParamCreator = {
         let contentTypeHeader: Dictionary<string> = {};
         fetchOptions.headers = Object.assign({
             "api_key": params["apiKey"],
-        }, contentTypeHeader);
+        }, contentTypeHeader, fetchOptions.headers);
         // authentication (petstore_auth) required
         // oauth required
         if (configuration.accessToken) {
@@ -206,7 +206,7 @@ export const PetApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (petstore_auth) required
         // oauth required
@@ -240,7 +240,7 @@ export const PetApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (petstore_auth) required
         // oauth required
@@ -272,7 +272,7 @@ export const PetApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (api_key) required
         if (configuration.apiKey && configuration.apiKey.api_key) {
@@ -306,7 +306,7 @@ export const PetApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (petstore_auth) required
         // oauth required
@@ -345,7 +345,7 @@ export const PetApiFetchParamCreator = {
             "status": params["status"],
         });
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (petstore_auth) required
         // oauth required
@@ -384,7 +384,7 @@ export const PetApiFetchParamCreator = {
             "file": params["file"],
         });
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (petstore_auth) required
         // oauth required
@@ -722,7 +722,7 @@ export const StoreApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -741,7 +741,7 @@ export const StoreApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
         // authentication (api_key) required
         if (configuration.apiKey && configuration.apiKey.api_key) {
@@ -772,7 +772,7 @@ export const StoreApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -800,7 +800,7 @@ export const StoreApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -984,7 +984,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -1012,7 +1012,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -1040,7 +1040,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -1065,7 +1065,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -1090,7 +1090,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -1123,7 +1123,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -1142,7 +1142,7 @@ export const UserApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
@@ -1176,7 +1176,7 @@ export const UserApiFetchParamCreator = {
             fetchOptions.body = JSON.stringify(params["body"] || {});
         }
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
