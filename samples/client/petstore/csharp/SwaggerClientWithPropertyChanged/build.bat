@@ -10,9 +10,9 @@ if not exist ".\nuget.exe" powershell -Command "(new-object System.Net.WebClient
 
 if not exist ".\bin" mkdir bin
 
-copy packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
+copy packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
 copy packages\RestSharp.105.1.0\lib\net45\RestSharp.dll bin\RestSharp.dll
-copy packages\Fody.1.29.2\Fody.dll bin\Fody.dll
+copy packages\Fody.1.29.4\Fody.dll bin\Fody.dll
 copy packages\PropertyChanged.Fody.1.51.3\PropertyChanged.Fody.dll bin\PropertyChanged.Fody.dll
 copy packages\PropertyChanged.Fody.1.51.3\Lib\dotnet\PropertyChanged.dll bin\PropertyChanged.dll
 %CSCPATH%\csc  /reference:bin\Newtonsoft.Json.dll;bin\RestSharp.dll;System.ComponentModel.DataAnnotations.dll /r:bin\Fody.dll;bin\PropertyChanged.Fody.dll;bin\PropertyChanged.dll /target:library /out:bin\IO.Swagger.dll /recurse:src\IO.Swagger\*.cs /doc:bin\IO.Swagger.xml

@@ -67,10 +67,10 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\Newtonsoft.Json.8.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
-      <HintPath Condition="Exists('..\packages')">..\packages\Newtonsoft.Json.8.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
-      <HintPath Condition="Exists('..\..\packages')">..\..\packages\Newtonsoft.Json.8.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
-      <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\Newtonsoft.Json.8.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
+      <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\Newtonsoft.Json.10.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
+      <HintPath Condition="Exists('..\packages')">..\packages\Newtonsoft.Json.10.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
+      <HintPath Condition="Exists('..\..\packages')">..\..\packages\Newtonsoft.Json.10.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
+      <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\Newtonsoft.Json.10.0.3\lib\{{targetFrameworkNuget}}\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
         <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.105.1.0\lib\{{targetFrameworkNuget}}\RestSharp.dll</HintPath>
@@ -78,9 +78,11 @@
         <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.105.1.0\lib\{{targetFrameworkNuget}}\RestSharp.dll</HintPath>
       <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.105.1.0\lib\{{targetFrameworkNuget}}\RestSharp.dll</HintPath>
     </Reference>
-    {{#generatePropertyChanged}}<Reference Include="PropertyChanged">
+    {{#generatePropertyChanged}}
+    <Reference Include="PropertyChanged">
       <HintPath>..\..\packages\PropertyChanged.Fody.1.51.3\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
-    </Reference>{{/generatePropertyChanged}}
+    </Reference>
+    {{/generatePropertyChanged}}
     {{/netStandard}}
     {{#netStandard}}
     <!-- A reference to the entire .NET Framework is automatically included -->
@@ -94,10 +96,13 @@
   {{^netStandard}}
   <ItemGroup>
       <None Include="packages.config" />
-      {{#generatePropertyChanged}}<None Include="FodyWeavers.xml" />{{/generatePropertyChanged}}
+      {{#generatePropertyChanged}}
+      <None Include="FodyWeavers.xml" />
+      {{/generatePropertyChanged}}
   </ItemGroup>
-  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />{{#generatePropertyChanged}}
-  <Import Project="..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.1.29.2\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
+  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
+  {{#generatePropertyChanged}}
+  <Import Project="..\..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   {{/generatePropertyChanged}}
   {{/netStandard}}
   {{#netStandard}}

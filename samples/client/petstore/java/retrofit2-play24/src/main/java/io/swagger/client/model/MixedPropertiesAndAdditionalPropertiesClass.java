@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.joda.time.DateTime;
+import org.threeten.bp.OffsetDateTime;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -37,7 +37,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private UUID uuid = null;
 
   @JsonProperty("dateTime")
-  private DateTime dateTime = null;
+  private OffsetDateTime dateTime = null;
 
   @JsonProperty("map")
   private Map<String, Animal> map = null;
@@ -61,7 +61,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(DateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -72,11 +72,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   **/
   @Valid
   @ApiModelProperty(value = "")
-  public DateTime getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(DateTime dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 

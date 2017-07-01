@@ -19,9 +19,9 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 import okio.BufferedSink;
 import okio.Okio;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormatter;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.net.ssl.*;
 import java.io.File;
@@ -232,8 +232,8 @@ public class ApiClient {
         return this;
     }
 
-    public ApiClient setDateTimeFormat(DateTimeFormatter dateFormat) {
-        this.json.setDateTimeFormat(dateFormat);
+    public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
+        this.json.setOffsetDateTimeFormat(dateFormat);
         return this;
     }
 
@@ -447,7 +447,7 @@ public class ApiClient {
     public String parameterToString(Object param) {
         if (param == null) {
             return "";
-        } else if (param instanceof Date || param instanceof DateTime || param instanceof LocalDate) {
+        } else if (param instanceof Date || param instanceof OffsetDateTime || param instanceof LocalDate) {
             //Serialize to json string and remove the " enclosing characters
             String jsonStr = json.serialize(param);
             return jsonStr.substring(1, jsonStr.length() - 1);

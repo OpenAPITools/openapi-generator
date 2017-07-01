@@ -99,7 +99,7 @@ ext {
     swagger_annotations_version = "1.5.15"
     junit_version = "4.12"
     rx_java_version = "1.3.0"
-    jodatime_version = "2.9.9"
+    threetenbp_version = "1.3.5"
 }
 
 dependencies {
@@ -110,7 +110,7 @@ dependencies {
     compile "io.reactivex:rxjava:$rx_java_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
-    compile "joda-time:joda-time:$jodatime_version"
+    compile "org.threeten:threetenbp:$threetenbp_version"
 
     testCompile "junit:junit:$junit_version"
 }
