@@ -192,7 +192,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -233,7 +233,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -274,7 +274,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -316,7 +316,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -355,7 +355,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -406,7 +406,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -439,7 +439,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
@@ -483,7 +483,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml', 
+            'application/xml',
             'application/json'
         ];
 
