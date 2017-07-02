@@ -607,7 +607,7 @@ public class DefaultCodegen {
      * @return properly-escaped pattern
      */
     public String toRegularExpression(String pattern) {
-        return escapeText(addRegularExpressionDelimiter(pattern));
+        return addRegularExpressionDelimiter(escapeText(pattern));
     }
 
     /**
@@ -3573,9 +3573,14 @@ public class DefaultCodegen {
      * @return the pattern with delimiter
      */
     public String addRegularExpressionDelimiter(String pattern) {
-        if (pattern != null && !pattern.matches("^/.*")) {
-            return "/" + pattern + "/";
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
         }
+
+        if (!pattern.matches("^/.*")) {
+            return "/" + pattern.replaceAll("/", "\\\\/") + "/";
+        }
+
         return pattern;
     }
 
