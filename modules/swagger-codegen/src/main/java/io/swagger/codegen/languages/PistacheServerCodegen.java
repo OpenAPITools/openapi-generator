@@ -286,10 +286,10 @@ public class PistacheServerCodegen extends DefaultCodegen implements CodegenConf
             return "0.0";
         } else if (p instanceof FloatProperty) {
             return "0.0f";
-        } else if (p instanceof IntegerProperty || p instanceof BaseIntegerProperty) {
-            return "0";
         } else if (p instanceof LongProperty) {
             return "0L";
+        } else if (p instanceof IntegerProperty || p instanceof BaseIntegerProperty) {
+            return "0";
         } else if (p instanceof DecimalProperty) {
             return "0.0";
         } else if (p instanceof MapProperty) {

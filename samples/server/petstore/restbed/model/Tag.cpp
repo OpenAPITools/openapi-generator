@@ -30,7 +30,7 @@ namespace model {
 
 Tag::Tag()
 {
-    m_Id = 0;
+    m_Id = 0L;
     m_Name = "";
     
 }
@@ -54,7 +54,7 @@ void Tag::fromJsonString(std::string const& jsonString)
 	std::stringstream ss(jsonString);
 	ptree pt;
 	read_json(ss,pt);
-	m_Id = pt.get("Id", 0);
+	m_Id = pt.get("Id", 0L);
 	m_Name = pt.get("Name", "");
 }
 
