@@ -20,7 +20,7 @@ namespace model {
 
 User::User()
 {
-    m_Id = 0;
+    m_Id = 0L;
     m_IdIsSet = false;
     m_Username = "";
     m_UsernameIsSet = false;

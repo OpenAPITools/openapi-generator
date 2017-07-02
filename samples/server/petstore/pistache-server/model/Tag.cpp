@@ -20,7 +20,7 @@ namespace model {
 
 Tag::Tag()
 {
-    m_Id = 0;
+    m_Id = 0L;
     m_IdIsSet = false;
     m_Name = "";
     m_NameIsSet = false;
