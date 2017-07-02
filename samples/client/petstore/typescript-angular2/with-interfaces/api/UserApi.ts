@@ -188,7 +188,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -225,7 +225,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -262,7 +262,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -304,7 +304,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -343,7 +343,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -386,7 +386,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -419,7 +419,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 
@@ -459,7 +459,7 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json', 
+            'application/json',
             'application/xml'
         ];
 

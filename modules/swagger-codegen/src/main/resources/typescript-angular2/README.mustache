@@ -28,9 +28,37 @@ _unPublished (not recommended):_
 npm install PATH_TO_GENERATED_PACKAGE --save
 ```
 
+_using `npm link`:_
+
+In PATH_TO_GENERATED_PACKAGE:
+```
+npm link
+```
+
+In your project:
+```
+npm link {{npmName}}@{{npmVersion}}
+```
+
 In your angular2 project:
 
-TODO: paste example.
+```
+import { DefaultApi } from '{{npmName}}/api/api';
+@NgModule({
+    imports: [],
+    declarations: [],
+    exports: [],
+    providers: [AppModule]
+})
+export class CoreModule {}
+```
+```
+import { DefaultApi } from '{{npmName}}/api/api';
+
+export class AppComponent {
+	 constructor(private apiGateway: DefaultApi) { }
+}
+```
 
 ### Set service base path
 If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
@@ -41,4 +69,30 @@ import { BASE_PATH } from './path-to-swagger-gen-service/index';
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
 ]);
+```
+
+#### Using @angular/cli
+First extend your `src/environments/*.ts` files by adding the corresponding base path:
+
+```
+export const environment = {
+  production: false,
+  API_BASE_PATH: 'http://127.0.0.1:8080'
+};
+```
+
+In the src/app/app.module.ts:
+```
+import { BASE_PATH } from '{{npmName}}';
+import { environment } from '../environments/environment';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+  ],
+  imports: [ ],
+  providers: [{ provide: BASE_PATH, useValue: useValue: environment.API_BASE_PATH }],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
 ```  
