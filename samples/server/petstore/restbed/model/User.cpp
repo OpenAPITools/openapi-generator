@@ -30,7 +30,7 @@ namespace model {
 
 User::User()
 {
-    m_Id = 0;
+    m_Id = 0L;
     m_Username = "";
     m_FirstName = "";
     m_LastName = "";
@@ -66,7 +66,7 @@ void User::fromJsonString(std::string const& jsonString)
 	std::stringstream ss(jsonString);
 	ptree pt;
 	read_json(ss,pt);
-	m_Id = pt.get("Id", 0);
+	m_Id = pt.get("Id", 0L);
 	m_Username = pt.get("Username", "");
 	m_FirstName = pt.get("FirstName", "");
 	m_LastName = pt.get("LastName", "");

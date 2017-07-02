@@ -30,7 +30,7 @@ namespace model {
 
 Pet::Pet()
 {
-    m_Id = 0;
+    m_Id = 0L;
     m_Name = "";
     m_Status = "";
     
@@ -56,7 +56,7 @@ void Pet::fromJsonString(std::string const& jsonString)
 	std::stringstream ss(jsonString);
 	ptree pt;
 	read_json(ss,pt);
-	m_Id = pt.get("Id", 0);
+	m_Id = pt.get("Id", 0L);
 	m_Name = pt.get("Name", "");
 	m_Status = pt.get("Status", "");
 }

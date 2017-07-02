@@ -274,7 +274,7 @@ double = 1.2 # Float | None
 
 pattern_without_delimiter = "pattern_without_delimiter_example" # String | None
 
-byte = "B" # String | None
+byte = "byte_example" # String | None
 
 opts = { 
   integer: 56, # Integer | None
