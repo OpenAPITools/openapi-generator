@@ -36,5 +36,5 @@ ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml
 java $JAVA_OPTS -jar $executable $ags
 
 echo "Typescript Petstore API client (with interfaces generated)"
-ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.json -l typescript-angular2 -o samples/client/petstore/typescript-angular2/with-interfaces -D withInterfaces=true"
+ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-angular2 -o samples/client/petstore/typescript-angular2/with-interfaces -D withInterfaces=true"
 java $JAVA_OPTS -jar $executable $ags
