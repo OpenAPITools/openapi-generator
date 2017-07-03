@@ -77,8 +77,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
-2.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen/2.3.0-SNAPSHOT/)| Jul/Aug 2017   | 1.0, 1.1, 1.2, 2.0   | Minor release with breaking changes
-2.2.3 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen/2.2.3-SNAPSHOT/)| TBD   | 1.0, 1.1, 1.2, 2.0   | Patch release without breaking changes
+2.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen-cli/2.3.0-SNAPSHOT/)| Jul/Aug 2017   | 1.0, 1.1, 1.2, 2.0   | Minor release with breaking changes
+2.2.3 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen-cli/2.2.3-SNAPSHOT/)| TBD   | 1.0, 1.1, 1.2, 2.0   | Patch release without breaking changes
 [2.2.2](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.2.2) (**current stable**) | 2017-03-01   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.2](https://github.com/swagger-api/swagger-codegen/tree/v2.2.2)
 [2.2.1](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.2.1) | 2016-08-07   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.1](https://github.com/swagger-api/swagger-codegen/tree/v2.2.1)
 [2.1.6](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.1.6) | 2016-04-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.6](https://github.com/swagger-api/swagger-codegen/tree/v2.1.6)
@@ -857,7 +857,7 @@ Presentations/Videos/Tutorials/Books
 - 2017/04/27 - [Swagger Codegen のPHP実装があまりにアレだったので、ライブラリ自作して公開してみた](http://qiita.com/imunew/items/2e9c472e0097e329f2cd) by [imunew](http://qiita.com/imunew)
 - 2017/05/17 - [Diseño de APIs con OpenAPI](https://www.slideshare.net/pjmolina/diseo-de-apis-con-openapi) by [Pedro J. Molina](https://github.com/pjmolina) @ [JSDayES 2017](http://2017.jsday.es/)
 - 2017/05/22 - [Presentation of the Vert.x-Swagger project](http://vertx.io/blog/presentation-of-the-vert-x-swagger-project/) by [@phiz71](http://github.com/phiz71)
-- 2017/06/21 - [Swagger Presentation (Warsaw Ruby Users Group](https://www.youtube.com/watch?v=uCnnDMFQB8U) by [@rafalpetryka](http://github.com/rafalpetryka)
+- 2017/06/21 - [Swagger Presentation - Warsaw Ruby Users Group](https://www.youtube.com/watch?v=uCnnDMFQB8U) by [@rafalpetryka](http://github.com/rafalpetryka)
 
 # Swagger Codegen Core Team
 
