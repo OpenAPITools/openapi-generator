@@ -10,34 +10,16 @@
  * Do not edit the class manually.
  */
 
-import { Category } from './category';
-import { Tag } from './tag';
 
 
 /**
- * A pet for sale in the pet store
+ * Describes the result of uploading an image resource
  */
-export interface Pet {
-    id?: number;
+export interface ApiResponse {
+    code?: number;
 
-    category?: Category;
+    type?: string;
 
-    name: string;
+    message?: string;
 
-    photoUrls: Array<string>;
-
-    tags?: Array<Tag>;
-
-    /**
-     * pet status in the store
-     */
-    status?: Pet.StatusEnum;
-
-}
-export namespace Pet {
-    export enum StatusEnum {
-        Available = <any> 'available',
-        Pending = <any> 'pending',
-        Sold = <any> 'sold'
-    }
 }

@@ -25,11 +25,10 @@ import { Pet } from '../model/pet';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { PetServiceInterface }                            from './PetServiceInterface';
 
 
 @Injectable()
-export class PetService implements PetServiceInterface {
+export class PetService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();

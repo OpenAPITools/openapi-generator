@@ -24,11 +24,10 @@ import { User } from '../model/user';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { UserServiceInterface }                            from './UserServiceInterface';
 
 
 @Injectable()
-export class UserService implements UserServiceInterface {
+export class UserService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();

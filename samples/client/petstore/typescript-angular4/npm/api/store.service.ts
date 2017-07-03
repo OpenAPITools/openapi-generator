@@ -24,11 +24,10 @@ import { Order } from '../model/order';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { StoreServiceInterface }                            from './StoreServiceInterface';
 
 
 @Injectable()
-export class StoreService implements StoreServiceInterface {
+export class StoreService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
