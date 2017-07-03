@@ -711,6 +711,18 @@
             </modules>
         </profile>
         <profile>
+            <id>springboot-useoptional</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/springboot-useoptional</module>
+            </modules>
+        </profile>
+        <profile>
             <id>springboot-beanvalidation</id>
             <activation>
                 <property>
@@ -821,6 +833,7 @@
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
+                <module>samples/server/petstore/springboot-useoptional</module>
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
