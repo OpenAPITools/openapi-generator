@@ -17,6 +17,7 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -29,7 +30,28 @@ import javax.validation.constraints.*;
 @io.swagger.annotations.Api(description = "the fake_classname_test API")
 
 public class FakeClassnameTestApi  {
-   private final FakeClassnameTestApiService delegate = FakeClassnameTestApiServiceFactory.getFakeClassnameTestApi();
+   private final FakeClassnameTestApiService delegate;
+
+   public FakeClassnameTestApi(@Context ServletConfig servletContext) {
+      FakeClassnameTestApiService delegate = null;
+
+      if (servletContext != null) {
+         String implClass = servletContext.getInitParameter("FakeClassnameTestApi.implementation");
+         if (implClass != null && !"".equals(implClass.trim())) {
+            try {
+               delegate = (FakeClassnameTestApiService) Class.forName(implClass).newInstance();
+            } catch (Exception e) {
+               throw new RuntimeException(e);
+            }
+         } 
+      }
+
+      if (delegate == null) {
+         delegate = FakeClassnameTestApiServiceFactory.getFakeClassnameTestApi();
+      }
+
+      this.delegate = delegate;
+   }
 
     @PATCH
     
