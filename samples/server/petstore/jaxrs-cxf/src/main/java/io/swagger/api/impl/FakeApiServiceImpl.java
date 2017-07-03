@@ -4,9 +4,8 @@ import io.swagger.api.*;
 import java.math.BigDecimal;
 import io.swagger.model.Client;
 import java.util.Date;
-
-import io.swagger.model.OuterComposite;
 import org.joda.time.LocalDate;
+import io.swagger.model.OuterComposite;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,30 +21,30 @@ import org.apache.cxf.jaxrs.ext.multipart.*;
 import io.swagger.annotations.Api;
 
 public class FakeApiServiceImpl implements FakeApi {
-    @Override
     public Boolean fakeOuterBooleanSerialize(Boolean body) {
         // TODO: Implement...
+        
         return null;
     }
-
-    @Override
+    
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) {
         // TODO: Implement...
+        
         return null;
     }
-
-    @Override
+    
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) {
         // TODO: Implement...
+        
         return null;
     }
-
-    @Override
+    
     public String fakeOuterStringSerialize(String body) {
         // TODO: Implement...
+        
         return null;
     }
-
+    
     public Client testClientModel(Client body) {
         // TODO: Implement...
         
@@ -59,6 +58,12 @@ public class FakeApiServiceImpl implements FakeApi {
     }
     
     public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    public void testJsonFormData(String param, String param2) {
         // TODO: Implement...
         
         
