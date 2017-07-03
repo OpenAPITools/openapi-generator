@@ -4,6 +4,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.codegen.*;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
+import io.swagger.codegen.languages.features.OptionalFeatures;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
@@ -15,7 +16,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 
-public class SpringCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
+public class SpringCodegen extends AbstractJavaCodegen
+        implements BeanValidationFeatures, OptionalFeatures {
     public static final String DEFAULT_LIBRARY = "spring-boot";
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -43,6 +45,7 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean implicitHeaders = false;
+    protected boolean useOptional = false;
 
     public SpringCodegen() {
         super();
@@ -72,6 +75,8 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers."));
+        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,
+                "Use Optional container for optional parameters"));
 
         supportedLibraries.put(DEFAULT_LIBRARY, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -154,10 +159,13 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
 
+        if (additionalProperties.containsKey(USE_OPTIONAL)) {
+            this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
+        }
+
         if (useBeanValidation) {
             writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
         }
-
 
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
             this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
@@ -165,6 +173,10 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
+        
+        if (useOptional) {
+            writePropertyBack(USE_OPTIONAL, useOptional);
+        }
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -613,4 +625,8 @@ public class SpringCodegen extends AbstractJavaCodegen implements BeanValidation
         this.useBeanValidation = useBeanValidation;
     }
 
+    @Override
+    public void setUseOptional(boolean useOptional) {
+        this.useOptional = useOptional;
+    }
 }
