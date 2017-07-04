@@ -130,6 +130,7 @@ class Decoders {
             "yyyy-MM-dd HH:mm:ss"
         ].map { (format: String) -> DateFormatter in
             let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "en_US_POSIX")
             formatter.dateFormat = format
             return formatter
         }
