@@ -1,4 +1,4 @@
-# Documentation for {{#swagger}}{{#info}}{{title}} {{version}} Tizen SDK{{/info}}{{/swagger}}
+# Documentation for {{#swagger}}{{#info}}{{title}} {{version}} Tizen Client SDK{{/info}}{{/swagger}}
 
 ## How do I get the doc files?
 First generate source code by running `swagger-codegen`
@@ -16,7 +16,7 @@ This is the structure of the doc folder:
 ├── Doxyfile                  \\Doxygen config files
 ├── generateDocumentation.sh  \\Script to run to generate documentation
 ├── README.md                 \\This file
-├── SDK                       \\Documentation for all classes in Tizen Client SDK for Artik Cloud. See ./html/index.html
+├── SDK                       \\Documentation for all classes in {{#swagger}}{{#info}}{{title}} Tizen Client SDK{{/info}}{{/swagger}}. See ./html/index.html
 │   └── html
 
 ```
@@ -36,13 +36,19 @@ Doxygen is the de facto standard tool for generating/extracting documentation fr
 Check out [Doxygen](https://www.doxygen.org/) for additional information about the Doxygen project.
 
 ## I Don't want to run Doxygen. What are the API files for accessing the REST endpoints?
+All URIs are relative to {{{scheme}}}://{{{host}}}{{{basePath}}}
 {{#apiInfo}}{{#apis}}{{#operations}}
-* [{{classname}}](../src/{{classname}}.cpp)
+### {{classname}}
+Method | HTTP request | Description
+------------- | ------------- | -------------
 {{#operation}}
-  * *{{nickname}}Sync* / *{{nickname}}Async* - {{{summary}}}.
-  {{/operation}}
+*{{nickname}}Sync* | *{{httpMethod}}* {{{path}}} | {{{summary}}}.
+*{{nickname}}ASync* | *{{httpMethod}}* {{{path}}} | {{{summary}}}.
+{{/operation}}
 {{/operations}}{{/apis}}{{/apiInfo}}
 
 ## What are the Model files for the data structures/objects?
-{{#models}}{{#model}}
-* [{{classname}}](../src/{{classname}}.cpp) - {{{description}}}{{/model}}{{/models}}
+Class | Description
+------------- | -------------
+{{#models}}{{#model}} *{{classname}}* | {{{description}}}
+{{/model}}{{/models}}

@@ -13,7 +13,7 @@ using namespace Tizen::{{prefix}};
 
 void helper_func(JsonObject *object, const gchar* member_name, JsonNode *member_node,gpointer user_data)
 {
-	const gchar* member_string;
+	gchar* member_string;
 	if (!JSON_NODE_HOLDS_VALUE(member_node)) {
 		if (JSON_NODE_HOLDS_OBJECT(member_node)) {
 			JsonNode* tempnode = json_node_alloc();
@@ -27,10 +27,42 @@ void helper_func(JsonObject *object, const gchar* member_name, JsonNode *member_
 			json_node_free(tempnode);
 		}
 	} else {
-		member_string = json_node_get_string(member_node);
+		member_string = (char*) json_node_get_string(member_node);
+		if (member_string == NULL) {
+			char * valueType = (char*) json_node_type_name(member_node);
+			if(strcmp(valueType,"Boolean") == 0){
+				gboolean member_boolean = json_node_get_boolean(member_node);
+				if (member_boolean == 0) {
+					member_string = new char[std::strlen("false") + 1];
+					strcpy(member_string, "false");
+				} else {
+					member_string = new char[std::strlen("true") + 1];
+					strcpy(member_string, "true");
+				}
+			}
+			else if(strcmp(valueType,"Integer") == 0){
+				long long int member_int =  json_node_get_int(member_node);
+				ostringstream ss;
+				ss << member_int;
+				string temp_member  = ss.str();
+				const char * temp_char = temp_member.c_str();
+				member_string = new char[strlen(temp_char) + 1];
+				strcpy(member_string, temp_char);
+			}
+			else{
+				double member_double =  json_node_get_double(member_node);
+				ostringstream ss;
+				ss << member_double;
+				string temp_member  = ss.str();
+				const char * temp_char = temp_member.c_str();
+				member_string = new char[strlen(temp_char) + 1];
+				strcpy(member_string, temp_char);
+			}
+		}
 	}
 	map<string,string>* new_map = static_cast<map<string,string>*>(user_data);
 	(*new_map)[string(member_name)] = string(member_string);
+	delete[] member_string;
 }
 
 char * json_to_string(JsonNode *node, gboolean pretty)
@@ -64,7 +96,11 @@ json_from_string(const char *str, GError **mygerror)
 	if (!json_parser_load_from_data(parser, str, -1, mygerror))
 	{
 		g_object_unref(parser);
-		return NULL;
+		if(str == NULL)
+			return NULL;
+		retval = json_node_alloc();
+		retval = json_node_init_string (retval, str);
+		return retval;
 	}
 
 	retval = json_node_copy(json_parser_get_root(parser));

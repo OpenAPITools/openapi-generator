@@ -9,8 +9,17 @@
 #include <map>
 #include "Error.h"
 
+/** \defgroup Operations API Endpoints
+ *  Classes containing all the functions for calling API endpoints
+ *
+ */
+
 namespace Tizen{
 namespace ArtikCloud {
+/** \addtogroup Store Store
+ * \ingroup Operations
+ *  @{
+ */
 class StoreManager {
 public:
 	StoreManager();
@@ -41,6 +50,8 @@ bool deleteOrderAsync(char * accessToken,
 	std::string orderId, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Returns pet inventories by status. *Synchronous*
  *
  * Returns a map of status codes to quantities
@@ -64,6 +75,8 @@ bool getInventoryAsync(char * accessToken,
 	
 	void(* handler)(std::map<std::string,std::string>, Error, void* )
 	, void* userData);
+
+
 /*! \brief Find purchase order by ID. *Synchronous*
  *
  * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -89,6 +102,8 @@ bool getOrderByIdAsync(char * accessToken,
 	long long orderId, 
 	void(* handler)(Order, Error, void* )
 	, void* userData);
+
+
 /*! \brief Place an order for a pet. *Synchronous*
  *
  * 
@@ -115,11 +130,14 @@ bool placeOrderAsync(char * accessToken,
 	void(* handler)(Order, Error, void* )
 	, void* userData);
 
+
+
 	static std::string getBasePath()
 	{
 		return "http://petstore.swagger.io/v2";
 	}
 };
+/** @}*/
 
 }
 }
