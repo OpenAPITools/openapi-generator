@@ -258,7 +258,7 @@ var _double = 1.2; // Number | None
 
 var patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 
-var _byte = B; // Blob | None
+var _byte = _byte_example; // Blob | None
 
 var opts = { 
   'integer': 56, // Number | None

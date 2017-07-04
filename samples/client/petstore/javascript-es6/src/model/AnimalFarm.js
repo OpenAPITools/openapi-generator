@@ -24,7 +24,7 @@ import Animal from './Animal';
 * @module model/AnimalFarm
 * @version 1.0.0
 */
-export default class AnimalFarm {
+export default class AnimalFarm extends Array {
     /**
     * Constructs a new <code>AnimalFarm</code>.
     * @alias module:model/AnimalFarm
@@ -34,8 +34,8 @@ export default class AnimalFarm {
 
     constructor() {
         
-        this = new Array();
-        Object.setPrototypeOf(this, AnimalFarm);
+        super();
+        
 
         
         

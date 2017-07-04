@@ -6,7 +6,7 @@
 * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
 * @version {{projectVersion}}
 */{{/emitJSDoc}}
-export default class {{classname}} {
+export default class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}extends Array {{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}{
     {{#emitJSDoc}}/**
     * Constructs a new <code>{{classname}}</code>.{{#description}}
     * {{description}}{{/description}}
@@ -19,8 +19,8 @@ export default class {{classname}} {
 
     constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) {
         {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}
-        this = new Array();
-        Object.setPrototypeOf(this, {{classname}});{{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}
+        super();
+        {{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}
 
         {{#useInheritance}}
         {{#parentModel}}{{classname}}.call(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/parentModel}}

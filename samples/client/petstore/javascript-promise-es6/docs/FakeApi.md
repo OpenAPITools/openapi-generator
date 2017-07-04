@@ -258,7 +258,7 @@ let _double = 1.2; // Number | None
 
 let patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 
-let _byte = B; // Blob | None
+let _byte = _byte_example; // Blob | None
 
 let opts = { 
   'integer': 56, // Number | None
