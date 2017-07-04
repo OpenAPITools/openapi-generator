@@ -48,7 +48,7 @@ static gpointer __PetManagerthreadFunc(gpointer data)
 }
 
 
-bool addPetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool addPetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	
@@ -81,7 +81,7 @@ bool addPetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* us
 	}
 }
 
-bool addPetHelper(char * accessToken,
+static bool addPetHelper(char * accessToken,
 	Pet body, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
@@ -186,7 +186,7 @@ bool PetManager::addPetSync(char * accessToken,
 	handler, userData, false);
 }
 
-bool deletePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool deletePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	
@@ -219,7 +219,7 @@ bool deletePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void*
 	}
 }
 
-bool deletePetHelper(char * accessToken,
+static bool deletePetHelper(char * accessToken,
 	long long petId, std::string apiKey, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
@@ -229,8 +229,11 @@ bool deletePetHelper(char * accessToken,
 	struct curl_slist *headerList = NULL;
 
 	
-	//TODO - should use value of paramname instead. Also check for empty not-required headers
-	headerList = curl_slist_append(headerList, "api_key: apiKey");
+	{
+		string headerString("api_key: ");
+		headerString.append(stringify(&apiKey, "std::string"));
+		headerList = curl_slist_append(headerList, headerString.c_str());
+	}
 
 	string accessHeader = "Authorization: Bearer ";
 	accessHeader.append(accessToken);
@@ -319,7 +322,7 @@ bool PetManager::deletePetSync(char * accessToken,
 	handler, userData, false);
 }
 
-bool findPetsByStatusProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool findPetsByStatusProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	void(* handler)(std::list<Pet>, Error, void* )
@@ -327,7 +330,6 @@ bool findPetsByStatusProcessor(MemoryStruct_s p_chunk, long code, char* errormsg
 	
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
-	printf("%s\n", data);
 
 	std::list<Pet> out;
 	
@@ -367,7 +369,7 @@ bool findPetsByStatusProcessor(MemoryStruct_s p_chunk, long code, char* errormsg
 			}
 }
 
-bool findPetsByStatusHelper(char * accessToken,
+static bool findPetsByStatusHelper(char * accessToken,
 	std::list<std::string> status, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData, bool isAsync)
@@ -464,7 +466,7 @@ bool PetManager::findPetsByStatusSync(char * accessToken,
 	handler, userData, false);
 }
 
-bool findPetsByTagsProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool findPetsByTagsProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	void(* handler)(std::list<Pet>, Error, void* )
@@ -472,7 +474,6 @@ bool findPetsByTagsProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, 
 	
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
-	printf("%s\n", data);
 
 	std::list<Pet> out;
 	
@@ -512,7 +513,7 @@ bool findPetsByTagsProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, 
 			}
 }
 
-bool findPetsByTagsHelper(char * accessToken,
+static bool findPetsByTagsHelper(char * accessToken,
 	std::list<std::string> tags, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData, bool isAsync)
@@ -609,7 +610,7 @@ bool PetManager::findPetsByTagsSync(char * accessToken,
 	handler, userData, false);
 }
 
-bool getPetByIdProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool getPetByIdProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	void(* handler)(Pet, Error, void* )
@@ -617,7 +618,6 @@ bool getPetByIdProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 	
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
-	printf("%s\n", data);
 
 	
 	Pet out;
@@ -665,7 +665,7 @@ bool getPetByIdProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 			}
 }
 
-bool getPetByIdHelper(char * accessToken,
+static bool getPetByIdHelper(char * accessToken,
 	long long petId, 
 	void(* handler)(Pet, Error, void* )
 	, void* userData, bool isAsync)
@@ -762,7 +762,7 @@ bool PetManager::getPetByIdSync(char * accessToken,
 	handler, userData, false);
 }
 
-bool updatePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool updatePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	
@@ -795,7 +795,7 @@ bool updatePetProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void*
 	}
 }
 
-bool updatePetHelper(char * accessToken,
+static bool updatePetHelper(char * accessToken,
 	Pet body, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
@@ -900,7 +900,7 @@ bool PetManager::updatePetSync(char * accessToken,
 	handler, userData, false);
 }
 
-bool updatePetWithFormProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool updatePetWithFormProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	
@@ -933,7 +933,7 @@ bool updatePetWithFormProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 	}
 }
 
-bool updatePetWithFormHelper(char * accessToken,
+static bool updatePetWithFormHelper(char * accessToken,
 	long long petId, std::string name, std::string status, 
 	
 	void(* handler)(Error, void* ) , void* userData, bool isAsync)
@@ -1030,7 +1030,7 @@ bool PetManager::updatePetWithFormSync(char * accessToken,
 	handler, userData, false);
 }
 
-bool uploadFileProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool uploadFileProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	void(* handler)(ApiResponse, Error, void* )
@@ -1038,7 +1038,6 @@ bool uploadFileProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 	
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
-	printf("%s\n", data);
 
 	
 	ApiResponse out;
@@ -1086,7 +1085,7 @@ bool uploadFileProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void
 			}
 }
 
-bool uploadFileHelper(char * accessToken,
+static bool uploadFileHelper(char * accessToken,
 	long long petId, std::string additionalMetadata, std::string file, 
 	void(* handler)(ApiResponse, Error, void* )
 	, void* userData, bool isAsync)

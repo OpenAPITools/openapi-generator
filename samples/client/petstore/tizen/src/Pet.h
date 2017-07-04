@@ -14,11 +14,18 @@
 #include <list>
 #include "Object.h"
 
+/** \defgroup Models Data Structures for API
+ *  Classes containing all the Data Structures needed for calling/returned by API endpoints
+ *
+ */
+
 namespace Tizen {
 namespace ArtikCloud {
 
 
 /*! \brief A pet for sale in the pet store
+ *
+ *  \ingroup Models
  *
  */
 

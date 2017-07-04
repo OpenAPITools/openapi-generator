@@ -11,11 +11,18 @@
 #include <string>
 #include "Object.h"
 
+/** \defgroup Models Data Structures for API
+ *  Classes containing all the Data Structures needed for calling/returned by API endpoints
+ *
+ */
+
 namespace Tizen {
 namespace ArtikCloud {
 
 
 /*! \brief Describes the result of uploading an image resource
+ *
+ *  \ingroup Models
  *
  */
 
