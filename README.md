@@ -817,6 +817,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [SmartRecruiters](https://www.smartrecruiters.com/)
 - [snapCX](https://snapcx.io)
 - [SPINEN](http://www.spinen.com)
+- [Sponsoo](https://www.sponsoo.de)
 - [SRC](https://www.src.si/)
 - [Stardog Ventures](https://www.stardog.io)
 - [Stingray](http://www.stingray.com)
