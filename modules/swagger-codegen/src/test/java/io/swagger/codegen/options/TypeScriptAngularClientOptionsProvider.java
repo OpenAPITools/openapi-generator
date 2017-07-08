@@ -13,7 +13,6 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
 
-
     @Override
     public String getLanguage() {
         return "typescript-angular";
