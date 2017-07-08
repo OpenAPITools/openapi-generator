@@ -1,0 +1,25 @@
+{
+  "name": "PetstoreClient",
+  "platforms": {
+    "ios": "9.0",
+    "osx": "10.11"
+  },
+  "version": "0.0.1",
+  "source": {
+    "git": "git@github.com:swagger-api/swagger-mustache.git",
+    "tag": "v1.0.0"
+  },
+  "authors": "",
+  "license": "Proprietary",
+  "homepage": "https://github.com/swagger-api/swagger-codegen",
+  "summary": "PetstoreClient",
+  "source_files": "PetstoreClient/Classes/Swaggers/**/*.swift",
+  "dependencies": {
+    "RxSwift": [
+      "~> 3.4.1"
+    ],
+    "Alamofire": [
+      "~> 4.5"
+    ]
+  }
+}
