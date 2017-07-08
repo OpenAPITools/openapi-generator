@@ -102,6 +102,7 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
+    {true, Req0, State};
 
 is_authorized(
     Req0,
@@ -130,6 +131,7 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
+    {true, Req0, State};
 
 is_authorized(
     Req0,
@@ -138,6 +140,7 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
+    {true, Req0, State};
 
 is_authorized(Req, State) ->
     {{false, <<"">>}, Req, State}.

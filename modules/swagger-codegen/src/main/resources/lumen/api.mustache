@@ -33,37 +33,37 @@ use Illuminate\Support\Facades\Request;
         {{#pathParams}}
         {{#hasValidation}}
         {{#maxLength}}
-        if (strlen(${{paramName}}]) > {{maxLength}}) {
+        if (strlen(${{paramName}}) > {{maxLength}}) {
             throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
         }
         {{/maxLength}}
         {{#minLength}}
-        if (strlen(${{paramName}}]) < {{minLength}}) {
+        if (strlen(${{paramName}}) < {{minLength}}) {
             throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
         }
         {{/minLength}}
         {{#maximum}}
-        if (${{paramName}}] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+        if (${{paramName}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
             throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
         }
         {{/maximum}}
         {{#minimum}}
-        if (${{paramName}}] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+        if (${{paramName}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
             throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
         }
         {{/minimum}}
         {{#pattern}}
-        if (!preg_match("{{{pattern}}}", ${{paramName}}])) {
+        if (!preg_match("{{{pattern}}}", ${{paramName}})) {
             throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
         }
         {{/pattern}}
         {{#maxItems}}
-        if (count(${{paramName}}]) > {{maxItems}}) {
+        if (count(${{paramName}}) > {{maxItems}}) {
             throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
         }
         {{/maxItems}}
         {{#minItems}}
-        if (count(${{paramName}}]) < {{minItems}}) {
+        if (count(${{paramName}}) < {{minItems}}) {
             throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
         }
         {{/minItems}}

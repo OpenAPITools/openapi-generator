@@ -39,6 +39,7 @@ Code change should conform to the programming style guide of the respective lang
 - Bash: https://github.com/bahamas10/bash-style-guide
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
 - C++: https://google.github.io/styleguide/cppguide.html
+- C++ (Tizen): https://wiki.tizen.org/Native_Platform_Coding_Idiom_and_Style_Guide#C.2B.2B_Coding_Style
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Elixir: https://github.com/christopheradams/elixir_style_guide
 - Erlang: https://github.com/inaka/erlang_guidelines
