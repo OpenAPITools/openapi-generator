@@ -1,0 +1,7 @@
+{
+  "podSummary": "PetstoreClient",
+  "podHomepage": "https://github.com/swagger-api/swagger-codegen",
+  "podAuthors": "",
+  "projectName": "PetstoreClient",
+  "responseAs": "PromiseKit"
+}
