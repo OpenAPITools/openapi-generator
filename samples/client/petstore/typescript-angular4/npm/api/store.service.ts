@@ -18,16 +18,16 @@ import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http
 import { Response, ResponseContentType }                     from '@angular/http';
 
 import { Observable }                                        from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import '../rxjs-operators';
 
-import * as models                                           from '../model/models';
+import { Order } from '../model/order';
+
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { StoreApiInterface }                            from './StoreApiInterface';
 
 
 @Injectable()
-export class StoreApi implements StoreApiInterface {
+export class StoreService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
@@ -39,7 +39,37 @@ export class StoreApi implements StoreApiInterface {
         }
         if (configuration) {
             this.configuration = configuration;
+			this.basePath = basePath || configuration.basePath || this.basePath;
         }
+    }
+
+    /**
+     * 
+     * Extends object by coping non-existing properties.
+     * @param objA object to be extended
+     * @param objB source object
+     */
+    private extendObj<T1,T2>(objA: T1, objB: T2) {
+        for(let key in objB){
+            if(objB.hasOwnProperty(key)){
+                (objA as any)[key] = (objB as any)[key];
+            }
+        }
+        return <T1&T2>objA;
+    }
+
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (let consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -78,7 +108,7 @@ export class StoreApi implements StoreApiInterface {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: number, extraHttpRequestParams?: any): Observable<models.Order> {
+    public getOrderById(orderId: number, extraHttpRequestParams?: any): Observable<Order> {
         return this.getOrderByIdWithHttpInfo(orderId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -94,7 +124,7 @@ export class StoreApi implements StoreApiInterface {
      * 
      * @param body order placed for purchasing the pet
      */
-    public placeOrder(body: models.Order, extraHttpRequestParams?: any): Observable<models.Order> {
+    public placeOrder(body: Order, extraHttpRequestParams?: any): Observable<Order> {
         return this.placeOrderWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -117,20 +147,19 @@ export class StoreApi implements StoreApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -154,21 +183,19 @@ export class StoreApi implements StoreApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
+
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/json'
         ];
 
         // authentication (api_key) required
-        if (this.configuration.apiKey) {
-            headers.set('api_key', this.configuration.apiKey);
+        if (this.configuration.apiKeys["api_key"]) {
+            headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -194,20 +221,19 @@ export class StoreApi implements StoreApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -227,25 +253,24 @@ export class StoreApi implements StoreApiInterface {
      * 
      * @param body order placed for purchasing the pet
      */
-    public placeOrderWithHttpInfo(body: models.Order, extraHttpRequestParams?: any): Observable<Response> {
+    public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/order';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({

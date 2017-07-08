@@ -18,16 +18,17 @@ import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http
 import { Response, ResponseContentType }                     from '@angular/http';
 
 import { Observable }                                        from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import '../rxjs-operators';
 
-import * as models                                           from '../model/models';
+import { ApiResponse } from '../model/apiResponse';
+import { Pet } from '../model/pet';
+
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { PetApiInterface }                            from './PetApiInterface';
 
 
 @Injectable()
-export class PetApi implements PetApiInterface {
+export class PetService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
@@ -39,7 +40,37 @@ export class PetApi implements PetApiInterface {
         }
         if (configuration) {
             this.configuration = configuration;
+			this.basePath = basePath || configuration.basePath || this.basePath;
         }
+    }
+
+    /**
+     * 
+     * Extends object by coping non-existing properties.
+     * @param objA object to be extended
+     * @param objB source object
+     */
+    private extendObj<T1,T2>(objA: T1, objB: T2) {
+        for(let key in objB){
+            if(objB.hasOwnProperty(key)){
+                (objA as any)[key] = (objB as any)[key];
+            }
+        }
+        return <T1&T2>objA;
+    }
+
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (let consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -47,7 +78,7 @@ export class PetApi implements PetApiInterface {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public addPet(body: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+    public addPet(body: Pet, extraHttpRequestParams?: any): Observable<{}> {
         return this.addPetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -80,7 +111,7 @@ export class PetApi implements PetApiInterface {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+    public findPetsByStatus(status: Array<string>, extraHttpRequestParams?: any): Observable<Array<Pet>> {
         return this.findPetsByStatusWithHttpInfo(status, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -96,7 +127,7 @@ export class PetApi implements PetApiInterface {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
      */
-    public findPetsByTags(tags: Array<string>, extraHttpRequestParams?: any): Observable<Array<models.Pet>> {
+    public findPetsByTags(tags: Array<string>, extraHttpRequestParams?: any): Observable<Array<Pet>> {
         return this.findPetsByTagsWithHttpInfo(tags, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -112,7 +143,7 @@ export class PetApi implements PetApiInterface {
      * Returns a single pet
      * @param petId ID of pet to return
      */
-    public getPetById(petId: number, extraHttpRequestParams?: any): Observable<models.Pet> {
+    public getPetById(petId: number, extraHttpRequestParams?: any): Observable<Pet> {
         return this.getPetByIdWithHttpInfo(petId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -128,7 +159,7 @@ export class PetApi implements PetApiInterface {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public updatePet(body: models.Pet, extraHttpRequestParams?: any): Observable<{}> {
+    public updatePet(body: Pet, extraHttpRequestParams?: any): Observable<{}> {
         return this.updatePetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -164,7 +195,7 @@ export class PetApi implements PetApiInterface {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<models.ApiResponse> {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: any): Observable<ApiResponse> {
         return this.uploadFileWithHttpInfo(petId, additionalMetadata, file, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -181,25 +212,21 @@ export class PetApi implements PetApiInterface {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public addPetWithHttpInfo(body: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
+    public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json',
-            'application/xml'
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
         // authentication (petstore_auth) required
@@ -211,6 +238,7 @@ export class PetApi implements PetApiInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
+            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -240,6 +268,7 @@ export class PetApi implements PetApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
@@ -248,14 +277,11 @@ export class PetApi implements PetApiInterface {
             headers.set('api_key', String(apiKey));
         }
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
         // authentication (petstore_auth) required
@@ -267,6 +293,7 @@ export class PetApi implements PetApiInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -291,6 +318,7 @@ export class PetApi implements PetApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'status' is not null or undefined
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
@@ -299,14 +327,11 @@ export class PetApi implements PetApiInterface {
             queryParameters.set('status', status.join(COLLECTION_FORMATS['csv']));
         }
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
         // authentication (petstore_auth) required
@@ -318,6 +343,7 @@ export class PetApi implements PetApiInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -342,6 +368,7 @@ export class PetApi implements PetApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'tags' is not null or undefined
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
@@ -350,14 +377,11 @@ export class PetApi implements PetApiInterface {
             queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
         }
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
         // authentication (petstore_auth) required
@@ -369,6 +393,7 @@ export class PetApi implements PetApiInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -394,25 +419,24 @@ export class PetApi implements PetApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
         // authentication (api_key) required
-        if (this.configuration.apiKey) {
-            headers.set('api_key', this.configuration.apiKey);
+        if (this.configuration.apiKeys["api_key"]) {
+            headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -432,25 +456,21 @@ export class PetApi implements PetApiInterface {
      * 
      * @param body Pet object that needs to be added to the store
      */
-    public updatePetWithHttpInfo(body: models.Pet, extraHttpRequestParams?: any): Observable<Response> {
+    public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json',
-            'application/xml'
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
         // authentication (petstore_auth) required
@@ -462,6 +482,7 @@ export class PetApi implements PetApiInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
+            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -492,7 +513,6 @@ export class PetApi implements PetApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new URLSearchParams();
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -502,11 +522,16 @@ export class PetApi implements PetApiInterface {
         let consumes: string[] = [
             'application/x-www-form-urlencoded'
         ];
+        let canConsumeForm = this.canConsumeForm(consumes);
+        let useForm = false;
+        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
+          set(param: string, value: any): void;
+        };
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
         // authentication (petstore_auth) required
@@ -518,8 +543,7 @@ export class PetApi implements PetApiInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
-
+            
         if (name !== undefined) {
             formParams.set('name', <any>name);
         }
@@ -550,13 +574,12 @@ export class PetApi implements PetApiInterface {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any): Observable<Response> {
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}/uploadImage'
                     .replace('${' + 'petId' + '}', String(petId));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        let formParams = new URLSearchParams();
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -566,11 +589,16 @@ export class PetApi implements PetApiInterface {
         let consumes: string[] = [
             'multipart/form-data'
         ];
+        let canConsumeForm = this.canConsumeForm(consumes);
+        let useForm = false;
+        useForm = canConsumeForm;
+        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
+          set(param: string, value: any): void;
+        };
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/json'
         ];
 
         // authentication (petstore_auth) required
@@ -582,8 +610,7 @@ export class PetApi implements PetApiInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        headers.set('Content-Type', 'application/x-www-form-urlencoded');
-
+            
         if (additionalMetadata !== undefined) {
             formParams.set('additionalMetadata', <any>additionalMetadata);
         }
