@@ -26,6 +26,9 @@ import java.io.IOException;
 {{/useSpringCloudClient}}
 
 import java.util.List;
+{{#useOptional}}
+import java.util.Optional;
+{{/useOptional}}
 {{#async}}
 import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
 {{/async}}

@@ -10,9 +10,18 @@
 {{/imports}}
 #include "Error.h"
 
+/** \defgroup Operations API Endpoints
+ *  Classes containing all the functions for calling API endpoints
+ *
+ */
+
 namespace Tizen{
 namespace {{prefix}} {
 {{#operations}}
+/** \addtogroup {{{baseName}}} {{{baseName}}}
+ * \ingroup Operations
+ *  @{
+ */
 class {{classname}} {
 public:
 	{{classname}}();
@@ -44,6 +53,8 @@ bool {{nickname}}Async(char * accessToken,
 	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<std::string,std::string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData);
+
+
 	{{/operation}}
 
 	static std::string getBasePath()
@@ -51,6 +62,7 @@ bool {{nickname}}Async(char * accessToken,
 		return "{{{basePath}}}";
 	}
 };
+/** @}*/
 
 {{/operations}}
 }

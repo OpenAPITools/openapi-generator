@@ -30,8 +30,8 @@ namespace model {
 
 Order::Order()
 {
-    m_Id = 0;
-    m_PetId = 0;
+    m_Id = 0L;
+    m_PetId = 0L;
     m_Quantity = 0;
     m_ShipDate = "";
     m_Status = "";
@@ -62,8 +62,8 @@ void Order::fromJsonString(std::string const& jsonString)
 	std::stringstream ss(jsonString);
 	ptree pt;
 	read_json(ss,pt);
-	m_Id = pt.get("Id", 0);
-	m_PetId = pt.get("PetId", 0);
+	m_Id = pt.get("Id", 0L);
+	m_PetId = pt.get("PetId", 0L);
 	m_Quantity = pt.get("Quantity", 0);
 	m_ShipDate = pt.get("ShipDate", "");
 	m_Status = pt.get("Status", "");

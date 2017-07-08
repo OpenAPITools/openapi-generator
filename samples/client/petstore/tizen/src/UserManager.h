@@ -9,8 +9,17 @@
 #include <list>
 #include "Error.h"
 
+/** \defgroup Operations API Endpoints
+ *  Classes containing all the functions for calling API endpoints
+ *
+ */
+
 namespace Tizen{
 namespace ArtikCloud {
+/** \addtogroup User User
+ * \ingroup Operations
+ *  @{
+ */
 class UserManager {
 public:
 	UserManager();
@@ -41,6 +50,8 @@ bool createUserAsync(char * accessToken,
 	User body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Creates list of users with given input array. *Synchronous*
  *
  * 
@@ -66,6 +77,8 @@ bool createUsersWithArrayInputAsync(char * accessToken,
 	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Creates list of users with given input array. *Synchronous*
  *
  * 
@@ -91,6 +104,8 @@ bool createUsersWithListInputAsync(char * accessToken,
 	std::list<User> body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Delete user. *Synchronous*
  *
  * This can only be done by the logged in user.
@@ -116,6 +131,8 @@ bool deleteUserAsync(char * accessToken,
 	std::string username, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Get user by user name. *Synchronous*
  *
  * 
@@ -141,6 +158,8 @@ bool getUserByNameAsync(char * accessToken,
 	std::string username, 
 	void(* handler)(User, Error, void* )
 	, void* userData);
+
+
 /*! \brief Logs user into the system. *Synchronous*
  *
  * 
@@ -168,6 +187,8 @@ bool loginUserAsync(char * accessToken,
 	std::string username, std::string password, 
 	void(* handler)(std::string, Error, void* )
 	, void* userData);
+
+
 /*! \brief Logs out current logged in user session. *Synchronous*
  *
  * 
@@ -191,6 +212,8 @@ bool logoutUserAsync(char * accessToken,
 	
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Updated user. *Synchronous*
  *
  * This can only be done by the logged in user.
@@ -219,11 +242,14 @@ bool updateUserAsync(char * accessToken,
 	
 	void(* handler)(Error, void* ) , void* userData);
 
+
+
 	static std::string getBasePath()
 	{
 		return "http://petstore.swagger.io/v2";
 	}
 };
+/** @}*/
 
 }
 }

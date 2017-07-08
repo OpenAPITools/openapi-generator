@@ -50,7 +50,7 @@ static gpointer __{{classname}}threadFunc(gpointer data)
 
 
 {{#operation}}
-bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* )
@@ -58,9 +58,6 @@ bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* errormsg, vo
 	{{^returnType}}void(* handler)(Error, void* ) = reinterpret_cast<void(*)(Error, void* )> (voidHandler);{{/returnType}}
 	JsonNode* pJson;
 	char * data = p_chunk.memory;
-	{{#returnType}}
-	printf("%s\n", data);
-	{{/returnType}}
 
 	{{#returnType}}{{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}} out;{{/returnContainer}}
 	{{^returnContainer}}{{returnType}} out;{{/returnContainer}}{{/returnType}}
@@ -137,7 +134,7 @@ bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* errormsg, vo
 	}
 }
 
-bool {{nickname}}Helper(char * accessToken,
+static bool {{nickname}}Helper(char * accessToken,
 	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
 	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
 	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData, bool isAsync)
@@ -159,8 +156,11 @@ bool {{nickname}}Helper(char * accessToken,
 		headerList = curl_slist_append(headerList, itemAt);
 	}
 	{{/collectionFormat}}{{^collectionFormat}}
-	//TODO - should use value of paramname instead. Also check for empty not-required headers
-	headerList = curl_slist_append(headerList, "{{baseName}}: {{paramName}}");
+	{
+		string headerString("{{baseName}}: ");
+		headerString.append(stringify(&{{paramName}}, "{{dataType}}"));
+		headerList = curl_slist_append(headerList, headerString.c_str());
+	}
 	{{/collectionFormat}}
 	{{/headerParams}}
 
@@ -204,7 +204,8 @@ bool {{nickname}}Helper(char * accessToken,
 	string mBody = "";
 	JsonNode* node;
 	JsonArray* json_array;
-	{{#bodyParams}}
+	{{#allParams}}
+	{{#isBodyParam}}
 	{{#isContainer}}
 	//TODO: Map Container
 	{{#isListContainer}}
@@ -256,17 +257,18 @@ bool {{nickname}}Helper(char * accessToken,
 	if (isprimitive("{{baseType}}")) {
 		node = converttoJson(&{{paramName}}, "{{baseType}}", "");
 	}
-	{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isFloat}}{{^isString}}{{^isDateTime}}{{^isDouble}}
+	{{^isPrimitiveType}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isFloat}}{{^isString}}{{^isDateTime}}{{^isDouble}}
 	char *jsonStr =  {{paramName}}.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
-	{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isFloat}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
+	{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isFloat}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/isPrimitiveType}}
 
 	{{/isContainer}}
 	char *jsonStr1 =  json_to_string(node, false);
 	mBody.append(jsonStr1);
 	g_free(static_cast<gpointer>(jsonStr1));
-	{{/bodyParams}}
+	{{/isBodyParam}}
+	{{/allParams}}
 
 	string url("{{{path}}}");
 	int pos;
