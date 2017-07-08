@@ -166,4 +166,17 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testEnumParameters(enumFormStringArray,enumFormString,enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,securityContext);
     }
+    @GET
+    @Path("/jsonFormData")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = void.class) })
+    public Response testJsonFormData(@ApiParam(value = "field1", required=true)  @FormParam("param")  String param
+,@ApiParam(value = "field2", required=true)  @FormParam("param2")  String param2
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testJsonFormData(param,param2,securityContext);
+    }
 }

@@ -27,7 +27,7 @@ public class FakeClassnameTestApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Response testClassname(Client body) {
-    	return Response.ok().entity("magic!").build();
+        return Response.ok().entity("magic!").build();
     }
 }
 

@@ -9,8 +9,17 @@
 #include "Pet.h"
 #include "Error.h"
 
+/** \defgroup Operations API Endpoints
+ *  Classes containing all the functions for calling API endpoints
+ *
+ */
+
 namespace Tizen{
 namespace ArtikCloud {
+/** \addtogroup Pet Pet
+ * \ingroup Operations
+ *  @{
+ */
 class PetManager {
 public:
 	PetManager();
@@ -41,6 +50,8 @@ bool addPetAsync(char * accessToken,
 	Pet body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Deletes a pet. *Synchronous*
  *
  * 
@@ -68,6 +79,8 @@ bool deletePetAsync(char * accessToken,
 	long long petId, std::string apiKey, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Finds Pets by status. *Synchronous*
  *
  * Multiple status values can be provided with comma separated strings
@@ -93,6 +106,8 @@ bool findPetsByStatusAsync(char * accessToken,
 	std::list<std::string> status, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData);
+
+
 /*! \brief Finds Pets by tags. *Synchronous*
  *
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -118,6 +133,8 @@ bool findPetsByTagsAsync(char * accessToken,
 	std::list<std::string> tags, 
 	void(* handler)(std::list<Pet>, Error, void* )
 	, void* userData);
+
+
 /*! \brief Find pet by ID. *Synchronous*
  *
  * Returns a single pet
@@ -143,6 +160,8 @@ bool getPetByIdAsync(char * accessToken,
 	long long petId, 
 	void(* handler)(Pet, Error, void* )
 	, void* userData);
+
+
 /*! \brief Update an existing pet. *Synchronous*
  *
  * 
@@ -168,6 +187,8 @@ bool updatePetAsync(char * accessToken,
 	Pet body, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief Updates a pet in the store with form data. *Synchronous*
  *
  * 
@@ -197,6 +218,8 @@ bool updatePetWithFormAsync(char * accessToken,
 	long long petId, std::string name, std::string status, 
 	
 	void(* handler)(Error, void* ) , void* userData);
+
+
 /*! \brief uploads an image. *Synchronous*
  *
  * 
@@ -227,11 +250,14 @@ bool uploadFileAsync(char * accessToken,
 	void(* handler)(ApiResponse, Error, void* )
 	, void* userData);
 
+
+
 	static std::string getBasePath()
 	{
 		return "http://petstore.swagger.io/v2";
 	}
 };
+/** @}*/
 
 }
 }

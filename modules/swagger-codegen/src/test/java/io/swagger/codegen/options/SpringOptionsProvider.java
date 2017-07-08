@@ -21,6 +21,7 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
     public static final String USE_BEANVALIDATION = "false";
     public static final String IMPLICIT_HEADERS = "false";
     public static final String SWAGGER_DOCKET_CONFIG = "false";
+    public static final String USE_OPTIONAL = "false";
 
     @Override
     public String getLanguage() {
@@ -44,6 +45,7 @@ public class SpringOptionsProvider extends JavaOptionsProvider {
         options.put(SpringCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION);
         options.put(SpringCodegen.IMPLICIT_HEADERS, IMPLICIT_HEADERS);
         options.put(SpringCodegen.SWAGGER_DOCKET_CONFIG, SWAGGER_DOCKET_CONFIG);
+        options.put(SpringCodegen.USE_OPTIONAL, USE_OPTIONAL);
 
         return options;
     }
