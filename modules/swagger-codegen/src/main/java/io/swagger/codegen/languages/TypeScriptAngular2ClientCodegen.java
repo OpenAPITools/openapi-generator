@@ -29,16 +29,13 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
-    public static final String USE_OPAQUE_TOKEN = "useOpaqueToken";
-    public static final String INJECTION_TOKEN = "injectionToken";
-    public static final String INJECTION_TOKEN_IMPORT = "injectionTokenImport";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String NG_VERSION = "ngVersion";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
-    protected String injectionToken = "InjectionToken<string>";
-    protected String injectionTokenImport = "InjectionToken";
+    protected String ngVersion = "4";
 
     public TypeScriptAngular2ClientCodegen() {
         super();
@@ -57,8 +54,8 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(USE_OPAQUE_TOKEN, "When setting this property to true, OpaqueToken is used instead of InjectionToken", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular (2 or 4). Default is '4'"));
     }
 
     @Override
@@ -74,7 +71,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular2 client library.";
+        return "Generates a TypeScript Angular (2.x or 4.x) client library.";
     }
 
     @Override
@@ -94,17 +91,28 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             addNpmPackageGeneration();
         }
 
-        if(additionalProperties.containsKey(USE_OPAQUE_TOKEN) && Boolean.valueOf(additionalProperties.get(USE_OPAQUE_TOKEN).toString())) {
-            this.setOpaqueToken();
-        }
-        additionalProperties.put(INJECTION_TOKEN, this.injectionToken);
-        additionalProperties.put(INJECTION_TOKEN_IMPORT, this.injectionTokenImport);
-
         if(additionalProperties.containsKey(WITH_INTERFACES)) {
             boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
+        }
+
+        // determine NG version
+        if (additionalProperties.containsKey(NG_VERSION)) {
+            if ("2".equals(additionalProperties.get(NG_VERSION).toString())) {
+                additionalProperties.put("isNg2x", true);
+                setNgVersion("2");
+            } else if ("4".equals(additionalProperties.get(NG_VERSION).toString())) {
+                additionalProperties.put("isNg4x", true);
+                setNgVersion("4");
+            } else {
+                throw new IllegalArgumentException("Invalid ngVersion, which must be either '2' or '4'");
+            }
+        } else {
+            // default to 4
+            additionalProperties.put("isNg4x", true);
+            setNgVersion("4");
         }
     }
 
@@ -307,6 +315,14 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         return modelPackage() + "/" + toModelFilename(name);
     }
 
+    public String getNgVersion() {
+        return ngVersion;
+    }
+
+    public void setNgVersion(String ngVersion) {
+        this.ngVersion = ngVersion;
+    }
+
     public String getNpmName() {
         return npmName;
     }
@@ -341,8 +357,4 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         return camelize(name);
     }
 
-    public void setOpaqueToken() {
-        this.injectionToken = "OpaqueToken";
-        this.injectionTokenImport = "OpaqueToken";
-    }
 }

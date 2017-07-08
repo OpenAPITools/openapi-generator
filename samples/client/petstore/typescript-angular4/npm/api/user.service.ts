@@ -18,16 +18,16 @@ import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http
 import { Response, ResponseContentType }                     from '@angular/http';
 
 import { Observable }                                        from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import '../rxjs-operators';
 
-import * as models                                           from '../model/models';
+import { User } from '../model/user';
+
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { UserApiInterface }                            from './UserApiInterface';
 
 
 @Injectable()
-export class UserApi implements UserApiInterface {
+export class UserService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Headers = new Headers();
@@ -39,7 +39,37 @@ export class UserApi implements UserApiInterface {
         }
         if (configuration) {
             this.configuration = configuration;
+			this.basePath = basePath || configuration.basePath || this.basePath;
         }
+    }
+
+    /**
+     * 
+     * Extends object by coping non-existing properties.
+     * @param objA object to be extended
+     * @param objB source object
+     */
+    private extendObj<T1,T2>(objA: T1, objB: T2) {
+        for(let key in objB){
+            if(objB.hasOwnProperty(key)){
+                (objA as any)[key] = (objB as any)[key];
+            }
+        }
+        return <T1&T2>objA;
+    }
+
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (let consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -47,7 +77,7 @@ export class UserApi implements UserApiInterface {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    public createUser(body: models.User, extraHttpRequestParams?: any): Observable<{}> {
+    public createUser(body: User, extraHttpRequestParams?: any): Observable<{}> {
         return this.createUserWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -63,7 +93,7 @@ export class UserApi implements UserApiInterface {
      * 
      * @param body List of user object
      */
-    public createUsersWithArrayInput(body: Array<models.User>, extraHttpRequestParams?: any): Observable<{}> {
+    public createUsersWithArrayInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}> {
         return this.createUsersWithArrayInputWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -79,7 +109,7 @@ export class UserApi implements UserApiInterface {
      * 
      * @param body List of user object
      */
-    public createUsersWithListInput(body: Array<models.User>, extraHttpRequestParams?: any): Observable<{}> {
+    public createUsersWithListInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}> {
         return this.createUsersWithListInputWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -111,7 +141,7 @@ export class UserApi implements UserApiInterface {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    public getUserByName(username: string, extraHttpRequestParams?: any): Observable<models.User> {
+    public getUserByName(username: string, extraHttpRequestParams?: any): Observable<User> {
         return this.getUserByNameWithHttpInfo(username, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -160,7 +190,7 @@ export class UserApi implements UserApiInterface {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    public updateUser(username: string, body: models.User, extraHttpRequestParams?: any): Observable<{}> {
+    public updateUser(username: string, body: User, extraHttpRequestParams?: any): Observable<{}> {
         return this.updateUserWithHttpInfo(username, body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -177,25 +207,24 @@ export class UserApi implements UserApiInterface {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    public createUserWithHttpInfo(body: models.User, extraHttpRequestParams?: any): Observable<Response> {
+    public createUserWithHttpInfo(body: User, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUser.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -218,25 +247,24 @@ export class UserApi implements UserApiInterface {
      * 
      * @param body List of user object
      */
-    public createUsersWithArrayInputWithHttpInfo(body: Array<models.User>, extraHttpRequestParams?: any): Observable<Response> {
+    public createUsersWithArrayInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/createWithArray';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -259,25 +287,24 @@ export class UserApi implements UserApiInterface {
      * 
      * @param body List of user object
      */
-    public createUsersWithListInputWithHttpInfo(body: Array<models.User>, extraHttpRequestParams?: any): Observable<Response> {
+    public createUsersWithListInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/createWithList';
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -306,20 +333,19 @@ export class UserApi implements UserApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -345,20 +371,19 @@ export class UserApi implements UserApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -384,6 +409,7 @@ export class UserApi implements UserApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
@@ -400,16 +426,14 @@ export class UserApi implements UserApiInterface {
             queryParameters.set('password', <any>password);
         }
 
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -433,16 +457,15 @@ export class UserApi implements UserApiInterface {
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
+
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -463,12 +486,13 @@ export class UserApi implements UserApiInterface {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    public updateUserWithHttpInfo(username: string, body: models.User, extraHttpRequestParams?: any): Observable<Response> {
+    public updateUserWithHttpInfo(username: string, body: User, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/${username}'
                     .replace('${' + 'username' + '}', String(username));
 
         let queryParameters = new URLSearchParams();
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
@@ -477,16 +501,14 @@ export class UserApi implements UserApiInterface {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updateUser.');
         }
-        // to determine the Content-Type header
-        let consumes: string[] = [
-        ];
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json',
-            'application/xml'
+            'application/xml',
+            'application/json'
         ];
 
+            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
