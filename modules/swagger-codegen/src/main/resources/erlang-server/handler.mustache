@@ -71,6 +71,7 @@ allowed_methods(Req, State) ->
         State :: state()
     }.
 {{#operations}}{{#operation}}
+{{#authMethods}}
 is_authorized(
     Req0,
     State = #state{
@@ -78,7 +79,6 @@ is_authorized(
         logic_handler = LogicHandler
     }
 ) ->
-{{#authMethods}}
   {{#isApiKey}}
     From = {{#isKeyInQuery}}qs_val{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}},
     Result = {{packageName}}_auth:authorize_api_key(
@@ -93,6 +93,10 @@ is_authorized(
         {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
     end;
   {{/isApiKey}}
+{{/authMethods}}
+{{^authMethods}}
+is_authorized(Req, State) ->
+    {true, Req, State};
 {{/authMethods}}
 {{/operation}}{{/operations}}
 is_authorized(Req, State) ->

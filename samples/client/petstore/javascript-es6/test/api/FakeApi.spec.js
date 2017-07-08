@@ -48,6 +48,46 @@
   }
 
   describe('FakeApi', function() {
+    describe('fakeOuterBooleanSerialize', function() {
+      it('should call fakeOuterBooleanSerialize successfully', function(done) {
+        //uncomment below and update the code to test fakeOuterBooleanSerialize
+        //instance.fakeOuterBooleanSerialize(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('fakeOuterCompositeSerialize', function() {
+      it('should call fakeOuterCompositeSerialize successfully', function(done) {
+        //uncomment below and update the code to test fakeOuterCompositeSerialize
+        //instance.fakeOuterCompositeSerialize(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('fakeOuterNumberSerialize', function() {
+      it('should call fakeOuterNumberSerialize successfully', function(done) {
+        //uncomment below and update the code to test fakeOuterNumberSerialize
+        //instance.fakeOuterNumberSerialize(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('fakeOuterStringSerialize', function() {
+      it('should call fakeOuterStringSerialize successfully', function(done) {
+        //uncomment below and update the code to test fakeOuterStringSerialize
+        //instance.fakeOuterStringSerialize(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('testClientModel', function() {
       it('should call testClientModel successfully', function(done) {
         //uncomment below and update the code to test testClientModel

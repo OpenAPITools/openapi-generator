@@ -660,4 +660,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return input.replace("*/", "");
     }
 
+    protected String extractSimpleName(String phpClassName) {
+        if (phpClassName == null) {
+            return null;
+        }
+
+        final int lastBackslashIndex = phpClassName.lastIndexOf('\\');
+        return phpClassName.substring(lastBackslashIndex + 1);
+    }
 }

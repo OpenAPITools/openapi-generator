@@ -640,9 +640,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             BooleanProperty dp = (BooleanProperty) p;
             if (dp.getDefault() != null) {
                 if (dp.getDefault().toString().equalsIgnoreCase("false"))
-                    return "@0";
+                    return "@(NO)";
                 else
-                    return "@1";
+                    return "@(YES)";
             }
         } else if (p instanceof DateProperty) {
             // TODO
