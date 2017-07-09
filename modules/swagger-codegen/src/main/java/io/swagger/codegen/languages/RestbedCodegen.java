@@ -10,19 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
-import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BaseIntegerProperty;
 import io.swagger.models.properties.BooleanProperty;
@@ -39,7 +33,7 @@ import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 
-public class RestbedCodegen extends DefaultCodegen implements CodegenConfig {
+public class RestbedCodegen extends AbstractCppCodegen {
 
   public static final String DECLSPEC = "declspec";
   public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -385,21 +379,6 @@ public class RestbedCodegen extends DefaultCodegen implements CodegenConfig {
       } else {
           return Character.toUpperCase(type.charAt(0)) + type.substring(1);
       }
-  }
-
-  @Override
-  public String toVarName(String name) {
-      if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
-              || importMapping.values().contains(name) || defaultIncludes.contains(name)
-              || languageSpecificPrimitives.contains(name)) {
-          return name;
-      }
-
-      if (name.length() > 1) {
-          return Character.toUpperCase(name.charAt(0)) + name.substring(1);
-      }
-
-      return name;
   }
 
   @Override

@@ -1,22 +1,47 @@
 package io.swagger.codegen.languages;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import io.swagger.codegen.*;
-import io.swagger.codegen.examples.ExampleGenerator;
+
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.utils.ModelUtils;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Response;
 import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BaseIntegerProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.DateProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DecimalProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.FileProperty;
+import io.swagger.models.properties.FloatProperty;
+import io.swagger.models.properties.IntegerProperty;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.Property;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 
-import java.util.*;
-import java.io.File;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
-
-public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class CppRestClientCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -379,21 +404,6 @@ public class CppRestClientCodegen extends DefaultCodegen implements CodegenConfi
         } else {
             return Character.toUpperCase(type.charAt(0)) + type.substring(1);
         }
-    }
-
-    @Override
-    public String toVarName(String name) {
-        if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
-                || importMapping.values().contains(name) || defaultIncludes.contains(name)
-                || languageSpecificPrimitives.contains(name)) {
-            return name;
-        }
-
-        if (name.length() > 1) {
-            return Character.toUpperCase(name.charAt(0)) + name.substring(1);
-        }
-
-        return name;
     }
 
     @Override

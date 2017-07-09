@@ -125,7 +125,7 @@ void {{classname}}::{{setter}}({{{datatype}}} value)
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
 {{/isNotContainer}}
-{{^required}}bool {{classname}}::{{baseName}}IsSet() const
+{{^required}}bool {{classname}}::{{nameInCamelCase}}IsSet() const
 {
     return m_{{name}}IsSet;
 }
