@@ -12,7 +12,7 @@
 /**
  * Swagger Petstore
  *
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -118,7 +118,7 @@ class StoreApi
             throw new \InvalidArgumentException('Missing the required parameter $order_id when calling deleteOrder');
         }
         // parse inputs
-        $resourcePath = "/store/order/{order_id}";
+        $resourcePath = "/store/order/{orderId}";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -132,7 +132,7 @@ class StoreApi
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
-                "{" . "order_id" . "}",
+                "{" . "orderId" . "}",
                 $this->apiClient->getSerializer()->toPathValue($order_id),
                 $resourcePath
             );
@@ -153,7 +153,7 @@ class StoreApi
                 $httpBody,
                 $headerParams,
                 null,
-                '/store/order/{order_id}'
+                '/store/order/{orderId}'
             );
 
             return [null, $statusCode, $httpHeader];
@@ -276,7 +276,7 @@ class StoreApi
         }
 
         // parse inputs
-        $resourcePath = "/store/order/{order_id}";
+        $resourcePath = "/store/order/{orderId}";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -290,7 +290,7 @@ class StoreApi
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
-                "{" . "order_id" . "}",
+                "{" . "orderId" . "}",
                 $this->apiClient->getSerializer()->toPathValue($order_id),
                 $resourcePath
             );
@@ -311,7 +311,7 @@ class StoreApi
                 $httpBody,
                 $headerParams,
                 '\Swagger\Client\Model\Order',
-                '/store/order/{order_id}'
+                '/store/order/{orderId}'
             );
 
             return [$this->apiClient->getSerializer()->deserialize($response, '\Swagger\Client\Model\Order', $httpHeader), $statusCode, $httpHeader];
