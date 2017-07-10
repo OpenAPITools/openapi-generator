@@ -40,11 +40,11 @@ public:
 /// <remarks>
 /// {{notes}}
 /// </remarks>
-class {{declspec}} {{classname}}{{operationIdCamelCase}}Resource: public restbed::Resource
+class {{declspec}} {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource: public restbed::Resource
 {
 public:
-	{{classname}}{{operationIdCamelCase}}Resource();
-    virtual ~{{classname}}{{operationIdCamelCase}}Resource();
+	{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource();
+    virtual ~{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource();
     void {{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session);
     {{#vendorExtensions.x-codegen-otherMethods}}
     void {{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session);

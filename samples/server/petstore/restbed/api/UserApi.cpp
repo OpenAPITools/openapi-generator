@@ -26,23 +26,23 @@ namespace api {
 using namespace io::swagger::server::model;
 
 UserApi::UserApi() {
-	std::shared_ptr<UserApiCreateUserResource> spUserApiCreateUserResource = std::make_shared<UserApiCreateUserResource>();
-	this->publish(spUserApiCreateUserResource);
+	std::shared_ptr<UserApiUserResource> spUserApiUserResource = std::make_shared<UserApiUserResource>();
+	this->publish(spUserApiUserResource);
 	
-	std::shared_ptr<UserApiCreateUsersWithArrayInputResource> spUserApiCreateUsersWithArrayInputResource = std::make_shared<UserApiCreateUsersWithArrayInputResource>();
-	this->publish(spUserApiCreateUsersWithArrayInputResource);
+	std::shared_ptr<UserApiUserCreateWithArrayResource> spUserApiUserCreateWithArrayResource = std::make_shared<UserApiUserCreateWithArrayResource>();
+	this->publish(spUserApiUserCreateWithArrayResource);
 	
-	std::shared_ptr<UserApiCreateUsersWithListInputResource> spUserApiCreateUsersWithListInputResource = std::make_shared<UserApiCreateUsersWithListInputResource>();
-	this->publish(spUserApiCreateUsersWithListInputResource);
+	std::shared_ptr<UserApiUserCreateWithListResource> spUserApiUserCreateWithListResource = std::make_shared<UserApiUserCreateWithListResource>();
+	this->publish(spUserApiUserCreateWithListResource);
 	
-	std::shared_ptr<UserApiDeleteUserResource> spUserApiDeleteUserResource = std::make_shared<UserApiDeleteUserResource>();
-	this->publish(spUserApiDeleteUserResource);
+	std::shared_ptr<UserApiUserUsernameResource> spUserApiUserUsernameResource = std::make_shared<UserApiUserUsernameResource>();
+	this->publish(spUserApiUserUsernameResource);
 	
-	std::shared_ptr<UserApiLoginUserResource> spUserApiLoginUserResource = std::make_shared<UserApiLoginUserResource>();
-	this->publish(spUserApiLoginUserResource);
+	std::shared_ptr<UserApiUserLoginResource> spUserApiUserLoginResource = std::make_shared<UserApiUserLoginResource>();
+	this->publish(spUserApiUserLoginResource);
 	
-	std::shared_ptr<UserApiLogoutUserResource> spUserApiLogoutUserResource = std::make_shared<UserApiLogoutUserResource>();
-	this->publish(spUserApiLogoutUserResource);
+	std::shared_ptr<UserApiUserLogoutResource> spUserApiUserLogoutResource = std::make_shared<UserApiUserLogoutResource>();
+	this->publish(spUserApiUserLogoutResource);
 	
 }
 
@@ -60,19 +60,19 @@ void UserApi::stopService() {
 	this->stop();
 }
 
-UserApiCreateUserResource::UserApiCreateUserResource()
+UserApiUserResource::UserApiUserResource()
 {
 	this->set_path("/user/");
 	this->set_method_handler("POST",
-		std::bind(&UserApiCreateUserResource::POST_method_handler, this,
+		std::bind(&UserApiUserResource::POST_method_handler, this,
 			std::placeholders::_1));
 }
 
-UserApiCreateUserResource::~UserApiCreateUserResource()
+UserApiUserResource::~UserApiUserResource()
 {
 }
 
-void UserApiCreateUserResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	// Body params are present, therefore we have to fetch them
@@ -107,19 +107,19 @@ void UserApiCreateUserResource::POST_method_handler(const std::shared_ptr<restbe
 
 
 
-UserApiCreateUsersWithArrayInputResource::UserApiCreateUsersWithArrayInputResource()
+UserApiUserCreateWithArrayResource::UserApiUserCreateWithArrayResource()
 {
 	this->set_path("/user/createWithArray/");
 	this->set_method_handler("POST",
-		std::bind(&UserApiCreateUsersWithArrayInputResource::POST_method_handler, this,
+		std::bind(&UserApiUserCreateWithArrayResource::POST_method_handler, this,
 			std::placeholders::_1));
 }
 
-UserApiCreateUsersWithArrayInputResource::~UserApiCreateUsersWithArrayInputResource()
+UserApiUserCreateWithArrayResource::~UserApiUserCreateWithArrayResource()
 {
 }
 
-void UserApiCreateUsersWithArrayInputResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserCreateWithArrayResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	// Body params are present, therefore we have to fetch them
@@ -154,19 +154,19 @@ void UserApiCreateUsersWithArrayInputResource::POST_method_handler(const std::sh
 
 
 
-UserApiCreateUsersWithListInputResource::UserApiCreateUsersWithListInputResource()
+UserApiUserCreateWithListResource::UserApiUserCreateWithListResource()
 {
 	this->set_path("/user/createWithList/");
 	this->set_method_handler("POST",
-		std::bind(&UserApiCreateUsersWithListInputResource::POST_method_handler, this,
+		std::bind(&UserApiUserCreateWithListResource::POST_method_handler, this,
 			std::placeholders::_1));
 }
 
-UserApiCreateUsersWithListInputResource::~UserApiCreateUsersWithListInputResource()
+UserApiUserCreateWithListResource::~UserApiUserCreateWithListResource()
 {
 }
 
-void UserApiCreateUsersWithListInputResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserCreateWithListResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	// Body params are present, therefore we have to fetch them
@@ -201,25 +201,25 @@ void UserApiCreateUsersWithListInputResource::POST_method_handler(const std::sha
 
 
 
-UserApiDeleteUserResource::UserApiDeleteUserResource()
+UserApiUserUsernameResource::UserApiUserUsernameResource()
 {
 	this->set_path("/user/{username: .*}/");
 	this->set_method_handler("DELETE",
-		std::bind(&UserApiDeleteUserResource::DELETE_method_handler, this,
+		std::bind(&UserApiUserUsernameResource::DELETE_method_handler, this,
 			std::placeholders::_1));
 	this->set_method_handler("GET",
-		std::bind(&UserApiDeleteUserResource::GET_method_handler, this,
+		std::bind(&UserApiUserUsernameResource::GET_method_handler, this,
 			std::placeholders::_1));
 	this->set_method_handler("PUT",
-		std::bind(&UserApiDeleteUserResource::PUT_method_handler, this,
+		std::bind(&UserApiUserUsernameResource::PUT_method_handler, this,
 			std::placeholders::_1));
 }
 
-UserApiDeleteUserResource::~UserApiDeleteUserResource()
+UserApiUserUsernameResource::~UserApiUserUsernameResource()
 {
 }
 
-void UserApiDeleteUserResource::DELETE_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserUsernameResource::DELETE_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
@@ -246,7 +246,7 @@ void UserApiDeleteUserResource::DELETE_method_handler(const std::shared_ptr<rest
 
 }
 
-void UserApiDeleteUserResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserUsernameResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 
@@ -277,7 +277,7 @@ void UserApiDeleteUserResource::GET_method_handler(const std::shared_ptr<restbed
 			}
 
 }
-void UserApiDeleteUserResource::PUT_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserUsernameResource::PUT_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	// Body params are present, therefore we have to fetch them
@@ -314,19 +314,19 @@ void UserApiDeleteUserResource::PUT_method_handler(const std::shared_ptr<restbed
 }
 
 
-UserApiLoginUserResource::UserApiLoginUserResource()
+UserApiUserLoginResource::UserApiUserLoginResource()
 {
 	this->set_path("/user/login/");
 	this->set_method_handler("GET",
-		std::bind(&UserApiLoginUserResource::GET_method_handler, this,
+		std::bind(&UserApiUserLoginResource::GET_method_handler, this,
 			std::placeholders::_1));
 }
 
-UserApiLoginUserResource::~UserApiLoginUserResource()
+UserApiUserLoginResource::~UserApiUserLoginResource()
 {
 }
 
-void UserApiLoginUserResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserLoginResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
@@ -360,19 +360,19 @@ void UserApiLoginUserResource::GET_method_handler(const std::shared_ptr<restbed:
 
 
 
-UserApiLogoutUserResource::UserApiLogoutUserResource()
+UserApiUserLogoutResource::UserApiUserLogoutResource()
 {
 	this->set_path("/user/logout/");
 	this->set_method_handler("GET",
-		std::bind(&UserApiLogoutUserResource::GET_method_handler, this,
+		std::bind(&UserApiUserLogoutResource::GET_method_handler, this,
 			std::placeholders::_1));
 }
 
-UserApiLogoutUserResource::~UserApiLogoutUserResource()
+UserApiUserLogoutResource::~UserApiUserLogoutResource()
 {
 }
 
-void UserApiLogoutUserResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UserApiUserLogoutResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
