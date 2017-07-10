@@ -1,0 +1,18 @@
+                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}, {{/hasMore}}{{/allParams}}{{/hasParams}}result -> {
+                    if (result.succeeded())
+                {{#returnType}}
+                    {{#isListContainer}}
+                        message.reply(new JsonArray(Json.encode(result.result())).encodePrettily());
+                    {{/isListContainer}}
+                    {{^isListContainer}}
+                        message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
+                    {{/isListContainer}}
+                {{/returnType}}
+                {{^returnType}}
+                        message.reply(null);
+                {{/returnType}}
+                    else {
+                        Throwable cause = result.cause();
+                        manageError(message, cause, "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}");
+                    }
+                });
