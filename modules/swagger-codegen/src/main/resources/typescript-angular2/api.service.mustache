@@ -83,7 +83,12 @@ export class {{classname}} {
      * {{notes}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
+{{^isResponseFile}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+{{/isResponseFile}}
+{{#isResponseFile}}
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}|undefined{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+{{/isResponseFile}}
         return this.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
