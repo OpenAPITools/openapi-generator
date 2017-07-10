@@ -52,11 +52,11 @@ public:
 /// <remarks>
 /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 /// </remarks>
-class  StoreApiDeleteOrderResource: public restbed::Resource
+class  StoreApiStoreOrderOrderIdResource: public restbed::Resource
 {
 public:
-	StoreApiDeleteOrderResource();
-    virtual ~StoreApiDeleteOrderResource();
+	StoreApiStoreOrderOrderIdResource();
+    virtual ~StoreApiStoreOrderOrderIdResource();
     void DELETE_method_handler(const std::shared_ptr<restbed::Session> session);
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
@@ -67,11 +67,11 @@ public:
 /// <remarks>
 /// Returns a map of status codes to quantities
 /// </remarks>
-class  StoreApiGetInventoryResource: public restbed::Resource
+class  StoreApiStoreInventoryResource: public restbed::Resource
 {
 public:
-	StoreApiGetInventoryResource();
-    virtual ~StoreApiGetInventoryResource();
+	StoreApiStoreInventoryResource();
+    virtual ~StoreApiStoreInventoryResource();
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
@@ -81,11 +81,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  StoreApiPlaceOrderResource: public restbed::Resource
+class  StoreApiStoreOrderResource: public restbed::Resource
 {
 public:
-	StoreApiPlaceOrderResource();
-    virtual ~StoreApiPlaceOrderResource();
+	StoreApiStoreOrderResource();
+    virtual ~StoreApiStoreOrderResource();
     void POST_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 

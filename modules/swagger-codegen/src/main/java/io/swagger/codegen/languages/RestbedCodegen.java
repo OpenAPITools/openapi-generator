@@ -234,16 +234,24 @@ public class RestbedCodegen extends AbstractCppCodegen {
       String path = new String(op.path);
 
       String[] items = path.split("/", -1);
-      List<String> splitPath = new ArrayList<String>();
+      String resourceNameCamelCase = "";
       op.path = "";
       for (String item: items) {
-        if (item.matches("^\\{(.*)\\}$")) {
-          item = item.substring(0, item.length()-1);
-          item += ": .*}";
-        }
-        splitPath.add(item);
+        if (item.length() > 1) {
+          if (item.matches("^\\{(.*)\\}$")) { 
+        	String tmpResourceName = item.substring(1, item.length()-1);
+            resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
+            item = item.substring(0, item.length()-1);
+            item += ": .*}";
+          } else {
+          	resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0)) + item.substring(1);
+          }
+    	} else if (item.length() == 1) {
+    	  resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0));
+    	}
         op.path += item + "/";
       }
+      op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase);
       boolean foundInNewList = false;
       for (CodegenOperation op1 : newOpList) {
         if (!foundInNewList) {

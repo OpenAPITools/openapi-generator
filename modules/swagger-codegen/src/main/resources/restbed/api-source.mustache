@@ -16,8 +16,8 @@ using namespace {{modelNamespace}};
 
 {{classname}}::{{classname}}() {
 	{{#operation}}
-	std::shared_ptr<{{classname}}{{operationIdCamelCase}}Resource> sp{{classname}}{{operationIdCamelCase}}Resource = std::make_shared<{{classname}}{{operationIdCamelCase}}Resource>();
-	this->publish(sp{{classname}}{{operationIdCamelCase}}Resource);
+	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource>();
+	this->publish(sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource);
 	
 	{{/operation}}
 }
@@ -37,24 +37,24 @@ void {{classname}}::stopService() {
 }
 
 {{#operation}}
-{{classname}}{{operationIdCamelCase}}Resource::{{classname}}{{operationIdCamelCase}}Resource()
+{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()
 {
 	this->set_path("{{path}}");
 	this->set_method_handler("{{httpMethod}}",
-		std::bind(&{{classname}}{{operationIdCamelCase}}Resource::{{httpMethod}}_method_handler, this,
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
 			std::placeholders::_1));
 	{{#vendorExtensions.x-codegen-otherMethods}}
 	this->set_method_handler("{{httpMethod}}",
-		std::bind(&{{classname}}{{operationIdCamelCase}}Resource::{{httpMethod}}_method_handler, this,
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
 			std::placeholders::_1));
 	{{/vendorExtensions.x-codegen-otherMethods}}
 }
 
-{{classname}}{{operationIdCamelCase}}Resource::~{{classname}}{{operationIdCamelCase}}Resource()
+{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()
 {
 }
 
-void {{classname}}{{operationIdCamelCase}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
+void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	{{#hasBodyParam}}
@@ -122,7 +122,7 @@ void {{classname}}{{operationIdCamelCase}}Resource::{{httpMethod}}_method_handle
 }
 
 {{#vendorExtensions.x-codegen-otherMethods}}
-void {{classname}}{{operationIdCamelCase}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
+void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	{{#hasBodyParam}}

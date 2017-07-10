@@ -26,20 +26,20 @@ namespace api {
 using namespace io::swagger::server::model;
 
 PetApi::PetApi() {
-	std::shared_ptr<PetApiAddPetResource> spPetApiAddPetResource = std::make_shared<PetApiAddPetResource>();
-	this->publish(spPetApiAddPetResource);
+	std::shared_ptr<PetApiPetResource> spPetApiPetResource = std::make_shared<PetApiPetResource>();
+	this->publish(spPetApiPetResource);
 	
-	std::shared_ptr<PetApiDeletePetResource> spPetApiDeletePetResource = std::make_shared<PetApiDeletePetResource>();
-	this->publish(spPetApiDeletePetResource);
+	std::shared_ptr<PetApiPetPetIdResource> spPetApiPetPetIdResource = std::make_shared<PetApiPetPetIdResource>();
+	this->publish(spPetApiPetPetIdResource);
 	
-	std::shared_ptr<PetApiFindPetsByStatusResource> spPetApiFindPetsByStatusResource = std::make_shared<PetApiFindPetsByStatusResource>();
-	this->publish(spPetApiFindPetsByStatusResource);
+	std::shared_ptr<PetApiPetFindByStatusResource> spPetApiPetFindByStatusResource = std::make_shared<PetApiPetFindByStatusResource>();
+	this->publish(spPetApiPetFindByStatusResource);
 	
-	std::shared_ptr<PetApiFindPetsByTagsResource> spPetApiFindPetsByTagsResource = std::make_shared<PetApiFindPetsByTagsResource>();
-	this->publish(spPetApiFindPetsByTagsResource);
+	std::shared_ptr<PetApiPetFindByTagsResource> spPetApiPetFindByTagsResource = std::make_shared<PetApiPetFindByTagsResource>();
+	this->publish(spPetApiPetFindByTagsResource);
 	
-	std::shared_ptr<PetApiUploadFileResource> spPetApiUploadFileResource = std::make_shared<PetApiUploadFileResource>();
-	this->publish(spPetApiUploadFileResource);
+	std::shared_ptr<PetApiPetPetIdUploadImageResource> spPetApiPetPetIdUploadImageResource = std::make_shared<PetApiPetPetIdUploadImageResource>();
+	this->publish(spPetApiPetPetIdUploadImageResource);
 	
 }
 
@@ -57,22 +57,22 @@ void PetApi::stopService() {
 	this->stop();
 }
 
-PetApiAddPetResource::PetApiAddPetResource()
+PetApiPetResource::PetApiPetResource()
 {
 	this->set_path("/pet/");
 	this->set_method_handler("POST",
-		std::bind(&PetApiAddPetResource::POST_method_handler, this,
+		std::bind(&PetApiPetResource::POST_method_handler, this,
 			std::placeholders::_1));
 	this->set_method_handler("PUT",
-		std::bind(&PetApiAddPetResource::PUT_method_handler, this,
+		std::bind(&PetApiPetResource::PUT_method_handler, this,
 			std::placeholders::_1));
 }
 
-PetApiAddPetResource::~PetApiAddPetResource()
+PetApiPetResource::~PetApiPetResource()
 {
 }
 
-void PetApiAddPetResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	// Body params are present, therefore we have to fetch them
@@ -105,7 +105,7 @@ void PetApiAddPetResource::POST_method_handler(const std::shared_ptr<restbed::Se
 		});
 }
 
-void PetApiAddPetResource::PUT_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetResource::PUT_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	// Body params are present, therefore we have to fetch them
@@ -144,25 +144,25 @@ void PetApiAddPetResource::PUT_method_handler(const std::shared_ptr<restbed::Ses
 }
 
 
-PetApiDeletePetResource::PetApiDeletePetResource()
+PetApiPetPetIdResource::PetApiPetPetIdResource()
 {
 	this->set_path("/pet/{petId: .*}/");
 	this->set_method_handler("DELETE",
-		std::bind(&PetApiDeletePetResource::DELETE_method_handler, this,
+		std::bind(&PetApiPetPetIdResource::DELETE_method_handler, this,
 			std::placeholders::_1));
 	this->set_method_handler("GET",
-		std::bind(&PetApiDeletePetResource::GET_method_handler, this,
+		std::bind(&PetApiPetPetIdResource::GET_method_handler, this,
 			std::placeholders::_1));
 	this->set_method_handler("POST",
-		std::bind(&PetApiDeletePetResource::POST_method_handler, this,
+		std::bind(&PetApiPetPetIdResource::POST_method_handler, this,
 			std::placeholders::_1));
 }
 
-PetApiDeletePetResource::~PetApiDeletePetResource()
+PetApiPetPetIdResource::~PetApiPetPetIdResource()
 {
 }
 
-void PetApiDeletePetResource::DELETE_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetPetIdResource::DELETE_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
@@ -187,7 +187,7 @@ void PetApiDeletePetResource::DELETE_method_handler(const std::shared_ptr<restbe
 
 }
 
-void PetApiDeletePetResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetPetIdResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 
@@ -218,7 +218,7 @@ void PetApiDeletePetResource::GET_method_handler(const std::shared_ptr<restbed::
 			}
 
 }
-void PetApiDeletePetResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetPetIdResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 
@@ -242,19 +242,19 @@ void PetApiDeletePetResource::POST_method_handler(const std::shared_ptr<restbed:
 }
 
 
-PetApiFindPetsByStatusResource::PetApiFindPetsByStatusResource()
+PetApiPetFindByStatusResource::PetApiPetFindByStatusResource()
 {
 	this->set_path("/pet/findByStatus/");
 	this->set_method_handler("GET",
-		std::bind(&PetApiFindPetsByStatusResource::GET_method_handler, this,
+		std::bind(&PetApiPetFindByStatusResource::GET_method_handler, this,
 			std::placeholders::_1));
 }
 
-PetApiFindPetsByStatusResource::~PetApiFindPetsByStatusResource()
+PetApiPetFindByStatusResource::~PetApiPetFindByStatusResource()
 {
 }
 
-void PetApiFindPetsByStatusResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetFindByStatusResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
@@ -282,19 +282,19 @@ void PetApiFindPetsByStatusResource::GET_method_handler(const std::shared_ptr<re
 
 
 
-PetApiFindPetsByTagsResource::PetApiFindPetsByTagsResource()
+PetApiPetFindByTagsResource::PetApiPetFindByTagsResource()
 {
 	this->set_path("/pet/findByTags/");
 	this->set_method_handler("GET",
-		std::bind(&PetApiFindPetsByTagsResource::GET_method_handler, this,
+		std::bind(&PetApiPetFindByTagsResource::GET_method_handler, this,
 			std::placeholders::_1));
 }
 
-PetApiFindPetsByTagsResource::~PetApiFindPetsByTagsResource()
+PetApiPetFindByTagsResource::~PetApiPetFindByTagsResource()
 {
 }
 
-void PetApiFindPetsByTagsResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetFindByTagsResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
@@ -322,19 +322,19 @@ void PetApiFindPetsByTagsResource::GET_method_handler(const std::shared_ptr<rest
 
 
 
-PetApiUploadFileResource::PetApiUploadFileResource()
+PetApiPetPetIdUploadImageResource::PetApiPetPetIdUploadImageResource()
 {
 	this->set_path("/pet/{petId: .*}/uploadImage/");
 	this->set_method_handler("POST",
-		std::bind(&PetApiUploadFileResource::POST_method_handler, this,
+		std::bind(&PetApiPetPetIdUploadImageResource::POST_method_handler, this,
 			std::placeholders::_1));
 }
 
-PetApiUploadFileResource::~PetApiUploadFileResource()
+PetApiPetPetIdUploadImageResource::~PetApiPetPetIdUploadImageResource()
 {
 }
 
-void PetApiUploadFileResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+void PetApiPetPetIdUploadImageResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			

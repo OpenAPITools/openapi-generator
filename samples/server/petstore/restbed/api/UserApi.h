@@ -52,11 +52,11 @@ public:
 /// <remarks>
 /// This can only be done by the logged in user.
 /// </remarks>
-class  UserApiCreateUserResource: public restbed::Resource
+class  UserApiUserResource: public restbed::Resource
 {
 public:
-	UserApiCreateUserResource();
-    virtual ~UserApiCreateUserResource();
+	UserApiUserResource();
+    virtual ~UserApiUserResource();
     void POST_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
@@ -66,11 +66,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiCreateUsersWithArrayInputResource: public restbed::Resource
+class  UserApiUserCreateWithArrayResource: public restbed::Resource
 {
 public:
-	UserApiCreateUsersWithArrayInputResource();
-    virtual ~UserApiCreateUsersWithArrayInputResource();
+	UserApiUserCreateWithArrayResource();
+    virtual ~UserApiUserCreateWithArrayResource();
     void POST_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
@@ -80,11 +80,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiCreateUsersWithListInputResource: public restbed::Resource
+class  UserApiUserCreateWithListResource: public restbed::Resource
 {
 public:
-	UserApiCreateUsersWithListInputResource();
-    virtual ~UserApiCreateUsersWithListInputResource();
+	UserApiUserCreateWithListResource();
+    virtual ~UserApiUserCreateWithListResource();
     void POST_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
@@ -94,11 +94,11 @@ public:
 /// <remarks>
 /// This can only be done by the logged in user.
 /// </remarks>
-class  UserApiDeleteUserResource: public restbed::Resource
+class  UserApiUserUsernameResource: public restbed::Resource
 {
 public:
-	UserApiDeleteUserResource();
-    virtual ~UserApiDeleteUserResource();
+	UserApiUserUsernameResource();
+    virtual ~UserApiUserUsernameResource();
     void DELETE_method_handler(const std::shared_ptr<restbed::Session> session);
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
     void PUT_method_handler(const std::shared_ptr<restbed::Session> session);
@@ -110,11 +110,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiLoginUserResource: public restbed::Resource
+class  UserApiUserLoginResource: public restbed::Resource
 {
 public:
-	UserApiLoginUserResource();
-    virtual ~UserApiLoginUserResource();
+	UserApiUserLoginResource();
+    virtual ~UserApiUserLoginResource();
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
@@ -124,11 +124,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  UserApiLogoutUserResource: public restbed::Resource
+class  UserApiUserLogoutResource: public restbed::Resource
 {
 public:
-	UserApiLogoutUserResource();
-    virtual ~UserApiLogoutUserResource();
+	UserApiUserLogoutResource();
+    virtual ~UserApiUserLogoutResource();
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
