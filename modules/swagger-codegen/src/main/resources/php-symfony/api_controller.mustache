@@ -55,17 +55,38 @@ class {{controllerName}} extends Controller
      */
     public function {{operationId}}Action(Request $request)
     {
+        {{#authMethods}}
+        // Authentication '{{name}}' required
+        {{#isApiKey}}
+        {{#isKeyInHeader}}
+        // Set key with prefix in header
+        $security{{name}} = $request->headers->get('{{keyParamName}}');
+        {{/isKeyInHeader}}
+        {{#isKeyInQuery}}
+        // Set key with prefix in query string
+        $security{{name}} = $request->query->get('{{keyParamName}}');
+        {{/isKeyInQuery}}
+        {{/isApiKey}}
+        {{#isBasic}}
+        // HTTP basic authentication required
+        $security{{name}} = $request->headers->get('authorization');
+        {{/isBasic}}
+        {{#isOAuth}}
+        // Oauth required
+        $security{{name}} = $request->headers->get('authorization');
+        {{/isOAuth}}
+        {{/authMethods}}
         {{#queryParams}}
         // Handle query params
-        ${{paramName}} = $request->query->get('{{paramName}}');
+        ${{paramName}} = $this->fromQuery($request->query->get('{{paramName}}'), '{{dataType}}');
         {{/queryParams}}
         {{#headerParams}}
         // Handle header params
-        ${{paramName}} = $request->headers->get('{{paramName}}');
+        ${{paramName}} = $this->fromHeader($request->headers->get('{{paramName}}'), '{{dataType}}');
         {{/headerParams}}
         {{#pathParams}}
         // Handle path params
-        ${{paramName}} = $request->attributes->get('{{paramName}}');
+        ${{paramName}} = $this->fromPath($request->attributes->get('{{paramName}}'), '{{dataType}}');
         {{/pathParams}}
         {{#formParams}}
         {{#isFile}}
@@ -74,7 +95,7 @@ class {{controllerName}} extends Controller
         {{/isFile}}
         {{^isFile}}
         // Handle form params
-        ${{paramName}} = $request->request->get('{{paramName}}');
+        ${{paramName}} = $this->fromForm($request->request->get('{{paramName}}'), '{{dataType}}');
         {{/isFile}}
         {{/formParams}}
         {{#bodyParams}}
@@ -131,9 +152,15 @@ class {{controllerName}} extends Controller
 
         // Call the API interface
         try {
+            $handler = $this->getApiHandler();
+
+            {{#authMethods}}
+            // Set authentication method '{{name}}'
+            $handler->set{{name}}($security{{name}});
+            {{/authMethods}}
             {{#returnType}}
             // Expecting a return value (exception otherwise)
-            $result = $this->getApiHandler()->{{operationId}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            $result = $handler->{{operationId}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
             {{#responses}}
             {{^vendorExtensions.x-symfonyExceptionSimple}}
@@ -148,7 +175,7 @@ class {{controllerName}} extends Controller
             {{/returnType}}
             {{^returnType}}
             // No return type expected; return empty response
-            $this->getApiHandler()->{{operationId}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+            $handler->{{operationId}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
             return new Response('', 204);
             {{/returnType}}
         {{#responses}}
