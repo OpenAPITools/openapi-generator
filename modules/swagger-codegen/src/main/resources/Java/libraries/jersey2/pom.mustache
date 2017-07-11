@@ -222,6 +222,16 @@
       <artifactId>jackson-databind</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{#withXml}}
+
+    <!-- XML processing: JAXB -->
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-jaxb</artifactId>
+      <version>${jersey-version}</version>
+    </dependency>
+
+    {{/withXml}}
     {{#java8}}
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>

@@ -55,6 +55,15 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
+        {{#withXml}}
+
+        <!-- XML processing: Jackson -->
+        <dependency>
+          <groupId>com.fasterxml.jackson.dataformat</groupId>
+          <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+
+        {{/withXml}}
         {{#java8}}
 
         <dependency>

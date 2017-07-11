@@ -161,3 +161,4 @@ samples/client/petstore/typescript-node/npm/npm-debug.log
 
 # aspnetcore
 samples/server/petstore/aspnetcore/.vs/
+effective.pom
