@@ -2,7 +2,7 @@
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
-{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
+{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcelableModel}}implements Parcelable {{#serializableModel}}, Serializable {{/serializableModel}}{{/parcelableModel}}{{^parcelableModel}}{{#serializableModel}}implements Serializable {{/serializableModel}}{{/parcelableModel}}{
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
@@ -23,7 +23,18 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
     {{/items.isEnum}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
+  {{#withXml}}
+  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  {{/withXml}}
   {{/jackson}}
+  {{#withXml}}
+  {{#isXmlAttribute}}
+  @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  {{/isXmlAttribute}}
+  {{^isXmlAttribute}}
+  @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  {{/isXmlAttribute}}
+  {{/withXml}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}

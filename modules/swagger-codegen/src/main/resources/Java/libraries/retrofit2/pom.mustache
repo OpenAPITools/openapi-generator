@@ -253,6 +253,16 @@
       <artifactId>jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{#withXml}}
+
+    <!-- XML processing: Jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+
+    {{/withXml}}
     <dependency>
         <groupId>com.typesafe.play</groupId>
         <artifactId>play-java-ws_2.11</artifactId>

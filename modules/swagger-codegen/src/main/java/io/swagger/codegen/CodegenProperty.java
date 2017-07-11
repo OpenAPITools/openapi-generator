@@ -55,6 +55,12 @@ public class CodegenProperty implements Cloneable {
     public Integer maxItems;
     public Integer minItems;
 
+    // XML
+    public boolean isXmlAttribute = false;
+    public String xmlPrefix;
+    public String xmlName;
+    public String xmlNamespace;
+
 
     @Override
     public String toString() {
@@ -125,6 +131,10 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + Objects.hashCode(enumName);
         result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
         result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
+        result = prime * result + ((isXmlAttribute  ? 13:31));
+        result = prime * result + ((xmlPrefix == null) ? 0 : xmlPrefix.hashCode());
+        result = prime * result + ((xmlName == null) ? 0 : xmlName.hashCode());
+        result = prime * result + ((xmlNamespace == null) ? 0 : xmlNamespace.hashCode());
         return result;
     }
 
@@ -298,6 +308,18 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (this.minItems != other.minItems && (this.minItems == null || !this.minItems.equals(other.minItems))) {
+            return false;
+        }
+        if (!Objects.equals(this.isXmlAttribute, other.isXmlAttribute)) {
+            return false;
+        }
+        if (!Objects.equals(this.xmlPrefix, other.xmlPrefix)) {
+            return false;
+        }
+        if (!Objects.equals(this.xmlName, other.xmlName)) {
+            return false;
+        }
+        if (!Objects.equals(this.xmlNamespace, other.xmlNamespace)) {
             return false;
         }
         return true;
