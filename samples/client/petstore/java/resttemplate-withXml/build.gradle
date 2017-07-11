@@ -110,5 +110,6 @@ dependencies {
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     testCompile "junit:junit:$junit_version"
 }

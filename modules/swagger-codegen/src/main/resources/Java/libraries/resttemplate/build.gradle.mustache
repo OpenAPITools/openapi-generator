@@ -127,5 +127,8 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
     {{/java8}}
+    {{#withXml}}
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    {{/withXml}}
     testCompile "junit:junit:$junit_version"
 }
