@@ -46,9 +46,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String JAVA8_MODE = "java8";
+    public static final String WITH_XML = "withXml";
     public static final String SUPPORT_JAVA6 = "supportJava6";
 
     protected boolean java8Mode = false;
+    protected boolean withXml = false;
     protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger";
     protected String groupId = "io.swagger";
@@ -147,6 +149,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .SERIALIZE_BIG_DECIMAL_AS_STRING_DESC));
         cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util. This option only works for Java API client"));
         cliOptions.add(new CliOption("hideGenerationTimestamp", "hides the timestamp when files were generated"));
+        cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type. This option only works for Java API client (resttemplate)"));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<String, String>();
@@ -315,6 +318,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
         additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
 
+        if (additionalProperties.containsKey(WITH_XML)) {
+            this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
+        }
+        additionalProperties.put(WITH_XML, withXml);
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -375,6 +383,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             setJava8Mode(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
             if ( java8Mode ) {
                 additionalProperties.put("java8", "true");
+            }
+        }
+
+        if(additionalProperties.containsKey(WITH_XML)) {
+            setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
+            if ( withXml ) {
+                additionalProperties.put(WITH_XML, "true");
             }
         }
 
@@ -746,7 +761,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return super.toExampleValue(p);
         }
     }
-    
+
     @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
@@ -1135,6 +1150,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setFullJavaUtil(boolean fullJavaUtil) {
         this.fullJavaUtil = fullJavaUtil;
+    }
+
+    public void setWithXml(boolean withXml) {
+        this.withXml = withXml;
     }
 
     public void setDateLibrary(String library) {

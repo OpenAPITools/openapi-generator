@@ -239,6 +239,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateApiDocumentation = true;
 
     /**
+     * Generate the api documentation
+     */
+    @Parameter(name = "withXml", required = false)
+    private Boolean withXml = false;
+
+    /**
      * Skip the execution.
      */
     @Parameter(name = "skip", property = "codegen.skip", required = false, defaultValue = "false")
@@ -384,6 +390,7 @@ public class CodeGenMojo extends AbstractMojo {
         System.setProperty("modelDocs", generateModelDocumentation.toString());
         System.setProperty("apiTests", generateApiTests.toString());
         System.setProperty("apiDocs", generateApiDocumentation.toString());
+        System.setProperty("withXml", withXml.toString());
 
         if (configOptions != null) {
 
