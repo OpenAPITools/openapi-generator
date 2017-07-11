@@ -735,7 +735,7 @@ public class ApiClient {
     clientConfig.register(json);
     clientConfig.register(JacksonFeature.class);
     if (debugging) {
-      clientConfig.register(LoggingFilter.class);
+      clientConfig.register(new LoggingFilter(java.util.logging.Logger.getLogger(LoggingFilter.class.getName()), true));
     }
     return ClientBuilder.newClient(clientConfig);
   }

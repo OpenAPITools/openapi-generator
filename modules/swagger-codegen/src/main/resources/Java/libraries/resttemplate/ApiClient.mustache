@@ -1,5 +1,9 @@
 package {{invokerPackage}};
 
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+{{/withXml}}
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,11 @@ import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+{{#withXml}}
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
+{{/withXml}}
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -550,7 +559,14 @@ public class ApiClient {
      * @return RestTemplate
      */
     protected RestTemplate buildRestTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
+        {{#withXml}}List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
+        messageConverters.add(new MappingJackson2HttpMessageConverter());
+        XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
+        messageConverters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
+
+        RestTemplate restTemplate = new RestTemplate(messageConverters);
+        {{/withXml}}{{^withXml}}RestTemplate restTemplate = new RestTemplate();{{/withXml}}
         // This allows us to read the response more than once - Necessary for debugging.
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(restTemplate.getRequestFactory()));
         return restTemplate;

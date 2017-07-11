@@ -14,6 +14,15 @@ import {{import}};
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
+{{#jackson}}
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+{{/withXml}}
+{{/jackson}}
+{{#withXml}}
+import javax.xml.bind.annotation.*;
+{{/withXml}}
 {{#parcelableModel}}
 import android.os.Parcelable;
 import android.os.Parcel;

@@ -38,6 +38,7 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
     public static final String USE_BEANVALIDATION = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String JAVA8_MODE_VALUE = "false";
+    public static final String WITH_XML_VALUE = "false";
 
 
     @Override
@@ -83,6 +84,7 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
             .put(CodegenConstants.LIBRARY, JAXRS_DEFAULT_LIBRARY_VALUE)
             .put(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, "true")
             .put(JavaClientCodegen.JAVA8_MODE, JAVA8_MODE_VALUE)
+            .put(JavaClientCodegen.WITH_XML, WITH_XML_VALUE)
             //.put(JavaClientCodegen.DATE_LIBRARY, "joda")
             .put("hideGenerationTimestamp", "true")
             .put(JavaCXFServerCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION)
