@@ -227,52 +227,52 @@ public class RestbedCodegen extends AbstractCppCodegen {
   @SuppressWarnings("unchecked")
   @Override
   public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-    Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-    List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-    List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
-    for (CodegenOperation op : operationList) {
-      String path = new String(op.path);
+      Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+      List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+      List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
+      for (CodegenOperation op : operationList) {
+          String path = new String(op.path);
 
-      String[] items = path.split("/", -1);
-      String resourceNameCamelCase = "";
-      op.path = "";
-      for (String item: items) {
-        if (item.length() > 1) {
-          if (item.matches("^\\{(.*)\\}$")) { 
-        	String tmpResourceName = item.substring(1, item.length()-1);
-            resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
-            item = item.substring(0, item.length()-1);
-            item += ": .*}";
-          } else {
-          	resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0)) + item.substring(1);
+          String[] items = path.split("/", -1);
+          String resourceNameCamelCase = "";
+          op.path = "";
+          for (String item: items) {
+              if (item.length() > 1) {
+                  if (item.matches("^\\{(.*)\\}$")) { 
+                      String tmpResourceName = item.substring(1, item.length()-1);
+                      resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
+                      item = item.substring(0, item.length()-1);
+                      item += ": .*}";
+                  } else {
+                      resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0)) + item.substring(1);
+                  }
+              } else if (item.length() == 1) {
+                  resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0));
+              }
+              op.path += item + "/";
           }
-    	} else if (item.length() == 1) {
-    	  resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0));
-    	}
-        op.path += item + "/";
-      }
-      op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase);
-      boolean foundInNewList = false;
-      for (CodegenOperation op1 : newOpList) {
-        if (!foundInNewList) {
-          if (op1.path.equals(op.path)) {
-            foundInNewList = true;
-            List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
-            if (currentOtherMethodList == null) {
-              currentOtherMethodList = new ArrayList<CodegenOperation>();
-            }
-            op.operationIdCamelCase = op1.operationIdCamelCase;
-            currentOtherMethodList.add(op);
-            op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList);
+          op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase);
+          boolean foundInNewList = false;
+          for (CodegenOperation op1 : newOpList) {
+              if (!foundInNewList) {
+                  if (op1.path.equals(op.path)) {
+                      foundInNewList = true;
+                      List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
+                      if (currentOtherMethodList == null) {
+                          currentOtherMethodList = new ArrayList<CodegenOperation>();
+                      }
+                      op.operationIdCamelCase = op1.operationIdCamelCase;
+                      currentOtherMethodList.add(op);
+                      op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList);
+                  }
+              }
           }
-        }
+          if (!foundInNewList) {
+              newOpList.add(op);
+          }
       }
-      if (!foundInNewList) {
-        newOpList.add(op);
-      }
-    }
-    operations.put("operation", newOpList);
-    return objs;
+      operations.put("operation", newOpList);
+      return objs;
   }
 
   /**
