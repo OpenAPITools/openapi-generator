@@ -133,5 +133,8 @@ dependencies {
     {{#threetenbp}}
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
     {{/threetenbp}}
+    {{#withXml}}
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    {{/withXml}}
     testCompile "junit:junit:$junit_version"
 }

@@ -10,6 +10,15 @@ import java.io.Serializable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
+{{#jackson}}
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+{{/withXml}}
+{{/jackson}}
+{{#withXml}}
+import javax.xml.bind.annotation.*;
+{{/withXml}}
 
 {{#models}}
 {{#model}}

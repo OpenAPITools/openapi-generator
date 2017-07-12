@@ -46,7 +46,7 @@ public:
     {{^isNotContainer}}{{{datatype}}}& {{getter}}();
     {{/isNotContainer}}{{#isNotContainer}}{{{datatype}}} {{getter}}() const;
     void {{setter}}({{{datatype}}} value);
-    {{/isNotContainer}}{{^required}}bool {{baseName}}IsSet() const;
+    {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}
     {{/vars}}

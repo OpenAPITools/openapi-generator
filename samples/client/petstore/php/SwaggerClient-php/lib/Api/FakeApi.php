@@ -301,8 +301,6 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerialize
      *
-     * 
-     *
      * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -316,8 +314,6 @@ class FakeApi
 
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
-     *
-     * 
      *
      * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
@@ -382,6 +378,8 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerializeAsync
      *
+     * 
+     *
      * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -395,6 +393,8 @@ class FakeApi
 
     /**
      * Operation fakeOuterCompositeSerializeAsyncWithHttpInfo
+     *
+     * 
      *
      * @param \Swagger\Client\Model\OuterComposite $body Input composite as post body (optional)
      * @throws \InvalidArgumentException
@@ -518,8 +518,6 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerialize
      *
-     * 
-     *
      * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -533,8 +531,6 @@ class FakeApi
 
     /**
      * Operation fakeOuterNumberSerializeWithHttpInfo
-     *
-     * 
      *
      * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
@@ -599,6 +595,8 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerializeAsync
      *
+     * 
+     *
      * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -612,6 +610,8 @@ class FakeApi
 
     /**
      * Operation fakeOuterNumberSerializeAsyncWithHttpInfo
+     *
+     * 
      *
      * @param \Swagger\Client\Model\OuterNumber $body Input number as post body (optional)
      * @throws \InvalidArgumentException
@@ -735,8 +735,6 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerialize
      *
-     * 
-     *
      * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -750,8 +748,6 @@ class FakeApi
 
     /**
      * Operation fakeOuterStringSerializeWithHttpInfo
-     *
-     * 
      *
      * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
      * @throws \Swagger\Client\ApiException on non-2xx response
@@ -816,6 +812,8 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeAsync
      *
+     * 
+     *
      * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -829,6 +827,8 @@ class FakeApi
 
     /**
      * Operation fakeOuterStringSerializeAsyncWithHttpInfo
+     *
+     * 
      *
      * @param \Swagger\Client\Model\OuterString $body Input string as post body (optional)
      * @throws \InvalidArgumentException
@@ -1380,8 +1380,8 @@ class FakeApi
         if ($pattern_without_delimiter === null) {
             throw new \InvalidArgumentException('Missing the required parameter $pattern_without_delimiter when calling testEndpointParameters');
         }
-        if (!preg_match("/^[A-Z].*_/", $pattern_without_delimiter)) {
-            throw new \InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*_/.");
+        if (!preg_match("/^[A-Z].*/", $pattern_without_delimiter)) {
+            throw new \InvalidArgumentException("invalid value for \"pattern_without_delimiter\" when calling FakeApi.testEndpointParameters, must conform to the pattern /^[A-Z].*/.");
         }
 
         // verify the required parameter 'byte' is set
