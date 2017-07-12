@@ -52,11 +52,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  PetApiAddPetResource: public restbed::Resource
+class  PetApiPetResource: public restbed::Resource
 {
 public:
-	PetApiAddPetResource();
-    virtual ~PetApiAddPetResource();
+	PetApiPetResource();
+    virtual ~PetApiPetResource();
     void POST_method_handler(const std::shared_ptr<restbed::Session> session);
     void PUT_method_handler(const std::shared_ptr<restbed::Session> session);
 };
@@ -67,11 +67,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  PetApiDeletePetResource: public restbed::Resource
+class  PetApiPetPetIdResource: public restbed::Resource
 {
 public:
-	PetApiDeletePetResource();
-    virtual ~PetApiDeletePetResource();
+	PetApiPetPetIdResource();
+    virtual ~PetApiPetPetIdResource();
     void DELETE_method_handler(const std::shared_ptr<restbed::Session> session);
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
     void POST_method_handler(const std::shared_ptr<restbed::Session> session);
@@ -83,11 +83,11 @@ public:
 /// <remarks>
 /// Multiple status values can be provided with comma separated strings
 /// </remarks>
-class  PetApiFindPetsByStatusResource: public restbed::Resource
+class  PetApiPetFindByStatusResource: public restbed::Resource
 {
 public:
-	PetApiFindPetsByStatusResource();
-    virtual ~PetApiFindPetsByStatusResource();
+	PetApiPetFindByStatusResource();
+    virtual ~PetApiPetFindByStatusResource();
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
@@ -97,11 +97,11 @@ public:
 /// <remarks>
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 /// </remarks>
-class  PetApiFindPetsByTagsResource: public restbed::Resource
+class  PetApiPetFindByTagsResource: public restbed::Resource
 {
 public:
-	PetApiFindPetsByTagsResource();
-    virtual ~PetApiFindPetsByTagsResource();
+	PetApiPetFindByTagsResource();
+    virtual ~PetApiPetFindByTagsResource();
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 
@@ -111,11 +111,11 @@ public:
 /// <remarks>
 /// 
 /// </remarks>
-class  PetApiUploadFileResource: public restbed::Resource
+class  PetApiPetPetIdUploadImageResource: public restbed::Resource
 {
 public:
-	PetApiUploadFileResource();
-    virtual ~PetApiUploadFileResource();
+	PetApiPetPetIdUploadImageResource();
+    virtual ~PetApiPetPetIdUploadImageResource();
     void POST_method_handler(const std::shared_ptr<restbed::Session> session);
 };
 

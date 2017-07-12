@@ -10,19 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
-import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.BaseIntegerProperty;
 import io.swagger.models.properties.BooleanProperty;
@@ -39,7 +33,7 @@ import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 
-public class RestbedCodegen extends DefaultCodegen implements CodegenConfig {
+public class RestbedCodegen extends AbstractCppCodegen {
 
   public static final String DECLSPEC = "declspec";
   public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -233,44 +227,52 @@ public class RestbedCodegen extends DefaultCodegen implements CodegenConfig {
   @SuppressWarnings("unchecked")
   @Override
   public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-    Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-    List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-    List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
-    for (CodegenOperation op : operationList) {
-      String path = new String(op.path);
+      Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+      List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+      List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
+      for (CodegenOperation op : operationList) {
+          String path = new String(op.path);
 
-      String[] items = path.split("/", -1);
-      List<String> splitPath = new ArrayList<String>();
-      op.path = "";
-      for (String item: items) {
-        if (item.matches("^\\{(.*)\\}$")) {
-          item = item.substring(0, item.length()-1);
-          item += ": .*}";
-        }
-        splitPath.add(item);
-        op.path += item + "/";
-      }
-      boolean foundInNewList = false;
-      for (CodegenOperation op1 : newOpList) {
-        if (!foundInNewList) {
-          if (op1.path.equals(op.path)) {
-            foundInNewList = true;
-            List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
-            if (currentOtherMethodList == null) {
-              currentOtherMethodList = new ArrayList<CodegenOperation>();
-            }
-            op.operationIdCamelCase = op1.operationIdCamelCase;
-            currentOtherMethodList.add(op);
-            op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList);
+          String[] items = path.split("/", -1);
+          String resourceNameCamelCase = "";
+          op.path = "";
+          for (String item: items) {
+              if (item.length() > 1) {
+                  if (item.matches("^\\{(.*)\\}$")) { 
+                      String tmpResourceName = item.substring(1, item.length()-1);
+                      resourceNameCamelCase += Character.toUpperCase(tmpResourceName.charAt(0)) + tmpResourceName.substring(1);
+                      item = item.substring(0, item.length()-1);
+                      item += ": .*}";
+                  } else {
+                      resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0)) + item.substring(1);
+                  }
+              } else if (item.length() == 1) {
+                  resourceNameCamelCase +=  Character.toUpperCase(item.charAt(0));
+              }
+              op.path += item + "/";
           }
-        }
+          op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase);
+          boolean foundInNewList = false;
+          for (CodegenOperation op1 : newOpList) {
+              if (!foundInNewList) {
+                  if (op1.path.equals(op.path)) {
+                      foundInNewList = true;
+                      List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
+                      if (currentOtherMethodList == null) {
+                          currentOtherMethodList = new ArrayList<CodegenOperation>();
+                      }
+                      op.operationIdCamelCase = op1.operationIdCamelCase;
+                      currentOtherMethodList.add(op);
+                      op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList);
+                  }
+              }
+          }
+          if (!foundInNewList) {
+              newOpList.add(op);
+          }
       }
-      if (!foundInNewList) {
-        newOpList.add(op);
-      }
-    }
-    operations.put("operation", newOpList);
-    return objs;
+      operations.put("operation", newOpList);
+      return objs;
   }
 
   /**
@@ -385,21 +387,6 @@ public class RestbedCodegen extends DefaultCodegen implements CodegenConfig {
       } else {
           return Character.toUpperCase(type.charAt(0)) + type.substring(1);
       }
-  }
-
-  @Override
-  public String toVarName(String name) {
-      if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
-              || importMapping.values().contains(name) || defaultIncludes.contains(name)
-              || languageSpecificPrimitives.contains(name)) {
-          return name;
-      }
-
-      if (name.length() > 1) {
-          return Character.toUpperCase(name.charAt(0)) + name.substring(1);
-      }
-
-      return name;
   }
 
   @Override

@@ -13,11 +13,14 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
       * @var array[]
       */
     protected static $_attributes = [{{#vars}}
-        '{{name}}' => ['{{baseName}}', '{{{datatype}}}', {{#dataFormat}}'{{{dataFormat}}}'{{/dataFormat}}{{^dataFormat}}null{{/dataFormat}}, '{{setter}}', '{{getter}}'],{{/vars}}
+        '{{name}}' => ['{{baseName}}', '{{{vendorExtensions.x-fullType}}}', {{#dataFormat}}'{{{dataFormat}}}'{{/dataFormat}}{{^dataFormat}}null{{/dataFormat}}, '{{setter}}', '{{getter}}'],{{/vars}}
     ];
-    {{#vars}}{{#isEnum}}{{#allowableValues}}{{#enumVars}}
-    const {{enumName}}_{{{name}}} = {{{value}}};
-    {{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
+    {{#vars}}{{#isEnum}}
+
+    /**
+     * Allowed values of {{name}}
+     */{{#allowableValues}}{{#enumVars}}
+    const {{enumName}}_{{{name}}} = {{{value}}};{{/enumVars}}{{/allowableValues}}{{/isEnum}}{{/vars}}
 
     {{#vars}}{{#isEnum}}
     /**
@@ -33,7 +36,10 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
     }
     {{/isEnum}}{{/vars}}
     {{#vars}}
-    /**
+    /**{{#description}}
+     * {{description}}
+     *
+    {{/description}}
      * @var {{{datatype}}}{{^required}}|null{{/required}}
      */
     protected ${{name}};
@@ -237,6 +243,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
 
     /**
      * Gets {{name}}.
+     *
      * @return {{{datatype}}}{{^required}}|null{{/required}}
      */
     public function {{getter}}()
@@ -246,7 +253,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}imple
 
     /**
      * Sets {{name}}.
+     *
      * @param {{{datatype}}}{{^required}}|null{{/required}} ${{name}}{{#description}}  {{{description}}}{{/description}}
+     *
      * @return $this
      */
     public function {{setter}}({{#vendorExtensions.x-typeAnnotation}}{{vendorExtensions.x-typeAnnotation}} {{/vendorExtensions.x-typeAnnotation}}${{name}}{{^required}} = null{{/required}})

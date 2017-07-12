@@ -31,6 +31,17 @@ namespace {{apiPackage}};
  */
 interface {{classname}}
 {
+    {{#authMethods}}
+
+    /**
+     * Sets authentication method {{name}}
+     *
+     * @param string $value Value of the {{name}} authentication method.
+     *
+     * @return void
+     */
+    public function set{{name}}($value);
+    {{/authMethods}}
     {{#operation}}
 
     /**

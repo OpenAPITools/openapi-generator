@@ -26,14 +26,14 @@ namespace api {
 using namespace io::swagger::server::model;
 
 StoreApi::StoreApi() {
-	std::shared_ptr<StoreApiDeleteOrderResource> spStoreApiDeleteOrderResource = std::make_shared<StoreApiDeleteOrderResource>();
-	this->publish(spStoreApiDeleteOrderResource);
+	std::shared_ptr<StoreApiStoreOrderOrderIdResource> spStoreApiStoreOrderOrderIdResource = std::make_shared<StoreApiStoreOrderOrderIdResource>();
+	this->publish(spStoreApiStoreOrderOrderIdResource);
 	
-	std::shared_ptr<StoreApiGetInventoryResource> spStoreApiGetInventoryResource = std::make_shared<StoreApiGetInventoryResource>();
-	this->publish(spStoreApiGetInventoryResource);
+	std::shared_ptr<StoreApiStoreInventoryResource> spStoreApiStoreInventoryResource = std::make_shared<StoreApiStoreInventoryResource>();
+	this->publish(spStoreApiStoreInventoryResource);
 	
-	std::shared_ptr<StoreApiPlaceOrderResource> spStoreApiPlaceOrderResource = std::make_shared<StoreApiPlaceOrderResource>();
-	this->publish(spStoreApiPlaceOrderResource);
+	std::shared_ptr<StoreApiStoreOrderResource> spStoreApiStoreOrderResource = std::make_shared<StoreApiStoreOrderResource>();
+	this->publish(spStoreApiStoreOrderResource);
 	
 }
 
@@ -51,22 +51,22 @@ void StoreApi::stopService() {
 	this->stop();
 }
 
-StoreApiDeleteOrderResource::StoreApiDeleteOrderResource()
+StoreApiStoreOrderOrderIdResource::StoreApiStoreOrderOrderIdResource()
 {
 	this->set_path("/store/order/{orderId: .*}/");
 	this->set_method_handler("DELETE",
-		std::bind(&StoreApiDeleteOrderResource::DELETE_method_handler, this,
+		std::bind(&StoreApiStoreOrderOrderIdResource::DELETE_method_handler, this,
 			std::placeholders::_1));
 	this->set_method_handler("GET",
-		std::bind(&StoreApiDeleteOrderResource::GET_method_handler, this,
+		std::bind(&StoreApiStoreOrderOrderIdResource::GET_method_handler, this,
 			std::placeholders::_1));
 }
 
-StoreApiDeleteOrderResource::~StoreApiDeleteOrderResource()
+StoreApiStoreOrderOrderIdResource::~StoreApiStoreOrderOrderIdResource()
 {
 }
 
-void StoreApiDeleteOrderResource::DELETE_method_handler(const std::shared_ptr<restbed::Session> session) {
+void StoreApiStoreOrderOrderIdResource::DELETE_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
@@ -93,7 +93,7 @@ void StoreApiDeleteOrderResource::DELETE_method_handler(const std::shared_ptr<re
 
 }
 
-void StoreApiDeleteOrderResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void StoreApiStoreOrderOrderIdResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 
@@ -126,19 +126,19 @@ void StoreApiDeleteOrderResource::GET_method_handler(const std::shared_ptr<restb
 }
 
 
-StoreApiGetInventoryResource::StoreApiGetInventoryResource()
+StoreApiStoreInventoryResource::StoreApiStoreInventoryResource()
 {
 	this->set_path("/store/inventory/");
 	this->set_method_handler("GET",
-		std::bind(&StoreApiGetInventoryResource::GET_method_handler, this,
+		std::bind(&StoreApiStoreInventoryResource::GET_method_handler, this,
 			std::placeholders::_1));
 }
 
-StoreApiGetInventoryResource::~StoreApiGetInventoryResource()
+StoreApiStoreInventoryResource::~StoreApiStoreInventoryResource()
 {
 }
 
-void StoreApiGetInventoryResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+void StoreApiStoreInventoryResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 			
@@ -161,19 +161,19 @@ void StoreApiGetInventoryResource::GET_method_handler(const std::shared_ptr<rest
 
 
 
-StoreApiPlaceOrderResource::StoreApiPlaceOrderResource()
+StoreApiStoreOrderResource::StoreApiStoreOrderResource()
 {
 	this->set_path("/store/order/");
 	this->set_method_handler("POST",
-		std::bind(&StoreApiPlaceOrderResource::POST_method_handler, this,
+		std::bind(&StoreApiStoreOrderResource::POST_method_handler, this,
 			std::placeholders::_1));
 }
 
-StoreApiPlaceOrderResource::~StoreApiPlaceOrderResource()
+StoreApiStoreOrderResource::~StoreApiStoreOrderResource()
 {
 }
 
-void StoreApiPlaceOrderResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+void StoreApiStoreOrderResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 	// Body params are present, therefore we have to fetch them
