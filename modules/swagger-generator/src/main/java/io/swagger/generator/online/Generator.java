@@ -28,7 +28,8 @@ public class Generator {
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
-            throw new BadRequestException(String.format("Unsupported target %s supplied. %s", language, e));
+            throw new BadRequestException(String.format("Unsupported target %s supplied. %s",
+                    language, e));
         }
         Map<String, CliOption> map = new LinkedHashMap<String, CliOption>();
         for (CliOption option : config.cliOptions()) {
@@ -38,8 +39,7 @@ public class Generator {
     }
 
     public enum Type {
-        CLIENT("client"),
-        SERVER("server");
+        CLIENT("client"), SERVER("server");
 
         private String name;
 
@@ -60,37 +60,39 @@ public class Generator {
         return generate(language, opts, Type.SERVER);
     }
 
-    private static String generate(String language, GeneratorInput opts, Type type) throws ApiException {
+    private static String generate(String language, GeneratorInput opts, Type type)
+            throws ApiException {
         LOGGER.debug(String.format("generate %s for %s", type.getTypeName(), language));
         if (opts == null) {
             throw new BadRequestException("No options were supplied");
         }
         JsonNode node = opts.getSpec();
-        if(node != null && "{}".equals(node.toString())) {
+        if (node != null && "{}".equals(node.toString())) {
             LOGGER.debug("ignoring empty spec");
             node = null;
         }
         Swagger swagger;
         if (node == null) {
             if (opts.getSwaggerUrl() != null) {
-                if(opts.getAuthorizationValue() != null) {
-                    List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
+                if (opts.getAuthorizationValue() != null) {
+                    List<AuthorizationValue> authorizationValues =
+                            new ArrayList<AuthorizationValue>();
                     authorizationValues.add(opts.getAuthorizationValue());
 
-                    swagger = new SwaggerParser().read(opts.getSwaggerUrl(), authorizationValues, true);
-                }
-                else {
+                    swagger =
+                            new SwaggerParser().read(opts.getSwaggerUrl(), authorizationValues,
+                                    true);
+                } else {
                     swagger = new SwaggerParser().read(opts.getSwaggerUrl());
                 }
             } else {
                 throw new BadRequestException("No swagger specification was supplied");
             }
-        } else if(opts.getAuthorizationValue() != null) {
+        } else if (opts.getAuthorizationValue() != null) {
             List<AuthorizationValue> authorizationValues = new ArrayList<AuthorizationValue>();
             authorizationValues.add(opts.getAuthorizationValue());
             swagger = new SwaggerParser().read(node, authorizationValues, true);
-        }
-        else {
+        } else {
             swagger = new SwaggerParser().read(node, true);
         }
         if (swagger == null) {
@@ -99,12 +101,11 @@ public class Generator {
 
         String destPath = null;
 
-        if(opts != null && opts.getOptions() != null) {
+        if (opts != null && opts.getOptions() != null) {
             destPath = opts.getOptions().get("outputFolder");
         }
-        if(destPath == null) {
-            destPath = language + "-"
-                    + type.getTypeName();
+        if (destPath == null) {
+            destPath = language + "-" + type.getTypeName();
         }
 
         ClientOptInput clientOptInput = new ClientOptInput();
@@ -112,14 +113,12 @@ public class Generator {
         String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
         String outputFilename = outputFolder + "-bundle.zip";
 
-        clientOptInput
-                .opts(clientOpts)
-                .swagger(swagger);
+        clientOptInput.opts(clientOpts).swagger(swagger);
 
-        CodegenConfig codegenConfig=null;
+        CodegenConfig codegenConfig = null;
         try {
             codegenConfig = CodegenConfigLoader.forName(language);
-        } catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new BadRequestException("Unsupported target " + language + " supplied");
         }
 
@@ -143,20 +142,19 @@ public class Generator {
                 ZipUtil zip = new ZipUtil();
                 zip.compressFiles(filesToAdd, outputFilename);
             } else {
-                throw new BadRequestException("A target generation was attempted, but no files were created!");
+                throw new BadRequestException(
+                        "A target generation was attempted, but no files were created!");
             }
-            for(File file: files) {
+            for (File file : files) {
                 try {
                     file.delete();
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     LOGGER.error("unable to delete file " + file.getAbsolutePath());
                 }
             }
             try {
                 new File(outputFolder).delete();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 LOGGER.error("unable to delete output folder " + outputFolder);
             }
         } catch (Exception e) {

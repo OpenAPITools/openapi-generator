@@ -21,7 +21,8 @@ public class DynamicSwaggerConfig extends BeanConfig {
     static {
         List<CodegenConfig> extensions = Codegen.getExtensions();
         for (CodegenConfig config : extensions) {
-            if (config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
+            if (config.getTag().equals(CodegenType.CLIENT)
+                    || config.getTag().equals(CodegenType.DOCUMENTATION)) {
                 clients.add(config.getName());
             } else if (config.getTag().equals(CodegenType.SERVER)) {
                 servers.add(config.getName());
@@ -44,7 +45,7 @@ public class DynamicSwaggerConfig extends BeanConfig {
             }
 
             Operation get = clientPath.getGet();
-            if(get != null) {
+            if (get != null) {
                 framework = get.getParameters().get(0);
                 if (framework instanceof PathParameter) {
                     PathParameter param = (PathParameter) framework;
@@ -63,7 +64,7 @@ public class DynamicSwaggerConfig extends BeanConfig {
             }
 
             Operation get = serverPath.getGet();
-            if(get != null) {
+            if (get != null) {
                 framework = get.getParameters().get(0);
                 if (framework instanceof PathParameter) {
                     PathParameter param = (PathParameter) framework;
@@ -72,8 +73,6 @@ public class DynamicSwaggerConfig extends BeanConfig {
             }
         }
 
-        return swagger.info(getInfo())
-                .host(getHost())
-                .basePath("/api");
+        return swagger.info(getInfo()).host(getHost()).basePath("/api");
     }
 }
