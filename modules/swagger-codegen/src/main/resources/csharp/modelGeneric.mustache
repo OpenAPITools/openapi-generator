@@ -241,13 +241,15 @@ this.{{name}} = {{name}};
 
             {{/minimum}}
             {{#pattern}}
+            {{^isByteArray}}
             // {{{name}}} ({{{datatype}}}) pattern
             Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
             if (false == regex{{{name}}}.Match(this.{{{name}}}).Success)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of {{{pattern}}}.", new [] { "{{{name}}}" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}, new [] { "{{{name}}}" });
             }
 
+            {{/isByteArray}}
             {{/pattern}}
             {{/hasValidation}}
             {{/vars}}
