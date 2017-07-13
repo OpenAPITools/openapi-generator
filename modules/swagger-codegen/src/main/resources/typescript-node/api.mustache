@@ -379,12 +379,12 @@ export class {{classname}} {
 {{/required}}{{/allParams}}
 {{#queryParams}}
         if ({{paramName}} !== undefined) {
-            queryParameters['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{dataType}}");
+            queryParameters['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
         }
 
 {{/queryParams}}
 {{#headerParams}}
-        headerParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{dataType}}");
+        headerParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
 {{/headerParams}}
 
         let useFormData = false;
@@ -395,7 +395,7 @@ export class {{classname}} {
             formParams['{{baseName}}'] = {{paramName}};
             {{/isFile}}
             {{^isFile}}
-            formParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{dataType}}");
+            formParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
             {{/isFile}}
         }
 {{#isFile}}
@@ -416,7 +416,7 @@ export class {{classname}} {
             encoding: null,
 {{/isResponseFile}}
 {{#bodyParam}}
-            body: ObjectSerializer.serialize({{paramName}}, "{{dataType}}")
+            body: ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}")
 {{/bodyParam}}
         };
 
@@ -439,7 +439,7 @@ export class {{classname}} {
                     reject(error);
                 } else {
                     {{#returnType}}
-                    body = ObjectSerializer.deserialize(body, "{{returnType}}");
+                    body = ObjectSerializer.deserialize(body, "{{{returnType}}}");
                     {{/returnType}}
                     if (response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
