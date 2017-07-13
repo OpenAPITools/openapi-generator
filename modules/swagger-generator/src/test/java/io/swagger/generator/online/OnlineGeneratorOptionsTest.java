@@ -32,32 +32,35 @@ public class OnlineGeneratorOptionsTest {
 
     @DataProvider(name = OPTIONS_PROVIDER)
     private static Object[][] listOptions() {
-        return new Object[][]{{new AkkaScalaClientOptionsProvider()}, {new AndroidClientOptionsProvider()},
-                {new AsyncScalaClientOptionsProvider()}, {new CSharpClientOptionsProvider()},
-                {new CsharpDotNet2ClientOptionsProvider()}, {new DartClientOptionsProvider()},
-                {new FlashClienOptionsProvider()}, {new JavaInflectorServerOptionsProvider()},
+        return new Object[][] {
+                {new AkkaScalaClientOptionsProvider()},
+                {new AndroidClientOptionsProvider()},
+                {new AsyncScalaClientOptionsProvider()},
+                {new CSharpClientOptionsProvider()},
+                {new CsharpDotNet2ClientOptionsProvider()},
+                {new DartClientOptionsProvider()},
+                {new FlashClienOptionsProvider()},
+                {new JavaInflectorServerOptionsProvider()},
                 {
                         new JavaOptionsProvider(),
-                        new JavaOptionsProvider(ImmutableMap.of(CodegenConstants.LIBRARY, JavaClientCodegen.RETROFIT_2)
-                        ),
-                        new JavaOptionsProvider(ImmutableMap.of(
-                                CodegenConstants.LIBRARY, JavaClientCodegen.RETROFIT_2,
-                                JavaClientCodegen.USE_RX_JAVA, "true")
-                        )
-                },
-                {new JaxRSServerOptionsProvider()},
-                {new NodeJSServerOptionsProvider()}, {new ObjcClientOptionsProvider()},
-                {new PerlClientOptionsProvider()}, {new PhpClientOptionsProvider()},
-                {new PythonClientOptionsProvider()}, {new Qt5CPPOptionsProvider()},
-                {new RubyClientOptionsProvider()}, {new ScalaClientOptionsProvider()},
-                {new ScalatraServerOptionsProvider()}, {new SilexServerOptionsProvider()},
-                {new SinatraServerOptionsProvider()}, {new SlimFrameworkServerOptionsProvider()},
-                {new SpringOptionsProvider()}, {new StaticDocOptionsProvider()},
-                {new StaticHtmlOptionsProvider()}, {new SwaggerOptionsProvider()},
-                {new SwaggerYamlOptionsProvider()}, {new SwiftOptionsProvider()},
-                {new TizenClientOptionsProvider()}, {new TypeScriptAngularClientOptionsProvider()},
-                {new TypeScriptNodeClientOptionsProvider()}, {new LumenServerOptionsProvider()}
-        };
+                        new JavaOptionsProvider(ImmutableMap.of(CodegenConstants.LIBRARY,
+                                JavaClientCodegen.RETROFIT_2)),
+                        new JavaOptionsProvider(
+                                ImmutableMap.of(CodegenConstants.LIBRARY,
+                                        JavaClientCodegen.RETROFIT_2,
+                                        JavaClientCodegen.USE_RX_JAVA, "true"))},
+                {new JaxRSServerOptionsProvider()}, {new NodeJSServerOptionsProvider()},
+                {new ObjcClientOptionsProvider()}, {new PerlClientOptionsProvider()},
+                {new PhpClientOptionsProvider()}, {new PythonClientOptionsProvider()},
+                {new Qt5CPPOptionsProvider()}, {new RubyClientOptionsProvider()},
+                {new ScalaClientOptionsProvider()}, {new ScalatraServerOptionsProvider()},
+                {new SilexServerOptionsProvider()}, {new SinatraServerOptionsProvider()},
+                {new SlimFrameworkServerOptionsProvider()}, {new SpringOptionsProvider()},
+                {new StaticDocOptionsProvider()}, {new StaticHtmlOptionsProvider()},
+                {new SwaggerOptionsProvider()}, {new SwaggerYamlOptionsProvider()},
+                {new SwiftOptionsProvider()}, {new TizenClientOptionsProvider()},
+                {new TypeScriptAngularClientOptionsProvider()},
+                {new TypeScriptNodeClientOptionsProvider()}, {new LumenServerOptionsProvider()}};
     }
 
     @Test(dataProvider = OPTIONS_PROVIDER)
@@ -83,15 +86,15 @@ public class OnlineGeneratorOptionsTest {
             outputFilename = Generator.generateClient(provider.getLanguage(), input);
         }
         final File dir = new File(new File(outputFilename).getParent());
-        
+
         try {
             FileUtils.deleteDirectory(dir);
         } catch (Exception e) { // directory can't be deleted for some reasons
             e.printStackTrace();
         }
         for (InvocationCounter option : options.values()) {
-            assertNotEquals(option.getCounter(), 0, String.format("Option \"%s\" wasn't processed.",
-                    option.getValue()));
+            assertNotEquals(option.getCounter(), 0,
+                    String.format("Option \"%s\" wasn't processed.", option.getValue()));
         }
     }
 
@@ -135,24 +138,27 @@ public class OnlineGeneratorOptionsTest {
     public static void getOptionsTest(OptionsProvider provider) throws ApiException {
         final Map<String, CliOption> opts = Generator.getOptions(provider.getLanguage());
 
-        final Function<CliOption, CliOptionProxy> cliOptionWrapper = new Function<CliOption, CliOptionProxy>() {
-            @Nullable
-            @Override
-            public CliOptionProxy apply(@Nullable CliOption option) {
-                return new CliOptionProxy(option);
-            }
-        };
+        final Function<CliOption, CliOptionProxy> cliOptionWrapper =
+                new Function<CliOption, CliOptionProxy>() {
+                    @Nullable
+                    @Override
+                    public CliOptionProxy apply(@Nullable CliOption option) {
+                        return new CliOptionProxy(option);
+                    }
+                };
 
-        final List<CliOptionProxy> actual = Lists.transform(new ArrayList<CliOption>(opts.values()), cliOptionWrapper);
-        final List<CliOptionProxy> expected = Lists.transform(
-                CodegenConfigLoader.forName(provider.getLanguage()).cliOptions(), cliOptionWrapper);
+        final List<CliOptionProxy> actual =
+                Lists.transform(new ArrayList<CliOption>(opts.values()), cliOptionWrapper);
+        final List<CliOptionProxy> expected =
+                Lists.transform(CodegenConfigLoader.forName(provider.getLanguage()).cliOptions(),
+                        cliOptionWrapper);
         assertEquals(actual, expected);
     }
 
     protected static class CliOptionProxy {
         private final CliOption wrapped;
 
-        public CliOptionProxy(CliOption wrapped){
+        public CliOptionProxy(CliOption wrapped) {
             this.wrapped = wrapped;
         }
 
