@@ -16,9 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User: lanwen
- * Date: 24.03.15
- * Time: 20:22
+ * User: lanwen Date: 24.03.15 Time: 20:22
  */
 
 @Command(name = "generate", description = "Generate code with chosen lang")
@@ -45,173 +43,209 @@ public class Generate implements Runnable {
             description = "folder containing the template files")
     private String templateDir;
 
-    @Option(name = {"-a", "--auth"}, title = "authorization",
-            description = "adds authorization headers when fetching the swagger definitions remotely. " +
-                    "Pass in a URL-encoded string of name:header with a comma separating multiple values")
+    @Option(
+            name = {"-a", "--auth"},
+            title = "authorization",
+            description = "adds authorization headers when fetching the swagger definitions remotely. "
+                    + "Pass in a URL-encoded string of name:header with a comma separating multiple values")
     private String auth;
 
-    @Option(name = {"-D"}, title = "system properties", description = "sets specified system properties in " +
-            "the format of name=value,name=value (or multiple options, each with name=value)")
+    @Option(
+            name = {"-D"},
+            title = "system properties",
+            description = "sets specified system properties in "
+                    + "the format of name=value,name=value (or multiple options, each with name=value)")
     private List<String> systemProperties = new ArrayList<>();
 
-    @Option(name = {"-c", "--config"}, title = "configuration file", description = "Path to json configuration file. " +
-            "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} " +
-            "Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.")
+    @Option(
+            name = {"-c", "--config"},
+            title = "configuration file",
+            description = "Path to json configuration file. "
+                    + "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} "
+                    + "Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.")
     private String configFile;
 
-    @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite", description = "specifies if the existing files should be " +
-            "overwritten during the generation.")
+    @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite",
+            description = "specifies if the existing files should be "
+                    + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
-    @Option(name = {"--api-package"}, title = "api package", description = CodegenConstants.API_PACKAGE_DESC)
+    @Option(name = {"--api-package"}, title = "api package",
+            description = CodegenConstants.API_PACKAGE_DESC)
     private String apiPackage;
 
-    @Option(name = {"--model-package"}, title = "model package", description = CodegenConstants.MODEL_PACKAGE_DESC)
+    @Option(name = {"--model-package"}, title = "model package",
+            description = CodegenConstants.MODEL_PACKAGE_DESC)
     private String modelPackage;
 
-    @Option(name = {"--model-name-prefix"}, title = "model name prefix", description = CodegenConstants.MODEL_NAME_PREFIX_DESC)
+    @Option(name = {"--model-name-prefix"}, title = "model name prefix",
+            description = CodegenConstants.MODEL_NAME_PREFIX_DESC)
     private String modelNamePrefix;
 
-    @Option(name = {"--model-name-suffix"}, title = "model name suffix", description = CodegenConstants.MODEL_NAME_SUFFIX_DESC)
+    @Option(name = {"--model-name-suffix"}, title = "model name suffix",
+            description = CodegenConstants.MODEL_NAME_SUFFIX_DESC)
     private String modelNameSuffix;
 
-    @Option(name = {"--instantiation-types"}, title = "instantiation types", description = "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType." +
-            "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code."
-            + " You can also have multiple occurrences of this option.")
+    @Option(
+            name = {"--instantiation-types"},
+            title = "instantiation types",
+            description = "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType."
+                    + "For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code."
+                    + " You can also have multiple occurrences of this option.")
     private List<String> instantiationTypes = new ArrayList<>();
 
-    @Option(name = {"--type-mappings"}, title = "type mappings", description = "sets mappings between swagger spec types and generated code types " +
-            "in the format of swaggerType=generatedType,swaggerType=generatedType. For example: array=List,map=Map,string=String."
-            + " You can also have multiple occurrences of this option.")
+    @Option(
+            name = {"--type-mappings"},
+            title = "type mappings",
+            description = "sets mappings between swagger spec types and generated code types "
+                    + "in the format of swaggerType=generatedType,swaggerType=generatedType. For example: array=List,map=Map,string=String."
+                    + " You can also have multiple occurrences of this option.")
     private List<String> typeMappings = new ArrayList<>();
 
-    @Option(name = {"--additional-properties"}, title = "additional properties",
+    @Option(
+            name = {"--additional-properties"},
+            title = "additional properties",
             description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value."
                     + " You can also have multiple occurrences of this option.")
     private List<String> additionalProperties = new ArrayList<>();
 
-    @Option(name = {"--language-specific-primitives"}, title = "language specific primitives",
+    @Option(
+            name = {"--language-specific-primitives"},
+            title = "language specific primitives",
             description = "specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double."
                     + " You can also have multiple occurrences of this option.")
     private List<String> languageSpecificPrimitives = new ArrayList<>();
 
-    @Option(name = {"--import-mappings"}, title = "import mappings",
+    @Option(
+            name = {"--import-mappings"},
+            title = "import mappings",
             description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import."
                     + " You can also have multiple occurrences of this option.")
     private List<String> importMappings = new ArrayList<>();
 
-    @Option(name = {"--invoker-package"}, title = "invoker package", description = CodegenConstants.INVOKER_PACKAGE_DESC)
+    @Option(name = {"--invoker-package"}, title = "invoker package",
+            description = CodegenConstants.INVOKER_PACKAGE_DESC)
     private String invokerPackage;
 
     @Option(name = {"--group-id"}, title = "group id", description = CodegenConstants.GROUP_ID_DESC)
     private String groupId;
 
-    @Option(name = {"--artifact-id"}, title = "artifact id", description = CodegenConstants.ARTIFACT_ID_DESC)
+    @Option(name = {"--artifact-id"}, title = "artifact id",
+            description = CodegenConstants.ARTIFACT_ID_DESC)
     private String artifactId;
 
-    @Option(name = {"--artifact-version"}, title = "artifact version", description = CodegenConstants.ARTIFACT_VERSION_DESC)
+    @Option(name = {"--artifact-version"}, title = "artifact version",
+            description = CodegenConstants.ARTIFACT_VERSION_DESC)
     private String artifactVersion;
 
     @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
     private String library;
-    
-    @Option(name = {"--git-user-id"}, title = "git user id", description = CodegenConstants.GIT_USER_ID_DESC)
+
+    @Option(name = {"--git-user-id"}, title = "git user id",
+            description = CodegenConstants.GIT_USER_ID_DESC)
     private String gitUserId;
 
-    @Option(name = {"--git-repo-id"}, title = "git repo id", description = CodegenConstants.GIT_REPO_ID_DESC)
+    @Option(name = {"--git-repo-id"}, title = "git repo id",
+            description = CodegenConstants.GIT_REPO_ID_DESC)
     private String gitRepoId;
 
-    @Option(name = {"--release-note"}, title = "release note", description = CodegenConstants.RELEASE_NOTE_DESC)
+    @Option(name = {"--release-note"}, title = "release note",
+            description = CodegenConstants.RELEASE_NOTE_DESC)
     private String releaseNote;
 
-    @Option(name = {"--http-user-agent"}, title = "http user agent", description = CodegenConstants.HTTP_USER_AGENT_DESC)
+    @Option(name = {"--http-user-agent"}, title = "http user agent",
+            description = CodegenConstants.HTTP_USER_AGENT_DESC)
     private String httpUserAgent;
-    
-    @Option(name = {"--reserved-words-mappings"}, title = "reserved word mappings",
+
+    @Option(
+            name = {"--reserved-words-mappings"},
+            title = "reserved word mappings",
             description = "specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier."
                     + " You can also have multiple occurrences of this option.")
     private List<String> reservedWordsMappings = new ArrayList<>();
 
-    @Option(name = {"--ignore-file-override"}, title = "ignore file override location", description = CodegenConstants.IGNORE_FILE_OVERRIDE_DESC)
+    @Option(name = {"--ignore-file-override"}, title = "ignore file override location",
+            description = CodegenConstants.IGNORE_FILE_OVERRIDE_DESC)
     private String ignoreFileOverride;
-    
-    @Option(name = {"--remove-operation-id-prefix"}, title = "remove prefix of the operationId", description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
+
+    @Option(name = {"--remove-operation-id-prefix"}, title = "remove prefix of the operationId",
+            description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
     private Boolean removeOperationIdPrefix;
 
     @Override
     public void run() {
 
-        //attempt to read from config file
+        // attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
 
-        //if a config file wasn't specified or we were unable to read it
-        if(configurator == null) {
-            //createa a fresh configurator
+        // if a config file wasn't specified or we were unable to read it
+        if (configurator == null) {
+            // createa a fresh configurator
             configurator = new CodegenConfigurator();
         }
 
-        //now override with any specified parameters
+        // now override with any specified parameters
         if (verbose != null) {
             configurator.setVerbose(verbose);
         }
 
-        if(skipOverwrite != null) {
+        if (skipOverwrite != null) {
             configurator.setSkipOverwrite(skipOverwrite);
         }
 
-        if(isNotEmpty(spec)) {
+        if (isNotEmpty(spec)) {
             configurator.setInputSpec(spec);
         }
 
-        if(isNotEmpty(lang)) {
+        if (isNotEmpty(lang)) {
             configurator.setLang(lang);
         }
 
-        if(isNotEmpty(output)) {
+        if (isNotEmpty(output)) {
             configurator.setOutputDir(output);
         }
 
-        if(isNotEmpty(auth)) {
+        if (isNotEmpty(auth)) {
             configurator.setAuth(auth);
         }
 
-        if(isNotEmpty(templateDir)) {
+        if (isNotEmpty(templateDir)) {
             configurator.setTemplateDir(templateDir);
         }
 
-        if(isNotEmpty(apiPackage)) {
+        if (isNotEmpty(apiPackage)) {
             configurator.setApiPackage(apiPackage);
         }
 
-        if(isNotEmpty(modelPackage)) {
+        if (isNotEmpty(modelPackage)) {
             configurator.setModelPackage(modelPackage);
         }
 
-        if(isNotEmpty(modelNamePrefix)){
+        if (isNotEmpty(modelNamePrefix)) {
             configurator.setModelNamePrefix(modelNamePrefix);
         }
 
-        if(isNotEmpty(modelNameSuffix)){
+        if (isNotEmpty(modelNameSuffix)) {
             configurator.setModelNameSuffix(modelNameSuffix);
         }
 
-        if(isNotEmpty(invokerPackage)) {
+        if (isNotEmpty(invokerPackage)) {
             configurator.setInvokerPackage(invokerPackage);
         }
 
-        if(isNotEmpty(groupId)) {
+        if (isNotEmpty(groupId)) {
             configurator.setGroupId(groupId);
         }
 
-        if(isNotEmpty(artifactId)) {
+        if (isNotEmpty(artifactId)) {
             configurator.setArtifactId(artifactId);
         }
 
-        if(isNotEmpty(artifactVersion)) {
+        if (isNotEmpty(artifactVersion)) {
             configurator.setArtifactVersion(artifactVersion);
         }
 
-        if(isNotEmpty(library)) {
+        if (isNotEmpty(library)) {
             configurator.setLibrary(library);
         }
 
