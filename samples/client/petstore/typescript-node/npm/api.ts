@@ -593,7 +593,7 @@ export class PetApi {
 
 
         if (status !== undefined) {
-            queryParameters['status'] = ObjectSerializer.serialize(status, "Array&lt;string&gt;");
+            queryParameters['status'] = ObjectSerializer.serialize(status, "Array<string>");
         }
 
 
@@ -624,7 +624,7 @@ export class PetApi {
                 if (error) {
                     reject(error);
                 } else {
-                    body = ObjectSerializer.deserialize(body, "Array&lt;Pet&gt;");
+                    body = ObjectSerializer.deserialize(body, "Array<Pet>");
                     if (response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
@@ -647,7 +647,7 @@ export class PetApi {
 
 
         if (tags !== undefined) {
-            queryParameters['tags'] = ObjectSerializer.serialize(tags, "Array&lt;string&gt;");
+            queryParameters['tags'] = ObjectSerializer.serialize(tags, "Array<string>");
         }
 
 
@@ -678,7 +678,7 @@ export class PetApi {
                 if (error) {
                     reject(error);
                 } else {
-                    body = ObjectSerializer.deserialize(body, "Array&lt;Pet&gt;");
+                    body = ObjectSerializer.deserialize(body, "Array<Pet>");
                     if (response.statusCode >= 200 && response.statusCode <= 299) {
                         resolve({ response: response, body: body });
                     } else {
@@ -1306,7 +1306,7 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Array&lt;User&gt;")
+            body: ObjectSerializer.serialize(body, "Array<User>")
         };
 
         this.authentications.default.applyToRequest(requestOptions);
@@ -1354,7 +1354,7 @@ export class UserApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(body, "Array&lt;User&gt;")
+            body: ObjectSerializer.serialize(body, "Array<User>")
         };
 
         this.authentications.default.applyToRequest(requestOptions);
