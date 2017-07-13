@@ -26,7 +26,7 @@ public class Validate implements Runnable {
         List<String> messageList = result.getMessages();
         Set<String> messages = new HashSet<String>(messageList);
 
-        for (String message: messages) {
+        for (String message : messages) {
             System.out.println(message);
         }
 
