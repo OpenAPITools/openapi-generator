@@ -438,7 +438,7 @@ namespace IO.Swagger.Model
             Regex regex_String = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regex_String.Match(this._String).Success)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for _String, must match a pattern of /[a-z]/i.", new [] { "_String" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for _String, must match a pattern of " + regex_String, new [] { "_String" });
             }
 
             // _Byte (byte[]) pattern
