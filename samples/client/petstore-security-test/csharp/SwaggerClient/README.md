@@ -67,7 +67,7 @@ namespace Example
     {
         public void main()
         {
-            
+
             var apiInstance = new FakeApi();
             var testCodeInjectEndRnNR = testCodeInjectEndRnNR_example;  // string | To test code injection *_/ ' \" =end - - \\r\\n \\n \\r (optional) 
 
@@ -80,6 +80,7 @@ namespace Example
             {
                 Debug.Print("Exception when calling FakeApi.TestCodeInjectEndRnNR: " + e.Message );
             }
+
         }
     }
 }
