@@ -46,8 +46,10 @@ export class {{classname}} {
 
 {{#operation}}
     /**
-     * {{summary}}
      * {{notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
