@@ -74,8 +74,8 @@ export class PetService {
     }
 
     /**
-     * Add a new pet to the store
      * 
+     * @summary Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
     public addPet(body: Pet, extraHttpRequestParams?: any): Observable<{}> {
@@ -90,8 +90,8 @@ export class PetService {
     }
 
     /**
-     * Deletes a pet
      * 
+     * @summary Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
      */
@@ -107,8 +107,8 @@ export class PetService {
     }
 
     /**
-     * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
+     * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus(status: Array<string>, extraHttpRequestParams?: any): Observable<Array<Pet>> {
@@ -123,8 +123,8 @@ export class PetService {
     }
 
     /**
-     * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
     public findPetsByTags(tags: Array<string>, extraHttpRequestParams?: any): Observable<Array<Pet>> {
@@ -139,8 +139,8 @@ export class PetService {
     }
 
     /**
-     * Find pet by ID
      * Returns a single pet
+     * @summary Find pet by ID
      * @param petId ID of pet to return
      */
     public getPetById(petId: number, extraHttpRequestParams?: any): Observable<Pet> {
@@ -155,8 +155,8 @@ export class PetService {
     }
 
     /**
-     * Update an existing pet
      * 
+     * @summary Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
     public updatePet(body: Pet, extraHttpRequestParams?: any): Observable<{}> {
@@ -171,8 +171,8 @@ export class PetService {
     }
 
     /**
-     * Updates a pet in the store with form data
      * 
+     * @summary Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -189,8 +189,8 @@ export class PetService {
     }
 
     /**
-     * uploads an image
      * 
+     * @summary uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload

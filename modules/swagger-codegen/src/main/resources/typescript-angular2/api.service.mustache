@@ -79,8 +79,10 @@ export class {{classname}} {
 
 {{#operation}}
     /**
-     * {{summary}}
      * {{notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}*/
 {{^isResponseFile}}

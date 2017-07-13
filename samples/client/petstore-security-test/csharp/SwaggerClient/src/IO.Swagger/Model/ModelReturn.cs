@@ -20,6 +20,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
+using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
 {
@@ -44,6 +45,7 @@ namespace IO.Swagger.Model
         /// <value>property description  *_/ &#39; \&quot; &#x3D;end - - \\r\\n \\n \\r</value>
         [DataMember(Name="return", EmitDefaultValue=false)]
         public int? _Return { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

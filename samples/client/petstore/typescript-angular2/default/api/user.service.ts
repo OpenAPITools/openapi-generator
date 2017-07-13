@@ -73,8 +73,8 @@ export class UserService {
     }
 
     /**
-     * Create user
      * This can only be done by the logged in user.
+     * @summary Create user
      * @param body Created user object
      */
     public createUser(body: User, extraHttpRequestParams?: any): Observable<{}> {
@@ -89,8 +89,8 @@ export class UserService {
     }
 
     /**
-     * Creates list of users with given input array
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     public createUsersWithArrayInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}> {
@@ -105,8 +105,8 @@ export class UserService {
     }
 
     /**
-     * Creates list of users with given input array
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     public createUsersWithListInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}> {
@@ -121,8 +121,8 @@ export class UserService {
     }
 
     /**
-     * Delete user
      * This can only be done by the logged in user.
+     * @summary Delete user
      * @param username The name that needs to be deleted
      */
     public deleteUser(username: string, extraHttpRequestParams?: any): Observable<{}> {
@@ -137,8 +137,8 @@ export class UserService {
     }
 
     /**
-     * Get user by user name
      * 
+     * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     public getUserByName(username: string, extraHttpRequestParams?: any): Observable<User> {
@@ -153,8 +153,8 @@ export class UserService {
     }
 
     /**
-     * Logs user into the system
      * 
+     * @summary Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
      */
@@ -170,8 +170,8 @@ export class UserService {
     }
 
     /**
-     * Logs out current logged in user session
      * 
+     * @summary Logs out current logged in user session
      */
     public logoutUser(extraHttpRequestParams?: any): Observable<{}> {
         return this.logoutUserWithHttpInfo(extraHttpRequestParams)
@@ -185,8 +185,8 @@ export class UserService {
     }
 
     /**
-     * Updated user
      * This can only be done by the logged in user.
+     * @summary Updated user
      * @param username name that need to be deleted
      * @param body Updated user object
      */
