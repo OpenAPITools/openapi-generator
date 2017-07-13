@@ -9,7 +9,7 @@ netfx=${frameworkVersion#net}
 echo "[INFO] Target framework: ${frameworkVersion}"
 
 echo "[INFO] Download nuget and packages"
-wget -nc https://nuget.org/nuget.exe;
+wget -nc https://dist.nuget.org/win-x86-commandline/latest/nuget.exe;
 mozroots --import --sync
 mono nuget.exe install src/IO.Swagger/packages.config -o packages;
 

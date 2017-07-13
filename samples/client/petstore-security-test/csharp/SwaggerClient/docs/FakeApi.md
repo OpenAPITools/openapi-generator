@@ -27,7 +27,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new FakeApi();
             var testCodeInjectEndRnNR = testCodeInjectEndRnNR_example;  // string | To test code injection *_/ ' \" =end - - \\r\\n \\n \\r (optional) 
 

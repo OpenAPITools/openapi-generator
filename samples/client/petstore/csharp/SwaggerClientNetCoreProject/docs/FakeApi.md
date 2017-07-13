@@ -344,7 +344,7 @@ namespace Example
             var number = 3.4;  // decimal? | None
             var _double = 1.2;  // double? | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
-            var _byte = B;  // byte[] | None
+            var _byte = _byte_example;  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789;  // long? | None (optional) 
