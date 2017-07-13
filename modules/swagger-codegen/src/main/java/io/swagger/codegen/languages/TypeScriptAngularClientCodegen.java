@@ -10,7 +10,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getName() {
-        return "typescript-angular";
+        return "typescript-angularjs";
     }
 
     @Override
