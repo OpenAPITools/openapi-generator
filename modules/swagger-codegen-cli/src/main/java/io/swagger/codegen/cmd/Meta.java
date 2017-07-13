@@ -23,14 +23,12 @@ import static ch.lambdaj.collection.LambdaCollections.with;
 import static com.google.common.base.Joiner.on;
 
 /**
- * User: lanwen
- * Date: 24.03.15
- * Time: 20:22
+ * User: lanwen Date: 24.03.15 Time: 20:22
  */
 
-@Command(name = "meta", description = "MetaGenerator. Generator for creating a new template set " +
-        "and configuration for Codegen.  The output will be based on the language you " +
-        "specify, and includes default templates to include.")
+@Command(name = "meta", description = "MetaGenerator. Generator for creating a new template set "
+        + "and configuration for Codegen.  The output will be based on the language you "
+        + "specify, and includes default templates to include.")
 public class Meta implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
@@ -57,58 +55,62 @@ public class Meta implements Runnable {
 
         String mainClass = CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, name) + "Generator";
 
-        List<SupportingFile> supportingFiles = ImmutableList.of(
-                new SupportingFile("pom.mustache", "", "pom.xml"),
-                new SupportingFile("generatorClass.mustache",
-                        on(File.separator).join("src/main/java", asPath(targetPackage)), mainClass.concat(".java")),
-                new SupportingFile("README.mustache", "", "README.md"),
-                new SupportingFile("api.template", "src/main/resources" + File.separator + name, "api.mustache"),
-                new SupportingFile("model.template", "src/main/resources" + File.separator + name, "model.mustache"),
-                new SupportingFile("services.mustache",
-                        "src/main/resources/META-INF/services", "io.swagger.codegen.CodegenConfig")
-        );
+        List<SupportingFile> supportingFiles =
+                ImmutableList
+                        .of(new SupportingFile("pom.mustache", "", "pom.xml"),
+                                new SupportingFile("generatorClass.mustache", on(File.separator)
+                                        .join("src/main/java", asPath(targetPackage)), mainClass
+                                        .concat(".java")), new SupportingFile("README.mustache",
+                                        "", "README.md"), new SupportingFile("api.template",
+                                        "src/main/resources" + File.separator + name,
+                                        "api.mustache"), new SupportingFile("model.template",
+                                        "src/main/resources" + File.separator + name,
+                                        "model.mustache"), new SupportingFile("services.mustache",
+                                        "src/main/resources/META-INF/services",
+                                        "io.swagger.codegen.CodegenConfig"));
 
         String swaggerVersion = Version.readVersionFromResources();
 
-        Map<String, Object> data = new ImmutableMap.Builder<String, Object>()
-                .put("generatorPackage", targetPackage)
-                .put("generatorClass", mainClass)
-                .put("name", name)
-                .put("fullyQualifiedGeneratorClass", targetPackage + "." + mainClass)
-                .put("swaggerCodegenVersion", swaggerVersion).build();
+        Map<String, Object> data =
+                new ImmutableMap.Builder<String, Object>().put("generatorPackage", targetPackage)
+                        .put("generatorClass", mainClass).put("name", name)
+                        .put("fullyQualifiedGeneratorClass", targetPackage + "." + mainClass)
+                        .put("swaggerCodegenVersion", swaggerVersion).build();
 
 
         with(supportingFiles).convert(processFiles(targetDir, data));
     }
 
     /**
-     * Converter method to process supporting files: execute with mustache,
-     * or simply copy to destination directory
+     * Converter method to process supporting files: execute with mustache, or simply copy to
+     * destination directory
      *
      * @param targetDir - destination directory
-     * @param data      - map with additional params needed to process templates
+     * @param data - map with additional params needed to process templates
      * @return converter object to pass to lambdaj
      */
-    private static Converter<SupportingFile, File> processFiles(final File targetDir, final Map<String, Object> data) {
+    private static Converter<SupportingFile, File> processFiles(final File targetDir,
+            final Map<String, Object> data) {
         return new Converter<SupportingFile, File>() {
             private DefaultGenerator generator = new DefaultGenerator();
 
             @Override
             public File convert(SupportingFile support) {
                 try {
-                    File destinationFolder = new File(new File(targetDir.getAbsolutePath()), support.folder);
+                    File destinationFolder =
+                            new File(new File(targetDir.getAbsolutePath()), support.folder);
                     File outputFile = new File(destinationFolder, support.destinationFilename);
 
-                    String template = generator
-                            .readTemplate(new File(TEMPLATE_DIR_CLASSPATH, support.templateFile).getPath());
+                    String template =
+                            generator.readTemplate(new File(TEMPLATE_DIR_CLASSPATH,
+                                    support.templateFile).getPath());
                     String formatted = template;
 
                     if (support.templateFile.endsWith(MUSTACHE_EXTENSION)) {
                         LOGGER.info("writing file to {}", outputFile.getAbsolutePath());
-                        formatted = Mustache.compiler().withLoader(loader(generator))
-                                .defaultValue("")
-                                .compile(template)
-                                .execute(data);
+                        formatted =
+                                Mustache.compiler().withLoader(loader(generator)).defaultValue("")
+                                        .compile(template).execute(data);
                     } else {
                         LOGGER.info("copying file to {}", outputFile.getAbsolutePath());
                     }
@@ -133,8 +135,8 @@ public class Meta implements Runnable {
         return new Mustache.TemplateLoader() {
             @Override
             public Reader getTemplate(String name) {
-                return generator.getTemplateReader(TEMPLATE_DIR_CLASSPATH
-                        + File.separator + name.concat(MUSTACHE_EXTENSION));
+                return generator.getTemplateReader(TEMPLATE_DIR_CLASSPATH + File.separator
+                        + name.concat(MUSTACHE_EXTENSION));
             }
         };
     }
