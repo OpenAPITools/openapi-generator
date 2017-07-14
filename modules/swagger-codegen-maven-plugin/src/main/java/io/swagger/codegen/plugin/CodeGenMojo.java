@@ -178,8 +178,41 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "configOptions")
     private Map<?, ?> configOptions;
 
+    /**
+     * A map of classes and the import that should be used for that class
+     */
+    @Parameter(name = "instantiationTypes")
+    private List<String> instantiationTypes;
+
+    /**
+     * A map of classes and the import that should be used for that class
+     */
     @Parameter(name = "importMappings")
     private List<String> importMappings;
+
+    /**
+     * A map of classes and the import that should be used for that class
+     */
+    @Parameter(name = "typeMappings")
+    private List<String> typeMappings;
+
+    /**
+     * A map of classes and the import that should be used for that class
+     */
+    @Parameter(name = "languageSpecificPrimitives")
+    private List<String> languageSpecificPrimitives;
+
+    /**
+     * A map of classes and the import that should be used for that class
+     */
+    @Parameter(name = "additionalProperties")
+    private List<String> additionalProperties;
+
+    /**
+     * A map of classes and the import that should be used for that class
+     */
+    @Parameter(name = "reservedWordsMappings")
+    private List<String> reservedWordsMappings;    
 
     /**
      * Generate the apis
@@ -390,41 +423,87 @@ public class CodeGenMojo extends AbstractMojo {
         System.setProperty("withXml", withXml.toString());
 
         if (configOptions != null) {
-
-            if (configOptions.containsKey("instantiation-types")) {
+            // Retained for backwards-compataibility with configOptions -> instantiation-types
+            if (instantiationTypes == null && configOptions.containsKey("instantiation-types")) {
                 applyInstantiationTypesKvp(configOptions.get("instantiation-types").toString(),
                         configurator);
             }
 
+            // Retained for backwards-compataibility with configOptions -> import-mappings
             if (importMappings == null && configOptions.containsKey("import-mappings")) {
                 applyImportMappingsKvp(configOptions.get("import-mappings").toString(),
                         configurator);
             }
 
-            if (configOptions.containsKey("type-mappings")) {
+            // Retained for backwards-compataibility with configOptions -> type-mappings
+            if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                 applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
             }
 
-            if (configOptions.containsKey("language-specific-primitives")) {
+            // Retained for backwards-compataibility with configOptions -> language-specific-primitives
+            if (languageSpecificPrimitives == null && configOptions.containsKey("language-specific-primitives")) {
                 applyLanguageSpecificPrimitivesCsv(configOptions
                         .get("language-specific-primitives").toString(), configurator);
             }
 
-            if (configOptions.containsKey("additional-properties")) {
+            // Retained for backwards-compataibility with configOptions -> additional-properties
+            if (additionalProperties == null && configOptions.containsKey("additional-properties")) {
                 applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(),
                         configurator);
             }
 
-            if (configOptions.containsKey("reserved-words-mappings")) {
+            // Retained for backwards-compataibility with configOptions -> reserved-words-mappings
+            if (reservedWordsMappings == null && configOptions.containsKey("reserved-words-mappings")) {
                 applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings")
                         .toString(), configurator);
             }
         }
 
+        //Apply Instantiation Types
+        if (instantiationTypes != null && !configOptions.containsKey("instantiation-types")) {
+            String instantiationTypesAsString = instantiationTypes.toString();
+            applyInstantiationTypesKvp(
+                    instantiationTypesAsString.substring(0, instantiationTypesAsString.length() - 1),
+                    configurator);
+        }
+
+        //Apply Import Mappings
         if (importMappings != null && !configOptions.containsKey("import-mappings")) {
             String importMappingsAsString = importMappings.toString();
             applyImportMappingsKvp(
                     importMappingsAsString.substring(0, importMappingsAsString.length() - 1),
+                    configurator);
+        }
+
+        //Apply Type Mappings
+        if (typeMappings != null && !configOptions.containsKey("type-mappings")) {
+            String typeMappingsAsString = typeMappings.toString();
+            applyTypeMappingsKvp(
+                    typeMappingsAsString.substring(0, typeMappingsAsString.length() - 1),
+                    configurator);
+        }
+
+        //Apply Language Specific Primitives
+        if (languageSpecificPrimitives != null && !configOptions.containsKey("language-specific-primitives")) {
+            String languageSpecificPrimitivesAsString = languageSpecificPrimitives.toString();
+            applyLanguageSpecificPrimitivesCsv(
+                    languageSpecificPrimitivesAsString.substring(0,languageSpecificPrimitivesAsString.length() - 1),
+                    configurator);
+        }
+
+        //Apply Additional Properties
+        if (additionalProperties != null && !configOptions.containsKey("additional-properties")) {
+            String additionalPropertiesAsString = additionalProperties.toString();
+            applyAdditionalPropertiesKvp(
+                    additionalPropertiesAsString.substring(0, additionalPropertiesAsString.length() - 1),
+                    configurator);
+        }
+
+        //Apply Reserved Words Mappings
+        if (reservedWordsMappings != null && !configOptions.containsKey("reserved-words-mappings")) {
+            String reservedWordsMappingsAsString = reservedWordsMappings.toString();
+            applyReservedWordsMappingsKvp(
+                    reservedWordsMappingsAsString.substring(0, reservedWordsMappingsAsString.length() - 1),
                     configurator);
         }
 
