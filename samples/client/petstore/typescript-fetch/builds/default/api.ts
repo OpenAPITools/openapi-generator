@@ -256,17 +256,10 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-<<<<<<< HEAD
-    /** 
-     * Find pet by ID
-     * Returns a single pet
-     * @param petId ID of pet to return
-=======
     /**
-     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * Returns a single pet
      * @summary Find pet by ID
-     * @param petId ID of pet that needs to be fetched
->>>>>>> origin/master
+     * @param petId ID of pet to return
      */
     getPetById(params: {  petId: number; }, configuration: Configuration, options: any = {}): FetchArgs {
         // verify required parameter "petId" is set
@@ -482,17 +475,10 @@ export const PetApiFp = {
             });
         };
     },
-<<<<<<< HEAD
-    /** 
-     * Find pet by ID
-     * Returns a single pet
-     * @param petId ID of pet to return
-=======
     /**
-     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * Returns a single pet
      * @summary Find pet by ID
-     * @param petId ID of pet that needs to be fetched
->>>>>>> origin/master
+     * @param petId ID of pet to return
      */
     getPetById(params: { petId: number;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Pet> {
         const fetchArgs = PetApiFetchParamCreator.getPetById(params, configuration, options);
@@ -600,17 +586,10 @@ export class PetApi extends BaseAPI {
     findPetsByTags(params: {  tags: Array<string>; }, options: any = {}) {
         return PetApiFp.findPetsByTags(params, this.configuration, options)(this.fetch, this.basePath);
     }
-<<<<<<< HEAD
-    /** 
-     * Find pet by ID
-     * Returns a single pet
-     * @param petId ID of pet to return
-=======
     /**
-     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * Returns a single pet
      * @summary Find pet by ID
-     * @param petId ID of pet that needs to be fetched
->>>>>>> origin/master
+     * @param petId ID of pet to return
      */
     getPetById(params: {  petId: number; }, options: any = {}) {
         return PetApiFp.getPetById(params, this.configuration, options)(this.fetch, this.basePath);
@@ -683,17 +662,10 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         findPetsByTags(params: {  tags: Array<string>; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.findPetsByTags(params, configuration, options)(fetch, basePath);
         },
-<<<<<<< HEAD
-        /** 
-         * Find pet by ID
-         * Returns a single pet
-         * @param petId ID of pet to return
-=======
         /**
-         * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+         * Returns a single pet
          * @summary Find pet by ID
-         * @param petId ID of pet that needs to be fetched
->>>>>>> origin/master
+         * @param petId ID of pet to return
          */
         getPetById(params: {  petId: number; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.getPetById(params, configuration, options)(fetch, basePath);
