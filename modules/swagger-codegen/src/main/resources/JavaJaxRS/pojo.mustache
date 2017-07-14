@@ -63,9 +63,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{/isMapContainer}}
 
   {{/isReadOnly}}
-   /**
+  /**
   {{#description}}
-   * {{{description}}}
+   * {{description}}
   {{/description}}
   {{^description}}
    * Get {{name}}
@@ -77,7 +77,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
    * maximum: {{maximum}}
   {{/maximum}}
    * @return {{name}}
-  **/
+   **/
  {{#vendorExtensions.extraAnnotation}}
   {{{vendorExtensions.extraAnnotation}}}
   {{/vendorExtensions.extraAnnotation}}
