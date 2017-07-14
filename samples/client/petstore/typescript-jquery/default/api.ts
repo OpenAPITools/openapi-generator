@@ -158,8 +158,8 @@ export class PetApi {
     }
 
     /**
-     * Add a new pet to the store
      * 
+     * @summary Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
     public addPet (body?: Pet) : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
@@ -203,8 +203,8 @@ export class PetApi {
         return dfd.promise();
     }
     /**
-     * Deletes a pet
      * 
+     * @summary Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
      */
@@ -256,8 +256,8 @@ export class PetApi {
         return dfd.promise();
     }
     /**
-     * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
+     * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus (status?: Array<string>) : JQueryPromise<{ response: JQueryXHR; body: Array<Pet>;  }> {
@@ -304,8 +304,8 @@ export class PetApi {
         return dfd.promise();
     }
     /**
-     * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
     public findPetsByTags (tags?: Array<string>) : JQueryPromise<{ response: JQueryXHR; body: Array<Pet>;  }> {
@@ -352,8 +352,8 @@ export class PetApi {
         return dfd.promise();
     }
     /**
-     * Find pet by ID
-     * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
+     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * @summary Find pet by ID
      * @param petId ID of pet that needs to be fetched
      */
     public getPetById (petId: number) : JQueryPromise<{ response: JQueryXHR; body: Pet;  }> {
@@ -404,8 +404,8 @@ export class PetApi {
         return dfd.promise();
     }
     /**
-     * Update an existing pet
      * 
+     * @summary Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
     public updatePet (body?: Pet) : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
@@ -449,8 +449,8 @@ export class PetApi {
         return dfd.promise();
     }
     /**
-     * Updates a pet in the store with form data
      * 
+     * @summary Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -511,8 +511,8 @@ export class PetApi {
         return dfd.promise();
     }
     /**
-     * uploads an image
      * 
+     * @summary uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -618,8 +618,8 @@ export class StoreApi {
     }
 
     /**
-     * Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder (orderId: string) : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
@@ -666,8 +666,8 @@ export class StoreApi {
         return dfd.promise();
     }
     /**
-     * Returns pet inventories by status
      * Returns a map of status codes to quantities
+     * @summary Returns pet inventories by status
      */
     public getInventory () : JQueryPromise<{ response: JQueryXHR; body: { [key: string]: number; };  }> {
         let localVarPath = this.basePath + '/store/inventory';
@@ -709,8 +709,8 @@ export class StoreApi {
         return dfd.promise();
     }
     /**
-     * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById (orderId: string) : JQueryPromise<{ response: JQueryXHR; body: Order;  }> {
@@ -757,8 +757,8 @@ export class StoreApi {
         return dfd.promise();
     }
     /**
-     * Place an order for a pet
      * 
+     * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
     public placeOrder (body?: Order) : JQueryPromise<{ response: JQueryXHR; body: Order;  }> {
@@ -844,8 +844,8 @@ export class UserApi {
     }
 
     /**
-     * Create user
      * This can only be done by the logged in user.
+     * @summary Create user
      * @param body Created user object
      */
     public createUser (body?: User) : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
@@ -887,8 +887,8 @@ export class UserApi {
         return dfd.promise();
     }
     /**
-     * Creates list of users with given input array
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     public createUsersWithArrayInput (body?: Array<User>) : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
@@ -930,8 +930,8 @@ export class UserApi {
         return dfd.promise();
     }
     /**
-     * Creates list of users with given input array
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     public createUsersWithListInput (body?: Array<User>) : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
@@ -973,8 +973,8 @@ export class UserApi {
         return dfd.promise();
     }
     /**
-     * Delete user
      * This can only be done by the logged in user.
+     * @summary Delete user
      * @param username The name that needs to be deleted
      */
     public deleteUser (username: string) : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
@@ -1021,8 +1021,8 @@ export class UserApi {
         return dfd.promise();
     }
     /**
-     * Get user by user name
      * 
+     * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     public getUserByName (username: string) : JQueryPromise<{ response: JQueryXHR; body: User;  }> {
@@ -1069,8 +1069,8 @@ export class UserApi {
         return dfd.promise();
     }
     /**
-     * Logs user into the system
      * 
+     * @summary Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
      */
@@ -1120,8 +1120,8 @@ export class UserApi {
         return dfd.promise();
     }
     /**
-     * Logs out current logged in user session
      * 
+     * @summary Logs out current logged in user session
      */
     public logoutUser () : JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
         let localVarPath = this.basePath + '/user/logout';
@@ -1161,8 +1161,8 @@ export class UserApi {
         return dfd.promise();
     }
     /**
-     * Updated user
      * This can only be done by the logged in user.
+     * @summary Updated user
      * @param username name that need to be deleted
      * @param body Updated user object
      */
