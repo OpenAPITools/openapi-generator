@@ -1,7 +1,9 @@
     /// <summary>
-    /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
-    /// </summary>{{#description}}
-    /// <value>{{{description}}}</value>{{/description}}
+    /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+    /// </summary>
+    {{#description}}
+    /// <value>{{description}}</value>
+    {{/description}}
     [JsonConverter(typeof(StringEnumConverter))]
     {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
     {
