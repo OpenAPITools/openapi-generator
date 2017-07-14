@@ -38,7 +38,7 @@ public class ModelReturn {
   }
 
    /**
-   * property description  *_/ ' \" =end -- \\r\\n \\n \\r
+   * property description  *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
    * @return _return
   **/
   @ApiModelProperty(value = "property description  *_/ ' \" =end -- \\r\\n \\n \\r")
