@@ -35,12 +35,12 @@ link it here.
 
 <!-- unambiguous set of steps to reproduce the bug.-->
 
-##### Related issues
+##### Related issues/PRs
 
-<!-- has a similar issue been reported before? Please do a search in https://github.com/swagger-api/swagger-codegen/issues?utf8=%E2%9C%93&q=is%3Aissue%20 -->
+<!-- has a similar issue/PR been reported/opened before? Please do a search in https://github.com/swagger-api/swagger-codegen/issues?utf8=%E2%9C%93&q=is%3Aissue%20 -->
 
-##### Suggest a Fix
+##### Suggest a fix/enhancement
 
 <!-- if you can't fix the bug yourself, perhaps you can point to what might be
-  causing the problem (line of code or commit) -->
+  causing the problem (line of code or commit), or simply make a suggestion -->
 
