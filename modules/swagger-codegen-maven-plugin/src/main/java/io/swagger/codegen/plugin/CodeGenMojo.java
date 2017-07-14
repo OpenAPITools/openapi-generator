@@ -185,7 +185,7 @@ public class CodeGenMojo extends AbstractMojo {
     private Map<?, ?> configOptions;
 
     /**
-     * A map of classes and the import that should be used for that class
+     * A map of types and the types they should be instantiated as
      */
     @Parameter(name = "instantiationTypes")
     private List<String> instantiationTypes;
@@ -197,25 +197,25 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> importMappings;
 
     /**
-     * A map of classes and the import that should be used for that class
+     * A map of swagger spec types and the generated code types to use for them
      */
     @Parameter(name = "typeMappings")
     private List<String> typeMappings;
 
     /**
-     * A map of classes and the import that should be used for that class
+     * A map of additional language specific primitive types
      */
     @Parameter(name = "languageSpecificPrimitives")
     private List<String> languageSpecificPrimitives;
 
     /**
-     * A map of classes and the import that should be used for that class
+     * A map of additional properties that can be referenced by the mustache templates
      */
     @Parameter(name = "additionalProperties")
     private List<String> additionalProperties;
 
     /**
-     * A map of classes and the import that should be used for that class
+     * A map of reserved names and how they should be escaped
      */
     @Parameter(name = "reservedWordsMappings")
     private List<String> reservedWordsMappings;    
