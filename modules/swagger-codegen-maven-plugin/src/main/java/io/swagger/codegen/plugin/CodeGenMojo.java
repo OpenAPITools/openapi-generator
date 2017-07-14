@@ -20,6 +20,12 @@ import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiat
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsv;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvp;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvp;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
@@ -461,50 +467,32 @@ public class CodeGenMojo extends AbstractMojo {
 
         //Apply Instantiation Types
         if (instantiationTypes != null && !configOptions.containsKey("instantiation-types")) {
-            String instantiationTypesAsString = instantiationTypes.toString();
-            applyInstantiationTypesKvp(
-                    instantiationTypesAsString.substring(0, instantiationTypesAsString.length() - 1),
-                    configurator);
+            applyInstantiationTypesKvpList(instantiationTypes, configurator);
         }
 
         //Apply Import Mappings
         if (importMappings != null && !configOptions.containsKey("import-mappings")) {
-            String importMappingsAsString = importMappings.toString();
-            applyImportMappingsKvp(
-                    importMappingsAsString.substring(0, importMappingsAsString.length() - 1),
-                    configurator);
+            applyImportMappingsKvpList(importMappings, configurator);
         }
 
         //Apply Type Mappings
         if (typeMappings != null && !configOptions.containsKey("type-mappings")) {
-            String typeMappingsAsString = typeMappings.toString();
-            applyTypeMappingsKvp(
-                    typeMappingsAsString.substring(0, typeMappingsAsString.length() - 1),
-                    configurator);
+            applyTypeMappingsKvpList(typeMappings, configurator);
         }
 
         //Apply Language Specific Primitives
         if (languageSpecificPrimitives != null && !configOptions.containsKey("language-specific-primitives")) {
-            String languageSpecificPrimitivesAsString = languageSpecificPrimitives.toString();
-            applyLanguageSpecificPrimitivesCsv(
-                    languageSpecificPrimitivesAsString.substring(0,languageSpecificPrimitivesAsString.length() - 1),
-                    configurator);
+            applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         }
 
         //Apply Additional Properties
         if (additionalProperties != null && !configOptions.containsKey("additional-properties")) {
-            String additionalPropertiesAsString = additionalProperties.toString();
-            applyAdditionalPropertiesKvp(
-                    additionalPropertiesAsString.substring(0, additionalPropertiesAsString.length() - 1),
-                    configurator);
+            applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         }
 
         //Apply Reserved Words Mappings
         if (reservedWordsMappings != null && !configOptions.containsKey("reserved-words-mappings")) {
-            String reservedWordsMappingsAsString = reservedWordsMappings.toString();
-            applyReservedWordsMappingsKvp(
-                    reservedWordsMappingsAsString.substring(0, reservedWordsMappingsAsString.length() - 1),
-                    configurator);
+            applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         }
 
         if (environmentVariables != null) {
