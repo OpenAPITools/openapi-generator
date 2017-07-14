@@ -20,6 +20,12 @@ import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiat
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsv;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvp;
 import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvp;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+import static io.swagger.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
@@ -178,8 +184,41 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "configOptions")
     private Map<?, ?> configOptions;
 
+    /**
+     * A map of types and the types they should be instantiated as
+     */
+    @Parameter(name = "instantiationTypes")
+    private List<String> instantiationTypes;
+
+    /**
+     * A map of classes and the import that should be used for that class
+     */
     @Parameter(name = "importMappings")
     private List<String> importMappings;
+
+    /**
+     * A map of swagger spec types and the generated code types to use for them
+     */
+    @Parameter(name = "typeMappings")
+    private List<String> typeMappings;
+
+    /**
+     * A map of additional language specific primitive types
+     */
+    @Parameter(name = "languageSpecificPrimitives")
+    private List<String> languageSpecificPrimitives;
+
+    /**
+     * A map of additional properties that can be referenced by the mustache templates
+     */
+    @Parameter(name = "additionalProperties")
+    private List<String> additionalProperties;
+
+    /**
+     * A map of reserved names and how they should be escaped
+     */
+    @Parameter(name = "reservedWordsMappings")
+    private List<String> reservedWordsMappings;    
 
     /**
      * Generate the apis
@@ -390,42 +429,70 @@ public class CodeGenMojo extends AbstractMojo {
         System.setProperty("withXml", withXml.toString());
 
         if (configOptions != null) {
-
-            if (configOptions.containsKey("instantiation-types")) {
+            // Retained for backwards-compataibility with configOptions -> instantiation-types
+            if (instantiationTypes == null && configOptions.containsKey("instantiation-types")) {
                 applyInstantiationTypesKvp(configOptions.get("instantiation-types").toString(),
                         configurator);
             }
 
+            // Retained for backwards-compataibility with configOptions -> import-mappings
             if (importMappings == null && configOptions.containsKey("import-mappings")) {
                 applyImportMappingsKvp(configOptions.get("import-mappings").toString(),
                         configurator);
             }
 
-            if (configOptions.containsKey("type-mappings")) {
+            // Retained for backwards-compataibility with configOptions -> type-mappings
+            if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                 applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
             }
 
-            if (configOptions.containsKey("language-specific-primitives")) {
+            // Retained for backwards-compataibility with configOptions -> language-specific-primitives
+            if (languageSpecificPrimitives == null && configOptions.containsKey("language-specific-primitives")) {
                 applyLanguageSpecificPrimitivesCsv(configOptions
                         .get("language-specific-primitives").toString(), configurator);
             }
 
-            if (configOptions.containsKey("additional-properties")) {
+            // Retained for backwards-compataibility with configOptions -> additional-properties
+            if (additionalProperties == null && configOptions.containsKey("additional-properties")) {
                 applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(),
                         configurator);
             }
 
-            if (configOptions.containsKey("reserved-words-mappings")) {
+            // Retained for backwards-compataibility with configOptions -> reserved-words-mappings
+            if (reservedWordsMappings == null && configOptions.containsKey("reserved-words-mappings")) {
                 applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings")
                         .toString(), configurator);
             }
         }
 
+        //Apply Instantiation Types
+        if (instantiationTypes != null && !configOptions.containsKey("instantiation-types")) {
+            applyInstantiationTypesKvpList(instantiationTypes, configurator);
+        }
+
+        //Apply Import Mappings
         if (importMappings != null && !configOptions.containsKey("import-mappings")) {
-            String importMappingsAsString = importMappings.toString();
-            applyImportMappingsKvp(
-                    importMappingsAsString.substring(0, importMappingsAsString.length() - 1),
-                    configurator);
+            applyImportMappingsKvpList(importMappings, configurator);
+        }
+
+        //Apply Type Mappings
+        if (typeMappings != null && !configOptions.containsKey("type-mappings")) {
+            applyTypeMappingsKvpList(typeMappings, configurator);
+        }
+
+        //Apply Language Specific Primitives
+        if (languageSpecificPrimitives != null && !configOptions.containsKey("language-specific-primitives")) {
+            applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
+        }
+
+        //Apply Additional Properties
+        if (additionalProperties != null && !configOptions.containsKey("additional-properties")) {
+            applyAdditionalPropertiesKvpList(additionalProperties, configurator);
+        }
+
+        //Apply Reserved Words Mappings
+        if (reservedWordsMappings != null && !configOptions.containsKey("reserved-words-mappings")) {
+            applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         }
 
         if (environmentVariables != null) {
