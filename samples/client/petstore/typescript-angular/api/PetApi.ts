@@ -27,10 +27,10 @@ export class PetApi {
     }
 
     /**
-        * Add a new pet to the store
-        * 
-        * @param body Pet object that needs to be added to the store
-        */
+     * 
+     * @summary Add a new pet to the store
+     * @param body Pet object that needs to be added to the store
+     */
     public addPet (body?: models.Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/pet';
 
@@ -51,11 +51,11 @@ export class PetApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Deletes a pet
-        * 
-        * @param petId Pet id to delete
-        * @param apiKey 
-        */
+     * 
+     * @summary Deletes a pet
+     * @param petId Pet id to delete
+     * @param apiKey 
+     */
     public deletePet (petId: number, apiKey?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
@@ -82,10 +82,10 @@ export class PetApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Finds Pets by status
-        * Multiple status values can be provided with comma separated strings
-        * @param status Status values that need to be considered for filter
-        */
+     * Multiple status values can be provided with comma separated strings
+     * @summary Finds Pets by status
+     * @param status Status values that need to be considered for filter
+     */
     public findPetsByStatus (status?: Array<string>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<models.Pet>> {
         const localVarPath = this.basePath + '/pet/findByStatus';
 
@@ -109,10 +109,10 @@ export class PetApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Finds Pets by tags
-        * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-        * @param tags Tags to filter by
-        */
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @summary Finds Pets by tags
+     * @param tags Tags to filter by
+     */
     public findPetsByTags (tags?: Array<string>, extraHttpRequestParams?: any ) : ng.IHttpPromise<Array<models.Pet>> {
         const localVarPath = this.basePath + '/pet/findByTags';
 
@@ -136,10 +136,10 @@ export class PetApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Find pet by ID
-        * Returns a pet when ID &lt; 10.  ID &gt; 10 or nonintegers will simulate API error conditions
-        * @param petId ID of pet that needs to be fetched
-        */
+     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * @summary Find pet by ID
+     * @param petId ID of pet that needs to be fetched
+     */
     public getPetById (petId: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.Pet> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
@@ -164,10 +164,10 @@ export class PetApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Update an existing pet
-        * 
-        * @param body Pet object that needs to be added to the store
-        */
+     * 
+     * @summary Update an existing pet
+     * @param body Pet object that needs to be added to the store
+     */
     public updatePet (body?: models.Pet, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/pet';
 
@@ -188,12 +188,12 @@ export class PetApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Updates a pet in the store with form data
-        * 
-        * @param petId ID of pet that needs to be updated
-        * @param name Updated name of the pet
-        * @param status Updated status of the pet
-        */
+     * 
+     * @summary Updates a pet in the store with form data
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet
+     * @param status Updated status of the pet
+     */
     public updatePetWithForm (petId: string, name?: string, status?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', String(petId));
@@ -227,12 +227,12 @@ export class PetApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * uploads an image
-        * 
-        * @param petId ID of pet to update
-        * @param additionalMetadata Additional data to pass to server
-        * @param file file to upload
-        */
+     * 
+     * @summary uploads an image
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server
+     * @param file file to upload
+     */
     public uploadFile (petId: number, additionalMetadata?: string, file?: any, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', String(petId));

@@ -120,9 +120,9 @@ export interface User {
  * PetApi - fetch parameter creator
  */
 export const PetApiFetchParamCreator = {
-    /** 
-     * Add a new pet to the store
+    /**
      * 
+     * @summary Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
     addPet(params: {  body: Pet; }, configuration: Configuration, options: any = {}): FetchArgs {
@@ -155,9 +155,9 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Deletes a pet
+    /**
      * 
+     * @summary Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
      */
@@ -188,9 +188,9 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Finds Pets by status
+    /**
      * Multiple status values can be provided with comma separated strings
+     * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
     findPetsByStatus(params: {  status: Array<string>; }, configuration: Configuration, options: any = {}): FetchArgs {
@@ -222,9 +222,9 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Finds Pets by tags
+    /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
     findPetsByTags(params: {  tags: Array<string>; }, configuration: Configuration, options: any = {}): FetchArgs {
@@ -256,10 +256,17 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
+<<<<<<< HEAD
     /** 
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
+=======
+    /**
+     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * @summary Find pet by ID
+     * @param petId ID of pet that needs to be fetched
+>>>>>>> origin/master
      */
     getPetById(params: {  petId: number; }, configuration: Configuration, options: any = {}): FetchArgs {
         // verify required parameter "petId" is set
@@ -287,9 +294,9 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Update an existing pet
+    /**
      * 
+     * @summary Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
     updatePet(params: {  body: Pet; }, configuration: Configuration, options: any = {}): FetchArgs {
@@ -322,9 +329,9 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Updates a pet in the store with form data
+    /**
      * 
+     * @summary Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -361,9 +368,9 @@ export const PetApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * uploads an image
+    /**
      * 
+     * @summary uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -406,9 +413,9 @@ export const PetApiFetchParamCreator = {
  * PetApi - functional programming interface
  */
 export const PetApiFp = {
-    /** 
-     * Add a new pet to the store
+    /**
      * 
+     * @summary Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
     addPet(params: { body: Pet;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
@@ -423,9 +430,9 @@ export const PetApiFp = {
             });
         };
     },
-    /** 
-     * Deletes a pet
+    /**
      * 
+     * @summary Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
      */
@@ -441,9 +448,9 @@ export const PetApiFp = {
             });
         };
     },
-    /** 
-     * Finds Pets by status
+    /**
      * Multiple status values can be provided with comma separated strings
+     * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
     findPetsByStatus(params: { status: Array<string>;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
@@ -458,9 +465,9 @@ export const PetApiFp = {
             });
         };
     },
-    /** 
-     * Finds Pets by tags
+    /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
     findPetsByTags(params: { tags: Array<string>;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
@@ -475,10 +482,17 @@ export const PetApiFp = {
             });
         };
     },
+<<<<<<< HEAD
     /** 
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
+=======
+    /**
+     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * @summary Find pet by ID
+     * @param petId ID of pet that needs to be fetched
+>>>>>>> origin/master
      */
     getPetById(params: { petId: number;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Pet> {
         const fetchArgs = PetApiFetchParamCreator.getPetById(params, configuration, options);
@@ -492,9 +506,9 @@ export const PetApiFp = {
             });
         };
     },
-    /** 
-     * Update an existing pet
+    /**
      * 
+     * @summary Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
     updatePet(params: { body: Pet;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
@@ -509,9 +523,9 @@ export const PetApiFp = {
             });
         };
     },
-    /** 
-     * Updates a pet in the store with form data
+    /**
      * 
+     * @summary Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -528,9 +542,9 @@ export const PetApiFp = {
             });
         };
     },
-    /** 
-     * uploads an image
+    /**
      * 
+     * @summary uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -553,58 +567,65 @@ export const PetApiFp = {
  * PetApi - object-oriented interface
  */
 export class PetApi extends BaseAPI {
-    /** 
-     * Add a new pet to the store
+    /**
      * 
+     * @summary Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
     addPet(params: {  body: Pet; }, options: any = {}) {
         return PetApiFp.addPet(params, this.configuration, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Deletes a pet
+    /**
      * 
+     * @summary Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
      */
     deletePet(params: {  petId: number; apiKey?: string; }, options: any = {}) {
         return PetApiFp.deletePet(params, this.configuration, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Finds Pets by status
+    /**
      * Multiple status values can be provided with comma separated strings
+     * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
     findPetsByStatus(params: {  status: Array<string>; }, options: any = {}) {
         return PetApiFp.findPetsByStatus(params, this.configuration, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Finds Pets by tags
+    /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
     findPetsByTags(params: {  tags: Array<string>; }, options: any = {}) {
         return PetApiFp.findPetsByTags(params, this.configuration, options)(this.fetch, this.basePath);
     }
+<<<<<<< HEAD
     /** 
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
+=======
+    /**
+     * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+     * @summary Find pet by ID
+     * @param petId ID of pet that needs to be fetched
+>>>>>>> origin/master
      */
     getPetById(params: {  petId: number; }, options: any = {}) {
         return PetApiFp.getPetById(params, this.configuration, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Update an existing pet
+    /**
      * 
+     * @summary Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
     updatePet(params: {  body: Pet; }, options: any = {}) {
         return PetApiFp.updatePet(params, this.configuration, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Updates a pet in the store with form data
+    /**
      * 
+     * @summary Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -612,9 +633,9 @@ export class PetApi extends BaseAPI {
     updatePetWithForm(params: {  petId: number; name?: string; status?: string; }, options: any = {}) {
         return PetApiFp.updatePetWithForm(params, this.configuration, options)(this.fetch, this.basePath);
     }
-    /** 
-     * uploads an image
+    /**
      * 
+     * @summary uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
@@ -629,58 +650,65 @@ export class PetApi extends BaseAPI {
  */
 export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
     return {
-        /** 
-         * Add a new pet to the store
+        /**
          * 
+         * @summary Add a new pet to the store
          * @param body Pet object that needs to be added to the store
          */
         addPet(params: {  body: Pet; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.addPet(params, configuration, options)(fetch, basePath);
         },
-        /** 
-         * Deletes a pet
+        /**
          * 
+         * @summary Deletes a pet
          * @param petId Pet id to delete
          * @param apiKey 
          */
         deletePet(params: {  petId: number; apiKey?: string; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.deletePet(params, configuration, options)(fetch, basePath);
         },
-        /** 
-         * Finds Pets by status
+        /**
          * Multiple status values can be provided with comma separated strings
+         * @summary Finds Pets by status
          * @param status Status values that need to be considered for filter
          */
         findPetsByStatus(params: {  status: Array<string>; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.findPetsByStatus(params, configuration, options)(fetch, basePath);
         },
-        /** 
-         * Finds Pets by tags
+        /**
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+         * @summary Finds Pets by tags
          * @param tags Tags to filter by
          */
         findPetsByTags(params: {  tags: Array<string>; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.findPetsByTags(params, configuration, options)(fetch, basePath);
         },
+<<<<<<< HEAD
         /** 
          * Find pet by ID
          * Returns a single pet
          * @param petId ID of pet to return
+=======
+        /**
+         * Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
+         * @summary Find pet by ID
+         * @param petId ID of pet that needs to be fetched
+>>>>>>> origin/master
          */
         getPetById(params: {  petId: number; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.getPetById(params, configuration, options)(fetch, basePath);
         },
-        /** 
-         * Update an existing pet
+        /**
          * 
+         * @summary Update an existing pet
          * @param body Pet object that needs to be added to the store
          */
         updatePet(params: {  body: Pet; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.updatePet(params, configuration, options)(fetch, basePath);
         },
-        /** 
-         * Updates a pet in the store with form data
+        /**
          * 
+         * @summary Updates a pet in the store with form data
          * @param petId ID of pet that needs to be updated
          * @param name Updated name of the pet
          * @param status Updated status of the pet
@@ -688,9 +716,9 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
         updatePetWithForm(params: {  petId: number; name?: string; status?: string; }, configuration: Configuration, options: any = {}) {
             return PetApiFp.updatePetWithForm(params, configuration, options)(fetch, basePath);
         },
-        /** 
-         * uploads an image
+        /**
          * 
+         * @summary uploads an image
          * @param petId ID of pet to update
          * @param additionalMetadata Additional data to pass to server
          * @param file file to upload
@@ -706,9 +734,9 @@ export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
  * StoreApi - fetch parameter creator
  */
 export const StoreApiFetchParamCreator = {
-    /** 
-     * Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
     deleteOrder(params: {  orderId: string; }, options: any = {}): FetchArgs {
@@ -731,9 +759,9 @@ export const StoreApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Returns pet inventories by status
+    /**
      * Returns a map of status codes to quantities
+     * @summary Returns pet inventories by status
      */
     getInventory(configuration: Configuration, options: any = {}): FetchArgs {
         const baseUrl = `/store/inventory`;
@@ -756,9 +784,9 @@ export const StoreApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
     getOrderById(params: {  orderId: number; }, options: any = {}): FetchArgs {
@@ -781,9 +809,9 @@ export const StoreApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Place an order for a pet
+    /**
      * 
+     * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
     placeOrder(params: {  body: Order; }, options: any = {}): FetchArgs {
@@ -815,9 +843,9 @@ export const StoreApiFetchParamCreator = {
  * StoreApi - functional programming interface
  */
 export const StoreApiFp = {
-    /** 
-     * Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
     deleteOrder(params: { orderId: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
@@ -832,9 +860,9 @@ export const StoreApiFp = {
             });
         };
     },
-    /** 
-     * Returns pet inventories by status
+    /**
      * Returns a map of status codes to quantities
+     * @summary Returns pet inventories by status
      */
     getInventory(configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
         const fetchArgs = StoreApiFetchParamCreator.getInventory(configuration, options);
@@ -848,9 +876,9 @@ export const StoreApiFp = {
             });
         };
     },
-    /** 
-     * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
     getOrderById(params: { orderId: number;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
@@ -865,9 +893,9 @@ export const StoreApiFp = {
             });
         };
     },
-    /** 
-     * Place an order for a pet
+    /**
      * 
+     * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
     placeOrder(params: { body: Order;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
@@ -888,32 +916,32 @@ export const StoreApiFp = {
  * StoreApi - object-oriented interface
  */
 export class StoreApi extends BaseAPI {
-    /** 
-     * Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
     deleteOrder(params: {  orderId: string; }, options: any = {}) {
         return StoreApiFp.deleteOrder(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Returns pet inventories by status
+    /**
      * Returns a map of status codes to quantities
+     * @summary Returns pet inventories by status
      */
     getInventory(options: any = {}) {
         return StoreApiFp.getInventory(this.configuration, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
     getOrderById(params: {  orderId: number; }, options: any = {}) {
         return StoreApiFp.getOrderById(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Place an order for a pet
+    /**
      * 
+     * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
     placeOrder(params: {  body: Order; }, options: any = {}) {
@@ -926,32 +954,32 @@ export class StoreApi extends BaseAPI {
  */
 export const StoreApiFactory = function (fetch?: FetchAPI, basePath?: string) {
     return {
-        /** 
-         * Delete purchase order by ID
-         * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /**
+         * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+         * @summary Delete purchase order by ID
          * @param orderId ID of the order that needs to be deleted
          */
         deleteOrder(params: {  orderId: string; }, options: any = {}) {
             return StoreApiFp.deleteOrder(params, options)(fetch, basePath);
         },
-        /** 
-         * Returns pet inventories by status
+        /**
          * Returns a map of status codes to quantities
+         * @summary Returns pet inventories by status
          */
         getInventory(configuration: Configuration, options: any = {}) {
             return StoreApiFp.getInventory(configuration, options)(fetch, basePath);
         },
-        /** 
-         * Find purchase order by ID
-         * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        /**
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * @summary Find purchase order by ID
          * @param orderId ID of pet that needs to be fetched
          */
         getOrderById(params: {  orderId: number; }, options: any = {}) {
             return StoreApiFp.getOrderById(params, options)(fetch, basePath);
         },
-        /** 
-         * Place an order for a pet
+        /**
          * 
+         * @summary Place an order for a pet
          * @param body order placed for purchasing the pet
          */
         placeOrder(params: {  body: Order; }, options: any = {}) {
@@ -965,9 +993,9 @@ export const StoreApiFactory = function (fetch?: FetchAPI, basePath?: string) {
  * UserApi - fetch parameter creator
  */
 export const UserApiFetchParamCreator = {
-    /** 
-     * Create user
+    /**
      * This can only be done by the logged in user.
+     * @summary Create user
      * @param body Created user object
      */
     createUser(params: {  body: User; }, options: any = {}): FetchArgs {
@@ -993,9 +1021,9 @@ export const UserApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Creates list of users with given input array
+    /**
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     createUsersWithArrayInput(params: {  body: Array<User>; }, options: any = {}): FetchArgs {
@@ -1021,9 +1049,9 @@ export const UserApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Creates list of users with given input array
+    /**
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     createUsersWithListInput(params: {  body: Array<User>; }, options: any = {}): FetchArgs {
@@ -1049,9 +1077,9 @@ export const UserApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Delete user
+    /**
      * This can only be done by the logged in user.
+     * @summary Delete user
      * @param username The name that needs to be deleted
      */
     deleteUser(params: {  username: string; }, options: any = {}): FetchArgs {
@@ -1074,9 +1102,9 @@ export const UserApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Get user by user name
+    /**
      * 
+     * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     getUserByName(params: {  username: string; }, options: any = {}): FetchArgs {
@@ -1099,9 +1127,9 @@ export const UserApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Logs user into the system
+    /**
      * 
+     * @summary Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
      */
@@ -1132,9 +1160,9 @@ export const UserApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Logs out current logged in user session
+    /**
      * 
+     * @summary Logs out current logged in user session
      */
     logoutUser(options: any = {}): FetchArgs {
         const baseUrl = `/user/logout`;
@@ -1151,9 +1179,9 @@ export const UserApiFetchParamCreator = {
             options: fetchOptions,
         };
     },
-    /** 
-     * Updated user
+    /**
      * This can only be done by the logged in user.
+     * @summary Updated user
      * @param username name that need to be deleted
      * @param body Updated user object
      */
@@ -1191,9 +1219,9 @@ export const UserApiFetchParamCreator = {
  * UserApi - functional programming interface
  */
 export const UserApiFp = {
-    /** 
-     * Create user
+    /**
      * This can only be done by the logged in user.
+     * @summary Create user
      * @param body Created user object
      */
     createUser(params: { body: User;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
@@ -1208,9 +1236,9 @@ export const UserApiFp = {
             });
         };
     },
-    /** 
-     * Creates list of users with given input array
+    /**
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     createUsersWithArrayInput(params: { body: Array<User>;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
@@ -1225,9 +1253,9 @@ export const UserApiFp = {
             });
         };
     },
-    /** 
-     * Creates list of users with given input array
+    /**
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     createUsersWithListInput(params: { body: Array<User>;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
@@ -1242,9 +1270,9 @@ export const UserApiFp = {
             });
         };
     },
-    /** 
-     * Delete user
+    /**
      * This can only be done by the logged in user.
+     * @summary Delete user
      * @param username The name that needs to be deleted
      */
     deleteUser(params: { username: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
@@ -1259,9 +1287,9 @@ export const UserApiFp = {
             });
         };
     },
-    /** 
-     * Get user by user name
+    /**
      * 
+     * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     getUserByName(params: { username: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<User> {
@@ -1276,9 +1304,9 @@ export const UserApiFp = {
             });
         };
     },
-    /** 
-     * Logs user into the system
+    /**
      * 
+     * @summary Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
      */
@@ -1294,9 +1322,9 @@ export const UserApiFp = {
             });
         };
     },
-    /** 
-     * Logs out current logged in user session
+    /**
      * 
+     * @summary Logs out current logged in user session
      */
     logoutUser(options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = UserApiFetchParamCreator.logoutUser(options);
@@ -1310,9 +1338,9 @@ export const UserApiFp = {
             });
         };
     },
-    /** 
-     * Updated user
+    /**
      * This can only be done by the logged in user.
+     * @summary Updated user
      * @param username name that need to be deleted
      * @param body Updated user object
      */
@@ -1334,65 +1362,65 @@ export const UserApiFp = {
  * UserApi - object-oriented interface
  */
 export class UserApi extends BaseAPI {
-    /** 
-     * Create user
+    /**
      * This can only be done by the logged in user.
+     * @summary Create user
      * @param body Created user object
      */
     createUser(params: {  body: User; }, options: any = {}) {
         return UserApiFp.createUser(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Creates list of users with given input array
+    /**
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     createUsersWithArrayInput(params: {  body: Array<User>; }, options: any = {}) {
         return UserApiFp.createUsersWithArrayInput(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Creates list of users with given input array
+    /**
      * 
+     * @summary Creates list of users with given input array
      * @param body List of user object
      */
     createUsersWithListInput(params: {  body: Array<User>; }, options: any = {}) {
         return UserApiFp.createUsersWithListInput(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Delete user
+    /**
      * This can only be done by the logged in user.
+     * @summary Delete user
      * @param username The name that needs to be deleted
      */
     deleteUser(params: {  username: string; }, options: any = {}) {
         return UserApiFp.deleteUser(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Get user by user name
+    /**
      * 
+     * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     getUserByName(params: {  username: string; }, options: any = {}) {
         return UserApiFp.getUserByName(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Logs user into the system
+    /**
      * 
+     * @summary Logs user into the system
      * @param username The user name for login
      * @param password The password for login in clear text
      */
     loginUser(params: {  username: string; password: string; }, options: any = {}) {
         return UserApiFp.loginUser(params, options)(this.fetch, this.basePath);
     }
-    /** 
-     * Logs out current logged in user session
+    /**
      * 
+     * @summary Logs out current logged in user session
      */
     logoutUser(options: any = {}) {
         return UserApiFp.logoutUser(options)(this.fetch, this.basePath);
     }
-    /** 
-     * Updated user
+    /**
      * This can only be done by the logged in user.
+     * @summary Updated user
      * @param username name that need to be deleted
      * @param body Updated user object
      */
@@ -1406,65 +1434,65 @@ export class UserApi extends BaseAPI {
  */
 export const UserApiFactory = function (fetch?: FetchAPI, basePath?: string) {
     return {
-        /** 
-         * Create user
+        /**
          * This can only be done by the logged in user.
+         * @summary Create user
          * @param body Created user object
          */
         createUser(params: {  body: User; }, options: any = {}) {
             return UserApiFp.createUser(params, options)(fetch, basePath);
         },
-        /** 
-         * Creates list of users with given input array
+        /**
          * 
+         * @summary Creates list of users with given input array
          * @param body List of user object
          */
         createUsersWithArrayInput(params: {  body: Array<User>; }, options: any = {}) {
             return UserApiFp.createUsersWithArrayInput(params, options)(fetch, basePath);
         },
-        /** 
-         * Creates list of users with given input array
+        /**
          * 
+         * @summary Creates list of users with given input array
          * @param body List of user object
          */
         createUsersWithListInput(params: {  body: Array<User>; }, options: any = {}) {
             return UserApiFp.createUsersWithListInput(params, options)(fetch, basePath);
         },
-        /** 
-         * Delete user
+        /**
          * This can only be done by the logged in user.
+         * @summary Delete user
          * @param username The name that needs to be deleted
          */
         deleteUser(params: {  username: string; }, options: any = {}) {
             return UserApiFp.deleteUser(params, options)(fetch, basePath);
         },
-        /** 
-         * Get user by user name
+        /**
          * 
+         * @summary Get user by user name
          * @param username The name that needs to be fetched. Use user1 for testing. 
          */
         getUserByName(params: {  username: string; }, options: any = {}) {
             return UserApiFp.getUserByName(params, options)(fetch, basePath);
         },
-        /** 
-         * Logs user into the system
+        /**
          * 
+         * @summary Logs user into the system
          * @param username The user name for login
          * @param password The password for login in clear text
          */
         loginUser(params: {  username: string; password: string; }, options: any = {}) {
             return UserApiFp.loginUser(params, options)(fetch, basePath);
         },
-        /** 
-         * Logs out current logged in user session
+        /**
          * 
+         * @summary Logs out current logged in user session
          */
         logoutUser(options: any = {}) {
             return UserApiFp.logoutUser(options)(fetch, basePath);
         },
-        /** 
-         * Updated user
+        /**
          * This can only be done by the logged in user.
+         * @summary Updated user
          * @param username name that need to be deleted
          * @param body Updated user object
          */
