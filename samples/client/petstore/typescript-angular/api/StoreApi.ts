@@ -27,10 +27,10 @@ export class StoreApi {
     }
 
     /**
-        * Delete purchase order by ID
-        * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        * @param orderId ID of the order that needs to be deleted
-        */
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * @summary Delete purchase order by ID
+     * @param orderId ID of the order that needs to be deleted
+     */
     public deleteOrder (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
@@ -55,9 +55,9 @@ export class StoreApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Returns pet inventories by status
-        * Returns a map of status codes to quantities
-        */
+     * Returns a map of status codes to quantities
+     * @summary Returns pet inventories by status
+     */
     public getInventory (extraHttpRequestParams?: any ) : ng.IHttpPromise<{ [key: string]: number; }> {
         const localVarPath = this.basePath + '/store/inventory';
 
@@ -77,10 +77,10 @@ export class StoreApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Find purchase order by ID
-        * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-        * @param orderId ID of pet that needs to be fetched
-        */
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * @summary Find purchase order by ID
+     * @param orderId ID of pet that needs to be fetched
+     */
     public getOrderById (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.Order> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', String(orderId));
@@ -105,10 +105,10 @@ export class StoreApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Place an order for a pet
-        * 
-        * @param body order placed for purchasing the pet
-        */
+     * 
+     * @summary Place an order for a pet
+     * @param body order placed for purchasing the pet
+     */
     public placeOrder (body?: models.Order, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.Order> {
         const localVarPath = this.basePath + '/store/order';
 

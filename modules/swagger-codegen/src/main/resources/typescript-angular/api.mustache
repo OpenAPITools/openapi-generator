@@ -23,10 +23,12 @@ export class {{classname}} {
 
 {{#operation}}
     /**
-        * {{summary}}
-        * {{notes}}
-        {{#allParams}}* @param {{paramName}} {{description}}
-        {{/allParams}}*/
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
     public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};

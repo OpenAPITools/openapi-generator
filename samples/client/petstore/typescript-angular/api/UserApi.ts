@@ -27,10 +27,10 @@ export class UserApi {
     }
 
     /**
-        * Create user
-        * This can only be done by the logged in user.
-        * @param body Created user object
-        */
+     * This can only be done by the logged in user.
+     * @summary Create user
+     * @param body Created user object
+     */
     public createUser (body?: models.User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user';
 
@@ -51,10 +51,10 @@ export class UserApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Creates list of users with given input array
-        * 
-        * @param body List of user object
-        */
+     * 
+     * @summary Creates list of users with given input array
+     * @param body List of user object
+     */
     public createUsersWithArrayInput (body?: Array<models.User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user/createWithArray';
 
@@ -75,10 +75,10 @@ export class UserApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Creates list of users with given input array
-        * 
-        * @param body List of user object
-        */
+     * 
+     * @summary Creates list of users with given input array
+     * @param body List of user object
+     */
     public createUsersWithListInput (body?: Array<models.User>, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user/createWithList';
 
@@ -99,10 +99,10 @@ export class UserApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Delete user
-        * This can only be done by the logged in user.
-        * @param username The name that needs to be deleted
-        */
+     * This can only be done by the logged in user.
+     * @summary Delete user
+     * @param username The name that needs to be deleted
+     */
     public deleteUser (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
@@ -127,10 +127,10 @@ export class UserApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Get user by user name
-        * 
-        * @param username The name that needs to be fetched. Use user1 for testing. 
-        */
+     * 
+     * @summary Get user by user name
+     * @param username The name that needs to be fetched. Use user1 for testing. 
+     */
     public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.User> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
@@ -155,11 +155,11 @@ export class UserApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Logs user into the system
-        * 
-        * @param username The user name for login
-        * @param password The password for login in clear text
-        */
+     * 
+     * @summary Logs user into the system
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     */
     public loginUser (username?: string, password?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<string> {
         const localVarPath = this.basePath + '/user/login';
 
@@ -187,9 +187,9 @@ export class UserApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Logs out current logged in user session
-        * 
-        */
+     * 
+     * @summary Logs out current logged in user session
+     */
     public logoutUser (extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user/logout';
 
@@ -209,11 +209,11 @@ export class UserApi {
         return this.$http(httpRequestParams);
     }
     /**
-        * Updated user
-        * This can only be done by the logged in user.
-        * @param username name that need to be deleted
-        * @param body Updated user object
-        */
+     * This can only be done by the logged in user.
+     * @summary Updated user
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     */
     public updateUser (username: string, body?: models.User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', String(username));
