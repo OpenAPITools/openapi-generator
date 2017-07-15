@@ -9,7 +9,7 @@
     <artifactId>swagger-codegen-project</artifactId>
     <packaging>pom</packaging>
     <name>swagger-codegen-project</name>
-    <version>2.2.3-SNAPSHOT</version>
+    <version>2.2.3</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <scm>
         <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
@@ -21,6 +21,11 @@
             <id>fehguy</id>
             <name>Tony Tam</name>
             <email>fehguy@gmail.com</email>
+        </developer>
+        <developer>
+            <id>wing328</id>
+            <name>William Cheng</name>
+            <email>wing328hk@gmail.com</email>
         </developer>
     </developers>
     <issueManagement>
@@ -905,7 +910,7 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>1.0.30</swagger-parser-version>
+        <swagger-parser-version>1.0.31</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>
         <swagger-core-version>1.5.15</swagger-core-version>

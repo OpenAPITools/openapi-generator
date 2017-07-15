@@ -34,6 +34,7 @@ public:
 
     QString host;
     QString basePath;
+    QMap<QString, QString> defaultHeaders;
 
     void addPet(SWGPet body);
     void deletePet(qint64 pet_id, QString* api_key);
