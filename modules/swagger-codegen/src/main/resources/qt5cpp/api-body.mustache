@@ -112,8 +112,14 @@ void
     {{/isContainer}}{{/bodyParams}}
 
     {{#headerParams}}
-    // TODO: add header support
+    if ({{paramName}} != nullptr) {
+        input.headers.insert("{{baseName}}", "{{paramName}}");
+    }
     {{/headerParams}}
+
+    foreach(QString key, this->defaultHeaders.keys()) {
+        input.headers.insert(key, this->defaultHeaders.value(key));
+    }
 
     connect(worker,
             &HttpRequestWorker::on_execution_finished,
