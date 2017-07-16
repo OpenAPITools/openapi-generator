@@ -38,16 +38,31 @@ Class | Method | HTTP request | Description
 {{/model}}{{/models}}
 
 ## Documentation For Authorization
-
-{{^authMethods}} All endpoints do not require authorization.
+{{^authMethods}} Endpoints do not require authorization.
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
-{{#authMethods}}## {{{name}}}
-
+{{#authMethods}}
+## {{{name}}}
 {{#isApiKey}}- **Type**: API key 
-- **API key parameter name**: {{{keyParamName}}}
-- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
+		Key: "APIKEY",
+		Prefix: "Bearer", // Omit if not necessary.
+	})
+    r, err := client.Service.Operation(auth, args)
+```
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
+
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextBasicAuth, sw.BasicAuth{
+		UserName: "username",
+		Password: "password",
+	})
+    r, err := client.Service.Operation(auth, args)
+```
 {{/isBasic}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{{flow}}}
@@ -55,8 +70,24 @@ Class | Method | HTTP request | Description
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
 {{#scopes}} - **{{{scope}}}**: {{{description}}}
 {{/scopes}}
-{{/isOAuth}}
 
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+    r, err := client.Service.Operation(auth, args)
+```
+
+Or via OAuth2 module to automaticly refresh tokens and perform user authentication.
+```
+	import 	"golang.org/x/oauth2"
+
+    / .. Perform OAuth2 round trip request and obtain a token .. //
+
+    tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
+	auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+    r, err := client.Service.Operation(auth, args)
+```
+{{/isOAuth}}
 {{/authMethods}}
 
 ## Author

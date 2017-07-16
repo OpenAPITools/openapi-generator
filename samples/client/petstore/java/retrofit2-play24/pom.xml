@@ -195,9 +195,9 @@
       <version>${oltu-version}</version>
     </dependency>
     <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>${jodatime-version}</version>
+      <groupId>org.threeten</groupId>
+      <artifactId>threetenbp</artifactId>
+      <version>${threetenbp-version}</version>
     </dependency>
 
     <!-- JSON processing: jackson -->
@@ -250,7 +250,7 @@
     <jackson-version>2.8.9</jackson-version>
     <play-version>2.4.11</play-version>
     <retrofit-version>2.3.0</retrofit-version>
-    <jodatime-version>2.9.9</jodatime-version>
+    <threetenbp-version>1.3.5</threetenbp-version>
     <oltu-version>1.0.1</oltu-version>
     <junit-version>4.12</junit-version>
   </properties>

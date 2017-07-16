@@ -22,7 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.joda.time.DateTime;
+import org.threeten.bp.OffsetDateTime;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -41,7 +41,7 @@ public class Order implements Parcelable {
   private Integer quantity = null;
 
   @SerializedName("shipDate")
-  private DateTime shipDate = null;
+  private OffsetDateTime shipDate = null;
 
   /**
    * Order Status
@@ -152,7 +152,7 @@ public class Order implements Parcelable {
     this.quantity = quantity;
   }
 
-  public Order shipDate(DateTime shipDate) {
+  public Order shipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
@@ -162,11 +162,11 @@ public class Order implements Parcelable {
    * @return shipDate
   **/
   @ApiModelProperty(value = "")
-  public DateTime getShipDate() {
+  public OffsetDateTime getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(DateTime shipDate) {
+  public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
@@ -280,7 +280,7 @@ public class Order implements Parcelable {
     id = (Long)in.readValue(null);
     petId = (Long)in.readValue(null);
     quantity = (Integer)in.readValue(null);
-    shipDate = (DateTime)in.readValue(DateTime.class.getClassLoader());
+    shipDate = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     status = (StatusEnum)in.readValue(null);
     complete = (Boolean)in.readValue(null);
   }

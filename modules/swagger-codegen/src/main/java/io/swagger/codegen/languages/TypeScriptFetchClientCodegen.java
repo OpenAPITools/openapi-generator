@@ -42,6 +42,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("tsconfig.json.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("tslint.json.mustache", "", "tslint.json"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
 
         if(additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());

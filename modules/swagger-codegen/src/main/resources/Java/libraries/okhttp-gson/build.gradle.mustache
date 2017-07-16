@@ -104,8 +104,11 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
     compile 'com.google.code.gson:gson:2.8.1'
-    {{^java8}}
+    {{#joda}}
     compile 'joda-time:joda-time:2.9.9'
-    {{/java8}}
+    {{/joda}}
+    {{#threetenbp}}
+    compile 'org.threeten:threetenbp:1.3.5'
+    {{/threetenbp}}
     testCompile 'junit:junit:4.12'
 }

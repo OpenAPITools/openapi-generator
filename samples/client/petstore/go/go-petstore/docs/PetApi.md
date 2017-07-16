@@ -15,22 +15,21 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet($body)
-
+> AddPet(ctx, body)
 Add a new pet to the store
 
 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -44,23 +43,30 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeletePet**
-> DeletePet($petId, $apiKey)
-
+> DeletePet(ctx, petId, optional)
 Deletes a pet
 
 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **petId** | **int64**| Pet id to delete | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int64**| Pet id to delete | 
- **apiKey** | **string**|  | [optional] 
+ **apiKey** | **string**|  | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -74,18 +80,17 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FindPetsByStatus**
-> []Pet FindPetsByStatus($status)
-
+> []Pet FindPetsByStatus(ctx, status)
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[]string**](string.md)| Status values that need to be considered for filter | 
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **status** | [**[]string**](string.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -103,18 +108,17 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FindPetsByTags**
-> []Pet FindPetsByTags($tags)
-
+> []Pet FindPetsByTags(ctx, tags)
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[]string**](string.md)| Tags to filter by | 
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **tags** | [**[]string**](string.md)| Tags to filter by | 
 
 ### Return type
 
@@ -132,18 +136,17 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetPetById**
-> Pet GetPetById($petId)
-
+> Pet GetPetById(ctx, petId)
 Find pet by ID
 
 Returns a single pet
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int64**| ID of pet to return | 
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **petId** | **int64**| ID of pet to return | 
 
 ### Return type
 
@@ -161,22 +164,21 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePet**
-> UpdatePet($body)
-
+> UpdatePet(ctx, body)
 Update an existing pet
 
 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -190,24 +192,31 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePetWithForm**
-> UpdatePetWithForm($petId, $name, $status)
-
+> UpdatePetWithForm(ctx, petId, optional)
 Updates a pet in the store with form data
 
 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **petId** | **int64**| ID of pet that needs to be updated | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int64**| ID of pet that needs to be updated | 
- **name** | **string**| Updated name of the pet | [optional] 
- **status** | **string**| Updated status of the pet | [optional] 
+ **name** | **string**| Updated name of the pet | 
+ **status** | **string**| Updated status of the pet | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -221,20 +230,27 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UploadFile**
-> ModelApiResponse UploadFile($petId, $additionalMetadata, $file)
-
+> ModelApiResponse UploadFile(ctx, petId, optional)
 uploads an image
 
 
 
+### Required Parameters
 
-### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context containing the authentication | nil if no authentication
+  **petId** | **int64**| ID of pet to update | 
+ **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int64**| ID of pet to update | 
- **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
- **file** | ***os.File**| file to upload | [optional] 
+ **additionalMetadata** | **string**| Additional data to pass to server | 
+ **file** | ***os.File**| file to upload | 
 
 ### Return type
 

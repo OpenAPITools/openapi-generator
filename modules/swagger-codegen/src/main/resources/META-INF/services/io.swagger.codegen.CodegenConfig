@@ -2,7 +2,6 @@ io.swagger.codegen.languages.AkkaScalaClientCodegen
 io.swagger.codegen.languages.AndroidClientCodegen
 io.swagger.codegen.languages.Apache2ConfigCodegen
 io.swagger.codegen.languages.ApexClientCodegen
-io.swagger.codegen.languages.AspNet5ServerCodegen
 io.swagger.codegen.languages.AspNetCoreServerCodegen
 io.swagger.codegen.languages.AsyncScalaClientCodegen
 io.swagger.codegen.languages.BashClientCodegen

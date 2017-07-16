@@ -108,9 +108,6 @@ ext {
     swagger_annotations_version = "1.5.15"
     jackson_version = "2.8.9"
     jersey_version = "2.25.1"
-    {{^java8}}
-    jodatime_version = "2.9.9"
-    {{/java8}}
     {{#supportJava6}}
     commons_io_version=2.5
     commons_lang3_version=3.6
@@ -126,17 +123,21 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    {{#joda}}
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version",
+    {{/joda}}
     {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{/java8}}
-    {{^java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    compile "joda-time:joda-time:$jodatime_version"
-    compile "com.brsanthu:migbase64:2.2"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version",
     {{/java8}}
     {{#supportJava6}}
     compile "commons-io:commons-io:$commons_io_version"
     compile "org.apache.commons:commons-lang3:$commons_lang3_version"
     {{/supportJava6}}
+    {{#threetenbp}}
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version",
+    {{/threetenbp}}
+    {{^java8}}
+    compile "com.brsanthu:migbase64:2.2"
+    {{/java8}}
     testCompile "junit:junit:$junit_version"
 }

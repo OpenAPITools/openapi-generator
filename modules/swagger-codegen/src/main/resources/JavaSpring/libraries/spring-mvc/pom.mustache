@@ -93,13 +93,18 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${springfox-version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
-
         {{#withXml}}
 
         <!-- XML processing: Jackson -->
@@ -111,24 +116,29 @@
 
         {{/withXml}}
         {{#java8}}
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
         {{/java8}}
-        {{^java8}}
+        {{#joda}}
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{/joda}}
+        {{#threetenbp}}
+
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.9.4</version>
+            <groupId>com.github.joschi.jackson</groupId>
+            <artifactId>jackson-datatype-threetenbp</artifactId>
+            <version>${jackson-threetenbp-version}</version>
         </dependency>
-        {{/java8}}
+        {{/threetenbp}}
 
         <dependency>
             <groupId>junit</groupId>
@@ -159,8 +169,9 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.12</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
-        <springfox-version>2.4.0</springfox-version>
+        <springfox-version>2.7.0</springfox-version>
         <jackson-version>2.8.9</jackson-version>
+        <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
         <spring-version>4.3.9.RELEASE</spring-version>
     </properties>
 </project>

@@ -10,15 +10,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
+using IO.Swagger.Attributes;
 using IO.Swagger.Models;
 
 namespace IO.Swagger.Controllers
@@ -28,7 +30,6 @@ namespace IO.Swagger.Controllers
     /// </summary>
     public class PetApiController : Controller
     { 
-
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
@@ -37,12 +38,12 @@ namespace IO.Swagger.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet")]
+        [ValidateModelState]
         [SwaggerOperation("AddPet")]
         public virtual void AddPet([FromBody]Pet body)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Deletes a pet
@@ -53,12 +54,12 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid pet value</response>
         [HttpDelete]
         [Route("/v2/pet/{petId}")]
+        [ValidateModelState]
         [SwaggerOperation("DeletePet")]
         public virtual void DeletePet([FromRoute]long? petId, [FromHeader]string apiKey)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Finds Pets by status
@@ -69,8 +70,10 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid status value</response>
         [HttpGet]
         [Route("/v2/pet/findByStatus")]
+        [ValidateModelState]
         [SwaggerOperation("FindPetsByStatus")]
-        [SwaggerResponse(200, type: typeof(List<Pet>))]
+        [SwaggerResponse(200, typeof(List<Pet>), "successful operation")]
+        [SwaggerResponse(400, typeof(List<Pet>), "Invalid status value")]
         public virtual IActionResult FindPetsByStatus([FromQuery]List<string> status)
         { 
             string exampleJson = null;
@@ -81,7 +84,6 @@ namespace IO.Swagger.Controllers
             return new ObjectResult(example);
         }
 
-
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -91,8 +93,10 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid tag value</response>
         [HttpGet]
         [Route("/v2/pet/findByTags")]
+        [ValidateModelState]
         [SwaggerOperation("FindPetsByTags")]
-        [SwaggerResponse(200, type: typeof(List<Pet>))]
+        [SwaggerResponse(200, typeof(List<Pet>), "successful operation")]
+        [SwaggerResponse(400, typeof(List<Pet>), "Invalid tag value")]
         public virtual IActionResult FindPetsByTags([FromQuery]List<string> tags)
         { 
             string exampleJson = null;
@@ -102,7 +106,6 @@ namespace IO.Swagger.Controllers
             : default(List<Pet>);
             return new ObjectResult(example);
         }
-
 
         /// <summary>
         /// Find pet by ID
@@ -114,8 +117,11 @@ namespace IO.Swagger.Controllers
         /// <response code="404">Pet not found</response>
         [HttpGet]
         [Route("/v2/pet/{petId}")]
+        [ValidateModelState]
         [SwaggerOperation("GetPetById")]
-        [SwaggerResponse(200, type: typeof(Pet))]
+        [SwaggerResponse(200, typeof(Pet), "successful operation")]
+        [SwaggerResponse(400, typeof(Pet), "Invalid ID supplied")]
+        [SwaggerResponse(404, typeof(Pet), "Pet not found")]
         public virtual IActionResult GetPetById([FromRoute]long? petId)
         { 
             string exampleJson = null;
@@ -125,7 +131,6 @@ namespace IO.Swagger.Controllers
             : default(Pet);
             return new ObjectResult(example);
         }
-
 
         /// <summary>
         /// Update an existing pet
@@ -137,12 +142,12 @@ namespace IO.Swagger.Controllers
         /// <response code="405">Validation exception</response>
         [HttpPut]
         [Route("/v2/pet")]
+        [ValidateModelState]
         [SwaggerOperation("UpdatePet")]
         public virtual void UpdatePet([FromBody]Pet body)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -154,12 +159,12 @@ namespace IO.Swagger.Controllers
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet/{petId}")]
+        [ValidateModelState]
         [SwaggerOperation("UpdatePetWithForm")]
         public virtual void UpdatePetWithForm([FromRoute]long? petId, [FromForm]string name, [FromForm]string status)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// uploads an image
@@ -171,8 +176,9 @@ namespace IO.Swagger.Controllers
         /// <response code="200">successful operation</response>
         [HttpPost]
         [Route("/v2/pet/{petId}/uploadImage")]
+        [ValidateModelState]
         [SwaggerOperation("UploadFile")]
-        [SwaggerResponse(200, type: typeof(ApiResponse))]
+        [SwaggerResponse(200, typeof(ApiResponse), "successful operation")]
         public virtual IActionResult UploadFile([FromRoute]long? petId, [FromForm]string additionalMetadata, [FromForm]System.IO.Stream file)
         { 
             string exampleJson = null;

@@ -11,22 +11,20 @@ Method | HTTP request | Description
 
 
 # **DeleteOrder**
-> DeleteOrder($orderId)
-
+> DeleteOrder(orderId)
 Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **string**| ID of the order that needs to be deleted | 
+  **orderId** | **string**| ID of the order that needs to be deleted | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -40,14 +38,12 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetInventory**
-> map[string]int32 GetInventory()
-
+> map[string]int32 GetInventory(ctx, )
 Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-
-### Parameters
+### Required Parameters
 This endpoint does not need any parameter.
 
 ### Return type
@@ -66,18 +62,16 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetOrderById**
-> Order GetOrderById($orderId)
-
+> Order GetOrderById(orderId)
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **int64**| ID of pet that needs to be fetched | 
+  **orderId** | **int64**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -95,18 +89,16 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **PlaceOrder**
-> Order PlaceOrder($body)
-
+> Order PlaceOrder(body)
 Place an order for a pet
 
 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+  **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

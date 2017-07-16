@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface {{classname}}ManagedObject : NSManagedObject
 
-@property (nullable, nonatomic, retain) NSSet<{{{arrayModelType}}}ManagedObject*>* entries;
+@property (nullable, nonatomic, retain) NSOrderedSet<{{{arrayModelType}}}ManagedObject*>* entries;
 
 {{/isArrayModel}}{{^isArrayModel}}
 @interface {{classname}}ManagedObject : {{#parent}}{{{parent}}}ManagedObject{{/parent}}{{^parent}}NSManagedObject{{/parent}}
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 {{#vars}}
 {{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
  */{{/description}}
-@property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isListContainer}}NSSet<{{{complexType}}}ManagedObject*>*{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{{ datatype }}}{{/isMapContainer}}{{^isMapContainer}}{{{complexType}}}ManagedObject*{{/isMapContainer}}{{/isListContainer}}{{/complexType}} {{name}};
+@property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isListContainer}}NSOrderedSet<{{{complexType}}}ManagedObject*>*{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{{ datatype }}}{{/isMapContainer}}{{^isMapContainer}}{{{complexType}}}ManagedObject*{{/isMapContainer}}{{/isListContainer}}{{/complexType}} {{name}};
 {{/vars}}
 {{/isArrayModel}}
 @end
@@ -31,14 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
 {{#isArrayModel}}
 - (void)addEntriesObject:({{arrayModelType}}ManagedObject *)value;
 - (void)removeEntriesObject:({{arrayModelType}}ManagedObject *)value;
-- (void)addEntries:(NSSet<{{{arrayModelType}}}ManagedObject*> *)values;
-- (void)removeEntries:(NSSet<{{{arrayModelType}}}ManagedObject*> *)values;
+- (void)addEntries:(NSOrderedSet<{{{arrayModelType}}}ManagedObject*> *)values;
+- (void)removeEntries:(NSOrderedSet<{{{arrayModelType}}}ManagedObject*> *)values;
 {{/isArrayModel}}
 {{^isArrayModel}}
 {{#vars}}{{#isListContainer}}{{#complexType}}- (void)add{{vendorExtensions.x-uppercaseName}}Object:({{complexType}}ManagedObject *)value;
 - (void)remove{{vendorExtensions.x-uppercaseName}}Object:({{complexType}}ManagedObject *)value;
-- (void)add{{vendorExtensions.x-uppercaseName}}:(NSSet<{{{complexType}}}ManagedObject*> *)values;
-- (void)remove{{vendorExtensions.x-uppercaseName}}:(NSSet<{{{complexType}}}ManagedObject*> *)values;
+- (void)add{{vendorExtensions.x-uppercaseName}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
+- (void)remove{{vendorExtensions.x-uppercaseName}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
 {{/complexType}}{{/isListContainer}}{{/vars}}
 {{/isArrayModel}}
 @end

@@ -8,9 +8,10 @@ import io.swagger.client.model.*;
 
 import java.lang.reflect.Field;
 import java.util.Map;
-import java.text.SimpleDateFormat;
 
 import org.junit.*;
+import org.threeten.bp.OffsetDateTime;
+
 import static org.junit.Assert.*;
 
 public class StoreApiTest {
@@ -22,12 +23,6 @@ public class StoreApiTest {
         // setup authentication
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
         apiKeyAuth.setApiKey("special-key");
-        // set custom date format that is used by the petstore server
-        // Note: it would still work without this setting as okhttp-gson Java client supports
-        // various date formats by default (with lenientDatetimeFormat enabled), including
-        // the one used by petstore server
-        api.getApiClient().setDatetimeFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"));
-        api.getApiClient().setLenientDatetimeFormat(false);
     }
 
     @Test
@@ -61,7 +56,7 @@ public class StoreApiTest {
         assertEquals(order.getId(), fetched.getId());
         assertEquals(order.getPetId(), fetched.getPetId());
         assertEquals(order.getQuantity(), fetched.getQuantity());
-        assertEquals(order.getShipDate().toInstant(), fetched.getShipDate().toInstant());
+        assertTrue(order.getShipDate().isEqual(fetched.getShipDate()));
     }
 
     @Test
@@ -84,9 +79,10 @@ public class StoreApiTest {
 
     private Order createOrder() {
         Order order = new Order();
-        order.setPetId(new Long(200));
-        order.setQuantity(new Integer(13));
-        order.setShipDate(org.joda.time.DateTime.now());
+        order.setPetId(200L);
+        order.setQuantity(13);
+        //Ensure 3 fractional digits because of a bug in the petstore server
+        order.setShipDate(OffsetDateTime.now().withNano(123000000));
         order.setStatus(Order.StatusEnum.PLACED);
         order.setComplete(true);
 

@@ -13,9 +13,12 @@ lazy val root = (project in file(".")).
       "com.squareup.okhttp" % "okhttp" % "2.7.5",
       "com.squareup.okhttp" % "logging-interceptor" % "2.7.5",
       "com.google.code.gson" % "gson" % "2.8.1",
-      {{^java8}}
+      {{#joda}}
       "joda-time" % "joda-time" % "2.9.9" % "compile",
-      {{/java8}}
+      {{/joda}}
+      {{#threetenbp}}
+      "org.threeten" % "threetenbp" % "1.3.5" % "compile",
+      {{/threetenbp}}
       "junit" % "junit" % "4.12" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )

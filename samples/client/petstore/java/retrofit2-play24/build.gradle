@@ -100,7 +100,7 @@ ext {
     play_version = "2.4.11"
     swagger_annotations_version = "1.5.15"
     junit_version = "4.12"
-    jodatime_version = "2.9.9"
+    threetenbp_version = "1.3.5"
 }
 
 dependencies {
@@ -109,7 +109,7 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
-    compile "joda-time:joda-time:$jodatime_version"
+    compile "org.threeten:threetenbp:$threetenbp_version"
     compile "com.typesafe.play:play-java-ws_2.11:$play_version"
     compile "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"

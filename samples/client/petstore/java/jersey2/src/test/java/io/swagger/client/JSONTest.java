@@ -1,22 +1,18 @@
 package io.swagger.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.std.SqlDateSerializer;
 import io.swagger.client.model.Order;
+import org.junit.Before;
+import org.junit.Test;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.format.DateTimeFormatter;
 
-import java.lang.Exception;
-import java.sql.Date;
-
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-import org.junit.*;
 import static org.junit.Assert.*;
 
 
 public class JSONTest {
-    JSON json = null;
-    Order order = null;
+    private JSON json = null;
+    private Order order = null;
 
     @Before
     public void setup() {
@@ -26,24 +22,24 @@ public class JSONTest {
 
     @Test
     public void testDefaultDate() throws Exception {
-        final DateTimeFormatter dateFormat = ISODateTimeFormat.dateTime();
+        final DateTimeFormatter dateFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         final String dateStr = "2015-11-07T14:11:05.267Z";
-        order.setShipDate(dateFormat.parseDateTime(dateStr));
+        order.setShipDate(dateFormat.parse(dateStr, OffsetDateTime.FROM));
 
         String str = json.getContext(null).writeValueAsString(order);
         Order o = json.getContext(null).readValue(str, Order.class);
-        assertEquals(dateStr, dateFormat.print(o.getShipDate()));
+        assertEquals(dateStr, dateFormat.format(o.getShipDate()));
     }
 
     @Test
     public void testCustomDate() throws Exception {
-        final DateTimeFormatter dateFormat = ISODateTimeFormat.dateTimeNoMillis().withZone(DateTimeZone.forID("Etc/GMT+2"));
+        final DateTimeFormatter dateFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of("Etc/GMT+2"));
         final String dateStr = "2015-11-07T14:11:05-02:00";
-        order.setShipDate(dateFormat.parseDateTime(dateStr));
+        order.setShipDate(dateFormat.parse(dateStr, OffsetDateTime.FROM));
 
         String str = json.getContext(null).writeValueAsString(order);
         Order o = json.getContext(null).readValue(str, Order.class);
-        assertEquals(dateStr, dateFormat.print(o.getShipDate()));
+        assertEquals(dateStr, dateFormat.format(o.getShipDate()));
     }
 
     @Test

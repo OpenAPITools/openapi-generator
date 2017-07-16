@@ -192,8 +192,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         headers.set('Content-Type', 'application/json');
@@ -233,8 +233,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         headers.set('Content-Type', 'application/json');
@@ -274,8 +274,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         headers.set('Content-Type', 'application/json');
@@ -316,8 +316,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -355,8 +355,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -406,8 +406,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -439,8 +439,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -483,8 +483,8 @@ export class UserApi implements UserApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         headers.set('Content-Type', 'application/json');

@@ -56,6 +56,7 @@ require 'petstore/models/dog'
 
 # APIs
 require 'petstore/api/fake_api'
+require 'petstore/api/fake_classname_tags123_api'
 require 'petstore/api/pet_api'
 require 'petstore/api/store_api'
 require 'petstore/api/user_api'

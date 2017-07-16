@@ -12,9 +12,11 @@
 
 package io.swagger.client;
 
+import org.threeten.bp.*;
+
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.datatype.joda.*;
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import com.sun.jersey.api.client.Client;
@@ -78,7 +80,11 @@ public class ApiClient {
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-    objectMapper.registerModule(new JodaModule());
+    ThreeTenModule module = new ThreeTenModule();
+    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
+    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
+    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
+    objectMapper.registerModule(module);
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();
@@ -394,62 +400,71 @@ public class ApiClient {
     }
   }
 
-  /*
-   * Format to {@code Pair} objects.
-   * @param collectionFormat Collection format
-   * @param name Name
-   * @param value Value
-   * @return List of pair
+  /**
+   * Formats the specified query parameter to a list containing a single {@code Pair} object.
+   *
+   * Note that {@code value} must not be a collection.
+   *
+   * @param name The name of the parameter.
+   * @param value The value of the parameter.
+   * @return A list containing a single {@code Pair} object.
    */
-  public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
+  public List<Pair> parameterToPair(String name, Object value) {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null) return params;
+    if (name == null || name.isEmpty() || value == null || value instanceof Collection) return params;
 
-    Collection<?> valueCollection;
-    if (value instanceof Collection<?>) {
-      valueCollection = (Collection<?>) value;
-    } else {
-      params.add(new Pair(name, parameterToString(value)));
+    params.add(new Pair(name, parameterToString(value)));
+    return params;
+  }
+
+  /**
+   * Formats the specified collection query parameters to a list of {@code Pair} objects.
+   *
+   * Note that the values of each of the returned Pair objects are percent-encoded.
+   *
+   * @param collectionFormat The collection format of the parameter.
+   * @param name The name of the parameter.
+   * @param value The value of the parameter.
+   * @return A list of {@code Pair} objects.
+   */
+  public List<Pair> parameterToPairs(String collectionFormat, String name, Collection value) {
+    List<Pair> params = new ArrayList<Pair>();
+
+    // preconditions
+    if (name == null || name.isEmpty() || value == null) {
       return params;
     }
-
-    if (valueCollection.isEmpty()){
-      return params;
-    }
-
-    // get the collection format
-    String format = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
 
     // create the params based on the collection format
-    if ("multi".equals(format)) {
-      for (Object item : valueCollection) {
-        params.add(new Pair(name, parameterToString(item)));
+    if ("multi".equals(collectionFormat)) {
+      for (Object item : value) {
+        params.add(new Pair(name, escapeString(parameterToString(item))));
       }
-
       return params;
     }
 
+    // collectionFormat is assumed to be "csv" by default
     String delimiter = ",";
 
-    if ("csv".equals(format)) {
-      delimiter = ",";
-    } else if ("ssv".equals(format)) {
-      delimiter = " ";
-    } else if ("tsv".equals(format)) {
-      delimiter = "\t";
-    } else if ("pipes".equals(format)) {
-      delimiter = "|";
+    // escape all delimiters except commas, which are URI reserved
+    // characters
+    if ("ssv".equals(collectionFormat)) {
+      delimiter = escapeString(" ");
+    } else if ("tsv".equals(collectionFormat)) {
+      delimiter = escapeString("\t");
+    } else if ("pipes".equals(collectionFormat)) {
+      delimiter = escapeString("|");
     }
 
     StringBuilder sb = new StringBuilder() ;
-    for (Object item : valueCollection) {
+    for (Object item : value) {
       sb.append(delimiter);
-      sb.append(parameterToString(item));
+      sb.append(escapeString(parameterToString(item)));
     }
 
-    params.add(new Pair(name, sb.substring(1)));
+    params.add(new Pair(name, sb.substring(delimiter.length())));
 
     return params;
   }
@@ -565,9 +580,10 @@ public class ApiClient {
    *
    * @param path The sub path
    * @param queryParams The query parameters
+   * @param collectionQueryParams The collection query parameters
    * @return The full URL
    */
-  private String buildUrl(String path, List<Pair> queryParams) {
+  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
     final StringBuilder url = new StringBuilder();
     url.append(basePath).append(path);
 
@@ -588,17 +604,34 @@ public class ApiClient {
       }
     }
 
+    if (collectionQueryParams != null && !collectionQueryParams.isEmpty()) {
+      String prefix = url.toString().contains("?") ? "&" : "?";
+      for (Pair param : collectionQueryParams) {
+        if (param.getValue() != null) {
+          if (prefix != null) {
+            url.append(prefix);
+            prefix = null;
+          } else {
+            url.append("&");
+          }
+          String value = parameterToString(param.getValue());
+          // collection query parameter value already escaped as part of parameterToPairs
+          url.append(escapeString(param.getName())).append("=").append(value);
+        }
+      }
+    }
+
     return url.toString();
   }
 
-  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
+  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
     if (body != null && !formParams.isEmpty()) {
       throw new ApiException(500, "Cannot have body and form params");
     }
 
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    final String url = buildUrl(path, queryParams);
+    final String url = buildUrl(path, queryParams, collectionQueryParams);
     Builder builder;
     if (accept == null) {
       builder = httpClient.resource(url).getRequestBuilder();
@@ -641,6 +674,7 @@ public class ApiClient {
    * @param path The sub-path of the HTTP URL
    * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
    * @param queryParams The query parameters
+   * @param collectionQueryParams The collection query parameters
    * @param body The request body object - if it is not binary, otherwise null
    * @param headerParams The header parameters
    * @param formParams The form parameters
@@ -651,9 +685,9 @@ public class ApiClient {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
 
-    ClientResponse response = getAPIResponse(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
+    ClientResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, formParams, accept, contentType, authNames);
 
     statusCode = response.getStatusInfo().getStatusCode();
     responseHeaders = response.getHeaders();

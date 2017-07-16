@@ -3,7 +3,6 @@ package io.swagger.client.api;
 import io.swagger.TestUtils;
 
 import io.swagger.client.ApiClient;
-import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 
 import java.io.BufferedWriter;
@@ -11,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.mockwebserver.MockResponse;
@@ -79,7 +79,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByStatus(Arrays.asList(new String[]{"available"}));
+        List<Pet> pets = api.findPetsByStatus(Collections.singletonList("available"));
         assertNotNull(pets);
 
         boolean found = false;
@@ -114,7 +114,7 @@ public class PetApiTest {
         pet.setName("monster");
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        List<Tag> tags = new ArrayList<Tag>();
+        List<Tag> tags = new ArrayList<>();
         Tag tag1 = new Tag();
         tag1.setName("friendly");
         tags.add(tag1);
@@ -122,7 +122,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByTags(Arrays.asList(new String[]{"friendly"}));
+        List<Pet> pets = api.findPetsByTags(Collections.singletonList("friendly"));
         assertNotNull(pets);
 
         boolean found = false;
@@ -172,7 +172,7 @@ public class PetApiTest {
         api.deletePet(fetched.getId(), null);
 
         try {
-            fetched = api.getPetById(fetched.getId());
+            api.getPetById(fetched.getId());
             fail("expected an error");
         } catch (Exception e) {
 //            assertEquals(404, e.getCode());
@@ -203,7 +203,7 @@ public class PetApiTest {
         assertTrue(pet1.hashCode() == pet1.hashCode());
 
         pet2.setName("really-happy");
-        pet2.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet2.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertFalse(pet1.equals(pet2));
         assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
@@ -211,7 +211,7 @@ public class PetApiTest {
         assertTrue(pet2.hashCode() == pet2.hashCode());
 
         pet1.setName("really-happy");
-        pet1.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet1.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertTrue(pet1.equals(pet2));
         assertTrue(pet2.equals(pet1));
         assertTrue(pet1.hashCode() == pet2.hashCode());
@@ -243,7 +243,7 @@ public class PetApiTest {
 
         pet.setCategory(category);
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"});
+        List<String> photos = Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2");
         pet.setPhotoUrls(photos);
 
         return pet;

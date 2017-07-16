@@ -2,9 +2,12 @@ package io.swagger.codegen.languages;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenModel;
@@ -27,10 +30,12 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String NG_VERSION = "ngVersion";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
+    protected String ngVersion = "4";
 
     public TypeScriptAngular2ClientCodegen() {
         super();
@@ -38,8 +43,9 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
         embeddedTemplateDir = templateDir = "typescript-angular2";
         modelTemplateFiles.put("model.mustache", ".ts");
-        apiTemplateFiles.put("api.mustache", ".ts");
-        typeMapping.put("Date","Date");
+        apiTemplateFiles.put("api.service.mustache", ".ts");
+        languageSpecificPrimitives.add("Blob");
+        typeMapping.put("file","Blob");
         apiPackage = "api";
         modelPackage = "model";
 
@@ -49,6 +55,7 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", BooleanProperty.TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular (2 or 4). Default is '4'"));
     }
 
     @Override
@@ -59,12 +66,12 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
     @Override
     public String getName() {
-        return "typescript-angular2";
+        return "typescript-angular";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular2 client library.";
+        return "Generates a TypeScript Angular (2.x or 4.x) client library.";
     }
 
     @Override
@@ -73,6 +80,8 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
+        supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
+        supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));        
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
@@ -87,6 +96,23 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
+        }
+
+        // determine NG version
+        if (additionalProperties.containsKey(NG_VERSION)) {
+            if ("2".equals(additionalProperties.get(NG_VERSION).toString())) {
+                additionalProperties.put("isNg2x", true);
+                setNgVersion("2");
+            } else if ("4".equals(additionalProperties.get(NG_VERSION).toString())) {
+                additionalProperties.put("isNg4x", true);
+                setNgVersion("4");
+            } else {
+                throw new IllegalArgumentException("Invalid ngVersion, which must be either '2' or '4'");
+            }
+        } else {
+            // default to 4
+            additionalProperties.put("isNg4x", true);
+            setNgVersion("4");
         }
     }
 
@@ -121,6 +147,11 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     }
 
     @Override
+    public boolean isDataTypeFile(final String dataType) {
+        return dataType != null && dataType.equals("Blob");
+    }
+    
+    @Override
     public String getTypeDeclaration(Property p) {
         Property inner;
         if(p instanceof ArrayProperty) {
@@ -131,7 +162,9 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             MapProperty mp = (MapProperty)p;
             inner = mp.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if(p instanceof FileProperty || p instanceof ObjectProperty) {
+        } else if(p instanceof FileProperty) {
+            return "Blob";
+        } else if(p instanceof ObjectProperty) {
             return "any";
         } else {
             return super.getTypeDeclaration(p);
@@ -144,19 +177,13 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
         if(isLanguagePrimitive(swaggerType) || isLanguageGenericType(swaggerType)) {
             return swaggerType;
         }
-        return addModelPrefix(swaggerType);
+        applyLocalTypeMapping(swaggerType);
+        return swaggerType;
     }
 
-    private String addModelPrefix(String swaggerType) {
-        String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
-        } else {
-            type = swaggerType;
-        }
-
-        if (!isLanguagePrimitive(type) && !isLanguageGenericType(type)) {
-            type = "models." + swaggerType;
+    private String applyLocalTypeMapping(String type) {
+         if (typeMapping.containsKey(type)) {
+            type = typeMapping.get(type);
         }
         return type;
     }
@@ -177,12 +204,16 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        parameter.dataType = addModelPrefix(parameter.dataType);
+        parameter.dataType = applyLocalTypeMapping(parameter.dataType);
     }
 
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+
+        // Add filename information for api imports
+        objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
+
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
         for (CodegenOperation op : ops) {
             // Convert httpMethod to Angular's RequestMethod enum
@@ -217,7 +248,79 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
             op.path = op.path.replaceAll("\\{(.*?)\\}", "\\$\\{$1\\}");
         }
 
+        // Add additional filename information for model imports in the services
+        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
+        for(Map<String, Object> im : imports) {
+            im.put("filename", im.get("import"));
+            im.put("classname", getModelnameFromModelFilename(im.get("filename").toString()));
+        }
+
         return operations;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessModels(objs);
+
+        // Add additional filename information for imports
+        List<Object> models = (List<Object>) postProcessModelsEnum(result).get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            mo.put("tsImports", toTsImports(cm.imports));
+        }
+        
+        return result;
+    }
+
+    private List<Map<String, String>> toTsImports(Set<String> imports) {
+            List<Map<String, String>> tsImports = new ArrayList<>();
+            for(String im : imports) {
+                    HashMap<String, String> tsImport = new HashMap<>();
+                    tsImport.put("classname", im);
+                    tsImport.put("filename", toModelFilename(im));
+                    tsImports.add(tsImport);
+            }
+            return tsImports;
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultService";
+        }
+        return initialCaps(name) + "Service";
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        if (name.length() == 0) {
+            return "default.service";
+        }
+        return camelize(name, true) + ".service";
+    }
+
+    @Override
+    public String toApiImport(String name) {
+        return apiPackage() + "/" + toApiFilename(name);
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        return camelize(toModelName(name), true);
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        return modelPackage() + "/" + toModelFilename(name);
+    }
+
+    public String getNgVersion() {
+        return ngVersion;
+    }
+
+    public void setNgVersion(String ngVersion) {
+        this.ngVersion = ngVersion;
     }
 
     public String getNpmName() {
@@ -242,6 +345,16 @@ public class TypeScriptAngular2ClientCodegen extends AbstractTypeScriptClientCod
 
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
+    }
+
+    private String getApiFilenameFromClassname(String classname) {
+        String name = classname.substring(0, classname.length() - "Service".length());
+        return toApiFilename(name);
+    }
+
+    private String getModelnameFromModelFilename(String filename) {
+        String name = filename.substring((modelPackage() + "/").length());
+        return camelize(name);
     }
 
 }

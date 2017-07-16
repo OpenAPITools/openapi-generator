@@ -3,8 +3,7 @@
         /// </summary>{{#description}}
         /// <value>{{{description}}}</value>{{/description}}
         public enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
-        {
-            {{#allowableValues}}{{#enumVars}}
+        { {{#allowableValues}}{{#enumVars}}
             /// <summary>
             /// Enum {{name}} for {{{value}}}
             /// </summary>

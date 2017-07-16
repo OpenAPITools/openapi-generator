@@ -32,6 +32,7 @@
     if(!managedObject || !object) {
         return;
     }
+    NSManagedObjectContext* context = managedObject.managedObjectContext;
     managedObject.code = [object.code copy];
     managedObject.type = [object.type copy];
     managedObject.message = [object.message copy];

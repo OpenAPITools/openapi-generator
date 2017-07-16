@@ -111,6 +111,9 @@ ext {
     spring_web_version = "4.3.9.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
+    {{#threetenbp}}
+    jackson_threeten_version = "2.6.4"
+    {{/threetenbp}}
 }
 
 dependencies {
@@ -123,10 +126,13 @@ dependencies {
     {{#java8}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
-    {{^java8}}
+    {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     compile "joda-time:joda-time:$jodatime_version"
-    {{/java8}}
+    {{/joda}}
+    {{#threetenbp}}
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
+    {{/threetenbp}}
     {{#withXml}}
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     {{/withXml}}

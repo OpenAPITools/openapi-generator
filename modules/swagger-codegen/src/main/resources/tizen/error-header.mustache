@@ -1,35 +1,33 @@
-#ifndef {{prefix}}Error_H_
-#define {{prefix}}Error_H_
+#ifndef _Error_H_
+#define _Error_H_
+#include <string>
 
-#include <FBase.h>
+namespace Tizen{
+namespace {{prefix}} {
 
-using namespace Tizen::Base;
-
-namespace Swagger {
-
-class {{prefix}}Error {
+class Error {
 public:
-    {{prefix}}Error();
-    {{prefix}}Error(int code, String* message);
-    virtual ~{{prefix}}Error();
+	Error();
+	Error(int code, std::string message);
+	virtual ~Error();
 
 
-    void init();
+	void init();
 
-    void cleanup();
+	void cleanup();
 
-    int getCode();
-    void setCode(int pCode);
-    
-    String* getMessage();
-    void setMessage(String* pMessage);
-    
+	int getCode();
+	void setCode(int pCode);
+
+	std::string getMessage();
+	void setMessage(std::string pMessage);
+
 
 private:
-    int pCode;
-    String* pMessage;
+	int pCode;
+	std::string pMessage;
 };
 
-} /* namespace Swagger */
-
-#endif /* {{prefix}}Error_H_ */
+}
+}
+#endif /* Error_H_ */

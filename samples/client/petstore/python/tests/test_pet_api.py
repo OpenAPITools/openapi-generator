@@ -11,6 +11,7 @@ import os
 import unittest
 
 import petstore_api
+from petstore_api import Configuration
 from petstore_api.rest import ApiException
 
 from .util import id_gen
@@ -50,7 +51,9 @@ class MockPoolManager(object):
 class PetApiTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = petstore_api.ApiClient(HOST)
+        config = Configuration()
+        config.host = HOST
+        self.api_client = petstore_api.ApiClient(config)
         self.pet_api = petstore_api.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
@@ -115,44 +118,68 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(body=self.pet, _request_timeout=5)
         self.pet_api.add_pet(body=self.pet, _request_timeout=(1, 2))
 
-    def test_create_api_instance(self):
+    def test_separate_default_client_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
-        api_client3 = petstore_api.ApiClient()
-        api_client3.user_agent = 'api client 3'
-        api_client4 = petstore_api.ApiClient()
-        api_client4.user_agent = 'api client 4'
-        pet_api3 = petstore_api.PetApi(api_client3)
+        self.assertNotEqual(pet_api.api_client, pet_api2.api_client)
 
-        # same default api client
-        self.assertEqual(pet_api.api_client, pet_api2.api_client)
-        # confirm using the default api client in the config module
-        self.assertEqual(pet_api.api_client, petstore_api.configuration.api_client)
-        # 2 different api clients are not the same
-        self.assertNotEqual(api_client3, api_client4)
-        # customized pet api not using the default api client
-        self.assertNotEqual(pet_api3.api_client, petstore_api.configuration.api_client)
-        # customized pet api not using the old pet api's api client
-        self.assertNotEqual(pet_api3.api_client, pet_api2.api_client)
+        pet_api.api_client.user_agent = 'api client 3'
+        pet_api2.api_client.user_agent = 'api client 4'
+
+        self.assertNotEqual(pet_api.api_client.user_agent, pet_api2.api_client.user_agent)
+
+    def test_separate_default_config_instances(self):
+        pet_api = petstore_api.PetApi()
+        pet_api2 = petstore_api.PetApi()
+        self.assertNotEqual(pet_api.api_client.configuration, pet_api2.api_client.configuration)
+
+        pet_api.api_client.configuration.host = 'somehost'
+        pet_api2.api_client.configuration.host = 'someotherhost'
+        self.assertNotEqual(pet_api.api_client.configuration.host, pet_api2.api_client.configuration.host)
 
     def test_async_request(self):
+        thread = self.pet_api.add_pet(body=self.pet, async=True)
+        response = thread.get()
+        self.assertIsNone(response)
+
+        thread = self.pet_api.get_pet_by_id(self.pet.id, async=True)
+        result = thread.get()
+        self.assertIsInstance(result, petstore_api.Pet)
+
+    def test_async_with_result(self):
+        self.pet_api.add_pet(body=self.pet, async=False)
+
+        thread = self.pet_api.get_pet_by_id(self.pet.id, async=True)
+        thread2 = self.pet_api.get_pet_by_id(self.pet.id, async=True)
+
+        response = thread.get()
+        response2 = thread2.get()
+
+        self.assertEquals(response.id, self.pet.id)
+        self.assertIsNotNone(response2.id, self.pet.id)
+
+    def test_async_with_http_info(self):
         self.pet_api.add_pet(body=self.pet)
 
-        def callback_function(data):
-            self.assertIsNotNone(data)
-            self.assertEqual(data.id, self.pet.id)
-            self.assertEqual(data.name, self.pet.name)
-            self.assertIsNotNone(data.category)
-            self.assertEqual(data.category.id, self.pet.category.id)
-            self.assertEqual(data.category.name, self.pet.category.name)
-            self.assertTrue(isinstance(data.tags, list))
-            self.assertEqual(data.tags[0].id, self.pet.tags[0].id)
-            self.assertEqual(data.tags[0].name, self.pet.tags[0].name)
+        thread = self.pet_api.get_pet_by_id_with_http_info(self.pet.id, async=True)
+        data, status, headers = thread.get()
 
-        thread = self.pet_api.get_pet_by_id(pet_id=self.pet.id, callback=callback_function)
-        thread.join(10)
-        if thread.isAlive():
-            self.fail("Request timeout")
+        self.assertIsInstance(data, petstore_api.Pet)
+        self.assertEquals(status, 200)
+
+    def test_async_exception(self):
+        self.pet_api.add_pet(body=self.pet)
+
+        thread = self.pet_api.get_pet_by_id("-9999999999999", async=True)
+
+        exception = None
+        try:
+            thread.get()
+        except ApiException as e:
+            exception = e
+
+        self.assertIsInstance(exception, ApiException)
+        self.assertEqual(exception.status, 404)
 
     def test_add_pet_and_get_pet_by_id(self):
         self.pet_api.add_pet(body=self.pet)
@@ -163,21 +190,6 @@ class PetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
-    def test_async_add_pet_and_get_pet_by_id(self):
-        self.pet_api.add_pet(body=self.pet)
-
-        def callback_function(data):
-            # fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
-            self.assertIsNotNone(data)
-            self.assertEqual(self.pet.id, data.id)
-            self.assertIsNotNone(data.category)
-            self.assertEqual(self.pet.category.name, data.category.name)
-
-        thread = self.pet_api.get_pet_by_id(pet_id=self.pet.id, callback=callback_function)
-        thread.join(10)
-        if thread.isAlive():
-            self.fail("Request timeout")
-
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(body=self.pet)
 
@@ -186,21 +198,6 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched[0].id)
         self.assertIsNotNone(fetched[0].category)
         self.assertEqual(self.pet.category.name, fetched[0].category.name)
-
-    def test_async_add_pet_and_get_pet_by_id_with_http_info(self):
-        self.pet_api.add_pet(body=self.pet)
-
-        def callback_function(data):
-            # fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
-            self.assertIsNotNone(data)
-            self.assertEqual(self.pet.id, data[0].id)
-            self.assertIsNotNone(data[0].category)
-            self.assertEqual(self.pet.category.name, data[0].category.name)
-
-        thread = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id, callback=callback_function)
-        thread.join(10)
-        if thread.isAlive():
-            self.fail("Request timeout")
 
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"

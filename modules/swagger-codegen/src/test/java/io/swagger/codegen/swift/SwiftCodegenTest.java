@@ -68,6 +68,18 @@ public class SwiftCodegenTest {
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
 
+    @Test(description = "returns ISOFullDate when response format is date")
+    public void dateTest() {
+        final Swagger model = new SwaggerParser().read("src/test/resources/2_0/datePropertyTest.json");
+        final DefaultCodegen codegen = new SwiftCodegen();
+        final String path = "/tests/dateResponse";
+        final Operation p = model.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getDefinitions());
+
+        Assert.assertEquals(op.returnType, "ISOFullDate");
+        Assert.assertEquals(op.bodyParam.dataType, "ISOFullDate");
+    }
+
     @Test
     public void testDefaultPodAuthors() throws Exception {
         // Given

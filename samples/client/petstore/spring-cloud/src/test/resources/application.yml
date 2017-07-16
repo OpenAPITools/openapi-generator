@@ -1,8 +1,11 @@
 spring:
     application:
         name: petstore-test
+    jackson:
+      serialization.WRITE_DATES_AS_TIMESTAMPS: false
 
 hystrix.command.default.execution.timeout.enabled: false
 
 logging.level.io.swagger.api: DEBUG
 
+feign.hystrix.enabled: true

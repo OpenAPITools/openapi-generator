@@ -14,33 +14,33 @@
 #define ModelFactory_H_
 
 
-#include "SWGApiResponse.h"
-#include "SWGCategory.h"
-#include "SWGOrder.h"
-#include "SWGPet.h"
-#include "SWGTag.h"
-#include "SWGUser.h"
+#include "ApiResponse.h"
+#include "Category.h"
+#include "Order.h"
+#include "Pet.h"
+#include "Tag.h"
+#include "User.h"
 
 namespace Swagger {
 
   inline void* create(QString type) {
-    if(QString("SWGApiResponse").compare(type) == 0) {
-      return new SWGApiResponse();
+    if(QString("ApiResponse").compare(type) == 0) {
+      return new ApiResponse();
     }
-    if(QString("SWGCategory").compare(type) == 0) {
-      return new SWGCategory();
+    if(QString("Category").compare(type) == 0) {
+      return new Category();
     }
-    if(QString("SWGOrder").compare(type) == 0) {
-      return new SWGOrder();
+    if(QString("Order").compare(type) == 0) {
+      return new Order();
     }
-    if(QString("SWGPet").compare(type) == 0) {
-      return new SWGPet();
+    if(QString("Pet").compare(type) == 0) {
+      return new Pet();
     }
-    if(QString("SWGTag").compare(type) == 0) {
-      return new SWGTag();
+    if(QString("Tag").compare(type) == 0) {
+      return new Tag();
     }
-    if(QString("SWGUser").compare(type) == 0) {
-      return new SWGUser();
+    if(QString("User").compare(type) == 0) {
+      return new User();
     }
     
     return nullptr;

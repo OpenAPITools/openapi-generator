@@ -776,11 +776,37 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (System.getProperty("debugOperations") != null) {
             LOGGER.info("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
         }
-        List<String> tags = operation.getTags();
-        if (tags == null) {
-            tags = new ArrayList<String>();
-            tags.add("default");
+        List<Tag> tags = new ArrayList<Tag>();
+
+        List<String> tagNames = operation.getTags();
+        List<Tag> swaggerTags = swagger.getTags();
+        if (tagNames != null) {
+            if (swaggerTags == null) {
+                for (String tagName : tagNames) {
+                    tags.add(new Tag().name(tagName));
+                }
+            } else {
+                for (String tagName : tagNames) {
+                    boolean foundTag = false;
+                    for (Tag tag : swaggerTags) {
+                        if (tag.getName().equals(tagName)) {
+                            tags.add(tag);
+                            foundTag = true;
+                            break;
+                        }
+                    }
+
+                    if (!foundTag) {
+                        tags.add(new Tag().name(tagName));
+                    }
+                }
+            }
         }
+
+        if (tags.isEmpty()) {
+            tags.add(new Tag().name("default"));
+        }
+
         /*
          build up a set of parameter "ids" defined at the operation level
          per the swagger 2.0 spec "A unique parameter is defined by a combination of a name and location"
@@ -803,12 +829,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
 
-        for (String tag : tags) {
+        for (Tag tag : tags) {
             try {
                 CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, swagger.getDefinitions(), swagger);
-                codegenOperation.tags = new ArrayList<String>();
-                codegenOperation.tags.add(config.sanitizeTag(tag));
-                config.addOperationToGroup(config.sanitizeTag(tag), resourcePath, operation, codegenOperation, operations);
+                codegenOperation.tags = new ArrayList<Tag>(tags);
+                config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
                 List<Map<String, List<String>>> securities = operation.getSecurity();
                 if (securities == null && swagger.getSecurity() != null) {

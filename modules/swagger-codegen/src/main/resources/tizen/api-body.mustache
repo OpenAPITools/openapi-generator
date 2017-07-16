@@ -1,131 +1,351 @@
+#include <glib-object.h>
+#include <json-glib/json-glib.h>
+
 #include "{{classname}}.h"
+#include "NetClient.h"
+#include "Helpers.h"
+#include "Error.h"
+#include "RequestInfo.h"
 
-#include "{{prefix}}Helpers.h"
-#include "{{prefix}}Error.h"
-
-using namespace Tizen::Base;
-
-namespace Swagger {
+using namespace std;
+using namespace Tizen::{{prefix}};
 
 {{#operations}}
 
-{{classname}}::{{classname}}() {
+{{classname}}::{{classname}}()
+{
 
 }
 
-{{classname}}::~{{classname}}() {
+{{classname}}::~{{classname}}()
+{
 
 }
+
+static gboolean __{{classname}}responseHandler(gpointer data)
+{
+	RequestInfo *request = static_cast<RequestInfo*>(data);
+	g_thread_join(request->thread);
+
+	// invoke the callback function
+	bool retval = request->processor(*(request->p_chunk), *(request->code), request->errormsg, request->userData, request->handler);
+
+	delete request;
+	return FALSE;
+}
+
+static gpointer __{{classname}}threadFunc(gpointer data)
+{
+	RequestInfo *request = static_cast<RequestInfo*>(data);
+
+	// handle the request
+	NetClient::easycurl(request->host, request->path, request->method, request->queryParams,
+	request->mBody, request->headerList, request->p_chunk, request->code, request->errormsg);
+
+	request->thread = g_thread_self();
+	g_idle_add(__{{classname}}responseHandler, static_cast<gpointer>(request));
+
+	return NULL;
+}
+
 
 {{#operation}}
-void
-{{nickname}}Processor(HttpResponse* pHttpResponse, void (* handler)(void*, {{prefix}}Error*)) {
-  int code = pHttpResponse->GetHttpStatusCode();
+static bool {{nickname}}Processor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+	void(* voidHandler)())
+{
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* )
+	= reinterpret_cast<void(*)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* )> (voidHandler);{{/returnType}}
+	{{^returnType}}void(* handler)(Error, void* ) = reinterpret_cast<void(*)(Error, void* )> (voidHandler);{{/returnType}}
+	JsonNode* pJson;
+	char * data = p_chunk.memory;
 
-  if(code >= 200 && code < 300) {
-    {{#returnType}}ByteBuffer* pBuffer = pHttpResponse->ReadBodyN();
-    IJsonValue* pJson = JsonParser::ParseN(*pBuffer);
+	{{#returnType}}{{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}} out;{{/returnContainer}}
+	{{^returnContainer}}{{returnType}} out;{{/returnContainer}}{{/returnType}}
 
-    {{{returnType}}} out = {{{defaultResponse}}};
-    jsonToValue(out, pJson, L"{{returnType}}", L"{{returnBaseType}}");
+	if (code >= 200 && code < 300) {
+		Error error(code, string("No Error"));
 
-    if (pJson) {
-      if (pJson->GetType() == JSON_TYPE_OBJECT) {
-         JsonObject* pObject = static_cast< JsonObject* >(pJson);
-         pObject->RemoveAll(true);
-      }
-      else if (pJson->GetType() == JSON_TYPE_ARRAY) {
-         JsonArray* pArray = static_cast< JsonArray* >(pJson);
-         pArray->RemoveAll(true);
-      }
-      handler(out, null);
-    }
-    else {
-      {{prefix}}Error* error = new {{prefix}}Error(0, new String(L"No parsable response received"));
-      handler(null, error);
-    }
-    {{/returnType}}{{^returnType}}handler(null, null);{{/returnType}}
-  }
-  else {
-    {{prefix}}Error* error = new {{prefix}}Error(code, new String(pHttpResponse->GetStatusText()));
-    {{#returnType}}handler(null, error);{{/returnType}}
-    {{^returnType}}handler(error, null);{{/returnType}}
-  }
+
+		{{^returnType}}
+		handler(error, userData);
+		return true;
+		{{/returnType}}
+
+		{{#returnContainer}}
+		{{#isListContainer}}
+		pJson = json_from_string(data, NULL);
+		JsonArray * jsonarray = json_node_get_array (pJson);
+		guint length = json_array_get_length (jsonarray);
+		for(guint i = 0; i < length; i++){
+			JsonNode* myJson = json_array_get_element (jsonarray, i);
+			char * singlenodestr = json_to_string(myJson, false);
+			{{returnBaseType}} singlemodel;
+			singlemodel.fromJson(singlenodestr);
+			out.push_front(singlemodel);
+			g_free(static_cast<gpointer>(singlenodestr));
+			json_node_free(myJson);
+		}
+		json_array_unref (jsonarray);
+		json_node_free(pJson);
+		{{/isListContainer}}
+		{{/returnContainer}}
+
+		{{^returnContainer}}
+		{{#returnType}}
+		if (isprimitive("{{returnType}}")) {
+			pJson = json_from_string(data, NULL);
+			jsonToValue(&out, pJson, "{{returnType}}", "{{returnBaseType}}");
+			json_node_free(pJson);
+
+			if ("{{returnType}}" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
+		} else {
+			{{#responses}}{{^primitiveType}}
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			{{/primitiveType}}{{/responses}}
+		}
+		handler(out, error, userData);
+		return true;
+		//TODO: handle case where json parsing has an error
+		{{/returnType}}
+		{{/returnContainer}}
+
+	} else {
+		Error error;
+		if (errormsg != NULL) {
+			error = Error(code, string(errormsg));
+		} else if (p_chunk.memory != NULL) {
+			error = Error(code, string(p_chunk.memory));
+		} else {
+			error = Error(code, string("Unkown Error"));
+		}
+		{{#returnType}} handler(out, error, userData);
+		return false;
+		{{/returnType}}{{^returnType}}handler(error, userData);
+		return false;
+		{{/returnType}}
+	}
 }
 
-{{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
-{{classname}}::{{nickname}}WithCompletion({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}},{{/hasParams}} {{#returnType}}void (* success)({{returnType}}, {{prefix}}Error*){{/returnType}}{{^returnType}}void(*success)({{prefix}}Error*){{/returnType}}) {
-  client = new {{prefix}}ApiClient();
+static bool {{nickname}}Helper(char * accessToken,
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData, bool isAsync)
+{
 
-  client->success(&{{nickname}}Processor, (void(*)(void*, {{prefix}}Error*))success);
-  HashMap* headerParams = new HashMap(SingleObjectDeleter);
-  headerParams->Construct();
+	//TODO: maybe delete headerList after its used to free up space?
+	struct curl_slist *headerList = NULL;
 
-  {{#headerParams}}{{#collectionFormat}}
-  int sz = {{paramName}}->GetCount();
-  for(int i = 0; i < sz; i++) {
-    String itemAt = stringify({{paramName}}->GetAt(i), "{{baseType}}");
-    headerParams->Add(new String("{{paramName}}"), new String(itemAt));
-  }
-  {{/collectionFormat}}{{^collectionFormat}}
-    headerParams->Add(new String("{{baseName}}"), {{paramName}});
-  {{/collectionFormat}}
-  {{/headerParams}}
+	{{#headerParams}}{{#collectionFormat}}
+	for ({{{dataType}}}
+	<{{baseType}}>::iterator queryIter = {{paramName}}.begin(); queryIter != {{paramName}}.end(); ++queryIter) {
+		string itemAt = stringify(&(*queryIter), "{{baseType}}");
+		{{^required}}
+		if( itemAt.empty()){
+			continue;
+		}
+		{{/required}}
+		itemAt.insert(0, "{{paramName}}: ");
+		headerList = curl_slist_append(headerList, itemAt);
+	}
+	{{/collectionFormat}}{{^collectionFormat}}
+	{
+		string headerString("{{baseName}}: ");
+		headerString.append(stringify(&{{paramName}}, "{{dataType}}"));
+		headerList = curl_slist_append(headerList, headerString.c_str());
+	}
+	{{/collectionFormat}}
+	{{/headerParams}}
 
-  HashMap* queryParams = new HashMap(SingleObjectDeleter);
-  queryParams->Construct();
+	string accessHeader = "Authorization: Bearer ";
+	accessHeader.append(accessToken);
+	headerList = curl_slist_append(headerList, accessHeader.c_str());
+	{{#hasConsumes}}
+	{{#consumes}}
+	headerList = curl_slist_append(headerList, "Content-Type: {{mediaType}}");
+	{{/consumes}}
+	{{/hasConsumes}}
+	{{^hasConsumes}}
+	headerList = curl_slist_append(headerList, "Content-Type: application/json");
+	{{/hasConsumes}}
 
-  {{#queryParams}}{{#collectionFormat}}
-  int sz = {{paramName}}->GetCount();
-  for(int i = 0; i < sz; i++) {
-    String itemAt = stringify({{paramName}}->GetAt(i), "{{baseType}}");
-    queryParams->Add(new String("{{paramName}}"), new String(itemAt));
-  }
-  {{/collectionFormat}}{{^collectionFormat}}
-    queryParams->Add(new String("{{baseName}}"), {{paramName}});
-  {{/collectionFormat}}
-  {{/queryParams}}
+	map <string, string> queryParams;
+	string itemAtq;
+	{{#queryParams}}{{#collectionFormat}}
+	for ({{{dataType}}}
+	<{{baseType}}>::iterator queryIter = {{paramName}}.begin(); queryIter != {{paramName}}.end(); ++queryIter) {
+		string itemAt = stringify(&(*queryIter), "{{baseType}}");
+		{{^required}}
+		if( itemAt.empty()){
+			continue;
+		}
+		{{/required}}
+		queryParams.insert(pair<string, string>("{{paramName}}", itemAt));
+	}
+	{{/collectionFormat}}{{^collectionFormat}}
 
-  String* mBody = null;
+	itemAtq = stringify(&{{paramName}}, "{{dataType}}");
+	queryParams.insert(pair<string, string>("{{baseName}}", itemAtq));
+	{{^required}}
+	if( itemAtq.empty()==true){
+		queryParams.erase("{{baseName}}");
+	}
+	{{/required}}
+	{{/collectionFormat}}
+	{{/queryParams}}
 
-  {{#bodyParams}}
-  {{#isContainer}}
-  if({{paramName}} != null) {
-    mBody = new String("");
-    int sz = {{paramName}}->GetCount();
-    for(int i = 0; i < sz; i++) {
-      {{prefix}}Object * obj = ({{prefix}}Object*){{paramName}}->GetAt(i);
-      String json = obj->asJson();
-      if(i > 0)
-        mBody->Append(",");
-      mBody->Append(json);
-    }
-    mBody->Append("]");
-    headerParams->Add(new String("Content-Type"), new String("application/json"));
-  }
-  {{/isContainer}}
-  {{^isContainer}}
-  if({{paramName}} != null) {
-    mBody = new String({{paramName}}->asJson());
-    headerParams->Add(new String("Content-Type"), new String("application/json"));
-  }
-  {{/isContainer}}
-  {{/bodyParams}}
+	string mBody = "";
+	JsonNode* node;
+	JsonArray* json_array;
+	{{#allParams}}
+	{{#isBodyParam}}
+	{{#isContainer}}
+	//TODO: Map Container
+	{{#isListContainer}}
+	if (isprimitive("{{baseType}}")) {
+		node = converttoJson(&{{paramName}}, "{{baseType}}", "array");
+	} {{^isFloat}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isString}}{{^isDateTime}}{{^isDouble}}{{^isBoolean}}else {
+		node = json_node_alloc();
+		json_array = json_array_new();
+		for ({{{dataType}}}
+			<{{baseType}}>::iterator bodyIter = {{paramName}}.begin(); bodyIter != {{paramName}}.end(); ++bodyIter) {
+			{{baseType}} itemAt = (*bodyIter);
+			char *jsonStr =  itemAt.toJson();
+			JsonNode *node_temp = json_from_string(jsonStr, NULL);
+			g_free(static_cast<gpointer>(jsonStr));
+			json_array_add_element(json_array, node_temp);
+		}
+		json_node_init_array(node, json_array);
+		json_array_unref(json_array);
+	}
+	{{/isBoolean}}{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/isFloat}}
+	{{/isListContainer}}
 
-  String url(L"{{{path}}}");
 
-  {{#pathParams}}
-  String s_{{paramName}}(L"{");
-  s_{{paramName}}.Append(L"{{{baseName}}}");
-  s_{{paramName}}.Append(L"}");
-  url.Replace(s_{{paramName}}, stringify({{{paramName}}}, L"{{dataType}}"));
-  {{/pathParams}}
 
-  client->execute({{classname}}::getBasePath(), url, "{{httpMethod}}", (IMap*)queryParams, mBody, (IMap*)headerParams, null, L"application/json");
-  {{#returnType}}return null;{{/returnType}}
+	{{#isMapContainer}}
+	//IF CODE IS HERE, SOMETHING IS SLIGHTLY WRONG!
+	if (isprimitive("{{baseType}}")) {
+		node = converttoJson(&{{paramName}}, "{{baseType}}", "array");
+	} {{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isFloat}}{{^isString}}{{^isDateTime}}{{^isDouble}}else {
+
+		node = json_node_alloc();
+		json_array = json_array_new();
+		for ({{{dataType}}}
+			<{{baseType}}>::iterator bodyIter = {{paramName}}.begin(); bodyIter != {{paramName}}.end(); ++bodyIter) {
+			{{baseType}} itemAt = (*bodyIter);
+			char *jsonStr =  itemAt.toJson();
+			JsonNode *node_temp = json_from_string(jsonStr, NULL);
+			g_free(static_cast<gpointer>(jsonStr));
+			json_array_add_element(json_array, node_temp);
+		}
+		json_node_init_array(node, json_array);
+		json_array_unref(json_array);
+	}
+	{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isFloat}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}
+	{{/isMapContainer}}
+	{{/isContainer}}
+
+	{{^isContainer}}
+	if (isprimitive("{{baseType}}")) {
+		node = converttoJson(&{{paramName}}, "{{baseType}}", "");
+	}
+	{{^isPrimitiveType}}{{^isInteger}}{{^isDate}}{{^isLong}}{{^isBoolean}}{{^isFloat}}{{^isString}}{{^isDateTime}}{{^isDouble}}
+	char *jsonStr =  {{paramName}}.toJson();
+	node = json_from_string(jsonStr, NULL);
+	g_free(static_cast<gpointer>(jsonStr));
+	{{/isDouble}}{{/isDateTime}}{{/isString}}{{/isFloat}}{{/isBoolean}}{{/isLong}}{{/isDate}}{{/isInteger}}{{/isPrimitiveType}}
+
+	{{/isContainer}}
+	char *jsonStr1 =  json_to_string(node, false);
+	mBody.append(jsonStr1);
+	g_free(static_cast<gpointer>(jsonStr1));
+	{{/isBodyParam}}
+	{{/allParams}}
+
+	string url("{{{path}}}");
+	int pos;
+
+	{{#pathParams}}
+	string s_{{paramName}}("{");
+	s_{{paramName}}.append("{{{baseName}}}");
+	s_{{paramName}}.append("}");
+	pos = url.find(s_{{paramName}});
+	url.erase(pos, s_{{paramName}}.length());
+	url.insert(pos, stringify(&{{paramName}}, "{{dataType}}"));
+	{{/pathParams}}
+
+	//TODO: free memory of errormsg, memorystruct
+	MemoryStruct_s* p_chunk = new MemoryStruct_s();
+	long code;
+	char* errormsg = NULL;
+	string myhttpmethod("{{httpMethod}}");
+
+	if(strcmp("PUT", "{{httpMethod}}") == 0){
+		if(strcmp("", mBody.c_str()) == 0){
+			mBody.append("{}");
+		}
+	}
+
+	if(!isAsync){
+		NetClient::easycurl({{classname}}::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg);
+		bool retval = {{nickname}}Processor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
+
+		curl_slist_free_all(headerList);
+		if (p_chunk) {
+			if(p_chunk->memory) {
+				free(p_chunk->memory);
+			}
+			delete (p_chunk);
+		}
+		if (errormsg) {
+			free(errormsg);
+		}
+		return retval;
+	} else{
+		GThread *thread = NULL;
+		RequestInfo *requestInfo = NULL;
+
+		requestInfo = new(nothrow) RequestInfo ({{classname}}::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg, userData, reinterpret_cast<void(*)()>(handler), {{nickname}}Processor);;
+		if(requestInfo == NULL)
+			return false;
+
+		thread = g_thread_new(NULL, __{{classname}}threadFunc, static_cast<gpointer>(requestInfo));
+		return true;
+	}
+}
+
+
+
+
+bool {{classname}}::{{nickname}}Async(char * accessToken,
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData)
+{
+	return {{nickname}}Helper(accessToken,
+	{{#allParams}}{{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	handler, userData, true);
+}
+
+bool {{classname}}::{{nickname}}Sync(char * accessToken,
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<string,string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData)
+{
+	return {{nickname}}Helper(accessToken,
+	{{#allParams}}{{#isContainer}}{{paramName}}{{/isContainer}}{{^isContainer}}{{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	handler, userData, false);
 }
 
 {{/operation}}
 {{/operations}}
-
-} /* namespace Swagger */

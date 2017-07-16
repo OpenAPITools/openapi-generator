@@ -1,6 +1,6 @@
 # Swagger\Client\PetApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -29,7 +29,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
@@ -76,7 +76,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $pet_id = 789; // int | Pet id to delete
 $api_key = "api_key_example"; // string | 
 
@@ -125,7 +125,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $status = array("status_example"); // string[] | Status values that need to be considered for filter
 
 try {
@@ -173,7 +173,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $tags = array("tags_example"); // string[] | Tags to filter by
 
 try {
@@ -223,7 +223,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key', 'Y
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 // Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $pet_id = 789; // int | ID of pet to return
 
 try {
@@ -271,7 +271,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
@@ -318,7 +318,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $pet_id = 789; // int | ID of pet that needs to be updated
 $name = "name_example"; // string | Updated name of the pet
 $status = "status_example"; // string | Updated status of the pet
@@ -369,7 +369,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: petstore_auth
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$api_instance = new Swagger\Client\Api\PetApi();
+$api_instance = new Swagger\Client\Api\PetApi(new \Http\Adapter\Guzzle6\Client());
 $pet_id = 789; // int | ID of pet to update
 $additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
 $file = "/path/to/file.txt"; // \SplFileObject | file to upload

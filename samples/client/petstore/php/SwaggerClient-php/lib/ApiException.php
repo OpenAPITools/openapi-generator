@@ -12,7 +12,7 @@
 /**
  * Swagger Petstore
  *
- * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -51,7 +51,7 @@ class ApiException extends Exception
     /**
      * The HTTP header of the server response.
      *
-     * @var string[]
+     * @var string[]|null
      */
     protected $responseHeaders;
 
@@ -65,10 +65,10 @@ class ApiException extends Exception
     /**
      * Constructor
      *
-     * @param string   $message         Error message
-     * @param int      $code            HTTP status code
-     * @param string[] $responseHeaders HTTP response header
-     * @param mixed    $responseBody    HTTP decoded body of the server response either as \stdClass or string
+     * @param string        $message         Error message
+     * @param int           $code            HTTP status code
+     * @param string[]|null $responseHeaders HTTP response header
+     * @param mixed         $responseBody    HTTP decoded body of the server response either as \stdClass or string
      */
     public function __construct($message = "", $code = 0, $responseHeaders = [], $responseBody = null)
     {
@@ -80,7 +80,7 @@ class ApiException extends Exception
     /**
      * Gets the HTTP response header
      *
-     * @return string[] HTTP response headers
+     * @return string[]|null HTTP response header
      */
     public function getResponseHeaders()
     {

@@ -25,21 +25,21 @@ Method | HTTP request | Description
 ### Example 
 ```perl
 use Data::Dumper;
-use {{{moduleName}}}::Configuration;
 use {{moduleName}}::{{classname}};
+my $api_instance = {{moduleName}}::{{classname}}->new(
 {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
-# Configure HTTP basic authorization: {{{name}}}
-${{{moduleName}}}::Configuration::username = 'YOUR_USERNAME';
-${{{moduleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
-# Configure API key authorization: {{{name}}}
-${{{moduleName}}}::Configuration::api_key->{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#${{{moduleName}}}::Configuration::api_key_prefix->{'{{{keyParamName}}}'} = "Bearer";{{/isApiKey}}{{#isOAuth}}
-# Configure OAuth2 access token for authorization: {{{name}}}
-${{{moduleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
+    # Configure HTTP basic authorization: {{{name}}}
+    username => 'YOUR_USERNAME',
+    password => 'YOUR_PASSWORD',{{/isBasic}}{{#isApiKey}}
+    # Configure API key authorization: {{{name}}}
+    api_key => {'{{{keyParamName}}}' => 'YOUR_API_KEY'},
+    # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+    #api_key_prefix => {'{{{keyParamName}}}' => 'Bearer'},{{/isApiKey}}{{#isOAuth}}
+    # Configure OAuth2 access token for authorization: {{{name}}}
+    access_token => 'YOUR_ACCESS_TOKEN',{{/isOAuth}}{{/authMethods}}
 {{/hasAuthMethods}}
+);
 
-my $api_instance = {{moduleName}}::{{classname}}->new();
 {{#allParams}}my ${{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{moduleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; # {{{dataType}}} | {{{description}}}
 {{/allParams}}
 

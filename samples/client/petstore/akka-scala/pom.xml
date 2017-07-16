@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
-    <artifactId>scala-akka-petstore-client</artifactId>
+    <artifactId>swagger-client</artifactId>
     <packaging>jar</packaging>
-    <name>scala-akka-petstore-client</name>
+    <name>swagger-client</name>
     <version>1.0.0</version>
     <prerequisites>
         <maven>2.2.0</maven>

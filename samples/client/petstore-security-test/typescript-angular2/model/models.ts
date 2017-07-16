@@ -1,1 +1,1 @@
-export * from './ModelReturn';
+export * from './modelReturn';

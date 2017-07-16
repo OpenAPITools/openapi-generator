@@ -13,43 +13,24 @@
 
 package io.swagger.client;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.*;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
+import okio.BufferedSink;
+import okio.Okio;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.lang.reflect.Type;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import java.net.URLEncoder;
-import java.net.URLConnection;
-
+import javax.net.ssl.*;
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
+import java.lang.reflect.Type;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
@@ -57,22 +38,12 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
-import okio.BufferedSink;
-import okio.Okio;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.swagger.client.auth.Authentication;
 import io.swagger.client.auth.HttpBasicAuth;
@@ -80,40 +51,8 @@ import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
 public class ApiClient {
-    public static final double JAVA_VERSION;
-    public static final boolean IS_ANDROID;
-    public static final int ANDROID_SDK_VERSION;
-
-    static {
-        JAVA_VERSION = Double.parseDouble(System.getProperty("java.specification.version"));
-        boolean isAndroid;
-        try {
-            Class.forName("android.app.Activity");
-            isAndroid = true;
-        } catch (ClassNotFoundException e) {
-            isAndroid = false;
-        }
-        IS_ANDROID = isAndroid;
-        int sdkVersion = 0;
-        if (IS_ANDROID) {
-            try {
-                sdkVersion = Class.forName("android.os.Build$VERSION").getField("SDK_INT").getInt(null);
-            } catch (Exception e) {
-                try {
-                    sdkVersion = Integer.parseInt((String) Class.forName("android.os.Build$VERSION").getField("SDK").get(null));
-                } catch (Exception e2) { }
-            }
-        }
-        ANDROID_SDK_VERSION = sdkVersion;
-    }
-
-    /**
-     * The datetime format to be used when <code>lenientDatetimeFormat</code> is enabled.
-     */
-    public static final String LENIENT_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     private String basePath = "https://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r";
-    private boolean lenientOnJson = false;
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private String tempFolderPath = null;
@@ -143,20 +82,7 @@ public class ApiClient {
 
         verifyingSsl = true;
 
-        json = new JSON(this);
-
-        /*
-         * Use RFC3339 format for date and datetime.
-         * See http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14
-         */
-        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        // Always use UTC as the default time zone when dealing with date (without time).
-        this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        initDatetimeFormat();
-
-        // Be lenient on datetime formats when parsing datetime from string.
-        // See <code>parseDatetime</code>.
-        this.lenientDatetimeFormat = true;
+        json = new JSON();
 
         // Set default User-Agent.
         setUserAgent("Swagger-Codegen/1.0.0/java");
@@ -296,138 +222,28 @@ public class ApiClient {
     }
 
     public ApiClient setDateFormat(DateFormat dateFormat) {
-        this.dateFormat = dateFormat;
-        this.dateLength = this.dateFormat.format(new Date()).length();
+        this.json.setDateFormat(dateFormat);
         return this;
     }
 
-    public DateFormat getDatetimeFormat() {
-        return datetimeFormat;
-    }
-
-    public ApiClient setDatetimeFormat(DateFormat datetimeFormat) {
-        this.datetimeFormat = datetimeFormat;
+    public ApiClient setSqlDateFormat(DateFormat dateFormat) {
+        this.json.setSqlDateFormat(dateFormat);
         return this;
     }
 
-    /**
-     * Whether to allow various ISO 8601 datetime formats when parsing a datetime string.
-     * @see #parseDatetime(String)
-     * @return True if lenientDatetimeFormat flag is set to true
-     */
-    public boolean isLenientDatetimeFormat() {
-        return lenientDatetimeFormat;
-    }
-
-    public ApiClient setLenientDatetimeFormat(boolean lenientDatetimeFormat) {
-        this.lenientDatetimeFormat = lenientDatetimeFormat;
+    public ApiClient setDateTimeFormat(DateTimeFormatter dateFormat) {
+        this.json.setDateTimeFormat(dateFormat);
         return this;
     }
 
-    /**
-     * Parse the given date string into Date object.
-     * The default <code>dateFormat</code> supports these ISO 8601 date formats:
-     *   2015-08-16
-     *   2015-8-16
-     * @param str String to be parsed
-     * @return Date
-     */
-    public Date parseDate(String str) {
-        if (str == null)
-            return null;
-        try {
-            return dateFormat.parse(str);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
+        this.json.setLocalDateFormat(dateFormat);
+        return this;
     }
 
-    /**
-     * Parse the given datetime string into Date object.
-     * When lenientDatetimeFormat is enabled, the following ISO 8601 datetime formats are supported:
-     *   2015-08-16T08:20:05Z
-     *   2015-8-16T8:20:05Z
-     *   2015-08-16T08:20:05+00:00
-     *   2015-08-16T08:20:05+0000
-     *   2015-08-16T08:20:05.376Z
-     *   2015-08-16T08:20:05.376+00:00
-     *   2015-08-16T08:20:05.376+00
-     * Note: The 3-digit milli-seconds is optional. Time zone is required and can be in one of
-     *   these formats:
-     *   Z (same with +0000)
-     *   +08:00 (same with +0800)
-     *   -02 (same with -0200)
-     *   -0200
-     * @see <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>
-     * @param str Date time string to be parsed
-     * @return Date representation of the string
-     */
-    public Date parseDatetime(String str) {
-        if (str == null)
-            return null;
-
-        DateFormat format;
-        if (lenientDatetimeFormat) {
-            /*
-             * When lenientDatetimeFormat is enabled, normalize the date string
-             * into <code>LENIENT_DATETIME_FORMAT</code> to support various formats
-             * defined by ISO 8601.
-             */
-            // normalize time zone
-            //   trailing "Z": 2015-08-16T08:20:05Z => 2015-08-16T08:20:05+0000
-            str = str.replaceAll("[zZ]\\z", "+0000");
-            //   remove colon in time zone: 2015-08-16T08:20:05+00:00 => 2015-08-16T08:20:05+0000
-            str = str.replaceAll("([+-]\\d{2}):(\\d{2})\\z", "$1$2");
-            //   expand time zone: 2015-08-16T08:20:05+00 => 2015-08-16T08:20:05+0000
-            str = str.replaceAll("([+-]\\d{2})\\z", "$100");
-            // add milliseconds when missing
-            //   2015-08-16T08:20:05+0000 => 2015-08-16T08:20:05.000+0000
-            str = str.replaceAll("(:\\d{1,2})([+-]\\d{4})\\z", "$1.000$2");
-            format = new SimpleDateFormat(LENIENT_DATETIME_FORMAT);
-        } else {
-            format = this.datetimeFormat;
-        }
-
-        try {
-            return format.parse(str);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /*
-     * Parse date or date time in string format into Date object.
-     *
-     * @param str Date time string to be parsed
-     * @return Date representation of the string
-     */
-    public Date parseDateOrDatetime(String str) {
-        if (str == null)
-            return null;
-        else if (str.length() <= dateLength)
-            return parseDate(str);
-        else
-            return parseDatetime(str);
-    }
-
-    /**
-     * Format the given Date object into string (Date format).
-     *
-     * @param date Date object
-     * @return Formatted date in string representation
-     */
-    public String formatDate(Date date) {
-        return dateFormat.format(date);
-    }
-
-    /**
-     * Format the given Date object into string (Datetime format).
-     *
-     * @param date Date object
-     * @return Formatted datetime in string representation
-     */
-    public String formatDatetime(Date date) {
-        return datetimeFormat.format(date);
+    public ApiClient setLenientOnJson(boolean lenientOnJson) {
+        this.json.setLenientOnJson(lenientOnJson);
+        return this;
     }
 
     /**
@@ -548,26 +364,6 @@ public class ApiClient {
     }
 
     /**
-     * @see <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)">setLenient</a>
-     *
-     * @return True if lenientOnJson is enabled, false otherwise.
-     */
-    public boolean isLenientOnJson() {
-        return lenientOnJson;
-    }
-
-    /**
-     * Set LenientOnJson
-     *
-     * @param lenient True to enable lenientOnJson
-     * @return ApiClient
-     */
-    public ApiClient setLenientOnJson(boolean lenient) {
-        this.lenientOnJson = lenient;
-        return this;
-    }
-
-    /**
      * Check that whether debugging is enabled for this API client.
      *
      * @return True if debugging is enabled, false otherwise.
@@ -650,8 +446,10 @@ public class ApiClient {
     public String parameterToString(Object param) {
         if (param == null) {
             return "";
-        } else if (param instanceof Date) {
-            return formatDatetime((Date) param);
+        } else if (param instanceof Date || param instanceof DateTime || param instanceof LocalDate) {
+            //Serialize to json string and remove the " enclosing characters
+            String jsonStr = json.serialize(param);
+            return jsonStr.substring(1, jsonStr.length() - 1);
         } else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
             for (Object o : (Collection)param) {
@@ -667,62 +465,70 @@ public class ApiClient {
     }
 
     /**
-     * Format to {@code Pair} objects.
+     * Formats the specified query parameter to a list containing a single {@code Pair} object.
      *
-     * @param collectionFormat collection format (e.g. csv, tsv)
-     * @param name Name
-     * @param value Value
-     * @return A list of Pair objects
+     * Note that {@code value} must not be a collection.
+     *
+     * @param name The name of the parameter.
+     * @param value The value of the parameter.
+     * @return A list containing a single {@code Pair} object.
      */
-    public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
+    public List<Pair> parameterToPair(String name, Object value) {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
-        if (name == null || name.isEmpty() || value == null) return params;
+        if (name == null || name.isEmpty() || value == null || value instanceof Collection) return params;
 
-        Collection valueCollection = null;
-        if (value instanceof Collection) {
-            valueCollection = (Collection) value;
-        } else {
-            params.add(new Pair(name, parameterToString(value)));
+        params.add(new Pair(name, parameterToString(value)));
+        return params;
+    }
+
+    /**
+     * Formats the specified collection query parameters to a list of {@code Pair} objects.
+     *
+     * Note that the values of each of the returned Pair objects are percent-encoded.
+     *
+     * @param collectionFormat The collection format of the parameter.
+     * @param name The name of the parameter.
+     * @param value The value of the parameter.
+     * @return A list of {@code Pair} objects.
+     */
+    public List<Pair> parameterToPairs(String collectionFormat, String name, Collection value) {
+        List<Pair> params = new ArrayList<Pair>();
+
+        // preconditions
+        if (name == null || name.isEmpty() || value == null || value.isEmpty()) {
             return params;
         }
-
-        if (valueCollection.isEmpty()){
-            return params;
-        }
-
-        // get the collection format
-        collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
 
         // create the params based on the collection format
-        if (collectionFormat.equals("multi")) {
-            for (Object item : valueCollection) {
-                params.add(new Pair(name, parameterToString(item)));
+        if ("multi".equals(collectionFormat)) {
+            for (Object item : value) {
+                params.add(new Pair(name, escapeString(parameterToString(item))));
             }
-
             return params;
         }
 
+        // collectionFormat is assumed to be "csv" by default
         String delimiter = ",";
 
-        if (collectionFormat.equals("csv")) {
-            delimiter = ",";
-        } else if (collectionFormat.equals("ssv")) {
-            delimiter = " ";
-        } else if (collectionFormat.equals("tsv")) {
-            delimiter = "\t";
-        } else if (collectionFormat.equals("pipes")) {
-            delimiter = "|";
+        // escape all delimiters except commas, which are URI reserved
+        // characters
+        if ("ssv".equals(collectionFormat)) {
+            delimiter = escapeString(" ");
+        } else if ("tsv".equals(collectionFormat)) {
+            delimiter = escapeString("\t");
+        } else if ("pipes".equals(collectionFormat)) {
+            delimiter = escapeString("|");
         }
 
         StringBuilder sb = new StringBuilder() ;
-        for (Object item : valueCollection) {
+        for (Object item : value) {
             sb.append(delimiter);
-            sb.append(parameterToString(item));
+            sb.append(escapeString(parameterToString(item)));
         }
 
-        params.add(new Pair(name, sb.substring(1)));
+        params.add(new Pair(name, sb.substring(delimiter.length())));
 
         return params;
     }
@@ -1082,6 +888,7 @@ public class ApiClient {
      * @param path The sub-path of the HTTP URL
      * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
      * @param queryParams The query parameters
+     * @param collectionQueryParams The collection query parameters
      * @param body The request body object
      * @param headerParams The header parameters
      * @param formParams The form parameters
@@ -1090,8 +897,8 @@ public class ApiClient {
      * @return The HTTP call
      * @throws ApiException If fail to serialize the request body object
      */
-    public Call buildCall(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Request request = buildRequest(path, method, queryParams, body, headerParams, formParams, authNames, progressRequestListener);
+    public Call buildCall(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Request request = buildRequest(path, method, queryParams, collectionQueryParams, body, headerParams, formParams, authNames, progressRequestListener);
 
         return httpClient.newCall(request);
     }
@@ -1102,6 +909,7 @@ public class ApiClient {
      * @param path The sub-path of the HTTP URL
      * @param method The request method, one of "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
      * @param queryParams The query parameters
+     * @param collectionQueryParams The collection query parameters
      * @param body The request body object
      * @param headerParams The header parameters
      * @param formParams The form parameters
@@ -1110,10 +918,10 @@ public class ApiClient {
      * @return The HTTP request 
      * @throws ApiException If fail to serialize the request body object
      */
-    public Request buildRequest(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, Object> formParams, String[] authNames, ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         updateParamsForAuth(authNames, queryParams, headerParams);
 
-        final String url = buildUrl(path, queryParams);
+        final String url = buildUrl(path, queryParams, collectionQueryParams);
         final Request.Builder reqBuilder = new Request.Builder().url(url);
         processHeaderParams(headerParams, reqBuilder);
 
@@ -1159,9 +967,10 @@ public class ApiClient {
      *
      * @param path The sub path
      * @param queryParams The query parameters
+     * @param collectionQueryParams The collection query parameters
      * @return The full URL
      */
-    public String buildUrl(String path, List<Pair> queryParams) {
+    public String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
         final StringBuilder url = new StringBuilder();
         url.append(basePath).append(path);
 
@@ -1178,6 +987,23 @@ public class ApiClient {
                     }
                     String value = parameterToString(param.getValue());
                     url.append(escapeString(param.getName())).append("=").append(escapeString(value));
+                }
+            }
+        }
+
+        if (collectionQueryParams != null && !collectionQueryParams.isEmpty()) {
+            String prefix = url.toString().contains("?") ? "&" : "?";
+            for (Pair param : collectionQueryParams) {
+                if (param.getValue() != null) {
+                    if (prefix != null) {
+                        url.append(prefix);
+                        prefix = null;
+                    } else {
+                        url.append("&");
+                    }
+                    String value = parameterToString(param.getValue());
+                    // collection query parameter value already escaped as part of parameterToPairs
+                    url.append(escapeString(param.getName())).append("=").append(value);
                 }
             }
         }
@@ -1266,31 +1092,6 @@ public class ApiClient {
             return "application/octet-stream";
         } else {
             return contentType;
-        }
-    }
-
-    /**
-     * Initialize datetime format according to the current environment, e.g. Java 1.7 and Android.
-     */
-    private void initDatetimeFormat() {
-        String formatWithTimeZone = null;
-        if (IS_ANDROID) {
-            if (ANDROID_SDK_VERSION >= 18) {
-                // The time zone format "ZZZZZ" is available since Android 4.3 (SDK version 18)
-                formatWithTimeZone = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ";
-            }
-        } else if (JAVA_VERSION >= 1.7) {
-            // The time zone format "XXX" is available since Java 1.7
-            formatWithTimeZone = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
-        }
-        if (formatWithTimeZone != null) {
-            this.datetimeFormat = new SimpleDateFormat(formatWithTimeZone);
-            // NOTE: Use the system's default time zone (mainly for datetime formatting).
-        } else {
-            // Use a common format that works across all systems.
-            this.datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            // Always use the UTC time zone as we are using a constant trailing "Z" here.
-            this.datetimeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         }
     }
 

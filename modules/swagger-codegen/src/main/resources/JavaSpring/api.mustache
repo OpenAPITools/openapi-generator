@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+{{^useSpringCloudClient}}
+import java.io.IOException;
+{{/useSpringCloudClient}}
 
 import java.util.List;
 {{#useOptional}}
@@ -48,20 +51,31 @@ public interface {{classname}} {
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{dataType}}}.class{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
-    {{#implicitHeaders}}@ApiImplicitParams({
+    {{#implicitHeaders}}
+    @ApiImplicitParams({
     {{#headerParams}}{{>implicitHeader}}{{/headerParams}}
-    }){{/implicitHeaders}}
+    })
+    {{/implicitHeaders}}
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}
         produces = "{{{vendorExtensions.x-accepts}}}",
         consumes = "{{{vendorExtensions.x-contentType}}}",{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
         produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}{{#hasConsumes}}
         consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}{{/singleContentTypes}}
         method = RequestMethod.{{httpMethod}})
+{{#useSpringCloudClient}}
     {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}){{^jdk8}};{{/jdk8}}{{#jdk8}} {
         // do some magic!
         return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK){{#async}}){{/async}};
     }{{/jdk8}}
 
+{{/useSpringCloudClient}}
+{{^useSpringCloudClient}}
+    {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}} @RequestHeader(value = "Accept", required = false) String accept) throws Exception{{^jdk8}};{{/jdk8}}{{#jdk8}} {
+        // do some magic!
+        return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK){{#async}}){{/async}};
+    }{{/jdk8}}
+
+{{/useSpringCloudClient}}
 {{/operation}}
 }
 {{/operations}}

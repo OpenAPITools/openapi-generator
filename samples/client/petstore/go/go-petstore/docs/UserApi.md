@@ -15,22 +15,20 @@ Method | HTTP request | Description
 
 
 # **CreateUser**
-> CreateUser($body)
-
+> CreateUser(body)
 Create user
 
 This can only be done by the logged in user.
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+  **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -44,22 +42,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateUsersWithArrayInput**
-> CreateUsersWithArrayInput($body)
-
+> CreateUsersWithArrayInput(body)
 Creates list of users with given input array
 
 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[]User**](User.md)| List of user object | 
+  **body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -73,22 +69,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateUsersWithListInput**
-> CreateUsersWithListInput($body)
-
+> CreateUsersWithListInput(body)
 Creates list of users with given input array
 
 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[]User**](User.md)| List of user object | 
+  **body** | [**[]User**](User.md)| List of user object | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -102,22 +96,20 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeleteUser**
-> DeleteUser($username)
-
+> DeleteUser(username)
 Delete user
 
 This can only be done by the logged in user.
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be deleted | 
+  **username** | **string**| The name that needs to be deleted | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -131,18 +123,16 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetUserByName**
-> User GetUserByName($username)
-
+> User GetUserByName(username)
 Get user by user name
 
 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
+  **username** | **string**| The name that needs to be fetched. Use user1 for testing.  | 
 
 ### Return type
 
@@ -160,19 +150,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **LoginUser**
-> string LoginUser($username, $password)
-
+> string LoginUser(username, password)
 Logs user into the system
 
 
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| The user name for login | 
- **password** | **string**| The password for login in clear text | 
+  **username** | **string**| The user name for login | 
+  **password** | **string**| The password for login in clear text | 
 
 ### Return type
 
@@ -191,18 +179,16 @@ No authorization required
 
 # **LogoutUser**
 > LogoutUser()
-
 Logs out current logged in user session
 
 
 
-
-### Parameters
+### Required Parameters
 This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 
@@ -216,23 +202,21 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdateUser**
-> UpdateUser($username, $body)
-
+> UpdateUser(username, body)
 Updated user
 
 This can only be done by the logged in user.
 
-
-### Parameters
+### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+  **username** | **string**| name that need to be deleted | 
+  **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
-void (empty response body)
+ (empty response body)
 
 ### Authorization
 

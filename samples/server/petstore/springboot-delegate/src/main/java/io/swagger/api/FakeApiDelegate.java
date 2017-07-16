@@ -2,8 +2,8 @@ package io.swagger.api;
 
 import java.math.BigDecimal;
 import io.swagger.model.Client;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import io.swagger.model.OuterComposite;
 
 import io.swagger.annotations.*;
@@ -59,7 +59,7 @@ public interface FakeApiDelegate {
         String string,
         byte[] binary,
         LocalDate date,
-        DateTime dateTime,
+        OffsetDateTime dateTime,
         String password,
         String paramCallback);
 
@@ -74,5 +74,11 @@ public interface FakeApiDelegate {
         String enumQueryString,
         Integer enumQueryInteger,
         Double enumQueryDouble);
+
+    /**
+     * @see FakeApi#testJsonFormData
+     */
+    ResponseEntity<Void> testJsonFormData(String param,
+        String param2);
 
 }

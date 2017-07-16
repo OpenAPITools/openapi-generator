@@ -93,6 +93,7 @@ operation_parameters_minimum_occurences["testEnumParameters:::enum_query_string_
 operation_parameters_minimum_occurences["testEnumParameters:::enum_query_string"]=0
 operation_parameters_minimum_occurences["testEnumParameters:::enum_query_integer"]=0
 operation_parameters_minimum_occurences["testEnumParameters:::enum_query_double"]=0
+operation_parameters_minimum_occurences["testClassname:::body"]=1
 operation_parameters_minimum_occurences["addPet:::body"]=1
 operation_parameters_minimum_occurences["deletePet:::petId"]=1
 operation_parameters_minimum_occurences["deletePet:::api_key"]=0
@@ -153,6 +154,7 @@ operation_parameters_maximum_occurences["testEnumParameters:::enum_query_string_
 operation_parameters_maximum_occurences["testEnumParameters:::enum_query_string"]=0
 operation_parameters_maximum_occurences["testEnumParameters:::enum_query_integer"]=0
 operation_parameters_maximum_occurences["testEnumParameters:::enum_query_double"]=0
+operation_parameters_maximum_occurences["testClassname:::body"]=0
 operation_parameters_maximum_occurences["addPet:::body"]=0
 operation_parameters_maximum_occurences["deletePet:::petId"]=0
 operation_parameters_maximum_occurences["deletePet:::api_key"]=0
@@ -210,6 +212,7 @@ operation_parameters_collection_type["testEnumParameters:::enum_query_string_arr
 operation_parameters_collection_type["testEnumParameters:::enum_query_string"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_integer"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_double"]=""
+operation_parameters_collection_type["testClassname:::body"]=""
 operation_parameters_collection_type["addPet:::body"]=""
 operation_parameters_collection_type["deletePet:::petId"]=""
 operation_parameters_collection_type["deletePet:::api_key"]=""
@@ -736,6 +739,12 @@ read -d '' ops <<EOF
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
+    echo -e "$(tput bold)$(tput setaf 7)[fake_classname_tags123]$(tput sgr0)"
+read -d '' ops <<EOF
+  $(tput setaf 6)testClassname$(tput sgr0);To test class name in snake case
+EOF
+echo "  $ops" | column -t -s ';'
+    echo ""
     echo -e "$(tput bold)$(tput setaf 7)[pet]$(tput sgr0)"
 read -d '' ops <<EOF
   $(tput setaf 6)addPet$(tput sgr0);Add a new pet to the store
@@ -1126,6 +1135,41 @@ print_testEnumParameters_help() {
         ;;
         *)
         echo -e "$(tput setaf 7)  404;Not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+    esac
+}
+##############################################################################
+#
+# Print help for testClassname operation
+#
+##############################################################################
+print_testClassname_help() {
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)testClassname - To test class name in snake case$(tput sgr0)"
+    echo -e ""
+    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
+    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[application/json]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - client model" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
+    case 200 in
+        1*)
+        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        2*)
+        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        3*)
+        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        4*)
+        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        5*)
+        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        ;;
+        *)
+        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
         ;;
     esac
 }
@@ -2557,6 +2601,79 @@ call_testEnumParameters() {
 
 ##############################################################################
 #
+# Call testClassname operation
+#
+##############################################################################
+call_testClassname() {
+    local path_parameter_names=()
+    local query_parameter_names=()
+
+    if [[ $force = false ]]; then
+        validate_request_parameters "/v2/fake_classname_test" path_parameter_names query_parameter_names
+    fi
+
+    local path=$(build_request_path "/v2/fake_classname_test" path_parameter_names query_parameter_names)
+    local method="PATCH"
+    local headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+        echo "Error: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
+    fi
+}
+
+##############################################################################
+#
 # Call addPet operation
 #
 ##############################################################################
@@ -3526,6 +3643,9 @@ case $key in
     testEnumParameters)
     operation="testEnumParameters"
     ;;
+    testClassname)
+    operation="testClassname"
+    ;;
     addPet)
     operation="addPet"
     ;;
@@ -3690,6 +3810,9 @@ case $operation in
     ;;
     testEnumParameters)
     call_testEnumParameters
+    ;;
+    testClassname)
+    call_testClassname
     ;;
     addPet)
     call_addPet

@@ -5,23 +5,21 @@
         "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
         "target": "es5",
-        "module": "commonjs",
+        "module": "es6",
         "moduleResolution": "node",
         "removeComments": true,
         "sourceMap": true,
         "outDir": "./dist",
         "noLib": false,
-        "declaration": true
+        "declaration": true,
+        "lib": [ "es6", "dom" ]
     },
     "exclude": [
         "node_modules",
-        "typings/main.d.ts",
-        "typings/main",
         "dist"
     ],
     "filesGlob": [
         "./model/*.ts",
-        "./api/*.ts",
-        "typings/browser.d.ts"
+        "./api/*.ts"
     ]
 }

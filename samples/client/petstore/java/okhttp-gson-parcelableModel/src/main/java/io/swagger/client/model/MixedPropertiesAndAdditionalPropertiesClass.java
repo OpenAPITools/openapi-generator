@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.joda.time.DateTime;
+import org.threeten.bp.OffsetDateTime;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -40,7 +40,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   private UUID uuid = null;
 
   @SerializedName("dateTime")
-  private DateTime dateTime = null;
+  private OffsetDateTime dateTime = null;
 
   @SerializedName("map")
   private Map<String, Animal> map = null;
@@ -63,7 +63,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     this.uuid = uuid;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass dateTime(DateTime dateTime) {
+  public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -73,11 +73,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return dateTime
   **/
   @ApiModelProperty(value = "")
-  public DateTime getDateTime() {
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(DateTime dateTime) {
+  public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -167,7 +167,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   MixedPropertiesAndAdditionalPropertiesClass(Parcel in) {
     
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
-    dateTime = (DateTime)in.readValue(DateTime.class.getClassLoader());
+    dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     map = (Map<String, Animal>)in.readValue(Animal.class.getClassLoader());
   }
   

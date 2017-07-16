@@ -10,15 +10,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
+using IO.Swagger.Attributes;
 using IO.Swagger.Models;
 
 namespace IO.Swagger.Controllers
@@ -28,7 +30,6 @@ namespace IO.Swagger.Controllers
     /// </summary>
     public class StoreApiController : Controller
     { 
-
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
@@ -38,12 +39,12 @@ namespace IO.Swagger.Controllers
         /// <response code="404">Order not found</response>
         [HttpDelete]
         [Route("/v2/store/order/{orderId}")]
+        [ValidateModelState]
         [SwaggerOperation("DeleteOrder")]
         public virtual void DeleteOrder([FromRoute]string orderId)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Returns pet inventories by status
@@ -52,8 +53,9 @@ namespace IO.Swagger.Controllers
         /// <response code="200">successful operation</response>
         [HttpGet]
         [Route("/v2/store/inventory")]
+        [ValidateModelState]
         [SwaggerOperation("GetInventory")]
-        [SwaggerResponse(200, type: typeof(Dictionary<string, int?>))]
+        [SwaggerResponse(200, typeof(Dictionary<string, int?>), "successful operation")]
         public virtual IActionResult GetInventory()
         { 
             string exampleJson = null;
@@ -63,7 +65,6 @@ namespace IO.Swagger.Controllers
             : default(Dictionary<string, int?>);
             return new ObjectResult(example);
         }
-
 
         /// <summary>
         /// Find purchase order by ID
@@ -75,8 +76,11 @@ namespace IO.Swagger.Controllers
         /// <response code="404">Order not found</response>
         [HttpGet]
         [Route("/v2/store/order/{orderId}")]
+        [ValidateModelState]
         [SwaggerOperation("GetOrderById")]
-        [SwaggerResponse(200, type: typeof(Order))]
+        [SwaggerResponse(200, typeof(Order), "successful operation")]
+        [SwaggerResponse(400, typeof(Order), "Invalid ID supplied")]
+        [SwaggerResponse(404, typeof(Order), "Order not found")]
         public virtual IActionResult GetOrderById([FromRoute]long? orderId)
         { 
             string exampleJson = null;
@@ -87,7 +91,6 @@ namespace IO.Swagger.Controllers
             return new ObjectResult(example);
         }
 
-
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -97,8 +100,10 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid Order</response>
         [HttpPost]
         [Route("/v2/store/order")]
+        [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
-        [SwaggerResponse(200, type: typeof(Order))]
+        [SwaggerResponse(200, typeof(Order), "successful operation")]
+        [SwaggerResponse(400, typeof(Order), "Invalid Order")]
         public virtual IActionResult PlaceOrder([FromBody]Order body)
         { 
             string exampleJson = null;

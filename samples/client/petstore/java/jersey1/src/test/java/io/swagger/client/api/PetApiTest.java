@@ -2,22 +2,17 @@ package io.swagger.client.api;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.datatype.joda.*;
 
 import io.swagger.TestUtils;
 
 import io.swagger.client.*;
-import io.swagger.client.api.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -144,7 +139,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByStatus(Arrays.asList(new String[]{"available"}));
+        List<Pet> pets = api.findPetsByStatus(Collections.singletonList("available"));
         assertNotNull(pets);
 
         boolean found = false;
@@ -172,7 +167,7 @@ public class PetApiTest {
 
         api.updatePet(pet);
 
-        List<Pet> pets = api.findPetsByTags(Arrays.asList(new String[]{"friendly"}));
+        List<Pet> pets = api.findPetsByTags(Collections.singletonList("friendly"));
         assertNotNull(pets);
 
         boolean found = false;
@@ -239,7 +234,7 @@ public class PetApiTest {
         assertTrue(pet1.hashCode() == pet1.hashCode());
 
         pet2.setName("really-happy");
-        pet2.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet2.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertFalse(pet1.equals(pet2));
         assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
@@ -247,7 +242,7 @@ public class PetApiTest {
         assertTrue(pet2.hashCode() == pet2.hashCode());
 
         pet1.setName("really-happy");
-        pet1.setPhotoUrls(Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"}));
+        pet1.setPhotoUrls(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         assertTrue(pet1.equals(pet2));
         assertTrue(pet2.equals(pet1));
         assertTrue(pet1.hashCode() == pet2.hashCode());
@@ -265,13 +260,13 @@ public class PetApiTest {
 
         pet.setCategory(category);
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        List<String> photos = Arrays.asList(new String[]{"http://foo.bar.com/1", "http://foo.bar.com/2"});
+        List<String> photos = Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2");
         pet.setPhotoUrls(photos);
 
         return pet;
     }
 
-    private String serializeJson(Object o) {
+    /*private String serializeJson(Object o) {
         if (mapper == null) {
             mapper = createObjectMapper();
         }
@@ -302,5 +297,5 @@ public class PetApiTest {
         mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         mapper.registerModule(new JodaModule());
         return mapper;
-    }
+    }*/
 }

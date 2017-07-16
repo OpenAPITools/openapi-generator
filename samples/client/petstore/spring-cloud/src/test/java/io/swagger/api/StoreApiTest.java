@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.threeten.bp.OffsetDateTime;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -59,22 +60,14 @@ public class StoreApiTest {
     }
 
     private Order createOrder() {
-        Order order = new Order();
-        order.setPetId(200L);
-        order.setQuantity(13);
-        order.setShipDate(org.joda.time.DateTime.now());
-        order.setStatus(Order.StatusEnum.PLACED);
-        order.setComplete(true);
-
-        try {
-            Field idField = Order.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(order, TestUtils.nextId());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return order;
+        return new Order()
+                .id(TestUtils.nextId())
+                .petId(200L)
+                .quantity(13)
+                //Ensure 3 fractional digits because of a bug in the petstore server
+                .shipDate(OffsetDateTime.now().withNano(123000000))
+                .status(Order.StatusEnum.PLACED)
+                .complete(true);
     }
 
 }

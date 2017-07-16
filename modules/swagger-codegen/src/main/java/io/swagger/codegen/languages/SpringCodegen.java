@@ -32,6 +32,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String SPRING_MVC_LIBRARY = "spring-mvc";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
+    public static final String SWAGGER_DOCKET_CONFIG = "swaggerDocketConfig";
 
     protected String title = "swagger-petstore";
     protected String configPackage = "io.swagger.configuration";
@@ -45,6 +46,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean implicitHeaders = false;
+    protected boolean swaggerDocketConfig = false;
     protected boolean useOptional = false;
 
     public SpringCodegen() {
@@ -75,6 +77,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers."));
+        cliOptions.add(CliOption.newBoolean(SWAGGER_DOCKET_CONFIG, "Generate Spring Swagger Docket configuration class."));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,
                 "Use Optional container for optional parameters"));
 
@@ -107,6 +110,19 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
+
+        // Process java8 option before common java ones to change the default dateLibrary to java8.
+        if (additionalProperties.containsKey(JAVA_8)) {
+            this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
+        }
+        if (this.java8) {
+            additionalProperties.put("javaVersion", "1.8");
+            additionalProperties.put("jdk8", "true");
+            if (!additionalProperties.containsKey(DATE_LIBRARY)) {
+                setDateLibrary("java8");
+            }
+        }
+
         super.processOpts();
 
         // clear model and api doc template as this codegen
@@ -171,6 +187,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setImplicitHeaders(Boolean.valueOf(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
 
+        if (additionalProperties.containsKey(SWAGGER_DOCKET_CONFIG)) {
+            this.setSwaggerDocketConfig(Boolean.valueOf(additionalProperties.get(SWAGGER_DOCKET_CONFIG).toString()));
+        }
+
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
         
@@ -178,15 +198,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             writePropertyBack(USE_OPTIONAL, useOptional);
         }
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
         if (this.interfaceOnly && this.delegatePattern) {
             throw new IllegalArgumentException(
                     String.format("Can not generate code with `%s` and `%s` both true.", DELEGATE_PATTERN, INTERFACE_ONLY));
         }
 
         if (!this.interfaceOnly) {
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
             if (library.equals(DEFAULT_LIBRARY)) {
                 supportingFiles.add(new SupportingFile("homeController.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HomeController.java"));
@@ -234,8 +254,20 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));
             }
+        } else if ( this.swaggerDocketConfig && !library.equals(SPRING_CLOUD_LIBRARY)) {
+            supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "SwaggerDocumentationConfig.java"));
         }
 
+        if ("threetenbp".equals(dateLibrary)) {
+            supportingFiles.add(new SupportingFile("customInstantDeserializer.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "CustomInstantDeserializer.java"));
+            if (library.equals(DEFAULT_LIBRARY) || library.equals(SPRING_CLOUD_LIBRARY)) {
+                supportingFiles.add(new SupportingFile("jacksonConfiguration.mustache",
+                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "JacksonConfiguration.java"));
+            }
+        }
+        
         if (!this.delegatePattern && this.java8) {
             additionalProperties.put("jdk8-no-delegate", true);
         }
@@ -574,6 +606,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setImplicitHeaders(boolean implicitHeaders) {
         this.implicitHeaders = implicitHeaders;
+    }
+
+    public void setSwaggerDocketConfig(boolean swaggerDocketConfig) {
+        this.swaggerDocketConfig = swaggerDocketConfig;
     }
 
     @Override

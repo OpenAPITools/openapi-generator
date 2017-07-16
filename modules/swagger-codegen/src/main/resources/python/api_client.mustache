@@ -7,7 +7,7 @@ import re
 import json
 import mimetypes
 import tempfile
-import threading
+from multiprocessing.pool import ThreadPool
 
 from datetime import date, datetime
 
@@ -50,18 +50,16 @@ class ApiClient(object):
         'object': object,
     }
 
-    def __init__(self, host=None, header_name=None, header_value=None, cookie=None):
-        """
-        Constructor of the class.
-        """
-        self.rest_client = RESTClientObject()
+    def __init__(self, configuration=None, header_name=None, header_value=None, cookie=None):
+        if configuration is None:
+            configuration = Configuration()
+        self.configuration = configuration
+
+        self.pool = ThreadPool()
+        self.rest_client = RESTClientObject(configuration)
         self.default_headers = {}
         if header_name is not None:
             self.default_headers[header_name] = header_value
-        if host is None:
-            self.host = Configuration().host
-        else:
-            self.host = host
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{packageVersion}}}/python{{/httpUserAgent}}'
@@ -86,7 +84,7 @@ class ApiClient(object):
     def __call_api(self, resource_path, method,
                    path_params=None, query_params=None, header_params=None,
                    body=None, post_params=None, files=None,
-                   response_type=None, auth_settings=None, callback=None,
+                   response_type=None, auth_settings=None,
                    _return_http_data_only=None, collection_formats=None, _preload_content=True,
                    _request_timeout=None):
 
@@ -133,7 +131,7 @@ class ApiClient(object):
             body = self.sanitize_for_serialization(body)
 
         # request url
-        url = self.host + resource_path
+        url = self.configuration.host + resource_path
 
         # perform request and return response
         response_data = self.request(method, url,
@@ -153,12 +151,7 @@ class ApiClient(object):
             else:
                 return_data = None
 
-        if callback:
-            if _return_http_data_only:
-                callback(return_data)
-            else:
-                callback((return_data, response_data.status, response_data.getheaders()))
-        elif _return_http_data_only:
+        if _return_http_data_only:
             return (return_data)
         else:
             return (return_data, response_data.status, response_data.getheaders())
@@ -272,7 +265,7 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, callback=None,
+                 response_type=None, auth_settings=None, async=None,
                  _return_http_data_only=None, collection_formats=None, _preload_content=True,
                  _request_timeout=None):
         """
@@ -292,9 +285,7 @@ class ApiClient(object):
         :param response: Response data type.
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
-        :param callback function: Callback function for asynchronous request.
-            If provide this parameter,
-            the request will be called asynchronously.
+        :param async bool: execute request asynchronously
         :param _return_http_data_only: response data without head status code and headers
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
@@ -309,22 +300,20 @@ class ApiClient(object):
             If parameter callback is None,
             then the method will return the response directly.
         """
-        if callback is None:
+        if not async:
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings, callback,
+                                   response_type, auth_settings,
                                    _return_http_data_only, collection_formats, _preload_content, _request_timeout)
         else:
-            thread = threading.Thread(target=self.__call_api,
-                                      args=(resource_path, method,
-                                            path_params, query_params,
-                                            header_params, body,
-                                            post_params, files,
-                                            response_type, auth_settings,
-                                            callback, _return_http_data_only,
-                                            collection_formats, _preload_content, _request_timeout))
-        thread.start()
+            thread = self.pool.apply_async(self.__call_api, (resource_path, method,
+                                           path_params, query_params,
+                                           header_params, body,
+                                           post_params, files,
+                                           response_type, auth_settings,
+                                           _return_http_data_only,
+                                           collection_formats, _preload_content, _request_timeout))
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
@@ -490,13 +479,11 @@ class ApiClient(object):
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         """
-        config = Configuration()
-
         if not auth_settings:
             return
 
         for auth in auth_settings:
-            auth_setting = config.auth_settings().get(auth)
+            auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
                 if not auth_setting['value']:
                     continue
@@ -517,9 +504,7 @@ class ApiClient(object):
         :param response:  RESTResponse.
         :return: file path.
         """
-        config = Configuration()
-
-        fd, path = tempfile.mkstemp(dir=config.temp_folder_path)
+        fd, path = tempfile.mkstemp(dir=self.configuration.temp_folder_path)
         os.close(fd)
         os.remove(path)
 

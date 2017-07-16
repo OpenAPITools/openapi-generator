@@ -1,58 +1,74 @@
 {{#models}}{{#model}}/*
  * {{classname}}.h
- * 
+ *
  * {{description}}
  */
 
-#ifndef {{classname}}_H_
-#define {{classname}}_H_
-
-#include <FApp.h>
-#include <FBase.h>
-#include <FSystem.h>
-#include <FWebJson.h>
-#include "{{prefix}}Helpers.h"
-#include "{{prefix}}Object.h"
-
-using namespace Tizen::Web::Json;
+#ifndef _{{classname}}_H_
+#define _{{classname}}_H_
 
 {{/model}}{{/models}}
-{{#imports}}{{{import}}}
+#include <string>
+{{#imports}}
+{{{import}}}
 {{/imports}}
+#include "Object.h"
 
+/** \defgroup Models Data Structures for API
+ *  Classes containing all the Data Structures needed for calling/returned by API endpoints
+ *
+ */
+
+namespace Tizen {
+namespace {{prefix}} {
 {{#models}}{{#model}}
-namespace Swagger {
 
-class {{classname}}: public {{prefix}}Object {
+/*! \brief {{{description}}}
+ *
+ *  \ingroup Models
+ *
+ */
+
+class {{classname}} : public Object {
 public:
-    {{classname}}();
-    {{classname}}(String* json);
-    virtual ~{{classname}}();
+	/*! \brief Constructor.
+	 */
+	{{classname}}();
+	{{classname}}(char* str);
 
-    void init();
+	/*! \brief Destructor.
+	 */
+	virtual ~{{classname}}();
 
-    void cleanup();
+	/*! \brief Retrieve a string JSON representation of this class.
+	 */
+	char* toJson();
 
-    String asJson ();
+	/*! \brief Fills in members of this class from JSON string representing it.
+	 */
+	void fromJson(char* jsonStr);
 
-    JsonObject* asJsonObject();
+	{{#vars}}
+	/*! \brief Get {{{description}}}
+	 */
+	{{datatype}}{{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{getter}}();
 
-    void fromJsonObject(IJsonValue* json);
-
-    {{classname}}* fromJson(String* obj);
-
-    {{#vars}}
-    {{datatype}} {{getter}}();
-    void {{setter}}({{datatype}} {{name}});
-    {{/vars}}
+	/*! \brief Set {{{description}}}
+	 */
+	void {{setter}}({{datatype}} {{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}} {{name}});
+	{{/vars}}
 
 private:
-    {{#vars}}{{datatype}} {{name}};
-    {{/vars}}
+	{{#vars}}
+	{{datatype}} {{#isContainer}}{{#isMapContainer}}<std::string, std::string>{{/isMapContainer}}{{^isMapContainer}}<{{#items}}{{datatype}}{{/items}}>{{/isMapContainer}}{{/isContainer}}{{name}};
+	{{/vars}}
+	void __init();
+	void __cleanup();
+
 };
-
-} /* namespace Swagger */
-
-#endif /* {{classname}}_H_ */
 {{/model}}
 {{/models}}
+}
+}
+
+#endif /* _{{classname}}_H_ */
