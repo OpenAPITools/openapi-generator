@@ -1,13 +1,13 @@
 # Swagger Code Generator
 
-- Master: [![Build Status](https://img.shields.io/travis/swagger-api/swagger-codegen/master.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/swagger-codegen)
+- Master (2.3.0): [![Build Status](https://img.shields.io/travis/swagger-api/swagger-codegen/master.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/swagger-codegen)
 [![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/swagger-codegen?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/swagger-codegen-wh2wu)
 [![Java Test](https://circleci.com/gh/swagger-api/swagger-codegen.svg?style=shield)](https://circleci.com/gh/swagger-api/swagger-codegen)
-- 2.3.0:  [![Build Status](https://img.shields.io/travis/swagger-api/swagger-codegen/2.3.0.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/swagger-codegen)
-[![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea/2.3.0.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/swagger-codegen?branch=2.3.0&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/swagger-codegen-wh2wu)
-[![Java Test](https://circleci.com/gh/swagger-api/swagger-codegen/tree/2.3.0.svg?style=shield)](https://circleci.com/gh/swagger-api/swagger-codegen)
+- 3.0.0:  [![Build Status](https://img.shields.io/travis/swagger-api/swagger-codegen/3.0.0.svg?label=Petstore%20Integration%20Test)](https://travis-ci.org/swagger-api/swagger-codegen)
+[![Run Status](https://img.shields.io/shippable/5782588a3be4f4faa56c5bea/3.0.0.svg?label=Mustache%20Template%20Test)](https://app.shippable.com/projects/5782588a3be4f4faa56c5bea)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/swagger-api/swagger-codegen?branch=3.0.0&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/swagger-codegen-wh2wu)
+[![Java Test](https://circleci.com/gh/swagger-api/swagger-codegen/tree/3.0.0.svg?style=shield)](https://circleci.com/gh/swagger-api/swagger-codegen)
 
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project)
@@ -77,8 +77,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 -------------------------- | ------------ | -------------------------- | -----
-+3.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen-cli/3.0.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes
-2.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen-cli/2.3.0-SNAPSHOT/)| Jul/Aug 2017   | 1.0, 1.1, 1.2, 2.0   | Minor release with breaking changes
+3.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen-cli/3.0.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes
+2.3.0 (current master, upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/io/swagger/swagger-codegen-cli/2.3.0-SNAPSHOT/)| Jul/Aug 2017   | 1.0, 1.1, 1.2, 2.0   | Minor release with breaking changes
 [2.2.3](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.2.3) (**current stable**) | 2017-07-15   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.3](https://github.com/swagger-api/swagger-codegen/tree/v2.2.3)
 [2.2.2](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.2.2) | 2017-03-01   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.2](https://github.com/swagger-api/swagger-codegen/tree/v2.2.2)
 [2.2.1](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.2.1) | 2016-08-07   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.1](https://github.com/swagger-api/swagger-codegen/tree/v2.2.1)
