@@ -34,6 +34,7 @@
     if(!managedObject || !object) {
         return;
     }
+    NSManagedObjectContext* context = managedObject.managedObjectContext;
     managedObject._id = [object._id copy];
 
     if(!managedObject.category) {
@@ -43,8 +44,13 @@
     }
     managedObject.name = [object.name copy];
     managedObject.photoUrls = [object.photoUrls copy];
+    if(managedObject.tags) {
+        for (id object in managedObject.tags) {
+            [context deleteObject:object];
+        }
+    }
     if(object.tags) {
-        NSMutableSet * convertedObjs = [NSMutableSet set];
+        NSMutableOrderedSet * convertedObjs = [NSMutableOrderedSet orderedSet];
         for (id innerObject in object.tags) {
             id convertedObj = [self.tagsBuilder SWGTagManagedObjectFromSWGTag:innerObject context:managedObject.managedObjectContext];
             [convertedObjs addObject:convertedObj];

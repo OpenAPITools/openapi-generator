@@ -10,15 +10,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
+using IO.Swagger.Attributes;
 using IO.Swagger.Models;
 
 namespace IO.Swagger.Controllers
@@ -28,7 +30,6 @@ namespace IO.Swagger.Controllers
     /// </summary>
     public class UserApiController : Controller
     { 
-
         /// <summary>
         /// Create user
         /// </summary>
@@ -37,12 +38,12 @@ namespace IO.Swagger.Controllers
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user")]
+        [ValidateModelState]
         [SwaggerOperation("CreateUser")]
         public virtual void CreateUser([FromBody]User body)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Creates list of users with given input array
@@ -52,12 +53,12 @@ namespace IO.Swagger.Controllers
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user/createWithArray")]
+        [ValidateModelState]
         [SwaggerOperation("CreateUsersWithArrayInput")]
         public virtual void CreateUsersWithArrayInput([FromBody]List<User> body)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Creates list of users with given input array
@@ -67,12 +68,12 @@ namespace IO.Swagger.Controllers
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user/createWithList")]
+        [ValidateModelState]
         [SwaggerOperation("CreateUsersWithListInput")]
         public virtual void CreateUsersWithListInput([FromBody]List<User> body)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Delete user
@@ -83,12 +84,12 @@ namespace IO.Swagger.Controllers
         /// <response code="404">User not found</response>
         [HttpDelete]
         [Route("/v2/user/{username}")]
+        [ValidateModelState]
         [SwaggerOperation("DeleteUser")]
         public virtual void DeleteUser([FromRoute]string username)
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Get user by user name
@@ -100,8 +101,11 @@ namespace IO.Swagger.Controllers
         /// <response code="404">User not found</response>
         [HttpGet]
         [Route("/v2/user/{username}")]
+        [ValidateModelState]
         [SwaggerOperation("GetUserByName")]
-        [SwaggerResponse(200, type: typeof(User))]
+        [SwaggerResponse(200, typeof(User), "successful operation")]
+        [SwaggerResponse(400, typeof(User), "Invalid username supplied")]
+        [SwaggerResponse(404, typeof(User), "User not found")]
         public virtual IActionResult GetUserByName([FromRoute]string username)
         { 
             string exampleJson = null;
@@ -111,7 +115,6 @@ namespace IO.Swagger.Controllers
             : default(User);
             return new ObjectResult(example);
         }
-
 
         /// <summary>
         /// Logs user into the system
@@ -123,8 +126,10 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Invalid username/password supplied</response>
         [HttpGet]
         [Route("/v2/user/login")]
+        [ValidateModelState]
         [SwaggerOperation("LoginUser")]
-        [SwaggerResponse(200, type: typeof(string))]
+        [SwaggerResponse(200, typeof(string), "successful operation")]
+        [SwaggerResponse(400, typeof(string), "Invalid username/password supplied")]
         public virtual IActionResult LoginUser([FromQuery]string username, [FromQuery]string password)
         { 
             string exampleJson = null;
@@ -135,7 +140,6 @@ namespace IO.Swagger.Controllers
             return new ObjectResult(example);
         }
 
-
         /// <summary>
         /// Logs out current logged in user session
         /// </summary>
@@ -143,12 +147,12 @@ namespace IO.Swagger.Controllers
         /// <response code="0">successful operation</response>
         [HttpGet]
         [Route("/v2/user/logout")]
+        [ValidateModelState]
         [SwaggerOperation("LogoutUser")]
         public virtual void LogoutUser()
         { 
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// Updated user
@@ -160,6 +164,7 @@ namespace IO.Swagger.Controllers
         /// <response code="404">User not found</response>
         [HttpPut]
         [Route("/v2/user/{username}")]
+        [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
         public virtual void UpdateUser([FromRoute]string username, [FromBody]User body)
         { 

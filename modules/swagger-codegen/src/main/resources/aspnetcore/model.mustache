@@ -6,83 +6,38 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 {{#models}}
 {{#model}}
 namespace {{packageName}}.Models
-{
-{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}
+{ {{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}
     /// <summary>
     /// {{description}}
     /// </summary>
     [DataContract]
-    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
-    {
-        {{#vars}}
-        {{#isEnum}}
-        {{>enumClass}}
-        {{/isEnum}}
-        {{#items.isEnum}}
-        {{#items}}
-        {{>enumClass}}
-        {{/items}}
-        {{/items.isEnum}}
-        {{/vars}}
-        {{#vars}}
-        {{#isEnum}}
+    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
+    { {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}{{>enumClass}}{{/items}}{{/items.isEnum}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>
         {{#description}}
         /// <value>{{description}}</value>
         {{/description}}
+        {{#required}}
+        [Required]
+        {{/required}}
         [DataMember(Name="{{baseName}}")]
+        {{#isEnum}}
         public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }
         {{/isEnum}}
-        {{/vars}}
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
-        /// </summary>
-{{#vars}}        /// <param name="{{name}}">{{#description}}{{description}}{{/description}}{{^description}}{{name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
-{{/vars}}
-        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}})
-        {
-            {{#vars}}{{#required}}// to ensure "{{name}}" is required (not null)
-            if ({{name}} == null)
-            {
-                throw new InvalidDataException("{{name}} is a required property for {{classname}} and cannot be null");
-            }
-            else
-            {
-                this.{{name}} = {{name}};
-            }
-            {{/required}}{{/vars}}{{#vars}}{{^required}}{{#defaultValue}}// use default value if no "{{name}}" provided
-            if ({{name}} == null)
-            {
-                this.{{name}} = {{{defaultValue}}};
-            }
-            else
-            {
-                this.{{name}} = {{name}};
-            }
-            {{/defaultValue}}{{^defaultValue}}this.{{name}} = {{name}};
-            {{/defaultValue}}{{/required}}{{/vars}}
-        }
-
-        {{#vars}}
         {{^isEnum}}
-        /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
-        /// </summary>
-        {{#description}}
-        /// <value>{{description}}</value>
-        {{/description}}
-        [DataMember(Name="{{baseName}}")]
         public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
         {{/isEnum}}
+        {{#hasMore}}
+        {{/hasMore}}
         {{/vars}}
 
         /// <summary>
@@ -118,8 +73,7 @@ namespace {{packageName}}.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals(({{classname}})obj);
+            return obj.GetType() == GetType() && Equals(({{classname}})obj);
         }
 
         /// <summary>
@@ -129,20 +83,19 @@ namespace {{packageName}}.Models
         /// <returns>Boolean</returns>
         public bool Equals({{classname}} other)
         {
-
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return {{#vars}}{{#isNotContainer}}
                 (
-                    this.{{name}} == other.{{name}} ||
-                    this.{{name}} != null &&
-                    this.{{name}}.Equals(other.{{name}})
+                    {{name}} == other.{{name}} ||
+                    {{name}} != null &&
+                    {{name}}.Equals(other.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
                 (
-                    this.{{name}} == other.{{name}} ||
-                    this.{{name}} != null &&
-                    this.{{name}}.SequenceEqual(other.{{name}})
+                    {{name}} == other.{{name}} ||
+                    {{name}} != null &&
+                    {{name}}.SequenceEqual(other.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
@@ -155,17 +108,18 @@ namespace {{packageName}}.Models
             // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
+                var hash = 41;
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
-                    if (this.{{name}} != null)
-                    hash = hash * 59 + this.{{name}}.GetHashCode();
+                    if ({{name}} != null)
+                    hash = hash * 59 + {{name}}.GetHashCode();
                 {{/vars}}
                 return hash;
             }
         }
 
         #region Operators
+        #pragma warning disable 1591
 
         public static bool operator ==({{classname}} left, {{classname}} right)
         {
@@ -177,8 +131,8 @@ namespace {{packageName}}.Models
             return !Equals(left, right);
         }
 
+        #pragma warning restore 1591
         #endregion Operators
-
     }
 {{/isEnum}}
 {{/model}}

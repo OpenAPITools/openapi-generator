@@ -2,8 +2,8 @@ package io.swagger.client.api;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.datatype.joda.*;
 
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import io.swagger.TestUtils;
 
 import io.swagger.client.*;
@@ -22,6 +22,9 @@ import java.util.Map;
 import org.junit.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
+import org.threeten.bp.Instant;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import static org.junit.Assert.*;
 
@@ -160,32 +163,33 @@ public class PetApiTest {
         assertTrue(found);
     }
 
-    @Test
-    public void testFindPetsByTags() throws Exception {
-        Pet pet = createRandomPet();
-        pet.setName("monster");
-        pet.setStatus(Pet.StatusEnum.AVAILABLE);
-
-        List<Tag> tags = new ArrayList<Tag>();
-        Tag tag1 = new Tag();
-        tag1.setName("friendly");
-        tags.add(tag1);
-        pet.setTags(tags);
-
-        api.updatePet(pet);
-
-        List<Pet> pets = api.findPetsByTags(Arrays.asList(new String[]{"friendly"}));
-        assertNotNull(pets);
-
-        boolean found = false;
-        for (Pet fetched : pets) {
-            if (fetched.getId().equals(pet.getId())) {
-                found = true;
-                break;
-            }
-        }
-        assertTrue(found);
-    }
+//    this API is deprecated
+//    @Test
+//    public void testFindPetsByTags() throws Exception {
+//        Pet pet = createRandomPet();
+//        pet.setName("monster");
+//        pet.setStatus(Pet.StatusEnum.AVAILABLE);
+//
+//        List<Tag> tags = new ArrayList<Tag>();
+//        Tag tag1 = new Tag();
+//        tag1.setName("friendly");
+//        tags.add(tag1);
+//        pet.setTags(tags);
+//
+//        api.updatePet(pet);
+//
+//        List<Pet> pets = api.findPetsByTags(Arrays.asList(new String[]{"friendly"}));
+//        assertNotNull(pets);
+//
+//        boolean found = false;
+//        for (Pet fetched : pets) {
+//            if (fetched.getId().equals(pet.getId())) {
+//                found = true;
+//                break;
+//            }
+//        }
+//        assertTrue(found);
+//    }
 
     @Test
     public void testUpdatePetWithForm() throws Exception {
@@ -303,7 +307,11 @@ public class PetApiTest {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-        mapper.registerModule(new JodaModule());
+        ThreeTenModule module = new ThreeTenModule();
+        module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
+        module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
+        module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
+        mapper.registerModule(module);
         return mapper;
     }
 }

@@ -13,6 +13,13 @@ namespace IO.Swagger.Test
 		{
 		}
 
+		[SetUp()]
+		public void BeforeEach()
+		{
+			var config = new GlobalConfiguration();
+			Configuration.Default = config;
+		}
+
 		[TearDown()]
 		public void TearDown()
 		{
@@ -115,34 +122,6 @@ namespace IO.Swagger.Test
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("\\var\\tmp\\sun.gif"));
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename("c:\\var\\tmp\\sun.gif"));
 			Assert.AreEqual("sun.gif", ApiClient.SanitizeFilename(".\\sun.gif"));
-
-		}
-
-		[Test ()]
-		public void TestApiClientInstance ()
-		{
-			PetApi p1 = new PetApi ();
-			PetApi p2 = new PetApi ();
-
-			Configuration c1 = new Configuration (); // using default ApiClient
-			PetApi p3 = new PetApi (c1);
-
-			ApiClient a1 = new ApiClient();
-			Configuration c2 = new Configuration (a1); // using "a1" as the ApiClient
-			PetApi p4 = new PetApi (c2);
-
-
-			// ensure both using the same default ApiClient
-			Assert.AreSame(p1.Configuration.ApiClient, p2.Configuration.ApiClient);
-			Assert.AreSame(p1.Configuration.ApiClient, Configuration.Default.ApiClient);
-
-			// ensure both using the same default ApiClient
-			Assert.AreSame(p3.Configuration.ApiClient, c1.ApiClient);
-			Assert.AreSame(p3.Configuration.ApiClient, Configuration.Default.ApiClient);
-
-			// ensure it's not using the default ApiClient
-			Assert.AreSame(p4.Configuration.ApiClient, c2.ApiClient);
-			Assert.AreNotSame(p4.Configuration.ApiClient, Configuration.Default.ApiClient);
 
 		}
 	}

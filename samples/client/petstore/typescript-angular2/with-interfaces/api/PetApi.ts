@@ -198,8 +198,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (petstore_auth) required
@@ -254,8 +254,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (petstore_auth) required
@@ -305,8 +305,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (petstore_auth) required
@@ -356,8 +356,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (petstore_auth) required
@@ -404,8 +404,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (api_key) required
@@ -449,8 +449,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (petstore_auth) required
@@ -505,8 +505,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (petstore_auth) required
@@ -569,7 +569,8 @@ export class PetApi implements PetApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (petstore_auth) required

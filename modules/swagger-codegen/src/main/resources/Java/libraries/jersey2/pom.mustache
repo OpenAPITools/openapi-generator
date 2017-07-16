@@ -232,6 +232,13 @@
     </dependency>
 
     {{/withXml}}
+    {{#joda}}
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-joda</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    {{/joda}}
     {{#java8}}
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -239,18 +246,14 @@
       <version>${jackson-version}</version>
     </dependency>
     {{/java8}}
-    {{^java8}}
+    {{#threetenbp}}
     <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-joda</artifactId>
+      <groupId>com.github.joschi.jackson</groupId>
+      <artifactId>jackson-datatype-threetenbp</artifactId>
       <version>${jackson-version}</version>
     </dependency>
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>${jodatime-version}</version>
-    </dependency>
-
+    {{/threetenbp}}
+    {{^java8}}
     <!-- Base64 encoding that works in both JVM and Android -->
     <dependency>
       <groupId>com.brsanthu</groupId>
@@ -258,21 +261,18 @@
       <version>2.2</version>
     </dependency>
     {{/java8}}
-
     {{#supportJava6}}
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons_lang3_version}</version>
     </dependency>
-
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons_io_version}</version>
     </dependency>
     {{/supportJava6}}
-
     <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>
@@ -284,14 +284,11 @@
   <properties>
     <swagger-core-version>1.5.15</swagger-core-version>
     <jersey-version>2.25.1</jersey-version>
-    <jackson-version>2.8.9</jackson-version>
-    {{^java8}}
-    <jodatime-version>2.9.9</jodatime-version>
-    {{/java8}}
     {{#supportJava6}}
     <commons_io_version>2.5</commons_io_version>
     <commons_lang3_version>3.6</commons_lang3_version>
     {{/supportJava6}}
+    <jackson-version>{{^threetenbp}}2.7.5{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}</jackson-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>

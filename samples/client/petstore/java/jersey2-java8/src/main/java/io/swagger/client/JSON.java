@@ -2,7 +2,7 @@ package io.swagger.client;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.datatype.jsr310.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.text.DateFormat;
 

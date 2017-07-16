@@ -50,6 +50,7 @@ import User from './model/User';
 import Cat from './model/Cat';
 import Dog from './model/Dog';
 import FakeApi from './api/FakeApi';
+import Fake_classname_tags123Api from './api/Fake_classname_tags123Api';
 import PetApi from './api/PetApi';
 import StoreApi from './api/StoreApi';
 import UserApi from './api/UserApi';
@@ -314,6 +315,12 @@ export {
     * @property {module:api/FakeApi}
     */
     FakeApi,
+
+    /**
+    * The Fake_classname_tags123Api service constructor.
+    * @property {module:api/Fake_classname_tags123Api}
+    */
+    Fake_classname_tags123Api,
 
     /**
     * The PetApi service constructor.

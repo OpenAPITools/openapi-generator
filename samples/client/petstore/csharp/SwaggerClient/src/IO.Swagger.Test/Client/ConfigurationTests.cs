@@ -13,9 +13,12 @@ namespace IO.Swagger.Test
 		{
 		}
 
-		[TearDown ()]
-		public void TearDown ()
+		[SetUp()]
+		public void BeforeEach()
 		{
+			var config = new GlobalConfiguration();
+			Configuration.Default = config;
+
 			// Reset to default, just in case
 			Configuration.Default.DateTimeFormat = "o";
 		}
@@ -35,7 +38,7 @@ namespace IO.Swagger.Test
 
 		[Test ()]
 		public void TestBasePath ()
-		{	
+		{
 			PetApi p = new PetApi ("http://new-basepath.com");
 			Assert.AreEqual (p.Configuration.ApiClient.RestClient.BaseUrl, "http://new-basepath.com");
 			// Given that PetApi is initailized with a base path, a new configuration (with a new ApiClient)
@@ -59,10 +62,20 @@ namespace IO.Swagger.Test
 			Assert.AreEqual("u", Configuration.Default.DateTimeFormat);
 		}
 
-		[Test ()]
-		public void TestConstructor()
+		[Test()]
+		public void TestDateTimeFormat_UType_NonGlobal()
 		{
-			Configuration c = new Configuration (username: "test username", password: "test password");
+			Configuration configuration = new Configuration();
+			configuration.DateTimeFormat = "u";
+
+			Assert.AreEqual("u", configuration.DateTimeFormat);
+			Assert.AreNotEqual("u", Configuration.Default.DateTimeFormat);
+		}
+
+		[Test ()]
+		public void TestConstruction()
+		{
+			Configuration c = new Configuration {  Username = "test username", Password = "test password" };
 			Assert.AreEqual (c.Username, "test username");
 			Assert.AreEqual (c.Password, "test password");
 
@@ -70,7 +83,7 @@ namespace IO.Swagger.Test
 
 		[Test ()]
 		public void TestDefautlConfiguration ()
-		{	
+		{
 			PetApi p1 = new PetApi ();
 			PetApi p2 = new PetApi ();
 			Assert.AreSame (p1.Configuration, p2.Configuration);
@@ -92,7 +105,7 @@ namespace IO.Swagger.Test
 		public void TestUsage ()
 		{
 			// basic use case using default base URL
-			PetApi p1 = new PetApi (); 
+			PetApi p1 = new PetApi ();
 			Assert.AreSame (p1.Configuration, Configuration.Default, "PetApi should use default configuration");
 
 			// using a different base URL
@@ -104,11 +117,11 @@ namespace IO.Swagger.Test
 			PetApi p3 = new PetApi (c1);
 			Assert.AreSame (p3.Configuration, c1);
 
-			// using a different base URL via a new ApiClient
-			ApiClient a1 = new ApiClient ("http://new-api-client.com");
-			Configuration c2 = new Configuration (a1);
+			// using a different base URL via a new Configuration
+			String newApiClientUrl = "http://new-api-client.com";
+			Configuration c2 = new Configuration { BasePath = newApiClientUrl };
 			PetApi p4 = new PetApi (c2);
-			Assert.AreSame (p4.Configuration.ApiClient, a1);
+			Assert.AreEqual(p4.Configuration.ApiClient.RestClient.BaseUrl, new Uri(newApiClientUrl));
 		}
 
 		[Test ()]
@@ -120,10 +133,39 @@ namespace IO.Swagger.Test
 			c1.Timeout = 50000;
 			Assert.AreEqual (50000, c1.Timeout);
 
-			Configuration c2 = new Configuration (timeout: 20000);
+			Configuration c2 = new Configuration { Timeout = 20000 };
 			Assert.AreEqual (20000, c2.Timeout);
 		}
 
+		[Test()]
+		public void TestAddingInstanceHeadersDoesNotModifyGlobal()
+		{
+			// Arrange
+			Configuration.Default.DefaultHeader.Add("Content-Type", "application/json");
+			Configuration.Default.ApiKey.Add("api_key_identifier", "1233456778889900");
+			Configuration.Default.ApiKeyPrefix.Add("api_key_identifier", "PREFIX");
+
+			Configuration c = new Configuration(
+				Configuration.Default.DefaultHeader,
+				Configuration.Default.ApiKey,
+				Configuration.Default.ApiKeyPrefix
+			);
+
+			// sanity
+			CollectionAssert.AreEquivalent(c.DefaultHeader, Configuration.Default.DefaultHeader);
+			CollectionAssert.AreEquivalent(c.ApiKey, Configuration.Default.ApiKey);
+			CollectionAssert.AreEquivalent(c.ApiKeyPrefix, Configuration.Default.ApiKeyPrefix);
+
+			// Act
+			Configuration.Default.DefaultHeader["Content-Type"] = "application/xml";
+			Configuration.Default.ApiKey["api_key_identifier"] = "00000000000001234";
+			Configuration.Default.ApiKeyPrefix["api_key_identifier"] = "MODIFIED";
+
+			// Assert
+			CollectionAssert.AreNotEquivalent(c.DefaultHeader, Configuration.Default.DefaultHeader);
+			CollectionAssert.AreNotEquivalent(c.ApiKey, Configuration.Default.ApiKey);
+			CollectionAssert.AreNotEquivalent(c.ApiKeyPrefix, Configuration.Default.ApiKeyPrefix);
+		}
 	}
 }
 

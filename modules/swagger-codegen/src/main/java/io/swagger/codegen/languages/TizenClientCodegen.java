@@ -25,17 +25,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 
 public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig {
-    protected static String PREFIX = "Sami";
-    protected Set<String> foundationClasses = new HashSet<String>();
-    protected String sourceFolder = "client";
-    protected Map<String, String> namespaces = new HashMap<String, String>();
+    protected static String PREFIX = "ArtikCloud";
+    protected String sourceFolder = "src";
+    protected String documentationFolder = "doc";
 
     public TizenClientCodegen() {
         super();
-        outputFolder = "generated-code/tizen";
+        outputFolder = "";
         modelTemplateFiles.put("model-header.mustache", ".h");
         modelTemplateFiles.put("model-body.mustache", ".cpp");
         apiTemplateFiles.put("api-header.mustache", ".h");
@@ -47,71 +45,72 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
                 Arrays.asList(
                         "bool",
                         "int",
-                        "long")
+                        "long long",
+                        "double",
+                        "float")
         );
-        languageSpecificPrimitives = new HashSet<String>();
+        languageSpecificPrimitives = new HashSet<String>(
+                Arrays.asList(
+                        "bool",
+                        "int",
+                        "long long",
+                        "double",
+                        "float",
+                        "std::string")
+        );
 
         additionalProperties().put("prefix", PREFIX);
 
         setReservedWordsLowerCase(
-                // VERIFY
                 Arrays.asList(
-                        "void", "char", "short", "int", "void", "char", "short", "int",
-                        "long", "float", "double", "signed", "unsigned", "id", "const",
-                        "volatile", "in", "out", "inout", "bycopy", "byref", "oneway",
-                        "self", "super"
+                        "alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept",
+                        "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char16_t", "char32_t",
+                        "class", "compl", "concept", "const", "constexpr", "const_cast", "continue", "decltype", "default",
+                        "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export", "extern", "false",
+                        "float", "for", "friend", "goto", "if", "inline", "int", "import", "long", "module", "mutable",
+                        "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "private",
+                        "protected", "public", "register", "reinterpret_cast", "requires", "return", "short", "signed",
+                        "sizeof", "static", "static_assert", "static_cast", "struct", "switch", "synchronized", "template",
+                        "this", "thread_local", "throw", "true", "try", "typedef", "typeid", "typename", "union",
+                        "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"
                 ));
 
         super.typeMapping = new HashMap<String, String>();
 
-        typeMapping.put("Date", "DateTime");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("string", "String");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("float", "Float");
-        typeMapping.put("long", "Long");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("double", "Double");
-        typeMapping.put("array", "IList");
-        typeMapping.put("map", "HashMap");
-        typeMapping.put("number", "Long");
-        typeMapping.put("object", PREFIX + "Object");
-        typeMapping.put("UUID", "String");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "String");
+        //typeMapping.put("Date", "DateTime");
+        //typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("string", "std::string");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long long");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("double", "double");
+        typeMapping.put("array", "std::list");
+        typeMapping.put("map", "std::map");
+        typeMapping.put("number", "long long");
+        typeMapping.put("object", "std::string");
+        typeMapping.put("binary", "std::string");
+        typeMapping.put("password", "std::string");
+        //TODO:Maybe use better formats for dateTime?
+        typeMapping.put("file", "std::string");
+        typeMapping.put("DateTime", "std::string");
+        typeMapping.put("Date", "std::string");
+        typeMapping.put("UUID", "std::string");
 
         importMapping = new HashMap<String, String>();
 
-        namespaces = new HashMap<String, String>();
-        namespaces.put("DateTime", "Tizen::Base::DateTime");
-        namespaces.put("Integer", "Tizen::Base::Integer");
-        namespaces.put("Long", "Tizen::Base::Long");
-        namespaces.put("Boolean", "Tizen::Base::Boolean");
-        namespaces.put("Float", "Tizen::Base::Float");
-        namespaces.put("String", "Tizen::Base::String");
-        namespaces.put("Double", "Tizen::Base::Double");
-        namespaces.put("IList", "Tizen::Base::Collection::IList");
-        namespaces.put("HashMap", "Tizen::Base::Collection::HashMap");
-        namespaces.put("ArrayList", "Tizen::Base::Collection::ArrayList");
-        namespaces.put("JsonNumber", "Tizen::Web::Json");
-        namespaces.put("JsonString", "Tizen::Web::Json");
-
-        foundationClasses = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "Integer",
-                        "Float")
-        );
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder, PREFIX + "ModelFactory.h"));
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("apiclient-header.mustache", sourceFolder, PREFIX + "ApiClient.h"));
-        supportingFiles.add(new SupportingFile("apiclient-body.mustache", sourceFolder, PREFIX + "ApiClient.cpp"));
-        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
-        supportingFiles.add(new SupportingFile("error-header.mustache", sourceFolder, PREFIX + "Error.h"));
-        supportingFiles.add(new SupportingFile("error-body.mustache", sourceFolder, PREFIX + "Error.cpp"));
+        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, "Helpers.h"));
+        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, "Helpers.cpp"));
+        supportingFiles.add(new SupportingFile("netclient-header.mustache", sourceFolder, "NetClient.h"));
+        supportingFiles.add(new SupportingFile("netclient-body.mustache", sourceFolder, "NetClient.cpp"));
+        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, "Object.h"));
+        supportingFiles.add(new SupportingFile("requestinfo.mustache", sourceFolder, "RequestInfo.h"));
+        supportingFiles.add(new SupportingFile("error-header.mustache", sourceFolder, "Error.h"));
+        supportingFiles.add(new SupportingFile("error-body.mustache", sourceFolder, "Error.cpp"));
+        supportingFiles.add(new SupportingFile("Doxyfile.mustache", documentationFolder, "Doxyfile"));
+        supportingFiles.add(new SupportingFile("generateDocumentation.mustache", documentationFolder, "generateDocumentation.sh"));
+        supportingFiles.add(new SupportingFile("doc-readme.mustache", documentationFolder, "README.md"));
     }
 
     @Override
@@ -142,10 +141,10 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getTypeDeclaration(String name) {
-        if (languageSpecificPrimitives.contains(name) && !foundationClasses.contains(name)) {
+        if (languageSpecificPrimitives.contains(name)) {
             return name;
         } else {
-            return name + "*";
+            return name + "";
         }
     }
 
@@ -155,7 +154,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type) && !foundationClasses.contains(type)) {
+            if (languageSpecificPrimitives.contains(type)) {
                 return toModelName(type);
             }
         } else {
@@ -167,10 +166,10 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String getTypeDeclaration(Property p) {
         String swaggerType = getSwaggerType(p);
-        if (languageSpecificPrimitives.contains(swaggerType) && !foundationClasses.contains(swaggerType)) {
+        if (languageSpecificPrimitives.contains(swaggerType)) {
             return toModelName(swaggerType);
         } else {
-            return swaggerType + "*";
+            return swaggerType + "";
         }
     }
 
@@ -178,48 +177,48 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toModelName(String type) {
         if (typeMapping.keySet().contains(type) ||
                 typeMapping.values().contains(type) ||
-                foundationClasses.contains(type) ||
                 importMapping.values().contains(type) ||
                 defaultIncludes.contains(type) ||
                 languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return PREFIX + Character.toUpperCase(type.charAt(0)) + type.substring(1);
+            return Character.toUpperCase(type.charAt(0)) + type.substring(1);
         }
     }
 
     @Override
     public String toModelImport(String name) {
-        if (namespaces.containsKey(name)) {
-            return "using " + namespaces.get(name) + ";";
+        if (name.equals("std::string")) {
+            return "#include <string>";
+        } else if (name.equals("std::map")) {
+            return "#include <map>";
+        } else if (name.equals("std::list")) {
+            return "#include <list>";
         }
         return "#include \"" + name + ".h\"";
     }
 
+    //Might not be needed
     @Override
     public String toDefaultValue(Property p) {
         if (p instanceof StringProperty) {
-            return "new String()";
+            return "std::string()";
         } else if (p instanceof BooleanProperty) {
-            return "new Boolean(false)";
-        } else if (p instanceof DateProperty) {
-            return "new DateTime()";
-        } else if (p instanceof DateTimeProperty) {
-            return "new DateTime()";
+            return "bool(false)";
         } else if (p instanceof DoubleProperty) {
-            return "new Double()";
+            return "double(0)";
         } else if (p instanceof FloatProperty) {
-            return "new Float()";
+            return "float(0)";
         } else if (p instanceof IntegerProperty) {
-            return "new Integer()";
+            return "int(0)";
         } else if (p instanceof LongProperty) {
-            return "new Long()";
+            return "long(0)";
         } else if (p instanceof DecimalProperty) {
-            return "new Long()";
+            return "long(0)";
         } else if (p instanceof MapProperty) {
-            return "new HashMap()";
+            return "new std::map()";
         } else if (p instanceof ArrayProperty) {
-            return "new ArrayList()";
+            return "new std::list()";
         }
         // else
         if (p instanceof RefProperty) {
@@ -228,6 +227,7 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
         return "null";
     }
+
 
     @Override
     public String apiFileFolder() {
@@ -241,24 +241,27 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toModelFilename(String name) {
-        return PREFIX + initialCaps(name);
+        return initialCaps(name);
     }
 
     @Override
     public String toApiName(String name) {
-        return PREFIX + initialCaps(name) + "Api";
+        return initialCaps(name) + "Manager";
     }
 
     @Override
     public String toApiFilename(String name) {
-        return PREFIX + initialCaps(name) + "Api";
+        return initialCaps(name) + "Manager";
     }
 
     @Override
     public String toVarName(String name) {
         String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
-        paramName = Character.toUpperCase(paramName.charAt(0)) + paramName.substring(1);
-        return "p" + paramName;
+        paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
+        if (isReservedWord(paramName)) {
+            return escapeReservedWord(paramName);
+        }
+        return "" + paramName;
     }
 
     @Override
@@ -272,27 +275,17 @@ public class TizenClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
-        if (StringUtils.isEmpty(operationId)) {
+        if (operationId=="") {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return$
         if (isReservedWord(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+            operationId = escapeReservedWord(operationId);
         }
 
         // add_pet_by_id => addPetById
         return camelize(operationId, true);
     }
 
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
 }

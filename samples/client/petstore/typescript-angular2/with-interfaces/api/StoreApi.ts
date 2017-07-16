@@ -127,8 +127,8 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -160,7 +160,8 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         // authentication (api_key) required
@@ -203,8 +204,8 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -241,8 +242,8 @@ export class StoreApi implements StoreApiInterface {
 
         // to determine the Accept header
         let produces: string[] = [
-            'application/xml',
-            'application/json'
+            'application/json',
+            'application/xml'
         ];
 
         headers.set('Content-Type', 'application/json');

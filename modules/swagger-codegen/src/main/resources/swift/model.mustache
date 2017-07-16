@@ -33,10 +33,10 @@ public class {{classname}}: JSONEncodable {
     public init() {}
 {{/unwrapRequired}}
 {{#unwrapRequired}}
-    public init({{#requiredVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{/requiredVars}}) {
-        {{#requiredVars}}
+    public init({{#allVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{^required}}?=nil{{/required}}{{/allVars}}) {
+        {{#allVars}}
         self.{{name}} = {{name}}
-        {{/requiredVars}}
+        {{/allVars}}
     }
 {{/unwrapRequired}}
 

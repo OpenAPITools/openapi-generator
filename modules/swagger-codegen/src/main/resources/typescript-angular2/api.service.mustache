@@ -1,0 +1,280 @@
+{{>licenseInfo}}
+/* tslint:disable:no-unused-variable member-ordering */
+
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Http, Headers, URLSearchParams }                    from '@angular/http';
+import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { Response, ResponseContentType }                     from '@angular/http';
+
+import { Observable }                                        from 'rxjs/Observable';
+import '../rxjs-operators';
+
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+
+import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
+import { Configuration }                                     from '../configuration';
+{{#withInterfaces}}
+import { {{classname}}Interface }                            from './{{classname}}Interface';
+{{/withInterfaces}}
+
+{{#operations}}
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+@Injectable()
+{{#withInterfaces}}
+export class {{classname}} implements {{classname}}Interface {
+{{/withInterfaces}}
+{{^withInterfaces}}
+export class {{classname}} {
+{{/withInterfaces}}
+
+    protected basePath = '{{{basePath}}}';
+    public defaultHeaders: Headers = new Headers();
+    public configuration: Configuration = new Configuration();
+
+    constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
+        if (basePath) {
+            this.basePath = basePath;
+        }
+        if (configuration) {
+            this.configuration = configuration;
+			this.basePath = basePath || configuration.basePath || this.basePath;
+        }
+    }
+
+    /**
+     * 
+     * Extends object by coping non-existing properties.
+     * @param objA object to be extended
+     * @param objB source object
+     */
+    private extendObj<T1,T2>(objA: T1, objB: T2) {
+        for(let key in objB){
+            if(objB.hasOwnProperty(key)){
+                (objA as any)[key] = (objB as any)[key];
+            }
+        }
+        return <T1&T2>objA;
+    }
+
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (let consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+{{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+{{^isResponseFile}}
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+{{/isResponseFile}}
+{{#isResponseFile}}
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<{{#returnType}}{{{returnType}}}|undefined{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+{{/isResponseFile}}
+        return this.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+{{^isResponseFile}}
+                    return response.json() || {};
+{{/isResponseFile}}
+{{#isResponseFile}}
+                    return response.blob();
+{{/isResponseFile}}
+                }
+            });
+    }
+
+{{/operation}}
+
+{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}*/
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '{{{path}}}'{{#pathParams}}
+                    .replace('${' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+
+{{#allParams}}
+{{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+{{/required}}
+{{/allParams}}
+{{#queryParams}}
+        {{#isListContainer}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element) => {
+                queryParameters.append('{{baseName}}', <any>element);
+            })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            queryParameters.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isListContainer}}
+        {{^isListContainer}}
+        if ({{paramName}} !== undefined) {
+        {{#isDateTime}}
+            queryParameters.set('{{baseName}}', <any>{{paramName}}.toISOString());
+        {{/isDateTime}}
+        {{^isDateTime}}
+            queryParameters.set('{{baseName}}', <any>{{paramName}});
+        {{/isDateTime}}
+        }
+        {{/isListContainer}}
+
+{{/queryParams}}
+{{#headerParams}}
+        {{#isListContainer}}
+        if ({{paramName}}) {
+            headers.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+        }
+        {{/isListContainer}}
+        {{^isListContainer}}
+        if ({{paramName}} !== undefined && {{paramName}} !== null) {
+            headers.set('{{baseName}}', String({{paramName}}));
+        }
+        {{/isListContainer}}
+
+{{/headerParams}}
+{{#hasFormParams}}
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            {{/consumes}}
+        ];
+        let canConsumeForm = this.canConsumeForm(consumes);
+        let useForm = false;
+{{#formParams}}
+{{#isFile}}
+        useForm = canConsumeForm;
+{{/isFile}}
+{{/formParams}}
+        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
+          set(param: string, value: any): void;
+        };
+{{/hasFormParams}}
+
+        // to determine the Accept header
+        let produces: string[] = [
+            {{#produces}}
+            '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
+            {{/produces}}
+        ];
+
+{{#authMethods}}
+        // authentication ({{name}}) required
+{{#isApiKey}}
+{{#isKeyInHeader}}
+        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+            headers.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
+        }
+
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+            queryParameters.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
+        }
+
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasic}}
+        // http basic authentication required
+        if (this.configuration.username || this.configuration.password) {
+            headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
+        }
+
+{{/isBasic}}
+{{#isOAuth}}
+        // oauth required
+        if (this.configuration.accessToken) {
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+
+{{/isOAuth}}
+{{/authMethods}}
+            
+{{#bodyParam}}
+        headers.set('Content-Type', 'application/json');
+
+{{/bodyParam}}
+{{#formParams}}
+        {{#isListContainer}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element) => {
+                formParams.append('{{baseName}}', <any>element);
+            })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            formParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isListContainer}}
+        {{^isListContainer}}
+        if ({{paramName}} !== undefined) {
+            formParams.set('{{baseName}}', <any>{{paramName}});
+        }
+        {{/isListContainer}}
+
+{{/formParams}}
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: {{httpMethod}},
+            headers: headers,
+{{#bodyParam}}
+            body: {{paramName}} == null ? '' : JSON.stringify({{paramName}}), // https://github.com/angular/angular/issues/10612
+{{/bodyParam}}
+{{#hasFormParams}}
+            body: formParams.toString(),
+{{/hasFormParams}}
+{{#isResponseFile}}
+            responseType: ResponseContentType.Blob,
+{{/isResponseFile}}
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+{{/operation}}
+}
+{{/operations}}

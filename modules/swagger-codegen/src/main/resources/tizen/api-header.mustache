@@ -1,37 +1,70 @@
-#ifndef {{classname}}_H_
-#define {{classname}}_H_
+#ifndef _{{classname}}_H_
+#define _{{classname}}_H_
 
-#include <FNet.h>
-#include "{{prefix}}ApiClient.h"
-#include "{{prefix}}Error.h"
-
-{{#imports}}{{{import}}}
+#include <string>
+#include <cstring>
+#include <list>
+#include <glib.h>
+{{#imports}}
+{{{import}}}
 {{/imports}}
+#include "Error.h"
 
-using namespace Tizen::Net::Http;
+/** \defgroup Operations API Endpoints
+ *  Classes containing all the functions for calling API endpoints
+ *
+ */
 
-namespace Swagger {
-
+namespace Tizen{
+namespace {{prefix}} {
 {{#operations}}
+/** \addtogroup {{{baseName}}} {{{baseName}}}
+ * \ingroup Operations
+ *  @{
+ */
 class {{classname}} {
 public:
-  {{classname}}();
-  virtual ~{{classname}}();
+	{{classname}}();
+	virtual ~{{classname}}();
 
-  {{#operation}}
-  {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}
-  {{nickname}}WithCompletion({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}},{{/hasParams}} {{#returnType}}void (* handler)({{returnType}}, {{prefix}}Error*){{/returnType}}{{^returnType}}void(* handler)({{prefix}}Error*){{/returnType}});
-  {{/operation}}
-  static String getBasePath() {
-    return L"{{{basePath}}}";
-  }
+	{{#operation}}
+/*! \brief {{{summary}}}. *Synchronous*
+ *
+ * {{{notes}}}{{#allParams}}
+ * \param {{paramName}} {{{description}}}{{#required}} *Required*{{/required}}{{/allParams}}
+ * \param handler The callback function to be invoked on completion. *Required*
+ * \param accessToken The Authorization token. *Required*
+ * \param userData The user data to be passed to the callback function.
+ */
+bool {{nickname}}Sync(char * accessToken,
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<std::string,std::string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData);
 
-private:
-  {{prefix}}ApiClient* client;
+/*! \brief {{{summary}}}. *Asynchronous*
+ *
+ * {{{notes}}}{{#allParams}}
+ * \param {{paramName}} {{{description}}}{{#required}} *Required*{{/required}}{{/allParams}}
+ * \param handler The callback function to be invoked on completion. *Required*
+ * \param accessToken The Authorization token. *Required*
+ * \param userData The user data to be passed to the callback function.
+ */
+bool {{nickname}}Async(char * accessToken,
+	{{#allParams}}{{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}
+	{{#returnType}}void(* handler)({{#returnContainer}}{{#isListContainer}}{{returnType}}<{{returnBaseType}}>{{/isListContainer}}{{#isMapContainer}}{{returnType}}<std::string,std::string>{{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}, Error, void* ){{/returnType}}
+	{{^returnType}}void(* handler)(Error, void* ) {{/returnType}}, void* userData);
+
+
+	{{/operation}}
+
+	static std::string getBasePath()
+	{
+		return "{{{basePath}}}";
+	}
 };
-
+/** @}*/
 
 {{/operations}}
-} /* namespace Swagger */
-
+}
+}
 #endif /* {{classname}}_H_ */

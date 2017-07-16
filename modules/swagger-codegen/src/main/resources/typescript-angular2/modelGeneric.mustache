@@ -1,4 +1,4 @@
-export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}}{
+export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
 

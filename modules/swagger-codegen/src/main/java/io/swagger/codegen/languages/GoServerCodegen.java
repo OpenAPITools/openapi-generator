@@ -11,6 +11,11 @@ import com.google.common.collect.Multimap;
 import io.swagger.codegen.*;
 import io.swagger.models.*;
 import io.swagger.util.Yaml;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.MapProperty;
+import io.swagger.models.properties.Property;
+import io.swagger.models.parameters.Parameter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +34,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
     protected String apiPath = "go";
-    
+
     public GoServerCodegen() {
         super();
 
@@ -64,6 +69,11 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
          */
         setReservedWordsLowerCase(
             Arrays.asList(
+                // data type
+                "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
+                "int", "int8", "int16", "int32", "int64", "float32", "float64",
+                "complex64", "complex128", "rune", "byte", "uintptr",
+
                 "break", "default", "func", "interface", "select",
                 "case", "defer", "go", "map", "struct",
                 "chan", "else", "goto", "package", "switch",
@@ -109,7 +119,8 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("double", "float64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "string");
-        typeMapping.put("date", "time.Time");
+        typeMapping.put("UUID", "string");
+        typeMapping.put("date", "string");
         typeMapping.put("DateTime", "time.Time");
         typeMapping.put("password", "string");
         typeMapping.put("File", "*os.File");
@@ -118,6 +129,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         // the correct solution is to use []byte
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("object", "interface{}");
         typeMapping.put("UUID", "string");
 
         importMapping = new HashMap<String, String>();
@@ -149,8 +161,8 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         );
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
-        supportingFiles.add(new SupportingFile("logger.mustache", apiPath, "logger.go")); 
-        supportingFiles.add(new SupportingFile("app.mustache", apiPath, "app.yaml"));        
+        supportingFiles.add(new SupportingFile("logger.mustache", apiPath, "logger.go"));
+        supportingFiles.add(new SupportingFile("app.mustache", apiPath, "app.yaml"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", apiPath, "README.md"));
     }
 
@@ -211,7 +223,7 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
     public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
-        }        
+        }
         return "_" + name;  // add an underscore to the name
     }
 
@@ -245,11 +257,11 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelFilename(String name) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+            name = modelNamePrefix + name;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
+            name = name +  modelNameSuffix;
         }
 
         name = sanitizeName(name);
@@ -260,7 +272,54 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
-        return underscore(name);
+        return camelize(name);
+    }
+
+    @Override
+    public String getTypeDeclaration(Property p) {
+        if(p instanceof ArrayProperty) {
+            ArrayProperty ap = (ArrayProperty) p;
+            Property inner = ap.getItems();
+            return "[]" + getTypeDeclaration(inner);
+        }
+        else if (p instanceof MapProperty) {
+            MapProperty mp = (MapProperty) p;
+            Property inner = mp.getAdditionalProperties();
+
+            return getSwaggerType(p) + "[string]" + getTypeDeclaration(inner);
+        }
+        //return super.getTypeDeclaration(p);
+
+        // Not using the supertype invocation, because we want to UpperCamelize
+        // the type.
+        String swaggerType = getSwaggerType(p);
+        if (typeMapping.containsKey(swaggerType)) {
+            return typeMapping.get(swaggerType);
+        }
+
+        if(typeMapping.containsValue(swaggerType)) {
+            return swaggerType;
+        }
+
+        if(languageSpecificPrimitives.contains(swaggerType)) {
+            return swaggerType;
+        }
+
+        return toModelName(swaggerType);
+    }
+
+    @Override
+    public String getSwaggerType(Property p) {
+        String swaggerType = super.getSwaggerType(p);
+        String type = null;
+        if(typeMapping.containsKey(swaggerType)) {
+            type = typeMapping.get(swaggerType);
+            if(languageSpecificPrimitives.contains(type))
+                return (type);
+        }
+        else
+            type = swaggerType;
+        return type;
     }
 
     @Override
@@ -283,4 +342,69 @@ public class GoServerCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "_" + value;
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
+        // number
+        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+            String varName = name;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return getSymbolName(name).toUpperCase();
+        }
+
+        // string
+        String enumName = sanitizeName(underscore(name).toUpperCase());
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+            return escapeReservedWord(enumName);
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        String enumName = underscore(toModelName(property.name)).toUpperCase();
+
+        // remove [] for array or map of enum
+        enumName = enumName.replace("[]", "");
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
 }

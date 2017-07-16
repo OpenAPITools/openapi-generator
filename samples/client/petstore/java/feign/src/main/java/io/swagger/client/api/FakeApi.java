@@ -5,8 +5,8 @@ import io.swagger.client.EncodingUtils;
 
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
 
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/xml; charset&#x3D;utf-8",
     "Accept: application/xml; charset&#x3D;utf-8,application/json; charset&#x3D;utf-8",
   })
-  void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") byte[] binary, @Param("date") LocalDate date, @Param("dateTime") DateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
+  void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") byte[] binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
 
   /**
    * To test enum parameters
@@ -180,4 +180,17 @@ public interface FakeApi extends ApiClient.Api {
       return this;
     }
   }
+
+  /**
+   * test json serialization of form data
+   * 
+    * @param param field1 (required)
+    * @param param2 field2 (required)
+   */
+  @RequestLine("GET /fake/jsonFormData")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testJsonFormData(@Param("param") String param, @Param("param2") String param2);
 }

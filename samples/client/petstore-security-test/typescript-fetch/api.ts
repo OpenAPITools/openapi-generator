@@ -16,6 +16,8 @@ import * as url from "url";
 import * as isomorphicFetch from "isomorphic-fetch";
 import * as assign from "core-js/library/fn/object/assign";
 
+import { Configuration } from "./configuration";
+
 interface Dictionary<T> { [index: string]: T; }
 export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
@@ -29,10 +31,12 @@ export interface FetchArgs {
 export class BaseAPI {
     basePath: string;
     fetch: FetchAPI;
+    public configuration: Configuration;
 
-    constructor(fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) {
+    constructor(fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH, configuration: Configuration = new Configuration()) {
         this.basePath = basePath;
         this.fetch = fetch;
+        this.configuration = configuration;
     }
 };
 
@@ -56,7 +60,7 @@ export const FakeApiFetchParamCreator = {
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      */
-    testCodeInjectEndRnNR(params: {  "test code inject * &#39; &quot; &#x3D;end  rn n r"?: string; }, options?: any): FetchArgs {
+    testCodeInjectEndRnNR(params: {  test code inject * &#39; &quot; &#x3D;end  rn n r?: string; }, options: any = {}): FetchArgs {
         const baseUrl = `/fake`;
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "PUT" }, options);
@@ -69,6 +73,7 @@ export const FakeApiFetchParamCreator = {
         if (contentTypeHeader) {
             fetchOptions.headers = contentTypeHeader;
         }
+
         return {
             url: url.format(urlObj),
             options: fetchOptions,
@@ -84,7 +89,7 @@ export const FakeApiFp = {
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      */
-    testCodeInjectEndRnNR(params: { "test code inject * &#39; &quot; &#x3D;end  rn n r"?: string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+    testCodeInjectEndRnNR(params: { test code inject * &#39; &quot; &#x3D;end  rn n r?: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = FakeApiFetchParamCreator.testCodeInjectEndRnNR(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -106,7 +111,7 @@ export class FakeApi extends BaseAPI {
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      */
-    testCodeInjectEndRnNR(params: {  "test code inject * &#39; &quot; &#x3D;end  rn n r"?: string; }, options?: any) {
+    testCodeInjectEndRnNR(params: {  test code inject * &#39; &quot; &#x3D;end  rn n r?: string; }, options: any = {}) {
         return FakeApiFp.testCodeInjectEndRnNR(params, options)(this.fetch, this.basePath);
     }
 };
@@ -120,7 +125,7 @@ export const FakeApiFactory = function (fetch?: FetchAPI, basePath?: string) {
          * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
          * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
          */
-        testCodeInjectEndRnNR(params: {  "test code inject * &#39; &quot; &#x3D;end  rn n r"?: string; }, options?: any) {
+        testCodeInjectEndRnNR(params: {  test code inject * &#39; &quot; &#x3D;end  rn n r?: string; }, options: any = {}) {
             return FakeApiFp.testCodeInjectEndRnNR(params, options)(fetch, basePath);
         },
     };

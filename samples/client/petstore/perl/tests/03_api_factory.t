@@ -10,15 +10,15 @@ use_ok('WWW::SwaggerClient::ApiFactory');
 my $api_factory = WWW::SwaggerClient::ApiFactory->new('base_url' => 'http://testing');
 my $pet_api = $api_factory->get_api('Pet');
 isa_ok($pet_api, 'WWW::SwaggerClient::PetApi');
-is $pet_api->{api_client}->{base_url}, 'http://testing', 'get the proper base URL from api client';
+is $pet_api->{api_client}{config}{base_url}, 'http://testing', 'get the proper base URL from api client';
 
 $api_factory = WWW::SwaggerClient::ApiFactory->new;
 $pet_api = $api_factory->get_api('Pet');
 
 # reset the base_url - no direct access because an application shouldn't be changing 
 # its base URL halfway through
-$pet_api->{api_client}->{base_url} = 'http://petstore.swagger.io/v2';
-is $pet_api->{api_client}->{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
+$pet_api->{api_client}{config}{base_url} = 'http://petstore.swagger.io/v2';
+is $pet_api->{api_client}{config}{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
 
 # test accessor methods
 my $pet_id = 10008;

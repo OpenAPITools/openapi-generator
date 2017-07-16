@@ -71,6 +71,13 @@ $app->POST('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
  */
 $app->POST('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 /**
+ * PATCH testClassname
+ * Summary: To test class name in snake case
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+$app->PATCH('/v2/fake_classname_test', 'Fake_classname_tags123Api@testClassname');
+/**
  * POST addPet
  * Summary: Add a new pet to the store
  * Notes: 

@@ -1,27 +1,26 @@
-#ifndef _{{prefix}}_OBJECT_H_
-#define _{{prefix}}_OBJECT_H_
+#ifndef _OBJECT_H_
+#define _OBJECT_H_
 
-#include <FNet.h>
-#include <FWebJson.h>
-#include <FBase.h>
+namespace Tizen{
+namespace {{prefix}} {
 
-using Tizen::Base::String;
+class Object {
+public:
 
-using namespace Tizen::Web::Json;
+	virtual char* toJson()
+	{
+	return NULL;
+	}
 
-class {{prefix}}Object {
-  public:
-    virtual JsonObject* asJsonObject() {
-      return null;
-    }
-    virtual ~{{prefix}}Object() {}
-    virtual {{prefix}}Object* fromJson(String* obj) {
-      return null;
-    }
-    virtual void fromJsonObject(IJsonValue* obj) {}
-    virtual String asJson() {
-      return L"";
-    }
+	virtual ~Object()
+	{
+	}
+
+	virtual void fromJson(char* jsonStr)
+	{
+	}
 };
 
-#endif /* _{{prefix}}_OBJECT_H_ */
+}
+}
+#endif /* _OBJECT_H_ */

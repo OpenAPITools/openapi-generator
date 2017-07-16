@@ -26,20 +26,30 @@ from {{{packageName}}}.rest import ApiException
 from pprint import pprint
 {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
 # Configure HTTP basic authorization: {{{name}}}
-{{{packageName}}}.configuration.username = 'YOUR_USERNAME'
-{{{packageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isApiKey}}
+configuration = {{{packageName}}}.Configuration()
+configuration.username = 'YOUR_USERNAME'
+configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-{{{packageName}}}.configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
+configuration = {{{packageName}}}.Configuration()
+configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# {{{packageName}}}.configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
+# configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-{{{packageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}{{/authMethods}}
+configuration = {{{packageName}}}.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}{{/authMethods}}
+
+# create an instance of the API class
+api_instance = {{{packageName}}}.{{{classname}}}({{{packageName}}}.ApiClient(configuration))
+{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/allParams}}
 {{/hasAuthMethods}}
+{{^hasAuthMethods}}
 
 # create an instance of the API class
 api_instance = {{{packageName}}}.{{{classname}}}()
 {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
+{{/hasAuthMethods}}
 
 try: 
 {{#summary}}    # {{{.}}}

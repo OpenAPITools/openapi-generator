@@ -96,11 +96,22 @@ public class FakeApi  {
     
     @Consumes({ "*/*" })
     @Produces({ "*/*" })
-    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = void.class, tags={ "fake" })
+    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = void.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request", response = void.class),
         @ApiResponse(code = 404, message = "Not found", response = void.class) })
     public Response testEnumParameters(@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString,@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string") String enumHeaderString,@QueryParam("enum_query_string_array")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg") String enumQueryString,@QueryParam("enum_query_integer")  Integer enumQueryInteger,@FormParam(value = "enum_query_double")  Double enumQueryDouble) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/jsonFormData")
+    @Consumes({ "application/json" })
+    
+    @ApiOperation(value = "test json serialization of form data", notes = "", response = void.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = void.class) })
+    public Response testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2) {
         return Response.ok().entity("magic!").build();
     }
 }

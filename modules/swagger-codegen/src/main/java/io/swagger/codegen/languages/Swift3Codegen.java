@@ -132,8 +132,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Dictionary");
-        typeMapping.put("date", "Date");
-        typeMapping.put("Date", "Date");
+        typeMapping.put("date", "ISOFullDate");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("boolean", "Bool");
         typeMapping.put("string", "String");

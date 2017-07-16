@@ -265,11 +265,12 @@ from petstore_api.rest import ApiException
 from pprint import pprint
 
 # Configure HTTP basic authorization: http_basic_test
-petstore_api.configuration.username = 'YOUR_USERNAME'
-petstore_api.configuration.password = 'YOUR_PASSWORD'
+configuration = petstore_api.Configuration()
+configuration.username = 'YOUR_USERNAME'
+configuration.password = 'YOUR_PASSWORD'
 
 # create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
 number = 3.4 # float | None
 double = 1.2 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None

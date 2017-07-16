@@ -28,6 +28,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **Get** /fake | To test enum parameters
+*Fake_classname_tags123Api* | [**TestClassname**](docs/Fake_classname_tags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **Get** /pet/findByStatus | Finds Pets by status
@@ -92,19 +93,29 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-
 ## api_key
-
 - **Type**: API key 
-- **API key parameter name**: api_key
-- **Location**: HTTP header
 
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
+		Key: "APIKEY",
+		Prefix: "Bearer", // Omit if not necessary.
+	})
+    r, err := client.Service.Operation(auth, args)
+```
 ## http_basic_test
-
 - **Type**: HTTP basic authentication
 
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextBasicAuth, sw.BasicAuth{
+		UserName: "username",
+		Password: "password",
+	})
+    r, err := client.Service.Operation(auth, args)
+```
 ## petstore_auth
-
 - **Type**: OAuth
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
@@ -112,6 +123,22 @@ Class | Method | HTTP request | Description
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
 
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+    r, err := client.Service.Operation(auth, args)
+```
+
+Or via OAuth2 module to automaticly refresh tokens and perform user authentication.
+```
+	import 	"golang.org/x/oauth2"
+
+    / .. Perform OAuth2 round trip request and obtain a token .. //
+
+    tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
+	auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+    r, err := client.Service.Operation(auth, args)
+```
 
 ## Author
 

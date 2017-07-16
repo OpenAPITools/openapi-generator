@@ -5,16 +5,22 @@ import java.util.Map;
 
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+{{#threetenbp}}
+import org.threeten.bp.*;
+{{/threetenbp}}
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-{{^java8}}
+{{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-{{/java8}}
+{{/joda}}
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{/java8}}
+{{#threetenbp}}
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+{{/threetenbp}}
 
 import feign.Feign;
 import feign.RequestInterceptor;
@@ -149,12 +155,19 @@ public class ApiClient {
     objectMapper.disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new RFC3339DateFormat());
-    {{^java8}}
+    {{#joda}}
     objectMapper.registerModule(new JodaModule());
-    {{/java8}}
+    {{/joda}}
     {{#java8}}
     objectMapper.registerModule(new JavaTimeModule());
     {{/java8}}
+    {{#threetenbp}}
+    ThreeTenModule module = new ThreeTenModule();
+    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
+    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
+    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
+    objectMapper.registerModule(module);
+    {{/threetenbp}}
     return objectMapper;
   }
 

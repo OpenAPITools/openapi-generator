@@ -36,7 +36,7 @@ open class RequestBuilder<T> {
     let isBody: Bool
     let method: String
     let URLString: String
-    
+
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> ())?
 
@@ -46,17 +46,17 @@ open class RequestBuilder<T> {
         self.parameters = parameters
         self.isBody = isBody
         self.headers = headers
-        
+
         addHeaders(PetstoreClientAPI.customHeaders)
     }
-    
+
     open func addHeaders(_ aHeaders:[String:String]) {
         for (header, value) in aHeaders {
             headers[header] = value
         }
     }
-    
-    open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: Error?) -> Void) { }
+
+    open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: ErrorResponse?) -> Void) { }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
@@ -64,7 +64,7 @@ open class RequestBuilder<T> {
         }
         return self
     }
-    
+
     open func addCredential() -> Self {
         self.credential = PetstoreClientAPI.credential
         return self

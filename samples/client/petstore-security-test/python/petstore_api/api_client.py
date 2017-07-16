@@ -59,18 +59,15 @@ class ApiClient(object):
         'object': object,
     }
 
-    def __init__(self, host=None, header_name=None, header_value=None, cookie=None):
-        """
-        Constructor of the class.
-        """
-        self.rest_client = RESTClientObject()
+    def __init__(self, configuration=None, header_name=None, header_value=None, cookie=None):
+        if configuration is None:
+            configuration = Configuration()
+        self.configuration = configuration
+
+        self.rest_client = RESTClientObject(configuration)
         self.default_headers = {}
         if header_name is not None:
             self.default_headers[header_name] = header_value
-        if host is None:
-            self.host = Configuration().host
-        else:
-            self.host = host
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = 'Swagger-Codegen/1.0.0/python'
@@ -142,7 +139,7 @@ class ApiClient(object):
             body = self.sanitize_for_serialization(body)
 
         # request url
-        url = self.host + resource_path
+        url = self.configuration.host + resource_path
 
         # perform request and return response
         response_data = self.request(method, url,
@@ -499,13 +496,11 @@ class ApiClient(object):
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
         """
-        config = Configuration()
-
         if not auth_settings:
             return
 
         for auth in auth_settings:
-            auth_setting = config.auth_settings().get(auth)
+            auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
                 if not auth_setting['value']:
                     continue
@@ -526,9 +521,7 @@ class ApiClient(object):
         :param response:  RESTResponse.
         :return: file path.
         """
-        config = Configuration()
-
-        fd, path = tempfile.mkstemp(dir=config.temp_folder_path)
+        fd, path = tempfile.mkstemp(dir=self.configuration.temp_folder_path)
         os.close(fd)
         os.remove(path)
 

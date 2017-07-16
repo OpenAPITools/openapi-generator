@@ -559,6 +559,29 @@ paths:
         '404':
           description: User not found
 
+  /fake_classname_test:
+    patch:
+      tags:
+        - "fake_classname_tags 123#$%^"
+      summary: To test class name in snake case
+      descriptions: To test class name in snake case
+      operationId: testClassname
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: client model
+          required: true
+          schema:
+            $ref: '#/definitions/Client'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Client'
   /fake:
     patch:
       tags:
@@ -849,6 +872,29 @@ paths:
           description: Output composite
           schema:
             $ref: '#/definitions/OuterComposite'
+  /fake/jsonFormData:
+    get:
+      tags:
+        - fake
+      summary: test json serialization of form data
+      description: ''
+      operationId: testJsonFormData
+      consumes:
+        - application/json
+      parameters:
+        - name: param
+          in: formData
+          description: field1
+          required: true
+          type: string
+        - name: param2
+          in: formData
+          description: field2
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
 securityDefinitions:
   petstore_auth:
     type: oauth2

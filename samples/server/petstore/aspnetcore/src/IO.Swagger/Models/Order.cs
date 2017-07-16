@@ -15,25 +15,47 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace IO.Swagger.Models
-{
-
+{ 
     /// <summary>
     /// An order for a pets from the pet store
     /// </summary>
     [DataContract]
-    public partial class Order :  IEquatable<Order>
-    {
-                /// <summary>
+    public partial class Order : IEquatable<Order>
+    { 
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name="id")]
+        public long? Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets PetId
+        /// </summary>
+        [DataMember(Name="petId")]
+        public long? PetId { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Quantity
+        /// </summary>
+        [DataMember(Name="quantity")]
+        public int? Quantity { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ShipDate
+        /// </summary>
+        [DataMember(Name="shipDate")]
+        public DateTime? ShipDate { get; set; }
+        /// <summary>
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
         public enum StatusEnum
-        {
-            
+        { 
             /// <summary>
             /// Enum PlacedEnum for "placed"
             /// </summary>
@@ -52,6 +74,7 @@ namespace IO.Swagger.Models
             [EnumMember(Value = "delivered")]
             DeliveredEnum
         }
+
         /// <summary>
         /// Order Status
         /// </summary>
@@ -59,54 +82,6 @@ namespace IO.Swagger.Models
         [DataMember(Name="status")]
         public StatusEnum? Status { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Order" /> class.
-        /// </summary>
-        /// <param name="Id">Id.</param>
-        /// <param name="PetId">PetId.</param>
-        /// <param name="Quantity">Quantity.</param>
-        /// <param name="ShipDate">ShipDate.</param>
-        /// <param name="Status">Order Status.</param>
-        /// <param name="Complete">Complete (default to false).</param>
-        public Order(long? Id = default(long?), long? PetId = default(long?), int? Quantity = default(int?), DateTime? ShipDate = default(DateTime?), StatusEnum? Status = default(StatusEnum?), bool? Complete = false)
-        {
-            this.Id = Id;
-            this.PetId = PetId;
-            this.Quantity = Quantity;
-            this.ShipDate = ShipDate;
-            this.Status = Status;
-            // use default value if no "Complete" provided
-            if (Complete == null)
-            {
-                this.Complete = false;
-            }
-            else
-            {
-                this.Complete = Complete;
-            }
-            
-        }
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [DataMember(Name="id")]
-        public long? Id { get; set; }
-        /// <summary>
-        /// Gets or Sets PetId
-        /// </summary>
-        [DataMember(Name="petId")]
-        public long? PetId { get; set; }
-        /// <summary>
-        /// Gets or Sets Quantity
-        /// </summary>
-        [DataMember(Name="quantity")]
-        public int? Quantity { get; set; }
-        /// <summary>
-        /// Gets or Sets ShipDate
-        /// </summary>
-        [DataMember(Name="shipDate")]
-        public DateTime? ShipDate { get; set; }
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
@@ -149,8 +124,7 @@ namespace IO.Swagger.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Order)obj);
+            return obj.GetType() == GetType() && Equals((Order)obj);
         }
 
         /// <summary>
@@ -160,40 +134,39 @@ namespace IO.Swagger.Models
         /// <returns>Boolean</returns>
         public bool Equals(Order other)
         {
-
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    this.Id == other.Id ||
-                    this.Id != null &&
-                    this.Id.Equals(other.Id)
+                    Id == other.Id ||
+                    Id != null &&
+                    Id.Equals(other.Id)
                 ) && 
                 (
-                    this.PetId == other.PetId ||
-                    this.PetId != null &&
-                    this.PetId.Equals(other.PetId)
+                    PetId == other.PetId ||
+                    PetId != null &&
+                    PetId.Equals(other.PetId)
                 ) && 
                 (
-                    this.Quantity == other.Quantity ||
-                    this.Quantity != null &&
-                    this.Quantity.Equals(other.Quantity)
+                    Quantity == other.Quantity ||
+                    Quantity != null &&
+                    Quantity.Equals(other.Quantity)
                 ) && 
                 (
-                    this.ShipDate == other.ShipDate ||
-                    this.ShipDate != null &&
-                    this.ShipDate.Equals(other.ShipDate)
+                    ShipDate == other.ShipDate ||
+                    ShipDate != null &&
+                    ShipDate.Equals(other.ShipDate)
                 ) && 
                 (
-                    this.Status == other.Status ||
-                    this.Status != null &&
-                    this.Status.Equals(other.Status)
+                    Status == other.Status ||
+                    Status != null &&
+                    Status.Equals(other.Status)
                 ) && 
                 (
-                    this.Complete == other.Complete ||
-                    this.Complete != null &&
-                    this.Complete.Equals(other.Complete)
+                    Complete == other.Complete ||
+                    Complete != null &&
+                    Complete.Equals(other.Complete)
                 );
         }
 
@@ -206,25 +179,26 @@ namespace IO.Swagger.Models
             // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
+                var hash = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (this.Id != null)
-                    hash = hash * 59 + this.Id.GetHashCode();
-                    if (this.PetId != null)
-                    hash = hash * 59 + this.PetId.GetHashCode();
-                    if (this.Quantity != null)
-                    hash = hash * 59 + this.Quantity.GetHashCode();
-                    if (this.ShipDate != null)
-                    hash = hash * 59 + this.ShipDate.GetHashCode();
-                    if (this.Status != null)
-                    hash = hash * 59 + this.Status.GetHashCode();
-                    if (this.Complete != null)
-                    hash = hash * 59 + this.Complete.GetHashCode();
+                    if (Id != null)
+                    hash = hash * 59 + Id.GetHashCode();
+                    if (PetId != null)
+                    hash = hash * 59 + PetId.GetHashCode();
+                    if (Quantity != null)
+                    hash = hash * 59 + Quantity.GetHashCode();
+                    if (ShipDate != null)
+                    hash = hash * 59 + ShipDate.GetHashCode();
+                    if (Status != null)
+                    hash = hash * 59 + Status.GetHashCode();
+                    if (Complete != null)
+                    hash = hash * 59 + Complete.GetHashCode();
                 return hash;
             }
         }
 
         #region Operators
+        #pragma warning disable 1591
 
         public static bool operator ==(Order left, Order right)
         {
@@ -236,7 +210,7 @@ namespace IO.Swagger.Models
             return !Equals(left, right);
         }
 
+        #pragma warning restore 1591
         #endregion Operators
-
     }
 }

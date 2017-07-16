@@ -4,6 +4,17 @@ import Promise = require('bluebird');
 export declare class Category {
     'id': number;
     'name': string;
+    static discriminator: any;
+    static attributeTypeMap: Array<{
+        name: string;
+        baseName: string;
+        type: string;
+    }>;
+    static getAttributeTypeMap(): {
+        name: string;
+        baseName: string;
+        type: string;
+    }[];
 }
 export declare class Order {
     'id': number;
@@ -12,6 +23,17 @@ export declare class Order {
     'shipDate': Date;
     'status': Order.StatusEnum;
     'complete': boolean;
+    static discriminator: any;
+    static attributeTypeMap: Array<{
+        name: string;
+        baseName: string;
+        type: string;
+    }>;
+    static getAttributeTypeMap(): {
+        name: string;
+        baseName: string;
+        type: string;
+    }[];
 }
 export declare namespace Order {
     enum StatusEnum {
@@ -27,6 +49,17 @@ export declare class Pet {
     'photoUrls': Array<string>;
     'tags': Array<Tag>;
     'status': Pet.StatusEnum;
+    static discriminator: any;
+    static attributeTypeMap: Array<{
+        name: string;
+        baseName: string;
+        type: string;
+    }>;
+    static getAttributeTypeMap(): {
+        name: string;
+        baseName: string;
+        type: string;
+    }[];
 }
 export declare namespace Pet {
     enum StatusEnum {
@@ -38,6 +71,17 @@ export declare namespace Pet {
 export declare class Tag {
     'id': number;
     'name': string;
+    static discriminator: any;
+    static attributeTypeMap: Array<{
+        name: string;
+        baseName: string;
+        type: string;
+    }>;
+    static getAttributeTypeMap(): {
+        name: string;
+        baseName: string;
+        type: string;
+    }[];
 }
 export declare class User {
     'id': number;
@@ -48,6 +92,17 @@ export declare class User {
     'password': string;
     'phone': string;
     'userStatus': number;
+    static discriminator: any;
+    static attributeTypeMap: Array<{
+        name: string;
+        baseName: string;
+        type: string;
+    }>;
+    static getAttributeTypeMap(): {
+        name: string;
+        baseName: string;
+        type: string;
+    }[];
 }
 export interface Authentication {
     applyToRequest(requestOptions: request.Options): void;
@@ -71,7 +126,7 @@ export declare class OAuth implements Authentication {
 export declare class VoidAuth implements Authentication {
     username: string;
     password: string;
-    applyToRequest(requestOptions: request.Options): void;
+    applyToRequest(_: request.Options): void;
 }
 export declare enum PetApiApiKeys {
     api_key = 0,

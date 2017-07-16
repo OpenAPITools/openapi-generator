@@ -1,6 +1,6 @@
 # Swagger\Client\UserApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -26,7 +26,7 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Created user object
 
 try {
@@ -70,7 +70,7 @@ Creates list of users with given input array
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 $body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
@@ -114,7 +114,7 @@ Creates list of users with given input array
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 $body = array(new \Swagger\Client\Model\User()); // \Swagger\Client\Model\User[] | List of user object
 
 try {
@@ -158,7 +158,7 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | The name that needs to be deleted
 
 try {
@@ -202,7 +202,7 @@ Get user by user name
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | The name that needs to be fetched. Use user1 for testing.
 
 try {
@@ -247,7 +247,7 @@ Logs user into the system
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | The user name for login
 $password = "password_example"; // string | The password for login in clear text
 
@@ -294,7 +294,7 @@ Logs out current logged in user session
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 
 try {
     $api_instance->logoutUser();
@@ -334,7 +334,7 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\UserApi();
+$api_instance = new Swagger\Client\Api\UserApi(new \Http\Adapter\Guzzle6\Client());
 $username = "username_example"; // string | name that need to be deleted
 $body = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Updated user object
 

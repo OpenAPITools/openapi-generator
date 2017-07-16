@@ -3,7 +3,6 @@ package io.swagger.client.api;
 import io.swagger.TestUtils;
 
 import io.swagger.client.ApiClient;
-import io.swagger.client.api.*;
 import io.swagger.client.model.*;
 
 import java.util.Arrays;
@@ -12,12 +11,11 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class UserApiTest {
-    ApiClient apiClient;
-    UserApi api;
+    private UserApi api;
 
     @Before
     public void setup() {
-        apiClient = new ApiClient();
+        ApiClient apiClient = new ApiClient();
         api = apiClient.buildClient(UserApi.class);
     }
 
@@ -38,7 +36,7 @@ public class UserApiTest {
         User user2 = createUser();
         user2.setUsername("user" + user2.getId());
 
-        api.createUsersWithArrayInput(Arrays.asList(new User[]{user1, user2}));
+        api.createUsersWithArrayInput(Arrays.asList(user1, user2));
 
         User fetched = api.getUserByName(user1.getUsername());
         assertEquals(user1.getId(), fetched.getId());
@@ -51,7 +49,7 @@ public class UserApiTest {
         User user2 = createUser();
         user2.setUsername("user" + user2.getId());
 
-        api.createUsersWithListInput(Arrays.asList(new User[]{user1, user2}));
+        api.createUsersWithListInput(Arrays.asList(user1, user2));
 
         User fetched = api.getUserByName(user1.getUsername());
         assertEquals(user1.getId(), fetched.getId());

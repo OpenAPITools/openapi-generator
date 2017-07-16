@@ -194,13 +194,20 @@
       <artifactId>org.apache.oltu.oauth2.client</artifactId>
       <version>${oltu-version}</version>
     </dependency>
-    {{^java8}}
+    {{#joda}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>${jodatime-version}</version>
     </dependency>
-    {{/java8}}
+    {{/joda}}
+    {{#threetenbp}}
+    <dependency>
+      <groupId>org.threeten</groupId>
+      <artifactId>threetenbp</artifactId>
+      <version>${threetenbp-version}</version>
+    </dependency>
+    {{/threetenbp}}
     {{#useRxJava}}
     <dependency>
       <groupId>io.reactivex</groupId>
@@ -305,9 +312,12 @@
     {{#useRxJava2}}
     <rxjava-version>2.1.1</rxjava-version>
     {{/useRxJava2}}
-    {{^java8}}
+    {{#joda}}
     <jodatime-version>2.9.9</jodatime-version>
-    {{/java8}}
+    {{/joda}}
+    {{#threetenbp}}
+    <threetenbp-version>1.3.5</threetenbp-version>
+    {{/threetenbp}}
     <oltu-version>1.0.1</oltu-version>
     <junit-version>4.12</junit-version>
   </properties>

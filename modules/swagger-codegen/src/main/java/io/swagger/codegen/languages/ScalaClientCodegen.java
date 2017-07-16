@@ -9,6 +9,7 @@ import io.swagger.codegen.SupportingFile;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,6 +21,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-scala-client";
     protected String artifactVersion = "1.0.0";
+    protected String clientName = "AsyncClient";
 
     public ScalaClientCodegen() {
         super();
@@ -51,10 +53,13 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         additionalProperties.put("asyncHttpClient", asyncHttpClient);
         additionalProperties.put("authScheme", authScheme);
         additionalProperties.put("authPreemptive", authPreemptive);
+        additionalProperties.put("clientName", clientName);
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("apiInvoker.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiInvoker.scala"));
+        supportingFiles.add(new SupportingFile("client.mustache",
+                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), clientName + ".scala"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         // gradle settings
@@ -75,8 +80,8 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         importMapping.remove("Set");
         importMapping.remove("Map");
 
-        importMapping.put("DateTime", "org.joda.time.DateTime");
-        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("ListBuffer", "scala.collections.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -90,7 +95,6 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         typeMapping.put("byte", "Byte");
         typeMapping.put("short", "Short");
         typeMapping.put("char", "Char");
-        typeMapping.put("long", "Long");
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
@@ -98,6 +102,10 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
+        typeMapping.put("date-time", "Date");
+//        typeMapping.put("date", "Date");
+//        typeMapping.put("Date", "Date");
+        typeMapping.put("DateTime", "Date");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "HashMap");
@@ -108,7 +116,6 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
-    
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
@@ -183,7 +190,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library.";
+        return "Generates a Scala client library (beta).";
     }
 
     @Override

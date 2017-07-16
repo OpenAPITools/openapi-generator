@@ -15,10 +15,10 @@ use_ok('WWW::SwaggerClient::Object::Category');
 use_ok('WWW::SwaggerClient::Object::User');
 
 
-my $api_client = WWW::SwaggerClient::ApiClient->instance();
-my $store_api = WWW::SwaggerClient::StoreApi->new('api_client' => $api_client);
+my $api_client = WWW::SwaggerClient::ApiClient->new();
+my $store_api = WWW::SwaggerClient::StoreApi->new($api_client);
 
-is $store_api->{api_client}->{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
+is $store_api->{api_client}{config}{base_url}, 'http://petstore.swagger.io:80/v2', 'get the default base URL from api client';
 
 my $get_inventory_response = $store_api->get_inventory();
 

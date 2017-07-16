@@ -49,9 +49,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String WITH_XML = "withXml";
     public static final String SUPPORT_JAVA6 = "supportJava6";
 
+    protected String dateLibrary = "threetenbp";
     protected boolean java8Mode = false;
     protected boolean withXml = false;
-    protected String dateLibrary = "joda";
     protected String invokerPackage = "io.swagger";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-java";
@@ -93,8 +93,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         setReservedWordsLowerCase(
             Arrays.asList(
                 // used as internal variables, can collide with parameter names
-                "localVarPath", "localVarQueryParams", "localVarHeaderParams", "localVarFormParams",
-                "localVarPostBody", "localVarAccepts", "localVarAccept", "localVarContentTypes",
+                "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
+                "localVarHeaderParams", "localVarFormParams", "localVarPostBody",
+                "localVarAccepts", "localVarAccept", "localVarContentTypes",
                 "localVarContentType", "localVarAuthNames", "localReturnType",
                 "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
 
@@ -153,10 +154,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<String, String>();
-        dateOptions.put("java8", "Java 8 native - note: this also sets \"" + JAVA8_MODE + "\" to true");
+        dateOptions.put("java8", "Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets \"" + JAVA8_MODE + "\" to true");
+        dateOptions.put("threetenbp", "Backport of JSR310 (preferred for jdk < 1.8)");
         dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
-        dateOptions.put("joda", "Joda");
-        dateOptions.put("legacy", "Legacy java.util.Date");
+        dateOptions.put("joda", "Joda (for legacy app only)");
+        dateOptions.put("legacy", "Legacy java.util.Date (if you really have a good reason not to use threetenbp");
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
@@ -374,11 +376,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        if(additionalProperties.containsKey(DATE_LIBRARY)) {
-            setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
-            additionalProperties.put(dateLibrary, "true");
-        }
-
         if(additionalProperties.containsKey(JAVA8_MODE)) {
             setJava8Mode(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
             if ( java8Mode ) {
@@ -393,15 +390,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if("joda".equals(dateLibrary)) {
+        if (additionalProperties.containsKey(DATE_LIBRARY)) {
+            setDateLibrary(additionalProperties.get("dateLibrary").toString());
+        }
+
+        if ("threetenbp".equals(dateLibrary)) {
+            additionalProperties.put("threetenbp", "true");
+            additionalProperties.put("jsr310", "true");
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "OffsetDateTime");
+            importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
+            importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
+        } else if ("joda".equals(dateLibrary)) {
             additionalProperties.put("joda", "true");
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "DateTime");
-
             importMapping.put("LocalDate", "org.joda.time.LocalDate");
             importMapping.put("DateTime", "org.joda.time.DateTime");
         } else if (dateLibrary.startsWith("java8")) {
             additionalProperties.put("java8", "true");
+            additionalProperties.put("jsr310", "true");
             typeMapping.put("date", "LocalDate");
             importMapping.put("LocalDate", "java.time.LocalDate");
             if ("java8-localdatetime".equals(dateLibrary)) {

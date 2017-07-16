@@ -230,4 +230,32 @@ public interface FakeApi {
   void testEnumParameters(
     @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit.http.Field("enum_query_double") Double enumQueryDouble, Callback<Void> cb
   );
+  /**
+   * test json serialization of form data
+   * Sync method
+   * 
+   * @param param field1 (required)
+   * @param param2 field2 (required)
+   * @return Void
+   */
+  
+  @retrofit.http.FormUrlEncoded
+  @GET("/fake/jsonFormData")
+  Void testJsonFormData(
+    @retrofit.http.Field("param") String param, @retrofit.http.Field("param2") String param2
+  );
+
+  /**
+   * test json serialization of form data
+   * Async method
+   * @param param field1 (required)
+   * @param param2 field2 (required)
+   * @param cb callback method
+   */
+  
+  @retrofit.http.FormUrlEncoded
+  @GET("/fake/jsonFormData")
+  void testJsonFormData(
+    @retrofit.http.Field("param") String param, @retrofit.http.Field("param2") String param2, Callback<Void> cb
+  );
 }

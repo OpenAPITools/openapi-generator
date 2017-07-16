@@ -136,10 +136,7 @@ class UserApiTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoginUser()
     {
-        // initialize the API client
-        $config = (new Configuration())->setHost('http://petstore.swagger.io/v2');
-        $api_client = new ApiClient($config);
-        $user_api = new UserApi($api_client);
+        $user_api = new UserApi();
         // login
         $response = $user_api->loginUser("xxxxx", "yyyyyyyy");
         

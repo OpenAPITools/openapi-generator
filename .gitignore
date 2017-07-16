@@ -1,3 +1,4 @@
+.vscode
 *.iml
 out/
 *.ipr
@@ -73,6 +74,7 @@ samples/client/petstore/java/okhttp-gson/build/
 samples/client/petstore/java/feign/build/
 samples/client/petstore/java/retrofit/build/
 samples/client/petstore/java/retrofit2/build/
+samples/client/petstore/java/retrofit2/hello.txt
 samples/client/petstore/java/retrofit2rx/build/
 samples/client/petstore/java/default/build/
 samples/client/petstore/scala/build/
