@@ -33,6 +33,7 @@ public:
 
     QString host;
     QString basePath;
+    QMap<QString, QString> defaultHeaders;
 
     void createUser(User body);
     void createUsersWithArrayInput(QList<User*>* body);
