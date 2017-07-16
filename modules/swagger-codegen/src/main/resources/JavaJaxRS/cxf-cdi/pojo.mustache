@@ -14,10 +14,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}
-  /**{{#description}}
-   * {{{description}}}{{/description}}{{#minimum}}
-   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-   * maximum: {{maximum}}{{/maximum}}
+  /**
+   {{#description}}
+   * {{description}}
+   {{/description}}
+   {{#minimum}}
+   * minimum: {{minimum}}
+   {{/minimum}}
+   {{#maximum}}
+   * maximum: {{maximum}}
+   {{/maximum}}
    **/
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};

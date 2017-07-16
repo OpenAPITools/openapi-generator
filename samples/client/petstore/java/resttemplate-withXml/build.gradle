@@ -83,7 +83,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'swagger-petstore-resttemplate'
+            pom.artifactId = 'swagger-pestore-resttemplate-withxml'
         }
     }
     
