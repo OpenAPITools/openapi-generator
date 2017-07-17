@@ -15,10 +15,16 @@ dependencies {
     providedCompile 'javax.annotation:javax.annotation-api:1.2'
     providedCompile 'org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec:1.0.0.Final'
     compile         'org.jboss.resteasy:resteasy-jackson2-provider:3.0.11.Final'
-{{#joda}}
-    compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.1'
+{{#useBeanValidation}}
+    providedCompile 'javax.validation:validation-api:1.1.0.Final'
+{{/useBeanValidation}}
+{{^java8}}
+    compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.3'
     compile         'joda-time:joda-time:2.7'
-{{/joda}}
+{{/java8}}
+{{#java8}}
+    compile         'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.3'
+{{/java8}}
     testCompile     'junit:junit:4.12',
                     'org.hamcrest:hamcrest-core:1.3'
 }

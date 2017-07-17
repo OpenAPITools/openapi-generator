@@ -9,7 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+{{#java8}}
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{/java8}}
+{{^java8}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
+{{/java8}}
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,9 +30,9 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
 {{#java8}}        
         this.objectMapper.registerModule(new JavaTimeModule());
 {{/java8}}
-{{#joda}}
+{{^java8}}
         this.objectMapper.registerModule(new JodaModule());
-{{/joda}}
+{{/java8}}
 
         // sample to convert any DateTime to readable timestamps
         //this.objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
