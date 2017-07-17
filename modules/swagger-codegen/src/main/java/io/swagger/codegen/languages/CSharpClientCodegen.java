@@ -555,7 +555,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 int count = 0, numVars = codegenProperties.size();
                 for(CodegenProperty codegenProperty : codegenProperties) {
                     count += 1;
-                    codegenProperty.hasMore = (count < numVars) ? true : null;
+                    codegenProperty.hasMore = count < numVars;
                 }
                 codegenModel.vars = codegenProperties;
             }
