@@ -53,7 +53,7 @@ public class PetApiController extends Controller {
             apiKey = (String)valueapiKey;
         
         } else {
-            apiKey = "";
+            apiKey = null;
         }
         imp.deletePet(petId, apiKey);
         
@@ -116,7 +116,7 @@ public class PetApiController extends Controller {
             name = (String)valuename;
         
         } else {
-            name = "";
+            name = null;
         }
         String valuestatus = (request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
         String status;
@@ -124,7 +124,7 @@ public class PetApiController extends Controller {
             status = (String)valuestatus;
         
         } else {
-            status = "";
+            status = null;
         }
         imp.updatePetWithForm(petId, name, status);
         
@@ -139,7 +139,7 @@ public class PetApiController extends Controller {
             additionalMetadata = (String)valueadditionalMetadata;
         
         } else {
-            additionalMetadata = "";
+            additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
                 ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
