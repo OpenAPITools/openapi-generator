@@ -32,7 +32,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* body = [[Pet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -49,7 +49,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGPet***](Pet.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
@@ -310,7 +310,7 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* body = [[Pet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
@@ -327,7 +327,7 @@ SWGPetApi*apiInstance = [[SWGPetApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGPet***](Pet.md)| Pet object that needs to be added to the store | [optional] 
+ **body** | [**SWGPet***](SWGPet.md)| Pet object that needs to be added to the store | [optional] 
 
 ### Return type
 
