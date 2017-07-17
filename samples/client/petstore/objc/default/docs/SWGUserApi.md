@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 ### Example 
 ```objc
 
-SWGUser* body = [[User alloc] init]; // Created user object (optional)
+SWGUser* body = [[SWGUser alloc] init]; // Created user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -44,7 +44,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGUser***](User.md)| Created user object | [optional] 
+ **body** | [**SWGUser***](SWGUser.md)| Created user object | [optional] 
 
 ### Return type
 
@@ -364,7 +364,7 @@ This can only be done by the logged in user.
 ```objc
 
 NSString* username = @"username_example"; // name that need to be deleted
-SWGUser* body = [[User alloc] init]; // Updated user object (optional)
+SWGUser* body = [[SWGUser alloc] init]; // Updated user object (optional)
 
 SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 
@@ -383,7 +383,7 @@ SWGUserApi*apiInstance = [[SWGUserApi alloc] init];
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **NSString***| name that need to be deleted | 
- **body** | [**SWGUser***](User.md)| Updated user object | [optional] 
+ **body** | [**SWGUser***](SWGUser.md)| Updated user object | [optional] 
 
 ### Return type
 
