@@ -22,6 +22,7 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
     public JacksonConfig() throws Exception {
         this.objectMapper = new ObjectMapper();
         
+        this.objectMapper.registerModule(new JodaModule());
 
         // sample to convert any DateTime to readable timestamps
         //this.objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
