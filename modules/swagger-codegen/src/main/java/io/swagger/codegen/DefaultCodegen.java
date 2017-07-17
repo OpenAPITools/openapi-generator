@@ -2578,7 +2578,9 @@ public class DefaultCodegen {
                 // recursively add import
                 CodegenProperty innerCp = cp;
                 while(innerCp != null) {
-                    imports.add(innerCp.complexType);
+                    if(innerCp.complexType != null) {
+                        imports.add(innerCp.complexType);
+                    }
                     innerCp = innerCp.items;
                 }
 
