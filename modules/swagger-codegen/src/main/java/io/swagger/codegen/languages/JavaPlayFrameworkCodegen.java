@@ -10,6 +10,8 @@ import io.swagger.util.Json;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
 
@@ -264,8 +266,12 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                     }
                 }
 
-                if (operation.path.contains("{")) {
-                    operation.path = operation.path.replace("{", ":").replace("}", "");
+                Pattern pathVariableMatcher = Pattern.compile("\\{(.+)}");
+                Matcher match = pathVariableMatcher.matcher(operation.path);
+                while (match.find()) {
+                    String completeMatch = match.group();
+                    String replacement = ":" + camelize(match.group(1), true);
+                    operation.path = operation.path.replace(completeMatch, replacement);
                 }
 
                 if (operation.returnType != null) {
