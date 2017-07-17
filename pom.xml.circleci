@@ -560,6 +560,18 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-resteasy-eap-server-java8</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-resteasy-eap-server-joda</id>
             <activation>
                 <property>
@@ -834,6 +846,7 @@
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/spring-cloud</module>
