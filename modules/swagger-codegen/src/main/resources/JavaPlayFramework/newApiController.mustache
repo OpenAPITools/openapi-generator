@@ -56,7 +56,7 @@ public class {{classname}}Controller extends Controller {
         {{/bodyParams}}
         {{#queryParams}}
         {{#collectionFormat}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", "{{paramName}}", request().getQueryString("{{baseName}}"));
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().queryString().get("{{baseName}}"));
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
@@ -86,7 +86,7 @@ public class {{classname}}Controller extends Controller {
         {{/notFile}}
         {{#notFile}}
         {{#collectionFormat}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", "{{paramName}}", (request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"))[0]);
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}"));
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
@@ -109,7 +109,7 @@ public class {{classname}}Controller extends Controller {
         {{/formParams}}
         {{#headerParams}}
         {{#collectionFormat}}
-        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", "{{paramName}}", request().getHeader("{{baseName}}"));
+        List<String> {{paramName}}List = SwaggerUtils.parametersToList("{{collectionFormat}}", request().headers().get("{{baseName}}"));
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
