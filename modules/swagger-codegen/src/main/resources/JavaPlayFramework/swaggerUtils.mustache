@@ -11,13 +11,13 @@ import java.util.*;
 
 public class SwaggerUtils {
 
-{{#handleExceptions}}
+{{#wrapCalls}}
     @With(ApiCall.class)
     @Target({ ElementType.TYPE, ElementType.METHOD })
     @Retention(RetentionPolicy.RUNTIME)
     public @interface ApiAction {
     }
-{{/handleExceptions}}
+{{/wrapCalls}}
 
     public static List<String> parametersToList(String collectionFormat, String[] values){
         List<String> params = new ArrayList<>();
