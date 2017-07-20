@@ -139,10 +139,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("char", "Character");
         typeMapping.put("short", "Int");
-        typeMapping.put("int", "Int32");
+        typeMapping.put("int", "Int");
         typeMapping.put("long", "Int64");
-        typeMapping.put("integer", "Int32");
-        typeMapping.put("Integer", "Int32");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("Integer", "Int");
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");
