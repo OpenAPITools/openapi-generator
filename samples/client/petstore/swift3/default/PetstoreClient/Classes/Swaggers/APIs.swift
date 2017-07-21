@@ -52,7 +52,7 @@ open class RequestBuilder<T> {
 
     open func addHeaders(_ aHeaders:[String:String]) {
         for (header, value) in aHeaders {
-            headers[header] = value
+            addHeader(name: header, value: value)
         }
     }
 

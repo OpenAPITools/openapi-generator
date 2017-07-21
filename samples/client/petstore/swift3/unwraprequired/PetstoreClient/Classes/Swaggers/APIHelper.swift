@@ -68,12 +68,8 @@ class APIHelper {
                 }
             }
             .flatMap { $0 }
-
-        if returnValues.count == 0 {
-            return nil
-        }
-
+ 
+        if returnValues.isEmpty { return nil }
         return returnValues
     }
-
 }
