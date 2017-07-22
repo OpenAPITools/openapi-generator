@@ -71,7 +71,7 @@ export const FakeApiFetchParamCreator = {
             "test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r": params["test code inject * &#39; &quot; &#x3D;end  rn n r"],
         });
         if (contentTypeHeader) {
-            fetchOptions.headers = contentTypeHeader;
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
 
         return {
