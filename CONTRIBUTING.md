@@ -42,6 +42,7 @@ Code change should conform to the programming style guide of the respective lang
 - C++ (Tizen): https://wiki.tizen.org/Native_Platform_Coding_Idiom_and_Style_Guide#C.2B.2B_Coding_Style
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Elixir: https://github.com/christopheradams/elixir_style_guide
+- Eiffel: https://www.eiffel.org/doc/eiffel/Coding%20Standards
 - Erlang: https://github.com/inaka/erlang_guidelines
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
