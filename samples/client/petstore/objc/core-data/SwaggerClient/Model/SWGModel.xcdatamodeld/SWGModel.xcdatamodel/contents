@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Xcode 7.0">
 
-    <entity name="SWGApiResponseManagedObject" representedClassName="SWGApiResponseManagedObject" syncable="YES">
-        <attribute name="code" optional="YES" attributeType="Integer 16" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <entity name="SWGCategoryManagedObject" representedClassName="SWGCategoryManagedObject" syncable="YES">
         <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
