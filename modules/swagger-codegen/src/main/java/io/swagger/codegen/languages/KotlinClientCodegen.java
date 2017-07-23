@@ -149,6 +149,7 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         importMapping.put("LocalTime", "java.time.LocalTime");
 
         cliOptions.clear();
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(sourceFolder));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Client package name (e.g. io.swagger).").defaultValue(this.packageName));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, "Client package's organization (i.e. maven groupId).").defaultValue(groupId));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, "Client artifact id (name of generated jar).").defaultValue(artifactId));
@@ -190,6 +191,12 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        } else {
+            additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             this.setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
