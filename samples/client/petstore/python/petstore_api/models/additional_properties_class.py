@@ -47,6 +47,7 @@ class AdditionalPropertiesClass(object):
 
         self._map_property = None
         self._map_of_map_property = None
+        self.discriminator = None
 
         if map_property is not None:
           self.map_property = map_property

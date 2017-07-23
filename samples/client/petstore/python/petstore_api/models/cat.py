@@ -31,75 +31,23 @@ class Cat(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'class_name': 'str',
-        'color': 'str',
         'declawed': 'bool'
     }
 
     attribute_map = {
-        'class_name': 'className',
-        'color': 'color',
         'declawed': 'declawed'
     }
 
-    def __init__(self, class_name=None, color='red', declawed=None):
+    def __init__(self, declawed=None):
         """
         Cat - a model defined in Swagger
         """
 
-        self._class_name = None
-        self._color = None
         self._declawed = None
+        self.discriminator = None
 
-        self.class_name = class_name
-        if color is not None:
-          self.color = color
         if declawed is not None:
           self.declawed = declawed
-
-    @property
-    def class_name(self):
-        """
-        Gets the class_name of this Cat.
-
-        :return: The class_name of this Cat.
-        :rtype: str
-        """
-        return self._class_name
-
-    @class_name.setter
-    def class_name(self, class_name):
-        """
-        Sets the class_name of this Cat.
-
-        :param class_name: The class_name of this Cat.
-        :type: str
-        """
-        if class_name is None:
-            raise ValueError("Invalid value for `class_name`, must not be `None`")
-
-        self._class_name = class_name
-
-    @property
-    def color(self):
-        """
-        Gets the color of this Cat.
-
-        :return: The color of this Cat.
-        :rtype: str
-        """
-        return self._color
-
-    @color.setter
-    def color(self, color):
-        """
-        Sets the color of this Cat.
-
-        :param color: The color of this Cat.
-        :type: str
-        """
-
-        self._color = color
 
     @property
     def declawed(self):

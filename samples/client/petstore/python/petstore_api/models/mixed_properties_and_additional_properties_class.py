@@ -50,6 +50,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         self._uuid = None
         self._date_time = None
         self._map = None
+        self.discriminator = None
 
         if uuid is not None:
           self.uuid = uuid

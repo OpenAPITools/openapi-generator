@@ -44,6 +44,7 @@ class Client(object):
         """
 
         self._client = None
+        self.discriminator = None
 
         if client is not None:
           self.client = client

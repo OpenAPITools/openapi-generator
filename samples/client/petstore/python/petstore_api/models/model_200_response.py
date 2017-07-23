@@ -47,6 +47,7 @@ class Model200Response(object):
 
         self._name = None
         self.__class = None
+        self.discriminator = None
 
         if name is not None:
           self.name = name

@@ -50,6 +50,7 @@ class ArrayTest(object):
         self._array_of_string = None
         self._array_array_of_integer = None
         self._array_array_of_model = None
+        self.discriminator = None
 
         if array_of_string is not None:
           self.array_of_string = array_of_string

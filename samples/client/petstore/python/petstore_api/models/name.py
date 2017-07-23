@@ -53,6 +53,7 @@ class Name(object):
         self._snake_case = None
         self.__property = None
         self.__123_number = None
+        self.discriminator = None
 
         self.name = name
         if snake_case is not None:

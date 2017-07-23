@@ -31,75 +31,23 @@ class Dog(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'class_name': 'str',
-        'color': 'str',
         'breed': 'str'
     }
 
     attribute_map = {
-        'class_name': 'className',
-        'color': 'color',
         'breed': 'breed'
     }
 
-    def __init__(self, class_name=None, color='red', breed=None):
+    def __init__(self, breed=None):
         """
         Dog - a model defined in Swagger
         """
 
-        self._class_name = None
-        self._color = None
         self._breed = None
+        self.discriminator = None
 
-        self.class_name = class_name
-        if color is not None:
-          self.color = color
         if breed is not None:
           self.breed = breed
-
-    @property
-    def class_name(self):
-        """
-        Gets the class_name of this Dog.
-
-        :return: The class_name of this Dog.
-        :rtype: str
-        """
-        return self._class_name
-
-    @class_name.setter
-    def class_name(self, class_name):
-        """
-        Sets the class_name of this Dog.
-
-        :param class_name: The class_name of this Dog.
-        :type: str
-        """
-        if class_name is None:
-            raise ValueError("Invalid value for `class_name`, must not be `None`")
-
-        self._class_name = class_name
-
-    @property
-    def color(self):
-        """
-        Gets the color of this Dog.
-
-        :return: The color of this Dog.
-        :rtype: str
-        """
-        return self._color
-
-    @color.setter
-    def color(self, color):
-        """
-        Sets the color of this Dog.
-
-        :param color: The color of this Dog.
-        :type: str
-        """
-
-        self._color = color
 
     @property
     def breed(self):
