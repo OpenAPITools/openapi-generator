@@ -80,6 +80,7 @@ class FormatTest(object):
         self._date_time = None
         self._uuid = None
         self._password = None
+        self.discriminator = None
 
         if integer is not None:
           self.integer = integer

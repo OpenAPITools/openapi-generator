@@ -43,6 +43,7 @@ class OuterNumber(object):
         OuterNumber - a model defined in Swagger
         """
 
+        self.discriminator = None
 
 
     def to_dict(self):

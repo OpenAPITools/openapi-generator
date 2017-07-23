@@ -53,6 +53,7 @@ class EnumTest(object):
         self._enum_integer = None
         self._enum_number = None
         self._outer_enum = None
+        self.discriminator = None
 
         if enum_string is not None:
           self.enum_string = enum_string

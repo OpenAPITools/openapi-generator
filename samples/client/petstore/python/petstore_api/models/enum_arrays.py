@@ -47,6 +47,7 @@ class EnumArrays(object):
 
         self._just_symbol = None
         self._array_enum = None
+        self.discriminator = None
 
         if just_symbol is not None:
           self.just_symbol = just_symbol

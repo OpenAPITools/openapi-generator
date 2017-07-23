@@ -43,6 +43,7 @@ class AnimalFarm(object):
         AnimalFarm - a model defined in Swagger
         """
 
+        self.discriminator = None
 
 
     def to_dict(self):

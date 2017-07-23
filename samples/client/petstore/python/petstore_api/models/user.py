@@ -65,6 +65,7 @@ class User(object):
         self._password = None
         self._phone = None
         self._user_status = None
+        self.discriminator = None
 
         if id is not None:
           self.id = id

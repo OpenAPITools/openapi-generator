@@ -44,6 +44,7 @@ class NumberOnly(object):
         """
 
         self._just_number = None
+        self.discriminator = None
 
         if just_number is not None:
           self.just_number = just_number

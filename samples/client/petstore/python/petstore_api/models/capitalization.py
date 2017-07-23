@@ -59,6 +59,7 @@ class Capitalization(object):
         self._capital_snake = None
         self._sca_eth_flow_points = None
         self._att_name = None
+        self.discriminator = None
 
         if small_camel is not None:
           self.small_camel = small_camel

@@ -44,6 +44,7 @@ class List(object):
         """
 
         self.__123_list = None
+        self.discriminator = None
 
         if _123_list is not None:
           self._123_list = _123_list
