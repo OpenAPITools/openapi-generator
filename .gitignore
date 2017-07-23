@@ -165,3 +165,6 @@ samples/client/petstore/typescript-aurelia/**/dist/
 # aspnetcore
 samples/server/petstore/aspnetcore/.vs/
 effective.pom
+
+# kotlin
+samples/client/petstore/kotlin/src/main/kotlin/test/
