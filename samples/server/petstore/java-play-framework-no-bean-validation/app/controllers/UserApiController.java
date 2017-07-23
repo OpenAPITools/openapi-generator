@@ -7,6 +7,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -49,7 +50,7 @@ public class UserApiController extends Controller {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
 
-        body = mapper.readValue(nodebody.toString(), new TypeReference<List<List<User>>>(){});
+        body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
 
         imp.createUsersWithArrayInput(body);
         
@@ -62,7 +63,7 @@ public class UserApiController extends Controller {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
 
-        body = mapper.readValue(nodebody.toString(), new TypeReference<List<List<User>>>(){});
+        body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
 
         imp.createUsersWithListInput(body);
         

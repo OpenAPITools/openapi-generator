@@ -8,6 +8,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -38,6 +39,7 @@ public class PetApiController extends Controller {
         Pet body;
 
         body = mapper.readValue(nodebody.toString(), Pet.class);
+        body.validate();
 
         imp.addPet(body);
         
@@ -70,6 +72,9 @@ public class PetApiController extends Controller {
             status.add(curParam);
         }
         List<Pet> obj = imp.findPetsByStatus(status);
+        for (Pet curItem : obj) {
+            curItem.validate();
+        }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
         
@@ -85,6 +90,9 @@ public class PetApiController extends Controller {
             tags.add(curParam);
         }
         List<Pet> obj = imp.findPetsByTags(tags);
+        for (Pet curItem : obj) {
+            curItem.validate();
+        }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
         
@@ -94,6 +102,7 @@ public class PetApiController extends Controller {
     
     public Result getPetById(Long petId) throws Exception {
         Pet obj = imp.getPetById(petId);
+        obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
         
@@ -106,6 +115,7 @@ public class PetApiController extends Controller {
         Pet body;
 
         body = mapper.readValue(nodebody.toString(), Pet.class);
+        body.validate();
 
         imp.updatePet(body);
         
@@ -149,6 +159,7 @@ public class PetApiController extends Controller {
         }
         Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
                 ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
+        obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
         

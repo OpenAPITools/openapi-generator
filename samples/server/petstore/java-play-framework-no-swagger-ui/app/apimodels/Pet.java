@@ -6,6 +6,8 @@ import apimodels.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
 import javax.validation.constraints.*;
 /**
  * A pet for sale in the pet store
@@ -89,7 +91,8 @@ public class Pet   {
    * Get category
    * @return category
   **/
-    public Category getCategory() {
+  @Valid
+  public Category getCategory() {
     return category;
   }
 
@@ -106,7 +109,7 @@ public class Pet   {
    * Get name
    * @return name
   **/
-    @NotNull
+  @NotNull
   public String getName() {
     return name;
   }
@@ -129,7 +132,7 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   **/
-    @NotNull
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -155,7 +158,8 @@ public class Pet   {
    * Get tags
    * @return tags
   **/
-    public List<Tag> getTags() {
+  @Valid
+  public List<Tag> getTags() {
     return tags;
   }
 
@@ -227,6 +231,22 @@ public class Pet   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Pet>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<Pet> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 
