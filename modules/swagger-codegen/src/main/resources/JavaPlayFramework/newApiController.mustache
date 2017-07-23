@@ -7,6 +7,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -46,8 +47,14 @@ public class {{classname}}Controller extends Controller {
         {{{dataType}}} {{paramName}};
         {{^required}}
         if (node{{paramName}} != null) {
-            {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isMapContainer}}new TypeReference<Map<{{{dataType}}}>>(){}{{/isMapContainer}}{{#isListContainer}}new TypeReference<List<{{{dataType}}}>>(){}{{/isListContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}.class{{/isMapContainer}}{{/isListContainer}});{{/required}}
-        {{#required}}{{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isMapContainer}}new TypeReference<Map<{{{dataType}}}>>(){}{{/isMapContainer}}{{#isListContainer}}new TypeReference<List<{{{dataType}}}>>(){}{{/isListContainer}}{{^isListContainer}}{{^isMapContainer}}{{{dataType}}}.class{{/isMapContainer}}{{/isListContainer}});{{/required}}
+            {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});{{/required}}
+        {{#required}}{{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});{{/required}}{{#useBeanValidation}}
+        {{#isListContainer}}for ({{{baseType}}} curItem : {{paramName}}) {
+            curItem.validate();
+        }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{baseType}}}> entry : {{paramName}}.entrySet()) {
+            entry.getValue().validate();
+        }
+        {{/isMapContainer}}{{^isContainer}}{{paramName}}.validate();{{/isContainer}}{{/useBeanValidation}}
         {{^required}}
         } else {
             {{paramName}} = null;
@@ -130,7 +137,13 @@ public class {{classname}}Controller extends Controller {
         {{/collectionFormat}}
         {{/headerParams}}
         {{^controllerOnly}}
-        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{#returnType}}{{>returnTypesNoVoid}} obj = {{/returnType}}imp.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}{{^isResponseFile}}{{^returnTypeIsPrimitive}}{{#useBeanValidation}}
+        {{#isListContainer}}for ({{{returnType}}} curItem : obj) {
+            curItem.validate();
+        }{{/isListContainer}}{{#isMapContainer}}for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
+            entry.getValue().validate();
+        }
+        {{/isMapContainer}}{{^returnContainer}}obj.validate();{{/returnContainer}}{{/useBeanValidation}}{{/returnTypeIsPrimitive}}{{/isResponseFile}}{{/returnType}}
         {{#returnType}}{{^isResponseFile}}JsonNode result = mapper.valueToTree(obj);
         return ok(result);{{/isResponseFile}}{{#isResponseFile}}return ok(obj);{{/isResponseFile}}{{/returnType}}
         {{^returnType}}return ok();{{/returnType}}{{/controllerOnly}}

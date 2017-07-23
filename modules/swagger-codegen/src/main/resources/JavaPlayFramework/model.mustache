@@ -8,6 +8,8 @@ import java.io.Serializable;
 {{/serializableModel}}
 import com.fasterxml.jackson.annotation.*;
 {{#useBeanValidation}}
+import java.util.Set;
+import javax.validation.*;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 {{#models}}

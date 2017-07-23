@@ -7,6 +7,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -51,6 +52,7 @@ public class StoreApiController extends Controller {
     
     public Result getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
         Order obj = imp.getOrderById(orderId);
+        obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
         
@@ -63,8 +65,10 @@ public class StoreApiController extends Controller {
         Order body;
 
         body = mapper.readValue(nodebody.toString(), Order.class);
+        body.validate();
 
         Order obj = imp.placeOrder(body);
+        obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
         

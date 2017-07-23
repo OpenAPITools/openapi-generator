@@ -274,6 +274,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("List<".length(), end).trim();
+                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
                             operation.returnContainer = "List";
                         }
                     } else if (operation.returnType.startsWith("Map")) {
@@ -281,6 +282,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
+                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
                             operation.returnContainer = "Map";
                         }
                     } else if (operation.returnType.startsWith("Set")) {
@@ -288,6 +290,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("Set<".length(), end).trim();
+                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
                             operation.returnContainer = "Set";
                         }
                     }
