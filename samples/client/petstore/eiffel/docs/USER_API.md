@@ -1,6 +1,6 @@
 # USER_API
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
@@ -205,7 +205,7 @@ This can only be done by the logged in user.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **STRING_32**| name that need to be updated | 
+ **username** | **STRING_32**| name that need to be deleted | 
  **body** | [**USER**](USER.md)| Updated user object | 
 
 ### Return type
