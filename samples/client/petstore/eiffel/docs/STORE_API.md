@@ -1,29 +1,29 @@
 # STORE_API
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete_order**](STORE_API.md#delete_order) | **Delete** /store/order/{orderId} | Delete purchase order by ID
+[**delete_order**](STORE_API.md#delete_order) | **Delete** /store/order/{order_id} | Delete purchase order by ID
 [**inventory**](STORE_API.md#inventory) | **Get** /store/inventory | Returns pet inventories by status
-[**order_by_id**](STORE_API.md#order_by_id) | **Get** /store/order/{orderId} | Find purchase order by ID
+[**order_by_id**](STORE_API.md#order_by_id) | **Get** /store/order/{order_id} | Find purchase order by ID
 [**place_order**](STORE_API.md#place_order) | **Post** /store/order | Place an order for a pet
 
 
 # **delete_order**
-> delete_order (order_id: INTEGER_64 )
+> delete_order (order_id: STRING_32 )
 	
 
 Delete purchase order by ID
 
-For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
+For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **INTEGER_64**| ID of the order that needs to be deleted | 
+ **order_id** | **STRING_32**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -73,7 +73,7 @@ This endpoint does not need any parameter.
 
 Find purchase order by ID
 
-For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 
 ### Parameters

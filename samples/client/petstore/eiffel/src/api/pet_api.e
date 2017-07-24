@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -103,7 +103,7 @@ feature -- API Access
 			create l_request
 			
 			l_path := "/pet/findByStatus"
-			l_request.fill_query_params(api_client.parameter_to_tuple("multi", "status", status));
+			l_request.fill_query_params(api_client.parameter_to_tuple("csv", "status", status));
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -122,7 +122,7 @@ feature -- API Access
 
 	find_pets_by_tags (tags: LIST [STRING_32]): detachable LIST [PET]
 			-- Finds Pets by tags
-			-- Muliple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+			-- Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 			-- 
 			-- argument: tags Tags to filter by (required)
 			-- 
@@ -137,7 +137,7 @@ feature -- API Access
 			create l_request
 			
 			l_path := "/pet/findByTags"
-			l_request.fill_query_params(api_client.parameter_to_tuple("multi", "tags", tags));
+			l_request.fill_query_params(api_client.parameter_to_tuple("csv", "tags", tags));
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");

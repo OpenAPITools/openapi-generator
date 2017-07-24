@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -24,9 +24,9 @@ inherit
 feature -- API Access
 
 
-	delete_order (order_id: INTEGER_64)
+	delete_order (order_id: STRING_32)
 			-- Delete purchase order by ID
-			-- For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
+			-- For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 			-- 
 			-- argument: order_id ID of the order that needs to be deleted (required)
 			-- 
@@ -39,8 +39,8 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/store/order/{orderId}"
-			l_path.replace_substring_all ("{"+"orderId"+"}", api_client.url_encode (order_id.out))
+			l_path := "/store/order/{order_id}"
+			l_path.replace_substring_all ("{"+"order_id"+"}", api_client.url_encode (order_id.out))
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -86,7 +86,7 @@ feature -- API Access
 
 	order_by_id (order_id: INTEGER_64): detachable ORDER
 			-- Find purchase order by ID
-			-- For valid response try integer IDs with value &gt;&#x3D; 1 and &lt;&#x3D; 10. Other values will generated exceptions
+			-- For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 			-- 
 			-- argument: order_id ID of pet that needs to be fetched (required)
 			-- 
@@ -100,8 +100,8 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/store/order/{orderId}"
-			l_path.replace_substring_all ("{"+"orderId"+"}", api_client.url_encode (order_id.out))
+			l_path := "/store/order/{order_id}"
+			l_path.replace_substring_all ("{"+"order_id"+"}", api_client.url_encode (order_id.out))
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
