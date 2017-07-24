@@ -829,10 +829,10 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <!-- comment out due to error with github rate limiting
                 <module>samples/client/petstore/typescript-angular</module>
+                <module>samples/client/petstore/typescript-jquery/npm</module>
                 <module>samples/client/petstore/typescript-node/npm</module>-->
                 <module>samples/client/petstore/typescript-angular2/npm</module>
                 <module>samples/client/petstore/typescript-angular4/npm</module>
-                <module>samples/client/petstore/typescript-jquery/npm</module>
                 <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
