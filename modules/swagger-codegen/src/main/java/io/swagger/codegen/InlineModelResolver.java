@@ -161,7 +161,7 @@ public class InlineModelResolver {
 
                     Map<String, Property> properties = m.getProperties();
                     flattenProperties(properties, modelName);
-
+                    fixStringModel(m);
                 } else if (model instanceof ArrayModel) {
                     ArrayModel m = (ArrayModel) model;
                     Property inner = m.getItems();
@@ -187,6 +187,21 @@ public class InlineModelResolver {
                         flattenProperties(properties, modelName);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * This function fix models that are string (mostly enum). Before this fix, the example
+     * would look something like that in the doc: "\"example from def\""
+     * @param m Model implementation
+     */
+    private void fixStringModel(ModelImpl m) {
+        if (m.getType() != null && m.getType().equals("string") && m.getExample() != null) {
+            String example = m.getExample().toString();
+            if (example.substring(0, 1).equals("\"") &&
+                    example.substring(example.length() - 1).equals("\"")) {
+                m.setExample(example.substring(1, example.length() - 1));
             }
         }
     }

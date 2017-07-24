@@ -701,6 +701,15 @@ definitions:
         type: string
       message:
         type: string
+  PetStatus:
+    type: string
+    enum:
+      - Healthy
+      - Sick
+      - Quarantined
+      - InPetsHeaven
+    description: "Pet's status"
+    example: Healthy
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
