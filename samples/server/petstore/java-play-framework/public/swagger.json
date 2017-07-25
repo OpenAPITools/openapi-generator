@@ -900,13 +900,12 @@
         }
       },
       "title" : "An uploaded response",
-      "description" : "Describes the result of uploading an image resource"
-    },
-    "PetStatus" : {
-      "type" : "string",
-      "description" : "Pet's status",
-      "example" : "Healthy",
-      "enum" : [ "Healthy", "Sick", "Quarantined", "InPetsHeaven" ]
+      "description" : "Describes the result of uploading an image resource",
+      "example" : {
+        "code" : 0,
+        "type" : "aeiou",
+        "message" : "aeiou"
+      }
     }
   },
   "externalDocs" : {
