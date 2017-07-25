@@ -47,6 +47,7 @@ class ReadOnlyFirst(object):
 
         self._bar = None
         self._baz = None
+        self.discriminator = None
 
         if bar is not None:
           self.bar = bar

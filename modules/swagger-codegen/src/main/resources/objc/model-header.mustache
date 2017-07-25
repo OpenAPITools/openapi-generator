@@ -5,6 +5,11 @@
 
 {{#imports}}#import "{{import}}.h"
 {{/imports}}
+{{#imports}}
+@protocol {{import}};
+@class {{import}};
+{{/imports}}
+
 {{newline}}
 {{#models}}
 {{#model}}

@@ -1,0 +1,17 @@
+[package]
+name = "petstore-client"
+version = "0.1.0"
+authors = ["Vladimir Pouzanov <farcaller@gmail.com>"]
+
+[dependencies]
+serde = "*"
+serde_derive = "*"
+serde_yaml = "*"
+serde_json = "*"
+base64 = "*"
+futures = "*"
+hyper = "*"
+url = "*"
+
+[dev-dependencies]
+tokio-core = "*"

@@ -47,6 +47,7 @@ class MapTest(object):
 
         self._map_map_of_string = None
         self._map_of_enum_string = None
+        self.discriminator = None
 
         if map_map_of_string is not None:
           self.map_map_of_string = map_map_of_string

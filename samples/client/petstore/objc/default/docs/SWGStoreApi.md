@@ -173,7 +173,7 @@ Place an order for a pet
 ### Example 
 ```objc
 
-SWGOrder* body = [[Order alloc] init]; // order placed for purchasing the pet (optional)
+SWGOrder* body = [[SWGOrder alloc] init]; // order placed for purchasing the pet (optional)
 
 SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
@@ -193,7 +193,7 @@ SWGStoreApi*apiInstance = [[SWGStoreApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**SWGOrder***](Order.md)| order placed for purchasing the pet | [optional] 
+ **body** | [**SWGOrder***](SWGOrder.md)| order placed for purchasing the pet | [optional] 
 
 ### Return type
 

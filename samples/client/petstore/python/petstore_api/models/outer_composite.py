@@ -50,6 +50,7 @@ class OuterComposite(object):
         self._my_number = None
         self._my_string = None
         self._my_boolean = None
+        self.discriminator = None
 
         if my_number is not None:
           self.my_number = my_number

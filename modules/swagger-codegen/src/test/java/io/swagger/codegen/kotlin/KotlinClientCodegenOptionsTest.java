@@ -34,6 +34,8 @@ public class KotlinClientCodegenOptionsTest extends AbstractOptionsTest {
             times = 1;
             codegen.setGroupId(KotlinClientCodegenOptionsProvider.GROUP_ID);
             times = 1;
+            codegen.setSourceFolder(KotlinClientCodegenOptionsProvider.SOURCE_FOLDER);
+            times = 1;
         }};
     }
 }

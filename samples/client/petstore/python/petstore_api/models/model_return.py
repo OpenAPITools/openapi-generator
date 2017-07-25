@@ -44,6 +44,7 @@ class ModelReturn(object):
         """
 
         self.__return = None
+        self.discriminator = None
 
         if _return is not None:
           self._return = _return

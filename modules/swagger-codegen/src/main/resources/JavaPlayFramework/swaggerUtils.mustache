@@ -11,63 +11,49 @@ import java.util.*;
 
 public class SwaggerUtils {
 
-{{#handleExceptions}}
+{{#wrapCalls}}
     @With(ApiCall.class)
     @Target({ ElementType.TYPE, ElementType.METHOD })
     @Retention(RetentionPolicy.RUNTIME)
     public @interface ApiAction {
     }
-{{/handleExceptions}}
+{{/wrapCalls}}
 
-    public static List<String> parametersToList(String collectionFormat, String name, Object value){
+    public static List<String> parametersToList(String collectionFormat, String[] values){
         List<String> params = new ArrayList<>();
 
-        // preconditions
-        if (name == null || name.isEmpty() || value == null) return params;
+        if (values == null) {
+            return params;
+        }
 
-        Collection valueCollection = null;
-        if (value instanceof Collection) {
-            valueCollection = (Collection) value;
+        if (values.length >= 1 && collectionFormat.equals("multi")) {
+            params.addAll(Arrays.asList(values));
         } else {
-            params.add(parameterToString(value));
-            return params;
-        }
+            collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
 
-        if (valueCollection.isEmpty()){
-            return params;
-        }
+            String delimiter = ",";
 
-        // get the collection format
-        collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
-
-        // create the params based on the collection format
-        if (collectionFormat.equals("multi")) {
-            for (Object item : valueCollection) {
-                params.add(parameterToString(item));
+            switch(collectionFormat) {
+                case "csv": {
+                    delimiter = ",";
+                    break;
+                }
+                case "ssv": {
+                    delimiter = " ";
+                    break;
+                }
+                case "tsv": {
+                    delimiter = "\t";
+                    break;
+                }
+                case "pipes": {
+                    delimiter = "|";
+                    break;
+                }
             }
 
-            return params;
+            params = Arrays.asList(values[0].split(delimiter));
         }
-
-        String delimiter = ",";
-
-        if (collectionFormat.equals("csv")) {
-            delimiter = ",";
-        } else if (collectionFormat.equals("ssv")) {
-            delimiter = " ";
-        } else if (collectionFormat.equals("tsv")) {
-            delimiter = "\t";
-        } else if (collectionFormat.equals("pipes")) {
-            delimiter = "|";
-        }
-
-        StringBuilder sb = new StringBuilder() ;
-        for (Object item : valueCollection) {
-            sb.append(delimiter);
-            sb.append(parameterToString(item));
-        }
-
-        params.add(sb.substring(1));
 
         return params;
     }

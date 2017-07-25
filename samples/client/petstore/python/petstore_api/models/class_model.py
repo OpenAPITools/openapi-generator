@@ -44,6 +44,7 @@ class ClassModel(object):
         """
 
         self.__class = None
+        self.discriminator = None
 
         if _class is not None:
           self._class = _class

@@ -71,6 +71,11 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
         }
     }
 {{/additionalPropertiesType}}
+
+    private enum CodingKeys: String, CodingKey { {{#vars}}
+        case {{{name}}} = "{{{baseName}}}"{{/vars}}
+    }
+
 }
 {{/vars.isEmpty}}
 {{/isEnum}}

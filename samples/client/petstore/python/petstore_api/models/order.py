@@ -59,6 +59,7 @@ class Order(object):
         self._ship_date = None
         self._status = None
         self._complete = None
+        self.discriminator = None
 
         if id is not None:
           self.id = id

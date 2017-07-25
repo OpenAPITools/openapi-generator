@@ -1,0 +1,38 @@
+{{>licenseInfo}}
+/**
+ * Class to storage authentication data
+ */
+export class AuthStorage {
+  private storage: Map<string, string>;
+
+  constructor() {
+    this.storage = new Map();
+  }
+{{#authMethods}}
+
+  /**
+   * Sets the {{name}} auth method value.
+   *
+   * @param value The new value to set for {{name}}.
+   */
+  set{{name}}(value: string): this {
+    this.storage.set('{{name}}', value);
+    return this;
+  }
+
+  /**
+   * Removes the {{name}} auth method value.
+   */
+  remove{{name}}(): this {
+    this.storage.delete('{{name}}');
+    return this;
+  }
+
+  /**
+   * Gets the {{name}} auth method value.
+   */
+  get{{name}}(): null | string {
+    return this.storage.get('{{name}}') || null;
+  }
+{{/authMethods}}
+}

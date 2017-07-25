@@ -125,7 +125,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
                     "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
                     "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
-                    "required", "right", "set", "Type", "unowned", "weak", "Codable", "Encodable", "Decodable")
+                    "required", "right", "set", "Type", "unowned", "weak", "Data", "Codable", "Encodable", "Decodable")
         );
 
         typeMapping = new HashMap<>();
@@ -139,10 +139,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "String");
         typeMapping.put("char", "Character");
         typeMapping.put("short", "Int");
-        typeMapping.put("int", "Int32");
+        typeMapping.put("int", "Int");
         typeMapping.put("long", "Int64");
-        typeMapping.put("integer", "Int32");
-        typeMapping.put("Integer", "Int32");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("Integer", "Int");
         typeMapping.put("float", "Float");
         typeMapping.put("number", "Double");
         typeMapping.put("double", "Double");

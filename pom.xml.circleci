@@ -560,6 +560,18 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-resteasy-eap-server-java8</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-resteasy-eap-server-joda</id>
             <activation>
                 <property>
@@ -823,6 +835,7 @@
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/kotlin/</module>
                 <!-- comment out bash as it's failing after switching to CircleCI
                   <module>samples/client/petstore/bash</module> -->
                 <!-- servers -->
@@ -834,6 +847,7 @@
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
+                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/spring-cloud</module>

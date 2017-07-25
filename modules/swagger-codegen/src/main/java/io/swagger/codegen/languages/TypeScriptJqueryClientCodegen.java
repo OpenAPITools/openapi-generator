@@ -15,7 +15,7 @@ import io.swagger.codegen.CliOption;
 import io.swagger.codegen.SupportingFile;
 
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
 
     public static final String NPM_NAME = "npmName";

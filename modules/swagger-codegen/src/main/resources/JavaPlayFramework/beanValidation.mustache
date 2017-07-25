@@ -1,53 +1,56 @@
 {{#required}}
-  @NotNull
+@NotNull
 {{/required}}
 {{#pattern}}
-  @Pattern(regexp="{{{pattern}}}")
+@Pattern(regexp="{{{pattern}}}")
 {{/pattern}}
 {{#minLength}}
 {{#maxLength}}
-  @Size(min={{minLength}},max={{maxLength}})
+@Size(min={{minLength}},max={{maxLength}})
 {{/maxLength}}
 {{/minLength}}
 {{#minLength}}
 {{^maxLength}}
-  @Size(min={{minLength}})
+@Size(min={{minLength}})
 {{/maxLength}}
 {{/minLength}}
 {{^minLength}}
 {{#maxLength}}
-  @Size(max={{maxLength}})
-  {{/maxLength}}
-  {{/minLength}}
+@Size(max={{maxLength}})
+{{/maxLength}}
+{{/minLength}}
 {{#minItems}}
 {{#maxItems}}
-  @Size(min={{minItems}},max={{maxItems}})
+@Size(min={{minItems}},max={{maxItems}})
 {{/maxItems}}
 {{/minItems}}
 {{#minItems}}
 {{^maxItems}}
-  @Size(min={{minItems}})
+@Size(min={{minItems}})
 {{/maxItems}}
 {{/minItems}}
 {{^minItems}}
 {{#maxItems}}
-  @Size(max={{maxItems}})
+@Size(max={{maxItems}})
 {{/maxItems}}
 {{/minItems}}
 {{! check for integer / number=decimal type}}
 {{#isInteger}}
 {{#minimum}}
-  @Min({{minimum}})
+@Min({{minimum}})
 {{/minimum}}
 {{#maximum}}
-  @Max({{maximum}})
+@Max({{maximum}})
 {{/maximum}}
 {{/isInteger}}
 {{^isInteger}}
 {{#minimum}}
-  @DecimalMin("{{minimum}}")
+@DecimalMin("{{minimum}}")
 {{/minimum}}
 {{#maximum}}
-  @DecimalMax("{{maximum}}")
+@DecimalMax("{{maximum}}")
 {{/maximum}}
 {{/isInteger}}
+{{^isPrimitiveType}}
+@Valid
+{{/isPrimitiveType}}

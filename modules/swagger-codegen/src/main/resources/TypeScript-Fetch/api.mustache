@@ -98,11 +98,12 @@ export const {{classname}}FetchParamCreator = {
             .replace(`{${"{{baseName}}"}}`, `${ params["{{paramName}}"] }`){{/pathParams}};
         let urlObj = url.parse(baseUrl, true);
 {{#hasQueryParams}}
-        urlObj.query = {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query, {
-            {{#queryParams}}
-            "{{baseName}}": params["{{paramName}}"],
-            {{/queryParams}}
-        });
+        urlObj.query =  {{#supportsES6}}Object.{{/supportsES6}}assign({}, urlObj.query);
+    {{#queryParams}}
+        if (params["{{paramName}}"] !== undefined) {
+            urlObj.query["{{baseName}}"] = params["{{paramName}}"];
+        }
+    {{/queryParams}}
 {{/hasQueryParams}}
         let fetchOptions: RequestInit = {{#supportsES6}}Object.{{/supportsES6}}assign({}, { method: "{{httpMethod}}" }, options);
 

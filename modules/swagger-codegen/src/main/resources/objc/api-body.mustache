@@ -92,7 +92,14 @@ NSInteger k{{classname}}MissingParamErrorCode = 234513;
         {{#collectionFormat}}
         queryParams[@"{{baseName}}"] = [[{{classPrefix}}QueryParamCollection alloc] initWithValuesAndFormat: {{paramName}} format: @"{{collectionFormat}}"];
         {{/collectionFormat}}
-        {{^collectionFormat}}queryParams[@"{{baseName}}"] = {{paramName}};{{/collectionFormat}}
+        {{^collectionFormat}}
+        {{#isBoolean}}
+        queryParams[@"{{baseName}}"] = [{{paramName}} isEqual:@(YES)] ? @"true" : @"false";
+        {{/isBoolean}}
+        {{^isBoolean}}
+        queryParams[@"{{baseName}}"] = {{paramName}};
+        {{/isBoolean}}
+        {{/collectionFormat}}
     }
     {{/queryParams}}
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];

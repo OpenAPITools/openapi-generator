@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
+ 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -31,14 +31,16 @@ feature {NONE} -- Initialization
 
 			create authentications.make (3) 
 			authentications.force (create {API_KEY_AUTH}.make ("header", "api_key"), "api_key") 
-			is_api_key_configured := True  
+			is_api_key_configured := True 
+			authentications.force (create {HTTP_BASIC_AUTH}, "http_basic_test") 
+			is_basic_auth_configured := True  
 			authentications.force (create {OAUTH},"petstore_auth")
 			is_oauth_configured := True	 
 		end
 
 feature -- Access
 
-	default_base_path: STRING = "http://petstore.swagger.io/v2"
+	default_base_path: STRING = "http://petstore.swagger.io:80/v2"
 			-- default base path.
 
 	base_path: STRING

@@ -47,6 +47,7 @@ class Tag(object):
 
         self._id = None
         self._name = None
+        self.discriminator = None
 
         if id is not None:
           self.id = id

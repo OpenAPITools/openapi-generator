@@ -1,0 +1,48 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api                        controllers.ApiDocController.api
+
+
+#Functions for Fake API
+POST     /v2/fake/outer/boolean                     controllers.FakeApiController.fakeOuterBooleanSerialize()
+POST     /v2/fake/outer/composite                     controllers.FakeApiController.fakeOuterCompositeSerialize()
+POST     /v2/fake/outer/number                     controllers.FakeApiController.fakeOuterNumberSerialize()
+POST     /v2/fake/outer/string                     controllers.FakeApiController.fakeOuterStringSerialize()
+PATCH     /v2/fake                     controllers.FakeApiController.testClientModel()
+POST     /v2/fake                     controllers.FakeApiController.testEndpointParameters()
+GET     /v2/fake                     controllers.FakeApiController.testEnumParameters()
+GET     /v2/fake/jsonFormData                     controllers.FakeApiController.testJsonFormData()
+
+#Functions for FakeClassnameTags123 API
+PATCH     /v2/fake_classname_test                     controllers.FakeClassnameTags123ApiController.testClassname()
+
+#Functions for Pet API
+POST     /v2/pet                     controllers.PetApiController.addPet()
+DELETE     /v2/pet/:petId                     controllers.PetApiController.deletePet(petId: Long)
+GET     /v2/pet/findByStatus                     controllers.PetApiController.findPetsByStatus()
+GET     /v2/pet/findByTags                     controllers.PetApiController.findPetsByTags()
+GET     /v2/pet/:petId                     controllers.PetApiController.getPetById(petId: Long)
+PUT     /v2/pet                     controllers.PetApiController.updatePet()
+POST     /v2/pet/:petId                     controllers.PetApiController.updatePetWithForm(petId: Long)
+POST     /v2/pet/:petId/uploadImage                     controllers.PetApiController.uploadFile(petId: Long)
+
+#Functions for Store API
+DELETE     /v2/store/order/:order_id                     controllers.StoreApiController.deleteOrder(orderId: String)
+GET     /v2/store/inventory                     controllers.StoreApiController.getInventory()
+GET     /v2/store/order/:order_id                     controllers.StoreApiController.getOrderById(orderId: Long)
+POST     /v2/store/order                     controllers.StoreApiController.placeOrder()
+
+#Functions for User API
+POST     /v2/user                     controllers.UserApiController.createUser()
+POST     /v2/user/createWithArray                     controllers.UserApiController.createUsersWithArrayInput()
+POST     /v2/user/createWithList                     controllers.UserApiController.createUsersWithListInput()
+DELETE     /v2/user/:username                     controllers.UserApiController.deleteUser(username: String)
+GET     /v2/user/:username                     controllers.UserApiController.getUserByName(username: String)
+GET     /v2/user/login                     controllers.UserApiController.loginUser()
+GET     /v2/user/logout                     controllers.UserApiController.logoutUser()
+PUT     /v2/user/:username                     controllers.UserApiController.updateUser(username: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

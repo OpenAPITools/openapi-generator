@@ -47,6 +47,7 @@ class HasOnlyReadOnly(object):
 
         self._bar = None
         self._foo = None
+        self.discriminator = None
 
         if bar is not None:
           self.bar = bar

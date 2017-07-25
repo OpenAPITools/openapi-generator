@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (4.5.0)
+  - TestClient (0.0.1):
+    - Alamofire (~> 4.5)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - TestClient (from `../`)
+
+EXTERNAL SOURCES:
+  TestClient:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  TestClient: bcecc2c065b23aaa97f5b66a3f96741b560c381b
+
+PODFILE CHECKSUM: a4351ac5e001fd96f35ed7e647981803864100b5
+
+COCOAPODS: 1.1.1

@@ -6,9 +6,11 @@ import java.util.Objects;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
-{{#useBeanValidation}}
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+{{#useBeanValidation}}
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 {{/useBeanValidation}}
 {{#models}}
 {{#model}}

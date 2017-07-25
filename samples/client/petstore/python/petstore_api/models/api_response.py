@@ -50,6 +50,7 @@ class ApiResponse(object):
         self._code = None
         self._type = None
         self._message = None
+        self.discriminator = None
 
         if code is not None:
           self.code = code

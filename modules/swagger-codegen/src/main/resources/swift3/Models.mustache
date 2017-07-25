@@ -125,11 +125,11 @@ class Decoders {
 
     static func decode<T>(clazz: T.Type, source: AnyObject, instance: AnyObject?) -> Decoded<T> {
         initialize()
-        if let value = source.int32Value as? T, source is NSNumber, T.self is Int32.Type {
+        if let sourceNumber = source as? NSNumber, let value = sourceNumber.int32Value as? T, T.self is Int32.Type {
             return .success(value)
         }
-        if let value = source.int32Value as? T, source is NSNumber, T.self is Int64.Type {
-            return .success(value)
+        if let sourceNumber = source as? NSNumber, let value = sourceNumber.int32Value as? T, T.self is Int64.Type {
+     	    return .success(value)
         }
         if let intermediate = source as? String, let value = UUID(uuidString: intermediate) as? T, source is String, T.self is UUID.Type {
             return .success(value)

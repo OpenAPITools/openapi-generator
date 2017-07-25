@@ -44,6 +44,7 @@ class SpecialModelName(object):
         """
 
         self._special_property_name = None
+        self.discriminator = None
 
         if special_property_name is not None:
           self.special_property_name = special_property_name

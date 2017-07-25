@@ -59,6 +59,7 @@ class Pet(object):
         self._photo_urls = None
         self._tags = None
         self._status = None
+        self.discriminator = None
 
         if id is not None:
           self.id = id

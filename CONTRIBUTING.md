@@ -42,6 +42,7 @@ Code change should conform to the programming style guide of the respective lang
 - C++ (Tizen): https://wiki.tizen.org/Native_Platform_Coding_Idiom_and_Style_Guide#C.2B.2B_Coding_Style
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Elixir: https://github.com/christopheradams/elixir_style_guide
+- Eiffel: https://www.eiffel.org/doc/eiffel/Coding%20Standards
 - Erlang: https://github.com/inaka/erlang_guidelines
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
@@ -87,3 +88,4 @@ To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all t
 - File a PR with meaningful title, description and commit messages. A good example is [PR-3306](https://github.com/swagger-api/swagger-codegen/pull/3306)
 - Recommended git settings
    - `git config --global core.autocrlf input` to tell Git convert CRLF to LF on commit but not the other way around 
+- To close an issue (e.g. issue 1542) automatically after a PR is merged, use keywords "fix", "close", "resolve" in the PR description, e.g. `fix #1542`. (Ref: [closing issues using keywords](https://help.github.com/articles/closing-issues-using-keywords/))

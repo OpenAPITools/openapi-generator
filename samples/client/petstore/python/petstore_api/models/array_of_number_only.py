@@ -44,6 +44,7 @@ class ArrayOfNumberOnly(object):
         """
 
         self._array_number = None
+        self.discriminator = None
 
         if array_number is not None:
           self.array_number = array_number

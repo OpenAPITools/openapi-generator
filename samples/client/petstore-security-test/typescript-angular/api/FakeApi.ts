@@ -27,10 +27,10 @@ export class FakeApi {
     }
 
     /**
-        * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-        * 
-        * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-        */
+     * 
+     * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
+     * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+     */
     public testCodeInjectEndRnNR (test code inject * &#39; &quot; &#x3D;end  rn n r?: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/fake';
 

@@ -16,6 +16,11 @@
 
 #import "SWGCategory.h"
 #import "SWGTag.h"
+@protocol SWGCategory;
+@class SWGCategory;
+@protocol SWGTag;
+@class SWGTag;
+
 
 
 @protocol SWGPet

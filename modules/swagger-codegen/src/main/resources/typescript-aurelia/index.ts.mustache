@@ -1,0 +1,16 @@
+{{>licenseInfo}}
+export { Api } from './Api';
+export { AuthStorage } from './AuthStorage';
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+export { {{classname}} } from './{{classname}}';
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+export {
+{{#models}}
+{{#model}}  {{classname}},
+{{/model}}
+{{/models}}
+} from './models';

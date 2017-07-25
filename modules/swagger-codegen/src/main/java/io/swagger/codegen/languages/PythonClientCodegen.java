@@ -41,7 +41,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // clear import mapping (from default generator) as python does not use it
         // at the moment
         importMapping.clear();
-
+        
+        supportsInheritance = true;
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separatorChar + "python";
@@ -90,7 +91,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
 
-        // from https://docs.python.org/release/2.5.4/ref/keywords.html
+        // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
                     // local variable name used in API methods (endpoints)
@@ -102,7 +103,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                     "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
                     "assert", "else", "if", "pass", "yield", "break", "except", "import",
                     "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                    "return", "def", "for", "lambda", "try", "self", "None"));
+                    "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True", "False"));
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");

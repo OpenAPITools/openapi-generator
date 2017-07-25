@@ -40,6 +40,11 @@ class Animal(object):
         'color': 'color'
     }
 
+    discriminator_value_class_map = {
+        '': 'Dog',
+        '': 'Cat'
+    }
+
     def __init__(self, class_name=None, color='red'):
         """
         Animal - a model defined in Swagger
@@ -47,6 +52,7 @@ class Animal(object):
 
         self._class_name = None
         self._color = None
+        self.discriminator = 'className'
 
         self.class_name = class_name
         if color is not None:
@@ -95,6 +101,16 @@ class Animal(object):
         """
 
         self._color = color
+
+    def get_real_child_model(self, data):
+        """
+        Returns the real base class specified by the discriminator
+        """
+        discriminator_value = data[self.discriminator].lower()
+        if self.discriminator_value_class_map.has_key(discriminator_value):
+            return self.discriminator_value_class_map[discriminator_value]
+        else:
+            return None
 
     def to_dict(self):
         """

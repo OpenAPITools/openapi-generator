@@ -40,6 +40,13 @@ class {{classname}}(object):
         {{#vars}}'{{name}}': '{{baseName}}'{{#hasMore}},
         {{/hasMore}}{{/vars}}
     }
+{{#discriminator}}
+
+    discriminator_value_class_map = {
+        {{#children}}'{{vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},
+        {{/-last}}{{/children}}
+    }
+{{/discriminator}}
 
     def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):
         """
@@ -49,6 +56,7 @@ class {{classname}}(object):
 {{#vars}}
         self._{{name}} = None
 {{/vars}}
+        self.discriminator = {{#discriminator}}'{{discriminator}}'{{/discriminator}}{{^discriminator}}None{{/discriminator}}
 
 {{#vars}}
 {{#required}}
@@ -154,6 +162,18 @@ class {{classname}}(object):
         self._{{name}} = {{name}}
 
 {{/vars}}
+{{#discriminator}}
+    def get_real_child_model(self, data):
+        """
+        Returns the real base class specified by the discriminator
+        """
+        discriminator_value = data[self.discriminator].lower()
+        if self.discriminator_value_class_map.has_key(discriminator_value):
+            return self.discriminator_value_class_map[discriminator_value]
+        else:
+            return None
+
+{{/discriminator}}
     def to_dict(self):
         """
         Returns the model properties as a dict

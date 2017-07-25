@@ -1,0 +1,1714 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\",
+    "version" : "1.0.0",
+    "title" : "Swagger Petstore",
+    "termsOfService" : "http://swagger.io/terms/",
+    "contact" : {
+      "email" : "apiteam@swagger.io"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "petstore.swagger.io:80",
+  "basePath" : "/v2",
+  "tags" : [ {
+    "name" : "pet",
+    "description" : "Everything about your Pets",
+    "externalDocs" : {
+      "description" : "Find out more",
+      "url" : "http://swagger.io"
+    }
+  }, {
+    "name" : "store",
+    "description" : "Access to Petstore orders"
+  }, {
+    "name" : "user",
+    "description" : "Operations about user",
+    "externalDocs" : {
+      "description" : "Find out more about our store",
+      "url" : "http://swagger.io"
+    }
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/pet" : {
+      "post" : {
+        "tags" : [ "pet" ],
+        "summary" : "Add a new pet to the store",
+        "description" : "",
+        "operationId" : "addPet",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Pet object that needs to be added to the store",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Pet"
+          }
+        } ],
+        "responses" : {
+          "405" : {
+            "description" : "Invalid input"
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      },
+      "put" : {
+        "tags" : [ "pet" ],
+        "summary" : "Update an existing pet",
+        "description" : "",
+        "operationId" : "updatePet",
+        "consumes" : [ "application/json", "application/xml" ],
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Pet object that needs to be added to the store",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Pet"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "description" : "Pet not found"
+          },
+          "405" : {
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/pet/findByStatus" : {
+      "get" : {
+        "tags" : [ "pet" ],
+        "summary" : "Finds Pets by status",
+        "description" : "Multiple status values can be provided with comma separated strings",
+        "operationId" : "findPetsByStatus",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "status",
+          "in" : "query",
+          "description" : "Status values that need to be considered for filter",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "default" : "available",
+            "enum" : [ "available", "pending", "sold" ]
+          },
+          "collectionFormat" : "csv"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Pet"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid status value"
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/pet/findByTags" : {
+      "get" : {
+        "tags" : [ "pet" ],
+        "summary" : "Finds Pets by tags",
+        "description" : "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+        "operationId" : "findPetsByTags",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "tags",
+          "in" : "query",
+          "description" : "Tags to filter by",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "csv"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Pet"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid tag value"
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/pet/{petId}" : {
+      "get" : {
+        "tags" : [ "pet" ],
+        "summary" : "Find pet by ID",
+        "description" : "Returns a single pet",
+        "operationId" : "getPetById",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "petId",
+          "in" : "path",
+          "description" : "ID of pet to return",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Pet"
+            }
+          },
+          "400" : {
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "description" : "Pet not found"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      },
+      "post" : {
+        "tags" : [ "pet" ],
+        "summary" : "Updates a pet in the store with form data",
+        "description" : "",
+        "operationId" : "updatePetWithForm",
+        "consumes" : [ "application/x-www-form-urlencoded" ],
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "petId",
+          "in" : "path",
+          "description" : "ID of pet that needs to be updated",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "name",
+          "in" : "formData",
+          "description" : "Updated name of the pet",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "formData",
+          "description" : "Updated status of the pet",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "405" : {
+            "description" : "Invalid input"
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "application/x-www-form-urlencoded",
+        "x-accepts" : "application/json"
+      },
+      "delete" : {
+        "tags" : [ "pet" ],
+        "summary" : "Deletes a pet",
+        "description" : "",
+        "operationId" : "deletePet",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "api_key",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "petId",
+          "in" : "path",
+          "description" : "Pet id to delete",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid pet value"
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/pet/{petId}/uploadImage" : {
+      "post" : {
+        "tags" : [ "pet" ],
+        "summary" : "uploads an image",
+        "description" : "",
+        "operationId" : "uploadFile",
+        "consumes" : [ "multipart/form-data" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "petId",
+          "in" : "path",
+          "description" : "ID of pet to update",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "additionalMetadata",
+          "in" : "formData",
+          "description" : "Additional data to pass to server",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "file",
+          "in" : "formData",
+          "description" : "file to upload",
+          "required" : false,
+          "type" : "file"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "multipart/form-data",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/store/inventory" : {
+      "get" : {
+        "tags" : [ "store" ],
+        "summary" : "Returns pet inventories by status",
+        "description" : "Returns a map of status codes to quantities",
+        "operationId" : "getInventory",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "integer",
+                "format" : "int32"
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/store/order" : {
+      "post" : {
+        "tags" : [ "store" ],
+        "summary" : "Place an order for a pet",
+        "description" : "",
+        "operationId" : "placeOrder",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "order placed for purchasing the pet",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Order"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Order"
+            }
+          },
+          "400" : {
+            "description" : "Invalid Order"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/store/order/{order_id}" : {
+      "get" : {
+        "tags" : [ "store" ],
+        "summary" : "Find purchase order by ID",
+        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        "operationId" : "getOrderById",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "order_id",
+          "in" : "path",
+          "description" : "ID of pet that needs to be fetched",
+          "required" : true,
+          "type" : "integer",
+          "maximum" : 5,
+          "minimum" : 1,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Order"
+            }
+          },
+          "400" : {
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "description" : "Order not found"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      },
+      "delete" : {
+        "tags" : [ "store" ],
+        "summary" : "Delete purchase order by ID",
+        "description" : "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+        "operationId" : "deleteOrder",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "order_id",
+          "in" : "path",
+          "description" : "ID of the order that needs to be deleted",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "description" : "Order not found"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/user" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Create user",
+        "description" : "This can only be done by the logged in user.",
+        "operationId" : "createUser",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Created user object",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/user/createWithArray" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Creates list of users with given input array",
+        "description" : "",
+        "operationId" : "createUsersWithArrayInput",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "List of user object",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/user/createWithList" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Creates list of users with given input array",
+        "description" : "",
+        "operationId" : "createUsersWithListInput",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "List of user object",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/user/login" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Logs user into the system",
+        "description" : "",
+        "operationId" : "loginUser",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "The user name for login",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "The password for login in clear text",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "X-Rate-Limit" : {
+                "type" : "integer",
+                "format" : "int32",
+                "description" : "calls per hour allowed by the user"
+              },
+              "X-Expires-After" : {
+                "type" : "string",
+                "format" : "date-time",
+                "description" : "date in UTC when toekn expires"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid username/password supplied"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/user/logout" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Logs out current logged in user session",
+        "description" : "",
+        "operationId" : "logoutUser",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/user/{username}" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Get user by user name",
+        "description" : "",
+        "operationId" : "getUserByName",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "The name that needs to be fetched. Use user1 for testing. ",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "Invalid username supplied"
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      },
+      "put" : {
+        "tags" : [ "user" ],
+        "summary" : "Updated user",
+        "description" : "This can only be done by the logged in user.",
+        "operationId" : "updateUser",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "name that need to be deleted",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Updated user object",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid user supplied"
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      },
+      "delete" : {
+        "tags" : [ "user" ],
+        "summary" : "Delete user",
+        "description" : "This can only be done by the logged in user.",
+        "operationId" : "deleteUser",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "The name that needs to be deleted",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid username supplied"
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake_classname_test" : {
+      "patch" : {
+        "tags" : [ "fake_classname_tags 123#$%^" ],
+        "summary" : "To test class name in snake case",
+        "operationId" : "testClassname",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "client model",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Client"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Client"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake" : {
+      "get" : {
+        "tags" : [ "fake" ],
+        "summary" : "To test enum parameters",
+        "description" : "To test enum parameters",
+        "operationId" : "testEnumParameters",
+        "consumes" : [ "*/*" ],
+        "produces" : [ "*/*" ],
+        "parameters" : [ {
+          "name" : "enum_form_string_array",
+          "in" : "formData",
+          "description" : "Form parameter enum test (string array)",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "default" : "$",
+            "enum" : [ ">", "$" ]
+          }
+        }, {
+          "name" : "enum_form_string",
+          "in" : "formData",
+          "description" : "Form parameter enum test (string)",
+          "required" : false,
+          "type" : "string",
+          "default" : "-efg",
+          "enum" : [ "_abc", "-efg", "(xyz)" ]
+        }, {
+          "name" : "enum_header_string_array",
+          "in" : "header",
+          "description" : "Header parameter enum test (string array)",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "default" : "$",
+            "enum" : [ ">", "$" ]
+          }
+        }, {
+          "name" : "enum_header_string",
+          "in" : "header",
+          "description" : "Header parameter enum test (string)",
+          "required" : false,
+          "type" : "string",
+          "default" : "-efg",
+          "enum" : [ "_abc", "-efg", "(xyz)" ]
+        }, {
+          "name" : "enum_query_string_array",
+          "in" : "query",
+          "description" : "Query parameter enum test (string array)",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "default" : "$",
+            "enum" : [ ">", "$" ]
+          }
+        }, {
+          "name" : "enum_query_string",
+          "in" : "query",
+          "description" : "Query parameter enum test (string)",
+          "required" : false,
+          "type" : "string",
+          "default" : "-efg",
+          "enum" : [ "_abc", "-efg", "(xyz)" ]
+        }, {
+          "name" : "enum_query_integer",
+          "in" : "query",
+          "description" : "Query parameter enum test (double)",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32",
+          "enum" : [ 1, -2 ]
+        }, {
+          "name" : "enum_query_double",
+          "in" : "formData",
+          "description" : "Query parameter enum test (double)",
+          "required" : false,
+          "type" : "number",
+          "format" : "double",
+          "enum" : [ 1.1, -1.2 ]
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid request"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        },
+        "x-contentType" : "*/*",
+        "x-accepts" : "*/*"
+      },
+      "post" : {
+        "tags" : [ "fake" ],
+        "summary" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "description" : "Fake endpoint for testing various parameters\n假端點\n偽のエンドポイント\n가짜 엔드 포인트\n",
+        "operationId" : "testEndpointParameters",
+        "consumes" : [ "application/xml; charset=utf-8", "application/json; charset=utf-8" ],
+        "produces" : [ "application/xml; charset=utf-8", "application/json; charset=utf-8" ],
+        "parameters" : [ {
+          "name" : "integer",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "integer",
+          "maximum" : 100,
+          "minimum" : 10
+        }, {
+          "name" : "int32",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "integer",
+          "maximum" : 200,
+          "minimum" : 20,
+          "format" : "int32"
+        }, {
+          "name" : "int64",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "number",
+          "in" : "formData",
+          "description" : "None",
+          "required" : true,
+          "type" : "number",
+          "maximum" : 543.2,
+          "minimum" : 32.1
+        }, {
+          "name" : "float",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "number",
+          "maximum" : 987.6,
+          "format" : "float"
+        }, {
+          "name" : "double",
+          "in" : "formData",
+          "description" : "None",
+          "required" : true,
+          "type" : "number",
+          "maximum" : 123.4,
+          "minimum" : 67.8,
+          "format" : "double"
+        }, {
+          "name" : "string",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "string",
+          "pattern" : "/[a-z]/i"
+        }, {
+          "name" : "pattern_without_delimiter",
+          "in" : "formData",
+          "description" : "None",
+          "required" : true,
+          "type" : "string",
+          "pattern" : "^[A-Z].*"
+        }, {
+          "name" : "byte",
+          "in" : "formData",
+          "description" : "None",
+          "required" : true,
+          "type" : "string",
+          "format" : "byte"
+        }, {
+          "name" : "binary",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "string",
+          "format" : "binary"
+        }, {
+          "name" : "date",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "string",
+          "format" : "date"
+        }, {
+          "name" : "dateTime",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "password",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "string",
+          "maxLength" : 64,
+          "minLength" : 10,
+          "format" : "password"
+        }, {
+          "name" : "callback",
+          "in" : "formData",
+          "description" : "None",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid username supplied"
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        },
+        "security" : [ {
+          "http_basic_test" : [ ]
+        } ],
+        "x-contentType" : "application/xml; charset=utf-8",
+        "x-accepts" : "application/xml; charset=utf-8,application/json; charset=utf-8"
+      },
+      "patch" : {
+        "tags" : [ "fake" ],
+        "summary" : "To test \"client\" model",
+        "description" : "To test \"client\" model",
+        "operationId" : "testClientModel",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "client model",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Client"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Client"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/outer/number" : {
+      "post" : {
+        "tags" : [ "fake" ],
+        "description" : "Test serialization of outer number types",
+        "operationId" : "fakeOuterNumberSerialize",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Input number as post body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/OuterNumber"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Output number",
+            "schema" : {
+              "$ref" : "#/definitions/OuterNumber"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/outer/string" : {
+      "post" : {
+        "tags" : [ "fake" ],
+        "description" : "Test serialization of outer string types",
+        "operationId" : "fakeOuterStringSerialize",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Input string as post body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/OuterString"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Output string",
+            "schema" : {
+              "$ref" : "#/definitions/OuterString"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/outer/boolean" : {
+      "post" : {
+        "tags" : [ "fake" ],
+        "description" : "Test serialization of outer boolean types",
+        "operationId" : "fakeOuterBooleanSerialize",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Input boolean as post body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/OuterBoolean"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Output boolean",
+            "schema" : {
+              "$ref" : "#/definitions/OuterBoolean"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/outer/composite" : {
+      "post" : {
+        "tags" : [ "fake" ],
+        "description" : "Test serialization of object with outer number type",
+        "operationId" : "fakeOuterCompositeSerialize",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Input composite as post body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/OuterComposite"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Output composite",
+            "schema" : {
+              "$ref" : "#/definitions/OuterComposite"
+            }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/jsonFormData" : {
+      "get" : {
+        "tags" : [ "fake" ],
+        "summary" : "test json serialization of form data",
+        "description" : "",
+        "operationId" : "testJsonFormData",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "param",
+          "in" : "formData",
+          "description" : "field1",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "param2",
+          "in" : "formData",
+          "description" : "field2",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "petstore_auth" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "http://petstore.swagger.io/api/oauth/dialog",
+      "flow" : "implicit",
+      "scopes" : {
+        "write:pets" : "modify pets in your account",
+        "read:pets" : "read your pets"
+      }
+    },
+    "api_key" : {
+      "type" : "apiKey",
+      "name" : "api_key",
+      "in" : "header"
+    },
+    "http_basic_test" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "Order" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "petId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "quantity" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "shipDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Order Status",
+          "enum" : [ "placed", "approved", "delivered" ]
+        },
+        "complete" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      },
+      "xml" : {
+        "name" : "Order"
+      }
+    },
+    "Category" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      },
+      "xml" : {
+        "name" : "Category"
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "x-is-unique" : true
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "userStatus" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "User Status"
+        }
+      },
+      "xml" : {
+        "name" : "User"
+      }
+    },
+    "Tag" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      },
+      "xml" : {
+        "name" : "Tag"
+      }
+    },
+    "Pet" : {
+      "type" : "object",
+      "required" : [ "name", "photoUrls" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "x-is-unique" : true
+        },
+        "category" : {
+          "$ref" : "#/definitions/Category"
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "doggie"
+        },
+        "photoUrls" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "photoUrl",
+            "wrapped" : true
+          },
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "tag",
+            "wrapped" : true
+          },
+          "items" : {
+            "$ref" : "#/definitions/Tag"
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "pet status in the store",
+          "enum" : [ "available", "pending", "sold" ]
+        }
+      },
+      "xml" : {
+        "name" : "Pet"
+      }
+    },
+    "ApiResponse" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        }
+      }
+    },
+    "$special[model.name]" : {
+      "properties" : {
+        "$special[property.name]" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      },
+      "xml" : {
+        "name" : "$special[model.name]"
+      }
+    },
+    "Return" : {
+      "properties" : {
+        "return" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      },
+      "description" : "Model for testing reserved words",
+      "xml" : {
+        "name" : "Return"
+      }
+    },
+    "Name" : {
+      "required" : [ "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "snake_case" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "property" : {
+          "type" : "string"
+        },
+        "123Number" : {
+          "type" : "integer",
+          "readOnly" : true
+        }
+      },
+      "description" : "Model for testing model name same as property name",
+      "xml" : {
+        "name" : "Name"
+      }
+    },
+    "200_response" : {
+      "properties" : {
+        "name" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "class" : {
+          "type" : "string"
+        }
+      },
+      "description" : "Model for testing model name starting with number",
+      "xml" : {
+        "name" : "Name"
+      }
+    },
+    "ClassModel" : {
+      "properties" : {
+        "_class" : {
+          "type" : "string"
+        }
+      },
+      "description" : "Model for testing model with \"_class\" property"
+    },
+    "Dog" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Animal"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "breed" : {
+            "type" : "string"
+          }
+        }
+      } ]
+    },
+    "Cat" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Animal"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "declawed" : {
+            "type" : "boolean"
+          }
+        }
+      } ]
+    },
+    "Animal" : {
+      "type" : "object",
+      "required" : [ "className" ],
+      "discriminator" : "className",
+      "properties" : {
+        "className" : {
+          "type" : "string"
+        },
+        "color" : {
+          "type" : "string",
+          "default" : "red"
+        }
+      }
+    },
+    "AnimalFarm" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/Animal"
+      }
+    },
+    "format_test" : {
+      "type" : "object",
+      "required" : [ "byte", "date", "number", "password" ],
+      "properties" : {
+        "integer" : {
+          "type" : "integer",
+          "minimum" : 10,
+          "maximum" : 100
+        },
+        "int32" : {
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 20,
+          "maximum" : 200
+        },
+        "int64" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "number" : {
+          "type" : "number",
+          "minimum" : 32.1,
+          "maximum" : 543.2
+        },
+        "float" : {
+          "type" : "number",
+          "format" : "float",
+          "minimum" : 54.3,
+          "maximum" : 987.6
+        },
+        "double" : {
+          "type" : "number",
+          "format" : "double",
+          "minimum" : 67.8,
+          "maximum" : 123.4
+        },
+        "string" : {
+          "type" : "string",
+          "pattern" : "/[a-z]/i"
+        },
+        "byte" : {
+          "type" : "string",
+          "format" : "byte"
+        },
+        "binary" : {
+          "type" : "string",
+          "format" : "binary"
+        },
+        "date" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "dateTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "uuid" : {
+          "type" : "string",
+          "format" : "uuid"
+        },
+        "password" : {
+          "type" : "string",
+          "format" : "password",
+          "minLength" : 10,
+          "maxLength" : 64
+        }
+      }
+    },
+    "EnumClass" : {
+      "type" : "string",
+      "enum" : [ "_abc", "-efg", "(xyz)" ],
+      "default" : "-efg"
+    },
+    "Enum_Test" : {
+      "type" : "object",
+      "properties" : {
+        "enum_string" : {
+          "type" : "string",
+          "enum" : [ "UPPER", "lower", "" ]
+        },
+        "enum_integer" : {
+          "type" : "integer",
+          "format" : "int32",
+          "enum" : [ 1, -1 ]
+        },
+        "enum_number" : {
+          "type" : "number",
+          "format" : "double",
+          "enum" : [ 1.1, -1.2 ]
+        },
+        "outerEnum" : {
+          "$ref" : "#/definitions/OuterEnum"
+        }
+      }
+    },
+    "AdditionalPropertiesClass" : {
+      "type" : "object",
+      "properties" : {
+        "map_property" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "map_of_map_property" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "MixedPropertiesAndAdditionalPropertiesClass" : {
+      "type" : "object",
+      "properties" : {
+        "uuid" : {
+          "type" : "string",
+          "format" : "uuid"
+        },
+        "dateTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "map" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "$ref" : "#/definitions/Animal"
+          }
+        }
+      }
+    },
+    "List" : {
+      "type" : "object",
+      "properties" : {
+        "123-list" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Client" : {
+      "type" : "object",
+      "properties" : {
+        "client" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ReadOnlyFirst" : {
+      "type" : "object",
+      "properties" : {
+        "bar" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "baz" : {
+          "type" : "string"
+        }
+      }
+    },
+    "hasOnlyReadOnly" : {
+      "type" : "object",
+      "properties" : {
+        "bar" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "foo" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "Capitalization" : {
+      "type" : "object",
+      "properties" : {
+        "smallCamel" : {
+          "type" : "string"
+        },
+        "CapitalCamel" : {
+          "type" : "string"
+        },
+        "small_Snake" : {
+          "type" : "string"
+        },
+        "Capital_Snake" : {
+          "type" : "string"
+        },
+        "SCA_ETH_Flow_Points" : {
+          "type" : "string"
+        },
+        "ATT_NAME" : {
+          "type" : "string",
+          "description" : "Name of the pet\n"
+        }
+      }
+    },
+    "MapTest" : {
+      "type" : "object",
+      "properties" : {
+        "map_map_of_string" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        },
+        "map_of_enum_string" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string",
+            "enum" : [ "UPPER", "lower" ]
+          }
+        }
+      }
+    },
+    "ArrayTest" : {
+      "type" : "object",
+      "properties" : {
+        "array_of_string" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "array_array_of_integer" : {
+          "type" : "array",
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        },
+        "array_array_of_model" : {
+          "type" : "array",
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/ReadOnlyFirst"
+            }
+          }
+        }
+      }
+    },
+    "NumberOnly" : {
+      "type" : "object",
+      "properties" : {
+        "JustNumber" : {
+          "type" : "number"
+        }
+      }
+    },
+    "ArrayOfNumberOnly" : {
+      "type" : "object",
+      "properties" : {
+        "ArrayNumber" : {
+          "type" : "array",
+          "items" : {
+            "type" : "number"
+          }
+        }
+      }
+    },
+    "ArrayOfArrayOfNumberOnly" : {
+      "type" : "object",
+      "properties" : {
+        "ArrayArrayNumber" : {
+          "type" : "array",
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          }
+        }
+      }
+    },
+    "EnumArrays" : {
+      "type" : "object",
+      "properties" : {
+        "just_symbol" : {
+          "type" : "string",
+          "enum" : [ ">=", "$" ]
+        },
+        "array_enum" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "fish", "crab" ]
+          }
+        }
+      }
+    },
+    "OuterEnum" : {
+      "type" : "string",
+      "enum" : [ "placed", "approved", "delivered" ]
+    },
+    "OuterNumber" : {
+      "type" : "number"
+    },
+    "OuterString" : {
+      "type" : "string"
+    },
+    "OuterBoolean" : {
+      "type" : "boolean"
+    },
+    "OuterComposite" : {
+      "type" : "object",
+      "properties" : {
+        "my_number" : {
+          "$ref" : "#/definitions/OuterNumber"
+        },
+        "my_string" : {
+          "$ref" : "#/definitions/OuterString"
+        },
+        "my_boolean" : {
+          "$ref" : "#/definitions/OuterBoolean"
+        }
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Find out more about Swagger",
+    "url" : "http://swagger.io"
+  }
+}

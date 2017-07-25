@@ -199,9 +199,10 @@ export const PetApiFetchParamCreator = {
         }
         const baseUrl = `/pet/findByStatus`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = Object.assign({}, urlObj.query, {
-            "status": params["status"],
-        });
+        urlObj.query =  Object.assign({}, urlObj.query);
+        if (params["status"] !== undefined) {
+            urlObj.query["status"] = params["status"];
+        }
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string> = {};
@@ -233,9 +234,10 @@ export const PetApiFetchParamCreator = {
         }
         const baseUrl = `/pet/findByTags`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = Object.assign({}, urlObj.query, {
-            "tags": params["tags"],
-        });
+        urlObj.query =  Object.assign({}, urlObj.query);
+        if (params["tags"] !== undefined) {
+            urlObj.query["tags"] = params["tags"];
+        }
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string> = {};
@@ -1115,10 +1117,13 @@ export const UserApiFetchParamCreator = {
         }
         const baseUrl = `/user/login`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = Object.assign({}, urlObj.query, {
-            "username": params["username"],
-            "password": params["password"],
-        });
+        urlObj.query =  Object.assign({}, urlObj.query);
+        if (params["username"] !== undefined) {
+            urlObj.query["username"] = params["username"];
+        }
+        if (params["password"] !== undefined) {
+            urlObj.query["password"] = params["password"];
+        }
         let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
 
         let contentTypeHeader: Dictionary<string> = {};
