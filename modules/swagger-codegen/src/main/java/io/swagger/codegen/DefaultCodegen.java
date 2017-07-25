@@ -1660,6 +1660,7 @@ public class DefaultCodegen {
         }
         if (p instanceof BooleanProperty) {
             property.isBoolean = true;
+            property.getter = "is" + getterAndSetterCapitalize(name);
         }
         if (p instanceof BinaryProperty) {
             property.isBinary = true;
