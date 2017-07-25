@@ -403,4 +403,15 @@ public class CodegenTest {
         new InlineModelResolver().flatten(swagger);
         return swagger;
     }
+
+    @Test(description = "isDeprecated is present")
+    public void deprecatedParamTest() {
+        final Swagger model = parseAndPrepareSwagger("src/test/resources/2_0/petstore.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final String path = "/pet/findByTags";
+        final Operation p = model.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, model.getDefinitions());
+
+        Assert.assertTrue(op.isDeprecated);
+    }
 }

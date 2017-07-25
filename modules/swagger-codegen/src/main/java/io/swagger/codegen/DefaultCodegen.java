@@ -2025,6 +2025,9 @@ public class DefaultCodegen {
         op.notes = escapeText(operation.getDescription());
         op.hasConsumes = false;
         op.hasProduces = false;
+        if (operation.isDeprecated() != null) {
+            op.isDeprecated = operation.isDeprecated();
+        }
 
         List<String> consumes = new ArrayList<String>();
         if (operation.getConsumes() != null) {
