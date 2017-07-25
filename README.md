@@ -43,7 +43,7 @@ Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
       - [OS X Users](#os-x-users)
     - [Building](#building)
     - [Docker](#docker)
-      - [Build and run](#build-and-run-using-docker)
+      - [Development in Docker](#development-in-docker)
       - [Run docker in Vagrant](#run-docker-in-vagrant)
       - [Public Docker image](#public-docker-image)
     - [Homebrew](#homebrew)
