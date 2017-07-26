@@ -39,7 +39,7 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.baseType, "boolean");
         Assert.assertTrue(cp.isNotContainer);
         Assert.assertTrue(cp.isBoolean);
-        Assert.assertEquals(cp.getter, "isProperty");
+        Assert.assertEquals(cp.getter, "getProperty");
     }
 
     @Test(description = "convert a complex parameter")
