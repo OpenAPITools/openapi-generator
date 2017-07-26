@@ -77,7 +77,6 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getPackageRootDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("typings.mustache", getPackageRootDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));
     }
 
