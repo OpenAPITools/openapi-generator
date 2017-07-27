@@ -8,7 +8,12 @@ buildscript {
         jcenter()
     }
     dependencies {
+        {{#androidGradleVersion}}
+        classpath 'com.android.tools.build:gradle:{{{androidGradleVersion}}}'
+        {{/androidGradleVersion}}
+        {{^androidGradleVersion}}
         classpath 'com.android.tools.build:gradle:2.3.+'
+        {{/androidGradleVersion}}
         {{#useAndroidMavenGradlePlugin}}
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         {{/useAndroidMavenGradlePlugin}}
@@ -28,12 +33,27 @@ apply plugin: 'com.github.dcendents.android-maven'
 {{/useAndroidMavenGradlePlugin}}
 
 android {
+    {{#androidSdkVersion}}
+    compileSdkVersion {{{androidSdkVersion}}}
+    {{/androidSdkVersion}}
+    {{^androidSdkVersion}}
     compileSdkVersion 25
+    {{/androidSdkVersion}}
+    {{#androidBuildToolsVersion}}
+    buildToolsVersion '{{{androidBuildToolsVersion}}}'
+    {{/androidBuildToolsVersion}}
+    {{^androidBuildToolsVersion}}
     buildToolsVersion '25.0.2'
+    {{/androidBuildToolsVersion}}
     useLibrary  'org.apache.http.legacy'
     defaultConfig {
         minSdkVersion 14
+        {{#androidSdkVersion}}
+        targetSdkVersion {{{androidSdkVersion}}}
+        {{/androidSdkVersion}}
+        {{^androidSdkVersion}}
         targetSdkVersion 25
+        {{/androidSdkVersion}}
     }
     compileOptions {
         {{#java8}}
