@@ -168,6 +168,7 @@ public class PetApi {
    * @param tags Tags to filter by (required)
    * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
+   * @Deprecated
    */
   public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
     Object localVarPostBody = null;
