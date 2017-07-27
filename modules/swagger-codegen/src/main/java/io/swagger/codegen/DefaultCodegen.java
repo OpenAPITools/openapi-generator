@@ -1231,6 +1231,36 @@ public class DefaultCodegen {
     }
 
     /**
+     * Output the Getter name for boolean property, e.g. getActive
+     *
+     * @param name the name of the property
+     * @return getter name based on naming convention
+     */
+    public String toBooleanGetter(String name) {
+        return "get" + getterAndSetterCapitalize(name);
+    }
+
+    /**
+     * Output the Getter name, e.g. getSize
+     *
+     * @param name the name of the property
+     * @return getter name based on naming convention
+     */
+    public String toGetter(String name) {
+        return "get" + getterAndSetterCapitalize(name);
+    }
+
+    /**
+     * Output the Getter name, e.g. getSize
+     *
+     * @param name the name of the property
+     * @return setter name based on naming convention
+     */
+    public String toSetter(String name) {
+        return "set" + getterAndSetterCapitalize(name);
+    }
+
+    /**
      * Output the API (class) name (capitalized) ending with "Api"
      * Return DefaultApi if name is empty
      *
@@ -1518,8 +1548,8 @@ public class DefaultCodegen {
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
         property.title = p.getTitle();
-        property.getter = "get" + getterAndSetterCapitalize(name);
-        property.setter = "set" + getterAndSetterCapitalize(name);
+        property.getter = toGetter(name);
+        property.setter = toSetter(name);
         String example = toExampleValue(p);
         if(!"null".equals(example)) {
             property.example = example;
@@ -1660,6 +1690,7 @@ public class DefaultCodegen {
         }
         if (p instanceof BooleanProperty) {
             property.isBoolean = true;
+            property.getter = toBooleanGetter(name);
         }
         if (p instanceof BinaryProperty) {
             property.isBinary = true;
@@ -2024,6 +2055,9 @@ public class DefaultCodegen {
         op.notes = escapeText(operation.getDescription());
         op.hasConsumes = false;
         op.hasProduces = false;
+        if (operation.isDeprecated() != null) {
+            op.isDeprecated = operation.isDeprecated();
+        }
 
         List<String> consumes = new ArrayList<String>();
         if (operation.getConsumes() != null) {

@@ -9,19 +9,19 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-{{classname}}Impl::{{classname}}Impl(Net::Address addr)
+{{classname}}Impl::{{classname}}Impl(Pistache::Address addr)
     : {{classname}}(addr)
     { }
 
 {{#operation}}
 {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
-void {{classname}}Impl::{{operationIdSnakeCase}}({{#allParams}}const {{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{baseType}}}{{/isPrimitiveType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void {{classname}}Impl::{{operationIdSnakeCase}}({{#allParams}}const {{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{baseType}}}{{/isPrimitiveType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
 {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
-void {{classname}}Impl::{{operationIdSnakeCase}}(const Net::Rest::Request &request, Net::Http::ResponseWriter &response){
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void {{classname}}Impl::{{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response){
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
 {{/operation}}

@@ -165,9 +165,9 @@ var JSONSchemaView = (function () {
         (0, _helpersJs._if)(this.schema.required && !this.isCollapsed && this.options.isBodyParam != true)(_templateObject26, this.schema.required),
         (0, _helpersJs._if)(this.schema.required && !this.isCollapsed && this.options.isBodyParam == true)(_templateObject266, this.schema.required),
 
-        (0, _helpersJs._if)(this.schema['default'] && !this.isCollapsed)(_templateObject27, this.schema['default']),
+        (0, _helpersJs._if)(this.schema['default'] && !this.isCollapsed)(_templateObject27, this.schema['default']),(0, _helpersJs._if)(!this.isCollapsed)(_templateObject29),
         (0, _helpersJs._if)(!this.isCollapsed && this.schema.pattern)(_templateObject28, this.schema.pattern),
-        (0, _helpersJs._if)(!this.isCollapsed && this.schema['enum'])(_templateObject16, this['enum'](this.schema, this.isCollapsed, this.open)), (0, _helpersJs._if)(this.schema.allOf && !this.isCollapsed)(_templateObject17, this.xOf(this.schema, 'allOf')), (0, _helpersJs._if)(this.schema.oneOf && !this.isCollapsed)(_templateObject17, this.xOf(this.schema, 'oneOf')), (0, _helpersJs._if)(this.schema.anyOf && !this.isCollapsed)(_templateObject17, this.xOf(this.schema, 'anyOf')), (0, _helpersJs._if)(!this.isCollapsed)(_templateObject29)) + '\n').replace(/\s*\n/g, '\n').replace(/(\<\!\-\-).+/g, '').trim();
+        (0, _helpersJs._if)(!this.isCollapsed && this.schema['enum'])(_templateObject16, this['enum'](this.schema, this.isCollapsed, this.open)), (0, _helpersJs._if)(this.schema.allOf && !this.isCollapsed)(_templateObject17, this.xOf(this.schema, 'allOf')), (0, _helpersJs._if)(this.schema.oneOf && !this.isCollapsed)(_templateObject17, this.xOf(this.schema, 'oneOf')), (0, _helpersJs._if)(this.schema.anyOf && !this.isCollapsed)(_templateObject17, this.xOf(this.schema, 'anyOf'))) + '\n').replace(/\s*\n/g, '\n').replace(/(\<\!\-\-).+/g, '').trim();
     }
 
     /*

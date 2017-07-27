@@ -4,6 +4,7 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.StaticDocCodegen;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 
@@ -24,6 +25,21 @@ public class StaticOperationTest {
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "string");
         Assert.assertTrue(cp.isNotContainer);
+    }
+
+    @Test(description = "convert a boolean parameter")
+    public void booleanParameterTest() {
+        final BooleanProperty property = new BooleanProperty();
+        final DefaultCodegen codegen = new StaticDocCodegen();
+        final CodegenProperty cp = codegen.fromProperty("property", property);
+
+        Assert.assertEquals(cp.baseName, "property");
+        Assert.assertEquals(cp.datatype, "Boolean");
+        Assert.assertEquals(cp.name, "property");
+        Assert.assertEquals(cp.baseType, "boolean");
+        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertTrue(cp.isBoolean);
+        Assert.assertEquals(cp.getter, "getProperty");
     }
 
     @Test(description = "convert a complex parameter")

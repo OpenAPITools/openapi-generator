@@ -49,6 +49,9 @@ public class {{classname}} {
    * @return {{returnType}}
    {{/returnType}}
    * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @Deprecated
+   {{/isDeprecated}}
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};

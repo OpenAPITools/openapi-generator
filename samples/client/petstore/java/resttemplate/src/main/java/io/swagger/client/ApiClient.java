@@ -411,6 +411,11 @@ public class ApiClient {
     * @return boolean true if the MediaType represents JSON, false otherwise
     */
     public boolean isJsonMime(String mediaType) {
+        // "* / *" is default to JSON
+        if ("*/*".equals(mediaType)) {
+            return true;
+        }
+
         try {
             return isJsonMime(MediaType.parseMediaType(mediaType));
         } catch (InvalidMediaTypeException e) {

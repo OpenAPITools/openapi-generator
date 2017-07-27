@@ -861,6 +861,7 @@ Presentations/Videos/Tutorials/Books
 - 2017/04/27 - [Swagger Codegen のPHP実装があまりにアレだったので、ライブラリ自作して公開してみた](http://qiita.com/imunew/items/2e9c472e0097e329f2cd) by [imunew](http://qiita.com/imunew)
 - 2017/05/17 - [Diseño de APIs con OpenAPI](https://www.slideshare.net/pjmolina/diseo-de-apis-con-openapi) by [Pedro J. Molina](https://github.com/pjmolina) @ [JSDayES 2017](http://2017.jsday.es/)
 - 2017/05/22 - [Presentation of the Vert.x-Swagger project](http://vertx.io/blog/presentation-of-the-vert-x-swagger-project/) by [@phiz71](http://github.com/phiz71)
+- 2017/05/22 - [Automatically generating your API from a swagger file using gradle](https://www.jcore.com/2017/05/22/automatically-generating-api-using-swagger-and-gradle/) by [Deniz Turan](https://www.jcore.com/author/deniz/)
 - 2017/06/21 - [Swagger Presentation - Warsaw Ruby Users Group](https://www.youtube.com/watch?v=uCnnDMFQB8U) by [@rafalpetryka](http://github.com/rafalpetryka)
 
 # Swagger Codegen Core Team

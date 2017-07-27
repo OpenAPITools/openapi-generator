@@ -226,14 +226,6 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
             LOGGER.warn(CodegenConstants.INVOKER_PACKAGE + " with " + this.getName() + " generator is ignored. Use " + CodegenConstants.PACKAGE_NAME + ".");
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            LOGGER.warn(CodegenConstants.MODEL_PACKAGE + " with " + this.getName() + " generator is ignored. Setting this value independently of " + CodegenConstants.PACKAGE_NAME + " is not currently supported.");
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            LOGGER.warn(CodegenConstants.API_PACKAGE + " with " + this.getName() + " generator is ignored. Setting this value independently of " + CodegenConstants.PACKAGE_NAME + " is not currently supported.");
-        }
-
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 

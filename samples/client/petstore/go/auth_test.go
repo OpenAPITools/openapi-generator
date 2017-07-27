@@ -237,6 +237,19 @@ func TestDefaultHeader(t *testing.T) {
 	}
 }
 
+func TestHostOverride(t *testing.T) {
+	_, r, err := client.PetApi.FindPetsByStatus(nil, nil)
+
+	if err != nil {
+		t.Errorf("Error while finding pets by status")
+		t.Log(err)
+	}
+
+	if r.Request.Host != testHost {
+		t.Errorf("Request Host is %v, expected %v", r.Request.Host, testHost)
+	}
+}
+
 // Add custom clients to the context.
 func createContext(httpClient *http.Client) context.Context {
 	parent := oauth2.NoContext

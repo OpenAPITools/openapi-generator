@@ -4,21 +4,22 @@
     "description": "NodeJS client for {{npmName}}",
     "repository": "{{gitUserId}}/{{gitRepoId}}",
     "main": "api.js",
+    "types": "api.d.ts",
     "scripts": {
-        "postinstall": "typings install",
-        "clean": "rm -Rf node_modules/ typings/ *.js",
+        "clean": "rm -Rf node_modules/ *.js",
         "build": "tsc",
         "test": "npm run build && node client.js"
     },
     "author": "Swagger Codegen Contributors",
     "license": "Unlicense",
     "dependencies": {
-        "bluebird": "^3.3.5",
-        "request": "^2.72.0"
+        "bluebird": "^3.5.0",
+        "request": "^2.81.0",
+        "@types/bluebird": "*",
+        "@types/request": "*"
     },
     "devDependencies": {
-        "typescript": "^1.8.10",
-        "typings": "^0.8.1"
+        "typescript": "^2.4.2"
     }{{#npmRepository}},
     "publishConfig":{
         "registry":"{{npmRepository}}"

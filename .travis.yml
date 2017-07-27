@@ -104,7 +104,7 @@ script:
 
 after_success:
   # push a snapshot version to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "2.3.0" ]; then
+  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ]; then
       mvn clean deploy --settings .travis/settings.xml;
-      echo "Finished mvn clean deploy for 2.3.0";
+      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
     fi;

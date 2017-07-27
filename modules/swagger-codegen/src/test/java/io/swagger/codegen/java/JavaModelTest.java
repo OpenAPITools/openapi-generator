@@ -12,6 +12,7 @@ import io.swagger.models.ModelImpl;
 import io.swagger.models.Xml;
 import io.swagger.models.parameters.QueryParameter;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BooleanProperty;
 import io.swagger.models.properties.ByteArrayProperty;
 import io.swagger.models.properties.DateTimeProperty;
 import io.swagger.models.properties.DecimalProperty;
@@ -652,5 +653,21 @@ public class JavaModelTest {
         Assert.assertEquals(property3.xmlNamespace, "myNamespace");
         Assert.assertEquals(property3.xmlPrefix, "my");
     }
+
+    @Test(description = "convert a boolean parameter")
+    public void booleanParameterTest() {
+        final BooleanProperty property = new BooleanProperty();
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenProperty cp = codegen.fromProperty("property", property);
+
+        Assert.assertEquals(cp.baseName, "property");
+        Assert.assertEquals(cp.datatype, "Boolean");
+        Assert.assertEquals(cp.name, "property");
+        Assert.assertEquals(cp.baseType, "Boolean");
+        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertTrue(cp.isBoolean);
+        Assert.assertEquals(cp.getter, "isProperty");
+    }
+
 
 }

@@ -50,7 +50,7 @@ ${STORE_API_SERVER_SOURCES})
 add_executable(user_api_server
 ${USER_API_SERVER_SOURCES})
 
-target_link_libraries(pet_api_server net)
-target_link_libraries(store_api_server net)
-target_link_libraries(user_api_server net)
+target_link_libraries(pet_api_server pistache pthread)
+target_link_libraries(store_api_server pistache pthread)
+target_link_libraries(user_api_server pistache pthread)
 

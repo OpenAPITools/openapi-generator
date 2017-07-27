@@ -17,7 +17,7 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful;
+            isRestful, isDeprecated;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
@@ -221,6 +221,8 @@ public class CodegenOperation {
             return false;
         if (isResponseFile != that.isResponseFile)
             return false;
+        if (isDeprecated != that.isDeprecated)
+            return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
         if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
@@ -305,6 +307,7 @@ public class CodegenOperation {
         result = 31 * result + (isResponseBinary ? 13:31);
         result = 31 * result + (isResponseFile ? 13:31);
         result = 31 * result + (hasReference ? 13:31);
+        result = 31 * result + (isDeprecated ? 13:31);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
         result = 31 * result + (returnType != null ? returnType.hashCode() : 0);

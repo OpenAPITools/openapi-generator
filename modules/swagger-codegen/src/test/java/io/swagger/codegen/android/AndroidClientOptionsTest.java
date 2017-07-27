@@ -44,6 +44,12 @@ public class AndroidClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setUseAndroidMavenGradlePlugin(Boolean.valueOf(AndroidClientOptionsProvider.ANDROID_MAVEN_GRADLE_PLUGIN_VALUE));
             times = 1;
+            clientCodegen.setAndroidGradleVersion(AndroidClientOptionsProvider.ANDROID_GRADLE_VERSION_VALUE);
+            times = 1;
+            clientCodegen.setAndroidSdkVersion(AndroidClientOptionsProvider.ANDROID_SDK_VERSION_VALUE);
+            times = 1;
+            clientCodegen.setAndroidBuildToolsVersion(AndroidClientOptionsProvider.ANDROID_BUILD_TOOLS_VERSION_VALUE);
+            times = 1;
             clientCodegen.setLibrary(AndroidClientOptionsProvider.LIBRARY_VALUE);
             times = 1;
             clientCodegen.setSerializableModel(Boolean.valueOf(AndroidClientOptionsProvider.SERIALIZABLE_MODEL_VALUE));
