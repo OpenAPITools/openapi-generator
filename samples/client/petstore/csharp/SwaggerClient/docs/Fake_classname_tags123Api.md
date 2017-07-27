@@ -27,6 +27,11 @@ namespace Example
     {
         public void main()
         {
+            // Configure API key authorization: api_key_query
+            Configuration.Default.AddApiKey("api_key_query", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.AddApiKeyPrefix("api_key_query", "Bearer");
+
             var apiInstance = new Fake_classname_tags123Api();
             var body = new ModelClient(); // ModelClient | client model
 
@@ -57,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key_query](../README.md#api_key_query)
 
 ### HTTP request headers
 
