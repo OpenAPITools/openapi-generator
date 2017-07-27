@@ -9,14 +9,14 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-{{classname}}::{{classname}}(Net::Address addr)
-    : httpEndpoint(std::make_shared<Net::Http::Endpoint>(addr))
+{{classname}}::{{classname}}(Pistache::Address addr)
+    : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
 { };
 
 void {{classname}}::init(size_t thr = 2) {
-    auto opts = Net::Http::Endpoint::options()
+    auto opts = Pistache::Http::Endpoint::options()
         .threads(thr)
-        .flags(Net::Tcp::Options::InstallSignalHandler);
+        .flags(Pistache::Tcp::Options::InstallSignalHandler);
     httpEndpoint->init(opts);
     setupRoutes();
 }
@@ -31,7 +31,7 @@ void {{classname}}::shutdown() {
 }
 
 void {{classname}}::setupRoutes() {
-    using namespace Net::Rest;
+    using namespace Pistache::Rest;
 
     {{#operation}}
     Routes::{{httpMethod}}(router, base + "{{{vendorExtensions.x-codegen-pistache-path}}}", Routes::bind(&{{classname}}::{{operationIdSnakeCase}}_handler, this));
@@ -42,7 +42,7 @@ void {{classname}}::setupRoutes() {
 }
 
 {{#operation}}
-void {{classname}}::{{operationIdSnakeCase}}_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
     {{#hasPathParams}}
     // Getting the path params
@@ -90,15 +90,15 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Net::Rest::Request &r
     {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
 {{/operation}}
 
-void {{classname}}::{{classnameSnakeLowerCase}}_default_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
-    response.send(Net::Http::Code::Not_Found, "The requested method does not exist");
+void {{classname}}::{{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
 {{#apiNamespaceDeclarations}}

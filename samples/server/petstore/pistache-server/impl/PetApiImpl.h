@@ -40,17 +40,17 @@ using namespace io::swagger::server::model;
 
 class PetApiImpl : public io::swagger::server::api::PetApi {
 public:
-    PetApiImpl(Net::Address addr);
+    PetApiImpl(Pistache::Address addr);
     ~PetApiImpl() { };
 
-    void add_pet(const Pet &body, Net::Http::ResponseWriter &response);
-    void delete_pet(const int64_t &petId, const Optional<Net::Http::Header::Raw> &apiKey, Net::Http::ResponseWriter &response);
-    void find_pets_by_status(const Optional<std::string> &status, Net::Http::ResponseWriter &response);
-    void find_pets_by_tags(const Optional<std::string> &tags, Net::Http::ResponseWriter &response);
-    void get_pet_by_id(const int64_t &petId, Net::Http::ResponseWriter &response);
-    void update_pet(const Pet &body, Net::Http::ResponseWriter &response);
-    void update_pet_with_form(const Net::Rest::Request &request, Net::Http::ResponseWriter &response);
-    void upload_file(const Net::Rest::Request &request, Net::Http::ResponseWriter &response);
+    void add_pet(const Pet &body, Pistache::Http::ResponseWriter &response);
+    void delete_pet(const int64_t &petId, const Optional<Net::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response);
+    void find_pets_by_status(const Optional<std::string> &status, Pistache::Http::ResponseWriter &response);
+    void find_pets_by_tags(const Optional<std::string> &tags, Pistache::Http::ResponseWriter &response);
+    void get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response);
+    void update_pet(const Pet &body, Pistache::Http::ResponseWriter &response);
+    void update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
+    void upload_file(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
 
 };
 

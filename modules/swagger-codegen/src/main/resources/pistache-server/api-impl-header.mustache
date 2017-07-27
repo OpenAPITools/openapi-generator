@@ -28,15 +28,15 @@ using namespace {{modelNamespace}};
 
 class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:
-    {{classname}}Impl(Net::Address addr);
+    {{classname}}Impl(Pistache::Address addr);
     ~{{classname}}Impl() { };
 
     {{#operation}}
     {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
-    void {{operationIdSnakeCase}}({{#allParams}}const {{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{baseType}}}{{/isPrimitiveType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Net::Http::ResponseWriter &response);
+    void {{operationIdSnakeCase}}({{#allParams}}const {{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{baseType}}}{{/isPrimitiveType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response);
     {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
     {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
-    void {{operationIdSnakeCase}}(const Net::Rest::Request &request, Net::Http::ResponseWriter &response);
+    void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
     {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
     {{/operation}}
 
