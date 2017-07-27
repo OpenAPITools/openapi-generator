@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AndroidClientCodegen.class);
     public static final String USE_ANDROID_MAVEN_GRADLE_PLUGIN = "useAndroidMavenGradlePlugin";
+    public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
+    public static final String ANDROID_SDK_VERSION = "androidSdkVersion";
+    public static final String ANDROID_BUILD_TOOLS_VERSION = "androidBuildToolsVersion";
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-android-client";
@@ -29,6 +32,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String projectFolder = "src/main";
     protected String sourceFolder = projectFolder + "/java";
     protected Boolean useAndroidMavenGradlePlugin = true;
+    protected String androidGradleVersion;
+    protected String androidSdkVersion;
+    protected String androidBuildToolsVersion;
     protected Boolean serializableModel = false;
 
     // requestPackage and authPackage are used by the "volley" template/library
@@ -93,6 +99,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
         cliOptions.add(CliOption.newBoolean(USE_ANDROID_MAVEN_GRADLE_PLUGIN, "A flag to toggle android-maven gradle plugin.")
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(ANDROID_GRADLE_VERSION, "gradleVersion version for use in the generated build.gradle"));
+        cliOptions.add(new CliOption(ANDROID_SDK_VERSION, "compileSdkVersion version for use in the generated build.gradle"));
+        cliOptions.add(new CliOption(ANDROID_BUILD_TOOLS_VERSION, "buildToolsVersion version for use in the generated build.gradle"));
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 
@@ -383,6 +392,18 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
         }
 
+        if (additionalProperties.containsKey(ANDROID_GRADLE_VERSION)) {
+            this.setAndroidGradleVersion((String) additionalProperties.get(ANDROID_GRADLE_VERSION));
+        }
+
+        if (additionalProperties.containsKey(ANDROID_SDK_VERSION)) {
+            this.setAndroidSdkVersion((String) additionalProperties.get(ANDROID_SDK_VERSION));
+        }
+
+        if (additionalProperties.containsKey(ANDROID_BUILD_TOOLS_VERSION)) {
+            this.setAndroidBuildToolsVersion((String) additionalProperties.get(ANDROID_BUILD_TOOLS_VERSION));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
@@ -496,8 +517,32 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         return useAndroidMavenGradlePlugin;
     }
 
+    public String getAndroidGradleVersion() {
+        return androidGradleVersion;
+    }
+
+    public String getAndroidSdkVersion() {
+        return androidSdkVersion;
+    }
+
+    public String getAndroidBuildToolsVersion() {
+        return androidBuildToolsVersion;
+    }
+
     public void setUseAndroidMavenGradlePlugin(Boolean useAndroidMavenGradlePlugin) {
         this.useAndroidMavenGradlePlugin = useAndroidMavenGradlePlugin;
+    }
+
+    public void setAndroidGradleVersion(String androidGradleVersion) {
+        this.androidGradleVersion = androidGradleVersion;
+    }
+
+    public void setAndroidSdkVersion(String androidSdkVersion) {
+        this.androidSdkVersion = androidSdkVersion;
+    }
+
+    public void setAndroidBuildToolsVersion(String androidBuildToolsVersion) {
+        this.androidBuildToolsVersion = androidBuildToolsVersion;
     }
 
     public void setInvokerPackage(String invokerPackage) {
