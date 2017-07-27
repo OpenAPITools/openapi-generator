@@ -19,21 +19,21 @@ namespace api {
 
 using namespace io::swagger::server::model;
 
-StoreApiImpl::StoreApiImpl(Net::Address addr)
+StoreApiImpl::StoreApiImpl(Pistache::Address addr)
     : StoreApi(addr)
     { }
 
-void StoreApiImpl::delete_order(const std::string &orderId, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void StoreApiImpl::delete_order(const std::string &orderId, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void StoreApiImpl::get_inventory(Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void StoreApiImpl::get_inventory(Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void StoreApiImpl::get_order_by_id(const int64_t &orderId, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void StoreApiImpl::get_order_by_id(const int64_t &orderId, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void StoreApiImpl::place_order(const Order &body, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void StoreApiImpl::place_order(const Order &body, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 
 }

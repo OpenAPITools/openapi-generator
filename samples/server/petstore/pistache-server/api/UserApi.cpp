@@ -19,14 +19,14 @@ namespace api {
 
 using namespace io::swagger::server::model;
 
-UserApi::UserApi(Net::Address addr)
-    : httpEndpoint(std::make_shared<Net::Http::Endpoint>(addr))
+UserApi::UserApi(Pistache::Address addr)
+    : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
 { };
 
 void UserApi::init(size_t thr = 2) {
-    auto opts = Net::Http::Endpoint::options()
+    auto opts = Pistache::Http::Endpoint::options()
         .threads(thr)
-        .flags(Net::Tcp::Options::InstallSignalHandler);
+        .flags(Pistache::Tcp::Options::InstallSignalHandler);
     httpEndpoint->init(opts);
     setupRoutes();
 }
@@ -41,7 +41,7 @@ void UserApi::shutdown() {
 }
 
 void UserApi::setupRoutes() {
-    using namespace Net::Rest;
+    using namespace Pistache::Rest;
 
     Routes::Post(router, base + "/user", Routes::bind(&UserApi::create_user_handler, this));
     Routes::Post(router, base + "/user/createWithArray", Routes::bind(&UserApi::create_users_with_array_input_handler, this));
@@ -56,7 +56,7 @@ void UserApi::setupRoutes() {
     router.addCustomHandler(Routes::bind(&UserApi::user_api_default_handler, this));
 }
 
-void UserApi::create_user_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
     User body;
@@ -67,12 +67,12 @@ void UserApi::create_user_handler(const Net::Rest::Request &request, Net::Http::
       this->create_user(body, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void UserApi::create_users_with_array_input_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
     User body;
@@ -83,12 +83,12 @@ void UserApi::create_users_with_array_input_handler(const Net::Rest::Request &re
       this->create_users_with_array_input(body, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void UserApi::create_users_with_list_input_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
     User body;
@@ -99,12 +99,12 @@ void UserApi::create_users_with_list_input_handler(const Net::Rest::Request &req
       this->create_users_with_list_input(body, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void UserApi::delete_user_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::delete_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     // Getting the path params
     auto username = request.param(":username").as<std::string>();
     
@@ -112,12 +112,12 @@ void UserApi::delete_user_handler(const Net::Rest::Request &request, Net::Http::
       this->delete_user(username, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void UserApi::get_user_by_name_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     // Getting the path params
     auto username = request.param(":username").as<std::string>();
     
@@ -125,12 +125,12 @@ void UserApi::get_user_by_name_handler(const Net::Rest::Request &request, Net::H
       this->get_user_by_name(username, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void UserApi::login_user_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
     auto username = request.query().get("username");
@@ -140,23 +140,23 @@ void UserApi::login_user_handler(const Net::Rest::Request &request, Net::Http::R
       this->login_user(username, password, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void UserApi::logout_user_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::logout_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     try {
       this->logout_user(response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void UserApi::update_user_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     // Getting the path params
     auto username = request.param(":username").as<std::string>();
     
@@ -169,14 +169,14 @@ void UserApi::update_user_handler(const Net::Rest::Request &request, Net::Http::
       this->update_user(username, body, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
 
-void UserApi::user_api_default_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
-    response.send(Net::Http::Code::Not_Found, "The requested method does not exist");
+void UserApi::user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
 }

@@ -19,33 +19,33 @@ namespace api {
 
 using namespace io::swagger::server::model;
 
-UserApiImpl::UserApiImpl(Net::Address addr)
+UserApiImpl::UserApiImpl(Pistache::Address addr)
     : UserApi(addr)
     { }
 
-void UserApiImpl::create_user(const User &body, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::create_user(const User &body, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::create_users_with_array_input(const User &body, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::create_users_with_array_input(const User &body, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::create_users_with_list_input(const User &body, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::create_users_with_list_input(const User &body, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::delete_user(const std::string &username, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::delete_user(const std::string &username, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::get_user_by_name(const std::string &username, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::get_user_by_name(const std::string &username, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::login_user(const Optional<std::string> &username, const Optional<std::string> &password, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::login_user(const Optional<std::string> &username, const Optional<std::string> &password, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::logout_user(Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::logout_user(Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::update_user(const std::string &username, const User &body, Net::Http::ResponseWriter &response) {
-    response.send(Net::Http::Code::Ok, "Do some magic\n");
+void UserApiImpl::update_user(const std::string &username, const User &body, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 
 }

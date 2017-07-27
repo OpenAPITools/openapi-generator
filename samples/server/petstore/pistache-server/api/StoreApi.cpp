@@ -19,14 +19,14 @@ namespace api {
 
 using namespace io::swagger::server::model;
 
-StoreApi::StoreApi(Net::Address addr)
-    : httpEndpoint(std::make_shared<Net::Http::Endpoint>(addr))
+StoreApi::StoreApi(Pistache::Address addr)
+    : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
 { };
 
 void StoreApi::init(size_t thr = 2) {
-    auto opts = Net::Http::Endpoint::options()
+    auto opts = Pistache::Http::Endpoint::options()
         .threads(thr)
-        .flags(Net::Tcp::Options::InstallSignalHandler);
+        .flags(Pistache::Tcp::Options::InstallSignalHandler);
     httpEndpoint->init(opts);
     setupRoutes();
 }
@@ -41,7 +41,7 @@ void StoreApi::shutdown() {
 }
 
 void StoreApi::setupRoutes() {
-    using namespace Net::Rest;
+    using namespace Pistache::Rest;
 
     Routes::Delete(router, base + "/store/order/:orderId", Routes::bind(&StoreApi::delete_order_handler, this));
     Routes::Get(router, base + "/store/inventory", Routes::bind(&StoreApi::get_inventory_handler, this));
@@ -52,7 +52,7 @@ void StoreApi::setupRoutes() {
     router.addCustomHandler(Routes::bind(&StoreApi::store_api_default_handler, this));
 }
 
-void StoreApi::delete_order_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     // Getting the path params
     auto orderId = request.param(":orderId").as<std::string>();
     
@@ -60,23 +60,23 @@ void StoreApi::delete_order_handler(const Net::Rest::Request &request, Net::Http
       this->delete_order(orderId, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void StoreApi::get_inventory_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void StoreApi::get_inventory_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     try {
       this->get_inventory(response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void StoreApi::get_order_by_id_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     // Getting the path params
     auto orderId = request.param(":orderId").as<int64_t>();
     
@@ -84,12 +84,12 @@ void StoreApi::get_order_by_id_handler(const Net::Rest::Request &request, Net::H
       this->get_order_by_id(orderId, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void StoreApi::place_order_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
     Order body;
@@ -100,14 +100,14 @@ void StoreApi::place_order_handler(const Net::Rest::Request &request, Net::Http:
       this->place_order(body, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
 
-void StoreApi::store_api_default_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
-    response.send(Net::Http::Code::Not_Found, "The requested method does not exist");
+void StoreApi::store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
 }

@@ -9,7 +9,7 @@
 using namespace {{apiNamespace}};
 
 int main() {
-    Net::Address addr(Net::Ipv4::any(), Net::Port(8080));
+    Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(8080));
 
     {{classname}}Impl server(addr);
     server.init(2);

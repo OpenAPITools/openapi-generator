@@ -19,14 +19,14 @@ namespace api {
 
 using namespace io::swagger::server::model;
 
-PetApi::PetApi(Net::Address addr)
-    : httpEndpoint(std::make_shared<Net::Http::Endpoint>(addr))
+PetApi::PetApi(Pistache::Address addr)
+    : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
 { };
 
 void PetApi::init(size_t thr = 2) {
-    auto opts = Net::Http::Endpoint::options()
+    auto opts = Pistache::Http::Endpoint::options()
         .threads(thr)
-        .flags(Net::Tcp::Options::InstallSignalHandler);
+        .flags(Pistache::Tcp::Options::InstallSignalHandler);
     httpEndpoint->init(opts);
     setupRoutes();
 }
@@ -41,7 +41,7 @@ void PetApi::shutdown() {
 }
 
 void PetApi::setupRoutes() {
-    using namespace Net::Rest;
+    using namespace Pistache::Rest;
 
     Routes::Post(router, base + "/pet", Routes::bind(&PetApi::add_pet_handler, this));
     Routes::Delete(router, base + "/pet/:petId", Routes::bind(&PetApi::delete_pet_handler, this));
@@ -56,7 +56,7 @@ void PetApi::setupRoutes() {
     router.addCustomHandler(Routes::bind(&PetApi::pet_api_default_handler, this));
 }
 
-void PetApi::add_pet_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::add_pet_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
     Pet body;
@@ -67,12 +67,12 @@ void PetApi::add_pet_handler(const Net::Rest::Request &request, Net::Http::Respo
       this->add_pet(body, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void PetApi::delete_pet_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::delete_pet_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     // Getting the path params
     auto petId = request.param(":petId").as<int64_t>();
     
@@ -83,12 +83,12 @@ void PetApi::delete_pet_handler(const Net::Rest::Request &request, Net::Http::Re
       this->delete_pet(petId, apiKey, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void PetApi::find_pets_by_status_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
     auto status = request.query().get("status");
@@ -97,12 +97,12 @@ void PetApi::find_pets_by_status_handler(const Net::Rest::Request &request, Net:
       this->find_pets_by_status(status, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void PetApi::find_pets_by_tags_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
     auto tags = request.query().get("tags");
@@ -111,12 +111,12 @@ void PetApi::find_pets_by_tags_handler(const Net::Rest::Request &request, Net::H
       this->find_pets_by_tags(tags, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void PetApi::get_pet_by_id_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::get_pet_by_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     // Getting the path params
     auto petId = request.param(":petId").as<int64_t>();
     
@@ -124,12 +124,12 @@ void PetApi::get_pet_by_id_handler(const Net::Rest::Request &request, Net::Http:
       this->get_pet_by_id(petId, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void PetApi::update_pet_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::update_pet_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
     Pet body;
@@ -140,34 +140,34 @@ void PetApi::update_pet_handler(const Net::Rest::Request &request, Net::Http::Re
       this->update_pet(body, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void PetApi::update_pet_with_form_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::update_pet_with_form_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     try {
       this->update_pet_with_form(request, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
-void PetApi::upload_file_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
+void PetApi::upload_file_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     try {
       this->upload_file(request, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
-      response.send(Net::Http::Code::Bad_Request, e.what());
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
       return;
     }
 
 }
 
-void PetApi::pet_api_default_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response) {
-    response.send(Net::Http::Code::Not_Found, "The requested method does not exist");
+void PetApi::pet_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
 }

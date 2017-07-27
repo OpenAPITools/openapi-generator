@@ -25,7 +25,7 @@ using namespace {{modelNamespace}};
 
 class {{declspec}} {{classname}} {
 public:
-    {{classname}}(Net::Address addr);
+    {{classname}}(Pistache::Address addr);
     virtual ~{{classname}}() {};
     void init(size_t thr);
     void start();
@@ -37,12 +37,12 @@ private:
     void setupRoutes();
 
     {{#operation}}
-    void {{operationIdSnakeCase}}_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response);
+    void {{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     {{/operation}}
-    void {{classnameSnakeLowerCase}}_default_handler(const Net::Rest::Request &request, Net::Http::ResponseWriter response);
+    void {{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Net::Http::Endpoint> httpEndpoint;
-    Net::Rest::Router router;
+    std::shared_ptr<Pistache::Http::Endpoint> httpEndpoint;
+    Pistache::Rest::Router router;
 
     {{#operation}}
 
@@ -56,10 +56,10 @@ private:
     {{#allParams}}
     /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
     {{/allParams}}
-    virtual void {{operationIdSnakeCase}}({{#allParams}}const {{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{baseType}}}{{/isPrimitiveType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Net::Http::ResponseWriter &response) = 0;
+    virtual void {{operationIdSnakeCase}}({{#allParams}}const {{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{baseType}}}{{/isPrimitiveType}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) = 0;
     {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
     {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
-    virtual void {{operationIdSnakeCase}}(const Net::Rest::Request &request, Net::Http::ResponseWriter &response) = 0;
+    virtual void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) = 0;
     {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
     {{/operation}}
 
