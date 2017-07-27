@@ -223,6 +223,11 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
+            // authentication (api_key_query) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key_query")))
+            {
+                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "api_key_query", Configuration.GetApiKeyWithPrefix("api_key_query")));
+            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
@@ -298,6 +303,11 @@ namespace IO.Swagger.Api
                 localVarPostBody = body; // byte array
             }
 
+            // authentication (api_key_query) required
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("api_key_query")))
+            {
+                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "api_key_query", Configuration.GetApiKeyWithPrefix("api_key_query")));
+            }
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,

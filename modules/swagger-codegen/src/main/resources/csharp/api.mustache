@@ -262,7 +262,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#isKeyInQuery}}
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                localVarQueryParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
+                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "{{keyParamName}}", Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
@@ -278,7 +278,8 @@ namespace {{packageName}}.{{apiPackage}}
             if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
-            }{{/isOAuth}}
+            }
+            {{/isOAuth}}
             {{/authMethods}}
 
             // make the HTTP request
@@ -397,7 +398,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{#isKeyInQuery}}
             if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                localVarQueryParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
+                localVarQueryParams.AddRange(Configuration.ApiClient.ParameterToKeyValuePairs("", "{{keyParamName}}", Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
