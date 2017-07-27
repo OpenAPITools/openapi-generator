@@ -11,9 +11,12 @@ import (
 
 var client *sw.APIClient
 
+const testHost = "testhost"
+
 func TestMain(m *testing.M) {
 	cfg := sw.NewConfiguration()
 	cfg.AddDefaultHeader("testheader", "testvalue")
+	cfg.Host = testHost
 	client = sw.NewAPIClient(cfg)
 	retCode := m.Run()
 	os.Exit(retCode)
