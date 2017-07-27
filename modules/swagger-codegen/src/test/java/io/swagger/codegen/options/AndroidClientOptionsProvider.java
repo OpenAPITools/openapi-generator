@@ -18,6 +18,9 @@ public class AndroidClientOptionsProvider implements OptionsProvider {
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SOURCE_FOLDER_VALUE = "src/main/java/test";
     public static final String ANDROID_MAVEN_GRADLE_PLUGIN_VALUE = "true";
+    public static final String ANDROID_GRADLE_VERSION_VALUE = "2.3.0";
+    public static final String ANDROID_SDK_VERSION_VALUE = "26";
+    public static final String ANDROID_BUILD_TOOLS_VERSION_VALUE = "26.0.0";
     public static final String LIBRARY_VALUE = "httpclient";
     public static final String SERIALIZABLE_MODEL_VALUE = "false";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
@@ -40,6 +43,9 @@ public class AndroidClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(AndroidClientCodegen.USE_ANDROID_MAVEN_GRADLE_PLUGIN, ANDROID_MAVEN_GRADLE_PLUGIN_VALUE)
+                .put(AndroidClientCodegen.ANDROID_GRADLE_VERSION, ANDROID_GRADLE_VERSION_VALUE)
+                .put(AndroidClientCodegen.ANDROID_SDK_VERSION, ANDROID_SDK_VERSION_VALUE)
+                .put(AndroidClientCodegen.ANDROID_BUILD_TOOLS_VERSION, ANDROID_BUILD_TOOLS_VERSION_VALUE)
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
                 .put(CodegenConstants.SERIALIZABLE_MODEL, SERIALIZABLE_MODEL_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
