@@ -305,7 +305,8 @@ case $state in
 假端點
 偽のエンドポイント
 가짜 엔드 포인트]" \
-            "testEnumParameters[To test enum parameters]"             "testClassname[To test class name in snake case]"             "addPet[Add a new pet to the store]" \
+            "testEnumParameters[To test enum parameters]" \
+            "testJsonFormData[test json serialization of form data]"             "testClassname[To test class name in snake case]"             "addPet[Add a new pet to the store]" \
             "deletePet[Deletes a pet]" \
             "findPetsByStatus[Finds Pets by status]" \
             "findPetsByTags[Finds Pets by tags]" \
@@ -374,6 +375,12 @@ case $state in
           "enum_header_string_array\::[HEADER] Header parameter enum test (string array)"
 "enum_header_string\::[HEADER] Header parameter enum test (string)"
 )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      testJsonFormData)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       testClassname)
