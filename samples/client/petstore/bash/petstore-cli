@@ -24,6 +24,9 @@
 # http://swagger.io
 #
 
+# For improved pattern matching in case statemets
+shopt -s extglob
+
 ###############################################################################
 #
 # Make sure Bash is at least in version 4.3
@@ -62,6 +65,32 @@ declare -A header_arguments
 declare -A operation_parameters
 
 ##
+# Declare colors with autodection if output is terminal
+if [ -t 1 ]; then
+    RED="$(tput setaf 1)"
+    GREEN="$(tput setaf 2)"
+    YELLOW="$(tput setaf 3)"
+    BLUE="$(tput setaf 4)"
+    MAGENTA="$(tput setaf 5)"
+    CYAN="$(tput setaf 6)"
+    WHITE="$(tput setaf 7)"
+    BOLD="$(tput bold)"
+    OFF="$(tput sgr0)"
+else
+    RED=""
+    GREEN=""
+    YELLOW=""
+    BLUE=""
+    MAGENTA=""
+    CYAN=""
+    WHITE=""
+    BOLD=""
+    OFF=""
+fi
+
+declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$MAGENTA" "$WHITE" )
+
+##
 # This array stores the minimum number of required occurences for parameter
 # 0 - optional
 # 1 - required
@@ -93,6 +122,8 @@ operation_parameters_minimum_occurences["testEnumParameters:::enum_query_string_
 operation_parameters_minimum_occurences["testEnumParameters:::enum_query_string"]=0
 operation_parameters_minimum_occurences["testEnumParameters:::enum_query_integer"]=0
 operation_parameters_minimum_occurences["testEnumParameters:::enum_query_double"]=0
+operation_parameters_minimum_occurences["testJsonFormData:::param"]=1
+operation_parameters_minimum_occurences["testJsonFormData:::param2"]=1
 operation_parameters_minimum_occurences["testClassname:::body"]=1
 operation_parameters_minimum_occurences["addPet:::body"]=1
 operation_parameters_minimum_occurences["deletePet:::petId"]=1
@@ -154,6 +185,8 @@ operation_parameters_maximum_occurences["testEnumParameters:::enum_query_string_
 operation_parameters_maximum_occurences["testEnumParameters:::enum_query_string"]=0
 operation_parameters_maximum_occurences["testEnumParameters:::enum_query_integer"]=0
 operation_parameters_maximum_occurences["testEnumParameters:::enum_query_double"]=0
+operation_parameters_maximum_occurences["testJsonFormData:::param"]=0
+operation_parameters_maximum_occurences["testJsonFormData:::param2"]=0
 operation_parameters_maximum_occurences["testClassname:::body"]=0
 operation_parameters_maximum_occurences["addPet:::body"]=0
 operation_parameters_maximum_occurences["deletePet:::petId"]=0
@@ -212,6 +245,8 @@ operation_parameters_collection_type["testEnumParameters:::enum_query_string_arr
 operation_parameters_collection_type["testEnumParameters:::enum_query_string"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_integer"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_double"]=""
+operation_parameters_collection_type["testJsonFormData:::param"]=""
+operation_parameters_collection_type["testJsonFormData:::param2"]=""
 operation_parameters_collection_type["testClassname:::body"]=""
 operation_parameters_collection_type["addPet:::body"]=""
 operation_parameters_collection_type["deletePet:::petId"]=""
@@ -333,6 +368,7 @@ url_escape() {
        -e 's/(/%28/g' \
        -e 's/)/%29/g' \
        -e 's/:/%3A/g' \
+       -e 's/\t/%09/g' \
        -e 's/?/%3F/g' <<<$raw_url);
 
     echo $value
@@ -397,11 +433,10 @@ body_parameters_to_json() {
     local body_parameter_count=${#body_parameters[@]}
     local count=0
     for key in "${!body_parameters[@]}"; do
-        body_json+="\"${key}\": ${body_parameters[${key}]}"
-        if [[ $count -lt $body_parameter_count-1 ]]; then
+        if [[ $((count++)) -gt 0 ]]; then
             body_json+=", "
         fi
-        ((count+=1))
+        body_json+="\"${key}\": ${body_parameters[${key}]}"
     done
     body_json+="}'"
 
@@ -414,127 +449,24 @@ body_parameters_to_json() {
 
 ##############################################################################
 #
-# Check if provided parameters match specification requirements
+# Helper method for showing error because for example echo in
+# build_request_path() is evaluated as part of command line not printed on
+# output. Anyway better idea for resource clean up ;-).
 #
 ##############################################################################
-validate_request_parameters() {
-    local path_template=$1
-    local -n path_params=$2
-    local -n query_params=$3
-
-    # First replace all path parameters in the path
-    for pparam in "${path_params[@]}"; do
-        regexp="(.*)(\{$pparam\})(.*)"
-        if [[ $path_template =~ $regexp ]]; then
-            path_template=${BASH_REMATCH[1]}${operation_parameters[$pparam]}${BASH_REMATCH[3]}
-        fi
-    done
-
-    # Now append query parameters - if any
-    if [[ ${#query_params[@]} -gt 0 ]]; then
-        path_template+="?"
+ERROR_MSG=""
+function finish {
+    if [[ -n "$ERROR_MSG" ]]; then
+        echo >&2 "${OFF}${RED}$ERROR_MSG"
+        echo >&2 "${OFF}Check usage: '${script_name} --help'"
     fi
-
-    local query_parameter_count=${#query_params[@]}
-    local count=0
-    for qparam in "${query_params[@]}"; do
-        # Get the array of parameter values
-        local parameter_values=($(echo "${operation_parameters[$qparam]}" | sed -e 's/'":::"'/\n/g' | while read line; do echo $line | sed 's/[\t ]/'":::"'/g'; done))
-
-        #
-        # Check if the number of provided values is not less than minimum
-        # required
-        #
-        if [[ "$force" = false ]]; then
-            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
-                echo "Error: Too few values provided for '${qparam}' parameter"
-                exit 1
-            fi
-
-            #
-            # Check if the number of provided values is not more than maximum
-            #
-            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
-                if [[ "$force" = false ]]; then
-                    echo "Error: Too many values provided for '${qparam}' parameter"
-                    exit 1
-                fi
-            fi
-        fi
-
-        if [[ "${operation_parameters_collection_type[${operation}:::${qparam}]}" == "" ]]; then
-            local vcount=0
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+="&"
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "multi" ]]; then
-            local vcount=0
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+="&"
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "csv" ]]; then
-            path_template+="${qparam}="
-            local vcount=0
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+=","
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "ssv" ]]; then
-            path_template+="${qparam}="
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+=" "
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "tsv" ]]; then
-            path_template+="${qparam}="
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+="\t"
-                fi
-                ((vcount+=1))
-            done
-        else
-            echo -e ""
-            echo -e "Error: Unsupported collection format "
-            echo -e ""
-            exit 1
-        fi
-
-
-        if [[ $count -lt $query_parameter_count-1 ]]; then
-            path_template+="&"
-        fi
-        ((count+=1))
-    done
-
 }
-
+trap finish EXIT
 
 
 ##############################################################################
 #
-# Build request path including query parameters
+# Validate and build request path including query parameters
 #
 ##############################################################################
 build_request_path() {
@@ -543,10 +475,39 @@ build_request_path() {
     local -n query_params=$3
 
 
+    #
+    # Check input paramaters count against minimum and maximum required
+    #
+    if [[ "$force" = false ]]; then
+        local was_error=""
+        for qparam in "${query_params[@]}" "${path_params[@]}"; do
+            local parameter_values=($(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}"))
+
+            #
+            # Check if the number of provided values is not less than minimum required
+            #
+            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
+                echo "ERROR: Too few values provided for '${qparam}' parameter."
+                was_error=true
+            fi
+
+            #
+            # Check if the number of provided values is not more than maximum
+            #
+            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
+                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
+                echo "ERROR: Too many values provided for '${qparam}' parameter"
+                was_error=true
+            fi
+        done
+        if [[ -n "$was_error" ]]; then
+            exit 1
+        fi
+    fi
+
     # First replace all path parameters in the path
     for pparam in "${path_params[@]}"; do
-        regexp="(.*)(\{$pparam\})(.*)"
-        if [[ $path_template =~ $regexp ]]; then
+        if [[ $path_template =~ (.*)(\{$pparam\})(.*) ]]; then
             path_template=${BASH_REMATCH[1]}${operation_parameters[$pparam]}${BASH_REMATCH[3]}
         fi
     done
@@ -557,116 +518,90 @@ build_request_path() {
     local count=0
     for qparam in "${query_params[@]}"; do
         # Get the array of parameter values
-        local parameter_values=($(echo "${operation_parameters[$qparam]}" | sed -e 's/'":::"'/\n/g' | while read line; do echo $line | sed 's/[\t ]/'":::"'/g'; done))
+        local parameter_values=($(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}"))
         local parameter_value=""
 
-        #
-        # Check if the number of provided values is not less than minimum
-        # required
-        #
-        if [[ "$force" = false ]]; then
-            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
-                echo "Error: Too few values provided for '${qparam}' parameter"
-                exit 1
-            fi
-
-            #
-            # Check if the number of provided values is not more than maximum
-            #
-            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
-                if [[ "$force" = false ]]; then
-                    echo "Error: Too many values provided for '${qparam}' parameter"
-                    exit 1
-                fi
+        if [[ -n "${parameter_values[@]}" ]]; then
+            if [[ $((count++)) -gt 0 ]]; then
+                query_request_part+="&"
             fi
         fi
 
         #
         # Append parameters without specific cardinality
         #
-        if [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "" ]]; then
+        local collection_type="${operation_parameters_collection_type["${operation}:::${qparam}"]}"
+
+        if [[ "${collection_type}" == "" ]]; then
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+="&"
                 fi
-                ((vcount+=1))
+                parameter_value+="${qparam}=${qvalue}"
             done
         #
         # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "multi" ]]; then
+        elif [[ "${collection_type}" == "multi" ]]; then
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+="&"
                 fi
-                ((vcount+=1))
+                parameter_value+="${qparam}=${qvalue}"
             done
         #
         # Append parameters specified as 'csv' collections i.e. param=value1,value2,...
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "csv" ]]; then
+        elif [[ "${collection_type}" == "csv" ]]; then
             parameter_value+="${qparam}="
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+=","
                 fi
-                ((vcount+=1))
+                parameter_value+="${qvalue}"
             done
         #
         # Append parameters specified as 'ssv' collections i.e. param="value1 value2 ..."
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "ssv" ]]; then
+        elif [[ "${collection_type}" == "ssv" ]]; then
             parameter_value+="${qparam}="
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+=" "
                 fi
-                ((vcount+=1))
+                parameter_value+="${qvalue}"
             done
         #
         # Append parameters specified as 'tsv' collections i.e. param="value1\tvalue2\t..."
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "tsv" ]]; then
+        elif [[ "${collection_type}" == "tsv" ]]; then
             parameter_value+="${qparam}="
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+="\t"
                 fi
-                ((vcount+=1))
+                parameter_value+="${qvalue}"
             done
+        else
+            echo "Unsupported collection format \"${collection_type}\""
+            exit 1
         fi
 
         if [[ -n "${parameter_value}" ]]; then
             query_request_part+="${parameter_value}"
         fi
 
-        if [[ $count -lt $query_parameter_count-1 && -n "${parameter_value}" ]]; then
-            query_request_part+="&"
-        fi
-
-        ((count+=1))
     done
 
 
     # Now append query parameters - if any
     if [[ -n "${query_request_part}" ]]; then
-        path_template+="?$(echo ${query_request_part} | sed s'/&$//')"
+        path_template+="?${query_request_part}"
     fi
 
     echo $path_template
@@ -682,117 +617,119 @@ build_request_path() {
 print_help() {
 cat <<EOF
 
-$(tput bold)$(tput setaf 7)Swagger Petstore command line client (API version 1.0.0)$(tput sgr0)
+${BOLD}${WHITE}Swagger Petstore command line client (API version 1.0.0)${OFF}
 
-$(tput bold)$(tput setaf 7)Usage$(tput sgr0)
+${BOLD}${WHITE}Usage${OFF}
 
-  $(tput setaf 2)${script_name}$(tput sgr0) [-h|--help] [-V|--version] [--about] [$(tput setaf 1)<curl-options>$(tput sgr0)]
-           [-ac|--accept $(tput setaf 2)<mime-type>$(tput sgr0)] [-ct,--content-type $(tput setaf 2)<mime-type>$(tput sgr0)]
-           [--host $(tput setaf 6)<url>$(tput sgr0)] [--dry-run] $(tput setaf 3)<operation>$(tput sgr0) [-h|--help] [$(tput setaf 4)<headers>$(tput sgr0)]
-           [$(tput setaf 5)<parameters>$(tput sgr0)] [$(tput setaf 5)<body-parameters>$(tput sgr0)]
+  ${GREEN}${script_name}${OFF} [-h|--help] [-V|--version] [--about] [${RED}<curl-options>${OFF}]
+           [-ac|--accept ${GREEN}<mime-type>${OFF}] [-ct,--content-type ${GREEN}<mime-type>${OFF}]
+           [--host ${CYAN}<url>${OFF}] [--dry-run] [-nc|--no-colors] ${YELLOW}<operation>${OFF} [-h|--help]
+           [${BLUE}<headers>${OFF}] [${MAGENTA}<parameters>${OFF}] [${MAGENTA}<body-parameters>${OFF}]
 
-  - $(tput setaf 6)<url>$(tput sgr0) - endpoint of the REST service without basepath
+  - ${CYAN}<url>${OFF} - endpoint of the REST service without basepath
            Can also be specified in PETSTORE_HOST environment variable.
-  - $(tput setaf 1)<curl-options>$(tput sgr0) - any valid cURL options can be passed before $(tput setaf 3)<operation>$(tput sgr0)
-  - $(tput setaf 2)<mime-type>$(tput sgr0) - either full mime-type or one of supported abbreviations:
+  - ${RED}<curl-options>${OFF} - any valid cURL options can be passed before ${YELLOW}<operation>${OFF}
+  - ${GREEN}<mime-type>${OFF} - either full mime-type or one of supported abbreviations:
                    (text, html, md, csv, css, rtf, json, xml, yaml, js, bin,
                     rdf, jpg, png, gif, bmp, tiff)
-  - $(tput setaf 4)<headers>$(tput sgr0) - HTTP headers can be passed in the form $(tput setaf 3)HEADER$(tput sgr0):$(tput setaf 4)VALUE$(tput sgr0)
-  - $(tput setaf 5)<parameters>$(tput sgr0) - REST operation parameters can be passed in the following
+  - ${BLUE}<headers>${OFF} - HTTP headers can be passed in the form ${YELLOW}HEADER${OFF}:${BLUE}VALUE${OFF}
+  - ${MAGENTA}<parameters>${OFF} - REST operation parameters can be passed in the following
                    forms:
-                   * $(tput setaf 3)KEY$(tput sgr0)=$(tput setaf 4)VALUE$(tput sgr0) - path or query parameters
-  - $(tput setaf 5)<body-parameters>$(tput sgr0) - simple JSON body content (first level only) can be build
+                   * ${YELLOW}KEY${OFF}=${BLUE}VALUE${OFF} - path or query parameters
+  - ${MAGENTA}<body-parameters>${OFF} - simple JSON body content (first level only) can be build
                         using the following arguments:
-                        * $(tput setaf 3)KEY$(tput sgr0)==$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body
-                                      JSON as '{ ..., "$(tput setaf 3)KEY$(tput sgr0)": "$(tput setaf 4)VALUE$(tput sgr0)", ... }'
-                        * $(tput setaf 3)KEY$(tput sgr0):=$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body
-                                      JSON as '{ ..., "$(tput setaf 3)KEY$(tput sgr0)": $(tput setaf 4)VALUE$(tput sgr0), ... }'
+                        * ${YELLOW}KEY${OFF}==${BLUE}VALUE${OFF} - body parameters which will be added to body
+                                      JSON as '{ ..., "${YELLOW}KEY${OFF}": "${BLUE}VALUE${OFF}", ... }'
+                        * ${YELLOW}KEY${OFF}:=${BLUE}VALUE${OFF} - body parameters which will be added to body
+                                      JSON as '{ ..., "${YELLOW}KEY${OFF}": ${BLUE}VALUE${OFF}, ... }'
 
 EOF
-    echo -e "$(tput bold)$(tput setaf 7)Authentication methods$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
-    echo -e "  - $(tput setaf 4)Api-key$(tput sgr0) - add '$(tput setaf 1)api_key:<api-key>$(tput sgr0)' after $(tput setaf 3)<operation>$(tput sgr0)"
-    echo -e "              or export $(tput setaf 1)PETSTORE_API_KEY='<api-key>'$(tput sgr0)"
-    echo -e "  - $(tput setaf 4)Basic AUTH$(tput sgr0) - add '-u <username>:<password>' before $(tput setaf 3)<operation>$(tput sgr0)"
-    echo -e "                 or export $(tput setaf 1)PETSTORE_BASIC_AUTH='<username>:<password>'$(tput sgr0)"
-    echo -e "  - $(tput setaf 5)OAuth2 (flow: implicit)$(tput sgr0)"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
+    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
+    echo -e "  - ${MAGENTA}OAuth2 (flow: implicit)${OFF}"
     echo -e "      Authorization URL: "
     echo -e "        * http://petstore.swagger.io/api/oauth/dialog"
     echo -e "      Scopes:"
     echo -e "        * write:pets - modify pets in your account"
     echo -e "        * read:pets - read your pets"
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Operations (grouped by tags)$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)[fake]$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}[fake]${OFF}"
 read -d '' ops <<EOF
-  $(tput setaf 6)fakeOuterBooleanSerialize$(tput sgr0);
-  $(tput setaf 6)fakeOuterCompositeSerialize$(tput sgr0);
-  $(tput setaf 6)fakeOuterNumberSerialize$(tput sgr0);
-  $(tput setaf 6)fakeOuterStringSerialize$(tput sgr0);
-  $(tput setaf 6)testClientModel$(tput sgr0);To test \"client\" model
-  $(tput setaf 6)testEndpointParameters$(tput sgr0);Fake endpoint for testing various parameters
+  ${CYAN}fakeOuterBooleanSerialize${OFF};
+  ${CYAN}fakeOuterCompositeSerialize${OFF};
+  ${CYAN}fakeOuterNumberSerialize${OFF};
+  ${CYAN}fakeOuterStringSerialize${OFF};
+  ${CYAN}testClientModel${OFF};To test \"client\" model
+  ${CYAN}testEndpointParameters${OFF};Fake endpoint for testing various parameters
 假端點
 偽のエンドポイント
-가짜 엔드 포인트
-  $(tput setaf 6)testEnumParameters$(tput sgr0);To test enum parameters
+가짜 엔드 포인트 (AUTH)
+  ${CYAN}testEnumParameters${OFF};To test enum parameters
+  ${CYAN}testJsonFormData${OFF};test json serialization of form data
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)[fake_classname_tags123]$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}[fake_classname_tags123]${OFF}"
 read -d '' ops <<EOF
-  $(tput setaf 6)testClassname$(tput sgr0);To test class name in snake case
+  ${CYAN}testClassname${OFF};To test class name in snake case
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)[pet]$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}[pet]${OFF}"
 read -d '' ops <<EOF
-  $(tput setaf 6)addPet$(tput sgr0);Add a new pet to the store
-  $(tput setaf 6)deletePet$(tput sgr0);Deletes a pet
-  $(tput setaf 6)findPetsByStatus$(tput sgr0);Finds Pets by status
-  $(tput setaf 6)findPetsByTags$(tput sgr0);Finds Pets by tags
-  $(tput setaf 6)getPetById$(tput sgr0);Find pet by ID
-  $(tput setaf 6)updatePet$(tput sgr0);Update an existing pet
-  $(tput setaf 6)updatePetWithForm$(tput sgr0);Updates a pet in the store with form data
-  $(tput setaf 6)uploadFile$(tput sgr0);uploads an image
+  ${CYAN}addPet${OFF};Add a new pet to the store (AUTH)
+  ${CYAN}deletePet${OFF};Deletes a pet (AUTH)
+  ${CYAN}findPetsByStatus${OFF};Finds Pets by status (AUTH)
+  ${CYAN}findPetsByTags${OFF};Finds Pets by tags (AUTH)
+  ${CYAN}getPetById${OFF};Find pet by ID (AUTH)
+  ${CYAN}updatePet${OFF};Update an existing pet (AUTH)
+  ${CYAN}updatePetWithForm${OFF};Updates a pet in the store with form data (AUTH)
+  ${CYAN}uploadFile${OFF};uploads an image (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)[store]$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}[store]${OFF}"
 read -d '' ops <<EOF
-  $(tput setaf 6)deleteOrder$(tput sgr0);Delete purchase order by ID
-  $(tput setaf 6)getInventory$(tput sgr0);Returns pet inventories by status
-  $(tput setaf 6)getOrderById$(tput sgr0);Find purchase order by ID
-  $(tput setaf 6)placeOrder$(tput sgr0);Place an order for a pet
+  ${CYAN}deleteOrder${OFF};Delete purchase order by ID
+  ${CYAN}getInventory${OFF};Returns pet inventories by status (AUTH)
+  ${CYAN}getOrderById${OFF};Find purchase order by ID
+  ${CYAN}placeOrder${OFF};Place an order for a pet
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)[user]$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}[user]${OFF}"
 read -d '' ops <<EOF
-  $(tput setaf 6)createUser$(tput sgr0);Create user
-  $(tput setaf 6)createUsersWithArrayInput$(tput sgr0);Creates list of users with given input array
-  $(tput setaf 6)createUsersWithListInput$(tput sgr0);Creates list of users with given input array
-  $(tput setaf 6)deleteUser$(tput sgr0);Delete user
-  $(tput setaf 6)getUserByName$(tput sgr0);Get user by user name
-  $(tput setaf 6)loginUser$(tput sgr0);Logs user into the system
-  $(tput setaf 6)logoutUser$(tput sgr0);Logs out current logged in user session
-  $(tput setaf 6)updateUser$(tput sgr0);Updated user
+  ${CYAN}createUser${OFF};Create user
+  ${CYAN}createUsersWithArrayInput${OFF};Creates list of users with given input array
+  ${CYAN}createUsersWithListInput${OFF};Creates list of users with given input array
+  ${CYAN}deleteUser${OFF};Delete user
+  ${CYAN}getUserByName${OFF};Get user by user name
+  ${CYAN}loginUser${OFF};Logs user into the system
+  ${CYAN}logoutUser${OFF};Logs out current logged in user session
+  ${CYAN}updateUser${OFF};Updated user
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Options$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Options${OFF}"
     echo -e "  -h,--help\t\t\t\tPrint this help"
     echo -e "  -V,--version\t\t\t\tPrint API version"
     echo -e "  --about\t\t\t\tPrint the information about service"
-    echo -e "  --host $(tput setaf 6)<url>$(tput sgr0)\t\t\t\tSpecify the host URL "
+    echo -e "  --host ${CYAN}<url>${OFF}\t\t\t\tSpecify the host URL "
 echo -e "              \t\t\t\t(e.g. 'https://petstore.swagger.io:80')"
 
     echo -e "  --force\t\t\t\tForce command invocation in spite of missing"
     echo -e "         \t\t\t\trequired parameters or wrong content type"
     echo -e "  --dry-run\t\t\t\tPrint out the cURL command without"
     echo -e "           \t\t\t\texecuting it"
-    echo -e "  -ac,--accept $(tput setaf 3)<mime-type>$(tput sgr0)\t\tSet the 'Accept' header in the request"
-    echo -e "  -ct,--content-type $(tput setaf 3)<mime-type>$(tput sgr0)\tSet the 'Content-type' header in "
+    echo -e "  -nc,--no-colors\t\t\tEnforce print without colors, otherwise autodected"
+    echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\t\tSet the 'Accept' header in the request"
+    echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\tSet the 'Content-type' header in "
     echo -e "                                \tthe request"
     echo ""
 }
@@ -805,7 +742,7 @@ echo -e "              \t\t\t\t(e.g. 'https://petstore.swagger.io:80')"
 ##############################################################################
 print_about() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Swagger Petstore command line client (API version 1.0.0)$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Swagger Petstore command line client (API version 1.0.0)${OFF}"
     echo ""
     echo -e "License: Apache 2.0"
     echo -e "Contact: apiteam@swagger.io"
@@ -814,7 +751,7 @@ read -d '' appdescription <<EOF
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 EOF
-echo "$appdescription" | fold -sw 80
+echo "$appdescription" | paste -sd' ' | fold -sw 80
 }
 
 
@@ -825,7 +762,7 @@ echo "$appdescription" | fold -sw 80
 ##############################################################################
 print_version() {
     echo ""
-    echo -e "$(tput bold)Swagger Petstore command line client (API version 1.0.0)$(tput sgr0)"
+    echo -e "${BOLD}Swagger Petstore command line client (API version 1.0.0)${OFF}"
     echo ""
 }
 
@@ -836,35 +773,17 @@ print_version() {
 ##############################################################################
 print_fakeOuterBooleanSerialize_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)fakeOuterBooleanSerialize - $(tput sgr0)"
+    echo -e "${BOLD}${WHITE}fakeOuterBooleanSerialize - ${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Test serialization of outer boolean types" | fold -sw 80
+    echo -e "Test serialization of outer boolean types" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input boolean as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input boolean as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;Output boolean$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Output boolean${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -873,35 +792,17 @@ print_fakeOuterBooleanSerialize_help() {
 ##############################################################################
 print_fakeOuterCompositeSerialize_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)fakeOuterCompositeSerialize - $(tput sgr0)"
+    echo -e "${BOLD}${WHITE}fakeOuterCompositeSerialize - ${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Test serialization of object with outer number type" | fold -sw 80
+    echo -e "Test serialization of object with outer number type" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input composite as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input composite as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;Output composite$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Output composite${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -910,35 +811,17 @@ print_fakeOuterCompositeSerialize_help() {
 ##############################################################################
 print_fakeOuterNumberSerialize_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)fakeOuterNumberSerialize - $(tput sgr0)"
+    echo -e "${BOLD}${WHITE}fakeOuterNumberSerialize - ${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Test serialization of outer number types" | fold -sw 80
+    echo -e "Test serialization of outer number types" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input number as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input number as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;Output number$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Output number${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -947,35 +830,17 @@ print_fakeOuterNumberSerialize_help() {
 ##############################################################################
 print_fakeOuterStringSerialize_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)fakeOuterStringSerialize - $(tput sgr0)"
+    echo -e "${BOLD}${WHITE}fakeOuterStringSerialize - ${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Test serialization of outer string types" | fold -sw 80
+    echo -e "Test serialization of outer string types" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0)$(tput sgr0) - Input string as post body" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF}${OFF} - Input string as post body" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;Output string$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Output string${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -984,35 +849,17 @@ print_fakeOuterStringSerialize_help() {
 ##############################################################################
 print_testClientModel_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)testClientModel - To test \"client\" model$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}testClientModel - To test \"client\" model${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "To test \"client\" model" | fold -sw 80
+    echo -e "To test \"client\" model" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[application/json]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - client model" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1021,59 +868,23 @@ print_testClientModel_help() {
 ##############################################################################
 print_testEndpointParameters_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)testEndpointParameters - Fake endpoint for testing various parameters
+    echo -e "${BOLD}${WHITE}testEndpointParameters - Fake endpoint for testing various parameters
 假端點
 偽のエンドポイント
-가짜 엔드 포인트$(tput sgr0)"
+가짜 엔드 포인트${OFF}${BLUE}(AUTH - BASIC)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "Fake endpoint for testing various parameters
 假端點
 偽のエンドポイント
-가짜 엔드 포인트" | fold -sw 80
+가짜 엔드 포인트" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid username supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;User not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1082,61 +893,42 @@ print_testEndpointParameters_help() {
 ##############################################################################
 print_testEnumParameters_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)testEnumParameters - To test enum parameters$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}testEnumParameters - To test enum parameters${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "To test enum parameters" | fold -sw 80
+    echo -e "To test enum parameters" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)enum_header_string_array$(tput sgr0) $(tput setaf 4)[Array[String]]$(tput sgr0)$(tput sgr0) - Header parameter enum test (string array) $(tput setaf 3)Specify as: enum_header_string_array:value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * $(tput setaf 2)enum_header_string$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 6)(default: -efg)$(tput sgr0) - Header parameter enum test (string) $(tput setaf 3)Specify as: enum_header_string:value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * $(tput setaf 2)enum_query_string_array$(tput sgr0) $(tput setaf 4)[Array[String]]$(tput sgr0)$(tput sgr0) - Query parameter enum test (string array)$(tput setaf 3) Specify as: $(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * $(tput setaf 2)enum_query_string$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 6)(default: -efg)$(tput sgr0) - Query parameter enum test (string)$(tput setaf 3) Specify as: enum_query_string=value$(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * $(tput setaf 2)enum_query_integer$(tput sgr0) $(tput setaf 4)[Integer]$(tput sgr0)$(tput sgr0) - Query parameter enum test (double)$(tput setaf 3) Specify as: enum_query_integer=value$(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}enum_header_string_array${OFF} ${BLUE}[Array[String]]${OFF}${OFF} - Header parameter enum test (string array) ${YELLOW}Specify as: enum_header_string_array:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[String]${OFF} ${CYAN}(default: -efg)${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[Array[String]]${OFF}${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: ${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[String]${OFF} ${CYAN}(default: -efg)${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_query_integer${OFF} ${BLUE}[Integer]${OFF}${OFF} - Query parameter enum test (double)${YELLOW} Specify as: enum_query_integer=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid request$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid request$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid request$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid request$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid request$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid request$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;Not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;Not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;Not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;Not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;Not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;Not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid request${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for testJsonFormData operation
+#
+##############################################################################
+print_testJsonFormData_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}testJsonFormData - test json serialization of form data${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1145,33 +937,15 @@ print_testEnumParameters_help() {
 ##############################################################################
 print_testClassname_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)testClassname - To test class name in snake case$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}testClassname - To test class name in snake case${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[application/json]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - client model" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1180,35 +954,17 @@ print_testClassname_help() {
 ##############################################################################
 print_addPet_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)addPet - Add a new pet to the store$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}addPet - Add a new pet to the store${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[application/json,application/xml]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - Pet object that needs to be added to the store" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json,application/xml]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 405 in
-        1*)
-        echo -e "$(tput setaf 7)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=405
+    echo -e "${result_color_table[${code:0:1}]}  405;Invalid input${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1217,35 +973,17 @@ print_addPet_help() {
 ##############################################################################
 print_deletePet_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)deletePet - Deletes a pet$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}deletePet - Deletes a pet${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)petId$(tput sgr0) $(tput setaf 4)[Integer]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - Pet id to delete $(tput setaf 3)Specify as: petId=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * $(tput setaf 2)api_key$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0)$(tput sgr0) -  $(tput setaf 3)Specify as: api_key:value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - Pet id to delete ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}api_key${OFF} ${BLUE}[String]${OFF}${OFF} -  ${YELLOW}Specify as: api_key:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid pet value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid pet value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid pet value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid pet value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid pet value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid pet value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid pet value${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1254,55 +992,19 @@ print_deletePet_help() {
 ##############################################################################
 print_findPetsByStatus_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)findPetsByStatus - Finds Pets by status$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}findPetsByStatus - Finds Pets by status${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Multiple status values can be provided with comma separated strings" | fold -sw 80
+    echo -e "Multiple status values can be provided with comma separated strings" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)status$(tput sgr0) $(tput setaf 4)[Array[String]]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - Status values that need to be considered for filter$(tput setaf 3) Specify as: status="value1,value2,..."$(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}status${OFF} ${BLUE}[Array[String]]${OFF} ${RED}(required)${OFF}${OFF} - Status values that need to be considered for filter${YELLOW} Specify as: status="value1,value2,..."${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid status value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid status value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid status value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid status value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid status value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid status value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid status value${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1311,55 +1013,19 @@ print_findPetsByStatus_help() {
 ##############################################################################
 print_findPetsByTags_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)findPetsByTags - Finds Pets by tags$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}findPetsByTags - Finds Pets by tags${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing." | fold -sw 80
+    echo -e "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing." | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)tags$(tput sgr0) $(tput setaf 4)[Array[String]]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - Tags to filter by$(tput setaf 3) Specify as: tags="value1,value2,..."$(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}tags${OFF} ${BLUE}[Array[String]]${OFF} ${RED}(required)${OFF}${OFF} - Tags to filter by${YELLOW} Specify as: tags="value1,value2,..."${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid tag value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid tag value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid tag value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid tag value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid tag value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid tag value$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid tag value${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1368,74 +1034,20 @@ print_findPetsByTags_help() {
 ##############################################################################
 print_getPetById_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)getPetById - Find pet by ID$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}getPetById - Find pet by ID${OFF}${BLUE}(AUTH - HEADER)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Returns a single pet" | fold -sw 80
+    echo -e "Returns a single pet" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)petId$(tput sgr0) $(tput setaf 4)[Integer]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - ID of pet to return $(tput setaf 3)Specify as: petId=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to return ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid ID supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Pet not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1444,75 +1056,21 @@ print_getPetById_help() {
 ##############################################################################
 print_updatePet_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)updatePet - Update an existing pet$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}updatePet - Update an existing pet${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[application/json,application/xml]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - Pet object that needs to be added to the store" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json,application/xml]${OFF} ${RED}(required)${OFF}${OFF} - Pet object that needs to be added to the store" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;Pet not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 405 in
-        1*)
-        echo -e "$(tput setaf 7)  405;Validation exception$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  405;Validation exception$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  405;Validation exception$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  405;Validation exception$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  405;Validation exception$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  405;Validation exception$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid ID supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Pet not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=405
+    echo -e "${result_color_table[${code:0:1}]}  405;Validation exception${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1521,34 +1079,16 @@ print_updatePet_help() {
 ##############################################################################
 print_updatePetWithForm_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)updatePetWithForm - Updates a pet in the store with form data$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}updatePetWithForm - Updates a pet in the store with form data${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)petId$(tput sgr0) $(tput setaf 4)[Integer]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - ID of pet that needs to be updated $(tput setaf 3)Specify as: petId=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet that needs to be updated ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 405 in
-        1*)
-        echo -e "$(tput setaf 7)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  405;Invalid input$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=405
+    echo -e "${result_color_table[${code:0:1}]}  405;Invalid input${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1557,34 +1097,16 @@ print_updatePetWithForm_help() {
 ##############################################################################
 print_uploadFile_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)uploadFile - uploads an image$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}uploadFile - uploads an image${OFF}${BLUE}(AUTH - OAuth2)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)petId$(tput sgr0) $(tput setaf 4)[Integer]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - ID of pet to update $(tput setaf 3)Specify as: petId=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to update ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1593,54 +1115,18 @@ print_uploadFile_help() {
 ##############################################################################
 print_deleteOrder_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)deleteOrder - Delete purchase order by ID$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}deleteOrder - Delete purchase order by ID${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors" | fold -sw 80
+    echo -e "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)order_id$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - ID of the order that needs to be deleted $(tput setaf 3)Specify as: order_id=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - ID of the order that needs to be deleted ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid ID supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Order not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1649,32 +1135,14 @@ print_deleteOrder_help() {
 ##############################################################################
 print_getInventory_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)getInventory - Returns pet inventories by status$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}getInventory - Returns pet inventories by status${OFF}${BLUE}(AUTH - HEADER)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "Returns a map of status codes to quantities" | fold -sw 80
+    echo -e "Returns a map of status codes to quantities" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1683,74 +1151,20 @@ print_getInventory_help() {
 ##############################################################################
 print_getOrderById_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)getOrderById - Find purchase order by ID$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}getOrderById - Find purchase order by ID${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions" | fold -sw 80
+    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)order_id$(tput sgr0) $(tput setaf 4)[Integer]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - ID of pet that needs to be fetched $(tput setaf 3)Specify as: order_id=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet that needs to be fetched ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid ID supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;Order not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid ID supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Order not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1759,55 +1173,19 @@ print_getOrderById_help() {
 ##############################################################################
 print_placeOrder_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)placeOrder - Place an order for a pet$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}placeOrder - Place an order for a pet${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - order placed for purchasing the pet" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - order placed for purchasing the pet" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid Order$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid Order$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid Order$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid Order$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid Order$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid Order$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid Order${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1816,35 +1194,17 @@ print_placeOrder_help() {
 ##############################################################################
 print_createUser_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)createUser - Create user$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}createUser - Create user${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "This can only be done by the logged in user." | fold -sw 80
+    echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - Created user object" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Created user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 0 in
-        1*)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1853,35 +1213,17 @@ print_createUser_help() {
 ##############################################################################
 print_createUsersWithArrayInput_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)createUsersWithArrayInput - Creates list of users with given input array$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}createUsersWithArrayInput - Creates list of users with given input array${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - List of user object" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 0 in
-        1*)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1890,35 +1232,17 @@ print_createUsersWithArrayInput_help() {
 ##############################################################################
 print_createUsersWithListInput_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)createUsersWithListInput - Creates list of users with given input array$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}createUsersWithListInput - Creates list of users with given input array${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - List of user object" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - List of user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 0 in
-        1*)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1927,54 +1251,18 @@ print_createUsersWithListInput_help() {
 ##############################################################################
 print_deleteUser_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)deleteUser - Delete user$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}deleteUser - Delete user${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "This can only be done by the logged in user." | fold -sw 80
+    echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)username$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - The name that needs to be deleted $(tput setaf 3)Specify as: username=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The name that needs to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid username supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;User not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1983,74 +1271,20 @@ print_deleteUser_help() {
 ##############################################################################
 print_getUserByName_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)getUserByName - Get user by user name$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}getUserByName - Get user by user name${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)username$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - The name that needs to be fetched. Use user1 for testing. $(tput setaf 3)Specify as: username=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The name that needs to be fetched. Use user1 for testing. ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid username supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid username supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;User not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -2059,60 +1293,24 @@ print_getUserByName_help() {
 ##############################################################################
 print_loginUser_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)loginUser - Logs user into the system$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}loginUser - Logs user into the system${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)username$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - The user name for login$(tput setaf 3) Specify as: username=value$(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * $(tput setaf 2)password$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - The password for login in clear text$(tput setaf 3) Specify as: password=value$(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The user name for login${YELLOW} Specify as: username=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}password${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The password for login in clear text${YELLOW} Specify as: password=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 200 in
-        1*)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  200;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-        echo -e "       $(tput bold)$(tput setaf 7)Response headers$(tput sgr0)"
-        echo -e "       $(tput setaf 4)X-Rate-Limit$(tput sgr0) - calls per hour allowed by the user" | fold -sw 80 | sed '2,$s/^/        /'
-        echo -e "       $(tput setaf 4)X-Expires-After$(tput sgr0) - date in UTC when toekn expires" | fold -sw 80 | sed '2,$s/^/        /'
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid username/password supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid username/password supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid username/password supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid username/password supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid username/password supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid username/password supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+        echo -e "       ${BOLD}${WHITE}Response headers${OFF}"
+        echo -e "       ${BLUE}X-Rate-Limit${OFF} - calls per hour allowed by the user" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+        echo -e "       ${BLUE}X-Expires-After${OFF} - date in UTC when toekn expires" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid username/password supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -2121,32 +1319,14 @@ print_loginUser_help() {
 ##############################################################################
 print_logoutUser_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)logoutUser - Logs out current logged in user session$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}logoutUser - Logs out current logged in user session${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "" | fold -sw 80
+    echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 0 in
-        1*)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  0;successful operation$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=0
+    echo -e "${result_color_table[${code:0:1}]}  0;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -2155,56 +1335,20 @@ print_logoutUser_help() {
 ##############################################################################
 print_updateUser_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)updateUser - Updated user$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}updateUser - Updated user${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "This can only be done by the logged in user." | fold -sw 80
+    echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
-    echo -e "  * $(tput setaf 2)username$(tput sgr0) $(tput setaf 4)[String]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - name that need to be deleted $(tput setaf 3)Specify as: username=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[]$(tput sgr0) $(tput setaf 1)(required)$(tput sgr0)$(tput sgr0) - Updated user object" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - name that need to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
-    case 400 in
-        1*)
-        echo -e "$(tput setaf 7)  400;Invalid user supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  400;Invalid user supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  400;Invalid user supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  400;Invalid user supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  400;Invalid user supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  400;Invalid user supplied$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
-    case 404 in
-        1*)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  404;User not found$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Invalid user supplied${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;User not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 
 
@@ -2216,12 +1360,13 @@ print_updateUser_help() {
 call_fakeOuterBooleanSerialize() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake/outer/boolean" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake/outer/boolean" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/fake/outer/boolean" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2280,12 +1425,13 @@ call_fakeOuterBooleanSerialize() {
 call_fakeOuterCompositeSerialize() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake/outer/composite" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake/outer/composite" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/fake/outer/composite" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2344,12 +1490,13 @@ call_fakeOuterCompositeSerialize() {
 call_fakeOuterNumberSerialize() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake/outer/number" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake/outer/number" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/fake/outer/number" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2408,12 +1555,13 @@ call_fakeOuterNumberSerialize() {
 call_fakeOuterStringSerialize() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake/outer/string" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake/outer/string" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/fake/outer/string" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2472,12 +1620,13 @@ call_fakeOuterStringSerialize() {
 call_testClientModel() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
     local method="PATCH"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2502,7 +1651,7 @@ call_testClientModel() {
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "Error: Request's content-type not specified!!!"
+        echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
         echo -e "\t- application/json"
         echo ""
@@ -2544,13 +1693,14 @@ call_testClientModel() {
 ##############################################################################
 call_testEndpointParameters() {
     local path_parameter_names=()
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2576,12 +1726,45 @@ call_testEndpointParameters() {
 call_testEnumParameters() {
     local path_parameter_names=()
     local query_parameter_names=(enum_query_string_array enum_query_string enum_query_integer)
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
+    local headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
 
-    local path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call testJsonFormData operation
+#
+##############################################################################
+call_testJsonFormData() {
+    local path_parameter_names=()
+    local query_parameter_names=()
+    local path
+
+    path=$(build_request_path "/v2/fake/jsonFormData" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
+    fi
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2607,12 +1790,13 @@ call_testEnumParameters() {
 call_testClassname() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/fake_classname_test" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/fake_classname_test" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/fake_classname_test" path_parameter_names query_parameter_names)
     local method="PATCH"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2637,7 +1821,7 @@ call_testClassname() {
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "Error: Request's content-type not specified!!!"
+        echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
         echo -e "\t- application/json"
         echo ""
@@ -2679,13 +1863,14 @@ call_testClassname() {
 ##############################################################################
 call_addPet() {
     local path_parameter_names=()
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2707,7 +1892,7 @@ call_addPet() {
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "Error: Request's content-type not specified!!!"
+        echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
         echo -e "\t- application/json"
         echo -e "\t- application/xml"
@@ -2750,13 +1935,14 @@ call_addPet() {
 ##############################################################################
 call_deletePet() {
     local path_parameter_names=(petId)
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet/{petId}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
     local method="DELETE"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2781,13 +1967,14 @@ call_deletePet() {
 ##############################################################################
 call_findPetsByStatus() {
     local path_parameter_names=()
-    local query_parameter_names=(status)
+    local query_parameter_names=(status  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet/findByStatus" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet/findByStatus" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet/findByStatus" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2812,13 +1999,14 @@ call_findPetsByStatus() {
 ##############################################################################
 call_findPetsByTags() {
     local path_parameter_names=()
-    local query_parameter_names=(tags)
+    local query_parameter_names=(tags  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet/findByTags" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet/findByTags" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet/findByTags" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2843,13 +2031,14 @@ call_findPetsByTags() {
 ##############################################################################
 call_getPetById() {
     local path_parameter_names=(petId)
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet/{petId}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2874,13 +2063,14 @@ call_getPetById() {
 ##############################################################################
 call_updatePet() {
     local path_parameter_names=()
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names)
     local method="PUT"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2902,7 +2092,7 @@ call_updatePet() {
 
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
-        echo "Error: Request's content-type not specified!!!"
+        echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
         echo -e "\t- application/json"
         echo -e "\t- application/xml"
@@ -2945,13 +2135,14 @@ call_updatePet() {
 ##############################################################################
 call_updatePetWithForm() {
     local path_parameter_names=(petId)
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet/{petId}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -2976,13 +2167,14 @@ call_updatePetWithForm() {
 ##############################################################################
 call_uploadFile() {
     local path_parameter_names=(petId)
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/pet/{petId}/uploadImage" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/pet/{petId}/uploadImage" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/pet/{petId}/uploadImage" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3008,12 +2200,13 @@ call_uploadFile() {
 call_deleteOrder() {
     local path_parameter_names=(order_id)
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/store/order/{order_id}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names)
     local method="DELETE"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3038,13 +2231,14 @@ call_deleteOrder() {
 ##############################################################################
 call_getInventory() {
     local path_parameter_names=()
-    local query_parameter_names=()
+    local query_parameter_names=(  )
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/store/inventory" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/store/inventory" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/store/inventory" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3070,12 +2264,13 @@ call_getInventory() {
 call_getOrderById() {
     local path_parameter_names=(order_id)
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/store/order/{order_id}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3101,12 +2296,13 @@ call_getOrderById() {
 call_placeOrder() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/store/order" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/store/order" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/store/order" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3165,12 +2361,13 @@ call_placeOrder() {
 call_createUser() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3229,12 +2426,13 @@ call_createUser() {
 call_createUsersWithArrayInput() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user/createWithArray" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user/createWithArray" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user/createWithArray" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3293,12 +2491,13 @@ call_createUsersWithArrayInput() {
 call_createUsersWithListInput() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user/createWithList" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user/createWithList" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user/createWithList" path_parameter_names query_parameter_names)
     local method="POST"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3357,12 +2556,13 @@ call_createUsersWithListInput() {
 call_deleteUser() {
     local path_parameter_names=(username)
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user/{username}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
     local method="DELETE"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3388,12 +2588,13 @@ call_deleteUser() {
 call_getUserByName() {
     local path_parameter_names=(username)
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user/{username}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3419,12 +2620,13 @@ call_getUserByName() {
 call_loginUser() {
     local path_parameter_names=()
     local query_parameter_names=(username password)
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user/login" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user/login" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user/login" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3450,12 +2652,13 @@ call_loginUser() {
 call_logoutUser() {
     local path_parameter_names=()
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user/logout" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user/logout" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user/logout" path_parameter_names query_parameter_names)
     local method="GET"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3481,12 +2684,13 @@ call_logoutUser() {
 call_updateUser() {
     local path_parameter_names=(username)
     local query_parameter_names=()
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "/v2/user/{username}" path_parameter_names query_parameter_names
+    path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
     local method="PUT"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -3547,9 +2751,9 @@ call_updateUser() {
 
 
 # Check dependencies
-type curl >/dev/null 2>&1 || { echo >&2 "Error: You do not have 'cURL' installed."; exit 1; }
-type sed >/dev/null 2>&1 || { echo >&2 "Error: You do not have 'sed' installed."; exit 1; }
-type column >/dev/null 2>&1 || { echo >&2 "Error: You do not have 'bsdmainutils' installed."; exit 1; }
+type curl >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'cURL' installed."; exit 1; }
+type sed >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'sed' installed."; exit 1; }
+type column >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'bsdmainutils' installed."; exit 1; }
 
 #
 # Process command line
@@ -3622,6 +2826,18 @@ case $key in
     --dry-run)
     print_curl=true
     ;;
+    -nc|--no-colors)
+        RED=""
+        GREEN=""
+        YELLOW=""
+        BLUE=""
+        MAGENTA=""
+        CYAN=""
+        WHITE=""
+        BOLD=""
+        OFF=""
+        result_color_table=( "" "" "" "" "" "" "" )
+    ;;
     fakeOuterBooleanSerialize)
     operation="fakeOuterBooleanSerialize"
     ;;
@@ -3642,6 +2858,9 @@ case $key in
     ;;
     testEnumParameters)
     operation="testEnumParameters"
+    ;;
+    testJsonFormData)
+    operation="testJsonFormData"
     ;;
     testClassname)
     operation="testClassname"
@@ -3722,7 +2941,7 @@ case $key in
         body_parameters[${body_key}]=${body_value}
     fi
     ;;
-    *:*)
+    +([^=]):*)
     # Parse header arguments and convert them into curl
     # only after the operation argument
     if [[ "$operation" ]]; then
@@ -3775,15 +2994,13 @@ done
 
 # Check if user provided host name
 if [[ -z "$host" ]]; then
-    echo "Error: No hostname provided!!!"
-    echo "Check usage: '${script_name} --help'"
+    ERROR_MSG="ERROR: No hostname provided!!! Define env variable PETSTORE_HOST like 'export PETSTORE_HOST=...' or provide on command line option '--host ...'"
     exit 1
 fi
 
 # Check if user specified operation ID
 if [[ -z "$operation" ]]; then
-    echo "Error: No operation specified!"
-    echo "Check available operations: '${script_name} --help'"
+    ERROR_MSG="ERROR: No operation specified!!!"
     exit 1
 fi
 
@@ -3810,6 +3027,9 @@ case $operation in
     ;;
     testEnumParameters)
     call_testEnumParameters
+    ;;
+    testJsonFormData)
+    call_testJsonFormData
     ;;
     testClassname)
     call_testClassname
@@ -3875,8 +3095,6 @@ case $operation in
     call_updateUser
     ;;
     *)
-    echo "Error: Unknown operation: $operation"
-    echo ""
-    print_help
+    ERROR_MSG="ERROR: Unknown operation: $operation"
     exit 1
 esac

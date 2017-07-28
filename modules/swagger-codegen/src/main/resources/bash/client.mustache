@@ -25,6 +25,9 @@
 # {{#externalDocs}}{{url}}{{/externalDocs}}
 #
 
+# For improved pattern matching in case statemets
+shopt -s extglob
+
 ###############################################################################
 #
 # Make sure Bash is at least in version 4.3
@@ -61,6 +64,32 @@ declare -A header_arguments
 # The values in operation_parameters are arrays, so that multiple values
 # can be provided for the same parameter if allowed by API specification
 declare -A operation_parameters
+
+##
+# Declare colors with autodection if output is terminal
+if [ -t 1 ]; then
+    RED="$(tput setaf 1)"
+    GREEN="$(tput setaf 2)"
+    YELLOW="$(tput setaf 3)"
+    BLUE="$(tput setaf 4)"
+    MAGENTA="$(tput setaf 5)"
+    CYAN="$(tput setaf 6)"
+    WHITE="$(tput setaf 7)"
+    BOLD="$(tput bold)"
+    OFF="$(tput sgr0)"
+else
+    RED=""
+    GREEN=""
+    YELLOW=""
+    BLUE=""
+    MAGENTA=""
+    CYAN=""
+    WHITE=""
+    BOLD=""
+    OFF=""
+fi
+
+declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$MAGENTA" "$WHITE" )
 
 ##
 # This array stores the minimum number of required occurences for parameter
@@ -208,6 +237,7 @@ url_escape() {
        -e 's/(/%28/g' \
        -e 's/)/%29/g' \
        -e 's/:/%3A/g' \
+       -e 's/\t/%09/g' \
        -e 's/?/%3F/g' <<<$raw_url);
 
     echo $value
@@ -288,11 +318,10 @@ body_parameters_to_json() {
     local body_parameter_count=${#body_parameters[@]}
     local count=0
     for key in "${!body_parameters[@]}"; do
-        body_json+="\"${key}\": ${body_parameters[${key}]}"
-        if [[ $count -lt $body_parameter_count-1 ]]; then
+        if [[ $((count++)) -gt 0 ]]; then
             body_json+=", "
         fi
-        ((count+=1))
+        body_json+="\"${key}\": ${body_parameters[${key}]}"
     done
     body_json+="}'"
 
@@ -305,127 +334,24 @@ body_parameters_to_json() {
 
 ##############################################################################
 #
-# Check if provided parameters match specification requirements
+# Helper method for showing error because for example echo in
+# build_request_path() is evaluated as part of command line not printed on
+# output. Anyway better idea for resource clean up ;-).
 #
 ##############################################################################
-validate_request_parameters() {
-    local path_template=$1
-    local -n path_params=$2
-    local -n query_params=$3
-
-    # First replace all path parameters in the path
-    for pparam in "${path_params[@]}"; do
-        regexp="(.*)(\{$pparam\})(.*)"
-        if [[ $path_template =~ $regexp ]]; then
-            path_template=${BASH_REMATCH[1]}${operation_parameters[$pparam]}${BASH_REMATCH[3]}
-        fi
-    done
-
-    # Now append query parameters - if any
-    if [[ ${#query_params[@]} -gt 0 ]]; then
-        path_template+="?"
+ERROR_MSG=""
+function finish {
+    if [[ -n "$ERROR_MSG" ]]; then
+        echo >&2 "${OFF}${RED}$ERROR_MSG"
+        echo >&2 "${OFF}Check usage: '${script_name} --help'"
     fi
-
-    local query_parameter_count=${#query_params[@]}
-    local count=0
-    for qparam in "${query_params[@]}"; do
-        # Get the array of parameter values
-        local parameter_values=($(echo "${operation_parameters[$qparam]}" | sed -e 's/'":::"'/\n/g' | while read line; do echo $line | sed 's/[\t ]/'":::"'/g'; done))
-
-        #
-        # Check if the number of provided values is not less than minimum
-        # required
-        #
-        if [[ "$force" = false ]]; then
-            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
-                echo "Error: Too few values provided for '${qparam}' parameter"
-                exit 1
-            fi
-
-            #
-            # Check if the number of provided values is not more than maximum
-            #
-            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
-                if [[ "$force" = false ]]; then
-                    echo "Error: Too many values provided for '${qparam}' parameter"
-                    exit 1
-                fi
-            fi
-        fi
-
-        if [[ "${operation_parameters_collection_type[${operation}:::${qparam}]}" == "" ]]; then
-            local vcount=0
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+="&"
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "multi" ]]; then
-            local vcount=0
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+="&"
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "csv" ]]; then
-            path_template+="${qparam}="
-            local vcount=0
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+=","
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "ssv" ]]; then
-            path_template+="${qparam}="
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+=" "
-                fi
-                ((vcount+=1))
-            done
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "tsv" ]]; then
-            path_template+="${qparam}="
-            for qvalue in "${parameter_values[@]}"; do
-                path_template+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
-                    path_template+="\t"
-                fi
-                ((vcount+=1))
-            done
-        else
-            echo -e ""
-            echo -e "Error: Unsupported collection format "
-            echo -e ""
-            exit 1
-        fi
-
-
-        if [[ $count -lt $query_parameter_count-1 ]]; then
-            path_template+="&"
-        fi
-        ((count+=1))
-    done
-
 }
-
+trap finish EXIT
 
 
 ##############################################################################
 #
-# Build request path including query parameters
+# Validate and build request path including query parameters
 #
 ##############################################################################
 build_request_path() {
@@ -434,10 +360,39 @@ build_request_path() {
     local -n query_params=$3
 
 
+    #
+    # Check input paramaters count against minimum and maximum required
+    #
+    if [[ "$force" = false ]]; then
+        local was_error=""
+        for qparam in "${query_params[@]}" "${path_params[@]}"; do
+            local parameter_values=($(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}"))
+
+            #
+            # Check if the number of provided values is not less than minimum required
+            #
+            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
+                echo "ERROR: Too few values provided for '${qparam}' parameter."
+                was_error=true
+            fi
+
+            #
+            # Check if the number of provided values is not more than maximum
+            #
+            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
+                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
+                echo "ERROR: Too many values provided for '${qparam}' parameter"
+                was_error=true
+            fi
+        done
+        if [[ -n "$was_error" ]]; then
+            exit 1
+        fi
+    fi
+
     # First replace all path parameters in the path
     for pparam in "${path_params[@]}"; do
-        regexp="(.*)(\{$pparam\})(.*)"
-        if [[ $path_template =~ $regexp ]]; then
+        if [[ $path_template =~ (.*)(\{$pparam\})(.*) ]]; then
             path_template=${BASH_REMATCH[1]}${operation_parameters[$pparam]}${BASH_REMATCH[3]}
         fi
     done
@@ -448,116 +403,105 @@ build_request_path() {
     local count=0
     for qparam in "${query_params[@]}"; do
         # Get the array of parameter values
-        local parameter_values=($(echo "${operation_parameters[$qparam]}" | sed -e 's/'":::"'/\n/g' | while read line; do echo $line | sed 's/[\t ]/'":::"'/g'; done))
+        local parameter_values=($(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}"))
         local parameter_value=""
 
-        #
-        # Check if the number of provided values is not less than minimum
-        # required
-        #
-        if [[ "$force" = false ]]; then
-            if [[ ${#parameter_values[@]} -lt ${operation_parameters_minimum_occurences["${operation}:::${qparam}"]} ]]; then
-                echo "Error: Too few values provided for '${qparam}' parameter"
-                exit 1
-            fi
-
-            #
-            # Check if the number of provided values is not more than maximum
-            #
-            if [[ ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} -gt 0 \
-                  && ${#parameter_values[@]} -gt ${operation_parameters_maximum_occurences["${operation}:::${qparam}"]} ]]; then
-                if [[ "$force" = false ]]; then
-                    echo "Error: Too many values provided for '${qparam}' parameter"
-                    exit 1
-                fi
+        if [[ -n "${parameter_values[@]}" ]]; then
+            if [[ $((count++)) -gt 0 ]]; then
+                query_request_part+="&"
             fi
         fi
 
         #
         # Append parameters without specific cardinality
         #
-        if [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "" ]]; then
+        local collection_type="${operation_parameters_collection_type["${operation}:::${qparam}"]}"
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isApiKey}}
+{{#isKeyInQuery}}
+        if [[ ${qparam} == "{{keyParamName}}" ]]; then
+            if [[ -n "${parameter_values[@]}" ]]; then
+                parameter_value+="${qparam}=${parameter_values}"
+{{#x-codegen-apikey-env}}
+            elif [[ -n "$MATRIX_API_KEY" ]]; then
+                parameter_value+="${qparam}=${{x-codegen-apikey-env}}"
+{{/x-codegen-apikey-env}}
+            else
+                echo "Missing ApiKey!!! {{#x-codegen-apikey-env}}Define env variable {{x-codegen-apikey-env}} like 'export {{x-codegen-apikey-env}}=...' or{{/x-codegen-apikey-env}}{{^x-codegen-apikey-env}}You have to{{/x-codegen-apikey-env}} provide on command line option '{{keyParamName}}=...'"
+                exit 1
+            fi
+        elif{{/isKeyInQuery}}{{^isKeyInQuery}}
+        if{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}} [[ "${collection_type}" == "" ]]; then
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+="&"
                 fi
-                ((vcount+=1))
+                parameter_value+="${qparam}=${qvalue}"
             done
         #
         # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "multi" ]]; then
+        elif [[ "${collection_type}" == "multi" ]]; then
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qparam}=${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+="&"
                 fi
-                ((vcount+=1))
+                parameter_value+="${qparam}=${qvalue}"
             done
         #
         # Append parameters specified as 'csv' collections i.e. param=value1,value2,...
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "csv" ]]; then
+        elif [[ "${collection_type}" == "csv" ]]; then
             parameter_value+="${qparam}="
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+=","
                 fi
-                ((vcount+=1))
+                parameter_value+="${qvalue}"
             done
         #
         # Append parameters specified as 'ssv' collections i.e. param="value1 value2 ..."
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "ssv" ]]; then
+        elif [[ "${collection_type}" == "ssv" ]]; then
             parameter_value+="${qparam}="
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+=" "
                 fi
-                ((vcount+=1))
+                parameter_value+="${qvalue}"
             done
         #
         # Append parameters specified as 'tsv' collections i.e. param="value1\tvalue2\t..."
         #
-        elif [[ "${operation_parameters_collection_type["${operation}:::${qparam}"]}" == "tsv" ]]; then
+        elif [[ "${collection_type}" == "tsv" ]]; then
             parameter_value+="${qparam}="
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
-                parameter_value+="${qvalue}"
-
-                if [[ $vcount -lt ${#parameter_values[@]}-1 ]]; then
+                if [[ $((vcount++)) -gt 0 ]]; then
                     parameter_value+="\t"
                 fi
-                ((vcount+=1))
+                parameter_value+="${qvalue}"
             done
+        else
+            echo "Unsupported collection format \"${collection_type}\""
+            exit 1
         fi
 
         if [[ -n "${parameter_value}" ]]; then
             query_request_part+="${parameter_value}"
         fi
 
-        if [[ $count -lt $query_parameter_count-1 && -n "${parameter_value}" ]]; then
-            query_request_part+="&"
-        fi
-
-        ((count+=1))
     done
 
 
     # Now append query parameters - if any
     if [[ -n "${query_request_part}" ]]; then
-        path_template+="?$(echo ${query_request_part} | sed s'/&$//')"
+        path_template+="?${query_request_part}"
     fi
 
     echo $path_template
@@ -573,52 +517,52 @@ build_request_path() {
 print_help() {
 cat <<EOF
 
-$(tput bold)$(tput setaf 7){{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})$(tput sgr0)
+${BOLD}${WHITE}{{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})${OFF}
 
-$(tput bold)$(tput setaf 7)Usage$(tput sgr0)
+${BOLD}${WHITE}Usage${OFF}
 
-  $(tput setaf 2)${script_name}$(tput sgr0) [-h|--help] [-V|--version] [--about] [$(tput setaf 1)<curl-options>$(tput sgr0)]
-           [-ac|--accept $(tput setaf 2)<mime-type>$(tput sgr0)] [-ct,--content-type $(tput setaf 2)<mime-type>$(tput sgr0)]
-           [--host $(tput setaf 6)<url>$(tput sgr0)] [--dry-run] $(tput setaf 3)<operation>$(tput sgr0) [-h|--help] [$(tput setaf 4)<headers>$(tput sgr0)]
-           [$(tput setaf 5)<parameters>$(tput sgr0)] [$(tput setaf 5)<body-parameters>$(tput sgr0)]
+  ${GREEN}${script_name}${OFF} [-h|--help] [-V|--version] [--about] [${RED}<curl-options>${OFF}]
+           [-ac|--accept ${GREEN}<mime-type>${OFF}] [-ct,--content-type ${GREEN}<mime-type>${OFF}]
+           [--host ${CYAN}<url>${OFF}] [--dry-run] [-nc|--no-colors] ${YELLOW}<operation>${OFF} [-h|--help]
+           [${BLUE}<headers>${OFF}] [${MAGENTA}<parameters>${OFF}] [${MAGENTA}<body-parameters>${OFF}]
 
-  - $(tput setaf 6)<url>$(tput sgr0) - endpoint of the REST service without basepath
+  - ${CYAN}<url>${OFF} - endpoint of the REST service without basepath
 {{#x-codegen-host-env}}           Can also be specified in {{x-codegen-host-env}} environment variable.{{/x-codegen-host-env}}
-  - $(tput setaf 1)<curl-options>$(tput sgr0) - any valid cURL options can be passed before $(tput setaf 3)<operation>$(tput sgr0)
-  - $(tput setaf 2)<mime-type>$(tput sgr0) - either full mime-type or one of supported abbreviations:
+  - ${RED}<curl-options>${OFF} - any valid cURL options can be passed before ${YELLOW}<operation>${OFF}
+  - ${GREEN}<mime-type>${OFF} - either full mime-type or one of supported abbreviations:
                    (text, html, md, csv, css, rtf, json, xml, yaml, js, bin,
                     rdf, jpg, png, gif, bmp, tiff)
-  - $(tput setaf 4)<headers>$(tput sgr0) - HTTP headers can be passed in the form $(tput setaf 3)HEADER$(tput sgr0):$(tput setaf 4)VALUE$(tput sgr0)
-  - $(tput setaf 5)<parameters>$(tput sgr0) - REST operation parameters can be passed in the following
+  - ${BLUE}<headers>${OFF} - HTTP headers can be passed in the form ${YELLOW}HEADER${OFF}:${BLUE}VALUE${OFF}
+  - ${MAGENTA}<parameters>${OFF} - REST operation parameters can be passed in the following
                    forms:
-                   * $(tput setaf 3)KEY$(tput sgr0)=$(tput setaf 4)VALUE$(tput sgr0) - path or query parameters
-  - $(tput setaf 5)<body-parameters>$(tput sgr0) - simple JSON body content (first level only) can be build
+                   * ${YELLOW}KEY${OFF}=${BLUE}VALUE${OFF} - path or query parameters
+  - ${MAGENTA}<body-parameters>${OFF} - simple JSON body content (first level only) can be build
                         using the following arguments:
-                        * $(tput setaf 3)KEY$(tput sgr0)==$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body
-                                      JSON as '{ ..., "$(tput setaf 3)KEY$(tput sgr0)": "$(tput setaf 4)VALUE$(tput sgr0)", ... }'
-                        * $(tput setaf 3)KEY$(tput sgr0):=$(tput setaf 4)VALUE$(tput sgr0) - body parameters which will be added to body
-                                      JSON as '{ ..., "$(tput setaf 3)KEY$(tput sgr0)": $(tput setaf 4)VALUE$(tput sgr0), ... }'
+                        * ${YELLOW}KEY${OFF}==${BLUE}VALUE${OFF} - body parameters which will be added to body
+                                      JSON as '{ ..., "${YELLOW}KEY${OFF}": "${BLUE}VALUE${OFF}", ... }'
+                        * ${YELLOW}KEY${OFF}:=${BLUE}VALUE${OFF} - body parameters which will be added to body
+                                      JSON as '{ ..., "${YELLOW}KEY${OFF}": ${BLUE}VALUE${OFF}, ... }'
 
 EOF
 {{#hasAuthMethods}}
-    echo -e "$(tput bold)$(tput setaf 7)Authentication methods$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
 {{#authMethods}}
 {{#isBasic}}
-    echo -e "  - $(tput setaf 4)Basic AUTH$(tput sgr0) - add '-u <username>:<password>' before $(tput setaf 3)<operation>$(tput sgr0)"
-    {{#x-codegen-basicauth-env}}echo -e "                 or export $(tput setaf 1){{x-codegen-basicauth-env}}='<username>:<password>'$(tput sgr0)"{{/x-codegen-basicauth-env}}
+    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
+    {{#x-codegen-basicauth-env}}echo -e "                 or export ${RED}{{x-codegen-basicauth-env}}='<username>:<password>'${OFF}"{{/x-codegen-basicauth-env}}
 {{/isBasic}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
-    echo -e "  - $(tput setaf 4)Api-key$(tput sgr0) - add '$(tput setaf 1){{keyParamName}}:<api-key>$(tput sgr0)' after $(tput setaf 3)<operation>$(tput sgr0)"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}{{keyParamName}}:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-    echo -e "  - $(tput setaf 4)Api-key$(tput sgr0) - add '$(tput setaf 1){{keyParamName}}=<api-key>$(tput sgr0)' after $(tput setaf 3)<operation>$(tput sgr0)"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}{{keyParamName}}=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
 {{/isKeyInQuery}}
-    {{#x-codegen-apikey-env}}echo -e "              or export $(tput setaf 1){{x-codegen-apikey-env}}='<api-key>'$(tput sgr0)"{{/x-codegen-apikey-env}}
+    {{#x-codegen-apikey-env}}echo -e "              or export ${RED}{{x-codegen-apikey-env}}='<api-key>'${OFF}"{{/x-codegen-apikey-env}}
 {{/isApiKey}}
 {{#isOAuth}}
-    echo -e "  - $(tput setaf 5)OAuth2 (flow: {{flow}})$(tput sgr0)"
+    echo -e "  - ${MAGENTA}OAuth2 (flow: {{flow}})${OFF}"
     echo -e "      Authorization URL: "
     echo -e "        * {{authorizationUrl}}"
     echo -e "      Scopes:"
@@ -629,15 +573,15 @@ EOF
 {{/authMethods}}
     echo ""
 {{/hasAuthMethods}}
-    echo -e "$(tput bold)$(tput setaf 7)Operations (grouped by tags)$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
 {{#apiInfo}}
 {{#apis}}
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)[{{classVarName}}]$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}[{{classVarName}}]${OFF}"
 read -d '' ops <<EOF
 {{#operations}}
 {{#operation}}
-  $(tput setaf 6){{operationId}}$(tput sgr0);{{{summary}}}
+  ${CYAN}{{operationId}}${OFF};{{{summary}}}{{#authMethods}} (AUTH){{/authMethods}}
 {{/operation}}
 {{/operations}}
 EOF
@@ -645,11 +589,11 @@ echo "  $ops" | column -t -s ';'
 {{/apis}}
 {{/apiInfo}}
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Options$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Options${OFF}"
     echo -e "  -h,--help\t\t\t\tPrint this help"
     echo -e "  -V,--version\t\t\t\tPrint API version"
     echo -e "  --about\t\t\t\tPrint the information about service"
-    echo -e "  --host $(tput setaf 6)<url>$(tput sgr0)\t\t\t\tSpecify the host URL "
+    echo -e "  --host ${CYAN}<url>${OFF}\t\t\t\tSpecify the host URL "
 {{#swagger}}
 {{#host}}echo -e "              \t\t\t\t(e.g. 'https://{{host}}')"{{/host}}
 {{^host}}echo -e "              \t\t\t\t(e.g. 'https://127.0.0.1:8080')"{{/host}}
@@ -658,8 +602,9 @@ echo "  $ops" | column -t -s ';'
     echo -e "         \t\t\t\trequired parameters or wrong content type"
     echo -e "  --dry-run\t\t\t\tPrint out the cURL command without"
     echo -e "           \t\t\t\texecuting it"
-    echo -e "  -ac,--accept $(tput setaf 3)<mime-type>$(tput sgr0)\t\tSet the 'Accept' header in the request"
-    echo -e "  -ct,--content-type $(tput setaf 3)<mime-type>$(tput sgr0)\tSet the 'Content-type' header in "
+    echo -e "  -nc,--no-colors\t\t\tEnforce print without colors, otherwise autodected"
+    echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\t\tSet the 'Accept' header in the request"
+    echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\tSet the 'Content-type' header in "
     echo -e "                                \tthe request"
     echo ""
 }
@@ -672,7 +617,7 @@ echo "  $ops" | column -t -s ';'
 ##############################################################################
 print_about() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7){{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}{{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})${OFF}"
     echo ""
     echo -e "License: {{#swagger}}{{#info}}{{#license}}{{name}}{{/license}}{{/info}}{{/swagger}}"
     echo -e "Contact: {{#swagger}}{{#info}}{{#contact}}{{email}}{{/contact}}{{/info}}{{/swagger}}"
@@ -681,7 +626,7 @@ read -d '' appdescription <<EOF
 {{#x-bash-codegen-app-description}}{{{x-bash-codegen-app-description}}}{{/x-bash-codegen-app-description}}
 {{^x-bash-codegen-app-description}}{{{appDescription}}}{{/x-bash-codegen-app-description}}
 EOF
-echo "$appdescription" | fold -sw 80
+echo "$appdescription" | paste -sd' ' | fold -sw 80
 }
 
 
@@ -692,7 +637,7 @@ echo "$appdescription" | fold -sw 80
 ##############################################################################
 print_version() {
     echo ""
-    echo -e "$(tput bold){{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})$(tput sgr0)"
+    echo -e "${BOLD}{{appName}} command line client (API version {{#swagger}}{{#info}}{{version}}{{/info}}{{/swagger}})${OFF}"
     echo ""
 }
 
@@ -707,90 +652,72 @@ print_version() {
 ##############################################################################
 print_{{operationId}}_help() {
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7){{operationId}} - {{{summary}}}$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasic}}BASIC{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-bash-codegen-description}}
-    echo -e "{{{x-bash-codegen-description}}}" | fold -sw 80
+    echo -e "{{{x-bash-codegen-description}}}" | paste -sd' ' | fold -sw 80
     echo -e ""
 {{/x-bash-codegen-description}}
 {{^x-bash-codegen-description}}
 {{#notes}}
-    echo -e "{{{notes}}}" | fold -sw 80
+    echo -e "{{{notes}}}" | paste -sd' ' | fold -sw 80
     echo -e ""
 {{/notes}}
 {{/x-bash-codegen-description}}
 {{/vendorExtensions}}
 {{^vendorExtensions}}
 {{#notes}}
-    echo -e "{{{notes}}}" | fold -sw 80
+    echo -e "{{{notes}}}" | paste -sd' ' | fold -sw 80
     echo -e ""
 {{/notes}}
 {{/vendorExtensions}}
 {{#hasParams}}
-    echo -e "$(tput bold)$(tput setaf 7)Parameters$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
 {{/hasParams}}
 {{#allParams}}
 {{#isPathParam}}
-    echo -e "  * $(tput setaf 2){{baseName}}$(tput sgr0) $(tput setaf 4)[{{dataType}}]$(tput sgr0){{#required}} $(tput setaf 1)(required)$(tput sgr0){{/required}}{{#defaultValue}} $(tput setaf 6)(default: {{defaultValue}}){{/defaultValue}}$(tput sgr0) - {{{description}}} $(tput setaf 3)Specify as: {{baseName}}=value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}} ${YELLOW}Specify as: {{baseName}}=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
 {{/isPathParam}}
 {{#isQueryParam}}
-    echo -e "  * $(tput setaf 2){{baseName}}$(tput sgr0) $(tput setaf 4)[{{dataType}}]$(tput sgr0){{#required}} $(tput setaf 1)(required)$(tput sgr0){{/required}}{{#defaultValue}} $(tput setaf 6)(default: {{defaultValue}}){{/defaultValue}}$(tput sgr0) - {{{description}}}$(tput setaf 3){{#isContainer}} Specify as: {{#vendorExtensions}}{{#x-codegen-collection-multi}}{{baseName}}=value1 {{baseName}}=value2 {{baseName}}=...{{/x-codegen-collection-multi}}{{#x-codegen-collection-csv}}{{baseName}}="value1,value2,..."{{/x-codegen-collection-csv}}{{#x-codegen-collection-pipes}}{{baseName}}="value1|value2|..."{{/x-codegen-collection-pipes}}{{#x-codegen-collection-ssv}}{{baseName}}="value1 value2 ..."{{/x-codegen-collection-ssv}}{{#x-codegen-collection-tsv}}{{baseName}}="value1\tvalue2\t..."{{/x-codegen-collection-tsv}}{{/vendorExtensions}}{{/isContainer}}{{^isContainer}} Specify as: {{baseName}}=value{{/isContainer}}$(tput sgr0)" \
-        | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}}${YELLOW}{{#isContainer}} Specify as: {{#vendorExtensions}}{{#x-codegen-collection-multi}}{{baseName}}=value1 {{baseName}}=value2 {{baseName}}=...{{/x-codegen-collection-multi}}{{#x-codegen-collection-csv}}{{baseName}}="value1,value2,..."{{/x-codegen-collection-csv}}{{#x-codegen-collection-pipes}}{{baseName}}="value1|value2|..."{{/x-codegen-collection-pipes}}{{#x-codegen-collection-ssv}}{{baseName}}="value1 value2 ..."{{/x-codegen-collection-ssv}}{{#x-codegen-collection-tsv}}{{baseName}}="value1\tvalue2\t..."{{/x-codegen-collection-tsv}}{{/vendorExtensions}}{{/isContainer}}{{^isContainer}} Specify as: {{baseName}}=value{{/isContainer}}${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
 {{/isQueryParam}}
 {{#isHeaderParam}}
-    echo -e "  * $(tput setaf 2){{baseName}}$(tput sgr0) $(tput setaf 4)[{{dataType}}]$(tput sgr0){{#required}} $(tput setaf 1)(required)$(tput sgr0){{/required}}{{#defaultValue}} $(tput setaf 6)(default: {{defaultValue}}){{/defaultValue}}$(tput sgr0) - {{{description}}} $(tput setaf 3)Specify as: {{baseName}}:value$(tput sgr0)" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}} ${YELLOW}Specify as: {{baseName}}:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
 {{/isHeaderParam}}
 {{/allParams}}
 {{#allParams}}
 {{#isBodyParam}}
-    echo -e "  * $(tput setaf 2)body$(tput sgr0) $(tput setaf 4)[{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}]$(tput sgr0){{#required}} $(tput setaf 1)(required)$(tput sgr0){{/required}}$(tput sgr0) - {{{description}}}" | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{mediaType}}{{#hasMore}},{{/hasMore}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-codegen-body-example}}
-    echo -e "$(tput bold)$(tput setaf 7)Body content example$(tput sgr0)"
-    echo -e '{{{x-codegen-body-example}}}' | fold -sw 80
+    echo -e "${BOLD}${WHITE}Body content example${OFF}"
+    echo -e '{{{x-codegen-body-example}}}' | paste -sd' ' | fold -sw 80
     echo -e ""
 {{/x-codegen-body-example}}
 {{/vendorExtensions}}
 {{/isBodyParam}}
 {{/allParams}}
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Responses$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
 {{#responses}}
-    case {{code}} in
-        1*)
-        echo -e "$(tput setaf 7)  {{code}};{{{message}}}$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        2*)
-        echo -e "$(tput setaf 2)  {{code}};{{{message}}}$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        3*)
-        echo -e "$(tput setaf 3)  {{code}};{{{message}}}$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        4*)
-        echo -e "$(tput setaf 1)  {{code}};{{{message}}}$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        5*)
-        echo -e "$(tput setaf 5)  {{code}};{{{message}}}$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-        *)
-        echo -e "$(tput setaf 7)  {{code}};{{{message}}}$(tput sgr0)" | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
-        ;;
-    esac
+    code={{code}}
+    echo -e "${result_color_table[${code:0:1}]}  {{code}};{{{message}}}${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 {{#headers}}
 {{#-first}}
-        echo -e "       $(tput bold)$(tput setaf 7)Response headers$(tput sgr0)"
+        echo -e "       ${BOLD}${WHITE}Response headers${OFF}"
 {{/-first}}
 {{/headers}}
 {{#headers}}
-        echo -e "       $(tput setaf 4){{baseName}}$(tput sgr0) - {{{description}}}" | fold -sw 80 | sed '2,$s/^/        /'
+        echo -e "       ${BLUE}{{baseName}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
 {{/headers}}
 {{/responses}}
 {{#vendorExtensions}}
 {{#x-bash-codegen-sample}}
     echo ""
-    echo -e "$(tput bold)$(tput setaf 7)Example use$(tput sgr0)"
+    echo -e "${BOLD}${WHITE}Example use${OFF}"
     echo -e '  {{{x-bash-codegen-sample}}}'
 {{/x-bash-codegen-sample}}
 {{/vendorExtensions}}
@@ -812,13 +739,14 @@ print_{{operationId}}_help() {
 ##############################################################################
 call_{{operationId}}() {
     local path_parameter_names=({{#pathParams}}{{baseName}}{{#hasMore}} {{/hasMore}}{{/pathParams}})
-    local query_parameter_names=({{#queryParams}}{{baseName}}{{#hasMore}} {{/hasMore}}{{/queryParams}})
+    local query_parameter_names=({{#queryParams}}{{baseName}}{{#hasMore}} {{/hasMore}}{{/queryParams}}{{#authMethods}} {{#isApiKey}}{{#isKeyInQuery}}{{keyParamName}}{{/isKeyInQuery}}{{/isApiKey}} {{/authMethods}})
+    local path
 
-    if [[ $force = false ]]; then
-        validate_request_parameters "{{basePathWithoutHost}}{{{path}}}" path_parameter_names query_parameter_names
+    path=$(build_request_path "{{basePathWithoutHost}}{{{path}}}" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
     fi
-
-    local path=$(build_request_path "{{basePathWithoutHost}}{{{path}}}" path_parameter_names query_parameter_names)
     local method="{{httpMethod}}"
     local headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -853,7 +781,7 @@ call_{{operationId}}() {
     if [[ -z $header_content_type && "$force" = false ]]; then
         :
 {{#hasConsumes}}
-        echo "Error: Request's content-type not specified!!!"
+        echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
 {{#consumes}}
         echo -e "\t- {{mediaType}}"
@@ -913,9 +841,9 @@ call_{{operationId}}() {
 
 
 # Check dependencies
-type curl >/dev/null 2>&1 || { echo >&2 "Error: You do not have 'cURL' installed."; exit 1; }
-type sed >/dev/null 2>&1 || { echo >&2 "Error: You do not have 'sed' installed."; exit 1; }
-type column >/dev/null 2>&1 || { echo >&2 "Error: You do not have 'bsdmainutils' installed."; exit 1; }
+type curl >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'cURL' installed."; exit 1; }
+type sed >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'sed' installed."; exit 1; }
+type column >/dev/null 2>&1 || { echo >&2 "ERROR: You do not have 'bsdmainutils' installed."; exit 1; }
 
 #
 # Process command line
@@ -988,6 +916,18 @@ case $key in
     --dry-run)
     print_curl=true
     ;;
+    -nc|--no-colors)
+        RED=""
+        GREEN=""
+        YELLOW=""
+        BLUE=""
+        MAGENTA=""
+        CYAN=""
+        WHITE=""
+        BOLD=""
+        OFF=""
+        result_color_table=( "" "" "" "" "" "" "" )
+    ;;
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -1015,7 +955,7 @@ case $key in
         body_parameters[${body_key}]=${body_value}
     fi
     ;;
-    *:*)
+    +([^=]):*)
     # Parse header arguments and convert them into curl
     # only after the operation argument
     if [[ "$operation" ]]; then
@@ -1076,15 +1016,13 @@ done
 
 # Check if user provided host name
 if [[ -z "$host" ]]; then
-    echo "Error: No hostname provided!!!"
-    echo "Check usage: '${script_name} --help'"
+    ERROR_MSG="ERROR: No hostname provided!!! {{#x-codegen-host-env}}Define env variable {{x-codegen-host-env}} like 'export {{x-codegen-host-env}}=...' or{{/x-codegen-host-env}}{{^x-codegen-host-env}}You have to {{/x-codegen-host-env}} provide on command line option '--host ...'"
     exit 1
 fi
 
 # Check if user specified operation ID
 if [[ -z "$operation" ]]; then
-    echo "Error: No operation specified!"
-    echo "Check available operations: '${script_name} --help'"
+    ERROR_MSG="ERROR: No operation specified!!!"
     exit 1
 fi
 
@@ -1103,8 +1041,6 @@ case $operation in
 {{/apis}}
 {{/apiInfo}}
     *)
-    echo "Error: Unknown operation: $operation"
-    echo ""
-    print_help
+    ERROR_MSG="ERROR: Unknown operation: $operation"
     exit 1
 esac
