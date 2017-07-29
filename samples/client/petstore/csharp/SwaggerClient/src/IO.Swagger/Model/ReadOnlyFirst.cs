@@ -77,35 +77,33 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as ReadOnlyFirst);
+            return this.Equals(input as ReadOnlyFirst);
         }
 
         /// <summary>
         /// Returns true if ReadOnlyFirst instances are equal
         /// </summary>
-        /// <param name="other">Instance of ReadOnlyFirst to be compared</param>
+        /// <param name="input">Instance of ReadOnlyFirst to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ReadOnlyFirst other)
+        public bool Equals(ReadOnlyFirst input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.Bar == other.Bar ||
-                    this.Bar != null &&
-                    this.Bar.Equals(other.Bar)
+                    this.Bar == input.Bar ||
+                    (this.Bar != null &&
+                    this.Bar.Equals(input.Bar))
                 ) && 
                 (
-                    this.Baz == other.Baz ||
-                    this.Baz != null &&
-                    this.Baz.Equals(other.Baz)
+                    this.Baz == input.Baz ||
+                    (this.Baz != null &&
+                    this.Baz.Equals(input.Baz))
                 );
         }
 
@@ -115,16 +113,14 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.Bar != null)
-                    hash = hash * 59 + this.Bar.GetHashCode();
+                    hashCode = hashCode * 59 + this.Bar.GetHashCode();
                 if (this.Baz != null)
-                    hash = hash * 59 + this.Baz.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.Baz.GetHashCode();
+                return hashCode;
             }
         }
 

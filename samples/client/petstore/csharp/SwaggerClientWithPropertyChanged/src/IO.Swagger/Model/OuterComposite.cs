@@ -91,40 +91,38 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as OuterComposite);
+            return this.Equals(input as OuterComposite);
         }
 
         /// <summary>
         /// Returns true if OuterComposite instances are equal
         /// </summary>
-        /// <param name="other">Instance of OuterComposite to be compared</param>
+        /// <param name="input">Instance of OuterComposite to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(OuterComposite other)
+        public bool Equals(OuterComposite input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.MyNumber == other.MyNumber ||
-                    this.MyNumber != null &&
-                    this.MyNumber.Equals(other.MyNumber)
+                    this.MyNumber == input.MyNumber ||
+                    (this.MyNumber != null &&
+                    this.MyNumber.Equals(input.MyNumber))
                 ) && 
                 (
-                    this.MyString == other.MyString ||
-                    this.MyString != null &&
-                    this.MyString.Equals(other.MyString)
+                    this.MyString == input.MyString ||
+                    (this.MyString != null &&
+                    this.MyString.Equals(input.MyString))
                 ) && 
                 (
-                    this.MyBoolean == other.MyBoolean ||
-                    this.MyBoolean != null &&
-                    this.MyBoolean.Equals(other.MyBoolean)
+                    this.MyBoolean == input.MyBoolean ||
+                    (this.MyBoolean != null &&
+                    this.MyBoolean.Equals(input.MyBoolean))
                 );
         }
 
@@ -134,18 +132,16 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.MyNumber != null)
-                    hash = hash * 59 + this.MyNumber.GetHashCode();
+                    hashCode = hashCode * 59 + this.MyNumber.GetHashCode();
                 if (this.MyString != null)
-                    hash = hash * 59 + this.MyString.GetHashCode();
+                    hashCode = hashCode * 59 + this.MyString.GetHashCode();
                 if (this.MyBoolean != null)
-                    hash = hash * 59 + this.MyBoolean.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.MyBoolean.GetHashCode();
+                return hashCode;
             }
         }
 

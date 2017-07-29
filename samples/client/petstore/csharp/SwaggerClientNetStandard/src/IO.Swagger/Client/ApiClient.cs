@@ -404,31 +404,29 @@ namespace IO.Swagger.Client
 
         /// <summary>
         /// Dynamically cast the object into target type.
-        /// Ref: http://stackoverflow.com/questions/4925718/c-dynamic-runtime-cast
         /// </summary>
-        /// <param name="source">Object to be casted</param>
-        /// <param name="dest">Target type</param>
+        /// <param name="fromObject">Object to be casted</param>
+        /// <param name="toObject">Target type</param>
         /// <returns>Casted object</returns>
-        public static dynamic ConvertType(dynamic source, Type dest)
+        public static dynamic ConvertType(dynamic fromObject, Type toObject)
         {
-            return Convert.ChangeType(source, dest);
+            return Convert.ChangeType(fromObject, toObject);
         }
 
         /// <summary>
         /// Convert stream to byte array
-        /// Credit/Ref: http://stackoverflow.com/a/221941/677735
         /// </summary>
-        /// <param name="input">Input stream to be converted</param>
+        /// <param name="inputStream">Input stream to be converted</param>
         /// <returns>Byte array</returns>
-        public static byte[] ReadAsBytes(Stream input)
+        public static byte[] ReadAsBytes(Stream inputStream)
         {
-            byte[] buffer = new byte[16*1024];
+            byte[] buf = new byte[16*1024];
             using (MemoryStream ms = new MemoryStream())
             {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                int count;
+                while ((count = inputStream.Read(buf, 0, buf.Length)) > 0)
                 {
-                    ms.Write(buffer, 0, read);
+                    ms.Write(buf, 0, count);
                 }
                 return ms.ToArray();
             }

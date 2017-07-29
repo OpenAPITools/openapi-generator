@@ -285,13 +285,12 @@ namespace IO.Swagger.Client
     
         /// <summary>
         /// Dynamically cast the object into target type.
-        /// Ref: http://stackoverflow.com/questions/4925718/c-dynamic-runtime-cast
         /// </summary>
-        /// <param name="source">Object to be casted</param>
-        /// <param name="dest">Target type</param>
+        /// <param name="fromObject">Object to be casted</param>
+        /// <param name="toObject">Target type</param>
         /// <returns>Casted object</returns>
-        public static Object ConvertType(Object source, Type dest) {
-            return Convert.ChangeType(source, dest);
+        public static Object ConvertType(Object fromObject, Type toObject) {
+            return Convert.ChangeType(fromObject, toObject);
         }
   
     }

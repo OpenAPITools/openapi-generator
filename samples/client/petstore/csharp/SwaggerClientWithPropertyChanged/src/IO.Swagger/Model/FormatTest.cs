@@ -219,90 +219,88 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as FormatTest);
+            return this.Equals(input as FormatTest);
         }
 
         /// <summary>
         /// Returns true if FormatTest instances are equal
         /// </summary>
-        /// <param name="other">Instance of FormatTest to be compared</param>
+        /// <param name="input">Instance of FormatTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(FormatTest other)
+        public bool Equals(FormatTest input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.Integer == other.Integer ||
-                    this.Integer != null &&
-                    this.Integer.Equals(other.Integer)
+                    this.Integer == input.Integer ||
+                    (this.Integer != null &&
+                    this.Integer.Equals(input.Integer))
                 ) && 
                 (
-                    this.Int32 == other.Int32 ||
-                    this.Int32 != null &&
-                    this.Int32.Equals(other.Int32)
+                    this.Int32 == input.Int32 ||
+                    (this.Int32 != null &&
+                    this.Int32.Equals(input.Int32))
                 ) && 
                 (
-                    this.Int64 == other.Int64 ||
-                    this.Int64 != null &&
-                    this.Int64.Equals(other.Int64)
+                    this.Int64 == input.Int64 ||
+                    (this.Int64 != null &&
+                    this.Int64.Equals(input.Int64))
                 ) && 
                 (
-                    this.Number == other.Number ||
-                    this.Number != null &&
-                    this.Number.Equals(other.Number)
+                    this.Number == input.Number ||
+                    (this.Number != null &&
+                    this.Number.Equals(input.Number))
                 ) && 
                 (
-                    this._Float == other._Float ||
-                    this._Float != null &&
-                    this._Float.Equals(other._Float)
+                    this._Float == input._Float ||
+                    (this._Float != null &&
+                    this._Float.Equals(input._Float))
                 ) && 
                 (
-                    this._Double == other._Double ||
-                    this._Double != null &&
-                    this._Double.Equals(other._Double)
+                    this._Double == input._Double ||
+                    (this._Double != null &&
+                    this._Double.Equals(input._Double))
                 ) && 
                 (
-                    this._String == other._String ||
-                    this._String != null &&
-                    this._String.Equals(other._String)
+                    this._String == input._String ||
+                    (this._String != null &&
+                    this._String.Equals(input._String))
                 ) && 
                 (
-                    this._Byte == other._Byte ||
-                    this._Byte != null &&
-                    this._Byte.Equals(other._Byte)
+                    this._Byte == input._Byte ||
+                    (this._Byte != null &&
+                    this._Byte.Equals(input._Byte))
                 ) && 
                 (
-                    this.Binary == other.Binary ||
-                    this.Binary != null &&
-                    this.Binary.Equals(other.Binary)
+                    this.Binary == input.Binary ||
+                    (this.Binary != null &&
+                    this.Binary.Equals(input.Binary))
                 ) && 
                 (
-                    this.Date == other.Date ||
-                    this.Date != null &&
-                    this.Date.Equals(other.Date)
+                    this.Date == input.Date ||
+                    (this.Date != null &&
+                    this.Date.Equals(input.Date))
                 ) && 
                 (
-                    this.DateTime == other.DateTime ||
-                    this.DateTime != null &&
-                    this.DateTime.Equals(other.DateTime)
+                    this.DateTime == input.DateTime ||
+                    (this.DateTime != null &&
+                    this.DateTime.Equals(input.DateTime))
                 ) && 
                 (
-                    this.Uuid == other.Uuid ||
-                    this.Uuid != null &&
-                    this.Uuid.Equals(other.Uuid)
+                    this.Uuid == input.Uuid ||
+                    (this.Uuid != null &&
+                    this.Uuid.Equals(input.Uuid))
                 ) && 
                 (
-                    this.Password == other.Password ||
-                    this.Password != null &&
-                    this.Password.Equals(other.Password)
+                    this.Password == input.Password ||
+                    (this.Password != null &&
+                    this.Password.Equals(input.Password))
                 );
         }
 
@@ -312,38 +310,36 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.Integer != null)
-                    hash = hash * 59 + this.Integer.GetHashCode();
+                    hashCode = hashCode * 59 + this.Integer.GetHashCode();
                 if (this.Int32 != null)
-                    hash = hash * 59 + this.Int32.GetHashCode();
+                    hashCode = hashCode * 59 + this.Int32.GetHashCode();
                 if (this.Int64 != null)
-                    hash = hash * 59 + this.Int64.GetHashCode();
+                    hashCode = hashCode * 59 + this.Int64.GetHashCode();
                 if (this.Number != null)
-                    hash = hash * 59 + this.Number.GetHashCode();
+                    hashCode = hashCode * 59 + this.Number.GetHashCode();
                 if (this._Float != null)
-                    hash = hash * 59 + this._Float.GetHashCode();
+                    hashCode = hashCode * 59 + this._Float.GetHashCode();
                 if (this._Double != null)
-                    hash = hash * 59 + this._Double.GetHashCode();
+                    hashCode = hashCode * 59 + this._Double.GetHashCode();
                 if (this._String != null)
-                    hash = hash * 59 + this._String.GetHashCode();
+                    hashCode = hashCode * 59 + this._String.GetHashCode();
                 if (this._Byte != null)
-                    hash = hash * 59 + this._Byte.GetHashCode();
+                    hashCode = hashCode * 59 + this._Byte.GetHashCode();
                 if (this.Binary != null)
-                    hash = hash * 59 + this.Binary.GetHashCode();
+                    hashCode = hashCode * 59 + this.Binary.GetHashCode();
                 if (this.Date != null)
-                    hash = hash * 59 + this.Date.GetHashCode();
+                    hashCode = hashCode * 59 + this.Date.GetHashCode();
                 if (this.DateTime != null)
-                    hash = hash * 59 + this.DateTime.GetHashCode();
+                    hashCode = hashCode * 59 + this.DateTime.GetHashCode();
                 if (this.Uuid != null)
-                    hash = hash * 59 + this.Uuid.GetHashCode();
+                    hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
-                    hash = hash * 59 + this.Password.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.Password.GetHashCode();
+                return hashCode;
             }
         }
 

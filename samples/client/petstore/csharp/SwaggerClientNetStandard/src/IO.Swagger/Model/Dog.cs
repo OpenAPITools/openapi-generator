@@ -107,40 +107,38 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as Dog);
+            return this.Equals(input as Dog);
         }
 
         /// <summary>
         /// Returns true if Dog instances are equal
         /// </summary>
-        /// <param name="other">Instance of Dog to be compared</param>
+        /// <param name="input">Instance of Dog to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Dog other)
+        public bool Equals(Dog input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.ClassName == other.ClassName ||
-                    this.ClassName != null &&
-                    this.ClassName.Equals(other.ClassName)
+                    this.ClassName == input.ClassName ||
+                    (this.ClassName != null &&
+                    this.ClassName.Equals(input.ClassName))
                 ) && 
                 (
-                    this.Color == other.Color ||
-                    this.Color != null &&
-                    this.Color.Equals(other.Color)
+                    this.Color == input.Color ||
+                    (this.Color != null &&
+                    this.Color.Equals(input.Color))
                 ) && 
                 (
-                    this.Breed == other.Breed ||
-                    this.Breed != null &&
-                    this.Breed.Equals(other.Breed)
+                    this.Breed == input.Breed ||
+                    (this.Breed != null &&
+                    this.Breed.Equals(input.Breed))
                 );
         }
 
@@ -150,18 +148,16 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.ClassName != null)
-                    hash = hash * 59 + this.ClassName.GetHashCode();
+                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
                 if (this.Color != null)
-                    hash = hash * 59 + this.Color.GetHashCode();
+                    hashCode = hashCode * 59 + this.Color.GetHashCode();
                 if (this.Breed != null)
-                    hash = hash * 59 + this.Breed.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.Breed.GetHashCode();
+                return hashCode;
             }
         }
     }

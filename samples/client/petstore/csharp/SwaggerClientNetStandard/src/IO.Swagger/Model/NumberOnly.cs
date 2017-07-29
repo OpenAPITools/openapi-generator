@@ -68,30 +68,28 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as NumberOnly);
+            return this.Equals(input as NumberOnly);
         }
 
         /// <summary>
         /// Returns true if NumberOnly instances are equal
         /// </summary>
-        /// <param name="other">Instance of NumberOnly to be compared</param>
+        /// <param name="input">Instance of NumberOnly to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(NumberOnly other)
+        public bool Equals(NumberOnly input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.JustNumber == other.JustNumber ||
-                    this.JustNumber != null &&
-                    this.JustNumber.Equals(other.JustNumber)
+                    this.JustNumber == input.JustNumber ||
+                    (this.JustNumber != null &&
+                    this.JustNumber.Equals(input.JustNumber))
                 );
         }
 
@@ -101,14 +99,12 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.JustNumber != null)
-                    hash = hash * 59 + this.JustNumber.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.JustNumber.GetHashCode();
+                return hashCode;
             }
         }
     }
