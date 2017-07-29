@@ -115,18 +115,17 @@ namespace IO.Swagger.Models
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                var hash = 41;
+                var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                     if (Code != null)
-                    hash = hash * 59 + Code.GetHashCode();
+                    hashCode = hashCode * 59 + Code.GetHashCode();
                     if (Type != null)
-                    hash = hash * 59 + Type.GetHashCode();
+                    hashCode = hashCode * 59 + Type.GetHashCode();
                     if (Message != null)
-                    hash = hash * 59 + Message.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + Message.GetHashCode();
+                return hashCode;
             }
         }
 

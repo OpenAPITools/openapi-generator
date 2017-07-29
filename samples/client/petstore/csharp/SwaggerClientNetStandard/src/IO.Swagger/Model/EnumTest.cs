@@ -161,45 +161,43 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as EnumTest);
+            return this.Equals(input as EnumTest);
         }
 
         /// <summary>
         /// Returns true if EnumTest instances are equal
         /// </summary>
-        /// <param name="other">Instance of EnumTest to be compared</param>
+        /// <param name="input">Instance of EnumTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(EnumTest other)
+        public bool Equals(EnumTest input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.EnumString == other.EnumString ||
-                    this.EnumString != null &&
-                    this.EnumString.Equals(other.EnumString)
+                    this.EnumString == input.EnumString ||
+                    (this.EnumString != null &&
+                    this.EnumString.Equals(input.EnumString))
                 ) && 
                 (
-                    this.EnumInteger == other.EnumInteger ||
-                    this.EnumInteger != null &&
-                    this.EnumInteger.Equals(other.EnumInteger)
+                    this.EnumInteger == input.EnumInteger ||
+                    (this.EnumInteger != null &&
+                    this.EnumInteger.Equals(input.EnumInteger))
                 ) && 
                 (
-                    this.EnumNumber == other.EnumNumber ||
-                    this.EnumNumber != null &&
-                    this.EnumNumber.Equals(other.EnumNumber)
+                    this.EnumNumber == input.EnumNumber ||
+                    (this.EnumNumber != null &&
+                    this.EnumNumber.Equals(input.EnumNumber))
                 ) && 
                 (
-                    this.OuterEnum == other.OuterEnum ||
-                    this.OuterEnum != null &&
-                    this.OuterEnum.Equals(other.OuterEnum)
+                    this.OuterEnum == input.OuterEnum ||
+                    (this.OuterEnum != null &&
+                    this.OuterEnum.Equals(input.OuterEnum))
                 );
         }
 
@@ -209,20 +207,18 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.EnumString != null)
-                    hash = hash * 59 + this.EnumString.GetHashCode();
+                    hashCode = hashCode * 59 + this.EnumString.GetHashCode();
                 if (this.EnumInteger != null)
-                    hash = hash * 59 + this.EnumInteger.GetHashCode();
+                    hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
                 if (this.EnumNumber != null)
-                    hash = hash * 59 + this.EnumNumber.GetHashCode();
+                    hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
                 if (this.OuterEnum != null)
-                    hash = hash * 59 + this.OuterEnum.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
+                return hashCode;
             }
         }
     }

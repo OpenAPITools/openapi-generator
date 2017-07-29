@@ -79,35 +79,33 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as HasOnlyReadOnly);
+            return this.Equals(input as HasOnlyReadOnly);
         }
 
         /// <summary>
         /// Returns true if HasOnlyReadOnly instances are equal
         /// </summary>
-        /// <param name="other">Instance of HasOnlyReadOnly to be compared</param>
+        /// <param name="input">Instance of HasOnlyReadOnly to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(HasOnlyReadOnly other)
+        public bool Equals(HasOnlyReadOnly input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.Bar == other.Bar ||
-                    this.Bar != null &&
-                    this.Bar.Equals(other.Bar)
+                    this.Bar == input.Bar ||
+                    (this.Bar != null &&
+                    this.Bar.Equals(input.Bar))
                 ) && 
                 (
-                    this.Foo == other.Foo ||
-                    this.Foo != null &&
-                    this.Foo.Equals(other.Foo)
+                    this.Foo == input.Foo ||
+                    (this.Foo != null &&
+                    this.Foo.Equals(input.Foo))
                 );
         }
 
@@ -117,16 +115,14 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.Bar != null)
-                    hash = hash * 59 + this.Bar.GetHashCode();
+                    hashCode = hashCode * 59 + this.Bar.GetHashCode();
                 if (this.Foo != null)
-                    hash = hash * 59 + this.Foo.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.Foo.GetHashCode();
+                return hashCode;
             }
         }
 
