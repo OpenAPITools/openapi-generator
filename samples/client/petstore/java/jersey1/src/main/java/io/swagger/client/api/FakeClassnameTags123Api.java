@@ -85,7 +85,7 @@ public class FakeClassnameTags123Api {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "api_key_query" };
 
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
     return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
