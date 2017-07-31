@@ -247,7 +247,7 @@
   </dependencies>
   <properties>
     <swagger-core-version>1.5.15</swagger-core-version>
-    <jersey-version>2.25.1</jersey-version>
+    <jersey-version>2.6</jersey-version>
     <commons_io_version>2.5</commons_io_version>
     <commons_lang3_version>3.6</commons_lang3_version>
     <jackson-version>2.6.4</jackson-version>
