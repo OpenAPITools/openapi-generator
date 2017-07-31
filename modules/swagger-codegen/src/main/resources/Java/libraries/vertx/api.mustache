@@ -1,0 +1,19 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
+
+import java.util.*;
+
+public interface {{classname}} {
+
+    {{#operations}}
+    {{#operation}}
+    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> handler);
+
+    {{/operation}}
+    {{/operations}}
+}
