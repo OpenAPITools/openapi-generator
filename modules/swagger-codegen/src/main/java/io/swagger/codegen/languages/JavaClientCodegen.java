@@ -70,6 +70,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.8.0. JSON processing: Gson 2.6.1 (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
         supportedLibraries.put("resttemplate", "HTTP client: Spring RestTemplate 4.3.9-RELEASE. JSON processing: Jackson 2.8.9");
         supportedLibraries.put("resteasy", "HTTP client: Resteasy client 3.1.3.Final. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put("vertx", "HTTP client: VertX client 3.2.4. JSON processing: Jackson 2.8.9");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -139,6 +140,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
+        final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
 
         //Common files
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -213,6 +215,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if("resttemplate".equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+        } else if("vertx".equals(getLibrary())) {
+            typeMapping.put("file", "AsyncFile");
+            importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
+            setJava8Mode(true);
+            additionalProperties.put("java8", "true");
+            additionalProperties.put("jackson", "true");
+            apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
+            apiTemplateFiles.put("rxApiImpl.mustache", ".java");
+            supportingFiles.remove(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml"));
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
@@ -260,6 +271,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return getLibrary() != null && getLibrary().contains(RETROFIT_2);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         super.postProcessOperations(objs);
@@ -291,10 +303,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation op : operationList) {
-                String path = new String(op.path);
+                String path = op.path;
                 String[] items = path.split("/", -1);
-                String opsPath = "";
-                int pathParamIndex = 0;
 
                 for (int i = 0; i < items.length; ++i) {
                     if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
@@ -307,6 +317,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         return objs;
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        if("vertx".equals(getLibrary())) {
+            String suffix = apiTemplateFiles().get(templateName);
+            String subFolder = "";
+            if (templateName.startsWith("rx")) {
+                subFolder = "/rxjava";
+            }
+            return apiFileFolder() + subFolder + '/' + toApiFilename(tag) + suffix;
+        } else {
+            return super.apiFilename(templateName, tag);
+        }
     }
 
     /**
@@ -384,6 +408,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
