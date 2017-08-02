@@ -44,9 +44,11 @@ open class Fake_classname_tags123API: APIBase {
     /**
      To test class name in snake case
      - PATCH /fake_classname_test
-
+     - API Key:
+       - type: apiKey api_key_query (QUERY)
+       - name: api_key_query
      - examples: [{contentType=application/json, example={
-  "client" : "aeiou"
+  "client" : "client"
 }}]
      - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 
