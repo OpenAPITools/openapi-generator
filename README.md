@@ -753,6 +753,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [Fastly](https://www.fastly.com/)
 - [Flat](https://flat.io)
 - [Finder](http://en.finder.pl/)
+- [Fitwell](https://fitwell.co/)
 - [FH Münster - University of Applied Sciences](http://www.fh-muenster.de)
 - [Fotition](https://www.fotition.com/)
 - [Gear Zero Network](https://www.gearzero.ca)
