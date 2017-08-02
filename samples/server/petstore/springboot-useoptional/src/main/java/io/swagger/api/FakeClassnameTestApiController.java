@@ -34,7 +34,7 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Client>(objectMapper.readValue("{  \"client\" : \"aeiou\"}", Client.class), HttpStatus.OK);
+            return new ResponseEntity<Client>(objectMapper.readValue("{  \"client\" : \"client\"}", Client.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<Client>(HttpStatus.OK);

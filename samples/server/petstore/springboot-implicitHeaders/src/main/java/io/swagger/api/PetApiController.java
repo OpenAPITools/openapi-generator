@@ -52,7 +52,7 @@ public class PetApiController implements PetApi {
 
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<List<Pet>>(objectMapper.readValue("[ {  \"photoUrls\" : [ \"aeiou\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"aeiou\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"aeiou\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.OK);
+            return new ResponseEntity<List<Pet>>(objectMapper.readValue("[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
@@ -68,7 +68,7 @@ public class PetApiController implements PetApi {
 
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<List<Pet>>(objectMapper.readValue("[ {  \"photoUrls\" : [ \"aeiou\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"aeiou\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"aeiou\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.OK);
+            return new ResponseEntity<List<Pet>>(objectMapper.readValue("[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]", List.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<List<Pet>>(HttpStatus.OK);
@@ -84,7 +84,7 @@ public class PetApiController implements PetApi {
 
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Pet>(objectMapper.readValue("{  \"photoUrls\" : [ \"aeiou\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"aeiou\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"aeiou\",    \"id\" : 1  } ],  \"status\" : \"available\"}", Pet.class), HttpStatus.OK);
+            return new ResponseEntity<Pet>(objectMapper.readValue("{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}", Pet.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<Pet>(HttpStatus.OK);
@@ -111,7 +111,7 @@ public class PetApiController implements PetApi {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<ModelApiResponse>(objectMapper.readValue("{  \"code\" : 0,  \"type\" : \"aeiou\",  \"message\" : \"aeiou\"}", ModelApiResponse.class), HttpStatus.OK);
+            return new ResponseEntity<ModelApiResponse>(objectMapper.readValue("{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}", ModelApiResponse.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<ModelApiResponse>(HttpStatus.OK);
