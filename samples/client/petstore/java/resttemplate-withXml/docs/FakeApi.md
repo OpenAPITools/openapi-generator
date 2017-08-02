@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
 <a name="fakeOuterBooleanSerialize"></a>
@@ -274,7 +275,7 @@ Float _float = 3.4F; // Float | None
 String string = "string_example"; // String | None
 byte[] binary = B; // byte[] | None
 LocalDate date = new LocalDate(); // LocalDate | None
-DateTime dateTime = new DateTime(); // DateTime | None
+OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
 String password = "password_example"; // String | None
 String paramCallback = "paramCallback_example"; // String | None
 try {
@@ -300,7 +301,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional]
  **binary** | **byte[]**| None | [optional]
  **date** | **LocalDate**| None | [optional]
- **dateTime** | **DateTime**| None | [optional]
+ **dateTime** | **OffsetDateTime**| None | [optional]
  **password** | **String**| None | [optional]
  **paramCallback** | **String**| None | [optional]
 
@@ -374,4 +375,50 @@ No authorization required
 
  - **Content-Type**: */*
  - **Accept**: */*
+
+<a name="testJsonFormData"></a>
+# **testJsonFormData**
+> testJsonFormData(param, param2)
+
+test json serialization of form data
+
+
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+String param = "param_example"; // String | field1
+String param2 = "param2_example"; // String | field2
+try {
+    apiInstance.testJsonFormData(param, param2);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#testJsonFormData");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | **String**| field1 |
+ **param2** | **String**| field2 |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 

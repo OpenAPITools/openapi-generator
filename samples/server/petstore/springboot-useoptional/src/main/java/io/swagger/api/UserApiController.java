@@ -64,7 +64,7 @@ public class UserApiController implements UserApi {
 
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<User>(objectMapper.readValue("{  \"firstName\" : \"aeiou\",  \"lastName\" : \"aeiou\",  \"password\" : \"aeiou\",  \"userStatus\" : 6,  \"phone\" : \"aeiou\",  \"id\" : 0,  \"email\" : \"aeiou\",  \"username\" : \"aeiou\"}", User.class), HttpStatus.OK);
+            return new ResponseEntity<User>(objectMapper.readValue("{  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"password\" : \"password\",  \"userStatus\" : 6,  \"phone\" : \"phone\",  \"id\" : 0,  \"email\" : \"email\",  \"username\" : \"username\"}", User.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<User>(HttpStatus.OK);
@@ -81,7 +81,7 @@ public class UserApiController implements UserApi {
 
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<String>(objectMapper.readValue("\"aeiou\"", String.class), HttpStatus.OK);
+            return new ResponseEntity<String>(objectMapper.readValue("\"\"", String.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<String>(HttpStatus.OK);

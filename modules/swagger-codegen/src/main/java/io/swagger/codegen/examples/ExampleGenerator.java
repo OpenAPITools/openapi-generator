@@ -46,7 +46,7 @@ public class ExampleGenerator {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
                 if (property != null && mediaType.startsWith(MIME_TYPE_JSON)) {
-                    String example = Json.pretty(resolvePropertyToExample(mediaType, property, processedModels));
+                    String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
 
                     if (example != null) {
                         kv.put(EXAMPLE, example);
@@ -76,7 +76,7 @@ public class ExampleGenerator {
         return output;
     }
 
-    private Object resolvePropertyToExample(String mediaType, Property property, Set<String> processedModels) {
+    private Object resolvePropertyToExample(String propertyName, String mediaType, Property property, Set<String> processedModels) {
         logger.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
             logger.debug("Example set in swagger spec, returning example: '{}'", property.getExample().toString());
@@ -98,8 +98,8 @@ public class ExampleGenerator {
                 logger.debug("URI or URL format, without default or enum, generating random one.");
                 return "http://example.com/aeiou";
             }
-            logger.debug("No values found, using default string 'aeiou' as example");
-            return "aeiou";
+            logger.debug("No values found, using property name " + propertyName + " as example");
+            return propertyName;
         } else if (property instanceof BooleanProperty) {
             Boolean defaultValue = ((BooleanProperty) property).getDefault();
             if (defaultValue != null) {
@@ -109,9 +109,13 @@ public class ExampleGenerator {
         } else if (property instanceof ArrayProperty) {
             Property innerType = ((ArrayProperty) property).getItems();
             if (innerType != null) {
-                return new Object[]{
-                        resolvePropertyToExample(mediaType, innerType, processedModels)
-                };
+                int arrayLength = null == ((ArrayProperty) property).getMaxItems() ? 2 : ((ArrayProperty) property).getMaxItems();
+                Object[] objectProperties = new Object[arrayLength];
+                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
+                for(int i=0; i < arrayLength; i++) {
+                    objectProperties[i] = objProperty;
+                }
+                return objectProperties;
             }
         } else if (property instanceof DateProperty) {
             return "2000-01-23";
@@ -143,10 +147,10 @@ public class ExampleGenerator {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(mediaType, ((MapProperty) property).getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ((MapProperty) property).getAdditionalProperties(), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(mediaType, ((MapProperty) property).getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ((MapProperty) property).getAdditionalProperties(), processedModels));
             }
             return mp;
         } else if (property instanceof ObjectProperty) {
@@ -197,7 +201,7 @@ public class ExampleGenerator {
                 logger.debug("Creating example from model values");
                 for (String propertyName : impl.getProperties().keySet()) {
                     Property property = impl.getProperties().get(propertyName);
-                    values.put(propertyName, resolvePropertyToExample(mediaType, property, processedModels));
+                    values.put(propertyName, resolvePropertyToExample(propertyName, mediaType, property, processedModels));
                 }
                 impl.setExample(values);
             }
