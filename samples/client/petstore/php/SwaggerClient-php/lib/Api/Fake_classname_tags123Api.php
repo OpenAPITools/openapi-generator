@@ -283,6 +283,11 @@ class Fake_classname_tags123Api
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('api_key_query');
+        if ($apiKey !== null) {
+            $queryParams['api_key_query'] = $apiKey;
+        }
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
