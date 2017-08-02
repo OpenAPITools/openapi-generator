@@ -41,7 +41,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // clear import mapping (from default generator) as python does not use it
         // at the moment
         importMapping.clear();
-        
+
         supportsInheritance = true;
         modelPackage = "models";
         apiPackage = "api";
