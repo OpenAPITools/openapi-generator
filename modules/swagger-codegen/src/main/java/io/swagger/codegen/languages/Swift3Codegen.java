@@ -27,6 +27,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
     public static final String UNWRAP_REQUIRED = "unwrapRequired";
+    public static final String OBJC_COMPATIBLE = "objcCompatible";
     public static final String POD_SOURCE = "podSource";
     public static final String POD_AUTHORS = "podAuthors";
     public static final String POD_SOCIAL_MEDIA_URL = "podSocialMediaURL";
@@ -45,6 +46,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT};
     protected String projectName = "SwaggerClient";
     protected boolean unwrapRequired;
+    protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
@@ -158,6 +160,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
                 StringUtils.join(RESPONSE_LIBRARIES, ", ") + " are available."));
         cliOptions.add(new CliOption(UNWRAP_REQUIRED, "Treat 'required' properties in response as non-optional " +
                 "(which would crash the app if api returns null as opposed to required option specified in json schema"));
+        cliOptions.add(new CliOption(OBJC_COMPATIBLE, "Add additional properties and methods for Objective-C compatibility (default: false)"));
         cliOptions.add(new CliOption(POD_SOURCE, "Source information used for Podspec"));
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "Version used for Podspec"));
         cliOptions.add(new CliOption(POD_AUTHORS, "Authors used for Podspec"));
@@ -201,6 +204,12 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             setUnwrapRequired(convertPropertyToBooleanAndWriteBack(UNWRAP_REQUIRED));
         }
         additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
+
+        // Setup objcCompatible option, which adds additional properties and methods for Objective-C compatibility
+        if (additionalProperties.containsKey(OBJC_COMPATIBLE)) {
+            setObjcCompatible(convertPropertyToBooleanAndWriteBack(OBJC_COMPATIBLE));
+        }
+        additionalProperties.put(OBJC_COMPATIBLE, objcCompatible);
 
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(RESPONSE_AS)) {
@@ -250,13 +259,13 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;  // add an underscore to the name
     }
-    
+
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + modelPackage().replace('.', File.separatorChar);
@@ -479,6 +488,10 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         this.unwrapRequired = unwrapRequired;
     }
 
+    public void setObjcCompatible(boolean objcCompatible) {
+        this.objcCompatible = objcCompatible;
+    }
+
     public void setLenientTypeCast(boolean lenientTypeCast) {
         this.lenientTypeCast = lenientTypeCast;
     }
@@ -577,6 +590,31 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        // The default template code has the following logic for assigning a type as Swift Optional:
+        //
+        // {{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}
+        //
+        // which means:
+        //
+        // boolean isSwiftOptional = !unwrapRequired || (unwrapRequired && !property.required);
+        //
+        // We can drop the check for unwrapRequired in (unwrapRequired && !property.required)
+        // due to short-circuit evaluation of the || operator.
+        boolean isSwiftOptional = !unwrapRequired || !property.required;
+        boolean isSwiftScalarType = property.isInteger || property.isLong || property.isFloat || property.isDouble || property.isBoolean;
+        if (isSwiftOptional && isSwiftScalarType) {
+            // Optional scalar types like Int?, Int64?, Float?, Double?, and Bool?
+            // do not translate to Objective-C. So we want to flag those
+            // properties in case we want to put special code in the templates
+            // which provide Objective-C compatibility.
+            property.vendorExtensions.put("x-swift-optional-scalar", true);
+        }
     }
 
     @Override
