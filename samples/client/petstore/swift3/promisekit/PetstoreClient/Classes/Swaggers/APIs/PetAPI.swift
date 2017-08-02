@@ -173,15 +173,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -196,15 +215,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -272,15 +310,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -295,15 +352,34 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example=[ {
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}, {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -371,15 +447,18 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -394,15 +473,18 @@ open class PetAPI: APIBase {
   </tags>
   <status>aeiou</status>
 </Pet>}, {contentType=application/json, example={
-  "photoUrls" : [ "aeiou" ],
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
   "category" : {
-    "name" : "aeiou",
+    "name" : "name",
     "id" : 6
   },
   "tags" : [ {
-    "name" : "aeiou",
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
     "id" : 1
   } ],
   "status" : "available"
@@ -577,8 +659,8 @@ open class PetAPI: APIBase {
        - name: petstore_auth
      - examples: [{contentType=application/json, example={
   "code" : 0,
-  "type" : "aeiou",
-  "message" : "aeiou"
+  "type" : "type",
+  "message" : "message"
 }}]
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
