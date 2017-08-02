@@ -203,6 +203,13 @@ module Petstore
             key: 'api_key',
             value: api_key_with_prefix('api_key')
           },
+        'api_key_query' =>
+          {
+            type: 'api_key',
+            in: 'query',
+            key: 'api_key_query',
+            value: api_key_with_prefix('api_key_query')
+          },
         'http_basic_test' =>
           {
             type: 'basic',
