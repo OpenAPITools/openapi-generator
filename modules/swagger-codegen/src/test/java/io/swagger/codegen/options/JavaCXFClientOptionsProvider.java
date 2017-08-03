@@ -10,8 +10,6 @@ public class JavaCXFClientOptionsProvider extends JavaOptionsProvider {
 
     public static final String USE_BEANVALIDATION = "true";
 
-    public static final String USE_JAXB_ANNOTATIONS = "true";
-    
     public static final String USE_GZIP_FEATURE_FOR_TESTS = "true";
 
     public static final String USE_LOGGING_FEATURE_FOR_TESTS = "true";
@@ -39,7 +37,6 @@ public class JavaCXFClientOptionsProvider extends JavaOptionsProvider {
         
         builder.put(JavaCXFClientCodegen.USE_BEANVALIDATION, JavaCXFClientOptionsProvider.USE_BEANVALIDATION);
         builder.put(JavaCXFClientCodegen.USE_GENERIC_RESPONSE, JavaCXFClientOptionsProvider.USE_GENERIC_RESPONSE);
-        builder.put(JavaCXFClientCodegen.USE_JAXB_ANNOTATIONS, USE_JAXB_ANNOTATIONS);
 
         builder.put(JavaCXFClientCodegen.USE_GZIP_FEATURE_FOR_TESTS, USE_GZIP_FEATURE_FOR_TESTS);
         builder.put(JavaCXFClientCodegen.USE_LOGGING_FEATURE_FOR_TESTS, USE_LOGGING_FEATURE_FOR_TESTS);

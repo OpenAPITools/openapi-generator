@@ -43,10 +43,10 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   @JsonProperty("name")
   @ApiModelProperty(required = true, value = "")
   @NotNull
@@ -58,10 +58,10 @@ public class Name   {
     this.name = name;
   }
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   **/
   @JsonProperty("snake_case")
   @ApiModelProperty(value = "")
   public Integer getSnakeCase() {
@@ -73,10 +73,10 @@ public class Name   {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   **/
   @JsonProperty("property")
   @ApiModelProperty(value = "")
   public String getProperty() {
@@ -87,10 +87,10 @@ public class Name   {
     this.property = property;
   }
 
-   /**
+  /**
    * Get _123Number
    * @return _123Number
-  **/
+   **/
   @JsonProperty("123Number")
   @ApiModelProperty(value = "")
   public Integer get123Number() {

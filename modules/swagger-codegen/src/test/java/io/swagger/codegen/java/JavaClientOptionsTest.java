@@ -3,7 +3,6 @@ package io.swagger.codegen.java;
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.options.JavaClientOptionsProvider;
-import io.swagger.codegen.options.JavaClientOptionsProvider;
 import io.swagger.codegen.languages.JavaClientCodegen;
 import io.swagger.codegen.options.OptionsProvider;
 

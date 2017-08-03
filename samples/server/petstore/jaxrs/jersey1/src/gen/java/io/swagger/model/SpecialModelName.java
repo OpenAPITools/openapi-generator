@@ -33,10 +33,10 @@ public class SpecialModelName   {
     return this;
   }
 
-   /**
+  /**
    * Get specialPropertyName
    * @return specialPropertyName
-  **/
+   **/
   @JsonProperty("$special[property.name]")
   @ApiModelProperty(value = "")
   public Long getSpecialPropertyName() {

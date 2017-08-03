@@ -139,10 +139,10 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   **/
   @JsonProperty("enum_string")
   @ApiModelProperty(value = "")
   public EnumStringEnum getEnumString() {
@@ -158,10 +158,10 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   **/
   @JsonProperty("enum_integer")
   @ApiModelProperty(value = "")
   public EnumIntegerEnum getEnumInteger() {
@@ -177,10 +177,10 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   **/
   @JsonProperty("enum_number")
   @ApiModelProperty(value = "")
   public EnumNumberEnum getEnumNumber() {
@@ -196,10 +196,10 @@ public class EnumTest   {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   **/
   @JsonProperty("outerEnum")
   @ApiModelProperty(value = "")
   public OuterEnum getOuterEnum() {

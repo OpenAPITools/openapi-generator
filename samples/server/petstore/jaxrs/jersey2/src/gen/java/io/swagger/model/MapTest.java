@@ -79,10 +79,10 @@ public class MapTest   {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   **/
   @JsonProperty("map_map_of_string")
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -106,10 +106,10 @@ public class MapTest   {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   **/
   @JsonProperty("map_of_enum_string")
   @ApiModelProperty(value = "")
   public Map<String, InnerEnum> getMapOfEnumString() {

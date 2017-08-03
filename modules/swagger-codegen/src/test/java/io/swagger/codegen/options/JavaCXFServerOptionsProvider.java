@@ -9,8 +9,6 @@ import io.swagger.codegen.languages.JavaCXFServerCodegen;
 
 public class JavaCXFServerOptionsProvider extends JavaOptionsProvider {
     
-    public static final String USE_JAXB_ANNOTATIONS = "true";
-
     public static final String GENERATE_SPRING_APPLICATION = "true";
     
     public static final String USE_SWAGGER_FEATURE = "true";
@@ -69,7 +67,6 @@ public class JavaCXFServerOptionsProvider extends JavaOptionsProvider {
         builder.put("title", "Test title");
 
         builder.put(JavaCXFServerCodegen.USE_BEANVALIDATION, JavaOptionsProvider.USE_BEANVALIDATION);
-        builder.put(JavaCXFServerCodegen.USE_JAXB_ANNOTATIONS, USE_JAXB_ANNOTATIONS);
 
         builder.put(JavaCXFServerCodegen.GENERATE_SPRING_APPLICATION, GENERATE_SPRING_APPLICATION);
         builder.put(JavaCXFServerCodegen.USE_SPRING_ANNOTATION_CONFIG, USE_SPRING_ANNOTATION_CONFIG);

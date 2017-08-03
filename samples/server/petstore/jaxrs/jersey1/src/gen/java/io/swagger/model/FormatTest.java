@@ -72,12 +72,12 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+   **/
   @JsonProperty("integer")
   @ApiModelProperty(value = "")
  @Min(10) @Max(100)  public Integer getInteger() {
@@ -93,12 +93,12 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+   **/
   @JsonProperty("int32")
   @ApiModelProperty(value = "")
  @Min(20) @Max(200)  public Integer getInt32() {
@@ -114,10 +114,10 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
+   **/
   @JsonProperty("int64")
   @ApiModelProperty(value = "")
   public Long getInt64() {
@@ -133,12 +133,12 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+   **/
   @JsonProperty("number")
   @ApiModelProperty(required = true, value = "")
   @NotNull
@@ -155,12 +155,12 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+   **/
   @JsonProperty("float")
   @ApiModelProperty(value = "")
  @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
@@ -176,12 +176,12 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+   **/
   @JsonProperty("double")
   @ApiModelProperty(value = "")
  @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
@@ -197,10 +197,10 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   **/
   @JsonProperty("string")
   @ApiModelProperty(value = "")
  @Pattern(regexp="/[a-z]/i")  public String getString() {
@@ -216,14 +216,14 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
+   **/
   @JsonProperty("byte")
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  public byte[] getByte() {
+ @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
     return _byte;
   }
 
@@ -236,10 +236,10 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
+   **/
   @JsonProperty("binary")
   @ApiModelProperty(value = "")
   public byte[] getBinary() {
@@ -255,10 +255,10 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
+   **/
   @JsonProperty("date")
   @ApiModelProperty(required = true, value = "")
   @NotNull
@@ -275,10 +275,10 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   **/
   @JsonProperty("dateTime")
   @ApiModelProperty(value = "")
   public Date getDateTime() {
@@ -294,10 +294,10 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   **/
   @JsonProperty("uuid")
   @ApiModelProperty(value = "")
   public UUID getUuid() {
@@ -313,10 +313,10 @@ public class FormatTest   {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   **/
   @JsonProperty("password")
   @ApiModelProperty(required = true, value = "")
   @NotNull
