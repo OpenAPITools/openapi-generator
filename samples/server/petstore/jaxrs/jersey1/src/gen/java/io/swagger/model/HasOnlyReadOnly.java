@@ -31,20 +31,20 @@ public class HasOnlyReadOnly   {
   @JsonProperty("foo")
   private String foo = null;
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   **/
   @JsonProperty("bar")
   @ApiModelProperty(value = "")
   public String getBar() {
     return bar;
   }
 
-   /**
+  /**
    * Get foo
    * @return foo
-  **/
+   **/
   @JsonProperty("foo")
   @ApiModelProperty(value = "")
   public String getFoo() {

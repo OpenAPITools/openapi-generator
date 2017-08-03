@@ -45,10 +45,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   **/
   @JsonProperty("uuid")
   @ApiModelProperty(value = "")
   public UUID getUuid() {
@@ -64,10 +64,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   **/
   @JsonProperty("dateTime")
   @ApiModelProperty(value = "")
   public Date getDateTime() {
@@ -91,10 +91,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   **/
   @JsonProperty("map")
   @ApiModelProperty(value = "")
   public Map<String, Animal> getMap() {

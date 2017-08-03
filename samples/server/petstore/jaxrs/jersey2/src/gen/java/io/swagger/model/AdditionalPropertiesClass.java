@@ -47,10 +47,10 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-   /**
+  /**
    * Get mapProperty
    * @return mapProperty
-  **/
+   **/
   @JsonProperty("map_property")
   @ApiModelProperty(value = "")
   public Map<String, String> getMapProperty() {
@@ -74,10 +74,10 @@ public class AdditionalPropertiesClass   {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
-  **/
+   **/
   @JsonProperty("map_of_map_property")
   @ApiModelProperty(value = "")
   public Map<String, Map<String, String>> getMapOfMapProperty() {

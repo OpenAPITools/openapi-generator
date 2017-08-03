@@ -11,20 +11,17 @@ import org.slf4j.LoggerFactory;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
-import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.codegen.languages.features.GzipTestFeatures;
-import io.swagger.codegen.languages.features.JaxbFeatures;
 import io.swagger.codegen.languages.features.LoggingTestFeatures;
 import io.swagger.codegen.languages.features.UseGenericResponseFeatures;
 import io.swagger.models.Operation;
 
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, UseGenericResponseFeatures, JaxbFeatures, GzipTestFeatures, LoggingTestFeatures {
+        implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
 
 private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
 
@@ -33,8 +30,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
      * Mustache template for the JAX-RS Codegen.
      */
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
-
-    protected boolean useJaxbAnnotations = true;
 
     protected boolean useBeanValidation = false;
     
@@ -73,8 +68,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
 
-        cliOptions.add(CliOption.newBoolean(USE_JAXB_ANNOTATIONS, "Use JAXB annotations for XML"));
-
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
 
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
@@ -88,11 +81,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
     public void processOpts()
     {
         super.processOpts();
-
-        if (additionalProperties.containsKey(USE_JAXB_ANNOTATIONS)) {
-            boolean useJaxbAnnotationsProp = convertPropertyToBooleanAndWriteBack(USE_JAXB_ANNOTATIONS);
-            this.setUseJaxbAnnotations(useJaxbAnnotationsProp);
-        }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             boolean useBeanValidationProp = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION);
@@ -175,11 +163,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodege
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
-    }
-
-
-    public void setUseJaxbAnnotations(boolean useJaxbAnnotations) {
-        this.useJaxbAnnotations = useJaxbAnnotations;
     }
 
     public void setUseGzipFeatureForTests(boolean useGzipFeatureForTests) {

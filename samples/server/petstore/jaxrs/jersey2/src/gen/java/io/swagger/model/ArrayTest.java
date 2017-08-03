@@ -50,10 +50,10 @@ public class ArrayTest   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+   **/
   @JsonProperty("array_of_string")
   @ApiModelProperty(value = "")
   public List<String> getArrayOfString() {
@@ -77,10 +77,10 @@ public class ArrayTest   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+   **/
   @JsonProperty("array_array_of_integer")
   @ApiModelProperty(value = "")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -104,10 +104,10 @@ public class ArrayTest   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+   **/
   @JsonProperty("array_array_of_model")
   @ApiModelProperty(value = "")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {

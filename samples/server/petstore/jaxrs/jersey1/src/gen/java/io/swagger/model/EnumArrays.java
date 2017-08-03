@@ -101,10 +101,10 @@ public class EnumArrays   {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   **/
   @JsonProperty("just_symbol")
   @ApiModelProperty(value = "")
   public JustSymbolEnum getJustSymbol() {
@@ -128,10 +128,10 @@ public class EnumArrays   {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   **/
   @JsonProperty("array_enum")
   @ApiModelProperty(value = "")
   public List<ArrayEnumEnum> getArrayEnum() {

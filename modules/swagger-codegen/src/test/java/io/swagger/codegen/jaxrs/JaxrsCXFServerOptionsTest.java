@@ -87,9 +87,6 @@ public class JaxrsCXFServerOptionsTest extends AbstractOptionsTest {
                         Boolean.valueOf(JavaCXFServerOptionsProvider.GENERATE_SPRING_BOOT_APPLICATION));
                 times = 1;
 
-                clientCodegen.setUseJaxbAnnotations(Boolean.valueOf(JavaCXFServerOptionsProvider.USE_JAXB_ANNOTATIONS));
-                times = 1;
-
                 clientCodegen.setUseSpringAnnotationConfig(
                         Boolean.valueOf(JavaCXFServerOptionsProvider.USE_SPRING_ANNOTATION_CONFIG));
                 times = 1;
