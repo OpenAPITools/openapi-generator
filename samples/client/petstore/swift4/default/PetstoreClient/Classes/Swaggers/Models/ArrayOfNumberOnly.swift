@@ -14,4 +14,9 @@ open class ArrayOfNumberOnly: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case arrayNumber = "ArrayNumber"
+    }
+
 }

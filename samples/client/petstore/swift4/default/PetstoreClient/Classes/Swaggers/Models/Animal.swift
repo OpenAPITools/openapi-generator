@@ -15,4 +15,10 @@ open class Animal: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case className = "className"
+        case color = "color"
+    }
+
 }

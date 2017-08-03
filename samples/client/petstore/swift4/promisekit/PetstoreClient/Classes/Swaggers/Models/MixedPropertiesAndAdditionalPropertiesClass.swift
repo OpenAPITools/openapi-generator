@@ -16,4 +16,11 @@ open class MixedPropertiesAndAdditionalPropertiesClass: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case uuid = "uuid"
+        case dateTime = "dateTime"
+        case map = "map"
+    }
+
 }

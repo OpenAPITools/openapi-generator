@@ -14,4 +14,9 @@ open class Cat: Animal {
 
     
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case declawed = "declawed"
+    }
+
 }

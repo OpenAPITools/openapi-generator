@@ -23,4 +23,10 @@ open class EnumArrays: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case justSymbol = "just_symbol"
+        case arrayEnum = "array_enum"
+    }
+
 }

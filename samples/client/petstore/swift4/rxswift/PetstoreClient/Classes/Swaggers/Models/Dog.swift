@@ -14,4 +14,9 @@ open class Dog: Animal {
 
     
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case breed = "breed"
+    }
+
 }

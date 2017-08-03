@@ -15,4 +15,9 @@ open class ClassModel: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case _class = "_class"
+    }
+
 }

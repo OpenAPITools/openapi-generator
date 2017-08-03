@@ -20,4 +20,14 @@ open class Capitalization: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case smallCamel = "smallCamel"
+        case capitalCamel = "CapitalCamel"
+        case smallSnake = "small_Snake"
+        case capitalSnake = "Capital_Snake"
+        case sCAETHFlowPoints = "SCA_ETH_Flow_Points"
+        case ATT_NAME = "ATT_NAME"
+    }
+
 }

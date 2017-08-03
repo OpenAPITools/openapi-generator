@@ -16,4 +16,11 @@ open class OuterComposite: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case myNumber = "my_number"
+        case myString = "my_string"
+        case myBoolean = "my_boolean"
+    }
+
 }

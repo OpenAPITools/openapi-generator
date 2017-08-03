@@ -15,4 +15,10 @@ open class AdditionalPropertiesClass: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case mapProperty = "map_property"
+        case mapOfMapProperty = "map_of_map_property"
+    }
+
 }

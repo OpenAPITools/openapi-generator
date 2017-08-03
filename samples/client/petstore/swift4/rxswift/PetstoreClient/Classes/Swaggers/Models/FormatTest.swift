@@ -10,8 +10,8 @@ import Foundation
 
 open class FormatTest: Codable {
 
-    public var integer: Int32?
-    public var int32: Int32?
+    public var integer: Int?
+    public var int32: Int?
     public var int64: Int64?
     public var number: Double?
     public var float: Float?
@@ -25,5 +25,22 @@ open class FormatTest: Codable {
     public var password: String?
 
     public init() {}
+
+
+    private enum CodingKeys: String, CodingKey { 
+        case integer = "integer"
+        case int32 = "int32"
+        case int64 = "int64"
+        case number = "number"
+        case float = "float"
+        case double = "double"
+        case string = "string"
+        case byte = "byte"
+        case binary = "binary"
+        case date = "date"
+        case dateTime = "dateTime"
+        case uuid = "uuid"
+        case password = "password"
+    }
 
 }

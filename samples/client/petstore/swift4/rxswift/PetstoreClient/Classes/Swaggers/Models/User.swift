@@ -18,8 +18,20 @@ open class User: Codable {
     public var password: String?
     public var phone: String?
     /** User Status */
-    public var userStatus: Int32?
+    public var userStatus: Int?
 
     public init() {}
+
+
+    private enum CodingKeys: String, CodingKey { 
+        case id = "id"
+        case username = "username"
+        case firstName = "firstName"
+        case lastName = "lastName"
+        case email = "email"
+        case password = "password"
+        case phone = "phone"
+        case userStatus = "userStatus"
+    }
 
 }

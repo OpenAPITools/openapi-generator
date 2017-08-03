@@ -14,4 +14,9 @@ open class SpecialModelName: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case specialPropertyName = "$special[property.name]"
+    }
+
 }
