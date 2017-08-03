@@ -77,7 +77,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
@@ -104,7 +103,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
@@ -131,7 +129,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
@@ -157,7 +154,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
@@ -183,7 +179,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
@@ -209,7 +204,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
@@ -237,7 +231,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
@@ -267,7 +260,6 @@ class PetApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       case Success(i) => Some(await.get)
       case Failure(t) => None
     }
-
   }
 
   /**
