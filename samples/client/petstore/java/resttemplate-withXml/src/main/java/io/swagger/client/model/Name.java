@@ -19,17 +19,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-@JacksonXmlRootElement(localName = "Name")
+
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Name")
 public class Name {
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
@@ -150,6 +150,6 @@ public class Name {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

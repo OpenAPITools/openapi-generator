@@ -101,7 +101,7 @@ public class ArrayOfNumberOnly implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(arrayNumber);
@@ -115,7 +115,7 @@ public class ArrayOfNumberOnly implements Parcelable {
     
     arrayNumber = (List<BigDecimal>)in.readValue(BigDecimal.class.getClassLoader());
   }
-  
+
   public int describeContents() {
     return 0;
   }

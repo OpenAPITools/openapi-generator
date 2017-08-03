@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
@@ -33,9 +32,10 @@ import javax.xml.bind.annotation.*;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
 })
-@JacksonXmlRootElement(localName = "Animal")
+
 @XmlRootElement(name = "Animal")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Animal")
 public class Animal {
   @JsonProperty("className")
   @JacksonXmlProperty(localName = "className")
@@ -124,6 +124,6 @@ public class Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

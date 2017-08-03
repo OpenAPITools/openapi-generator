@@ -90,7 +90,7 @@ public class Client implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(client);
@@ -104,7 +104,7 @@ public class Client implements Parcelable {
     
     client = (String)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

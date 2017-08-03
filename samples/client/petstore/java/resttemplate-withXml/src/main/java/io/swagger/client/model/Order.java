@@ -20,16 +20,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.threeten.bp.OffsetDateTime;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Order
  */
-@JacksonXmlRootElement(localName = "Order")
+
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Order")
 public class Order {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -198,7 +198,7 @@ public class Order {
    * @return complete
   **/
   @ApiModelProperty(value = "")
-  public Boolean getComplete() {
+  public Boolean isComplete() {
     return complete;
   }
 
@@ -255,6 +255,6 @@ public class Order {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

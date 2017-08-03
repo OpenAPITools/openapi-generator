@@ -19,16 +19,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * User
  */
-@JacksonXmlRootElement(localName = "User")
+
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "User")
 public class User {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -267,6 +267,6 @@ public class User {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

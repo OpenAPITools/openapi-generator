@@ -22,20 +22,22 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * ArrayOfNumberOnly
  */
-@JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
+
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
 public class ArrayOfNumberOnly {
   @JsonProperty("ArrayNumber")
-  @JacksonXmlProperty(localName = "ArrayNumber")
-  @XmlElement(name = "ArrayNumber")
+  // Is a container wrapped=false
+  // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=
+  // items.example= items.type=BigDecimal
+  @XmlElement(name = "arrayNumber")
   private List<BigDecimal> arrayNumber = null;
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
@@ -103,6 +105,6 @@ public class ArrayOfNumberOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

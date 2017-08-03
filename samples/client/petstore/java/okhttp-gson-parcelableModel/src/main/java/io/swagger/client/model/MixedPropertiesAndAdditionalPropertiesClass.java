@@ -150,7 +150,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(uuid);
@@ -170,7 +170,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     map = (Map<String, Animal>)in.readValue(Animal.class.getClassLoader());
   }
-  
+
   public int describeContents() {
     return 0;
   }

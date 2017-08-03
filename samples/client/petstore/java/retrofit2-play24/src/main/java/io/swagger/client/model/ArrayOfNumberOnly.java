@@ -99,6 +99,6 @@ public class ArrayOfNumberOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

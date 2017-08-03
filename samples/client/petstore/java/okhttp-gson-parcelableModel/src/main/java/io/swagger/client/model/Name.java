@@ -142,7 +142,7 @@ public class Name implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(name);
@@ -165,7 +165,7 @@ public class Name implements Parcelable {
     property = (String)in.readValue(null);
     _123Number = (Integer)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

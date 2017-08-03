@@ -177,6 +177,6 @@ public class MapTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

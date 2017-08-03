@@ -91,7 +91,7 @@ public class ModelReturn implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(_return);
@@ -105,7 +105,7 @@ public class ModelReturn implements Parcelable {
     
     _return = (Integer)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

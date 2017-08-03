@@ -104,7 +104,7 @@ public class ReadOnlyFirst implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(bar);
@@ -121,7 +121,7 @@ public class ReadOnlyFirst implements Parcelable {
     bar = (String)in.readValue(null);
     baz = (String)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

@@ -23,16 +23,16 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * FormatTest
  */
-@JacksonXmlRootElement(localName = "FormatTest")
+
 @XmlRootElement(name = "FormatTest")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "FormatTest")
 public class FormatTest {
   @JsonProperty("integer")
   @JacksonXmlProperty(localName = "integer")
@@ -406,6 +406,6 @@ public class FormatTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

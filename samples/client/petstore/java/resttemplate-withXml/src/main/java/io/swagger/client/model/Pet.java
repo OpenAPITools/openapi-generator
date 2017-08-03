@@ -23,16 +23,16 @@ import io.swagger.client.model.Category;
 import io.swagger.client.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Pet
  */
-@JacksonXmlRootElement(localName = "Pet")
+
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Pet")
 public class Pet {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
@@ -50,13 +50,23 @@ public class Pet {
   private String name = null;
 
   @JsonProperty("photoUrls")
-  @JacksonXmlProperty(localName = "photoUrl")
-  @XmlElement(name = "photoUrl")
+  // items.xmlName=
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrls")
+  // Is a container wrapped=true
+  // items.name=photoUrls items.baseName=photoUrls items.xmlName= items.xmlNamespace=
+  // items.example= items.type=String
+  @XmlElement(name = "photoUrls")
+  @XmlElementWrapper(name = "photoUrl")
   private List<String> photoUrls = new ArrayList<String>();
 
   @JsonProperty("tags")
-  @JacksonXmlProperty(localName = "tag")
-  @XmlElement(name = "tag")
+  // items.xmlName=
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "tags")
+  // Is a container wrapped=true
+  // items.name=tags items.baseName=tags items.xmlName= items.xmlNamespace=
+  // items.example= items.type=Tag
+  @XmlElement(name = "tags")
+  @XmlElementWrapper(name = "tag")
   private List<Tag> tags = null;
 
   /**
@@ -271,6 +281,6 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

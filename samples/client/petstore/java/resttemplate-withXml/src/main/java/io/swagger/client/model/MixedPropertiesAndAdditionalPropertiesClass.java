@@ -25,16 +25,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.threeten.bp.OffsetDateTime;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
+
 @XmlRootElement(name = "MixedPropertiesAndAdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty("uuid")
   @JacksonXmlProperty(localName = "uuid")
@@ -47,8 +47,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private OffsetDateTime dateTime = null;
 
   @JsonProperty("map")
-  @JacksonXmlProperty(localName = "map")
-  @XmlElement(name = "map")
+  // Is a container wrapped=false
+  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
+  // items.example= items.type=Animal
+  @XmlElement(name = "inner")
   private Map<String, Animal> map = null;
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
@@ -156,6 +158,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

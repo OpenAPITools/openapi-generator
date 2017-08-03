@@ -17,16 +17,16 @@ import java.util.Objects;
 import io.swagger.client.model.Animal;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * AnimalFarm
  */
-@JacksonXmlRootElement(localName = "AnimalFarm")
+
 @XmlRootElement(name = "AnimalFarm")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "AnimalFarm")
 public class AnimalFarm extends ArrayList<Animal> {
 
   @Override
@@ -65,6 +65,6 @@ public class AnimalFarm extends ArrayList<Animal> {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

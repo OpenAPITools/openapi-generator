@@ -114,7 +114,7 @@ public class Model200Response implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(name);
@@ -131,7 +131,7 @@ public class Model200Response implements Parcelable {
     name = (Integer)in.readValue(null);
     propertyClass = (String)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

@@ -62,6 +62,6 @@ public class AnimalFarm extends ArrayList<Animal> {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

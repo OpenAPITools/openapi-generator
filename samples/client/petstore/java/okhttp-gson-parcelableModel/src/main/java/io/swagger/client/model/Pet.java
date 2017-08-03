@@ -271,7 +271,7 @@ public class Pet implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(id);
@@ -300,7 +300,7 @@ public class Pet implements Parcelable {
     tags = (List<Tag>)in.readValue(Tag.class.getClassLoader());
     status = (StatusEnum)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

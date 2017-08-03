@@ -116,6 +116,7 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
         authentications.put("http_basic_test", new HttpBasicAuth());
         authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
@@ -416,6 +417,11 @@ public class ApiClient {
     * @return boolean true if the MediaType represents JSON, false otherwise
     */
     public boolean isJsonMime(String mediaType) {
+        // "* / *" is default to JSON
+        if ("*/*".equals(mediaType)) {
+            return true;
+        }
+
         try {
             return isJsonMime(MediaType.parseMediaType(mediaType));
         } catch (InvalidMediaTypeException e) {

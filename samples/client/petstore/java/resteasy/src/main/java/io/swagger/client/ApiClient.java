@@ -77,6 +77,7 @@ public class ApiClient {
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
     authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
@@ -555,7 +556,7 @@ public class ApiClient {
    * Invoke API by sending HTTP request with the given options.
    *
    * @param path The sub-path of the HTTP URL
-   * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
+   * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
    * @param queryParams The query parameters
    * @param body The request body object
    * @param headerParams The header parameters
@@ -613,6 +614,8 @@ public class ApiClient {
       response = invocationBuilder.delete();
     } else if ("PATCH".equals(method)) {
       response = invocationBuilder.header("X-HTTP-Method-Override", "PATCH").post(entity);
+    } else if ("HEAD".equals(method)) {
+      response = invocationBuilder.head();
     } else {
       throw new ApiException(500, "unknown method type " + method);
     }

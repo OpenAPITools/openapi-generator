@@ -114,7 +114,7 @@ public class Animal implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(className);
@@ -131,7 +131,7 @@ public class Animal implements Parcelable {
     className = (String)in.readValue(null);
     color = (String)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

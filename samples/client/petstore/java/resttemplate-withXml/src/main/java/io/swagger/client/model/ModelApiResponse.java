@@ -19,16 +19,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * ModelApiResponse
  */
-@JacksonXmlRootElement(localName = "ModelApiResponse")
+
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ModelApiResponse")
 public class ModelApiResponse {
   @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
@@ -142,6 +142,6 @@ public class ModelApiResponse {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

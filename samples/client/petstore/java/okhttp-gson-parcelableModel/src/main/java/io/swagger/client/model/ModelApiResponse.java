@@ -136,7 +136,7 @@ public class ModelApiResponse implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(code);
@@ -156,7 +156,7 @@ public class ModelApiResponse implements Parcelable {
     type = (String)in.readValue(null);
     message = (String)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }
