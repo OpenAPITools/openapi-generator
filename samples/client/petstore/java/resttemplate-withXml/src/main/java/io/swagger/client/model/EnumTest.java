@@ -20,16 +20,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.OuterEnum;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * EnumTest
  */
-@JacksonXmlRootElement(localName = "EnumTest")
+
 @XmlRootElement(name = "EnumTest")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "EnumTest")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -275,6 +275,6 @@ public class EnumTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

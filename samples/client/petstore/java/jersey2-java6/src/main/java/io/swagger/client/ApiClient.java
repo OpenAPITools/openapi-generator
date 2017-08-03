@@ -626,7 +626,7 @@ public class ApiClient {
    *
    * @param <T> Type
    * @param path The sub-path of the HTTP URL
-   * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
+   * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
    * @param queryParams The query parameters
    * @param body The request body object
    * @param headerParams The header parameters
@@ -687,6 +687,8 @@ public class ApiClient {
         response = invocationBuilder.delete();
       } else if ("PATCH".equals(method)) {
         response = invocationBuilder.method("PATCH", entity);
+      } else if ("HEAD".equals(method)) {
+        response = invocationBuilder.head();
       } else {
         throw new ApiException(500, "unknown method type " + method);
       }

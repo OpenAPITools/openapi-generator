@@ -179,7 +179,7 @@ public class MapTest implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(mapMapOfString);
@@ -196,7 +196,7 @@ public class MapTest implements Parcelable {
     mapMapOfString = (Map<String, Map<String, String>>)in.readValue(Map.class.getClassLoader());
     mapOfEnumString = (Map<String, InnerEnum>)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

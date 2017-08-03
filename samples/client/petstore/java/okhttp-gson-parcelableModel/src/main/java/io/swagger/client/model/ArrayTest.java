@@ -163,7 +163,7 @@ public class ArrayTest implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(arrayOfString);
@@ -183,7 +183,7 @@ public class ArrayTest implements Parcelable {
     arrayArrayOfInteger = (List<List<Long>>)in.readValue(List.class.getClassLoader());
     arrayArrayOfModel = (List<List<ReadOnlyFirst>>)in.readValue(List.class.getClassLoader());
   }
-  
+
   public int describeContents() {
     return 0;
   }

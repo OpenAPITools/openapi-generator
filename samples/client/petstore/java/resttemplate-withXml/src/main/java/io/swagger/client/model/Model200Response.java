@@ -19,17 +19,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
-@JacksonXmlRootElement(localName = "Name")
+
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Name")
 public class Model200Response {
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
@@ -118,6 +118,6 @@ public class Model200Response {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

@@ -91,7 +91,7 @@ public class NumberOnly implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(justNumber);
@@ -105,7 +105,7 @@ public class NumberOnly implements Parcelable {
     
     justNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
   }
-  
+
   public int describeContents() {
     return 0;
   }

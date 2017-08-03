@@ -102,6 +102,6 @@ public class ReadOnlyFirst {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

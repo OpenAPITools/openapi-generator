@@ -661,8 +661,9 @@ public class ApiClient {
       response = builder.type(contentType).delete(ClientResponse.class, serialize(body, contentType, formParams));
     } else if ("PATCH".equals(method)) {
       response = builder.type(contentType).header("X-HTTP-Method-Override", "PATCH").post(ClientResponse.class, serialize(body, contentType, formParams));
-    }
-    else {
+    } else if ("HEAD".equals(method)) {
+      response = builder.head();
+    } else {
       throw new ApiException(500, "unknown method type " + method);
     }
     return response;

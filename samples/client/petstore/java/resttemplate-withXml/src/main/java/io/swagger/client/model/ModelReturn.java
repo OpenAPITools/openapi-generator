@@ -19,17 +19,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-@JacksonXmlRootElement(localName = "Return")
+
 @XmlRootElement(name = "Return")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Return")
 public class ModelReturn {
   @JsonProperty("return")
   @JacksonXmlProperty(localName = "return")
@@ -93,6 +93,6 @@ public class ModelReturn {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

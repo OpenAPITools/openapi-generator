@@ -92,7 +92,7 @@ public class Dog extends Animal implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      super.writeToParcel(out, flags);  
     out.writeValue(breed);
@@ -106,7 +106,7 @@ public class Dog extends Animal implements Parcelable {
      super(in); 
     breed = (String)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

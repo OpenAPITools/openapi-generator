@@ -22,25 +22,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * AdditionalPropertiesClass
  */
-@JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
+
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
 public class AdditionalPropertiesClass {
   @JsonProperty("map_property")
-  @JacksonXmlProperty(localName = "map_property")
-  @XmlElement(name = "map_property")
+  // Is a container wrapped=false
+  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
+  // items.example= items.type=String
+  @XmlElement(name = "inner")
   private Map<String, String> mapProperty = null;
 
   @JsonProperty("map_of_map_property")
-  @JacksonXmlProperty(localName = "map_of_map_property")
-  @XmlElement(name = "map_of_map_property")
+  // Is a container wrapped=false
+  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
+  // items.example= items.type=Map&lt;String, String&gt;
+  @XmlElement(name = "inner")
   private Map<String, Map<String, String>> mapOfMapProperty = null;
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
@@ -136,6 +140,6 @@ public class AdditionalPropertiesClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

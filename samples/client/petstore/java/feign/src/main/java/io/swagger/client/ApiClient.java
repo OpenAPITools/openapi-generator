@@ -45,6 +45,8 @@ public class ApiClient {
       RequestInterceptor auth;
       if ("api_key".equals(authName)) {
         auth = new ApiKeyAuth("header", "api_key");
+      } else if ("api_key_query".equals(authName)) {
+        auth = new ApiKeyAuth("query", "api_key_query");
       } else if ("http_basic_test".equals(authName)) {
         auth = new HttpBasicAuth();
       } else if ("petstore_auth".equals(authName)) {

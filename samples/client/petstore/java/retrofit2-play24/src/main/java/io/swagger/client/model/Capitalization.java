@@ -202,6 +202,6 @@ public class Capitalization {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

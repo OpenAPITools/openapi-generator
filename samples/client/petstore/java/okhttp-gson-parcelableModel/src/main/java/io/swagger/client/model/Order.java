@@ -255,7 +255,7 @@ public class Order implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(id);
@@ -284,7 +284,7 @@ public class Order implements Parcelable {
     status = (StatusEnum)in.readValue(null);
     complete = (Boolean)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

@@ -380,7 +380,7 @@ public class FormatTest implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(integer);
@@ -430,7 +430,7 @@ public class FormatTest implements Parcelable {
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
     password = (String)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

@@ -19,16 +19,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Capitalization
  */
-@JacksonXmlRootElement(localName = "Capitalization")
+
 @XmlRootElement(name = "Capitalization")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Capitalization")
 public class Capitalization {
   @JsonProperty("smallCamel")
   @JacksonXmlProperty(localName = "smallCamel")
@@ -217,6 +217,6 @@ public class Capitalization {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

@@ -88,6 +88,6 @@ public class Client {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

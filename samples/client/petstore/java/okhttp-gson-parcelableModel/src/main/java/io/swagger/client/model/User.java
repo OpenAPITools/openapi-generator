@@ -251,7 +251,7 @@ public class User implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(id);
@@ -286,7 +286,7 @@ public class User implements Parcelable {
     phone = (String)in.readValue(null);
     userStatus = (Integer)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

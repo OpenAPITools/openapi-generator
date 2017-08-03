@@ -303,7 +303,7 @@ public class EnumTest implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(enumString);
@@ -326,7 +326,7 @@ public class EnumTest implements Parcelable {
     enumNumber = (EnumNumberEnum)in.readValue(null);
     outerEnum = (OuterEnum)in.readValue(OuterEnum.class.getClassLoader());
   }
-  
+
   public int describeContents() {
     return 0;
   }

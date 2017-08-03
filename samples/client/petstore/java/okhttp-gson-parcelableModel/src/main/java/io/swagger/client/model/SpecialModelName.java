@@ -90,7 +90,7 @@ public class SpecialModelName implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(specialPropertyName);
@@ -104,7 +104,7 @@ public class SpecialModelName implements Parcelable {
     
     specialPropertyName = (Long)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }
