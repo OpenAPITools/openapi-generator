@@ -19,4 +19,10 @@ open class MapTest: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case mapMapOfString = "map_map_of_string"
+        case mapOfEnumString = "map_of_enum_string"
+    }
+
 }

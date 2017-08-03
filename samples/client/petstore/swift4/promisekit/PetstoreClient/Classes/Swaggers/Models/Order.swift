@@ -17,12 +17,22 @@ open class Order: Codable {
     }
     public var id: Int64?
     public var petId: Int64?
-    public var quantity: Int32?
+    public var quantity: Int?
     public var shipDate: Date?
     /** Order Status */
     public var status: Status?
     public var complete: Bool?
 
     public init() {}
+
+
+    private enum CodingKeys: String, CodingKey { 
+        case id = "id"
+        case petId = "petId"
+        case quantity = "quantity"
+        case shipDate = "shipDate"
+        case status = "status"
+        case complete = "complete"
+    }
 
 }

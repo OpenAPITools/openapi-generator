@@ -15,4 +15,10 @@ open class HasOnlyReadOnly: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case bar = "bar"
+        case foo = "foo"
+    }
+
 }

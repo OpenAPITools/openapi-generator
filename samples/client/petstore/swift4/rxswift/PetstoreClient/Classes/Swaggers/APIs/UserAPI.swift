@@ -360,8 +360,8 @@ open class UserAPI {
      Logs user into the system
      - GET /user/login
      - 
-     - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
-     - responseHeaders: [X-Rate-Limit(Int32), X-Expires-After(Date)]
+     - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
+     - responseHeaders: [X-Rate-Limit(Int), X-Expires-After(Date)]
      - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example="aeiou"}]
      - examples: [{contentType=application/xml, example=aeiou}, {contentType=application/json, example="aeiou"}]
      

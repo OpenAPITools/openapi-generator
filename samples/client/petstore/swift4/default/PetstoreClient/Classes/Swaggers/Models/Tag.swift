@@ -15,4 +15,10 @@ open class Tag: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case id = "id"
+        case name = "name"
+    }
+
 }

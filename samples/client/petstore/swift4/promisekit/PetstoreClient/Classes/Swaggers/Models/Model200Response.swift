@@ -11,9 +11,15 @@ import Foundation
 /** Model for testing model name starting with number */
 open class Model200Response: Codable {
 
-    public var name: Int32?
+    public var name: Int?
     public var _class: String?
 
     public init() {}
+
+
+    private enum CodingKeys: String, CodingKey { 
+        case name = "name"
+        case _class = "class"
+    }
 
 }

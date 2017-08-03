@@ -70,7 +70,7 @@ open class StoreAPI {
      
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInventory(completion: @escaping ((_ data: [String:Int32]?,_ error: Error?) -> Void)) {
+    open class func getInventory(completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void)) {
         getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -79,10 +79,10 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
-     - returns: Promise<[String:Int32]>
+     - returns: Promise<[String:Int]>
      */
-    open class func getInventory() -> Promise<[String:Int32]> {
-        let deferred = Promise<[String:Int32]>.pending()
+    open class func getInventory() -> Promise<[String:Int]> {
+        let deferred = Promise<[String:Int]>.pending()
         getInventory() { data, error in
             if let error = error {
                 deferred.reject(error)
@@ -104,9 +104,9 @@ open class StoreAPI {
   "key" : 0
 }}]
 
-     - returns: RequestBuilder<[String:Int32]> 
+     - returns: RequestBuilder<[String:Int]> 
      */
-    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int32]> {
+    open class func getInventoryWithRequestBuilder() -> RequestBuilder<[String:Int]> {
         let path = "/store/inventory"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -114,7 +114,7 @@ open class StoreAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<[String:Int32]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<[String:Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }

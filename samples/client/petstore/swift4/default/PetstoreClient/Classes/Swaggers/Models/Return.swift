@@ -11,8 +11,13 @@ import Foundation
 /** Model for testing reserved words */
 open class Return: Codable {
 
-    public var _return: Int32?
+    public var _return: Int?
 
     public init() {}
+
+
+    private enum CodingKeys: String, CodingKey { 
+        case _return = "return"
+    }
 
 }

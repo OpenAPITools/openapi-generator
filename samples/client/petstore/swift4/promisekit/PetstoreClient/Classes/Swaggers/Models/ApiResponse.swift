@@ -10,10 +10,17 @@ import Foundation
 
 open class ApiResponse: Codable {
 
-    public var code: Int32?
+    public var code: Int?
     public var type: String?
     public var message: String?
 
     public init() {}
+
+
+    private enum CodingKeys: String, CodingKey { 
+        case code = "code"
+        case type = "type"
+        case message = "message"
+    }
 
 }

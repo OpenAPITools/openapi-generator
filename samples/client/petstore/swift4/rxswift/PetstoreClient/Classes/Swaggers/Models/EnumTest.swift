@@ -15,7 +15,7 @@ open class EnumTest: Codable {
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumInteger: Int32, Codable { 
+    public enum EnumInteger: Int, Codable { 
         case _1 = 1
         case numberminus1 = -1
     }
@@ -29,5 +29,13 @@ open class EnumTest: Codable {
     public var outerEnum: OuterEnum?
 
     public init() {}
+
+
+    private enum CodingKeys: String, CodingKey { 
+        case enumString = "enum_string"
+        case enumInteger = "enum_integer"
+        case enumNumber = "enum_number"
+        case outerEnum = "outerEnum"
+    }
 
 }
