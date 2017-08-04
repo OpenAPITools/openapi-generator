@@ -865,8 +865,9 @@ Presentations/Videos/Tutorials/Books
 - 2017/05/22 - [Automatically generating your API from a swagger file using gradle](https://www.jcore.com/2017/05/22/automatically-generating-api-using-swagger-and-gradle/) by [Deniz Turan](https://www.jcore.com/author/deniz/)
 - 2017/06/21 - [Swagger Presentation - Warsaw Ruby Users Group](https://www.youtube.com/watch?v=uCnnDMFQB8U) by [@rafalpetryka](http://github.com/rafalpetryka)
 - 2017/06/29 - [Making SDKs: the bespoke, the hopeful and the generated](https://devrel.net/developer-experience/making-sdks-bespoke-hopeful-generated) by [Tristan Sokol](https://github.com/tristansokol) ([Square](https://github.com/square)) at DevXcon 2017
-- 2017/7/31 - [How to Generate a Deployable REST CXF3 Application from a Swagger-Contract](https://www.youtube.com/watch?v=gM63rJlUHZQ) by [Johannes Fiala](https://github.com/jfiala) @ Voxxed Days Vienna
-- 2017/
+- 2017/07/29 - [How Square makes its SDKs](https://medium.com/square-corner-blog/how-square-makes-its-sdks-6a0fd7ea4b2d) by [Tristan Sokol](https://github.com/tristansokol) ([Square](https://github.com/square))
+- 2017/07/31 - [How to Generate a Deployable REST CXF3 Application from a Swagger-Contract](https://www.youtube.com/watch?v=gM63rJlUHZQ) by [Johannes Fiala](https://github.com/jfiala) @ Voxxed Days Vienna
+
 
 # Swagger Codegen Core Team
 
