@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="swagger_eiffel_client" uuid="1eca0519-e046-46a8-9a4a-e7b165399022" library_target="swagger_eiffel_client">	
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="swagger_eiffel_client" uuid="e892c29a-3caa-456b-bc97-f488bba434b9" library_target="swagger_eiffel_client">	
 	<target name="swagger_eiffel_client">
 		<root all_classes="true"/>
 		<file_rule>
@@ -19,6 +19,7 @@
 		<library name="http_client" location="$ISE_LIBRARY\contrib\library\network\http_client\http_client-safe.ecf"/>
 		<library name="time" location="$ISE_LIBRARY\library\time\time-safe.ecf"/>
 		<library name="uri" location="$ISE_LIBRARY\library\text\uri\uri-safe.ecf"/>
+		<library name="uuid" location="$ISE_LIBRARY\library\uuid\uuid.ecf"/>
 		<cluster name="client" location=".\src" recursive="true"/>
 	</target>
 </system>

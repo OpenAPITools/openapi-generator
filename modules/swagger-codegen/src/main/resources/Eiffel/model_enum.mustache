@@ -1,0 +1,36 @@
+class {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+
+feature -- Access
+
+  value: detachable {{dataType}}
+      -- enumerated value.
+    note
+            option: stable
+    attribute
+    end
+
+feature -- Enum
+
+ {{#allowableValues}}
+ {{#enumVars}}
+ {{{name}}}: {{classname}}
+    once
+      create Result
+      Result.set_value ({{{value}}}){{^-last}}{{/-last}}{{#-last}}{{/-last}}
+    end
+
+  {{/enumVars}}
+ {{/allowableValues}}
+
+feature -- Element Change
+
+  set_value (a_val: like value)
+      -- Set `value' with `a_value'.
+    do
+      value := a_val
+    ensure
+      value_set: value = a_val
+    end
+
+
+end

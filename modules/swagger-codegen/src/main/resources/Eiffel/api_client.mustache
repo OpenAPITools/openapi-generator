@@ -123,7 +123,7 @@ feature -- Helper: OAuth Authentication
 
 feature -- Query Parameter Helpers
 
-	parameter_to_tuple (a_collection_format, a_name: STRING; a_value: ANY): LIST [TUPLE [name: STRING; value: STRING]]
+	parameter_to_tuple (a_collection_format, a_name: STRING; a_value: detachable ANY): LIST [TUPLE [name: STRING; value: STRING]]
 			-- A list of tuples with name and valule.
 			-- collectionFormat collection format (e.g. csv, tsv)
 			-- name Name
@@ -175,7 +175,12 @@ feature -- Query Parameter Helpers
 				end
 			else
 				create {ARRAYED_LIST [TUPLE [name: STRING; value: STRING]]} Result.make (1)
-				Result.force ([a_name,a_value.out])
+				if attached a_value then
+					Result.force ([a_name,a_value.out])
+				else
+					Result.force ([a_name,""])
+				end
+
 			end
 		end
 
