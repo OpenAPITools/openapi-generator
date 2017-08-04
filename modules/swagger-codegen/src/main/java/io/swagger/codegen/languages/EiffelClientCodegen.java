@@ -1,16 +1,19 @@
 package io.swagger.codegen.languages;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
 
-public class EiffelClientCodegen extends AbstractEiffelCogegen {
+public class EiffelClientCodegen extends AbstractEiffelCodegen {
     static Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
 
     protected String libraryTarget = "swagger_eiffel_client";
@@ -42,10 +45,9 @@ public class EiffelClientCodegen extends AbstractEiffelCogegen {
         super();
         uuid = UUID.randomUUID();
         uuidTest = UUID.randomUUID();
-        ;
         outputFolder = "generated-code/Eiffel";
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        modelTemplateFiles.put("model.mustache", ".e");
+        modelTemplateFiles.put("model_generic.mustache", ".e");
         apiTemplateFiles.put("api.mustache", ".e");
         apiTestTemplateFiles.put("test/api_test.mustache", ".e");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -155,6 +157,53 @@ public class EiffelClientCodegen extends AbstractEiffelCogegen {
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
+    
 
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return sanitizeName(property.name).toUpperCase() + "_ENUM";
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return "EMPTY";
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(value) != null) {
+            return getSymbolName(value).toUpperCase();
+        }
+
+        // number
+        if ("INTEGER_32".equals(datatype) || "INTEGER_64".equals(datatype) ||
+            "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String var = value.replaceAll("\\W+", "_").toLowerCase();
+        if (var.matches("\\d.*")) {
+            return "val_" + var;
+        } else if (var.startsWith("_")){
+            return "val" + var;
+        } else {
+            return "val_" + var;
+        }
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("INTEGER_32".equals(datatype) || "INTEGER_64".equals(datatype) ||
+            "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }    
 
 }

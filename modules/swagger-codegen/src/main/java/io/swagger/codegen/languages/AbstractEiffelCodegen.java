@@ -2,7 +2,6 @@ package io.swagger.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,16 +26,18 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.utils.ModelUtils;
+import io.swagger.models.Model;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.util.Json;
 
-public abstract class AbstractEiffelCogegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
-
-    public AbstractEiffelCogegen(){
+        
+    public AbstractEiffelCodegen(){
         super();
         setReservedWordsLowerCase(Arrays.asList(
                 // language reserved words
@@ -384,32 +385,34 @@ public abstract class AbstractEiffelCogegen extends DefaultCodegen implements Co
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // remove model imports to avoid error
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        final String prefix = modelPackage();
-        Iterator<Map<String, String>> iterator = imports.iterator();
-        while (iterator.hasNext()) {
-            String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix))
-                iterator.remove();
-        }
-
-        // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
-        if (recursiveImports == null)
-            return objs;
-
-        ListIterator<Map<String, String>> listIterator = imports.listIterator();
-        while (listIterator.hasNext()) {
-            String _import = listIterator.next().get("import");
-            // if the import package happens to be found in the importMapping
-            // (key)
-            // add the corresponding import package to the list
-            if (importMapping.containsKey(_import)) {
-                listIterator.add(createMapping("import", importMapping.get(_import)));
-            }
-        }
-
-        return objs;
+//        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+//        final String prefix = modelPackage();
+//        Iterator<Map<String, String>> iterator = imports.iterator();
+//        while (iterator.hasNext()) {
+//            String _import = iterator.next().get("import");
+//            if (_import.startsWith(prefix))
+//                iterator.remove();
+//        }
+//
+//        // recursively add import for mapping one type to multiple imports
+//        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
+//        if (recursiveImports == null)
+//            return objs;
+//
+//        ListIterator<Map<String, String>> listIterator = imports.listIterator();
+//        while (listIterator.hasNext()) {
+//            String _import = listIterator.next().get("import");
+//            // if the import package happens to be found in the importMapping
+//            // (key)
+//            // add the corresponding import package to the list
+//            if (importMapping.containsKey(_import)) {
+//                listIterator.add(createMapping("import", importMapping.get(_import)));
+//            }
+//        }
+//
+//        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -439,14 +442,76 @@ public abstract class AbstractEiffelCogegen extends DefaultCodegen implements Co
         for (final CodegenProperty childProperty : child.vars) {
             childPropertiesByName.put(childProperty.name, childProperty);
         }
-        for (final CodegenProperty parentProperty : parent.vars) {
-            final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
-            if (duplicatedByParent != null) {
-                duplicatedByParent.isInherited = true;
+        if (parent != null) {
+            for (final CodegenProperty parentProperty : parent.vars) {
+                final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
+                if (duplicatedByParent != null) {
+                    duplicatedByParent.isInherited = true;
+                }
             }
         }
     }
+    
+    @Override
+    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+        if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
+            final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            codegenModel = AbstractEiffelCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+        }
+        return codegenModel;
+    }
+    
+    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        // This generator uses inline classes to define enums, which breaks when
+        // dealing with models that have subTypes. To clean this up, we will analyze
+        // the parent and child models, look for enums that match, and remove
+        // them from the child models and leave them in the parent.
+        // Because the child models extend the parents, the enums will be available via the parent.
 
+        // Only bother with reconciliation if the parent model has enums.
+        if  (!parentCodegenModel.hasEnums) {
+            return codegenModel;
+        }
+
+        // Get the properties for the parent and child models
+        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
+        List<CodegenProperty> codegenProperties = codegenModel.vars;
+
+        // Iterate over all of the parent model properties
+        boolean removedChildEnum = false;
+        for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+            // Look for enums
+            if (parentModelCodegenPropery.isEnum) {
+                // Now that we have found an enum in the parent class,
+                // and search the child class for the same enum.
+                Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+                while (iterator.hasNext()) {
+                    CodegenProperty codegenProperty = iterator.next();
+                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                        // We found an enum in the child class that is
+                        // a duplicate of the one in the parent, so remove it.
+                        iterator.remove();
+                        removedChildEnum = true;
+                    }
+                }
+            }
+        }
+
+        if(removedChildEnum) {
+            // If we removed an entry from this model's vars, we need to ensure hasMore is updated
+            int count = 0, numVars = codegenProperties.size();
+            for(CodegenProperty codegenProperty : codegenProperties) {
+                count += 1;
+                codegenProperty.hasMore = (count < numVars) ? true : false;
+            }
+            codegenModel.vars = codegenProperties;
+        }
+        return codegenModel;
+    }
+
+    
     @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
@@ -501,7 +566,41 @@ public abstract class AbstractEiffelCogegen extends DefaultCodegen implements Co
         } else {
             return operationId;
         }
-
     }
-    
+
+    /**
+     * Update property for array(list) container
+     * @param property Codegen property
+     * @param innerProperty Codegen inner property of map or list
+     */
+    @Override
+    protected void updatePropertyForArray(CodegenProperty property, CodegenProperty innerProperty) {
+        if (innerProperty == null) {
+            LOGGER.warn("skipping invalid array property " + Json.pretty(property));
+            return;
+        }
+        property.dataFormat = innerProperty.dataFormat;
+        if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+            property.complexType = innerProperty.baseType;
+        } else {
+            property.isPrimitiveType = true;
+        }
+        property.items = innerProperty;
+        // inner item is Enum
+        if (isPropertyInnerMostEnum(property)) {  
+            // We use the data type instead of the Enum class.
+            // at the moment is not supported.
+            
+            // isEnum is set to true when the type is an enum
+            // or the inner type of an array/map is an enum
+            //property.isEnum = true;
+            // update datatypeWithEnum and default value for array
+            // e.g. List<string> => List<StatusEnum>
+            //updateDataTypeWithEnumForArray(property);
+            // set allowable values to enum values (including array/map of enum)
+            //property.allowableValues = getInnerEnumAllowableValues(property);
+        }
+
+    } 
+ 
 }

@@ -36,6 +36,7 @@ feature -- API Access
 			{{#queryParams}}
 			l_request.fill_query_params(api_client.parameter_to_tuple("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
 			{{/queryParams}}
+
 			{{#headerParams}}
 			if attached {{paramName}} as l_{{paramName}} then
 				l_request.add_header(l_{{paramName}}.out,"{{baseName}}");

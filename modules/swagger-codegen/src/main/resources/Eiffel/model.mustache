@@ -1,7 +1,3 @@
-{{>noteinfo}}
-{{#models}}
-{{#model}}
-
 class {{classname}} 
 
 inherit
@@ -18,7 +14,12 @@ inherit
 {{#parent}}
   {{{parent}}} 
       rename
-          out as out_{{{parentSchema}}} 
+          out as out_{{{parentSchema}}},
+          is_equal as is_equal_{{{parentSchema}}},
+          copy as copy_{{{parentSchema}}}
+      select
+          is_equal_{{{parentSchema}}},
+          copy_{{{parentSchema}}}     
       end   
 {{/parent}}
 
@@ -103,5 +104,3 @@ feature -- Change Element
         {{/vars}}
       end
 end
-{{/model}}
-{{/models}}
