@@ -2181,6 +2181,10 @@ public class DefaultCodegen {
                         ArrayProperty ap = (ArrayProperty) responseProperty;
                         CodegenProperty innerProperty = fromProperty("response", ap.getItems());
                         op.returnBaseType = innerProperty.baseType;
+                    } else if (responseProperty instanceof MapProperty) {
+                        MapProperty ap = (MapProperty) responseProperty;
+                        CodegenProperty innerProperty = fromProperty("response", ap.getAdditionalProperties());
+                        op.returnBaseType = innerProperty.baseType;
                     } else {
                         if (cm.complexType != null) {
                             op.returnBaseType = cm.complexType;
@@ -3658,7 +3662,7 @@ public class DefaultCodegen {
      * writes it back to additionalProperties to be usable as a boolean in
      * mustache files.
      *
-     * @param propertyKey
+     * @param propertyKey property key
      * @return property value as boolean
      */
     public boolean convertPropertyToBooleanAndWriteBack(String propertyKey) {
