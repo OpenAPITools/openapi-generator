@@ -18,37 +18,37 @@ use futures::{Future, Stream};
 
 use super::{Error, configuration};
 
-pub struct PetApiClient<C: hyper::client::Connect> {
+pub struct UserApiClient<C: hyper::client::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> PetApiClient<C> {
-    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> PetApiClient<C> {
-        PetApiClient {
+impl<C: hyper::client::Connect> UserApiClient<C> {
+    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> UserApiClient<C> {
+        UserApiClient {
             configuration: configuration,
         }
     }
 }
 
-pub trait PetApi {
-    fn AddPet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>>;
-    fn DeletePet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn FindPetsByStatus(&self, status: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>>;
-    fn FindPetsByTags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>>;
-    fn GetPetById(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error>>;
-    fn UpdatePet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>>;
-    fn UpdatePetWithForm(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn UploadFile(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error>>;
+pub trait UserApi {
+    fn CreateUser(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
+    fn CreateUsersWithArrayInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
+    fn CreateUsersWithListInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
+    fn DeleteUser(&self, username: &str) -> Box<Future<Item = (), Error = Error>>;
+    fn GetUserByName(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>>;
+    fn LoginUser(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>>;
+    fn LogoutUser(&self, ) -> Box<Future<Item = (), Error = Error>>;
+    fn UpdateUser(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
 }
 
 
-impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
-    fn AddPet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>> {
+impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
+    fn CreateUser(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
 
-        let uri_str = format!("{}/pet", configuration.base_path);
+        let uri_str = format!("{}/user", configuration.base_path);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -71,12 +71,68 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn DeletePet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error>> {
+    fn CreateUsersWithArrayInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
+        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+
+        let method = hyper::Method::Post;
+
+        let uri_str = format!("{}/user/createWithArray", configuration.base_path);
+
+        let uri = uri_str.parse();
+        // TODO(farcaller): handle error
+        // if let Err(e) = uri {
+        //     return Box::new(futures::future::err(e));
+        // }
+        let mut req = hyper::Request::new(method, uri.unwrap());
+
+
+        let serialized = serde_json::to_string(&body).unwrap();
+        req.headers_mut().set(hyper::header::ContentType::json());
+        req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
+        req.set_body(serialized);
+
+        // send request
+        Box::new(
+            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+            .map_err(|e| Error::from(e))
+            .and_then(|_| futures::future::ok(()))
+        )
+    }
+
+    fn CreateUsersWithListInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
+        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+
+        let method = hyper::Method::Post;
+
+        let uri_str = format!("{}/user/createWithList", configuration.base_path);
+
+        let uri = uri_str.parse();
+        // TODO(farcaller): handle error
+        // if let Err(e) = uri {
+        //     return Box::new(futures::future::err(e));
+        // }
+        let mut req = hyper::Request::new(method, uri.unwrap());
+
+
+        let serialized = serde_json::to_string(&body).unwrap();
+        req.headers_mut().set(hyper::header::ContentType::json());
+        req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
+        req.set_body(serialized);
+
+        // send request
+        Box::new(
+            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+            .map_err(|e| Error::from(e))
+            .and_then(|_| futures::future::ok(()))
+        )
+    }
+
+    fn DeleteUser(&self, username: &str) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Delete;
 
-        let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
+        let uri_str = format!("{}/user/{username}", configuration.base_path, username=username);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -85,10 +141,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         // }
         let mut req = hyper::Request::new(method, uri.unwrap());
 
-        {
-            let mut headers = req.headers_mut();
-            headers.set_raw("api_key", api_key);
-        }
 
 
         // send request
@@ -99,15 +151,43 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn FindPetsByStatus(&self, status: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>> {
+    fn GetUserByName(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>> {
+        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+
+        let method = hyper::Method::Get;
+
+        let uri_str = format!("{}/user/{username}", configuration.base_path, username=username);
+
+        let uri = uri_str.parse();
+        // TODO(farcaller): handle error
+        // if let Err(e) = uri {
+        //     return Box::new(futures::future::err(e));
+        // }
+        let mut req = hyper::Request::new(method, uri.unwrap());
+
+
+
+        // send request
+        Box::new(
+            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+            .map_err(|e| Error::from(e))
+            .and_then(|body| {
+                let parsed: Result<::models::User, _> = serde_json::from_slice(&body);
+                parsed.map_err(|e| Error::from(e))
+            }).map_err(|e| Error::from(e))
+        )
+    }
+
+    fn LoginUser(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
 
         let query = ::url::form_urlencoded::Serializer::new(String::new())
-            .append_pair("status", &status.join(",").to_string())
+            .append_pair("username", &username.to_string())
+            .append_pair("password", &password.to_string())
             .finish();
-        let uri_str = format!("{}/pet/findByStatus{}", configuration.base_path, query);
+        let uri_str = format!("{}/user/login{}", configuration.base_path, query);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -123,21 +203,18 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
             configuration.client.request(req).and_then(|res| { res.body().concat2() })
             .map_err(|e| Error::from(e))
             .and_then(|body| {
-                let parsed: Result<Vec<::models::Pet>, _> = serde_json::from_slice(&body);
+                let parsed: Result<String, _> = serde_json::from_slice(&body);
                 parsed.map_err(|e| Error::from(e))
             }).map_err(|e| Error::from(e))
         )
     }
 
-    fn FindPetsByTags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>> {
+    fn LogoutUser(&self, ) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
 
-        let query = ::url::form_urlencoded::Serializer::new(String::new())
-            .append_pair("tags", &tags.join(",").to_string())
-            .finish();
-        let uri_str = format!("{}/pet/findByTags{}", configuration.base_path, query);
+        let uri_str = format!("{}/user/logout", configuration.base_path);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -152,46 +229,16 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         Box::new(
             configuration.client.request(req).and_then(|res| { res.body().concat2() })
             .map_err(|e| Error::from(e))
-            .and_then(|body| {
-                let parsed: Result<Vec<::models::Pet>, _> = serde_json::from_slice(&body);
-                parsed.map_err(|e| Error::from(e))
-            }).map_err(|e| Error::from(e))
+            .and_then(|_| futures::future::ok(()))
         )
     }
 
-    fn GetPetById(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-
-
-
-        // send request
-        Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
-            .map_err(|e| Error::from(e))
-            .and_then(|body| {
-                let parsed: Result<::models::Pet, _> = serde_json::from_slice(&body);
-                parsed.map_err(|e| Error::from(e))
-            }).map_err(|e| Error::from(e))
-        )
-    }
-
-    fn UpdatePet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>> {
+    fn UpdateUser(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Put;
 
-        let uri_str = format!("{}/pet", configuration.base_path);
+        let uri_str = format!("{}/user/{username}", configuration.base_path, username=username);
 
         let uri = uri_str.parse();
         // TODO(farcaller): handle error
@@ -211,57 +258,6 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
             configuration.client.request(req).and_then(|res| { res.body().concat2() })
             .map_err(|e| Error::from(e))
             .and_then(|_| futures::future::ok(()))
-        )
-    }
-
-    fn UpdatePetWithForm(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-
-
-
-        // send request
-        Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
-            .map_err(|e| Error::from(e))
-            .and_then(|_| futures::future::ok(()))
-        )
-    }
-
-    fn UploadFile(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
-
-        let uri = uri_str.parse();
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut req = hyper::Request::new(method, uri.unwrap());
-
-
-
-        // send request
-        Box::new(
-            configuration.client.request(req).and_then(|res| { res.body().concat2() })
-            .map_err(|e| Error::from(e))
-            .and_then(|body| {
-                let parsed: Result<::models::ApiResponse, _> = serde_json::from_slice(&body);
-                parsed.map_err(|e| Error::from(e))
-            }).map_err(|e| Error::from(e))
         )
     }
 

@@ -1,0 +1,96 @@
+{{>partial_header}}
+use std::rc::Rc;
+use std::borrow::Borrow;
+
+use hyper;
+use serde_json;
+use futures;
+use futures::{Future, Stream};
+
+use super::{Error, configuration};
+
+pub struct {{{classname}}}Client<C: hyper::client::Connect> {
+    configuration: Rc<configuration::Configuration<C>>,
+}
+
+impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
+    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
+        {{{classname}}}Client {
+            configuration: configuration,
+        }
+    }
+}
+
+pub trait {{classname}} {
+{{#operations}}
+{{#operation}}
+    fn {{{operationId}}}(&self, {{#allParams}}{{paramName}}: {{#isString}}&str{{/isString}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error>>;
+{{/operation}}
+{{/operations}}
+}
+
+
+impl<C: hyper::client::Connect>{{classname}} for {{classname}}Client<C> {
+{{#operations}}
+{{#operation}}
+    fn {{{operationId}}}(&self, {{#allParams}}{{paramName}}: {{#isString}}&str{{/isString}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error>> {
+        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
+
+        let method = hyper::Method::{{httpMethod}};
+
+        {{^hasQueryParams}}
+        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{baseName}}={{paramName}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{/pathParams}});
+        {{/hasQueryParams}}
+        {{#hasQueryParams}}
+        let query = ::url::form_urlencoded::Serializer::new(String::new())
+            {{#queryParams}}
+            .append_pair("{{baseName}}", &{{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
+            {{/queryParams}}
+            .finish();
+        let uri_str = format!("{}{{{path}}}{}", configuration.base_path, query{{#pathParams}}, {{baseName}}={{paramName}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{/pathParams}});
+        {{/hasQueryParams}}
+
+        let uri = uri_str.parse();
+        // TODO(farcaller): handle error
+        // if let Err(e) = uri {
+        //     return Box::new(futures::future::err(e));
+        // }
+        let mut req = hyper::Request::new(method, uri.unwrap());
+
+        {{#hasHeaderParams}}
+        {
+            let mut headers = req.headers_mut();
+            {{#headerParams}}
+            headers.set_raw("{{baseName}}", {{paramName}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}});
+            {{/headerParams}}
+        }
+        {{/hasHeaderParams}}
+
+        {{#hasBodyParam}}
+        {{#bodyParams}}
+        let serialized = serde_json::to_string(&body).unwrap();
+        req.headers_mut().set(hyper::header::ContentType::json());
+        req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
+        req.set_body(serialized);
+        {{/bodyParams}}
+        {{/hasBodyParam}}
+
+        // send request
+        Box::new(
+            configuration.client.request(req).and_then(|res| { res.body().concat2() })
+            .map_err(|e| Error::from(e))
+            {{^returnType}}
+            .and_then(|_| futures::future::ok(()))
+            {{/returnType}}
+            {{#returnType}}
+            .and_then(|body| {
+                let parsed: Result<{{{returnType}}}, _> = serde_json::from_slice(&body);
+                parsed.map_err(|e| Error::from(e))
+            }).map_err(|e| Error::from(e))
+            {{/returnType}}
+        )
+    }
+
+{{/operation}}
+{{/operations}}
+}
