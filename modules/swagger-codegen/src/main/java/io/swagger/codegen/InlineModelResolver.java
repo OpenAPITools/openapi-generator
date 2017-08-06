@@ -413,7 +413,7 @@ public class InlineModelResolver {
     /**
      * Copy vendor extensions from Property to another Property
      * 
-     * @param source soruce property
+     * @param source source property
      * @param target target property
      */
     public void copyVendorExtensions(Property source, AbstractProperty target) {
