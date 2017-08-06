@@ -174,11 +174,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separator + apiFolder).replaceAll("/", File.separator);
+        return (outputFolder + File.separator + apiFolder).replace("/", File.separator);
     }
 
     public String modelFileFolder() {
-        return (outputFolder + File.separator + modelFolder).replaceAll("/", File.separator);
+        return (outputFolder + File.separator + modelFolder).replace("/", File.separator);
     }
 
     @Override
