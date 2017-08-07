@@ -1,7 +1,7 @@
 function Invoke-UserApiCreateUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [IO.Swagger.Model.User]
         ${body}
     )
@@ -19,8 +19,8 @@ function Invoke-UserApiCreateUser {
 function Invoke-UserApiCreateUsersWithArrayInput {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.User]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [IO.Swagger.Model.User[]]
         ${body}
     )
 
@@ -37,8 +37,8 @@ function Invoke-UserApiCreateUsersWithArrayInput {
 function Invoke-UserApiCreateUsersWithListInput {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
-        [IO.Swagger.Model.User]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [IO.Swagger.Model.User[]]
         ${body}
     )
 
@@ -55,7 +55,7 @@ function Invoke-UserApiCreateUsersWithListInput {
 function Invoke-UserApiDeleteUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
         ${username}
     )
@@ -73,7 +73,7 @@ function Invoke-UserApiDeleteUser {
 function Invoke-UserApiGetUserByName {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
         ${username}
     )
@@ -91,10 +91,10 @@ function Invoke-UserApiGetUserByName {
 function Invoke-UserApiLoginUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
         ${username},
-        [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
         ${password}
     )
@@ -127,10 +127,10 @@ function Invoke-UserApiLogoutUser {
 function Invoke-UserApiUpdateUser {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
         ${username},
-        [Parameter(Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [IO.Swagger.Model.User]
         ${body}
     )

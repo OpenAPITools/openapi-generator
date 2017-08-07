@@ -1,7 +1,7 @@
 function Invoke-StoreApiDeleteOrder {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [String]
         ${orderId}
     )
@@ -33,7 +33,7 @@ function Invoke-StoreApiGetInventory {
 function Invoke-StoreApiGetOrderById {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Int64]
         ${orderId}
     )
@@ -51,7 +51,7 @@ function Invoke-StoreApiGetOrderById {
 function Invoke-StoreApiPlaceOrder {
     [CmdletBinding()]
     Param (
-        [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [IO.Swagger.Model.Order]
         ${body}
     )
