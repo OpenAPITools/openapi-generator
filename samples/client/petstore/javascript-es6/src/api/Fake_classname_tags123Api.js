@@ -66,7 +66,7 @@ export default class Fake_classname_tags123Api {
       let formParams = {
       };
 
-      let authNames = [];
+      let authNames = ['api_key_query'];
       let contentTypes = ['application/json'];
       let accepts = ['application/json'];
       let returnType = Client;

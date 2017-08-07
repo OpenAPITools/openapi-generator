@@ -82,7 +82,7 @@
       var formParams = {
       };
 
-      var authNames = [];
+      var authNames = ['api_key_query'];
       var contentTypes = ['application/json'];
       var accepts = ['application/json'];
       var returnType = Client;
