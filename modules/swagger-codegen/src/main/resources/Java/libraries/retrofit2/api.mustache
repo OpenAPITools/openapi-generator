@@ -40,6 +40,10 @@ public interface {{classname}} {
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
    * @return Call&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object{{/returnType}}&gt;
+{{#externalDocs}}
+   * {{description}}
+   * @see {{url}}
+{{/externalDocs}}
    */
   {{#formParams}}
   {{#-first}}
