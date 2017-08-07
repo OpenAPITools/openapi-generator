@@ -55,6 +55,10 @@ public class {{classname}} {
 {{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
 {{/allParams}}{{#returnType}}     * @return {{returnType}}
 {{/returnType}}     * @throws RestClientException if an error occurs while attempting to invoke the API
+{{#externalDocs}}
+    * {{description}}
+    * @see {{url}}
+{{/externalDocs}}
      */
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws RestClientException {
         Object {{localVariablePrefix}}postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
