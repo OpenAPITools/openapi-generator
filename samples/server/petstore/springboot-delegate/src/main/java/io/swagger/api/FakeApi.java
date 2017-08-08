@@ -76,8 +76,8 @@ public interface FakeApi {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid username supplied"),
+        @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/fake",
         produces = { "application/xml; charset=utf-8", "application/json; charset=utf-8" }, 
         consumes = { "application/xml; charset=utf-8", "application/json; charset=utf-8" },
@@ -87,8 +87,8 @@ public interface FakeApi {
 
     @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
-        @ApiResponse(code = 404, message = "Not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid request"),
+        @ApiResponse(code = 404, message = "Not found") })
     @RequestMapping(value = "/fake",
         produces = { "*/*" }, 
         consumes = { "*/*" },
@@ -98,7 +98,7 @@ public interface FakeApi {
 
     @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+        @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/fake/jsonFormData",
         consumes = { "application/json" },
         method = RequestMethod.GET)
