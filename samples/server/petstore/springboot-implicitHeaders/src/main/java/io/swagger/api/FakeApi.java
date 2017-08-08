@@ -91,8 +91,8 @@ public interface FakeApi {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid username supplied"),
+        @ApiResponse(code = 404, message = "User not found") })
     @ApiImplicitParams({
     
     })
@@ -105,8 +105,8 @@ public interface FakeApi {
 
     @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
-        @ApiResponse(code = 404, message = "Not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid request"),
+        @ApiResponse(code = 404, message = "Not found") })
     @ApiImplicitParams({
     @ApiImplicitParam(name = "enumHeaderStringArray", value = "Header parameter enum test (string array)",  dataType = "List<String>", paramType = "header"),@ApiImplicitParam(name = "enumHeaderString", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
     })
@@ -119,7 +119,7 @@ public interface FakeApi {
 
     @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+        @ApiResponse(code = 200, message = "successful operation") })
     @ApiImplicitParams({
     
     })
