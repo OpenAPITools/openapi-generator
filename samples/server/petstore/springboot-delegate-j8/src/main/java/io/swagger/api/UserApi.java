@@ -30,7 +30,7 @@ public interface UserApi {
 
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+        @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
@@ -42,7 +42,7 @@ public interface UserApi {
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+        @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithArray",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
@@ -54,7 +54,7 @@ public interface UserApi {
 
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+        @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithList",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
@@ -66,8 +66,8 @@ public interface UserApi {
 
     @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid username supplied"),
+        @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.DELETE)
@@ -80,8 +80,8 @@ public interface UserApi {
     @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid username supplied"),
+        @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -94,7 +94,7 @@ public interface UserApi {
     @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
-        @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid username/password supplied") })
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -106,7 +106,7 @@ public interface UserApi {
 
     @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+        @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/logout",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
@@ -118,8 +118,8 @@ public interface UserApi {
 
     @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid user supplied"),
+        @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.PUT)

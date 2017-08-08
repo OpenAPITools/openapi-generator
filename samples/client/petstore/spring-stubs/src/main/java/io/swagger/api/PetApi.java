@@ -35,7 +35,7 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
+        @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/pet",
         produces = "application/json",
         consumes = "application/json",
@@ -50,7 +50,7 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid pet value") })
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json",
         consumes = "application/json",
@@ -66,7 +66,7 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Invalid status value", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid status value") })
     @RequestMapping(value = "/pet/findByStatus",
         produces = "application/json",
         consumes = "application/json",
@@ -82,7 +82,7 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid tag value") })
     @RequestMapping(value = "/pet/findByTags",
         produces = "application/json",
         consumes = "application/json",
@@ -95,8 +95,8 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "Pet not found", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid ID supplied"),
+        @ApiResponse(code = 404, message = "Pet not found") })
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json",
         consumes = "application/json",
@@ -111,9 +111,9 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
-        @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
+        @ApiResponse(code = 400, message = "Invalid ID supplied"),
+        @ApiResponse(code = 404, message = "Pet not found"),
+        @ApiResponse(code = 405, message = "Validation exception") })
     @RequestMapping(value = "/pet",
         produces = "application/json",
         consumes = "application/json",
@@ -128,7 +128,7 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
+        @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json",
         consumes = "application/x-www-form-urlencoded",
