@@ -2,8 +2,10 @@ package apimodels;
 
 import java.util.Objects;
 import apimodels.OuterEnum;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 /**
  * EnumTest
  */
@@ -176,7 +178,8 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   **/
-    public OuterEnum getOuterEnum() {
+  @Valid
+  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 
@@ -227,6 +230,22 @@ public class EnumTest   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<EnumTest>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<EnumTest> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

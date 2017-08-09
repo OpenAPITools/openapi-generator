@@ -24,12 +24,10 @@ import swagger.SwaggerUtils.ApiAction;
 
 public class PetApiController extends Controller {
 
-    
     private final ObjectMapper mapper;
 
     @Inject
     private PetApiController() {
-        
         mapper = new ObjectMapper();
     }
 

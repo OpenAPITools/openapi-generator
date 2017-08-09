@@ -4,8 +4,10 @@ import java.util.Objects;
 import apimodels.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 /**
  * ArrayTest
  */
@@ -62,7 +64,8 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
-    public List<List<Long>> getArrayArrayOfInteger() {
+  @Valid
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
@@ -87,7 +90,8 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-    public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  @Valid
+  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
@@ -136,6 +140,22 @@ public class ArrayTest   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<ArrayTest>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<ArrayTest> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

@@ -6,6 +6,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,11 +22,11 @@ import swagger.SwaggerUtils.ApiAction;
 
 public class FakeClassnameTags123ApiController extends Controller {
 
-    private final FakeClassnameTags123ApiControllerImp imp;
+    private final FakeClassnameTags123ApiControllerImpInterface imp;
     private final ObjectMapper mapper;
 
     @Inject
-    private FakeClassnameTags123ApiController(FakeClassnameTags123ApiControllerImp imp) {
+    private FakeClassnameTags123ApiController(FakeClassnameTags123ApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
     }
@@ -37,10 +38,13 @@ public class FakeClassnameTags123ApiController extends Controller {
         Client body;
 
         body = mapper.readValue(nodebody.toString(), Client.class);
+        body.validate();
 
         Client obj = imp.testClassname(body);
+        obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
+        
         
     }
 }

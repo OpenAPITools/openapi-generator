@@ -29,9 +29,9 @@ POST     /v2/pet/:petId                     controllers.PetApiController.updateP
 POST     /v2/pet/:petId/uploadImage                     controllers.PetApiController.uploadFile(petId: Long)
 
 #Functions for Store API
-DELETE     /v2/store/order/:order_id                     controllers.StoreApiController.deleteOrder(orderId: String)
+DELETE     /v2/store/order/:orderId                     controllers.StoreApiController.deleteOrder(orderId: String)
 GET     /v2/store/inventory                     controllers.StoreApiController.getInventory()
-GET     /v2/store/order/:order_id                     controllers.StoreApiController.getOrderById(orderId: Long)
+GET     /v2/store/order/:orderId                     controllers.StoreApiController.getOrderById(orderId: Long)
 POST     /v2/store/order                     controllers.StoreApiController.placeOrder()
 
 #Functions for User API

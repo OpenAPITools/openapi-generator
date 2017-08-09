@@ -2,8 +2,10 @@ package apimodels;
 
 import java.util.Objects;
 import apimodels.Animal;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 /**
  * Cat
  */
@@ -21,7 +23,7 @@ public class Cat extends Animal  {
    * Get declawed
    * @return declawed
   **/
-    public Boolean getDeclawed() {
+    public Boolean isDeclawed() {
     return declawed;
   }
 
@@ -67,6 +69,22 @@ public class Cat extends Animal  {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Cat>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<Cat> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

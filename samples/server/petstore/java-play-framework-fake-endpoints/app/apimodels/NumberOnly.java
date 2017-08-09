@@ -2,8 +2,10 @@ package apimodels;
 
 import java.util.Objects;
 import java.math.BigDecimal;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 /**
  * NumberOnly
  */
@@ -21,7 +23,8 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   **/
-    public BigDecimal getJustNumber() {
+  @Valid
+  public BigDecimal getJustNumber() {
     return justNumber;
   }
 
@@ -66,6 +69,22 @@ public class NumberOnly   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<NumberOnly>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<NumberOnly> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

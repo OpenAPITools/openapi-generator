@@ -4,8 +4,10 @@ import java.util.Objects;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 /**
  * ArrayOfNumberOnly
  */
@@ -31,7 +33,8 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   **/
-    public List<BigDecimal> getArrayNumber() {
+  @Valid
+  public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 
@@ -76,6 +79,22 @@ public class ArrayOfNumberOnly   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<ArrayOfNumberOnly>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<ArrayOfNumberOnly> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 
