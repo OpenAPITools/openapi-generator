@@ -214,7 +214,7 @@
             ]
           }
         ],
-        "deprecated": "true"
+        "deprecated": true
       }
     },
     "/pet/{petId}": {
