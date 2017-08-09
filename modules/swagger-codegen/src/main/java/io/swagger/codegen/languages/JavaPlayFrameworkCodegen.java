@@ -153,6 +153,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         supportingFiles.add(new SupportingFile("routes.mustache", "conf", "routes"));
 
         //App/Utils folder
+        if (!this.controllerOnly && this.useInterfaces) {
+            supportingFiles.add(new SupportingFile("module.mustache", "app", "Module.java"));
+        }
         supportingFiles.add(new SupportingFile("swaggerUtils.mustache", "app/swagger", "SwaggerUtils.java"));
         if (this.handleExceptions) {
             supportingFiles.add(new SupportingFile("errorHandler.mustache", "app/swagger", "ErrorHandler.java"));

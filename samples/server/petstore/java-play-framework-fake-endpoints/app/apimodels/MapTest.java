@@ -4,8 +4,10 @@ import java.util.Objects;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 /**
  * MapTest
  */
@@ -65,7 +67,8 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
-    public Map<String, Map<String, String>> getMapMapOfString() {
+  @Valid
+  public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
 
@@ -137,6 +140,22 @@ public class MapTest   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<MapTest>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<MapTest> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

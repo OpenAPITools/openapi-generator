@@ -2,8 +2,10 @@ package apimodels;
 
 import java.util.Objects;
 import java.time.OffsetDateTime;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import javax.validation.constraints.*;
 /**
  * Order
  */
@@ -120,7 +122,8 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   **/
-    public OffsetDateTime getShipDate() {
+  @Valid
+  public OffsetDateTime getShipDate() {
     return shipDate;
   }
 
@@ -154,7 +157,7 @@ public class Order   {
    * Get complete
    * @return complete
   **/
-    public Boolean getComplete() {
+    public Boolean isComplete() {
     return complete;
   }
 
@@ -209,6 +212,22 @@ public class Order   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Order>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<Order> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

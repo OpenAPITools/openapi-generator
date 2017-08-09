@@ -23,11 +23,11 @@ import swagger.SwaggerUtils.ApiAction;
 
 public class PetApiController extends Controller {
 
-    private final PetApiControllerImp imp;
+    private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
 
     @Inject
-    private PetApiController(PetApiControllerImp imp) {
+    private PetApiController(PetApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
     }

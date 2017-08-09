@@ -173,6 +173,7 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
+        "deprecated" : true,
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -698,6 +699,9 @@
             }
           }
         },
+        "security" : [ {
+          "api_key_query" : [ ]
+        } ],
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -1100,6 +1104,11 @@
       "name" : "api_key",
       "in" : "header"
     },
+    "api_key_query" : {
+      "type" : "apiKey",
+      "name" : "api_key_query",
+      "in" : "query"
+    },
     "http_basic_test" : {
       "type" : "basic"
     }
@@ -1134,6 +1143,14 @@
           "default" : false
         }
       },
+      "example" : {
+        "petId" : 6,
+        "quantity" : 1,
+        "id" : 0,
+        "shipDate" : "2000-01-23T04:56:07.000+00:00",
+        "complete" : false,
+        "status" : "placed"
+      },
       "xml" : {
         "name" : "Order"
       }
@@ -1148,6 +1165,10 @@
         "name" : {
           "type" : "string"
         }
+      },
+      "example" : {
+        "name" : "name",
+        "id" : 6
       },
       "xml" : {
         "name" : "Category"
@@ -1185,6 +1206,16 @@
           "description" : "User Status"
         }
       },
+      "example" : {
+        "firstName" : "firstName",
+        "lastName" : "lastName",
+        "password" : "password",
+        "userStatus" : 6,
+        "phone" : "phone",
+        "id" : 0,
+        "email" : "email",
+        "username" : "username"
+      },
       "xml" : {
         "name" : "User"
       }
@@ -1199,6 +1230,10 @@
         "name" : {
           "type" : "string"
         }
+      },
+      "example" : {
+        "name" : "name",
+        "id" : 1
       },
       "xml" : {
         "name" : "Tag"
@@ -1246,6 +1281,23 @@
           "enum" : [ "available", "pending", "sold" ]
         }
       },
+      "example" : {
+        "photoUrls" : [ "photoUrls", "photoUrls" ],
+        "name" : "doggie",
+        "id" : 0,
+        "category" : {
+          "name" : "name",
+          "id" : 6
+        },
+        "tags" : [ {
+          "name" : "name",
+          "id" : 1
+        }, {
+          "name" : "name",
+          "id" : 1
+        } ],
+        "status" : "available"
+      },
       "xml" : {
         "name" : "Pet"
       }
@@ -1263,6 +1315,11 @@
         "message" : {
           "type" : "string"
         }
+      },
+      "example" : {
+        "code" : 0,
+        "type" : "type",
+        "message" : "message"
       }
     },
     "$special[model.name]" : {
@@ -1422,7 +1479,8 @@
         },
         "byte" : {
           "type" : "string",
-          "format" : "byte"
+          "format" : "byte",
+          "pattern" : "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
         },
         "binary" : {
           "type" : "string",
@@ -1528,6 +1586,9 @@
         "client" : {
           "type" : "string"
         }
+      },
+      "example" : {
+        "client" : "client"
       }
     },
     "ReadOnlyFirst" : {
@@ -1704,6 +1765,11 @@
         "my_boolean" : {
           "$ref" : "#/definitions/OuterBoolean"
         }
+      },
+      "example" : {
+        "my_string" : { },
+        "my_number" : { },
+        "my_boolean" : { }
       }
     }
   },

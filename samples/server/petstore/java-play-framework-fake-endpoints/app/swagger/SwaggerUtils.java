@@ -7,10 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SwaggerUtils {
 
@@ -20,55 +17,41 @@ public class SwaggerUtils {
     public @interface ApiAction {
     }
 
-    public static Map<String, String> parameterToPairs(String collectionFormat, String name, Object value){
-        Map<String, String> params = new HashMap<>();
+    public static List<String> parametersToList(String collectionFormat, String[] values){
+        List<String> params = new ArrayList<>();
 
-        // preconditions
-        if (name == null || name.isEmpty() || value == null) return params;
+        if (values == null) {
+            return params;
+        }
 
-        Collection valueCollection = null;
-        if (value instanceof Collection) {
-            valueCollection = (Collection) value;
+        if (values.length >= 1 && collectionFormat.equals("multi")) {
+            params.addAll(Arrays.asList(values));
         } else {
-            params.put(name, parameterToString(value));
-            return params;
-        }
+            collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
 
-        if (valueCollection.isEmpty()){
-            return params;
-        }
+            String delimiter = ",";
 
-        // get the collection format
-        collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
-
-        // create the params based on the collection format
-        if (collectionFormat.equals("multi")) {
-            for (Object item : valueCollection) {
-                params.put(name, parameterToString(item));
+            switch(collectionFormat) {
+                case "csv": {
+                    delimiter = ",";
+                    break;
+                }
+                case "ssv": {
+                    delimiter = " ";
+                    break;
+                }
+                case "tsv": {
+                    delimiter = "\t";
+                    break;
+                }
+                case "pipes": {
+                    delimiter = "|";
+                    break;
+                }
             }
 
-            return params;
+            params = Arrays.asList(values[0].split(delimiter));
         }
-
-        String delimiter = ",";
-
-        if (collectionFormat.equals("csv")) {
-            delimiter = ",";
-        } else if (collectionFormat.equals("ssv")) {
-            delimiter = " ";
-        } else if (collectionFormat.equals("tsv")) {
-            delimiter = "\t";
-        } else if (collectionFormat.equals("pipes")) {
-            delimiter = "|";
-        }
-
-        StringBuilder sb = new StringBuilder() ;
-        for (Object item : valueCollection) {
-            sb.append(delimiter);
-            sb.append(parameterToString(item));
-        }
-
-        params.put(name, sb.substring(1));
 
         return params;
     }
