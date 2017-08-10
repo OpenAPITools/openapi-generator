@@ -38,6 +38,7 @@ io.swagger.codegen.languages.JavascriptClientCodegen
 io.swagger.codegen.languages.JavascriptClosureAngularClientCodegen
 io.swagger.codegen.languages.JavaVertXServerCodegen
 io.swagger.codegen.languages.KotlinClientCodegen
+io.swagger.codegen.languages.LuaClientCodegen
 io.swagger.codegen.languages.LumenServerCodegen
 io.swagger.codegen.languages.NancyFXServerCodegen
 io.swagger.codegen.languages.NodeJSServerCodegen
