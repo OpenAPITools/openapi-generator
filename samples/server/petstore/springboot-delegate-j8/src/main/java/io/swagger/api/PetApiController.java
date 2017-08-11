@@ -50,13 +50,13 @@ public class PetApiController implements PetApi {
         return delegate.deletePet(petId, apiKey);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByStatus( @NotNull@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @RequestParam(value = "status", required = true) List<String> status,
+    public ResponseEntity<List<Pet>> findPetsByStatus( @NotNull@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return delegate.findPetsByStatus(status);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByTags( @NotNull@ApiParam(value = "Tags to filter by", required = true) @RequestParam(value = "tags", required = true) List<String> tags,
+    public ResponseEntity<List<Pet>> findPetsByTags( @NotNull@ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return delegate.findPetsByTags(tags);
@@ -84,7 +84,7 @@ public class PetApiController implements PetApi {
 
     public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true ) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,
-        @ApiParam(value = "file detail") @RequestPart("file") MultipartFile file,
+        @ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return delegate.uploadFile(petId, additionalMetadata, file);
