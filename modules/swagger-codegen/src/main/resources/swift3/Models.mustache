@@ -277,7 +277,7 @@ class Decoders {
 {{/isEnum}}
 {{^isEnum}}
 {{#allVars.isEmpty}}
-            if let source = source as? {{dataType}} {
+            if let source = source as? {{classname}} {
                 return .success(source)
             } else {
                 return .failure(.typeMismatch(expected: "Typealias {{classname}}", actual: "\(source)"))
@@ -335,8 +335,11 @@ class Decoders {
                 }
 
                 for key in propsDictionary.keys {
-                    if let decodedValue = Decoders.decodeOptional(clazz: String.self, source: propsDictionary[key] as AnyObject?) {
-                        result[key] = decodedValue
+                    switch  Decoders.decodeOptional(clazz: String.self, source: propsDictionary[key] as AnyObject?) {
+
+                    case let .success(value): result[key] = value
+                    default: continue
+
                     }
                 }
             {{/additionalPropertiesType}}
