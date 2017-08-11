@@ -1,7 +1,12 @@
+import java.util.Objects;
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
 /**
  * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
  */
 {{>generatedAnnotation}}
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}
     {{#isEnum}}
@@ -39,11 +44,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
-    if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+    if ({{name}} == null) {
+      {{name}} = {{{defaultValue}}};
     }
     {{/required}}
-    this.{{name}}.add({{name}}Item);
+    {{name}}.add({{name}}Item);
     return this;
   }
   {{/isListContainer}}
@@ -97,7 +102,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
+    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
         {{/hasMore}}{{/vars}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
@@ -108,6 +113,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

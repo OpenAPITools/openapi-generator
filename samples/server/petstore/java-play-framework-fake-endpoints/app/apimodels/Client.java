@@ -1,14 +1,15 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * Client
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Client   {
   @JsonProperty("client")
   private String client = null;
@@ -40,7 +41,7 @@ public class Client   {
       return false;
     }
     Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    return Objects.equals(client, client.client);
   }
 
   @Override
@@ -48,6 +49,7 @@ public class Client   {
     return Objects.hash(client);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

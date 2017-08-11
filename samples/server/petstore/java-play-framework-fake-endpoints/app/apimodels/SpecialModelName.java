@@ -1,14 +1,15 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * SpecialModelName
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
   private Long specialPropertyName = null;
@@ -40,7 +41,7 @@ public class SpecialModelName   {
       return false;
     }
     SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.specialPropertyName, specialModelName.specialPropertyName);
+    return Objects.equals(specialPropertyName, specialModelName.specialPropertyName);
   }
 
   @Override
@@ -48,6 +49,7 @@ public class SpecialModelName   {
     return Objects.hash(specialPropertyName);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

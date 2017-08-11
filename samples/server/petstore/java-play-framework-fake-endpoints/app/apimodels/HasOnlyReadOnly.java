@@ -1,14 +1,15 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * HasOnlyReadOnly
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
   private String bar = null;
@@ -60,8 +61,8 @@ public class HasOnlyReadOnly   {
       return false;
     }
     HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
-    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
-        Objects.equals(this.foo, hasOnlyReadOnly.foo);
+    return Objects.equals(bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(foo, hasOnlyReadOnly.foo);
   }
 
   @Override
@@ -69,6 +70,7 @@ public class HasOnlyReadOnly   {
     return Objects.hash(bar, foo);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

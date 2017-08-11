@@ -1,15 +1,16 @@
 package apimodels;
 
-import java.util.Objects;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * NumberOnly
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class NumberOnly   {
   @JsonProperty("JustNumber")
   private BigDecimal justNumber = null;
@@ -42,7 +43,7 @@ public class NumberOnly   {
       return false;
     }
     NumberOnly numberOnly = (NumberOnly) o;
-    return Objects.equals(this.justNumber, numberOnly.justNumber);
+    return Objects.equals(justNumber, numberOnly.justNumber);
   }
 
   @Override
@@ -50,6 +51,7 @@ public class NumberOnly   {
     return Objects.hash(justNumber);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

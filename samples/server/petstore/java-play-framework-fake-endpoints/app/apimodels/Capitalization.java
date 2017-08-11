@@ -1,14 +1,15 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * Capitalization
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Capitalization   {
   @JsonProperty("smallCamel")
   private String smallCamel = null;
@@ -140,12 +141,12 @@ public class Capitalization   {
       return false;
     }
     Capitalization capitalization = (Capitalization) o;
-    return Objects.equals(this.smallCamel, capitalization.smallCamel) &&
-        Objects.equals(this.capitalCamel, capitalization.capitalCamel) &&
-        Objects.equals(this.smallSnake, capitalization.smallSnake) &&
-        Objects.equals(this.capitalSnake, capitalization.capitalSnake) &&
-        Objects.equals(this.scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
-        Objects.equals(this.ATT_NAME, capitalization.ATT_NAME);
+    return Objects.equals(smallCamel, capitalization.smallCamel) &&
+        Objects.equals(capitalCamel, capitalization.capitalCamel) &&
+        Objects.equals(smallSnake, capitalization.smallSnake) &&
+        Objects.equals(capitalSnake, capitalization.capitalSnake) &&
+        Objects.equals(scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
+        Objects.equals(ATT_NAME, capitalization.ATT_NAME);
   }
 
   @Override
@@ -153,6 +154,7 @@ public class Capitalization   {
     return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

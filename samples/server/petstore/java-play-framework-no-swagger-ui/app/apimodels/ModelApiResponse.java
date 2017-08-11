@@ -1,14 +1,15 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * Describes the result of uploading an image resource
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelApiResponse   {
   @JsonProperty("code")
   private Integer code = null;
@@ -80,9 +81,9 @@ public class ModelApiResponse   {
       return false;
     }
     ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(this.code, _apiResponse.code) &&
-        Objects.equals(this.type, _apiResponse.type) &&
-        Objects.equals(this.message, _apiResponse.message);
+    return Objects.equals(code, _apiResponse.code) &&
+        Objects.equals(type, _apiResponse.type) &&
+        Objects.equals(message, _apiResponse.message);
   }
 
   @Override
@@ -90,6 +91,7 @@ public class ModelApiResponse   {
     return Objects.hash(code, type, message);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import javax.validation.constraints.*;
 
+@SuppressWarnings("RedundantThrows")
 public interface PetApiControllerImpInterface {
     void addPet(Pet body) throws Exception;
 

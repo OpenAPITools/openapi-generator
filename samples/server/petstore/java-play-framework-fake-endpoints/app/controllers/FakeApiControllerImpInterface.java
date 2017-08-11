@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import javax.validation.constraints.*;
 
+@SuppressWarnings("RedundantThrows")
 public interface FakeApiControllerImpInterface {
     Boolean fakeOuterBooleanSerialize(Boolean body) throws Exception;
 

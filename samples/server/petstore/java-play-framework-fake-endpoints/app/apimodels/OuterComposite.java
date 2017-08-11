@@ -1,15 +1,16 @@
 package apimodels;
 
-import java.util.Objects;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * OuterComposite
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")
   private BigDecimal myNumber = null;
@@ -82,9 +83,9 @@ public class OuterComposite   {
       return false;
     }
     OuterComposite outerComposite = (OuterComposite) o;
-    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
-        Objects.equals(this.myString, outerComposite.myString) &&
-        Objects.equals(this.myBoolean, outerComposite.myBoolean);
+    return Objects.equals(myNumber, outerComposite.myNumber) &&
+        Objects.equals(myString, outerComposite.myString) &&
+        Objects.equals(myBoolean, outerComposite.myBoolean);
   }
 
   @Override
@@ -92,6 +93,7 @@ public class OuterComposite   {
     return Objects.hash(myNumber, myString, myBoolean);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

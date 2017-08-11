@@ -1,6 +1,5 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.Animal;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
@@ -10,11 +9,13 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   private UUID uuid = null;
@@ -68,7 +69,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;
@@ -97,9 +98,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
   }
 
   @Override
@@ -107,6 +108,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return Objects.hash(uuid, dateTime, map);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

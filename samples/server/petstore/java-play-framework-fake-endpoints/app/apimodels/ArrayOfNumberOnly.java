@@ -1,17 +1,18 @@
 package apimodels;
 
-import java.util.Objects;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * ArrayOfNumberOnly
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")
   private List<BigDecimal> arrayNumber = null;
@@ -22,10 +23,10 @@ public class ArrayOfNumberOnly   {
   }
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
-    if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+    if (arrayNumber == null) {
+      arrayNumber = new ArrayList<>();
     }
-    this.arrayNumber.add(arrayNumberItem);
+    arrayNumber.add(arrayNumberItem);
     return this;
   }
 
@@ -52,7 +53,7 @@ public class ArrayOfNumberOnly   {
       return false;
     }
     ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
-    return Objects.equals(this.arrayNumber, arrayOfNumberOnly.arrayNumber);
+    return Objects.equals(arrayNumber, arrayOfNumberOnly.arrayNumber);
   }
 
   @Override
@@ -60,6 +61,7 @@ public class ArrayOfNumberOnly   {
     return Objects.hash(arrayNumber);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

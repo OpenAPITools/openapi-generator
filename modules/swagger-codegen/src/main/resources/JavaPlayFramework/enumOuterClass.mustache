@@ -18,7 +18,7 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
   {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
   {{/gson}}
 
-  private {{{dataType}}} value;
+  private final {{{dataType}}} value;
 
   {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}({{{dataType}}} value) {
     this.value = value;

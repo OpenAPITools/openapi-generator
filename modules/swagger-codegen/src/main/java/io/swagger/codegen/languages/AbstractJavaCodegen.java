@@ -638,19 +638,39 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (ap.getItems() == null) {
                 return null;
             }
-            return String.format(pattern, getTypeDeclaration(ap.getItems()));
+
+            String typeDeclaration = getTypeDeclaration(ap.getItems());
+            Object java8obj = additionalProperties.get("java8");
+            if (java8obj != null) {
+                Boolean java8 = Boolean.valueOf(java8obj.toString());
+                if (java8 != null && java8) {
+                    typeDeclaration = "";
+                }
+            }
+
+            return String.format(pattern, typeDeclaration);
         } else if (p instanceof MapProperty) {
             final MapProperty ap = (MapProperty) p;
             final String pattern;
             if (fullJavaUtil) {
-                pattern = "new java.util.HashMap<String, %s>()";
+                pattern = "new java.util.HashMap<%s>()";
             } else {
-                pattern = "new HashMap<String, %s>()";
+                pattern = "new HashMap<%s>()";
             }
             if (ap.getAdditionalProperties() == null) {
                 return null;
             }
-            return String.format(pattern, getTypeDeclaration(ap.getAdditionalProperties()));
+
+            String typeDeclaration = String.format("String, %s", getTypeDeclaration(ap.getAdditionalProperties()));
+            Object java8obj = additionalProperties.get("java8");
+            if (java8obj != null) {
+                Boolean java8 = Boolean.valueOf(java8obj.toString());
+                if (java8 != null && java8) {
+                    typeDeclaration = "";
+                }
+            }
+
+            return String.format(pattern, typeDeclaration);
         } else if (p instanceof IntegerProperty) {
             IntegerProperty dp = (IntegerProperty) p;
             if (dp.getDefault() != null) {

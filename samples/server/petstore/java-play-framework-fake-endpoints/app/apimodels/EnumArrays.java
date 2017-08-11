@@ -1,16 +1,17 @@
 package apimodels;
 
-import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * EnumArrays
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class EnumArrays   {
   /**
    * Gets or Sets justSymbol
@@ -20,7 +21,7 @@ public class EnumArrays   {
     
     DOLLAR("$");
 
-    private String value;
+    private final String value;
 
     JustSymbolEnum(String value) {
       this.value = value;
@@ -54,7 +55,7 @@ public class EnumArrays   {
     
     CRAB("crab");
 
-    private String value;
+    private final String value;
 
     ArrayEnumEnum(String value) {
       this.value = value;
@@ -103,10 +104,10 @@ public class EnumArrays   {
   }
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
-    if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+    if (arrayEnum == null) {
+      arrayEnum = new ArrayList<>();
     }
-    this.arrayEnum.add(arrayEnumItem);
+    arrayEnum.add(arrayEnumItem);
     return this;
   }
 
@@ -132,8 +133,8 @@ public class EnumArrays   {
       return false;
     }
     EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
-        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
+    return Objects.equals(justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override
@@ -141,6 +142,7 @@ public class EnumArrays   {
     return Objects.hash(justSymbol, arrayEnum);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -1,14 +1,15 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * Model for testing model name starting with number
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Model200Response   {
   @JsonProperty("name")
   private Integer name = null;
@@ -60,8 +61,8 @@ public class Model200Response   {
       return false;
     }
     Model200Response _200Response = (Model200Response) o;
-    return Objects.equals(this.name, _200Response.name) &&
-        Objects.equals(this.propertyClass, _200Response.propertyClass);
+    return Objects.equals(name, _200Response.name) &&
+        Objects.equals(propertyClass, _200Response.propertyClass);
   }
 
   @Override
@@ -69,6 +70,7 @@ public class Model200Response   {
     return Objects.hash(name, propertyClass);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

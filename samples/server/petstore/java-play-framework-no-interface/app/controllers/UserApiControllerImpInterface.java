@@ -11,7 +11,7 @@ import java.util.HashMap;
 import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
-public interface UserApiControllerImpInterface {
+interface UserApiControllerImpInterface {
     void createUser(User body) throws Exception;
 
     void createUsersWithArrayInput(List<User> body) throws Exception;
