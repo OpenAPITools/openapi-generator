@@ -33,3 +33,4 @@ open class EnumArrays: JSONEncodable {
         return dictionary
     }
 }
+

@@ -25,3 +25,4 @@ open class Animal: JSONEncodable {
         return dictionary
     }
 }
+
