@@ -8,15 +8,18 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * ArrayOfNumberOnly
  */
+@Validated
 
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")
+  @Valid
   private List<BigDecimal> arrayNumber = null;
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {

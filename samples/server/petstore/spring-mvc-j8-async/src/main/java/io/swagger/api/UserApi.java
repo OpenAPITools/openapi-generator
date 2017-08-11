@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -99,7 +100,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<String>> loginUser( @NotNull@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username, @NotNull@ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password, @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+    default CompletableFuture<ResponseEntity<String>> loginUser( @NotNull@ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username, @NotNull@ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password, @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return CompletableFuture.completedFuture(new ResponseEntity<String>(HttpStatus.OK));
     }
