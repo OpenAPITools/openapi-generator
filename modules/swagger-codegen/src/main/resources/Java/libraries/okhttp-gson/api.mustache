@@ -72,7 +72,7 @@ public class {{classname}} {
      * @throws ApiException If fail to serialize the request body object
         {{#externalDocs}}
      * {{description}}
-     * @see {{url}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
         {{/externalDocs}}
      */
     public com.squareup.okhttp.Call {{operationId}}Call({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
@@ -177,7 +177,7 @@ public class {{classname}} {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
         {{#externalDocs}}
      * {{description}}
-     * @see {{url}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
         {{/externalDocs}}
      */
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
@@ -193,7 +193,7 @@ public class {{classname}} {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
         {{#externalDocs}}
      * {{description}}
-     * @see {{url}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
         {{/externalDocs}}
      */
     public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
@@ -211,7 +211,7 @@ public class {{classname}} {
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
         {{#externalDocs}}
      * {{description}}
-     * @see {{url}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
         {{/externalDocs}}
      */
     public com.squareup.okhttp.Call {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ApiCallback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{localVariablePrefix}}callback) throws ApiException {

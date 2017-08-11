@@ -54,7 +54,7 @@ public class {{classname}} {
    {{/isDeprecated}}
    {{#externalDocs}}
    * {{description}}
-   * @see {{url}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
    {{/externalDocs}}
    */
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
