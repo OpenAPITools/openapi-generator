@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import java.io.File;
 import java.io.IOException;
 import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -42,9 +43,7 @@ public class UserApiController extends Controller {
         body.validate();
 
         imp.createUser(body);
-        
         return ok();
-        
     }
 
     @ApiAction
@@ -58,9 +57,7 @@ public class UserApiController extends Controller {
         }
 
         imp.createUsersWithArrayInput(body);
-        
         return ok();
-        
     }
 
     @ApiAction
@@ -74,17 +71,13 @@ public class UserApiController extends Controller {
         }
 
         imp.createUsersWithListInput(body);
-        
         return ok();
-        
     }
 
     @ApiAction
     public Result deleteUser(String username)  {
         imp.deleteUser(username);
-        
         return ok();
-        
     }
 
     @ApiAction
@@ -93,8 +86,6 @@ public class UserApiController extends Controller {
         obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 
     @ApiAction
@@ -102,26 +93,22 @@ public class UserApiController extends Controller {
         String valueusername = request().getQueryString("username");
         String username;
 
-        username = (String)valueusername;
+        username = valueusername;
 
         String valuepassword = request().getQueryString("password");
         String password;
 
-        password = (String)valuepassword;
+        password = valuepassword;
 
         String obj = imp.loginUser(username, password);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 
     @ApiAction
     public Result logoutUser()  {
         imp.logoutUser();
-        
         return ok();
-        
     }
 
     @ApiAction
@@ -133,8 +120,6 @@ public class UserApiController extends Controller {
         body.validate();
 
         imp.updateUser(username, body);
-        
         return ok();
-        
     }
 }

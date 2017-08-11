@@ -1,15 +1,16 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.Animal;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * Cat
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed = null;
@@ -41,7 +42,7 @@ public class Cat extends Animal  {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(this.declawed, cat.declawed) &&
+    return Objects.equals(declawed, cat.declawed) &&
         super.equals(o);
   }
 
@@ -50,6 +51,7 @@ public class Cat extends Animal  {
     return Objects.hash(declawed, super.hashCode());
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -1,11 +1,14 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import java.util.Objects;
 /**
  * A category for a pet
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Category   {
   @JsonProperty("id")
   private Long id = null;
@@ -57,8 +60,8 @@ public class Category   {
       return false;
     }
     Category category = (Category) o;
-    return Objects.equals(this.id, category.id) &&
-        Objects.equals(this.name, category.name);
+    return Objects.equals(id, category.id) &&
+        Objects.equals(name, category.name);
   }
 
   @Override
@@ -66,6 +69,7 @@ public class Category   {
     return Objects.hash(id, name);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

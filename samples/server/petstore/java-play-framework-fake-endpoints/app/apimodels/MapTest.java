@@ -1,17 +1,18 @@
 package apimodels;
 
-import java.util.Objects;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * MapTest
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MapTest   {
   @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -24,7 +25,7 @@ public class MapTest   {
     
     LOWER("lower");
 
-    private String value;
+    private final String value;
 
     InnerEnum(String value) {
       this.value = value;
@@ -57,7 +58,7 @@ public class MapTest   {
 
   public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
     if (this.mapMapOfString == null) {
-      this.mapMapOfString = new HashMap<String, Map<String, String>>();
+      this.mapMapOfString = new HashMap<>();
     }
     this.mapMapOfString.put(key, mapMapOfStringItem);
     return this;
@@ -83,7 +84,7 @@ public class MapTest   {
 
   public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
     if (this.mapOfEnumString == null) {
-      this.mapOfEnumString = new HashMap<String, InnerEnum>();
+      this.mapOfEnumString = new HashMap<>();
     }
     this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
@@ -111,8 +112,8 @@ public class MapTest   {
       return false;
     }
     MapTest mapTest = (MapTest) o;
-    return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString);
+    return Objects.equals(mapMapOfString, mapTest.mapMapOfString) &&
+        Objects.equals(mapOfEnumString, mapTest.mapOfEnumString);
   }
 
   @Override
@@ -120,6 +121,7 @@ public class MapTest   {
     return Objects.hash(mapMapOfString, mapOfEnumString);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

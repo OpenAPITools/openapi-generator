@@ -1,16 +1,17 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * Animal
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Animal   {
   @JsonProperty("className")
   private String className = null;
@@ -63,8 +64,8 @@ public class Animal   {
       return false;
     }
     Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color);
+    return Objects.equals(className, animal.className) &&
+        Objects.equals(color, animal.color);
   }
 
   @Override
@@ -72,6 +73,7 @@ public class Animal   {
     return Objects.hash(className, color);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

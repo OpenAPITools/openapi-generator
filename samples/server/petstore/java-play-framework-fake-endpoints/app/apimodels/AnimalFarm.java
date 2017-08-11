@@ -1,17 +1,18 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.Animal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * AnimalFarm
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AnimalFarm extends ArrayList<Animal>  {
 
   @Override
@@ -30,6 +31,7 @@ public class AnimalFarm extends ArrayList<Animal>  {
     return Objects.hash(super.hashCode());
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

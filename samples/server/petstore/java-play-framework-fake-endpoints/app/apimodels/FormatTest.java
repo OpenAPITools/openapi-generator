@@ -1,6 +1,5 @@
 package apimodels;
 
-import java.util.Objects;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -8,11 +7,13 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * FormatTest
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer = null;
@@ -315,19 +316,19 @@ public class FormatTest   {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
-        Objects.equals(this.int32, formatTest.int32) &&
-        Objects.equals(this.int64, formatTest.int64) &&
-        Objects.equals(this.number, formatTest.number) &&
-        Objects.equals(this._float, formatTest._float) &&
-        Objects.equals(this._double, formatTest._double) &&
-        Objects.equals(this.string, formatTest.string) &&
-        Objects.equals(this._byte, formatTest._byte) &&
-        Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+    return Objects.equals(integer, formatTest.integer) &&
+        Objects.equals(int32, formatTest.int32) &&
+        Objects.equals(int64, formatTest.int64) &&
+        Objects.equals(number, formatTest.number) &&
+        Objects.equals(_float, formatTest._float) &&
+        Objects.equals(_double, formatTest._double) &&
+        Objects.equals(string, formatTest.string) &&
+        Objects.equals(_byte, formatTest._byte) &&
+        Objects.equals(binary, formatTest.binary) &&
+        Objects.equals(date, formatTest.date) &&
+        Objects.equals(dateTime, formatTest.dateTime) &&
+        Objects.equals(uuid, formatTest.uuid) &&
+        Objects.equals(password, formatTest.password);
   }
 
   @Override
@@ -335,6 +336,7 @@ public class FormatTest   {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

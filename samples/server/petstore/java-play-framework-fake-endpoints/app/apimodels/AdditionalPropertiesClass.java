@@ -1,17 +1,18 @@
 package apimodels;
 
-import java.util.Objects;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_property")
   private Map<String, String> mapProperty = null;
@@ -26,7 +27,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapPropertyItem(String key, String mapPropertyItem) {
     if (this.mapProperty == null) {
-      this.mapProperty = new HashMap<String, String>();
+      this.mapProperty = new HashMap<>();
     }
     this.mapProperty.put(key, mapPropertyItem);
     return this;
@@ -51,7 +52,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapOfMapPropertyItem(String key, Map<String, String> mapOfMapPropertyItem) {
     if (this.mapOfMapProperty == null) {
-      this.mapOfMapProperty = new HashMap<String, Map<String, String>>();
+      this.mapOfMapProperty = new HashMap<>();
     }
     this.mapOfMapProperty.put(key, mapOfMapPropertyItem);
     return this;
@@ -80,8 +81,8 @@ public class AdditionalPropertiesClass   {
       return false;
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
-    return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+    return Objects.equals(mapProperty, additionalPropertiesClass.mapProperty) &&
+        Objects.equals(mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
   }
 
   @Override
@@ -89,6 +90,7 @@ public class AdditionalPropertiesClass   {
     return Objects.hash(mapProperty, mapOfMapProperty);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

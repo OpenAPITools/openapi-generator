@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import java.io.IOException;
+import java.io.File;
 import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -33,19 +33,16 @@ public class StoreApiController extends Controller {
 
     @ApiAction
     public Result deleteOrder(String orderId) throws Exception {
-
         return ok();
     }
 
     @ApiAction
     public Result getInventory() throws Exception {
-
         return ok();
     }
 
     @ApiAction
     public Result getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
-
         return ok();
     }
 
@@ -56,7 +53,6 @@ public class StoreApiController extends Controller {
 
         body = mapper.readValue(nodebody.toString(), Order.class);
         body.validate();
-
 
         return ok();
     }

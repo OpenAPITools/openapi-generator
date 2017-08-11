@@ -1,14 +1,15 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ClassModel   {
   @JsonProperty("_class")
   private String propertyClass = null;
@@ -40,7 +41,7 @@ public class ClassModel   {
       return false;
     }
     ClassModel classModel = (ClassModel) o;
-    return Objects.equals(this.propertyClass, classModel.propertyClass);
+    return Objects.equals(propertyClass, classModel.propertyClass);
   }
 
   @Override
@@ -48,6 +49,7 @@ public class ClassModel   {
     return Objects.hash(propertyClass);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

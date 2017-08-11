@@ -1,10 +1,8 @@
 package apimodels;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
@@ -18,7 +16,7 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
-  private String value;
+  private final String value;
 
   EnumClass(String value) {
     this.value = value;

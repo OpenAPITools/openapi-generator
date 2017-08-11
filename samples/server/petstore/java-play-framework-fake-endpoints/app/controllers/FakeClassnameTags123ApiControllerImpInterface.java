@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import javax.validation.constraints.*;
 
+@SuppressWarnings("RedundantThrows")
 public interface FakeClassnameTags123ApiControllerImpInterface {
     Client testClassname(Client body) throws Exception;
 

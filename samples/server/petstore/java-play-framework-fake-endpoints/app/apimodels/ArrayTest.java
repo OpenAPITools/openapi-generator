@@ -1,17 +1,18 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * ArrayTest
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayTest   {
   @JsonProperty("array_of_string")
   private List<String> arrayOfString = null;
@@ -28,10 +29,10 @@ public class ArrayTest   {
   }
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
-    if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<String>();
+    if (arrayOfString == null) {
+      arrayOfString = new ArrayList<>();
     }
-    this.arrayOfString.add(arrayOfStringItem);
+    arrayOfString.add(arrayOfStringItem);
     return this;
   }
 
@@ -53,10 +54,10 @@ public class ArrayTest   {
   }
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
-    if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+    if (arrayArrayOfInteger == null) {
+      arrayArrayOfInteger = new ArrayList<>();
     }
-    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+    arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
   }
 
@@ -79,10 +80,10 @@ public class ArrayTest   {
   }
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
-    if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+    if (arrayArrayOfModel == null) {
+      arrayArrayOfModel = new ArrayList<>();
     }
-    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
+    arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }
 
@@ -109,9 +110,9 @@ public class ArrayTest   {
       return false;
     }
     ArrayTest arrayTest = (ArrayTest) o;
-    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override
@@ -119,6 +120,7 @@ public class ArrayTest   {
     return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

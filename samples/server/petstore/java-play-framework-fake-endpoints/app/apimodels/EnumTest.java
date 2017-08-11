@@ -1,15 +1,16 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.OuterEnum;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
+import java.util.Objects;
 import javax.validation.constraints.*;
 /**
  * EnumTest
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class EnumTest   {
   /**
    * Gets or Sets enumString
@@ -21,7 +22,7 @@ public class EnumTest   {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringEnum(String value) {
       this.value = value;
@@ -55,7 +56,7 @@ public class EnumTest   {
     
     NUMBER_MINUS_1(-1);
 
-    private Integer value;
+    private final Integer value;
 
     EnumIntegerEnum(Integer value) {
       this.value = value;
@@ -89,7 +90,7 @@ public class EnumTest   {
     
     NUMBER_MINUS_1_DOT_2(-1.2);
 
-    private Double value;
+    private final Double value;
 
     EnumNumberEnum(Double value) {
       this.value = value;
@@ -197,10 +198,10 @@ public class EnumTest   {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(this.enumString, enumTest.enumString) &&
-        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
-        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        Objects.equals(this.outerEnum, enumTest.outerEnum);
+    return Objects.equals(enumString, enumTest.enumString) &&
+        Objects.equals(enumInteger, enumTest.enumInteger) &&
+        Objects.equals(enumNumber, enumTest.enumNumber) &&
+        Objects.equals(outerEnum, enumTest.outerEnum);
   }
 
   @Override
@@ -208,6 +209,7 @@ public class EnumTest   {
     return Objects.hash(enumString, enumInteger, enumNumber, outerEnum);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

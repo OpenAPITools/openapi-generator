@@ -8,14 +8,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
-public interface StoreApiControllerImpInterface {
+interface StoreApiControllerImpInterface {
     void deleteOrder(String orderId) throws Exception;
 
     Map<String, Integer> getInventory() throws Exception;
 
-    Order getOrderById(Long orderId) throws Exception;
+    Order getOrderById( @Min(1) @Max(5)Long orderId) throws Exception;
 
     Order placeOrder(Order body) throws Exception;
 
