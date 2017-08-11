@@ -31,7 +31,7 @@ public interface {{classname}} {
 {{/returnType}}
 {{#externalDocs}}
    * {{description}}
-   * @see {{url}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
    */
   {{#formParams}}{{#-first}}
@@ -50,7 +50,7 @@ public interface {{classname}} {
    * @param cb callback method
 {{#externalDocs}}
    * {{description}}
-   * @see {{url}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
    */
   {{#formParams}}{{#-first}}

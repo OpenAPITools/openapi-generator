@@ -32,7 +32,7 @@ public interface {{classname}} extends ApiClient.Api {
 {{/returnType}}
 {{#externalDocs}}
   * {{description}}
-  * @see {{url}}
+  * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
    */
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#hasMore}}&{{/hasMore}}{{/queryParams}}")
@@ -70,7 +70,7 @@ public interface {{classname}} extends ApiClient.Api {
       {{/returnType}}
       {{#externalDocs}}
    * {{description}}
-   * @see {{url}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
       {{/externalDocs}}
    */
   @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{#hasMore}}&{{/hasMore}}{{/queryParams}}")
