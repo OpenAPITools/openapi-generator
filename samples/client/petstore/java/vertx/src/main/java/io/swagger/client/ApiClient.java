@@ -40,10 +40,11 @@ public class ApiClient {
     private static final OpenOptions FILE_DOWNLOAD_OPTIONS = new OpenOptions().setCreate(true).setTruncateExisting(true);
 
     private final Vertx vertx;
+    private final JsonObject config;
+    private final String identifier;
 
     private MultiMap defaultHeaders = MultiMap.caseInsensitiveMultiMap();
     private Map<String, Authentication> authentications;
-    private WebClient webClient;
     private String basePath = "http://petstore.swagger.io:80/v2";
     private DateFormat dateFormat;
     private ObjectMapper objectMapper;
@@ -85,9 +86,8 @@ public class ApiClient {
         // Configurations
         this.basePath = config.getString("basePath", this.basePath);
         this.downloadsDir = config.getString("downloadsDir", this.downloadsDir);
-
-        // Build WebClient
-        this.webClient = buildWebClient(vertx, config);
+        this.config = config;
+        this.identifier = UUID.randomUUID().toString();
     }
 
     public Vertx getVertx() {
@@ -103,13 +103,14 @@ public class ApiClient {
         return this;
     }
 
-    public WebClient getWebClient() {
+    public synchronized WebClient getWebClient() {
+        String webClientIdentifier = "web-client-" + identifier;
+        WebClient webClient = Vertx.currentContext().get(webClientIdentifier);
+        if (webClient == null) {
+            webClient = buildWebClient(vertx, config);
+            Vertx.currentContext().put(webClientIdentifier, webClient);
+        }
         return webClient;
-    }
-
-    public ApiClient setWebClient(WebClient webClient) {
-        this.webClient = webClient;
-        return this;
     }
 
     public String getBasePath() {
@@ -429,7 +430,7 @@ public class ApiClient {
         }
 
         HttpMethod httpMethod = HttpMethod.valueOf(method);
-        HttpRequest<Buffer> request = webClient.requestAbs(httpMethod, basePath + path);
+        HttpRequest<Buffer> request = getWebClient().requestAbs(httpMethod, basePath + path);
 
         if (httpMethod == HttpMethod.PATCH) {
             request.putHeader("X-HTTP-Method-Override", "PATCH");
