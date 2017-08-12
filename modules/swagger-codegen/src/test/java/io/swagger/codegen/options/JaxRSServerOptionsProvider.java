@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.languages.JavaCXFServerCodegen;
 import io.swagger.codegen.languages.JavaClientCodegen;
+import io.swagger.codegen.languages.JavaJerseyServerCodegen;
 
 import java.util.Map;
 
@@ -39,6 +40,7 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String JAVA8_MODE_VALUE = "false";
     public static final String WITH_XML_VALUE = "false";
+    public static final String USE_TAGS = "useTags";
 
 
     @Override
@@ -89,7 +91,8 @@ public class JaxRSServerOptionsProvider implements OptionsProvider {
             .put("hideGenerationTimestamp", "true")
             .put(JavaCXFServerCodegen.USE_BEANVALIDATION, USE_BEANVALIDATION)
             .put("serverPort", "2345")
-            .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE);
+            .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
+            .put(JavaJerseyServerCodegen.USE_TAGS, USE_TAGS);
 
         return builder.build();
     }
