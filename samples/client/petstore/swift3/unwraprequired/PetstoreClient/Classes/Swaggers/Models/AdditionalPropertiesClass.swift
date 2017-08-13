@@ -28,3 +28,4 @@ open class AdditionalPropertiesClass: JSONEncodable {
         return dictionary
     }
 }
+

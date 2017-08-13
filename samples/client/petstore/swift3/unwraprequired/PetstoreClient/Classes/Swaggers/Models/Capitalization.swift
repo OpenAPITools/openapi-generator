@@ -41,3 +41,4 @@ open class Capitalization: JSONEncodable {
         return dictionary
     }
 }
+

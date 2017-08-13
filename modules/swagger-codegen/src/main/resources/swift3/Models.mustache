@@ -209,7 +209,7 @@ class Decoders {
         }
     }
 
-    static func decodeOptional<T: RawRepresentable, U: AnyObject where T.RawValue == U>(clazz: T, source: AnyObject) -> Decoded<T?> {
+    static func decodeOptional<T: RawRepresentable, U: AnyObject>(clazz: T, source: AnyObject) -> Decoded<T?> where T.RawValue == U {
         if let value = source as? U {
             if let enumValue = T.init(rawValue: value) {
                 return .success(enumValue)

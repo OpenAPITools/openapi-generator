@@ -31,3 +31,4 @@ open class ApiResponse: JSONEncodable {
         return dictionary
     }
 }
+

@@ -31,3 +31,4 @@ open class ArrayTest: JSONEncodable {
         return dictionary
     }
 }
+

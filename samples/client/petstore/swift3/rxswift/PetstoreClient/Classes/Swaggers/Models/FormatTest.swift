@@ -47,3 +47,4 @@ open class FormatTest: JSONEncodable {
         return dictionary
     }
 }
+

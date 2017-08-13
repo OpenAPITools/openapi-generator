@@ -29,3 +29,4 @@ open class Model200Response: JSONEncodable {
         return dictionary
     }
 }
+

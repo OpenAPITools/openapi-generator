@@ -24,3 +24,4 @@ open class ClassModel: JSONEncodable {
         return dictionary
     }
 }
+
