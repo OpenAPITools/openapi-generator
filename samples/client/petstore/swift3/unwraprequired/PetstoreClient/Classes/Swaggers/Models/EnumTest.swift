@@ -47,3 +47,4 @@ open class EnumTest: JSONEncodable {
         return dictionary
     }
 }
+

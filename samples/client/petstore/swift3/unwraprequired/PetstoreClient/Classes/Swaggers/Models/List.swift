@@ -25,3 +25,4 @@ open class List: JSONEncodable {
         return dictionary
     }
 }
+

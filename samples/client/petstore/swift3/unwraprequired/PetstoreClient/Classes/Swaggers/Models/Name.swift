@@ -35,3 +35,4 @@ open class Name: JSONEncodable {
         return dictionary
     }
 }
+

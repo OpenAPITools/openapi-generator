@@ -25,3 +25,4 @@ open class SpecialModelName: JSONEncodable {
         return dictionary
     }
 }
+

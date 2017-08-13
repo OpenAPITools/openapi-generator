@@ -28,3 +28,4 @@ open class ReadOnlyFirst: JSONEncodable {
         return dictionary
     }
 }
+

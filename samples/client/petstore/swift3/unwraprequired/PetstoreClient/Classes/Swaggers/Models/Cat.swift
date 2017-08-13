@@ -25,3 +25,4 @@ open class Cat: Animal {
         return dictionary
     }
 }
+

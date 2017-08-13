@@ -28,3 +28,4 @@ open class Tag: JSONEncodable {
         return dictionary
     }
 }
+

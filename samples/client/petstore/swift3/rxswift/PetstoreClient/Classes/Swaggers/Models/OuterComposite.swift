@@ -27,3 +27,4 @@ open class OuterComposite: JSONEncodable {
         return dictionary
     }
 }
+
