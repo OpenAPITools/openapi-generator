@@ -13,6 +13,7 @@ import com.google.gson.stream.JsonWriter;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 {{/joda}}
 {{#threetenbp}}
@@ -132,11 +133,12 @@ public class JSON {
      */
     public static class DateTimeTypeAdapter extends TypeAdapter<DateTime> {
 
-        private final DateTimeFormatter parseFormatter = ISODateTimeFormat.dateOptionalTimeParser();
-        private final DateTimeFormatter printFormatter = ISODateTimeFormat.dateTime();
+        private DateTimeFormatter formatter;
 
         public DateTimeTypeAdapter() {
-            this(ISODateTimeFormat.dateTime().withOffsetParsed());
+            this(new DateTimeFormatterBuilder()
+                .append(ISODateTimeFormat.dateTime().getPrinter(), ISODateTimeFormat.dateOptionalTimeParser().getParser())
+                .toFormatter());
         }
 
         public DateTimeTypeAdapter(DateTimeFormatter formatter) {
@@ -152,7 +154,7 @@ public class JSON {
             if (date == null) {
                 out.nullValue();
             } else {
-                out.value(printFormatter.print(date));
+                out.value(formatter.print(date));
             }
         }
 
@@ -164,7 +166,7 @@ public class JSON {
                     return null;
                 default:
                     String date = in.nextString();
-                    return parseFormatter.parseDateTime(date);
+                    return formatter.parseDateTime(date);
             }
         }
     }
