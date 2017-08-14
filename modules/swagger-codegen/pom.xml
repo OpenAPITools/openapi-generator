@@ -278,6 +278,12 @@
            <artifactId>commonmark</artifactId>
            <version>0.9.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.8.47</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
     <repositories>
