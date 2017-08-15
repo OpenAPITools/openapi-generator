@@ -73,6 +73,10 @@ public class OAuth implements Interceptor {
     public Response intercept(Chain chain)
             throws IOException {
 
+        return retryingIntercept(chain, true);
+    }
+
+    private Response retryingIntercept(Chain chain, boolean updateTokenAndRetryOnAuthorizationFailure) throws IOException {
         Request request = chain.request();
 
         // If the request already have an authorization (eg. Basic auth), do nothing
@@ -107,11 +111,10 @@ public class OAuth implements Interceptor {
             //Execute the request
             Response response = chain.proceed(rb.build());
     
-            // 401 most likely indicates that access token has expired.
-            // Time to refresh and resend the request
-            if ( response != null && (response.code() == HTTP_UNAUTHORIZED | response.code() == HTTP_FORBIDDEN) ) {
+            // 401/403 most likely indicates that access token has expired. Unless it happens two times in a row.
+            if ( response != null && (response.code() == HTTP_UNAUTHORIZED || response.code() == HTTP_FORBIDDEN) && updateTokenAndRetryOnAuthorizationFailure ) {
                 if (updateAccessToken(requestAccessToken)) {
-                    return intercept( chain );
+                    return retryingIntercept( chain, false );
                 }
             }
             return response;
