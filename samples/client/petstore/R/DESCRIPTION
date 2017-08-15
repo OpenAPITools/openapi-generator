@@ -5,7 +5,7 @@ Authors@R: person("Ramkumar", "Chandrasekaran", email = "ramkumar.november@gmail
 Description: R Package Client for <http://swagger.io> Petstore APIs.
 Depends: R (>= 3.3.3)
 Encoding: UTF-8
-License: MIT + file LICENSE
+License: MIT
 LazyData: true
 Suggests: testthat
 Imports: jsonlite, httr, R6
