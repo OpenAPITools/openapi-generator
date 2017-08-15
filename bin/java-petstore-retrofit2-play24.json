@@ -1,1 +1,1 @@
-{"useBeanValidation":"true","enableBuilderSupport":"true","library":"retrofit2", "usePlay24WS":"true"}
+{"useBeanValidation":"true","enableBuilderSupport":"true","library":"retrofit2","usePlay24WS":"true","dateLibrary":"java8"}

@@ -204,7 +204,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
             additionalProperties.put("gson", "true");
-            if ("retrofit2".equals(getLibrary())) {
+            if ("retrofit2".equals(getLibrary()) && !usePlay24WS) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if ("jersey2".equals(getLibrary()) || "resteasy".equals(getLibrary()))  {
@@ -228,7 +228,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
 
-        if (Boolean.TRUE.equals(additionalProperties.get(USE_PLAY24_WS))) {
+        if (usePlay24WS) {
             // remove unsupported auth
             Iterator<SupportingFile> iter = supportingFiles.iterator();
             while (iter.hasNext()) {
