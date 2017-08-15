@@ -27,34 +27,39 @@ public class Play24CallAdapterFactory extends CallAdapter.Factory {
         return createAdapter((ParameterizedType) returnType);
     }
 
-    private Type getTypeParam(ParameterizedType type) {
-        Type[] types = type.getActualTypeArguments();
+    private CallAdapter<?, F.Promise<?>> createAdapter(ParameterizedType returnType) {
+        Type[] types = returnType.getActualTypeArguments();
         if (types.length != 1) {
             throw new IllegalStateException("Must be exactly one type parameter");
         }
 
-        Type paramType = types[0];
-        if (paramType instanceof WildcardType) {
-            return ((WildcardType) paramType).getUpperBounds()[0];
+        Type resultType = types[0];
+        Class<?> rawTypeParam = getRawType(resultType);
+
+        boolean includeResponse = false;
+        if (rawTypeParam == Response.class) {
+            if (!(resultType instanceof ParameterizedType)) {
+                throw new IllegalStateException("Response must be parameterized"
+                        + " as Response<T>");
+            }
+            resultType = ((ParameterizedType) resultType).getActualTypeArguments()[0];
+            includeResponse = true;
         }
 
-        return paramType;
+        return new ValueAdapter(resultType, includeResponse);
     }
-
-    private CallAdapter<?, F.Promise<?>> createAdapter(ParameterizedType returnType) {
-        Type parameterType = getTypeParam(returnType);
-        return new ValueAdapter(parameterType);
-    }
-
+    
     /**
-     * Adpater that coverts values returned by API interface into Play promises
+     * Adpater that coverts values returned by API interface into CompletionStage
      */
-    static final class ValueAdapter<R> implements CallAdapter<R, F.Promise<R>> {
+    private static final class ValueAdapter<R> implements CallAdapter<R, F.Promise<R>> {
 
         private final Type responseType;
+        private final boolean includeResponse;
 
-        ValueAdapter(Type responseType) {
+        ValueAdapter(Type responseType, boolean includeResponse) {
             this.responseType = responseType;
+            this.includeResponse = includeResponse;
         }
 
         @Override
@@ -71,9 +76,13 @@ public class Play24CallAdapterFactory extends CallAdapter.Factory {
                 @Override
                 public void onResponse(Call<R> call, Response<R> response) {
                     if (response.isSuccessful()) {
-                        promise.success(response.body());
+                        if (includeResponse) {
+                            promise.success((R) response);
+                        } else {
+                            promise.success(response.body());
+                        }
                     } else {
-                        promise.failure(new Exception(response.errorBody().toString()));
+                        promise.failure(new HttpException(response));
                     }
                 }
 
@@ -87,4 +96,5 @@ public class Play24CallAdapterFactory extends CallAdapter.Factory {
             return promise;
         }
     }
+
 }
