@@ -12,6 +12,7 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
     public static final String SOURCE_FOLDER_VALUE = "src_csharp";
     public static final String PACKAGE_GUID_VALUE = "{894EAEBB-649A-498C-A735-10D0BD7B73E0}";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
+    public static final String MODEL_PROPERTY_NAMING = "modelPropertyNaming";
 
     @Override
     public String getLanguage() {
@@ -40,6 +41,7 @@ public class CSharpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.INTERFACE_PREFIX, "X")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.NETCORE_PROJECT_FILE, "false")
+                .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING)
                 .build();
     }
 

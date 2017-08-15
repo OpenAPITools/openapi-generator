@@ -20,6 +20,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
 
+    protected String modelPropertyNaming = "PascalCase";
+
     protected String packageVersion = "1.0.0";
     protected String packageName = "IO.Swagger";
     protected String packageTitle = "Swagger Library";
