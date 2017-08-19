@@ -3109,6 +3109,7 @@ public class DefaultCodegen {
                 final CodegenProperty cp = fromProperty(key, prop);
                 cp.required = mandatory.contains(key) ? true : false;
                 m.hasRequired = m.hasRequired || cp.required;
+                m.hasOptional = m.hasOptional || !cp.required;
                 if (cp.isEnum) {
                     // FIXME: if supporting inheritance, when called a second time for allProperties it is possible for
                     // m.hasEnums to be set incorrectly if allProperties has enumerations but properties does not.
