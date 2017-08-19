@@ -2278,8 +2278,7 @@ public class DefaultCodegen {
                 } else if (param instanceof BodyParameter) {
                     bodyParam = p;
                     bodyParams.add(p.copy());
-                    if(definitions != null)
-                    {
+                    if(definitions != null) {
                         op.requestBodyExamples = new ExampleGenerator(definitions).generate(null, operation.getConsumes(), bodyParam.dataType);
                     }
                 } else if (param instanceof FormParameter) {
@@ -2290,11 +2289,13 @@ public class DefaultCodegen {
                 }
             }
         }
+
         for (String i : imports) {
             if (needToImport(i)) {
                 op.imports.add(i);
             }
         }
+
         op.bodyParam = bodyParam;
         op.httpMethod = httpMethod.toUpperCase();
 
@@ -2309,6 +2310,7 @@ public class DefaultCodegen {
               }
           });
         }
+
         op.allParams = addHasMore(allParams);
         op.bodyParams = addHasMore(bodyParams);
         op.pathParams = addHasMore(pathParams);
@@ -2316,13 +2318,13 @@ public class DefaultCodegen {
         op.headerParams = addHasMore(headerParams);
         // op.cookieParams = cookieParams;
         op.formParams = addHasMore(formParams);
+        op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;
 
         if (op.allParams.size() > 0) {
             op.hasParams = true;
         }
-        op.externalDocs = operation.getExternalDocs();
 
         // set Restful Flag
         op.isRestfulShow = op.isRestfulShow();
