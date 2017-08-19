@@ -76,6 +76,53 @@ public class ExampleGenerator {
         return output;
     }
 
+    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName) {
+        List<Map<String, String>> output = new ArrayList<>();
+        Set<String> processedModels = new HashSet<>();
+        if (examples == null) {
+            if (mediaTypes == null) {
+                // assume application/json for this
+                mediaTypes = Collections.singletonList(MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            }
+            for (String mediaType : mediaTypes) {
+                Map<String, String> kv = new HashMap<>();
+                kv.put(CONTENT_TYPE, mediaType);
+                if (modelName != null && mediaType.startsWith(MIME_TYPE_JSON)) {
+                    final Model model = this.examples.get(modelName);
+                    if (model != null) {
+
+                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, model, processedModels));
+
+                        if (example != null) {
+                            kv.put(EXAMPLE, example);
+                            output.add(kv);
+                        }
+                    }
+                } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
+                    final Model model = this.examples.get(modelName);
+                    String example = new XmlExampleGenerator(this.examples).toXml(model, 0, Collections.<String>emptySet());
+                    if (example != null) {
+                        kv.put(EXAMPLE, example);
+                        output.add(kv);
+                    }
+                }
+            }
+        } else {
+            for (Map.Entry<String, Object> entry : examples.entrySet()) {
+                final Map<String, String> kv = new HashMap<>();
+                kv.put(CONTENT_TYPE, entry.getKey());
+                kv.put(EXAMPLE, Json.pretty(entry.getValue()));
+                output.add(kv);
+            }
+        }
+        if (output.size() == 0) {
+            Map<String, String> kv = new HashMap<>();
+            kv.put(OUTPUT, NONE);
+            output.add(kv);
+        }
+        return output;
+    }
+
     private Object resolvePropertyToExample(String propertyName, String mediaType, Property property, Set<String> processedModels) {
         logger.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {

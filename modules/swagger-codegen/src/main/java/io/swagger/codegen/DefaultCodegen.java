@@ -2278,6 +2278,10 @@ public class DefaultCodegen {
                 } else if (param instanceof BodyParameter) {
                     bodyParam = p;
                     bodyParams.add(p.copy());
+                    if(definitions != null)
+                    {
+                        op.requestBodyExamples = new ExampleGenerator(definitions).generate(null, operation.getConsumes(), bodyParam.dataType);
+                    }
                 } else if (param instanceof FormParameter) {
                     formParams.add(p.copy());
                 }
