@@ -33,6 +33,7 @@ public class CodegenOperation {
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
     public Set<String> imports = new HashSet<String>();
     public List<Map<String, String>> examples;
+    public List<Map<String, String>> requestBodyExamples;
     public ExternalDocs externalDocs;
     public Map<String, Object> vendorExtensions;
     public String nickname; // legacy support
