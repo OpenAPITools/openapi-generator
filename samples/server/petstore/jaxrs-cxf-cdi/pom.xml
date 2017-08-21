@@ -74,7 +74,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>[1.5.3,2)</version>
+            <version>[1.5.3,1.5.16]</version>
         </dependency>
         
        <!-- Bean Validation API support -->
