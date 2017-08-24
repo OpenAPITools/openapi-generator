@@ -200,6 +200,10 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             this.setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE))
+                this.setModelPackage(packageName + ".models");
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE))
+                this.setApiPackage(packageName + ".apis");
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
