@@ -857,10 +857,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if ("array".equals(property.containerType)) {
-          model.imports.add("ArrayList");
-        } else if ("map".equals(property.containerType)) {
-          model.imports.add("HashMap");
+        if (!fullJavaUtil) {
+            if ("array".equals(property.containerType)) {
+                model.imports.add("ArrayList");
+            } else if ("map".equals(property.containerType)) {
+                model.imports.add("HashMap");
+            }
         }
 
         if(!BooleanUtils.toBoolean(model.isEnum)) {
