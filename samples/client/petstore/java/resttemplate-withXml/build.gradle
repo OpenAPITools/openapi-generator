@@ -99,6 +99,7 @@ ext {
     spring_web_version = "4.3.9.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
+    jackson_threeten_version = "2.6.4"
 }
 
 dependencies {
@@ -108,8 +109,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    compile "joda-time:joda-time:$jodatime_version"
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     testCompile "junit:junit:$junit_version"
 }

@@ -217,7 +217,7 @@ public class EnumArrays implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(justSymbol);
@@ -234,7 +234,7 @@ public class EnumArrays implements Parcelable {
     justSymbol = (JustSymbolEnum)in.readValue(null);
     arrayEnum = (List<ArrayEnumEnum>)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

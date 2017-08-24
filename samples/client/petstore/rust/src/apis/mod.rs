@@ -19,19 +19,14 @@ impl From<serde_json::Error> for Error {
     }
 }
 
-use super::models;
+use super::models::*;
 
-mod get_pet_by_id_api;
-pub use self::get_pet_by_id_api::get_pet_by_id;
-
-mod update_pet_with_form_api;
-pub use self::update_pet_with_form_api::update_pet_with_form;
-
-mod add_pet_api;
-pub use self::add_pet_api::add_pet;
+mod pet_api;
+pub use self::pet_api::{ PetApi, PetApiClient };
+mod store_api;
+pub use self::store_api::{ StoreApi, StoreApiClient };
+mod user_api;
+pub use self::user_api::{ UserApi, UserApiClient };
 
 pub mod configuration;
 pub mod client;
-
-mod pet_api;
-pub use self::pet_api::PetAPI;

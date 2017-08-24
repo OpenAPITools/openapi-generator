@@ -1,13 +1,16 @@
 package apimodels;
 
-import java.util.Objects;
 import java.math.BigDecimal;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import java.util.Objects;
+import javax.validation.constraints.*;
 /**
  * OuterComposite
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")
   private BigDecimal myNumber = null;
@@ -27,7 +30,8 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
   **/
-    public BigDecimal getMyNumber() {
+  @Valid
+  public BigDecimal getMyNumber() {
     return myNumber;
   }
 
@@ -79,9 +83,9 @@ public class OuterComposite   {
       return false;
     }
     OuterComposite outerComposite = (OuterComposite) o;
-    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
-        Objects.equals(this.myString, outerComposite.myString) &&
-        Objects.equals(this.myBoolean, outerComposite.myBoolean);
+    return Objects.equals(myNumber, outerComposite.myNumber) &&
+        Objects.equals(myString, outerComposite.myString) &&
+        Objects.equals(myBoolean, outerComposite.myBoolean);
   }
 
   @Override
@@ -89,6 +93,7 @@ public class OuterComposite   {
     return Objects.hash(myNumber, myString, myBoolean);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -110,6 +115,22 @@ public class OuterComposite   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<OuterComposite>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<OuterComposite> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

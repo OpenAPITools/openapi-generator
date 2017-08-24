@@ -15,6 +15,8 @@
 # HOCON will fall back to substituting environment variable:
 #mykey = ${JAVA_HOME}
 
+play.filters.headers.contentSecurityPolicy=null
+
 {{#handleExceptions}}
 play.http.errorHandler="swagger.ErrorHandler"
 {{/handleExceptions}}
@@ -44,7 +46,7 @@ akka {
 # ~~~~~
 # The secret key is used to sign Play's session cookie.
 # This must be changed for production, but we don't recommend you change it in this file.
-play.crypto.secret = "changeme"
+play.http.secret.key = "changeme"
 
 ## Modules
 # https://www.playframework.com/documentation/latest/Modules
@@ -61,7 +63,17 @@ play.modules {
 # in the root package (the "app" directory), or you can define them
 # explicitly below.
 # If there are any built-in modules that you want to disable, you can list them here.
-#disabled += ""
+    {{#controllerOnly}}
+    disabled += "Module"
+    {{/controllerOnly}}
+    {{^useInterfaces}}
+    disabled += "Module"
+    {{/useInterfaces}}
+}
+
+play.assets {
+path = "/public"
+urlPrefix = "/assets"
 }
 
 ## IDE
@@ -263,7 +275,8 @@ csrf {
 # ~~~~~
 # Defines security headers that prevent XSS attacks.
 # If enabled, then all options are set to the below configuration by default:
-headers {
+play.filters.headers {
+
 # The X-Frame-Options header. If null, the header is not set.
 #frameOptions = "DENY"
 
@@ -277,7 +290,13 @@ headers {
 #permittedCrossDomainPolicies = "master-only"
 
 # The Content-Security-Policy header. If null, the header is not set.
-#contentSecurityPolicy = "default-src 'self'"
+contentSecurityPolicy = "default-src 'self'"
+
+# The Referrer-Policy header. If null, the header is not set.
+#referrerPolicy = "origin-when-cross-origin, strict-origin-when-cross-origin"
+
+# If true, allow an action to use .withHeaders to replace one or more of the above headers
+#allowActionSpecificHeaders = false
 }
 
 ## Allowed hosts filter configuration

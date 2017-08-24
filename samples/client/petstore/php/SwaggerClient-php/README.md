@@ -155,6 +155,12 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+## api_key_query
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
 ## http_basic_test
 
 - **Type**: HTTP basic authentication

@@ -1,0 +1,38 @@
+use hyper;
+use serde_json;
+
+#[derive(Debug)]
+pub enum Error {
+    Hyper(hyper::Error),
+    Serde(serde_json::Error),
+}
+
+impl From<hyper::Error> for Error {
+    fn from(e: hyper::Error) -> Self {
+        return Error::Hyper(e)
+    }
+}
+
+impl From<serde_json::Error> for Error {
+    fn from(e: serde_json::Error) -> Self {
+        return Error::Serde(e)
+    }
+}
+
+use super::models::*;
+
+{{#apiInfo}}
+{{#apis}}
+mod {{classFilename}};
+{{#operations}}
+{{#operation}}
+{{#-last}}
+pub use self::{{classFilename}}::{ {{classname}}, {{classname}}Client };
+{{/-last}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+pub mod configuration;
+pub mod client;

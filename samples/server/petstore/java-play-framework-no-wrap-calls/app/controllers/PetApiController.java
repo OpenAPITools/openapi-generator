@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import java.io.IOException;
+import java.io.File;
 import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -23,11 +23,11 @@ import javax.validation.constraints.*;
 
 public class PetApiController extends Controller {
 
-    private final PetApiControllerImp imp;
+    private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
 
     @Inject
-    private PetApiController(PetApiControllerImp imp) {
+    private PetApiController(PetApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
     }
@@ -42,9 +42,7 @@ public class PetApiController extends Controller {
         body.validate();
 
         imp.addPet(body);
-        
         return ok();
-        
     }
 
     
@@ -52,15 +50,13 @@ public class PetApiController extends Controller {
         String valueapiKey = request().getHeader("api_key");
         String apiKey;
         if (valueapiKey != null) {
-            apiKey = (String)valueapiKey;
+            apiKey = valueapiKey;
         
         } else {
             apiKey = null;
         }
         imp.deletePet(petId, apiKey);
-        
         return ok();
-        
     }
 
     
@@ -77,8 +73,6 @@ public class PetApiController extends Controller {
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 
     
@@ -95,8 +89,6 @@ public class PetApiController extends Controller {
         }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 
     
@@ -105,8 +97,6 @@ public class PetApiController extends Controller {
         obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 
     
@@ -118,9 +108,7 @@ public class PetApiController extends Controller {
         body.validate();
 
         imp.updatePet(body);
-        
         return ok();
-        
     }
 
     
@@ -128,7 +116,7 @@ public class PetApiController extends Controller {
         String valuename = (request().body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
         String name;
         if (valuename != null) {
-            name = (String)valuename;
+            name = valuename;
         
         } else {
             name = null;
@@ -136,15 +124,13 @@ public class PetApiController extends Controller {
         String valuestatus = (request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
         String status;
         if (valuestatus != null) {
-            status = (String)valuestatus;
+            status = valuestatus;
         
         } else {
             status = null;
         }
         imp.updatePetWithForm(petId, name, status);
-        
         return ok();
-        
     }
 
     
@@ -152,17 +138,15 @@ public class PetApiController extends Controller {
         String valueadditionalMetadata = (request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {
-            additionalMetadata = (String)valueadditionalMetadata;
+            additionalMetadata = valueadditionalMetadata;
         
         } else {
             additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
-                ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
+        ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
         obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 }

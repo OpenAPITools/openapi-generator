@@ -24,3 +24,4 @@ open class Return: JSONEncodable {
         return dictionary
     }
 }
+

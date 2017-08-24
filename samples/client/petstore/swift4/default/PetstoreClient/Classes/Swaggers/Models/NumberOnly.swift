@@ -14,4 +14,9 @@ open class NumberOnly: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case justNumber = "JustNumber"
+    }
+
 }

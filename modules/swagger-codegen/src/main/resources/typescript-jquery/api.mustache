@@ -103,7 +103,9 @@ export class {{classname}} {
 {{#formParams}}
 {{#isFile}}
         reqHasFile = true;
+        formParams = {{paramName}};
 {{/isFile}}
+{{^isFile}}
         {{#isListContainer}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
@@ -121,7 +123,7 @@ export class {{classname}} {
             formParams.append('{{baseName}}', <any>{{paramName}});
         }
         {{/isListContainer}}
-
+{{/isFile}}
 {{/formParams}}
 {{#headerParams}}
         {{#isListContainer}}

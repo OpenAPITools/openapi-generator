@@ -1,12 +1,15 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
-import com.fasterxml.jackson.annotation.*;
 /**
  * Model for testing model name same as property name
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Name   {
   @JsonProperty("name")
   private Integer name = null;
@@ -29,7 +32,7 @@ public class Name   {
    * Get name
    * @return name
   **/
-    @NotNull
+  @NotNull
   public Integer getName() {
     return name;
   }
@@ -99,10 +102,10 @@ public class Name   {
       return false;
     }
     Name name = (Name) o;
-    return Objects.equals(this.name, name.name) &&
-        Objects.equals(this.snakeCase, name.snakeCase) &&
-        Objects.equals(this.property, name.property) &&
-        Objects.equals(this._123Number, name._123Number);
+    return Objects.equals(name, name.name) &&
+        Objects.equals(snakeCase, name.snakeCase) &&
+        Objects.equals(property, name.property) &&
+        Objects.equals(_123Number, name._123Number);
   }
 
   @Override
@@ -110,6 +113,7 @@ public class Name   {
     return Objects.hash(name, snakeCase, property, _123Number);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -132,6 +136,22 @@ public class Name   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Name>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<Name> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

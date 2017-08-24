@@ -8,21 +8,26 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * ArrayTest
  */
+@Validated
 
 public class ArrayTest   {
   @JsonProperty("array_of_string")
+  @Valid
   private List<String> arrayOfString = null;
 
   @JsonProperty("array_array_of_integer")
+  @Valid
   private List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonProperty("array_array_of_model")
+  @Valid
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {

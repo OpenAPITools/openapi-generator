@@ -25,3 +25,4 @@ open class HasOnlyReadOnly: JSONEncodable {
         return dictionary
     }
 }
+

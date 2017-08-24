@@ -21,7 +21,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
   **/
-  public Boolean getDeclawed() {
+  public Boolean isDeclawed() {
     return declawed;
   }
 

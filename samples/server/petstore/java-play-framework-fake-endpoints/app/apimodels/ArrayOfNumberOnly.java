@@ -1,15 +1,18 @@
 package apimodels;
 
-import java.util.Objects;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import java.util.Objects;
+import javax.validation.constraints.*;
 /**
  * ArrayOfNumberOnly
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")
   private List<BigDecimal> arrayNumber = null;
@@ -20,10 +23,10 @@ public class ArrayOfNumberOnly   {
   }
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
-    if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+    if (arrayNumber == null) {
+      arrayNumber = new ArrayList<>();
     }
-    this.arrayNumber.add(arrayNumberItem);
+    arrayNumber.add(arrayNumberItem);
     return this;
   }
 
@@ -31,7 +34,8 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   **/
-    public List<BigDecimal> getArrayNumber() {
+  @Valid
+  public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 
@@ -49,7 +53,7 @@ public class ArrayOfNumberOnly   {
       return false;
     }
     ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
-    return Objects.equals(this.arrayNumber, arrayOfNumberOnly.arrayNumber);
+    return Objects.equals(arrayNumber, arrayOfNumberOnly.arrayNumber);
   }
 
   @Override
@@ -57,6 +61,7 @@ public class ArrayOfNumberOnly   {
     return Objects.hash(arrayNumber);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -76,6 +81,22 @@ public class ArrayOfNumberOnly   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<ArrayOfNumberOnly>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<ArrayOfNumberOnly> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

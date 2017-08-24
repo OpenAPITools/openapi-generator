@@ -20,16 +20,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Cat
  */
-@JacksonXmlRootElement(localName = "Cat")
+
 @XmlRootElement(name = "Cat")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Cat")
 public class Cat extends Animal {
   @JsonProperty("declawed")
   @JacksonXmlProperty(localName = "declawed")
@@ -46,7 +46,7 @@ public class Cat extends Animal {
    * @return declawed
   **/
   @ApiModelProperty(value = "")
-  public Boolean getDeclawed() {
+  public Boolean isDeclawed() {
     return declawed;
   }
 
@@ -94,6 +94,6 @@ public class Cat extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

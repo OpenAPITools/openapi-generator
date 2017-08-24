@@ -46,3 +46,4 @@ open class Pet: JSONEncodable {
         return dictionary
     }
 }
+

@@ -1,16 +1,16 @@
 package io.swagger.codegen;
 
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.properties.Property;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.samskivert.mustache.Mustache.Compiler;
+
+import io.swagger.models.Model;
+import io.swagger.models.Operation;
+import io.swagger.models.Swagger;
+import io.swagger.models.auth.SecuritySchemeDefinition;
+import io.swagger.models.properties.Property;
 
 public interface CodegenConfig {
     CodegenType getTag();
@@ -152,6 +152,8 @@ public interface CodegenConfig {
     Map<String, Object> postProcessModels(Map<String, Object> objs);
 
     Map<String, Object> postProcessOperations(Map<String, Object> objs);
+
+    Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels);
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 

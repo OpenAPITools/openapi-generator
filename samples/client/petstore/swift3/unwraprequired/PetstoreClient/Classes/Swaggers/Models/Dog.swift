@@ -25,3 +25,4 @@ open class Dog: Animal {
         return dictionary
     }
 }
+

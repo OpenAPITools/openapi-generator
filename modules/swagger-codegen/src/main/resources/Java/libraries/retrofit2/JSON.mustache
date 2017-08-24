@@ -13,6 +13,7 @@ import com.google.gson.stream.JsonWriter;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 {{/joda}}
 {{#threetenbp}}
@@ -91,7 +92,9 @@ public class JSON {
         private DateTimeFormatter formatter;
 
         public DateTimeTypeAdapter() {
-            this(ISODateTimeFormat.dateTime().withOffsetParsed());
+            this(new DateTimeFormatterBuilder()
+                .append(ISODateTimeFormat.dateTime().getPrinter(), ISODateTimeFormat.dateOptionalTimeParser().getParser())
+                .toFormatter());
         }
 
         public DateTimeTypeAdapter(DateTimeFormatter formatter) {

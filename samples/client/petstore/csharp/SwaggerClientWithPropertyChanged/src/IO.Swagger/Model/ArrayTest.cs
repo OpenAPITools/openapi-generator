@@ -91,40 +91,38 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as ArrayTest);
+            return this.Equals(input as ArrayTest);
         }
 
         /// <summary>
         /// Returns true if ArrayTest instances are equal
         /// </summary>
-        /// <param name="other">Instance of ArrayTest to be compared</param>
+        /// <param name="input">Instance of ArrayTest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ArrayTest other)
+        public bool Equals(ArrayTest input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.ArrayOfString == other.ArrayOfString ||
-                    this.ArrayOfString != null &&
-                    this.ArrayOfString.SequenceEqual(other.ArrayOfString)
+                    this.ArrayOfString == input.ArrayOfString ||
+                    (this.ArrayOfString != null &&
+                    this.ArrayOfString.SequenceEqual(input.ArrayOfString))
                 ) && 
                 (
-                    this.ArrayArrayOfInteger == other.ArrayArrayOfInteger ||
-                    this.ArrayArrayOfInteger != null &&
-                    this.ArrayArrayOfInteger.SequenceEqual(other.ArrayArrayOfInteger)
+                    this.ArrayArrayOfInteger == input.ArrayArrayOfInteger ||
+                    (this.ArrayArrayOfInteger != null &&
+                    this.ArrayArrayOfInteger.SequenceEqual(input.ArrayArrayOfInteger))
                 ) && 
                 (
-                    this.ArrayArrayOfModel == other.ArrayArrayOfModel ||
-                    this.ArrayArrayOfModel != null &&
-                    this.ArrayArrayOfModel.SequenceEqual(other.ArrayArrayOfModel)
+                    this.ArrayArrayOfModel == input.ArrayArrayOfModel ||
+                    (this.ArrayArrayOfModel != null &&
+                    this.ArrayArrayOfModel.SequenceEqual(input.ArrayArrayOfModel))
                 );
         }
 
@@ -134,18 +132,16 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.ArrayOfString != null)
-                    hash = hash * 59 + this.ArrayOfString.GetHashCode();
+                    hashCode = hashCode * 59 + this.ArrayOfString.GetHashCode();
                 if (this.ArrayArrayOfInteger != null)
-                    hash = hash * 59 + this.ArrayArrayOfInteger.GetHashCode();
+                    hashCode = hashCode * 59 + this.ArrayArrayOfInteger.GetHashCode();
                 if (this.ArrayArrayOfModel != null)
-                    hash = hash * 59 + this.ArrayArrayOfModel.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.ArrayArrayOfModel.GetHashCode();
+                return hashCode;
             }
         }
 

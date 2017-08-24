@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
+import java.io.File;
+{{^handleExceptions}}
 import java.io.IOException;
+{{/handleExceptions}}
 import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -28,12 +31,16 @@ import swagger.SwaggerUtils.ApiAction;
 {{#operations}}
 public class {{classname}}Controller extends Controller {
 
-    {{^controllerOnly}}private final {{classname}}ControllerImp imp;{{/controllerOnly}}
+    {{^controllerOnly}}
+    private final {{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp;
+    {{/controllerOnly}}
     private final ObjectMapper mapper;
 
     @Inject
-    private {{classname}}Controller({{^controllerOnly}}{{classname}}ControllerImp imp{{/controllerOnly}}) {
-        {{^controllerOnly}}this.imp = imp;{{/controllerOnly}}
+    private {{classname}}Controller({{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
+        {{^controllerOnly}}
+        this.imp = imp;
+        {{/controllerOnly}}
         mapper = new ObjectMapper();
     }
 
@@ -86,7 +93,8 @@ public class {{classname}}Controller extends Controller {
         {{#formParams}}
         {{^notFile}}
         {{{dataType}}} {{paramName}} = request().body().asMultipartFormData().getFile("{{baseName}}");
-        {{#required}}if (({{paramName}} == null || ((File) {{paramName}}.getFile()).length() == 0)) {
+        {{#required}}
+        if (({{paramName}} == null || ((File) {{paramName}}.getFile()).length() == 0)) {
             throw new RuntimeException("File cannot be empty");
         }
         {{/required}}
@@ -144,10 +152,21 @@ public class {{classname}}Controller extends Controller {
             entry.getValue().validate();
         }
         {{/isMapContainer}}{{^returnContainer}}obj.validate();{{/returnContainer}}{{/useBeanValidation}}{{/returnTypeIsPrimitive}}{{/isResponseFile}}{{/returnType}}
-        {{#returnType}}{{^isResponseFile}}JsonNode result = mapper.valueToTree(obj);
-        return ok(result);{{/isResponseFile}}{{#isResponseFile}}return ok(obj);{{/isResponseFile}}{{/returnType}}
-        {{^returnType}}return ok();{{/returnType}}{{/controllerOnly}}
-        {{#controllerOnly}}return ok();{{/controllerOnly}}
+        {{#returnType}}
+        {{^isResponseFile}}JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
+        {{/isResponseFile}}
+        {{#isResponseFile}}
+        return ok(obj);
+        {{/isResponseFile}}
+        {{/returnType}}
+        {{^returnType}}
+        return ok();
+        {{/returnType}}
+        {{/controllerOnly}}
+        {{#controllerOnly}}
+        return ok();
+        {{/controllerOnly}}
     }
 {{/operation}}
 }

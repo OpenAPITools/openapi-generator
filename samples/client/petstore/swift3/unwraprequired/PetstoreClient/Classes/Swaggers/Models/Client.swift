@@ -25,3 +25,4 @@ open class Client: JSONEncodable {
         return dictionary
     }
 }
+

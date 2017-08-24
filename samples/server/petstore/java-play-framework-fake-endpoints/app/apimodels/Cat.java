@@ -1,13 +1,16 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.Animal;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import java.util.Objects;
+import javax.validation.constraints.*;
 /**
  * Cat
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed = null;
@@ -21,7 +24,7 @@ public class Cat extends Animal  {
    * Get declawed
    * @return declawed
   **/
-    public Boolean getDeclawed() {
+    public Boolean isDeclawed() {
     return declawed;
   }
 
@@ -39,7 +42,7 @@ public class Cat extends Animal  {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(this.declawed, cat.declawed) &&
+    return Objects.equals(declawed, cat.declawed) &&
         super.equals(o);
   }
 
@@ -48,6 +51,7 @@ public class Cat extends Animal  {
     return Objects.hash(declawed, super.hashCode());
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -67,6 +71,22 @@ public class Cat extends Animal  {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Cat>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<Cat> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

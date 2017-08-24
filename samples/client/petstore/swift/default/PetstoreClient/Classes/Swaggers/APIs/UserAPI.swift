@@ -168,14 +168,14 @@ public class UserAPI: APIBase {
      - GET /user/{username}
      - 
      - examples: [{contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
+  "firstName" : "firstName",
+  "lastName" : "lastName",
+  "password" : "password",
   "userStatus" : 6,
-  "phone" : "aeiou",
+  "phone" : "phone",
   "id" : 0,
-  "email" : "aeiou",
-  "username" : "aeiou"
+  "email" : "email",
+  "username" : "username"
 }}, {contentType=application/xml, example=<User>
   <id>123456789</id>
   <username>aeiou</username>
@@ -187,14 +187,14 @@ public class UserAPI: APIBase {
   <userStatus>123</userStatus>
 </User>}]
      - examples: [{contentType=application/json, example={
-  "firstName" : "aeiou",
-  "lastName" : "aeiou",
-  "password" : "aeiou",
+  "firstName" : "firstName",
+  "lastName" : "lastName",
+  "password" : "password",
   "userStatus" : 6,
-  "phone" : "aeiou",
+  "phone" : "phone",
   "id" : 0,
-  "email" : "aeiou",
-  "username" : "aeiou"
+  "email" : "email",
+  "username" : "username"
 }}, {contentType=application/xml, example=<User>
   <id>123456789</id>
   <username>aeiou</username>
@@ -244,8 +244,8 @@ public class UserAPI: APIBase {
      Logs user into the system
      - GET /user/login
      - 
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=aeiou}]
-     - examples: [{contentType=application/json, example="aeiou"}, {contentType=application/xml, example=aeiou}]
+     - examples: [{contentType=application/json, example=""}, {contentType=application/xml, example=aeiou}]
+     - examples: [{contentType=application/json, example=""}, {contentType=application/xml, example=aeiou}]
      
      - parameter username: (query) The user name for login (optional)
      - parameter password: (query) The password for login in clear text (optional)

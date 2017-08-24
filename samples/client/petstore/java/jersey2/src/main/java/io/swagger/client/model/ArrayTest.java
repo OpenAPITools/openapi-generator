@@ -158,6 +158,6 @@ public class ArrayTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import java.io.IOException;
+import java.io.File;
 import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -22,11 +22,11 @@ import swagger.SwaggerUtils.ApiAction;
 
 public class StoreApiController extends Controller {
 
-    private final StoreApiControllerImp imp;
+    private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
 
     @Inject
-    private StoreApiController(StoreApiControllerImp imp) {
+    private StoreApiController(StoreApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
     }
@@ -35,9 +35,7 @@ public class StoreApiController extends Controller {
     @ApiAction
     public Result deleteOrder(String orderId) throws Exception {
         imp.deleteOrder(orderId);
-        
         return ok();
-        
     }
 
     @ApiAction
@@ -45,8 +43,6 @@ public class StoreApiController extends Controller {
         Map<String, Integer> obj = imp.getInventory();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 
     @ApiAction
@@ -54,8 +50,6 @@ public class StoreApiController extends Controller {
         Order obj = imp.getOrderById(orderId);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 
     @ApiAction
@@ -68,7 +62,5 @@ public class StoreApiController extends Controller {
         Order obj = imp.placeOrder(body);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
-        
-        
     }
 }

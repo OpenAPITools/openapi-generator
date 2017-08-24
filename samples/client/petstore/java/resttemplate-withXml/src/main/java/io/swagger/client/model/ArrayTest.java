@@ -22,30 +22,36 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * ArrayTest
  */
-@JacksonXmlRootElement(localName = "ArrayTest")
+
 @XmlRootElement(name = "ArrayTest")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ArrayTest")
 public class ArrayTest {
   @JsonProperty("array_of_string")
-  @JacksonXmlProperty(localName = "array_of_string")
-  @XmlElement(name = "array_of_string")
+  // Is a container wrapped=false
+  // items.name=arrayOfString items.baseName=arrayOfString items.xmlName= items.xmlNamespace=
+  // items.example= items.type=String
+  @XmlElement(name = "arrayOfString")
   private List<String> arrayOfString = null;
 
   @JsonProperty("array_array_of_integer")
-  @JacksonXmlProperty(localName = "array_array_of_integer")
-  @XmlElement(name = "array_array_of_integer")
+  // Is a container wrapped=false
+  // items.name=arrayArrayOfInteger items.baseName=arrayArrayOfInteger items.xmlName= items.xmlNamespace=
+  // items.example= items.type=List&lt;Long&gt;
+  @XmlElement(name = "arrayArrayOfInteger")
   private List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonProperty("array_array_of_model")
-  @JacksonXmlProperty(localName = "array_array_of_model")
-  @XmlElement(name = "array_array_of_model")
+  // Is a container wrapped=false
+  // items.name=arrayArrayOfModel items.baseName=arrayArrayOfModel items.xmlName= items.xmlNamespace=
+  // items.example= items.type=List&lt;ReadOnlyFirst&gt;
+  @XmlElement(name = "arrayArrayOfModel")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
@@ -169,6 +175,6 @@ public class ArrayTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

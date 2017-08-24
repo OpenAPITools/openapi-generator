@@ -27,12 +27,10 @@ public class PythonClientOptionsTest extends AbstractOptionsTest {
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
             clientCodegen.setPackageName(PythonClientOptionsProvider.PACKAGE_NAME_VALUE);
-            times = 1;
             clientCodegen.setProjectName(PythonClientOptionsProvider.PROJECT_NAME_VALUE);
-            times = 1;
             clientCodegen.setPackageVersion(PythonClientOptionsProvider.PACKAGE_VERSION_VALUE);
-            times = 1;
             clientCodegen.setPackageUrl(PythonClientOptionsProvider.PACKAGE_URL_VALUE);
+            // clientCodegen.setLibrary(PythonClientCodegen.DEFAULT_LIBRARY);
             times = 1;
         }};
     }

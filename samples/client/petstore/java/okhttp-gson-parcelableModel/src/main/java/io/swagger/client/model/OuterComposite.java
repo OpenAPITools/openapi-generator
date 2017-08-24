@@ -137,7 +137,7 @@ public class OuterComposite implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      
     out.writeValue(myNumber);
@@ -157,7 +157,7 @@ public class OuterComposite implements Parcelable {
     myString = (String)in.readValue(null);
     myBoolean = (Boolean)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

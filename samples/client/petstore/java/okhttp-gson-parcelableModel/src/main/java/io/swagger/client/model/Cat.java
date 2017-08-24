@@ -92,7 +92,7 @@ public class Cat extends Animal implements Parcelable {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
   public void writeToParcel(Parcel out, int flags) {
      super.writeToParcel(out, flags);  
     out.writeValue(declawed);
@@ -106,7 +106,7 @@ public class Cat extends Animal implements Parcelable {
      super(in); 
     declawed = (Boolean)in.readValue(null);
   }
-  
+
   public int describeContents() {
     return 0;
   }

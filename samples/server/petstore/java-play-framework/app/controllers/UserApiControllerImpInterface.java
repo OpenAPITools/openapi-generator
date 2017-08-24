@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import javax.validation.constraints.*;
 
+@SuppressWarnings("RedundantThrows")
 public interface UserApiControllerImpInterface {
     void createUser(User body) throws Exception;
 

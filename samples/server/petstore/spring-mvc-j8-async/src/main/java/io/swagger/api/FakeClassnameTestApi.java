@@ -22,13 +22,16 @@ import java.io.IOException;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
 
-    @ApiOperation(value = "To test class name in snake case", notes = "", response = Client.class, tags={ "fake_classname_tags 123#$%^", })
+    @ApiOperation(value = "To test class name in snake case", notes = "", response = Client.class, authorizations = {
+        @Authorization(value = "api_key_query")
+    }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @RequestMapping(value = "/fake_classname_test",

@@ -81,7 +81,7 @@ class ApiClient(object):
     def set_default_header(self, header_name, header_value):
         self.default_headers[header_name] = header_value
 
-    def __call_api(self, resource_path, method,
+    {{#asyncio}}async {{/asyncio}}def __call_api(self, resource_path, method,
                    path_params=None, query_params=None, header_params=None,
                    body=None, post_params=None, files=None,
                    response_type=None, auth_settings=None,
@@ -134,7 +134,7 @@ class ApiClient(object):
         url = self.configuration.host + resource_path
 
         # perform request and return response
-        response_data = self.request(method, url,
+        response_data = {{#asyncio}}await {{/asyncio}}self.request(method, url,
                                      query_params=query_params,
                                      headers=header_params,
                                      post_params=post_params, body=body,
@@ -593,17 +593,23 @@ class ApiClient(object):
         :param klass: class literal.
         :return: model object.
         """
-        if not klass.swagger_types:
+
+        if not klass.swagger_types and not hasattr(klass, 'get_real_child_model'):
             return data
 
         kwargs = {}
-        for attr, attr_type in iteritems(klass.swagger_types):
-            if data is not None \
-               and klass.attribute_map[attr] in data \
-               and isinstance(data, (list, dict)):
-                value = data[klass.attribute_map[attr]]
-                kwargs[attr] = self.__deserialize(value, attr_type)
+        if klass.swagger_types is not None:
+            for attr, attr_type in iteritems(klass.swagger_types):
+                if data is not None \
+                   and klass.attribute_map[attr] in data \
+                   and isinstance(data, (list, dict)):
+                    value = data[klass.attribute_map[attr]]
+                    kwargs[attr] = self.__deserialize(value, attr_type)
 
-        instance = klass(**kwargs)     
+        instance = klass(**kwargs)
 
+        if hasattr(instance, 'get_real_child_model'):
+            klass_name = instance.get_real_child_model(data)
+            if klass_name:
+                instance = self.__deserialize(data, klass_name)
         return instance

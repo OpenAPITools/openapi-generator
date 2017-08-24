@@ -251,7 +251,7 @@ open class FakeAPI {
      - PATCH /fake
      - To test \"client\" model
      - examples: [{contentType=application/json, example={
-  "client" : "aeiou"
+  "client" : "client"
 }}]
      
      - parameter body: (body) client model 
@@ -290,7 +290,7 @@ open class FakeAPI {
      - parameter callback: (form) None (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int32? = nil, int32: Int32? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ error: Error?) -> Void)) {
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (response, error) -> Void in
             completion(error);
         }
@@ -315,7 +315,7 @@ open class FakeAPI {
      - parameter callback: (form) None (optional)
      - returns: Promise<Void>
      */
-    open class func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int32? = nil,  int32: Int32? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: Data? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void> {
+    open class func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int? = nil,  int32: Int? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: Data? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback) { error in
             if let error = error {
@@ -352,7 +352,7 @@ open class FakeAPI {
 
      - returns: RequestBuilder<Void> 
      */
-    open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int32? = nil, int32: Int32? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
+    open class func testEndpointParametersWithRequestBuilder(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> RequestBuilder<Void> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
         let formParams: [String:Any?] = [
@@ -437,7 +437,7 @@ open class FakeAPI {
     /**
      * enum for parameter enumQueryInteger
      */
-    public enum EnumQueryInteger_testEnumParameters: Int32 { 
+    public enum EnumQueryInteger_testEnumParameters: Int { 
         case _1 = 1
         case numberminus2 = -2
     }
@@ -538,6 +538,67 @@ open class FakeAPI {
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
+    }
+
+    /**
+     test json serialization of form data
+     
+     - parameter param: (form) field1 
+     - parameter param2: (form) field2 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testJsonFormData(param: String, param2: String, completion: @escaping ((_ error: Error?) -> Void)) {
+        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (response, error) -> Void in
+            completion(error);
+        }
+    }
+
+    /**
+     test json serialization of form data
+     
+     - parameter param: (form) field1 
+     - parameter param2: (form) field2 
+     - returns: Promise<Void>
+     */
+    open class func testJsonFormData( param: String,  param2: String) -> Promise<Void> {
+        let deferred = Promise<Void>.pending()
+        testJsonFormData(param: param, param2: param2) { error in
+            if let error = error {
+                deferred.reject(error)
+            } else {
+                deferred.fulfill()
+            }
+        }
+        return deferred.promise
+    }
+
+    /**
+     test json serialization of form data
+     - GET /fake/jsonFormData
+     - 
+     
+     - parameter param: (form) field1 
+     - parameter param2: (form) field2 
+
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testJsonFormDataWithRequestBuilder(param: String, param2: String) -> RequestBuilder<Void> {
+        let path = "/fake/jsonFormData"
+        let URLString = PetstoreClientAPI.basePath + path
+        let formParams: [String:Any?] = [
+            "param": param,
+            "param2": param2
+        ]
+
+        let nonNullParameters = APIHelper.rejectNil(formParams)
+        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
 }

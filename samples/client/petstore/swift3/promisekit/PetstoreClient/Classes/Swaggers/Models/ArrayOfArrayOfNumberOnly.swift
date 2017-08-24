@@ -23,3 +23,4 @@ open class ArrayOfArrayOfNumberOnly: JSONEncodable {
         return dictionary
     }
 }
+

@@ -204,6 +204,13 @@ class Configuration(object):
                     'key': 'api_key',
                     'value': self.get_api_key_with_prefix('api_key')
                 },
+            'api_key_query':
+                {
+                    'type': 'api_key',
+                    'in': 'query',
+                    'key': 'api_key_query',
+                    'value': self.get_api_key_with_prefix('api_key_query')
+                },
             'http_basic_test':
                 {
                     'type': 'basic',

@@ -1,0 +1,9 @@
+{{#models}}
+{{#model}}
+mod {{{classFilename}}};
+pub use self::{{{classFilename}}}::{{{classname}}};
+{{/model}}
+{{/models}}
+
+// TODO(farcaller): sort out files
+pub struct File;

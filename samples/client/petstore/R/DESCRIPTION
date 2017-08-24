@@ -1,0 +1,13 @@
+Package: petstore
+Title: R Package Client for <http://swagger.io> Petstore APIs
+Version: 0.0.0.9000
+Authors@R: person("Ramkumar", "Chandrasekaran", email = "ramkumar.november@gmail.com", role = c("aut", "cre"))
+Description: R Package Client for <http://swagger.io> Petstore APIs.
+Depends: R (>= 3.3.3)
+Encoding: UTF-8
+License: MIT
+LazyData: true
+Suggests: testthat
+Imports: jsonlite, httr, R6
+RoxygenNote: 6.0.1.9000
+

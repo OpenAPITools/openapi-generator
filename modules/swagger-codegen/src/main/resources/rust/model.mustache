@@ -1,0 +1,61 @@
+{{>partial_header}}
+{{#models}}
+{{#model}}
+{{#description}}
+/// {{{classname}}} : {{{description}}}
+{{/description}}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct {{classname}} {
+{{#vars}}
+  {{#description}}
+  /// {{{description}}}
+  {{/description}}
+  #[serde(rename = "{{baseName}}")] {{name}}: {{^required}}Option<{{/required}}{{{datatype}}}{{^required}}>{{/required}}{{#hasMore}},{{/hasMore}}
+{{/vars}}
+}
+
+impl {{classname}} {
+  {{#description}}
+  /// {{{description}}}
+  {{/description}}
+  pub fn new({{#requiredVars}}{{name}}: {{{datatype}}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{classname}} {
+    {{classname}} {
+      {{#vars}}
+      {{name}}: {{#required}}{{name}}{{/required}}{{^required}}{{#isListContainer}}None{{/isListContainer}}{{#isMapContainer}}None{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}}{{#hasMore}},{{/hasMore}}
+      {{/vars}}
+    }
+  }
+
+  {{#vars}}
+  pub fn set_{{name}}(&mut self, {{name}}: {{{datatype}}}) {
+    self.{{name}} = {{^required}}Some({{name}}){{/required}}{{#required}}{{name}}{{/required}};
+  }
+
+  pub fn with_{{name}}(mut self, {{name}}: {{{datatype}}}) -> {{classname}} {
+    self.{{name}} = {{^required}}Some({{name}}){{/required}}{{#required}}{{name}}{{/required}};
+    self
+  }
+
+  pub fn {{name}}(&self) -> &{{datatype}} {
+    &self.{{name}}
+  }
+
+  {{/vars}}
+}
+
+{{#isEnum}}
+// TODO enum 
+// List of {{{name}}}
+//const (
+//  {{#allowableValues}}
+//  {{#enumVars}}
+//  {{name}} {{{classname}}} = "{{{value}}}"
+//  {{/enumVars}}
+//  {{/allowableValues}}
+//)
+{{/isEnum}}
+
+
+{{/model}}
+{{/models}}

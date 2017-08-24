@@ -62,23 +62,21 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as AnimalFarm);
+            return this.Equals(input as AnimalFarm);
         }
 
         /// <summary>
         /// Returns true if AnimalFarm instances are equal
         /// </summary>
-        /// <param name="other">Instance of AnimalFarm to be compared</param>
+        /// <param name="input">Instance of AnimalFarm to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(AnimalFarm other)
+        public bool Equals(AnimalFarm input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return false;
@@ -90,12 +88,10 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
-                return hash;
+                int hashCode = 41;
+                return hashCode;
             }
         }
 

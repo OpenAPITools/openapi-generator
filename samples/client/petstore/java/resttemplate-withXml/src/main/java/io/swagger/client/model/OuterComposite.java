@@ -20,16 +20,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * OuterComposite
  */
-@JacksonXmlRootElement(localName = "OuterComposite")
+
 @XmlRootElement(name = "OuterComposite")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "OuterComposite")
 public class OuterComposite {
   @JsonProperty("my_number")
   @JacksonXmlProperty(localName = "my_number")
@@ -143,6 +143,6 @@ public class OuterComposite {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

@@ -14,61 +14,33 @@ import java.io.FileInputStream;
 import javax.validation.constraints.*;
 
 public class FakeApiControllerImp implements FakeApiControllerImpInterface {
-
-    private final ObjectMapper mapper;
-
-    @Inject
-    private FakeApiControllerImp() {
-        mapper = new ObjectMapper();
-    }
-
     @Override
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", Boolean.class);
-        }
         return new Boolean();
     }
 
     @Override
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", OuterComposite.class);
-        }
         return new OuterComposite();
     }
 
     @Override
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", BigDecimal.class);
-        }
         return new BigDecimal();
     }
 
     @Override
     public String fakeOuterStringSerialize(String body) throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", String.class);
-        }
         return new String();
     }
 
     @Override
     public Client testClientModel(Client body) throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", Client.class);
-        }
         return new Client();
     }
 

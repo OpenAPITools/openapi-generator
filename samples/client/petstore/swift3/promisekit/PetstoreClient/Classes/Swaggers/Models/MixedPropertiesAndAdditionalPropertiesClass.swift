@@ -27,3 +27,4 @@ open class MixedPropertiesAndAdditionalPropertiesClass: JSONEncodable {
         return dictionary
     }
 }
+

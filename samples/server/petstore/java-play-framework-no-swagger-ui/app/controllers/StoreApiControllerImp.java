@@ -11,14 +11,6 @@ import java.io.FileInputStream;
 import javax.validation.constraints.*;
 
 public class StoreApiControllerImp implements StoreApiControllerImpInterface {
-
-    private final ObjectMapper mapper;
-
-    @Inject
-    private StoreApiControllerImp() {
-        mapper = new ObjectMapper();
-    }
-
     @Override
     public void deleteOrder(String orderId) throws Exception {
         //Do your magic!!!
@@ -28,38 +20,18 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     @Override
     public Map<String, Integer> getInventory() throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", Map.class);
-        }
         return new HashMap<String, Integer>();
     }
 
     @Override
     public Order getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/xml")) {
-            return mapper.readValue("", Order.class);
-        }
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", Order.class);
-        }
         return new Order();
     }
 
     @Override
     public Order placeOrder(Order body) throws Exception {
         //Do your magic!!!
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/xml")) {
-            return mapper.readValue("", Order.class);
-        }
-        String accept = request().getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            return mapper.readValue("", Order.class);
-        }
         return new Order();
     }
 

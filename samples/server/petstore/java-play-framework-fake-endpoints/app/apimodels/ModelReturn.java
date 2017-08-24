@@ -1,12 +1,15 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
-import com.fasterxml.jackson.annotation.*;
 /**
  * Model for testing reserved words
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelReturn   {
   @JsonProperty("return")
   private Integer _return = null;
@@ -38,7 +41,7 @@ public class ModelReturn   {
       return false;
     }
     ModelReturn _return = (ModelReturn) o;
-    return Objects.equals(this._return, _return._return);
+    return Objects.equals(_return, _return._return);
   }
 
   @Override
@@ -46,6 +49,7 @@ public class ModelReturn   {
     return Objects.hash(_return);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -65,6 +69,22 @@ public class ModelReturn   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<ModelReturn>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<ModelReturn> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

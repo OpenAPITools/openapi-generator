@@ -4,10 +4,7 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.2"
 
-libraryDependencies ++= Seq(
-javaJdbc,
-cache,
-javaWs,
-"org.webjars" % "swagger-ui" % "2.2.10-1")
+libraryDependencies += "org.webjars" % "swagger-ui" % "3.1.5"
+libraryDependencies += guice

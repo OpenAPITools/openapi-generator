@@ -29,6 +29,10 @@ public interface {{classname}} {
 {{#returnType}}
    * @return {{returnType}}
 {{/returnType}}
+{{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
    */
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}
@@ -44,6 +48,10 @@ public interface {{classname}} {
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
    * @param cb callback method
+{{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
    */
   {{#formParams}}{{#-first}}
   {{#isMultipart}}@retrofit.http.Multipart{{/isMultipart}}{{^isMultipart}}@retrofit.http.FormUrlEncoded{{/isMultipart}}{{/-first}}{{/formParams}}

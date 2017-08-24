@@ -834,6 +834,7 @@
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
+                <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/kotlin/</module>
                 <!-- comment out bash as it's failing after switching to CircleCI
@@ -844,6 +845,8 @@
                 <module>samples/server/petstore/undertow</module>
                 <module>samples/server/petstore/jaxrs/jersey1</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
+                <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
+                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/jaxrs-resteasy/default</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>

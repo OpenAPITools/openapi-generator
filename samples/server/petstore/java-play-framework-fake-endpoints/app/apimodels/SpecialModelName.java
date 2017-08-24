@@ -1,12 +1,15 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
-import com.fasterxml.jackson.annotation.*;
 /**
  * SpecialModelName
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
   private Long specialPropertyName = null;
@@ -38,7 +41,7 @@ public class SpecialModelName   {
       return false;
     }
     SpecialModelName specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.specialPropertyName, specialModelName.specialPropertyName);
+    return Objects.equals(specialPropertyName, specialModelName.specialPropertyName);
   }
 
   @Override
@@ -46,6 +49,7 @@ public class SpecialModelName   {
     return Objects.hash(specialPropertyName);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -65,6 +69,22 @@ public class SpecialModelName   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<SpecialModelName>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<SpecialModelName> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

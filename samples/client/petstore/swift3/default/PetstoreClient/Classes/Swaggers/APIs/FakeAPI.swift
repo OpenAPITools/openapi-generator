@@ -156,7 +156,7 @@ open class FakeAPI: APIBase {
      - To test \"client\" model
 
      - examples: [{contentType=application/json, example={
-  "client" : "aeiou"
+  "client" : "client"
 }}]
      - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 

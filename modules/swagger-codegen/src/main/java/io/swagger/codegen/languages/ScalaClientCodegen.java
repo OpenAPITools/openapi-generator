@@ -1,10 +1,6 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.CliOption;
-import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.CodegenConstants;
-import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -81,7 +77,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         importMapping.remove("Map");
 
         importMapping.put("Date", "java.util.Date");
-        importMapping.put("ListBuffer", "scala.collections.mutable.ListBuffer");
+        importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("enum", "NSString");
@@ -210,7 +206,7 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
 
     @Override
     public String toModelName(final String name) {
-        final String sanitizedName = sanitizeName(modelNamePrefix + name + modelNameSuffix);
+        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
     
         // camelize the model name
         // phone_number => PhoneNumber
@@ -231,6 +227,11 @@ public class ScalaClientCodegen extends AbstractScalaCodegen implements CodegenC
         }
     
         return camelizedName;
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return formatIdentifier(stripPackageName(property.baseName), true);
     }
 
     @Override

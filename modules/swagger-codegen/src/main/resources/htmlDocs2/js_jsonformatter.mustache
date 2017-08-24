@@ -825,7 +825,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		var sourceMap = obj.sourceMap;
 	
 		if(sourceMap) {
-			// http://stackoverflow.com/a/26603875
+            // https://developer.mozilla.org/en/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
 			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
 		}
 	
@@ -847,13 +847,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	/*
 	 * Escapes `"` charachters from string
-	*/
+	 */
 	function escapeString(str) {
 	    return str.replace('"', '\"');
 	}
 	/*
 	 * Determines if a value is an object
-	*/
+	 */
 	function isObject(value) {
 	    var type = typeof value;
 	    return !!value && (type == 'object');
@@ -861,32 +861,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.isObject = isObject;
 	/*
 	 * Gets constructor name of an object.
-	 * From http://stackoverflow.com/a/332429
 	 *
-	*/
+	 */
 	function getObjectName(object) {
 	    if (object === undefined) {
 	        return '';
 	    }
-	    if (object === null) {
-	        return 'Object';
-	    }
-	    if (typeof object === 'object' && !object.constructor) {
+	    if (object === null || (typeof object === 'object' && !object.constructor)) {
 	        return 'Object';
 	    }
 	    var funcNameRegex = /function ([^(]*)/;
 	    var results = (funcNameRegex).exec((object).constructor.toString());
 	    if (results && results.length > 1) {
 	        return results[1];
-	    }
-	    else {
+	    } else {
 	        return '';
 	    }
 	}
 	exports.getObjectName = getObjectName;
 	/*
 	 * Gets type of an object. Returns "null" for null objects
-	*/
+	 */
 	function getType(object) {
 	    if (object === null) {
 	        return 'null';

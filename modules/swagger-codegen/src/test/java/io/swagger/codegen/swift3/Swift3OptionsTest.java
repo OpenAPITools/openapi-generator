@@ -33,6 +33,8 @@ public class Swift3OptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setUnwrapRequired(Boolean.valueOf(Swift3OptionsProvider.UNWRAP_REQUIRED_VALUE));
             times = 1;
+            clientCodegen.setObjcCompatible(Boolean.valueOf(Swift3OptionsProvider.OBJC_COMPATIBLE_VALUE));
+            times = 1;
             clientCodegen.setLenientTypeCast(Boolean.valueOf(Swift3OptionsProvider.LENIENT_TYPE_CAST_VALUE));
             times = 1;
         }};

@@ -1,12 +1,15 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
-import com.fasterxml.jackson.annotation.*;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ClassModel   {
   @JsonProperty("_class")
   private String propertyClass = null;
@@ -38,7 +41,7 @@ public class ClassModel   {
       return false;
     }
     ClassModel classModel = (ClassModel) o;
-    return Objects.equals(this.propertyClass, classModel.propertyClass);
+    return Objects.equals(propertyClass, classModel.propertyClass);
   }
 
   @Override
@@ -46,6 +49,7 @@ public class ClassModel   {
     return Objects.hash(propertyClass);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -65,6 +69,22 @@ public class ClassModel   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<ClassModel>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<ClassModel> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

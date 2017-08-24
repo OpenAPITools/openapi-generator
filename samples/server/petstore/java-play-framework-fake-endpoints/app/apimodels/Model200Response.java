@@ -1,12 +1,15 @@
 package apimodels;
 
+import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
-import com.fasterxml.jackson.annotation.*;
 /**
  * Model for testing model name starting with number
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Model200Response   {
   @JsonProperty("name")
   private Integer name = null;
@@ -58,8 +61,8 @@ public class Model200Response   {
       return false;
     }
     Model200Response _200Response = (Model200Response) o;
-    return Objects.equals(this.name, _200Response.name) &&
-        Objects.equals(this.propertyClass, _200Response.propertyClass);
+    return Objects.equals(name, _200Response.name) &&
+        Objects.equals(propertyClass, _200Response.propertyClass);
   }
 
   @Override
@@ -67,6 +70,7 @@ public class Model200Response   {
     return Objects.hash(name, propertyClass);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -87,6 +91,22 @@ public class Model200Response   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Model200Response>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<Model200Response> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

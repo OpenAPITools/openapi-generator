@@ -60,6 +60,7 @@ public class CodegenProperty implements Cloneable {
     public String xmlPrefix;
     public String xmlName;
     public String xmlNamespace;
+    public boolean isXmlWrapped = false;
 
 
     @Override
@@ -135,6 +136,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((xmlPrefix == null) ? 0 : xmlPrefix.hashCode());
         result = prime * result + ((xmlName == null) ? 0 : xmlName.hashCode());
         result = prime * result + ((xmlNamespace == null) ? 0 : xmlNamespace.hashCode());
+        result = prime * result + ((isXmlWrapped  ? 13:31));
         return result;
     }
 
@@ -320,6 +322,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (!Objects.equals(this.xmlNamespace, other.xmlNamespace)) {
+            return false;
+        }
+        if (!Objects.equals(this.isXmlWrapped, other.isXmlWrapped)) {
             return false;
         }
         return true;

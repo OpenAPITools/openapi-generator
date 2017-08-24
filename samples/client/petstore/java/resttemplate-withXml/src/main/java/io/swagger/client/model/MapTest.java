@@ -22,20 +22,22 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * MapTest
  */
-@JacksonXmlRootElement(localName = "MapTest")
+
 @XmlRootElement(name = "MapTest")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "MapTest")
 public class MapTest {
   @JsonProperty("map_map_of_string")
-  @JacksonXmlProperty(localName = "map_map_of_string")
-  @XmlElement(name = "map_map_of_string")
+  // Is a container wrapped=false
+  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
+  // items.example= items.type=Map&lt;String, String&gt;
+  @XmlElement(name = "inner")
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -74,8 +76,10 @@ public class MapTest {
   }
 
   @JsonProperty("map_of_enum_string")
-  @JacksonXmlProperty(localName = "map_of_enum_string")
-  @XmlElement(name = "map_of_enum_string")
+  // Is a container wrapped=false
+  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
+  // items.example= items.type=String
+  @XmlElement(name = "inner")
   private Map<String, InnerEnum> mapOfEnumString = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -171,6 +175,6 @@ public class MapTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

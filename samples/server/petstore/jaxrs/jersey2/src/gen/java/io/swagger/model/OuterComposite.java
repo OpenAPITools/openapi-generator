@@ -40,10 +40,10 @@ public class OuterComposite   {
     return this;
   }
 
-   /**
+  /**
    * Get myNumber
    * @return myNumber
-  **/
+   **/
   @JsonProperty("my_number")
   @ApiModelProperty(value = "")
   public BigDecimal getMyNumber() {
@@ -59,10 +59,10 @@ public class OuterComposite   {
     return this;
   }
 
-   /**
+  /**
    * Get myString
    * @return myString
-  **/
+   **/
   @JsonProperty("my_string")
   @ApiModelProperty(value = "")
   public String getMyString() {
@@ -78,10 +78,10 @@ public class OuterComposite   {
     return this;
   }
 
-   /**
+  /**
    * Get myBoolean
    * @return myBoolean
-  **/
+   **/
   @JsonProperty("my_boolean")
   @ApiModelProperty(value = "")
   public Boolean getMyBoolean() {

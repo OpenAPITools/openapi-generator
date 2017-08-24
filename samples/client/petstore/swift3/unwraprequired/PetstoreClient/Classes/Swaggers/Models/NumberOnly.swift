@@ -25,3 +25,4 @@ open class NumberOnly: JSONEncodable {
         return dictionary
     }
 }
+

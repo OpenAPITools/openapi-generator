@@ -1,16 +1,19 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.Category;
 import apimodels.Tag;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import java.util.Objects;
+import javax.validation.constraints.*;
 /**
  * Pet
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
   private Long id = null;
@@ -22,7 +25,7 @@ public class Pet   {
   private String name = null;
 
   @JsonProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   @JsonProperty("tags")
   private List<Tag> tags = null;
@@ -37,7 +40,7 @@ public class Pet   {
     
     SOLD("sold");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;
@@ -89,7 +92,8 @@ public class Pet   {
    * Get category
    * @return category
   **/
-    public Category getCategory() {
+  @Valid
+  public Category getCategory() {
     return category;
   }
 
@@ -106,7 +110,7 @@ public class Pet   {
    * Get name
    * @return name
   **/
-    @NotNull
+  @NotNull
   public String getName() {
     return name;
   }
@@ -121,7 +125,7 @@ public class Pet   {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
-    this.photoUrls.add(photoUrlsItem);
+    photoUrls.add(photoUrlsItem);
     return this;
   }
 
@@ -129,7 +133,7 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   **/
-    @NotNull
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -144,10 +148,10 @@ public class Pet   {
   }
 
   public Pet addTagsItem(Tag tagsItem) {
-    if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+    if (tags == null) {
+      tags = new ArrayList<>();
     }
-    this.tags.add(tagsItem);
+    tags.add(tagsItem);
     return this;
   }
 
@@ -155,7 +159,8 @@ public class Pet   {
    * Get tags
    * @return tags
   **/
-    public List<Tag> getTags() {
+  @Valid
+  public List<Tag> getTags() {
     return tags;
   }
 
@@ -190,12 +195,12 @@ public class Pet   {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(this.id, pet.id) &&
-        Objects.equals(this.category, pet.category) &&
-        Objects.equals(this.name, pet.name) &&
-        Objects.equals(this.photoUrls, pet.photoUrls) &&
-        Objects.equals(this.tags, pet.tags) &&
-        Objects.equals(this.status, pet.status);
+    return Objects.equals(id, pet.id) &&
+        Objects.equals(category, pet.category) &&
+        Objects.equals(name, pet.name) &&
+        Objects.equals(photoUrls, pet.photoUrls) &&
+        Objects.equals(tags, pet.tags) &&
+        Objects.equals(status, pet.status);
   }
 
   @Override
@@ -203,6 +208,7 @@ public class Pet   {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -227,6 +233,22 @@ public class Pet   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<Pet>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<Pet> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

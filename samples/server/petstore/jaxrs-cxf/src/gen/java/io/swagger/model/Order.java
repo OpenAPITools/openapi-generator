@@ -149,7 +149,7 @@ public enum StatusEnum {
    * Get complete
    * @return complete
   **/
-  public Boolean getComplete() {
+  public Boolean isComplete() {
     return complete;
   }
 

@@ -109,45 +109,43 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as Name);
+            return this.Equals(input as Name);
         }
 
         /// <summary>
         /// Returns true if Name instances are equal
         /// </summary>
-        /// <param name="other">Instance of Name to be compared</param>
+        /// <param name="input">Instance of Name to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Name other)
+        public bool Equals(Name input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this._Name == other._Name ||
-                    this._Name != null &&
-                    this._Name.Equals(other._Name)
+                    this._Name == input._Name ||
+                    (this._Name != null &&
+                    this._Name.Equals(input._Name))
                 ) && 
                 (
-                    this.SnakeCase == other.SnakeCase ||
-                    this.SnakeCase != null &&
-                    this.SnakeCase.Equals(other.SnakeCase)
+                    this.SnakeCase == input.SnakeCase ||
+                    (this.SnakeCase != null &&
+                    this.SnakeCase.Equals(input.SnakeCase))
                 ) && 
                 (
-                    this.Property == other.Property ||
-                    this.Property != null &&
-                    this.Property.Equals(other.Property)
+                    this.Property == input.Property ||
+                    (this.Property != null &&
+                    this.Property.Equals(input.Property))
                 ) && 
                 (
-                    this._123Number == other._123Number ||
-                    this._123Number != null &&
-                    this._123Number.Equals(other._123Number)
+                    this._123Number == input._123Number ||
+                    (this._123Number != null &&
+                    this._123Number.Equals(input._123Number))
                 );
         }
 
@@ -157,20 +155,18 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this._Name != null)
-                    hash = hash * 59 + this._Name.GetHashCode();
+                    hashCode = hashCode * 59 + this._Name.GetHashCode();
                 if (this.SnakeCase != null)
-                    hash = hash * 59 + this.SnakeCase.GetHashCode();
+                    hashCode = hashCode * 59 + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
-                    hash = hash * 59 + this.Property.GetHashCode();
+                    hashCode = hashCode * 59 + this.Property.GetHashCode();
                 if (this._123Number != null)
-                    hash = hash * 59 + this._123Number.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this._123Number.GetHashCode();
+                return hashCode;
             }
         }
 

@@ -15,8 +15,8 @@ package io.swagger.client.api;
 
 import java.math.BigDecimal;
 import io.swagger.client.model.Client;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import io.swagger.client.model.OuterComposite;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -136,7 +136,7 @@ public class FakeApiTest {
         String string = null;
         byte[] binary = null;
         LocalDate date = null;
-        DateTime dateTime = null;
+        OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
         api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
@@ -163,6 +163,23 @@ public class FakeApiTest {
         Integer enumQueryInteger = null;
         Double enumQueryDouble = null;
         api.testEnumParameters(enumFormStringArray, enumFormString, enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * test json serialization of form data
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testJsonFormDataTest() {
+        String param = null;
+        String param2 = null;
+        api.testJsonFormData(param, param2);
 
         // TODO: test validations
     }

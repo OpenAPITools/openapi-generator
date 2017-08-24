@@ -1,0 +1,152 @@
+{{>partial_header}}
+--package {{packageName}}
+
+{{#operations}}
+local http_request = require "http.request"
+local http_util = require "http.util"
+local dkjson = require "dkjson"
+local basexx = require "basexx"
+
+-- model import
+local {{{packageName}}}_{{classname}} = require "{{{packageName}}}.api.{{classname}}"
+
+local {{{packageName}}}= {}
+local {{{packageName}}}_mt = {
+	__name = "{{{classname}}}";
+	__index = {{{packageName}}};
+}
+
+local function new_{{classname}}(host, basePath, schemes)
+	local schemes_map = {}
+	for _,v in ipairs(schemes) do
+		schemes_map[v] = v
+	end
+	local default_scheme = schemes_map.https or schemes_map.http
+	return setmetatable({
+		host = host;
+		basePath = basePath or "{{{basePath}}}";
+		schemes = schemes_map;
+		default_scheme = default_scheme;
+		http_username = nil;
+		http_password = nil;
+		api_key = {};
+		access_token = nil;
+	}, {{{packageName}}}_mt)
+end
+
+{{#operation}}
+function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+	local req = http_request.new_from_uri({
+		scheme = self.default_scheme;
+		host = self.host;
+		path = string.format("%s{{{vendorExtensions.x-codegen-path}}}{{#queryParams}}{{#-first}}?{{/-first}}{{{baseName}}}=%s{{^-last}}&{{/-last}}{{/queryParams}}",
+			self.basePath{{#pathParams}}, {{paramName}}{{/pathParams}}{{#queryParams}}, http_util.encodeURIComponent({{paramName}}){{/queryParams}});
+	})
+
+	-- set HTTP verb
+	req.headers:upsert(":method", "{{httpMethod}}")
+	{{#hasConsumes}}
+	-- TODO: create a function to select proper accept
+	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
+	--local var_content_type = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }
+	req.headers:upsert("accept", {{#consumes}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/consumes}})
+
+	{{/hasConsumes}}
+	{{#hasProduces}}
+	-- TODO: create a function to select proper content-type
+	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
+	--local var_accept = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
+	req.headers:upsert("content-type", {{#produces}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/produces}})
+
+	{{/hasProduces}}
+	{{#headerParams}}
+	req.headers:upsert("{{baseName}}", {{paramName}})
+	{{/headerParams}}
+	{{#formParams}}
+	{{#-first}}
+	req:set_body(http_util.dict_to_query({
+	{{/-first}}
+		["{{baseName}}"] = {{paramName}};
+	{{#-last}}
+	}))
+	{{/-last}}
+	{{/formParams}}
+	{{#bodyParams}}
+	req:set_body(dkjson.encode({{paramName}}))
+
+	{{/bodyParams}}
+	{{#authMethods}}
+	{{#isApiKey}}
+	{{#isKeyInHeader}}
+	-- api key in headers '{{keyParamName}}'
+	req.headers:upsert("{{{name}}}", api_key['{{{keyParamName}}}'])
+	{{/isKeyInHeader}}
+	{{#isKeyInQuery}}
+	-- TODO: api key in query '{{keyParamName}}'
+	{{/isKeyInQuery}}
+	{{/isApiKey}}
+	{{#isBasic}}
+	-- HTTP basic auth
+	req.readers:upsert("authorization", "Basic " .. basexx.to_base64(self.http_username .. " " .. self.http_password))
+	{{/isBasic}}
+	{{#isOAuth}}
+	-- oAuth
+	req.headers:upsert("authorization", "Bearer " .. self.access_token)
+	{{/isOAuth}}
+	{{/authMethods}}
+
+	-- make the HTTP call
+	local headers, stream, errno = req:go()
+	if not headers then
+		return nil, stream, errno
+	end
+	local http_status = headers:get(":status")
+	if http_status:sub(1,1) == "2" then
+		{{#returnType}}
+		local body, err, errno2 = stream:get_body_as_string()
+		-- exception when getting the HTTP body
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		local result, _, err3 = dkjson.decode(body)
+		-- exception when decoding the HTTP body
+		if result == nil then
+			return nil, err3
+		end
+		{{#returnTypeIsPrimitive}}
+		return result, headers
+		{{/returnTypeIsPrimitive}}
+		{{^returnTypeIsPrimitive}}
+		{{#isListContainer}}
+		for _, ob in ipairs(result) do
+			cast_{{returnType}}(ob)
+		end
+		return result, headers
+		{{/isListContainer}}
+		{{#isMapContainer}}
+		return result, headers
+		{{/isMapContainer}}
+		{{^isMapContainer}}
+		{{^isListContainer}}
+		return cast_{{returnType}}(result), headers
+		{{/isListContainer}}
+		{{/isMapContainer}}
+		{{/returnTypeIsPrimitive}}
+		{{/returnType}}
+		{{^returnType}}
+		return nil, headers
+		{{/returnType}}
+	else
+		local body, err, errno2 = stream:get_body_as_string()
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		-- return the error message (http body)
+		return nil, http_status, body
+	end
+end
+
+{{/operation}}
+{{/operations}}

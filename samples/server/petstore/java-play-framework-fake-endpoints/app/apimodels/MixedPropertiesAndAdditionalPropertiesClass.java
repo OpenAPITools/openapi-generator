@@ -1,18 +1,21 @@
 package apimodels;
 
-import java.util.Objects;
 import apimodels.Animal;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import java.util.Objects;
+import javax.validation.constraints.*;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   private UUID uuid = null;
@@ -32,7 +35,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
   **/
-    public UUID getUuid() {
+  @Valid
+  public UUID getUuid() {
     return uuid;
   }
 
@@ -49,7 +53,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
   **/
-    public OffsetDateTime getDateTime() {
+  @Valid
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
@@ -64,7 +69,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;
@@ -74,7 +79,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
   **/
-    public Map<String, Animal> getMap() {
+  @Valid
+  public Map<String, Animal> getMap() {
     return map;
   }
 
@@ -92,9 +98,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
   }
 
   @Override
@@ -102,6 +108,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
     return Objects.hash(uuid, dateTime, map);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -123,6 +130,22 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<MixedPropertiesAndAdditionalPropertiesClass>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<MixedPropertiesAndAdditionalPropertiesClass> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

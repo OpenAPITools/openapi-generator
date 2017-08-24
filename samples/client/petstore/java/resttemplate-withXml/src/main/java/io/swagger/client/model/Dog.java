@@ -20,16 +20,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.client.model.Animal;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Dog
  */
-@JacksonXmlRootElement(localName = "Dog")
+
 @XmlRootElement(name = "Dog")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Dog")
 public class Dog extends Animal {
   @JsonProperty("breed")
   @JacksonXmlProperty(localName = "breed")
@@ -94,6 +94,6 @@ public class Dog extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
+
 }
 

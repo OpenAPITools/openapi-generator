@@ -47,3 +47,4 @@ open class User: JSONEncodable {
         return dictionary
     }
 }
+

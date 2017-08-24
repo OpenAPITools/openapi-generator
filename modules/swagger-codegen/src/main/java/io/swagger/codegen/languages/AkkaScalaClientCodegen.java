@@ -230,17 +230,6 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
         return super.toOperationId(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, operationId));
     }
 
-    private String formatIdentifier(String name, boolean capitalized) {
-        String identifier = camelize(sanitizeName(name), true);
-        if (capitalized) {
-            identifier = StringUtils.capitalize(identifier);
-        }
-        if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !isReservedWord(identifier)) {
-            return identifier;
-        }
-        return escapeReservedWord(identifier);
-    }
-
     @Override
     public String toParamName(String name) {
         return formatIdentifier(name, false);

@@ -114,7 +114,7 @@ class FakeClassnameTags123Api(object):
             select_header_content_type(['application/json'])
 
         # Authentication setting
-        auth_settings = []
+        auth_settings = ['api_key_query']
 
         return self.api_client.call_api('/fake_classname_test', 'PATCH',
                                         path_params,

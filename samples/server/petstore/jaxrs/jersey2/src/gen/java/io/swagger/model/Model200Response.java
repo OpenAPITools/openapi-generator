@@ -37,10 +37,10 @@ public class Model200Response   {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   @JsonProperty("name")
   @ApiModelProperty(value = "")
   public Integer getName() {
@@ -56,10 +56,10 @@ public class Model200Response   {
     return this;
   }
 
-   /**
+  /**
    * Get propertyClass
    * @return propertyClass
-  **/
+   **/
   @JsonProperty("class")
   @ApiModelProperty(value = "")
   public String getPropertyClass() {

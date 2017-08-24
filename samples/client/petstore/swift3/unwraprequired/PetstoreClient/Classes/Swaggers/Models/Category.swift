@@ -28,3 +28,4 @@ open class Category: JSONEncodable {
         return dictionary
     }
 }
+

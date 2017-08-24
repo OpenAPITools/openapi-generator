@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+@SuppressWarnings("RedundantThrows")
 public interface PetApiControllerImpInterface {
     void addPet(Pet body) throws Exception;
 

@@ -35,7 +35,9 @@ open class CodableHelper {
         var returnedError: Error? = nil
 
         let encoder = JSONEncoder()
-        encoder.outputFormatting = (prettyPrint ? .prettyPrinted : .compact)
+        if prettyPrint {
+            encoder.outputFormatting = .prettyPrinted
+        }
         encoder.dataEncodingStrategy = .base64Encode
         if #available(iOS 10.0, *) {
             encoder.dateEncodingStrategy = .iso8601

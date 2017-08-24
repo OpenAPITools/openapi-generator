@@ -10,7 +10,8 @@ import java.util.HashMap;
 
 import javax.validation.constraints.*;
 
-public interface StoreApiControllerImpInterface {
+@SuppressWarnings("RedundantThrows")
+interface StoreApiControllerImpInterface {
     void deleteOrder(String orderId) throws Exception;
 
     Map<String, Integer> getInventory() throws Exception;

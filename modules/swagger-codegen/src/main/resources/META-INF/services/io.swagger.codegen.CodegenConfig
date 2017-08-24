@@ -38,6 +38,7 @@ io.swagger.codegen.languages.JavascriptClientCodegen
 io.swagger.codegen.languages.JavascriptClosureAngularClientCodegen
 io.swagger.codegen.languages.JavaVertXServerCodegen
 io.swagger.codegen.languages.KotlinClientCodegen
+io.swagger.codegen.languages.LuaClientCodegen
 io.swagger.codegen.languages.LumenServerCodegen
 io.swagger.codegen.languages.NancyFXServerCodegen
 io.swagger.codegen.languages.NodeJSServerCodegen
@@ -52,6 +53,7 @@ io.swagger.codegen.languages.Qt5CPPGenerator
 io.swagger.codegen.languages.Rails5ServerCodegen
 io.swagger.codegen.languages.RestbedCodegen
 io.swagger.codegen.languages.RubyClientCodegen
+io.swagger.codegen.languages.RustClientCodegen
 io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen
 io.swagger.codegen.languages.SilexServerCodegen

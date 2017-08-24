@@ -14,4 +14,9 @@ open class Client: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case client = "client"
+    }
+
 }

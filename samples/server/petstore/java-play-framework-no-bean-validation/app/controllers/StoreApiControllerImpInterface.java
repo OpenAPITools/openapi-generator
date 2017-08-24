@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+@SuppressWarnings("RedundantThrows")
 public interface StoreApiControllerImpInterface {
     void deleteOrder(String orderId) throws Exception;
 

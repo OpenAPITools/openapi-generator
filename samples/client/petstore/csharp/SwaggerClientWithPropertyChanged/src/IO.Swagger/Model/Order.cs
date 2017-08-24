@@ -154,55 +154,53 @@ namespace IO.Swagger.Model
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
-        /// <param name="obj">Object to be compared</param>
+        /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            return this.Equals(obj as Order);
+            return this.Equals(input as Order);
         }
 
         /// <summary>
         /// Returns true if Order instances are equal
         /// </summary>
-        /// <param name="other">Instance of Order to be compared</param>
+        /// <param name="input">Instance of Order to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Order other)
+        public bool Equals(Order input)
         {
-            // credit: http://stackoverflow.com/a/10454552/677735
-            if (other == null)
+            if (input == null)
                 return false;
 
             return 
                 (
-                    this.Id == other.Id ||
-                    this.Id != null &&
-                    this.Id.Equals(other.Id)
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
-                    this.PetId == other.PetId ||
-                    this.PetId != null &&
-                    this.PetId.Equals(other.PetId)
+                    this.PetId == input.PetId ||
+                    (this.PetId != null &&
+                    this.PetId.Equals(input.PetId))
                 ) && 
                 (
-                    this.Quantity == other.Quantity ||
-                    this.Quantity != null &&
-                    this.Quantity.Equals(other.Quantity)
+                    this.Quantity == input.Quantity ||
+                    (this.Quantity != null &&
+                    this.Quantity.Equals(input.Quantity))
                 ) && 
                 (
-                    this.ShipDate == other.ShipDate ||
-                    this.ShipDate != null &&
-                    this.ShipDate.Equals(other.ShipDate)
+                    this.ShipDate == input.ShipDate ||
+                    (this.ShipDate != null &&
+                    this.ShipDate.Equals(input.ShipDate))
                 ) && 
                 (
-                    this.Status == other.Status ||
-                    this.Status != null &&
-                    this.Status.Equals(other.Status)
+                    this.Status == input.Status ||
+                    (this.Status != null &&
+                    this.Status.Equals(input.Status))
                 ) && 
                 (
-                    this.Complete == other.Complete ||
-                    this.Complete != null &&
-                    this.Complete.Equals(other.Complete)
+                    this.Complete == input.Complete ||
+                    (this.Complete != null &&
+                    this.Complete.Equals(input.Complete))
                 );
         }
 
@@ -212,24 +210,22 @@ namespace IO.Swagger.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            // credit: http://stackoverflow.com/a/263416/677735
             unchecked // Overflow is fine, just wrap
             {
-                int hash = 41;
-                // Suitable nullity checks etc, of course :)
+                int hashCode = 41;
                 if (this.Id != null)
-                    hash = hash * 59 + this.Id.GetHashCode();
+                    hashCode = hashCode * 59 + this.Id.GetHashCode();
                 if (this.PetId != null)
-                    hash = hash * 59 + this.PetId.GetHashCode();
+                    hashCode = hashCode * 59 + this.PetId.GetHashCode();
                 if (this.Quantity != null)
-                    hash = hash * 59 + this.Quantity.GetHashCode();
+                    hashCode = hashCode * 59 + this.Quantity.GetHashCode();
                 if (this.ShipDate != null)
-                    hash = hash * 59 + this.ShipDate.GetHashCode();
+                    hashCode = hashCode * 59 + this.ShipDate.GetHashCode();
                 if (this.Status != null)
-                    hash = hash * 59 + this.Status.GetHashCode();
+                    hashCode = hashCode * 59 + this.Status.GetHashCode();
                 if (this.Complete != null)
-                    hash = hash * 59 + this.Complete.GetHashCode();
-                return hash;
+                    hashCode = hashCode * 59 + this.Complete.GetHashCode();
+                return hashCode;
             }
         }
 

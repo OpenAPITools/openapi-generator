@@ -64,14 +64,14 @@ public class UserApiController implements UserApi {
 
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<User>(objectMapper.readValue("{  \"firstName\" : \"aeiou\",  \"lastName\" : \"aeiou\",  \"password\" : \"aeiou\",  \"userStatus\" : 6,  \"phone\" : \"aeiou\",  \"id\" : 0,  \"email\" : \"aeiou\",  \"username\" : \"aeiou\"}", User.class), HttpStatus.OK);
+            return new ResponseEntity<User>(objectMapper.readValue("{  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"password\" : \"password\",  \"userStatus\" : 6,  \"phone\" : \"phone\",  \"id\" : 0,  \"email\" : \"email\",  \"username\" : \"username\"}", User.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 
-    public ResponseEntity<String> loginUser( @NotNull@ApiParam(value = "The user name for login", required = true) @RequestParam(value = "username", required = true) String username,
-         @NotNull@ApiParam(value = "The password for login in clear text", required = true) @RequestParam(value = "password", required = true) String password,
+    public ResponseEntity<String> loginUser( @NotNull@ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
+         @NotNull@ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
 
@@ -81,7 +81,7 @@ public class UserApiController implements UserApi {
 
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<String>(objectMapper.readValue("\"aeiou\"", String.class), HttpStatus.OK);
+            return new ResponseEntity<String>(objectMapper.readValue("\"\"", String.class), HttpStatus.OK);
         }
 
         return new ResponseEntity<String>(HttpStatus.OK);

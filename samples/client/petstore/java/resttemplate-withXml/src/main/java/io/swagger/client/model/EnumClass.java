@@ -14,8 +14,7 @@
 package io.swagger.client.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;

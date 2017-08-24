@@ -1,16 +1,19 @@
 package apimodels;
 
-import java.util.Objects;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import javax.validation.*;
+import java.util.Objects;
+import javax.validation.constraints.*;
 /**
  * FormatTest
  */
 
+@SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer = null;
@@ -62,8 +65,8 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
   **/
-    @Min(10)
-  @Max(100)
+  @Min(10)
+@Max(100)
   public Integer getInteger() {
     return integer;
   }
@@ -83,8 +86,8 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
   **/
-    @Min(20)
-  @Max(200)
+  @Min(20)
+@Max(200)
   public Integer getInt32() {
     return int32;
   }
@@ -121,9 +124,10 @@ public class FormatTest   {
    * maximum: 543.2
    * @return number
   **/
-    @NotNull
-  @DecimalMin("32.1")
-  @DecimalMax("543.2")
+  @NotNull
+@DecimalMin("32.1")
+@DecimalMax("543.2")
+@Valid
   public BigDecimal getNumber() {
     return number;
   }
@@ -143,8 +147,8 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
   **/
-    @DecimalMin("54.3")
-  @DecimalMax("987.6")
+  @DecimalMin("54.3")
+@DecimalMax("987.6")
   public Float getFloat() {
     return _float;
   }
@@ -164,8 +168,8 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
   **/
-    @DecimalMin("67.8")
-  @DecimalMax("123.4")
+  @DecimalMin("67.8")
+@DecimalMax("123.4")
   public Double getDouble() {
     return _double;
   }
@@ -183,7 +187,7 @@ public class FormatTest   {
    * Get string
    * @return string
   **/
-    @Pattern(regexp="/[a-z]/i")
+  @Pattern(regexp="/[a-z]/i")
   public String getString() {
     return string;
   }
@@ -201,7 +205,8 @@ public class FormatTest   {
    * Get _byte
    * @return _byte
   **/
-    @NotNull
+  @NotNull
+@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
   public byte[] getByte() {
     return _byte;
   }
@@ -236,7 +241,8 @@ public class FormatTest   {
    * Get date
    * @return date
   **/
-    @NotNull
+  @NotNull
+@Valid
   public LocalDate getDate() {
     return date;
   }
@@ -254,7 +260,8 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
   **/
-    public OffsetDateTime getDateTime() {
+  @Valid
+  public OffsetDateTime getDateTime() {
     return dateTime;
   }
 
@@ -271,7 +278,8 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   **/
-    public UUID getUuid() {
+  @Valid
+  public UUID getUuid() {
     return uuid;
   }
 
@@ -288,8 +296,8 @@ public class FormatTest   {
    * Get password
    * @return password
   **/
-    @NotNull
-  @Size(min=10,max=64)
+  @NotNull
+@Size(min=10,max=64)
   public String getPassword() {
     return password;
   }
@@ -308,19 +316,19 @@ public class FormatTest   {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
-        Objects.equals(this.int32, formatTest.int32) &&
-        Objects.equals(this.int64, formatTest.int64) &&
-        Objects.equals(this.number, formatTest.number) &&
-        Objects.equals(this._float, formatTest._float) &&
-        Objects.equals(this._double, formatTest._double) &&
-        Objects.equals(this.string, formatTest.string) &&
-        Objects.equals(this._byte, formatTest._byte) &&
-        Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+    return Objects.equals(integer, formatTest.integer) &&
+        Objects.equals(int32, formatTest.int32) &&
+        Objects.equals(int64, formatTest.int64) &&
+        Objects.equals(number, formatTest.number) &&
+        Objects.equals(_float, formatTest._float) &&
+        Objects.equals(_double, formatTest._double) &&
+        Objects.equals(string, formatTest.string) &&
+        Objects.equals(_byte, formatTest._byte) &&
+        Objects.equals(binary, formatTest.binary) &&
+        Objects.equals(date, formatTest.date) &&
+        Objects.equals(dateTime, formatTest.dateTime) &&
+        Objects.equals(uuid, formatTest.uuid) &&
+        Objects.equals(password, formatTest.password);
   }
 
   @Override
@@ -328,6 +336,7 @@ public class FormatTest   {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
   }
 
+  @SuppressWarnings("StringBufferReplaceableByString")
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -359,6 +368,22 @@ public class FormatTest   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public void validate() {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<FormatTest>> constraintViolations = validator.validate(this);
+    if (constraintViolations.size() > 0) {
+      StringBuilder errors = new StringBuilder();
+      for (ConstraintViolation<FormatTest> contraintes : constraintViolations) {
+        errors.append(String.format("%s.%s %s\n",
+            contraintes.getRootBeanClass().getSimpleName(),
+            contraintes.getPropertyPath(),
+            contraintes.getMessage()));
+      }
+      throw new RuntimeException("Bean validation : " + errors);
+    }
   }
 }
 

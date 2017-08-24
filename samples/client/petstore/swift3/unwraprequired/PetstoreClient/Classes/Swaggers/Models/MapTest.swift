@@ -31,3 +31,4 @@ open class MapTest: JSONEncodable {
         return dictionary
     }
 }
+

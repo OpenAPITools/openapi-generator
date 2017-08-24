@@ -25,4 +25,14 @@ open class Pet: Codable {
 
     public init() {}
 
+
+    private enum CodingKeys: String, CodingKey { 
+        case id = "id"
+        case category = "category"
+        case name = "name"
+        case photoUrls = "photoUrls"
+        case tags = "tags"
+        case status = "status"
+    }
+
 }
