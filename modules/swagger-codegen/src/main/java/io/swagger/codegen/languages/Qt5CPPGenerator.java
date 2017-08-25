@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
+public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig {
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
 
@@ -41,6 +41,11 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
 
         // set the output folder here
         outputFolder = "generated-code/qt5cpp";
+
+        // set modelNamePrefix as default for QT5CPP
+        if (modelNamePrefix == "") {
+            modelNamePrefix = PREFIX;
+        }
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -77,15 +82,6 @@ public class Qt5CPPGenerator extends DefaultCodegen implements CodegenConfig {
 
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
-
-        /*
-         * Reserved words.  Override this with reserved words specific to your language
-         */
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "sample1",  // replace with static values
-                        "sample2")
-        );
 
         /*
          * Additional Properties.  These values can be passed to the templates and

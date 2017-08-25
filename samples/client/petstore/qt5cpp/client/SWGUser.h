@@ -11,13 +11,13 @@
  */
 
 /*
- * User.h
+ * SWGUser.h
  * 
  * A User who is purchasing from the pet store
  */
 
-#ifndef User_H_
-#define User_H_
+#ifndef SWGUser_H_
+#define SWGUser_H_
 
 #include <QJsonObject>
 
@@ -29,18 +29,18 @@
 
 namespace Swagger {
 
-class User: public SWGObject {
+class SWGUser: public SWGObject {
 public:
-    User();
-    User(QString* json);
-    virtual ~User();
+    SWGUser();
+    SWGUser(QString* json);
+    virtual ~SWGUser();
     void init();
     void cleanup();
 
     QString asJson ();
     QJsonObject* asJsonObject();
     void fromJsonObject(QJsonObject &json);
-    User* fromJson(QString &jsonString);
+    SWGUser* fromJson(QString &jsonString);
 
     qint64 getId();
     void setId(qint64 id);
@@ -80,4 +80,4 @@ private:
 
 }
 
-#endif /* User_H_ */
+#endif /* SWGUser_H_ */

@@ -11,7 +11,7 @@
  */
 
 
-#include "User.h"
+#include "SWGUser.h"
 
 #include "SWGHelpers.h"
 
@@ -22,21 +22,21 @@
 
 namespace Swagger {
 
-User::User(QString* json) {
+SWGUser::SWGUser(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-User::User() {
+SWGUser::SWGUser() {
     init();
 }
 
-User::~User() {
+SWGUser::~SWGUser() {
     this->cleanup();
 }
 
 void
-User::init() {
+SWGUser::init() {
     id = 0L;
     username = new QString("");
     first_name = new QString("");
@@ -48,7 +48,7 @@ User::init() {
 }
 
 void
-User::cleanup() {
+SWGUser::cleanup() {
     
 
     if(username != nullptr) {
@@ -77,8 +77,8 @@ User::cleanup() {
 
 }
 
-User*
-User::fromJson(QString &json) {
+SWGUser*
+SWGUser::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -87,7 +87,7 @@ User::fromJson(QString &json) {
 }
 
 void
-User::fromJsonObject(QJsonObject &pJson) {
+SWGUser::fromJsonObject(QJsonObject &pJson) {
     ::Swagger::setValue(&id, pJson["id"], "qint64", "");
     ::Swagger::setValue(&username, pJson["username"], "QString", "QString");
     ::Swagger::setValue(&first_name, pJson["firstName"], "QString", "QString");
@@ -99,7 +99,7 @@ User::fromJsonObject(QJsonObject &pJson) {
 }
 
 QString
-User::asJson ()
+SWGUser::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -109,7 +109,7 @@ User::asJson ()
 }
 
 QJsonObject*
-User::asJsonObject() {
+SWGUser::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     
     obj->insert("id", QJsonValue(id));
@@ -132,74 +132,74 @@ User::asJsonObject() {
 }
 
 qint64
-User::getId() {
+SWGUser::getId() {
     return id;
 }
 void
-User::setId(qint64 id) {
+SWGUser::setId(qint64 id) {
     this->id = id;
 }
 
 QString*
-User::getUsername() {
+SWGUser::getUsername() {
     return username;
 }
 void
-User::setUsername(QString* username) {
+SWGUser::setUsername(QString* username) {
     this->username = username;
 }
 
 QString*
-User::getFirstName() {
+SWGUser::getFirstName() {
     return first_name;
 }
 void
-User::setFirstName(QString* first_name) {
+SWGUser::setFirstName(QString* first_name) {
     this->first_name = first_name;
 }
 
 QString*
-User::getLastName() {
+SWGUser::getLastName() {
     return last_name;
 }
 void
-User::setLastName(QString* last_name) {
+SWGUser::setLastName(QString* last_name) {
     this->last_name = last_name;
 }
 
 QString*
-User::getEmail() {
+SWGUser::getEmail() {
     return email;
 }
 void
-User::setEmail(QString* email) {
+SWGUser::setEmail(QString* email) {
     this->email = email;
 }
 
 QString*
-User::getPassword() {
+SWGUser::getPassword() {
     return password;
 }
 void
-User::setPassword(QString* password) {
+SWGUser::setPassword(QString* password) {
     this->password = password;
 }
 
 QString*
-User::getPhone() {
+SWGUser::getPhone() {
     return phone;
 }
 void
-User::setPhone(QString* phone) {
+SWGUser::setPhone(QString* phone) {
     this->phone = phone;
 }
 
 qint32
-User::getUserStatus() {
+SWGUser::getUserStatus() {
     return user_status;
 }
 void
-User::setUserStatus(qint32 user_status) {
+SWGUser::setUserStatus(qint32 user_status) {
     this->user_status = user_status;
 }
 
