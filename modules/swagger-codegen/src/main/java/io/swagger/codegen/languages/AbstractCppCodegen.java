@@ -5,7 +5,93 @@ import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.models.properties.Property;
 
+import java.util.Arrays;
+
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
+
+    public AbstractCppCodegen() {
+        super();
+
+        /*
+         * Reserved words.  Override this with reserved words specific to your language
+         */
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        "auto",
+                        "break",
+                        "case",
+                        "char",
+                        "const",
+                        "continue",
+                        "default",
+                        "do",
+                        "double",
+                        "else",
+                        "enum",
+                        "extern",
+                        "float",
+                        "for",
+                        "goto",
+                        "if",
+                        "int",
+                        "long",
+                        "register",
+                        "return",
+                        "short",
+                        "signed",
+                        "sizeof",
+                        "static",
+                        "struct",
+                        "switch",
+                        "typedef",
+                        "union",
+                        "unsigned",
+                        "void",
+                        "volatile",
+                        "while",
+                        "asm",
+                        "bool",
+                        "catch",
+                        "class",
+                        "const_cast",
+                        "delete",
+                        "dynamic_cast",
+                        "explicit",
+                        "false",
+                        "friend",
+                        "inline",
+                        "mutable",
+                        "namespace",
+                        "new",
+                        "operator",
+                        "private",
+                        "public",
+                        "protected",
+                        "reinterpret_cast",
+                        "static_cast",
+                        "template",
+                        "this",
+                        "throw",
+                        "true",
+                        "try",
+                        "typeid",
+                        "typename",
+                        "using",
+                        "virtual",
+                        "wchar_t",
+                        "and",
+                        "and_eq",
+                        "bitand",
+                        "bitor",
+                        "compl",
+                        "not",
+                        "not_eq",
+                        "or",
+                        "or_eq",
+                        "xor",
+                        "xor_eq")
+        );
+    }
 
     @Override
     public String toVarName(String name) {

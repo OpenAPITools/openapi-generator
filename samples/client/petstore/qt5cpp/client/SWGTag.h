@@ -11,18 +11,17 @@
  */
 
 /*
- * Order.h
+ * SWGTag.h
  * 
- * An order for a pets from the pet store
+ * A tag for a pet
  */
 
-#ifndef Order_H_
-#define Order_H_
+#ifndef SWGTag_H_
+#define SWGTag_H_
 
 #include <QJsonObject>
 
 
-#include <QDateTime>
 #include <QString>
 
 #include "SWGObject.h"
@@ -30,47 +29,31 @@
 
 namespace Swagger {
 
-class Order: public SWGObject {
+class SWGTag: public SWGObject {
 public:
-    Order();
-    Order(QString* json);
-    virtual ~Order();
+    SWGTag();
+    SWGTag(QString* json);
+    virtual ~SWGTag();
     void init();
     void cleanup();
 
     QString asJson ();
     QJsonObject* asJsonObject();
     void fromJsonObject(QJsonObject &json);
-    Order* fromJson(QString &jsonString);
+    SWGTag* fromJson(QString &jsonString);
 
     qint64 getId();
     void setId(qint64 id);
 
-    qint64 getPetId();
-    void setPetId(qint64 pet_id);
-
-    qint32 getQuantity();
-    void setQuantity(qint32 quantity);
-
-    QDateTime* getShipDate();
-    void setShipDate(QDateTime* ship_date);
-
-    QString* getStatus();
-    void setStatus(QString* status);
-
-    bool getComplete();
-    void setComplete(bool complete);
+    QString* getName();
+    void setName(QString* name);
 
 
 private:
     qint64 id;
-    qint64 pet_id;
-    qint32 quantity;
-    QDateTime* ship_date;
-    QString* status;
-    bool complete;
+    QString* name;
 };
 
 }
 
-#endif /* Order_H_ */
+#endif /* SWGTag_H_ */

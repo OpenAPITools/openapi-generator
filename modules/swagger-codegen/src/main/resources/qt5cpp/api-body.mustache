@@ -186,8 +186,12 @@ void
     {{/returnType}}
     worker->deleteLater();
 
-    emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
-    emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
+    } else {
+        emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
+        emit {{nickname}}SignalEFull(worker, error_type, error_str);
+    }
 }
 
 {{/operation}}

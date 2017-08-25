@@ -11,7 +11,7 @@
  */
 
 
-#include "ApiResponse.h"
+#include "SWGTag.h"
 
 #include "SWGHelpers.h"
 
@@ -22,41 +22,36 @@
 
 namespace Swagger {
 
-ApiResponse::ApiResponse(QString* json) {
+SWGTag::SWGTag(QString* json) {
     init();
     this->fromJson(*json);
 }
 
-ApiResponse::ApiResponse() {
+SWGTag::SWGTag() {
     init();
 }
 
-ApiResponse::~ApiResponse() {
+SWGTag::~SWGTag() {
     this->cleanup();
 }
 
 void
-ApiResponse::init() {
-    code = 0;
-    type = new QString("");
-    message = new QString("");
+SWGTag::init() {
+    id = 0L;
+    name = new QString("");
 }
 
 void
-ApiResponse::cleanup() {
+SWGTag::cleanup() {
     
 
-    if(type != nullptr) {
-        delete type;
-    }
-
-    if(message != nullptr) {
-        delete message;
+    if(name != nullptr) {
+        delete name;
     }
 }
 
-ApiResponse*
-ApiResponse::fromJson(QString &json) {
+SWGTag*
+SWGTag::fromJson(QString &json) {
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
@@ -65,14 +60,13 @@ ApiResponse::fromJson(QString &json) {
 }
 
 void
-ApiResponse::fromJsonObject(QJsonObject &pJson) {
-    ::Swagger::setValue(&code, pJson["code"], "qint32", "");
-    ::Swagger::setValue(&type, pJson["type"], "QString", "QString");
-    ::Swagger::setValue(&message, pJson["message"], "QString", "QString");
+SWGTag::fromJsonObject(QJsonObject &pJson) {
+    ::Swagger::setValue(&id, pJson["id"], "qint64", "");
+    ::Swagger::setValue(&name, pJson["name"], "QString", "QString");
 }
 
 QString
-ApiResponse::asJson ()
+SWGTag::asJson ()
 {
     QJsonObject* obj = this->asJsonObject();
     
@@ -82,43 +76,32 @@ ApiResponse::asJson ()
 }
 
 QJsonObject*
-ApiResponse::asJsonObject() {
+SWGTag::asJsonObject() {
     QJsonObject* obj = new QJsonObject();
     
-    obj->insert("code", QJsonValue(code));
+    obj->insert("id", QJsonValue(id));
 
-    toJsonValue(QString("type"), type, obj, QString("QString"));
-
-    toJsonValue(QString("message"), message, obj, QString("QString"));
+    toJsonValue(QString("name"), name, obj, QString("QString"));
 
     return obj;
 }
 
-qint32
-ApiResponse::getCode() {
-    return code;
+qint64
+SWGTag::getId() {
+    return id;
 }
 void
-ApiResponse::setCode(qint32 code) {
-    this->code = code;
+SWGTag::setId(qint64 id) {
+    this->id = id;
 }
 
 QString*
-ApiResponse::getType() {
-    return type;
+SWGTag::getName() {
+    return name;
 }
 void
-ApiResponse::setType(QString* type) {
-    this->type = type;
-}
-
-QString*
-ApiResponse::getMessage() {
-    return message;
-}
-void
-ApiResponse::setMessage(QString* message) {
-    this->message = message;
+SWGTag::setName(QString* name) {
+    this->name = name;
 }
 
 
