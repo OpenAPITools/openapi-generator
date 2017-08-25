@@ -1,13 +1,13 @@
 {
-  "name": "@swagger/typescript-fetch-petstore",
-  "version": "1.0.0",
-  "description": "swagger client for @swagger/typescript-fetch-petstore",
+  "name": "{{npmName}}",
+  "version": "{{npmVersion}}",
+  "description": "swagger client for {{npmName}}",
   "author": "Swagger Codegen Contributors",
   "keywords": [
     "fetch",
     "typescript",
     "swagger-client",
-    "@swagger/typescript-fetch-petstore"
+    "{{npmName}}"
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
@@ -23,8 +23,10 @@
     "@types/isomorphic-fetch": "0.0.34",
     "@types/node": "^8.0.9",
     "typescript": "^2.0"
-  },
+  }{{#npmRepository}},{{/npmRepository}}
+{{#npmRepository}}
   "publishConfig":{
-    "registry":"https://skimdb.npmjs.com/registry"
+    "registry":"{{npmRepository}}"
   }
+{{/npmRepository}}
 }

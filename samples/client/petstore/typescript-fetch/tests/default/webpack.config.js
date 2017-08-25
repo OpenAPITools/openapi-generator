@@ -5,7 +5,7 @@ module.exports = {
     app: './test/index.ts',
     vendor: [
       // libraries
-      'typescript-fetch-api'
+      '@swagger/typescript-fetch-petstore'
     ],
   },
   output: {
