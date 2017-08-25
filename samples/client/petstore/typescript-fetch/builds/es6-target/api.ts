@@ -1,3 +1,4 @@
+// tslint:disable
 /**
  * Swagger Petstore
  * This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -10,1471 +11,1973 @@
  * Do not edit the class manually.
  */
 
-import * as querystring from "querystring";
+
 import * as url from "url";
-
 import * as isomorphicFetch from "isomorphic-fetch";
-
 import { Configuration } from "./configuration";
-
-interface Dictionary<T> { [index: string]: T; }
-export interface FetchAPI { (url: string, init?: any): Promise<any>; }
 
 const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
+/**
+ *
+ * @export
+ */
+export const COLLECTION_FORMATS = {
+    csv: ",",
+    ssv: " ",
+    tsv: "\t",
+    pipes: "|",
+};
+
+/**
+ *
+ * @export
+ * @interface FetchAPI
+ */
+export interface FetchAPI {
+    (url: string, init?: any): Promise<any>;
+}
+
+/**
+ *  
+ * @export
+ * @interface FetchArgs
+ */
 export interface FetchArgs {
     url: string;
     options: any;
 }
 
+/**
+ * 
+ * @export
+ * @class BaseAPI
+ */
 export class BaseAPI {
-    basePath: string;
-    fetch: FetchAPI;
-    public configuration: Configuration;
+    protected configuration: Configuration;
 
-    constructor(fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH, configuration: Configuration = new Configuration()) {
-        this.basePath = basePath;
-        this.fetch = fetch;
-        this.configuration = configuration;
+    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = isomorphicFetch) {
+        if (configuration) {
+            this.configuration = configuration;
+            this.basePath = configuration.basePath || this.basePath;
+        }
     }
 };
 
 /**
+ * 
+ * @export
+ * @class RequiredError
+ * @extends {Error}
+ */
+export class RequiredError extends Error {
+    name: "RequiredError"
+    constructor(public field: string, msg?: string) {
+        super(msg);
+    }
+}
+
+/**
  * Describes the result of uploading an image resource
+ * @export
+ * @interface ApiResponse
  */
 export interface ApiResponse {
-    "code"?: number;
-    "type"?: string;
-    "message"?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ApiResponse
+     */
+    code?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiResponse
+     */
+    type?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiResponse
+     */
+    message?: string;
 }
 
 /**
  * A category for a pet
+ * @export
+ * @interface Category
  */
 export interface Category {
-    "id"?: number;
-    "name"?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Category
+     */
+    id?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Category
+     */
+    name?: string;
 }
 
 /**
  * An order for a pets from the pet store
+ * @export
+ * @interface Order
  */
 export interface Order {
-    "id"?: number;
-    "petId"?: number;
-    "quantity"?: number;
-    "shipDate"?: Date;
+    /**
+     * 
+     * @type {number}
+     * @memberof Order
+     */
+    id?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Order
+     */
+    petId?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Order
+     */
+    quantity?: number;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Order
+     */
+    shipDate?: Date;
     /**
      * Order Status
+     * @type {string}
+     * @memberof Order
      */
-    "status"?: OrderStatusEnum;
-    "complete"?: boolean;
+    status?: Order.StatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Order
+     */
+    complete?: boolean;
 }
 
-export type OrderStatusEnum = "placed" | "approved" | "delivered";
+/**
+ * @export
+ * @namespace Order
+ */
+export namespace Order {
+    /**
+     * @export
+     * @enum {string}
+     */
+    export enum StatusEnum {
+        Placed = <any> 'placed',
+        Approved = <any> 'approved',
+        Delivered = <any> 'delivered'
+    }
+}
+
 /**
  * A pet for sale in the pet store
+ * @export
+ * @interface Pet
  */
 export interface Pet {
-    "id"?: number;
-    "category"?: Category;
-    "name": string;
-    "photoUrls": Array<string>;
-    "tags"?: Array<Tag>;
+    /**
+     * 
+     * @type {number}
+     * @memberof Pet
+     */
+    id?: number;
+    /**
+     * 
+     * @type {Category}
+     * @memberof Pet
+     */
+    category?: Category;
+    /**
+     * 
+     * @type {string}
+     * @memberof Pet
+     */
+    name: string;
+    /**
+     * 
+     * @type {Array&lt;string&gt;}
+     * @memberof Pet
+     */
+    photoUrls: Array<string>;
+    /**
+     * 
+     * @type {Array&lt;Tag&gt;}
+     * @memberof Pet
+     */
+    tags?: Array<Tag>;
     /**
      * pet status in the store
+     * @type {string}
+     * @memberof Pet
      */
-    "status"?: PetStatusEnum;
+    status?: Pet.StatusEnum;
 }
 
-export type PetStatusEnum = "available" | "pending" | "sold";
+/**
+ * @export
+ * @namespace Pet
+ */
+export namespace Pet {
+    /**
+     * @export
+     * @enum {string}
+     */
+    export enum StatusEnum {
+        Available = <any> 'available',
+        Pending = <any> 'pending',
+        Sold = <any> 'sold'
+    }
+}
+
 /**
  * A tag for a pet
+ * @export
+ * @interface Tag
  */
 export interface Tag {
-    "id"?: number;
-    "name"?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tag
+     */
+    id?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tag
+     */
+    name?: string;
 }
 
 /**
  * A User who is purchasing from the pet store
+ * @export
+ * @interface User
  */
 export interface User {
-    "id"?: number;
-    "username"?: string;
-    "firstName"?: string;
-    "lastName"?: string;
-    "email"?: string;
-    "password"?: string;
-    "phone"?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof User
+     */
+    id?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    username?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    firstName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    lastName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    email?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    password?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    phone?: string;
     /**
      * User Status
+     * @type {number}
+     * @memberof User
      */
-    "userStatus"?: number;
+    userStatus?: number;
 }
-
 
 
 /**
  * PetApi - fetch parameter creator
+ * @export
  */
-export const PetApiFetchParamCreator = {
-    /**
-     * 
-     * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
-     */
-    addPet(params: {  body: Pet; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling addPet");
-        }
-        const baseUrl = `/pet`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
+export const PetApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Add a new pet to the store
+         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addPet(body: Pet, options: any = {}): FetchArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
+            }
+            const path = `/pet`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'POST' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (petstore_auth) required
-        // oauth required
-        if (configuration.accessToken) {
-            fetchOptions.headers = Object.assign({
-                    "Authorization": "Bearer " + configuration.accessToken,
-                    }, contentTypeHeader);
-        }
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Deletes a pet
-     * @param petId Pet id to delete
-     * @param apiKey 
-     */
-    deletePet(params: {  petId: number; apiKey?: string; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "petId" is set
-        if (params["petId"] == null) {
-            throw new Error("Missing required parameter petId when calling deletePet");
-        }
-        const baseUrl = `/pet/{petId}`
-            .replace(`{${"petId"}}`, `${ params["petId"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "DELETE" }, options);
+            headerParameter['Content-Type'] = 'application/json';
 
-        let contentTypeHeader: Dictionary<string> = {};
-        fetchOptions.headers = Object.assign({
-            "api_key": params["apiKey"],
-        }, contentTypeHeader, fetchOptions.headers);
-        // authentication (petstore_auth) required
-        // oauth required
-        if (configuration.accessToken) {
-            fetchOptions.headers = Object.assign({
-                    "Authorization": "Bearer " + configuration.accessToken,
-                    }, contentTypeHeader);
-        }
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = JSON.stringify(body || {});
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * Multiple status values can be provided with comma separated strings
-     * @summary Finds Pets by status
-     * @param status Status values that need to be considered for filter
-     */
-    findPetsByStatus(params: {  status: Array<string>; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "status" is set
-        if (params["status"] == null) {
-            throw new Error("Missing required parameter status when calling findPetsByStatus");
-        }
-        const baseUrl = `/pet/findByStatus`;
-        let urlObj = url.parse(baseUrl, true);
-        urlObj.query =  Object.assign({}, urlObj.query);
-        if (params["status"] !== undefined) {
-            urlObj.query["status"] = params["status"];
-        }
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Deletes a pet
+         * @param {number} petId Pet id to delete
+         * @param {string} [apiKey] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePet(petId: number, apiKey?: string, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling deletePet.');
+            }
+            const path = `/pet/{petId}`
+                .replace(`{${"petId"}}`, String(petId));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'DELETE' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (petstore_auth) required
-        // oauth required
-        if (configuration.accessToken) {
-            fetchOptions.headers = Object.assign({
-                    "Authorization": "Bearer " + configuration.accessToken,
-                    }, contentTypeHeader);
-        }
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @summary Finds Pets by tags
-     * @param tags Tags to filter by
-     */
-    findPetsByTags(params: {  tags: Array<string>; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "tags" is set
-        if (params["tags"] == null) {
-            throw new Error("Missing required parameter tags when calling findPetsByTags");
-        }
-        const baseUrl = `/pet/findByTags`;
-        let urlObj = url.parse(baseUrl, true);
-        urlObj.query =  Object.assign({}, urlObj.query);
-        if (params["tags"] !== undefined) {
-            urlObj.query["tags"] = params["tags"];
-        }
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            if (apiKey !== undefined && apiKey !== null) {
+                headerParameter['api_key'] = String(apiKey);
+            }
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (petstore_auth) required
-        // oauth required
-        if (configuration.accessToken) {
-            fetchOptions.headers = Object.assign({
-                    "Authorization": "Bearer " + configuration.accessToken,
-                    }, contentTypeHeader);
-        }
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * Returns a single pet
-     * @summary Find pet by ID
-     * @param petId ID of pet to return
-     */
-    getPetById(params: {  petId: number; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "petId" is set
-        if (params["petId"] == null) {
-            throw new Error("Missing required parameter petId when calling getPetById");
-        }
-        const baseUrl = `/pet/{petId}`
-            .replace(`{${"petId"}}`, `${ params["petId"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * Multiple status values can be provided with comma separated strings
+         * @summary Finds Pets by status
+         * @param {Array&lt;string&gt;} status Status values that need to be considered for filter
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findPetsByStatus(status: Array<string>, options: any = {}): FetchArgs {
+            // verify required parameter 'status' is not null or undefined
+            if (status === null || status === undefined) {
+                throw new RequiredError('status','Required parameter status was null or undefined when calling findPetsByStatus.');
+            }
+            const path = `/pet/findByStatus`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (api_key) required
-        if (configuration.apiKey && configuration.apiKey.api_key) {
-            fetchOptions.headers = Object.assign({
-                    "api_key": configuration.apiKey.api_key,
-                    }, contentTypeHeader);
-        }
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
-     */
-    updatePet(params: {  body: Pet; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling updatePet");
-        }
-        const baseUrl = `/pet`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "PUT" }, options);
+            if (status) {
+                queryParameter['status'] = status.join(COLLECTION_FORMATS["csv"]);
+            }
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (petstore_auth) required
-        // oauth required
-        if (configuration.accessToken) {
-            fetchOptions.headers = Object.assign({
-                    "Authorization": "Bearer " + configuration.accessToken,
-                    }, contentTypeHeader);
-        }
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Updates a pet in the store with form data
-     * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
-     */
-    updatePetWithForm(params: {  petId: number; name?: string; status?: string; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "petId" is set
-        if (params["petId"] == null) {
-            throw new Error("Missing required parameter petId when calling updatePetWithForm");
-        }
-        const baseUrl = `/pet/{petId}`
-            .replace(`{${"petId"}}`, `${ params["petId"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+         * @summary Finds Pets by tags
+         * @param {Array&lt;string&gt;} tags Tags to filter by
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findPetsByTags(tags: Array<string>, options: any = {}): FetchArgs {
+            // verify required parameter 'tags' is not null or undefined
+            if (tags === null || tags === undefined) {
+                throw new RequiredError('tags','Required parameter tags was null or undefined when calling findPetsByTags.');
+            }
+            const path = `/pet/findByTags`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({
-            "name": params["name"],
-            "status": params["status"],
-        });
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (petstore_auth) required
-        // oauth required
-        if (configuration.accessToken) {
-            fetchOptions.headers = Object.assign({
-                    "Authorization": "Bearer " + configuration.accessToken,
-                    }, contentTypeHeader);
-        }
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary uploads an image
-     * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
-     */
-    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, configuration: Configuration, options: any = {}): FetchArgs {
-        // verify required parameter "petId" is set
-        if (params["petId"] == null) {
-            throw new Error("Missing required parameter petId when calling uploadFile");
-        }
-        const baseUrl = `/pet/{petId}/uploadImage`
-            .replace(`{${"petId"}}`, `${ params["petId"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
+            if (tags) {
+                queryParameter['tags'] = tags.join(COLLECTION_FORMATS["csv"]);
+            }
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/x-www-form-urlencoded" };
-        fetchOptions.body = querystring.stringify({
-            "additionalMetadata": params["additionalMetadata"],
-            "file": params["file"],
-        });
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (petstore_auth) required
-        // oauth required
-        if (configuration.accessToken) {
-            fetchOptions.headers = Object.assign({
-                    "Authorization": "Bearer " + configuration.accessToken,
-                    }, contentTypeHeader);
-        }
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * Returns a single pet
+         * @summary Find pet by ID
+         * @param {number} petId ID of pet to return
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPetById(petId: number, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling getPetById.');
+            }
+            const path = `/pet/{petId}`
+                .replace(`{${"petId"}}`, String(petId));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
+
+            // authentication api_key required
+            if (configuration && configuration.apiKey) {
+                const apiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("api_key")
+					: configuration.apiKey;
+                headerParameter["api_key"] = apiKeyValue;
+            }
+
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update an existing pet
+         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePet(body: Pet, options: any = {}): FetchArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
+            }
+            const path = `/pet`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'PUT' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
+
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
+
+            headerParameter['Content-Type'] = 'application/json';
+
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = JSON.stringify(body || {});
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Updates a pet in the store with form data
+         * @param {number} petId ID of pet that needs to be updated
+         * @param {string} [name] Updated name of the pet
+         * @param {string} [status] Updated status of the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePetWithForm(petId: number, name?: string, status?: string, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling updatePetWithForm.');
+            }
+            const path = `/pet/{petId}`
+                .replace(`{${"petId"}}`, String(petId));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'POST' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
+            const formParams = new url.URLSearchParams();
+
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
+
+            if (name !== undefined) {
+                formParams.set('name', name as any);
+            }
+
+            if (status !== undefined) {
+                formParams.set('status', status as any);
+            }
+
+            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = formParams.toString();
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary uploads an image
+         * @param {number} petId ID of pet to update
+         * @param {string} [additionalMetadata] Additional data to pass to server
+         * @param {any} [file] file to upload
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling uploadFile.');
+            }
+            const path = `/pet/{petId}/uploadImage`
+                .replace(`{${"petId"}}`, String(petId));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'POST' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
+            const formParams = new url.URLSearchParams();
+
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
+
+            if (additionalMetadata !== undefined) {
+                formParams.set('additionalMetadata', additionalMetadata as any);
+            }
+
+            if (file !== undefined) {
+                formParams.set('file', file as any);
+            }
+
+            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = formParams.toString();
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+    }
 };
 
 /**
  * PetApi - functional programming interface
+ * @export
  */
-export const PetApiFp = {
-    /**
-     * 
-     * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
-     */
-    addPet(params: { body: Pet;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreator.addPet(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Deletes a pet
-     * @param petId Pet id to delete
-     * @param apiKey 
-     */
-    deletePet(params: { petId: number; apiKey?: string;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreator.deletePet(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * Multiple status values can be provided with comma separated strings
-     * @summary Finds Pets by status
-     * @param status Status values that need to be considered for filter
-     */
-    findPetsByStatus(params: { status: Array<string>;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-        const fetchArgs = PetApiFetchParamCreator.findPetsByStatus(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @summary Finds Pets by tags
-     * @param tags Tags to filter by
-     */
-    findPetsByTags(params: { tags: Array<string>;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-        const fetchArgs = PetApiFetchParamCreator.findPetsByTags(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * Returns a single pet
-     * @summary Find pet by ID
-     * @param petId ID of pet to return
-     */
-    getPetById(params: { petId: number;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Pet> {
-        const fetchArgs = PetApiFetchParamCreator.getPetById(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
-     */
-    updatePet(params: { body: Pet;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreator.updatePet(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Updates a pet in the store with form data
-     * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
-     */
-    updatePetWithForm(params: { petId: number; name?: string; status?: string;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = PetApiFetchParamCreator.updatePetWithForm(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary uploads an image
-     * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
-     */
-    uploadFile(params: { petId: number; additionalMetadata?: string; file?: any;  }, configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<ApiResponse> {
-        const fetchArgs = PetApiFetchParamCreator.uploadFile(params, configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-};
-
-/**
- * PetApi - object-oriented interface
- */
-export class PetApi extends BaseAPI {
-    /**
-     * 
-     * @summary Add a new pet to the store
-     * @param body Pet object that needs to be added to the store
-     */
-    addPet(params: {  body: Pet; }, options: any = {}) {
-        return PetApiFp.addPet(params, this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Deletes a pet
-     * @param petId Pet id to delete
-     * @param apiKey 
-     */
-    deletePet(params: {  petId: number; apiKey?: string; }, options: any = {}) {
-        return PetApiFp.deletePet(params, this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * Multiple status values can be provided with comma separated strings
-     * @summary Finds Pets by status
-     * @param status Status values that need to be considered for filter
-     */
-    findPetsByStatus(params: {  status: Array<string>; }, options: any = {}) {
-        return PetApiFp.findPetsByStatus(params, this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @summary Finds Pets by tags
-     * @param tags Tags to filter by
-     */
-    findPetsByTags(params: {  tags: Array<string>; }, options: any = {}) {
-        return PetApiFp.findPetsByTags(params, this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * Returns a single pet
-     * @summary Find pet by ID
-     * @param petId ID of pet to return
-     */
-    getPetById(params: {  petId: number; }, options: any = {}) {
-        return PetApiFp.getPetById(params, this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Update an existing pet
-     * @param body Pet object that needs to be added to the store
-     */
-    updatePet(params: {  body: Pet; }, options: any = {}) {
-        return PetApiFp.updatePet(params, this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Updates a pet in the store with form data
-     * @param petId ID of pet that needs to be updated
-     * @param name Updated name of the pet
-     * @param status Updated status of the pet
-     */
-    updatePetWithForm(params: {  petId: number; name?: string; status?: string; }, options: any = {}) {
-        return PetApiFp.updatePetWithForm(params, this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary uploads an image
-     * @param petId ID of pet to update
-     * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
-     */
-    uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, options: any = {}) {
-        return PetApiFp.uploadFile(params, this.configuration, options)(this.fetch, this.basePath);
+export const PetApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Add a new pet to the store
+         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addPet(body: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).addPet(body, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Deletes a pet
+         * @param {number} petId Pet id to delete
+         * @param {string} [apiKey] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePet(petId: number, apiKey?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).deletePet(petId, apiKey, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Multiple status values can be provided with comma separated strings
+         * @summary Finds Pets by status
+         * @param {Array&lt;string&gt;} status Status values that need to be considered for filter
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findPetsByStatus(status: Array<string>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).findPetsByStatus(status, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+         * @summary Finds Pets by tags
+         * @param {Array&lt;string&gt;} tags Tags to filter by
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findPetsByTags(tags: Array<string>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).findPetsByTags(tags, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Returns a single pet
+         * @summary Find pet by ID
+         * @param {number} petId ID of pet to return
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPetById(petId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Pet> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).getPetById(petId, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Update an existing pet
+         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePet(body: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).updatePet(body, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Updates a pet in the store with form data
+         * @param {number} petId ID of pet that needs to be updated
+         * @param {string} [name] Updated name of the pet
+         * @param {string} [status] Updated status of the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePetWithForm(petId: number, name?: string, status?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).updatePetWithForm(petId, name, status, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary uploads an image
+         * @param {number} petId ID of pet to update
+         * @param {string} [additionalMetadata] Additional data to pass to server
+         * @param {any} [file] file to upload
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ApiResponse> {
+            const fetchArgs = PetApiFetchParamCreator(configuration).uploadFile(petId, additionalMetadata, file, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
     }
 };
 
 /**
  * PetApi - factory interface
+ * @export
  */
-export const PetApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+export const PetApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
          * 
          * @summary Add a new pet to the store
-         * @param body Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        addPet(params: {  body: Pet; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.addPet(params, configuration, options)(fetch, basePath);
+        addPet(body: Pet, options?: any) {
+            return PetApiFp(configuration).addPet(body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Deletes a pet
-         * @param petId Pet id to delete
-         * @param apiKey 
+         * @param {number} petId Pet id to delete
+         * @param {string} [apiKey] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        deletePet(params: {  petId: number; apiKey?: string; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.deletePet(params, configuration, options)(fetch, basePath);
+        deletePet(petId: number, apiKey?: string, options?: any) {
+            return PetApiFp(configuration).deletePet(petId, apiKey, options)(fetch, basePath);
         },
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param status Status values that need to be considered for filter
+         * @param {Array&lt;string&gt;} status Status values that need to be considered for filter
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        findPetsByStatus(params: {  status: Array<string>; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.findPetsByStatus(params, configuration, options)(fetch, basePath);
+        findPetsByStatus(status: Array<string>, options?: any) {
+            return PetApiFp(configuration).findPetsByStatus(status, options)(fetch, basePath);
         },
         /**
          * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @summary Finds Pets by tags
-         * @param tags Tags to filter by
+         * @param {Array&lt;string&gt;} tags Tags to filter by
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        findPetsByTags(params: {  tags: Array<string>; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.findPetsByTags(params, configuration, options)(fetch, basePath);
+        findPetsByTags(tags: Array<string>, options?: any) {
+            return PetApiFp(configuration).findPetsByTags(tags, options)(fetch, basePath);
         },
         /**
          * Returns a single pet
          * @summary Find pet by ID
-         * @param petId ID of pet to return
+         * @param {number} petId ID of pet to return
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        getPetById(params: {  petId: number; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.getPetById(params, configuration, options)(fetch, basePath);
+        getPetById(petId: number, options?: any) {
+            return PetApiFp(configuration).getPetById(petId, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Update an existing pet
-         * @param body Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        updatePet(params: {  body: Pet; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.updatePet(params, configuration, options)(fetch, basePath);
+        updatePet(body: Pet, options?: any) {
+            return PetApiFp(configuration).updatePet(body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Updates a pet in the store with form data
-         * @param petId ID of pet that needs to be updated
-         * @param name Updated name of the pet
-         * @param status Updated status of the pet
+         * @param {number} petId ID of pet that needs to be updated
+         * @param {string} [name] Updated name of the pet
+         * @param {string} [status] Updated status of the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        updatePetWithForm(params: {  petId: number; name?: string; status?: string; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.updatePetWithForm(params, configuration, options)(fetch, basePath);
+        updatePetWithForm(petId: number, name?: string, status?: string, options?: any) {
+            return PetApiFp(configuration).updatePetWithForm(petId, name, status, options)(fetch, basePath);
         },
         /**
          * 
          * @summary uploads an image
-         * @param petId ID of pet to update
-         * @param additionalMetadata Additional data to pass to server
-         * @param file file to upload
+         * @param {number} petId ID of pet to update
+         * @param {string} [additionalMetadata] Additional data to pass to server
+         * @param {any} [file] file to upload
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        uploadFile(params: {  petId: number; additionalMetadata?: string; file?: any; }, configuration: Configuration, options: any = {}) {
-            return PetApiFp.uploadFile(params, configuration, options)(fetch, basePath);
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
+            return PetApiFp(configuration).uploadFile(petId, additionalMetadata, file, options)(fetch, basePath);
         },
     };
 };
 
+/**
+ * PetApi - object-oriented interface
+ * @export
+ * @class PetApi
+ * @extends {BaseAPI}
+ */
+export class PetApi extends BaseAPI {
+    /**
+     * 
+     * @summary Add a new pet to the store
+     * @param {} body Pet object that needs to be added to the store
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public addPet(body: Pet, options?: any) {
+        return PetApiFp(this.configuration).addPet(body, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Deletes a pet
+     * @param {} petId Pet id to delete
+     * @param {} [apiKey] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public deletePet(petId: number, apiKey?: string, options?: any) {
+        return PetApiFp(this.configuration).deletePet(petId, apiKey, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Multiple status values can be provided with comma separated strings
+     * @summary Finds Pets by status
+     * @param {} status Status values that need to be considered for filter
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public findPetsByStatus(status: Array<string>, options?: any) {
+        return PetApiFp(this.configuration).findPetsByStatus(status, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * @summary Finds Pets by tags
+     * @param {} tags Tags to filter by
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public findPetsByTags(tags: Array<string>, options?: any) {
+        return PetApiFp(this.configuration).findPetsByTags(tags, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Returns a single pet
+     * @summary Find pet by ID
+     * @param {} petId ID of pet to return
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public getPetById(petId: number, options?: any) {
+        return PetApiFp(this.configuration).getPetById(petId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Update an existing pet
+     * @param {} body Pet object that needs to be added to the store
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public updatePet(body: Pet, options?: any) {
+        return PetApiFp(this.configuration).updatePet(body, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Updates a pet in the store with form data
+     * @param {} petId ID of pet that needs to be updated
+     * @param {} [name] Updated name of the pet
+     * @param {} [status] Updated status of the pet
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public updatePetWithForm(petId: number, name?: string, status?: string, options?: any) {
+        return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary uploads an image
+     * @param {} petId ID of pet to update
+     * @param {} [additionalMetadata] Additional data to pass to server
+     * @param {} [file] file to upload
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PetApi
+     */
+    public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
+        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options)(this.fetch, this.basePath);
+    }
+
+}
 
 /**
  * StoreApi - fetch parameter creator
+ * @export
  */
-export const StoreApiFetchParamCreator = {
-    /**
-     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     * @summary Delete purchase order by ID
-     * @param orderId ID of the order that needs to be deleted
-     */
-    deleteOrder(params: {  orderId: string; }, options: any = {}): FetchArgs {
-        // verify required parameter "orderId" is set
-        if (params["orderId"] == null) {
-            throw new Error("Missing required parameter orderId when calling deleteOrder");
-        }
-        const baseUrl = `/store/order/{orderId}`
-            .replace(`{${"orderId"}}`, `${ params["orderId"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "DELETE" }, options);
+export const StoreApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+         * @summary Delete purchase order by ID
+         * @param {string} orderId ID of the order that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOrder(orderId: string, options: any = {}): FetchArgs {
+            // verify required parameter 'orderId' is not null or undefined
+            if (orderId === null || orderId === undefined) {
+                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling deleteOrder.');
+            }
+            const path = `/store/order/{orderId}`
+                .replace(`{${"orderId"}}`, String(orderId));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'DELETE' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * Returns a map of status codes to quantities
-     * @summary Returns pet inventories by status
-     */
-    getInventory(configuration: Configuration, options: any = {}): FetchArgs {
-        const baseUrl = `/store/inventory`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * Returns a map of status codes to quantities
+         * @summary Returns pet inventories by status
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInventory(options: any = {}): FetchArgs {
+            const path = `/store/inventory`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        // authentication (api_key) required
-        if (configuration.apiKey && configuration.apiKey.api_key) {
-            fetchOptions.headers = Object.assign({
-                    "api_key": configuration.apiKey.api_key,
-                    }, contentTypeHeader);
-        }
+            // authentication api_key required
+            if (configuration && configuration.apiKey) {
+                const apiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("api_key")
+					: configuration.apiKey;
+                headerParameter["api_key"] = apiKeyValue;
+            }
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     * @summary Find purchase order by ID
-     * @param orderId ID of pet that needs to be fetched
-     */
-    getOrderById(params: {  orderId: number; }, options: any = {}): FetchArgs {
-        // verify required parameter "orderId" is set
-        if (params["orderId"] == null) {
-            throw new Error("Missing required parameter orderId when calling getOrderById");
-        }
-        const baseUrl = `/store/order/{orderId}`
-            .replace(`{${"orderId"}}`, `${ params["orderId"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * @summary Find purchase order by ID
+         * @param {number} orderId ID of pet that needs to be fetched
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderById(orderId: number, options: any = {}): FetchArgs {
+            // verify required parameter 'orderId' is not null or undefined
+            if (orderId === null || orderId === undefined) {
+                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderById.');
+            }
+            const path = `/store/order/{orderId}`
+                .replace(`{${"orderId"}}`, String(orderId));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Place an order for a pet
-     * @param body order placed for purchasing the pet
-     */
-    placeOrder(params: {  body: Order; }, options: any = {}): FetchArgs {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling placeOrder");
-        }
-        const baseUrl = `/store/order`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Place an order for a pet
+         * @param {Order} body order placed for purchasing the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        placeOrder(body: Order, options: any = {}): FetchArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
+            }
+            const path = `/store/order`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'POST' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
+            headerParameter['Content-Type'] = 'application/json';
+
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = JSON.stringify(body || {});
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+    }
 };
 
 /**
  * StoreApi - functional programming interface
+ * @export
  */
-export const StoreApiFp = {
-    /**
-     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     * @summary Delete purchase order by ID
-     * @param orderId ID of the order that needs to be deleted
-     */
-    deleteOrder(params: { orderId: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = StoreApiFetchParamCreator.deleteOrder(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * Returns a map of status codes to quantities
-     * @summary Returns pet inventories by status
-     */
-    getInventory(configuration: Configuration, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
-        const fetchArgs = StoreApiFetchParamCreator.getInventory(configuration, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     * @summary Find purchase order by ID
-     * @param orderId ID of pet that needs to be fetched
-     */
-    getOrderById(params: { orderId: number;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
-        const fetchArgs = StoreApiFetchParamCreator.getOrderById(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Place an order for a pet
-     * @param body order placed for purchasing the pet
-     */
-    placeOrder(params: { body: Order;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<Order> {
-        const fetchArgs = StoreApiFetchParamCreator.placeOrder(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-};
-
-/**
- * StoreApi - object-oriented interface
- */
-export class StoreApi extends BaseAPI {
-    /**
-     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     * @summary Delete purchase order by ID
-     * @param orderId ID of the order that needs to be deleted
-     */
-    deleteOrder(params: {  orderId: string; }, options: any = {}) {
-        return StoreApiFp.deleteOrder(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * Returns a map of status codes to quantities
-     * @summary Returns pet inventories by status
-     */
-    getInventory(options: any = {}) {
-        return StoreApiFp.getInventory(this.configuration, options)(this.fetch, this.basePath);
-    }
-    /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     * @summary Find purchase order by ID
-     * @param orderId ID of pet that needs to be fetched
-     */
-    getOrderById(params: {  orderId: number; }, options: any = {}) {
-        return StoreApiFp.getOrderById(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Place an order for a pet
-     * @param body order placed for purchasing the pet
-     */
-    placeOrder(params: {  body: Order; }, options: any = {}) {
-        return StoreApiFp.placeOrder(params, options)(this.fetch, this.basePath);
+export const StoreApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+         * @summary Delete purchase order by ID
+         * @param {string} orderId ID of the order that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOrder(orderId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = StoreApiFetchParamCreator(configuration).deleteOrder(orderId, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * Returns a map of status codes to quantities
+         * @summary Returns pet inventories by status
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInventory(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
+            const fetchArgs = StoreApiFetchParamCreator(configuration).getInventory(options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * @summary Find purchase order by ID
+         * @param {number} orderId ID of pet that needs to be fetched
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderById(orderId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
+            const fetchArgs = StoreApiFetchParamCreator(configuration).getOrderById(orderId, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Place an order for a pet
+         * @param {Order} body order placed for purchasing the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        placeOrder(body: Order, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
+            const fetchArgs = StoreApiFetchParamCreator(configuration).placeOrder(body, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
     }
 };
 
 /**
  * StoreApi - factory interface
+ * @export
  */
-export const StoreApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+export const StoreApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
          * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
          * @summary Delete purchase order by ID
-         * @param orderId ID of the order that needs to be deleted
+         * @param {string} orderId ID of the order that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        deleteOrder(params: {  orderId: string; }, options: any = {}) {
-            return StoreApiFp.deleteOrder(params, options)(fetch, basePath);
+        deleteOrder(orderId: string, options?: any) {
+            return StoreApiFp(configuration).deleteOrder(orderId, options)(fetch, basePath);
         },
         /**
          * Returns a map of status codes to quantities
          * @summary Returns pet inventories by status
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        getInventory(configuration: Configuration, options: any = {}) {
-            return StoreApiFp.getInventory(configuration, options)(fetch, basePath);
+        getInventory(options?: any) {
+            return StoreApiFp(configuration).getInventory(options)(fetch, basePath);
         },
         /**
          * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
          * @summary Find purchase order by ID
-         * @param orderId ID of pet that needs to be fetched
+         * @param {number} orderId ID of pet that needs to be fetched
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        getOrderById(params: {  orderId: number; }, options: any = {}) {
-            return StoreApiFp.getOrderById(params, options)(fetch, basePath);
+        getOrderById(orderId: number, options?: any) {
+            return StoreApiFp(configuration).getOrderById(orderId, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Place an order for a pet
-         * @param body order placed for purchasing the pet
+         * @param {Order} body order placed for purchasing the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        placeOrder(params: {  body: Order; }, options: any = {}) {
-            return StoreApiFp.placeOrder(params, options)(fetch, basePath);
+        placeOrder(body: Order, options?: any) {
+            return StoreApiFp(configuration).placeOrder(body, options)(fetch, basePath);
         },
     };
 };
 
+/**
+ * StoreApi - object-oriented interface
+ * @export
+ * @class StoreApi
+ * @extends {BaseAPI}
+ */
+export class StoreApi extends BaseAPI {
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * @summary Delete purchase order by ID
+     * @param {} orderId ID of the order that needs to be deleted
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApi
+     */
+    public deleteOrder(orderId: string, options?: any) {
+        return StoreApiFp(this.configuration).deleteOrder(orderId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * Returns a map of status codes to quantities
+     * @summary Returns pet inventories by status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApi
+     */
+    public getInventory(options?: any) {
+        return StoreApiFp(this.configuration).getInventory(options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * @summary Find purchase order by ID
+     * @param {} orderId ID of pet that needs to be fetched
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApi
+     */
+    public getOrderById(orderId: number, options?: any) {
+        return StoreApiFp(this.configuration).getOrderById(orderId, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Place an order for a pet
+     * @param {} body order placed for purchasing the pet
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApi
+     */
+    public placeOrder(body: Order, options?: any) {
+        return StoreApiFp(this.configuration).placeOrder(body, options)(this.fetch, this.basePath);
+    }
+
+}
 
 /**
  * UserApi - fetch parameter creator
+ * @export
  */
-export const UserApiFetchParamCreator = {
-    /**
-     * This can only be done by the logged in user.
-     * @summary Create user
-     * @param body Created user object
-     */
-    createUser(params: {  body: User; }, options: any = {}): FetchArgs {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createUser");
-        }
-        const baseUrl = `/user`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
+export const UserApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * This can only be done by the logged in user.
+         * @summary Create user
+         * @param {User} body Created user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUser(body: User, options: any = {}): FetchArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createUser.');
+            }
+            const path = `/user`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'POST' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            headerParameter['Content-Type'] = 'application/json';
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param body List of user object
-     */
-    createUsersWithArrayInput(params: {  body: Array<User>; }, options: any = {}): FetchArgs {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createUsersWithArrayInput");
-        }
-        const baseUrl = `/user/createWithArray`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = JSON.stringify(body || {});
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Creates list of users with given input array
+         * @param {Array&lt;User&gt;} body List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUsersWithArrayInput(body: Array<User>, options: any = {}): FetchArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+            }
+            const path = `/user/createWithArray`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'POST' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param body List of user object
-     */
-    createUsersWithListInput(params: {  body: Array<User>; }, options: any = {}): FetchArgs {
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling createUsersWithListInput");
-        }
-        const baseUrl = `/user/createWithList`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "POST" }, options);
+            headerParameter['Content-Type'] = 'application/json';
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = JSON.stringify(body || {});
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * This can only be done by the logged in user.
-     * @summary Delete user
-     * @param username The name that needs to be deleted
-     */
-    deleteUser(params: {  username: string; }, options: any = {}): FetchArgs {
-        // verify required parameter "username" is set
-        if (params["username"] == null) {
-            throw new Error("Missing required parameter username when calling deleteUser");
-        }
-        const baseUrl = `/user/{username}`
-            .replace(`{${"username"}}`, `${ params["username"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "DELETE" }, options);
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Creates list of users with given input array
+         * @param {Array&lt;User&gt;} body List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUsersWithListInput(body: Array<User>, options: any = {}): FetchArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithListInput.');
+            }
+            const path = `/user/createWithList`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'POST' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            headerParameter['Content-Type'] = 'application/json';
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Get user by user name
-     * @param username The name that needs to be fetched. Use user1 for testing. 
-     */
-    getUserByName(params: {  username: string; }, options: any = {}): FetchArgs {
-        // verify required parameter "username" is set
-        if (params["username"] == null) {
-            throw new Error("Missing required parameter username when calling getUserByName");
-        }
-        const baseUrl = `/user/{username}`
-            .replace(`{${"username"}}`, `${ params["username"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = JSON.stringify(body || {});
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * This can only be done by the logged in user.
+         * @summary Delete user
+         * @param {string} username The name that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUser(username: string, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling deleteUser.');
+            }
+            const path = `/user/{username}`
+                .replace(`{${"username"}}`, String(username));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'DELETE' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Logs user into the system
-     * @param username The user name for login
-     * @param password The password for login in clear text
-     */
-    loginUser(params: {  username: string; password: string; }, options: any = {}): FetchArgs {
-        // verify required parameter "username" is set
-        if (params["username"] == null) {
-            throw new Error("Missing required parameter username when calling loginUser");
-        }
-        // verify required parameter "password" is set
-        if (params["password"] == null) {
-            throw new Error("Missing required parameter password when calling loginUser");
-        }
-        const baseUrl = `/user/login`;
-        let urlObj = url.parse(baseUrl, true);
-        urlObj.query =  Object.assign({}, urlObj.query);
-        if (params["username"] !== undefined) {
-            urlObj.query["username"] = params["username"];
-        }
-        if (params["password"] !== undefined) {
-            urlObj.query["password"] = params["password"];
-        }
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get user by user name
+         * @param {string} username The name that needs to be fetched. Use user1 for testing. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserByName(username: string, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling getUserByName.');
+            }
+            const path = `/user/{username}`
+                .replace(`{${"username"}}`, String(username));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * 
-     * @summary Logs out current logged in user session
-     */
-    logoutUser(options: any = {}): FetchArgs {
-        const baseUrl = `/user/logout`;
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "GET" }, options);
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
 
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Logs user into the system
+         * @param {string} username The user name for login
+         * @param {string} password The password for login in clear text
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        loginUser(username: string, password: string, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling loginUser.');
+            }
+            // verify required parameter 'password' is not null or undefined
+            if (password === null || password === undefined) {
+                throw new RequiredError('password','Required parameter password was null or undefined when calling loginUser.');
+            }
+            const path = `/user/login`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-    /**
-     * This can only be done by the logged in user.
-     * @summary Updated user
-     * @param username name that need to be deleted
-     * @param body Updated user object
-     */
-    updateUser(params: {  username: string; body: User; }, options: any = {}): FetchArgs {
-        // verify required parameter "username" is set
-        if (params["username"] == null) {
-            throw new Error("Missing required parameter username when calling updateUser");
-        }
-        // verify required parameter "body" is set
-        if (params["body"] == null) {
-            throw new Error("Missing required parameter body when calling updateUser");
-        }
-        const baseUrl = `/user/{username}`
-            .replace(`{${"username"}}`, `${ params["username"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = Object.assign({}, { method: "PUT" }, options);
+            if (username !== undefined) {
+                queryParameter['username'] = username;
+            }
 
-        let contentTypeHeader: Dictionary<string> = {};
-        contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["body"]) {
-            fetchOptions.body = JSON.stringify(params["body"] || {});
-        }
-        if (contentTypeHeader) {
-            fetchOptions.headers = Object.assign({}, contentTypeHeader, fetchOptions.headers);
-        }
+            if (password !== undefined) {
+                queryParameter['password'] = password;
+            }
 
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Logs out current logged in user session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        logoutUser(options: any = {}): FetchArgs {
+            const path = `/user/logout`;
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'GET' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
+
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+        /**
+         * This can only be done by the logged in user.
+         * @summary Updated user
+         * @param {string} username name that need to be deleted
+         * @param {User} body Updated user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUser(username: string, body: User, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling updateUser.');
+            }
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling updateUser.');
+            }
+            const path = `/user/{username}`
+                .replace(`{${"username"}}`, String(username));
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: 'PUT' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
+
+            headerParameter['Content-Type'] = 'application/json';
+
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            requestOptions.body = JSON.stringify(body || {});
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+    }
 };
 
 /**
  * UserApi - functional programming interface
+ * @export
  */
-export const UserApiFp = {
-    /**
-     * This can only be done by the logged in user.
-     * @summary Create user
-     * @param body Created user object
-     */
-    createUser(params: { body: User;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreator.createUser(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param body List of user object
-     */
-    createUsersWithArrayInput(params: { body: Array<User>;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreator.createUsersWithArrayInput(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param body List of user object
-     */
-    createUsersWithListInput(params: { body: Array<User>;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreator.createUsersWithListInput(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * This can only be done by the logged in user.
-     * @summary Delete user
-     * @param username The name that needs to be deleted
-     */
-    deleteUser(params: { username: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreator.deleteUser(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Get user by user name
-     * @param username The name that needs to be fetched. Use user1 for testing. 
-     */
-    getUserByName(params: { username: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<User> {
-        const fetchArgs = UserApiFetchParamCreator.getUserByName(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Logs user into the system
-     * @param username The user name for login
-     * @param password The password for login in clear text
-     */
-    loginUser(params: { username: string; password: string;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<string> {
-        const fetchArgs = UserApiFetchParamCreator.loginUser(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * 
-     * @summary Logs out current logged in user session
-     */
-    logoutUser(options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreator.logoutUser(options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-    /**
-     * This can only be done by the logged in user.
-     * @summary Updated user
-     * @param username name that need to be deleted
-     * @param body Updated user object
-     */
-    updateUser(params: { username: string; body: User;  }, options: any = {}): (fetch: FetchAPI, basePath?: string) => Promise<any> {
-        const fetchArgs = UserApiFetchParamCreator.updateUser(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-};
-
-/**
- * UserApi - object-oriented interface
- */
-export class UserApi extends BaseAPI {
-    /**
-     * This can only be done by the logged in user.
-     * @summary Create user
-     * @param body Created user object
-     */
-    createUser(params: {  body: User; }, options: any = {}) {
-        return UserApiFp.createUser(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param body List of user object
-     */
-    createUsersWithArrayInput(params: {  body: Array<User>; }, options: any = {}) {
-        return UserApiFp.createUsersWithArrayInput(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param body List of user object
-     */
-    createUsersWithListInput(params: {  body: Array<User>; }, options: any = {}) {
-        return UserApiFp.createUsersWithListInput(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * This can only be done by the logged in user.
-     * @summary Delete user
-     * @param username The name that needs to be deleted
-     */
-    deleteUser(params: {  username: string; }, options: any = {}) {
-        return UserApiFp.deleteUser(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Get user by user name
-     * @param username The name that needs to be fetched. Use user1 for testing. 
-     */
-    getUserByName(params: {  username: string; }, options: any = {}) {
-        return UserApiFp.getUserByName(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Logs user into the system
-     * @param username The user name for login
-     * @param password The password for login in clear text
-     */
-    loginUser(params: {  username: string; password: string; }, options: any = {}) {
-        return UserApiFp.loginUser(params, options)(this.fetch, this.basePath);
-    }
-    /**
-     * 
-     * @summary Logs out current logged in user session
-     */
-    logoutUser(options: any = {}) {
-        return UserApiFp.logoutUser(options)(this.fetch, this.basePath);
-    }
-    /**
-     * This can only be done by the logged in user.
-     * @summary Updated user
-     * @param username name that need to be deleted
-     * @param body Updated user object
-     */
-    updateUser(params: {  username: string; body: User; }, options: any = {}) {
-        return UserApiFp.updateUser(params, options)(this.fetch, this.basePath);
+export const UserApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         * This can only be done by the logged in user.
+         * @summary Create user
+         * @param {User} body Created user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUser(body: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).createUser(body, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Creates list of users with given input array
+         * @param {Array&lt;User&gt;} body List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUsersWithArrayInput(body: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).createUsersWithArrayInput(body, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Creates list of users with given input array
+         * @param {Array&lt;User&gt;} body List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUsersWithListInput(body: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).createUsersWithListInput(body, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * This can only be done by the logged in user.
+         * @summary Delete user
+         * @param {string} username The name that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUser(username: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).deleteUser(username, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Get user by user name
+         * @param {string} username The name that needs to be fetched. Use user1 for testing. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserByName(username: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<User> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).getUserByName(username, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Logs user into the system
+         * @param {string} username The user name for login
+         * @param {string} password The password for login in clear text
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        loginUser(username: string, password: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<string> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).loginUser(username, password, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * 
+         * @summary Logs out current logged in user session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        logoutUser(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).logoutUser(options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
+         * This can only be done by the logged in user.
+         * @summary Updated user
+         * @param {string} username name that need to be deleted
+         * @param {User} body Updated user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUser(username: string, body: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+            const fetchArgs = UserApiFetchParamCreator(configuration).updateUser(username, body, options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
     }
 };
 
 /**
  * UserApi - factory interface
+ * @export
  */
-export const UserApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+export const UserApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
          * This can only be done by the logged in user.
          * @summary Create user
-         * @param body Created user object
+         * @param {User} body Created user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        createUser(params: {  body: User; }, options: any = {}) {
-            return UserApiFp.createUser(params, options)(fetch, basePath);
+        createUser(body: User, options?: any) {
+            return UserApiFp(configuration).createUser(body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param body List of user object
+         * @param {Array&lt;User&gt;} body List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        createUsersWithArrayInput(params: {  body: Array<User>; }, options: any = {}) {
-            return UserApiFp.createUsersWithArrayInput(params, options)(fetch, basePath);
+        createUsersWithArrayInput(body: Array<User>, options?: any) {
+            return UserApiFp(configuration).createUsersWithArrayInput(body, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param body List of user object
+         * @param {Array&lt;User&gt;} body List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        createUsersWithListInput(params: {  body: Array<User>; }, options: any = {}) {
-            return UserApiFp.createUsersWithListInput(params, options)(fetch, basePath);
+        createUsersWithListInput(body: Array<User>, options?: any) {
+            return UserApiFp(configuration).createUsersWithListInput(body, options)(fetch, basePath);
         },
         /**
          * This can only be done by the logged in user.
          * @summary Delete user
-         * @param username The name that needs to be deleted
+         * @param {string} username The name that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        deleteUser(params: {  username: string; }, options: any = {}) {
-            return UserApiFp.deleteUser(params, options)(fetch, basePath);
+        deleteUser(username: string, options?: any) {
+            return UserApiFp(configuration).deleteUser(username, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Get user by user name
-         * @param username The name that needs to be fetched. Use user1 for testing. 
+         * @param {string} username The name that needs to be fetched. Use user1 for testing. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        getUserByName(params: {  username: string; }, options: any = {}) {
-            return UserApiFp.getUserByName(params, options)(fetch, basePath);
+        getUserByName(username: string, options?: any) {
+            return UserApiFp(configuration).getUserByName(username, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Logs user into the system
-         * @param username The user name for login
-         * @param password The password for login in clear text
+         * @param {string} username The user name for login
+         * @param {string} password The password for login in clear text
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        loginUser(params: {  username: string; password: string; }, options: any = {}) {
-            return UserApiFp.loginUser(params, options)(fetch, basePath);
+        loginUser(username: string, password: string, options?: any) {
+            return UserApiFp(configuration).loginUser(username, password, options)(fetch, basePath);
         },
         /**
          * 
          * @summary Logs out current logged in user session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        logoutUser(options: any = {}) {
-            return UserApiFp.logoutUser(options)(fetch, basePath);
+        logoutUser(options?: any) {
+            return UserApiFp(configuration).logoutUser(options)(fetch, basePath);
         },
         /**
          * This can only be done by the logged in user.
          * @summary Updated user
-         * @param username name that need to be deleted
-         * @param body Updated user object
+         * @param {string} username name that need to be deleted
+         * @param {User} body Updated user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
          */
-        updateUser(params: {  username: string; body: User; }, options: any = {}) {
-            return UserApiFp.updateUser(params, options)(fetch, basePath);
+        updateUser(username: string, body: User, options?: any) {
+            return UserApiFp(configuration).updateUser(username, body, options)(fetch, basePath);
         },
     };
 };
+
+/**
+ * UserApi - object-oriented interface
+ * @export
+ * @class UserApi
+ * @extends {BaseAPI}
+ */
+export class UserApi extends BaseAPI {
+    /**
+     * This can only be done by the logged in user.
+     * @summary Create user
+     * @param {} body Created user object
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public createUser(body: User, options?: any) {
+        return UserApiFp(this.configuration).createUser(body, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Creates list of users with given input array
+     * @param {} body List of user object
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public createUsersWithArrayInput(body: Array<User>, options?: any) {
+        return UserApiFp(this.configuration).createUsersWithArrayInput(body, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Creates list of users with given input array
+     * @param {} body List of user object
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public createUsersWithListInput(body: Array<User>, options?: any) {
+        return UserApiFp(this.configuration).createUsersWithListInput(body, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * This can only be done by the logged in user.
+     * @summary Delete user
+     * @param {} username The name that needs to be deleted
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public deleteUser(username: string, options?: any) {
+        return UserApiFp(this.configuration).deleteUser(username, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Get user by user name
+     * @param {} username The name that needs to be fetched. Use user1 for testing. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public getUserByName(username: string, options?: any) {
+        return UserApiFp(this.configuration).getUserByName(username, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Logs user into the system
+     * @param {} username The user name for login
+     * @param {} password The password for login in clear text
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public loginUser(username: string, password: string, options?: any) {
+        return UserApiFp(this.configuration).loginUser(username, password, options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * 
+     * @summary Logs out current logged in user session
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public logoutUser(options?: any) {
+        return UserApiFp(this.configuration).logoutUser(options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * This can only be done by the logged in user.
+     * @summary Updated user
+     * @param {} username name that need to be deleted
+     * @param {} body Updated user object
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public updateUser(username: string, body: User, options?: any) {
+        return UserApiFp(this.configuration).updateUser(username, body, options)(this.fetch, this.basePath);
+    }
+
+}
 

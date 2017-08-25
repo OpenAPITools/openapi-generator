@@ -1,3 +1,7 @@
 {
+  "npmName": "@swagger/typescript-fetch-petstore",
+  "npmVersion": "1.0.0",
+  "npmRepository" : "https://skimdb.npmjs.com/registry",
+  "snapshot" : false,
   "supportsES6": true
 }
