@@ -68,7 +68,7 @@ Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
   - [Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
   - [Swagger Codegen Core Team](#swagger-codegen-core-team)
-  - [Swagger Codegen Evangelist](#swagger-codegen-evangelist)
+  - [Swagger Codegen Technical Committee](#swagger-codegen-technical-committee)
   - [License](#license)
 
 
@@ -1002,25 +1002,51 @@ Here are the requirements to become a core team member:
 
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
-# Swagger Codegen Evangelist
+# Swagger Codegen Technical Committee
 
-Swagger Codegen Evangelist shoulders one or more of the following responsibilities:
+Members of the Swagger Codegen technical committee shoulder the following responsibilities:
 
-- publishes articles on the benefit of Swagger Codegen
-- organizes local Meetups
-- presents the benefits of Swagger Codegen in local Meetups or conferences
-- actively answers questions from others in [Github](https://github.com/swagger-api/swagger-codegen/issues), [StackOverflow](stackoverflow.com/search?q=%5Bswagger%5D)
-- submits PRs to improve Swagger Codegen
-- reviews PRs submitted by the others
-- ranks within top 100 in the [contributor list](https://github.com/swagger-api/swagger-codegen/graphs/contributors)
+- Provides guidance and direction to other users
+- Reviews pull requests and issues
+- Improves the generator by making enhancements, fixing bugs or updating documentations
+- Sets the technical direction of the generator
 
-If you want to be a Swagger Codegen Evangelist, please kindly apply by sending an email to wing328hk@gmail.com (@wing328)
+Who is eligible? Those who want to join must have at least 3 PRs merged into a generator. (Exceptions can be granted to template creators or contributors who have made a lot of code changes with less than 3 merged PRs)
 
-### List of Swagger Codegen Evangelists
+If you want to join the committee, please kindly apply by sending an email to wing328hk@gmail.com ([@wing328](https://github.com/wing328)) with your Github ID.
 
-- Cliffano Subagio (@cliffano from Australia joined on Dec 9, 2016)
-  - [Building An AEM API Clients Ecosystem](http://www.slideshare.net/cliffano/building-an-aem-api-clients-ecosystem)
-  - [Adobe Marketing Cloud Community Expo](http://blog.cliffano.com/2016/11/10/adobe-marketing-cloud-community-expo/)
+## Members of Technical Committee
+
+| Languages     | Member (join date) |
+|:-------------|:-------------|
+| ActionScript |      |
+| Apex  |     |
+| Bash  | @frol (2017/07) |
+| C++      | @ravinikam (2017/07) @stkrwork (2017/07) |  
+| C#        |  |
+| Clojure   |  |
+| Dart      | @ircecho (2017/07) @cliffano (2017/07) |
+| Eiffel    |  |
+| Elixir    |  |
+| Erlang    |  |
+| Groovy    |  |
+| Go        |  |
+| Haskell   |  |
+| Java      | @bbdg (2017/07) @cliffano (2017/07) |
+| Kotlin     |  |
+| Lua     |  |
+| NodeJS/Javascript | @CodeNinjai (2017/07) @@frol (2017/07) |
+| ObjC      |  |
+| Perl      | @wing328 (2017/07) |
+| PHP      | @jebentier (2017/07) @dkarlovi (2017/07) |
+| Python   | @taxpon (2017/07) |
+| R        |  |
+| Ruby      | @cliffano (2017/07)  |
+| Rust      | @frol (2017/07)
+| Scala     | @clasnake (2017/07) |
+| Swift     | @jgavris (2017/07) |
+| TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07)|
+
 
 # License information on Generated Code
 
