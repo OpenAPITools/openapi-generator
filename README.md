@@ -1038,7 +1038,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | NodeJS/Javascript | @CodeNinjai (2017/07) @@frol (2017/07) |
 | ObjC      |  |
 | Perl      | @wing328 (2017/07) |
-| PHP      | @jebentier (2017/07) @dkarlovi (2017/07) |
+| PHP      | @jebentier (2017/07) @dkarlovi (2017/07) @mbohlool (2017/07) |
 | Python   | @taxpon (2017/07) |
 | R        |  |
 | Ruby      | @cliffano (2017/07)  |
