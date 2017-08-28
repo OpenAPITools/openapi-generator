@@ -1025,17 +1025,17 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | C++      | @ravinikam (2017/07) @stkrwork (2017/07) |  
 | C#        |  |
 | Clojure   |  |
-| Dart      | @ircecho (2017/07) @cliffano (2017/07) |
+| Dart      | @ircecho (2017/07) |
 | Eiffel    |  |
 | Elixir    |  |
 | Erlang    |  |
 | Groovy    |  |
 | Go        |  |
 | Haskell   |  |
-| Java      | @bbdg (2017/07) @cliffano (2017/07) |
+| Java      | @bbdg (2017/07) |
 | Kotlin     |  |
 | Lua     |  |
-| NodeJS/Javascript | @CodeNinjai (2017/07) @@frol (2017/07) |
+| NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
 | Perl      | @wing328 (2017/07) |
 | PHP      | @jebentier (2017/07) @dkarlovi (2017/07) @mbohlool (2017/07) |
