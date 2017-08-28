@@ -199,6 +199,21 @@ class Decoders {
             return .success(nil)
         }
     }
+    
+    static func decodeOptional<T>(clazz: [T].Type, source: AnyObject?) -> Decoded<[T]?> where T: RawRepresentable {
+        if let source = source as? [AnyObject] {
+            var values = [T]()
+            for sourceValue in source {
+                switch Decoders.decodeOptional(clazz: T.self, source: sourceValue) {
+                case let .success(value): if let value = value { values.append(value) }
+                case let .failure(error): return .failure(error)
+                }
+            }
+            return .success(values)
+        } else {
+            return .success(nil)
+        }
+    }
 
     static func decodeOptional<T>(clazz: [T].Type, source: AnyObject?) -> Decoded<[T]?> {
         if let source = source as? [AnyObject] {
