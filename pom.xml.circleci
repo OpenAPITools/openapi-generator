@@ -664,7 +664,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/typescript-angular/npm</module>
+                <module>samples/client/petstore/typescript-angularjs/npm</module>
             </modules>
         </profile>
         <profile>

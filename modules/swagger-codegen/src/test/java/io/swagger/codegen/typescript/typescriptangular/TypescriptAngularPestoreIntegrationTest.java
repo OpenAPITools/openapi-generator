@@ -1,25 +1,25 @@
-package io.swagger.codegen.typescript.typescriptangular2;
+package io.swagger.codegen.typescript.typescriptangular;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import io.swagger.codegen.AbstractIntegrationTest;
 import io.swagger.codegen.CodegenConfig;
-import io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen;
+import io.swagger.codegen.languages.TypeScriptAngularClientCodegen;
 import io.swagger.codegen.testutils.IntegrationTestPathsConfig;
 
-public class TypescriptAngular2AdditionalPropertiesIntegrationTest extends AbstractIntegrationTest {
+public class TypescriptAngularPestoreIntegrationTest extends AbstractIntegrationTest {
 
     @Override
     protected CodegenConfig getCodegenConfig() {
-        return new TypeScriptAngular2ClientCodegen();
+        return new TypeScriptAngularClientCodegen();
     }
 
     @Override
     protected Map<String, String> configProperties() {
         Map<String, String> properties = new HashMap<>();
-        properties.put("npmName", "additionalPropertiesTest");
-        properties.put("npmVersion", "1.0.2");
+        properties.put("npmName", "petstore-integration-test");
+        properties.put("npmVersion", "1.0.3");
         properties.put("snapshot", "false");
 
         return properties;
@@ -27,6 +27,6 @@ public class TypescriptAngular2AdditionalPropertiesIntegrationTest extends Abstr
 
     @Override
     protected IntegrationTestPathsConfig getIntegrationTestPathsConfig() {
-        return new IntegrationTestPathsConfig("typescript/additional-properties");
+        return new IntegrationTestPathsConfig("typescript/petstore");
     }
 }
