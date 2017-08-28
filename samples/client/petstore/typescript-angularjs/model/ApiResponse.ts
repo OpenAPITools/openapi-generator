@@ -13,10 +13,11 @@
 import * as models from './models';
 
 /**
- * A tag for a pet
+ * Describes the result of uploading an image resource
  */
-export interface Tag {
-    "id"?: number;
-    "name"?: string;
+export interface ApiResponse {
+    "code"?: number;
+    "type"?: string;
+    "message"?: string;
 }
 
