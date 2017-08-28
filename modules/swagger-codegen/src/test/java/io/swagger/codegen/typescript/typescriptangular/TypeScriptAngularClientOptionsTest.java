@@ -4,7 +4,7 @@ import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.languages.TypeScriptAngularClientCodegen;
 import io.swagger.codegen.options.TypeScriptAngularClientOptionsProvider;
-
+import io.swagger.codegen.options.TypeScriptAngularClientOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
@@ -29,6 +29,8 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
             clientCodegen.setModelPropertyNaming(TypeScriptAngularClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+            times = 1;
+            clientCodegen.setNgVersion(TypeScriptAngularClientOptionsProvider.NG_VERSION);
             times = 1;
             clientCodegen.setSupportsES6(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SUPPORTS_ES6_VALUE));
             times = 1;

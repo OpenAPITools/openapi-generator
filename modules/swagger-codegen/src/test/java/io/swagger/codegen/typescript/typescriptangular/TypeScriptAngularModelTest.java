@@ -1,5 +1,10 @@
 package io.swagger.codegen.typescript.typescriptangular;
 
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.google.common.collect.Sets;
+
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
@@ -7,11 +12,12 @@ import io.swagger.codegen.languages.TypeScriptAngularClientCodegen;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
-
-import com.google.common.collect.Sets;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DateProperty;
+import io.swagger.models.properties.LongProperty;
+import io.swagger.models.properties.RefProperty;
+import io.swagger.models.properties.StringProperty;
 
 @SuppressWarnings("static-method")
 public class TypeScriptAngularModelTest {
@@ -59,6 +65,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property3.complexType, null);
         Assert.assertEquals(property3.datatype, "Date");
         Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.baseType, "Date");
         Assert.assertEquals(property3.defaultValue, "null");
         Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
@@ -69,6 +76,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(property4.complexType, null);
         Assert.assertEquals(property4.datatype, "string");
         Assert.assertEquals(property4.name, "birthDate");
+        Assert.assertEquals(property4.baseType, "string");
         Assert.assertEquals(property4.defaultValue, "null");
         Assert.assertFalse(property4.hasMore);
         Assert.assertFalse(property4.required);
@@ -125,10 +133,10 @@ public class TypeScriptAngularModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.datatype, "models.Children");
+        Assert.assertEquals(property1.datatype, "Children");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.defaultValue, "null");
-        Assert.assertEquals(property1.baseType, "models.Children");
+        Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isNotContainer);
     }
@@ -149,8 +157,8 @@ public class TypeScriptAngularModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "models.Children");
-        Assert.assertEquals(property1.datatype, "Array<models.Children>");
+        Assert.assertEquals(property1.complexType, "Children");
+        Assert.assertEquals(property1.datatype, "Array<Children>");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Array");
         Assert.assertFalse(property1.required);
@@ -184,6 +192,7 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("models.Children")).size(), 1);
+        Assert.assertEquals(cm.additionalPropertiesType, "Children");
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 }
