@@ -140,6 +140,15 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for ( CodegenOperation operation : ops ) {
+                if (operation.hasConsumes == Boolean.TRUE) {
+                    Map<String, String> firstType = operation.consumes.get(0);
+                    if (firstType != null) {
+                        if ("multipart/form-data".equals(firstType.get("mediaType"))) {
+                            operation.isMultipart = Boolean.TRUE;
+                        }
+                    }
+                }
+
                 boolean isMultipartPost = false;
                 List<Map<String, String>> consumes = operation.consumes;
                 if(consumes != null) {
@@ -166,39 +175,32 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                             resp.code = "200";
                         }
 
-                         // set vendorExtensions.x-java-is-response-void to true as dataType is set to "void"
-                        if (resp.dataType == null) {
+                        if (resp.baseType == null) {
+                            resp.dataType = "void";
+                            resp.baseType = "Void";
+                            // set vendorExtensions.x-java-is-response-void to true as baseType is set to "Void"
                             resp.vendorExtensions.put("x-java-is-response-void", true);
                         }
 
+                        if ("array".equals(resp.containerType)) {
+                            resp.containerType = "List";
+                        } else if ("map".equals(resp.containerType)) {
+                            resp.containerType = "Map";
+                        }
                     }
                 }
 
-                if ( operation.returnType == null ) {
+                if ( operation.returnBaseType == null ) {
                     operation.returnType = "void";
-                    // set vendorExtensions.x-java-is-response-void to true as returnType is set to "void"
+                    operation.returnBaseType = "Void";
+                    // set vendorExtensions.x-java-is-response-void to true as returnBaseType is set to "Void"
                     operation.vendorExtensions.put("x-java-is-response-void", true);
-                } else if ( operation.returnType.startsWith("List") ) {
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if ( end > 0 ) {
-                        operation.returnType = rt.substring("List<".length(), end).trim();
-                        operation.returnContainer = "List";
-                    }
-                } else if ( operation.returnType.startsWith("Map") ) {
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if ( end > 0 ) {
-                        operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
-                        operation.returnContainer = "Map";
-                    }
-                } else if ( operation.returnType.startsWith("Set") ) {
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if ( end > 0 ) {
-                        operation.returnType = rt.substring("Set<".length(), end).trim();
-                        operation.returnContainer = "Set";
-                    }
+                }
+
+                if ("array".equals(operation.returnContainer)) {
+                    operation.returnContainer = "List";
+                } else if ("map".equals(operation.returnContainer)) {
+                    operation.returnContainer = "Map";
                 }
             }
         }

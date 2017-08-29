@@ -138,7 +138,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
-  public Boolean getComplete() {
+  public Boolean isComplete() {
     return complete;
   }
   public void setComplete(Boolean complete) {

@@ -12,6 +12,7 @@ import io.swagger.model.Client;
 import java.util.Date;
 import io.swagger.model.OuterComposite;
 
+import java.util.Map;
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
@@ -120,13 +121,13 @@ public class FakeApi  {
     
     @Consumes({ "application/xml; charset=utf-8", "application/json; charset=utf-8" })
     @Produces({ "application/xml; charset=utf-8", "application/json; charset=utf-8" })
-    @io.swagger.annotations.ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "http_basic_test")
     }, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = void.class),
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         
-        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = void.class) })
+        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response testEndpointParameters(@ApiParam(value = "None", required=true)  @FormParam("number")  BigDecimal number
 ,@ApiParam(value = "None", required=true)  @FormParam("double")  Double _double
 ,@ApiParam(value = "None", required=true)  @FormParam("pattern_without_delimiter")  String patternWithoutDelimiter
@@ -149,11 +150,11 @@ public class FakeApi  {
     
     @Consumes({ "*/*" })
     @Produces({ "*/*" })
-    @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = void.class),
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         
-        @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = void.class) })
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class) })
     public Response testEnumParameters(@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $")  @FormParam("enum_form_string_array")  List<String> enumFormStringArray
 ,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString
 ,@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray
@@ -170,9 +171,9 @@ public class FakeApi  {
     @Path("/jsonFormData")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = void.class) })
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response testJsonFormData(@ApiParam(value = "field1", required=true)  @FormParam("param")  String param
 ,@ApiParam(value = "field2", required=true)  @FormParam("param2")  String param2
 ,@Context SecurityContext securityContext)

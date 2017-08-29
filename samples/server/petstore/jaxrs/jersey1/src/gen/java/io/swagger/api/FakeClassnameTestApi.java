@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 
 import io.swagger.model.Client;
 
+import java.util.Map;
 import java.util.List;
 import io.swagger.api.NotFoundException;
 

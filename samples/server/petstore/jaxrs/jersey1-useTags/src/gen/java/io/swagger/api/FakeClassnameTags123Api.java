@@ -1,8 +1,8 @@
 package io.swagger.api;
 
 import io.swagger.model.*;
-import io.swagger.api.FakeClassnameTestApiService;
-import io.swagger.api.factories.FakeClassnameTestApiServiceFactory;
+import io.swagger.api.FakeClassnameTags123ApiService;
+import io.swagger.api.factories.FakeClassnameTags123ApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
@@ -12,6 +12,7 @@ import javax.validation.constraints.*;
 
 import io.swagger.model.Client;
 
+import java.util.Map;
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
@@ -25,13 +26,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 
-@Path("/fake_classname_test")
+@Path("/FakeClassnameTags123")
 
 
-@io.swagger.annotations.Api(description = "the fake_classname_test API")
+@io.swagger.annotations.Api(description = "the FakeClassnameTags123 API")
 
-public class FakeClassnameTestApi  {
-   private final FakeClassnameTestApiService delegate = FakeClassnameTestApiServiceFactory.getFakeClassnameTestApi();
+public class FakeClassnameTags123Api  {
+   private final FakeClassnameTags123ApiService delegate = FakeClassnameTags123ApiServiceFactory.getFakeClassnameTags123Api();
 
     @PATCH
     

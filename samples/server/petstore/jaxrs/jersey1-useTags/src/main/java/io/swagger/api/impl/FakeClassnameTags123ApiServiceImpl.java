@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
-public class FakeClassnameTestApiServiceImpl extends FakeClassnameTestApiService {
+public class FakeClassnameTags123ApiServiceImpl extends FakeClassnameTags123ApiService {
     @Override
     public Response testClassname(Client body, SecurityContext securityContext)
     throws NotFoundException {
