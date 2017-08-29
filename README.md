@@ -1023,7 +1023,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Apex  |     |
 | Bash  | @frol (2017/07) |
 | C++      | @ravinikam (2017/07) @stkrwork (2017/07) |  
-| C#        |  |
+| C#        | @mandrean (2017/08) |
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) |
 | Eiffel    |  |
@@ -1038,7 +1038,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
 | Perl      | @wing328 (2017/07) |
-| PHP      | @jebentier (2017/07) @dkarlovi (2017/07) |
+| PHP      | @jebentier (2017/07) @dkarlovi (2017/07) @mandrean (2017/08) |
 | Python   | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) |
 | R        |  |
 | Ruby      | @cliffano (2017/07)  |
