@@ -9,6 +9,7 @@ import java.util.List;
 import io.swagger.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 import java.io.InputStream;
 
@@ -67,9 +68,9 @@ public interface UserApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = User.class),
         
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         
-        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = User.class) })
+        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response getUserByName( @PathParam("username") String username,@Context SecurityContext securityContext);
     @GET
     @Path("/login")
@@ -79,7 +80,7 @@ public interface UserApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
         
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
     public Response loginUser( @NotNull @QueryParam("username") String username, @NotNull @QueryParam("password") String password,@Context SecurityContext securityContext);
     @GET
     @Path("/logout")
