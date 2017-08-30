@@ -230,7 +230,7 @@ public class FakeApiController extends Controller {
             //noinspection UseBulkOperation
             enumQueryStringArray.add(curParam);
         }
-        String valueenumQueryString = request().getQueryString("enumQueryString");
+        String valueenumQueryString = request().getQueryString("enum_query_string");
         String enumQueryString;
         if (valueenumQueryString != null) {
             enumQueryString = valueenumQueryString;
@@ -238,7 +238,7 @@ public class FakeApiController extends Controller {
         } else {
             enumQueryString = "-efg";
         }
-        String valueenumQueryInteger = request().getQueryString("enumQueryInteger");
+        String valueenumQueryInteger = request().getQueryString("enum_query_integer");
         Integer enumQueryInteger;
         if (valueenumQueryInteger != null) {
             enumQueryInteger = Integer.parseInt(valueenumQueryInteger);

@@ -78,7 +78,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
-        String value{{paramName}} = request().getQueryString("{{paramName}}");
+        String value{{paramName}} = request().getQueryString("{{baseName}}");
         {{{dataType}}} {{paramName}};
         {{^required}}
         if (value{{paramName}} != null) {
