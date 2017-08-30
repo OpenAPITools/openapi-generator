@@ -1035,7 +1035,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Groovy    |  |
 | Go        |  |
 | Haskell   |  |
-| Java      | @bbdg (2017/07) @JFCote (2017/08) @sreeshas (2017/08) |
+| Java      | @bbdg (2017/07) @JFCote (2017/08) @sreeshas (2017/08) @jfiala (2017/08) |
 | Kotlin     |  |
 | Lua     | @daurnimator (2017/08) |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
