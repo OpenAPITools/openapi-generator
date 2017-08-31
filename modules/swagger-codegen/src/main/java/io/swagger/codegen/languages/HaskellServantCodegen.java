@@ -148,6 +148,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("integer", "Int");
         typeMapping.put("any", "Value");
         typeMapping.put("UUID", "Text");
+        typeMapping.put("ByteArray", "Text");
 
         importMapping.clear();
         importMapping.put("Map", "qualified Data.Map as Map");
@@ -163,7 +164,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * @return the escaped term
      */
     @Override
-    public String escapeReservedWord(String name) {           
+    public String escapeReservedWord(String name) {
         if(this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
@@ -515,7 +516,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // Create newtypes for things with non-object types
         String dataOrNewtype = "data";
-        // check if it's a ModelImpl before casting 
+        // check if it's a ModelImpl before casting
         if (!(mod instanceof ModelImpl)) {
             return model;
         }
