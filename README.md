@@ -1045,7 +1045,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Python   | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) |
 | R        |  |
 | Ruby      | @cliffano (2017/07)  |
-| Rust      | @frol (2017/07)
+| Rust      | @frol (2017/07) @farcaller (2017/08) | 
 | Scala     | @clasnake (2017/07) |
 | Swift     | @jgavris (2017/07) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07)|
