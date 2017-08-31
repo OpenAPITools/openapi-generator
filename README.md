@@ -941,7 +941,7 @@ Here is a list of template creators:
    * Go (rewritten in 2.3.0): @antihax
    * Java (Feign): @davidkiss
    * Java (Retrofit): @0legg
-   * Java (Retrofi2): @emilianobonassi
+   * Java (Retrofit2): @emilianobonassi
    * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
    * Java (RestTemplate): @nbruno
