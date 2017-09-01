@@ -12,8 +12,10 @@
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Category {
-  #[serde(rename = "id")] id: Option<i64>,
-  #[serde(rename = "name")] name: Option<String>
+  #[serde(rename = "id")]
+  id: Option<i64>,
+  #[serde(rename = "name")]
+  name: Option<String>
 }
 
 impl Category {
@@ -34,8 +36,12 @@ impl Category {
     self
   }
 
-  pub fn id(&self) -> &i64 {
-    &self.id
+  pub fn id(&self) -> Option<&i64> {
+    self.id.as_ref()
+  }
+
+  pub fn reset_id(&mut self) {
+    self.id = None;
   }
 
   pub fn set_name(&mut self, name: String) {
@@ -47,8 +53,12 @@ impl Category {
     self
   }
 
-  pub fn name(&self) -> &String {
-    &self.name
+  pub fn name(&self) -> Option<&String> {
+    self.name.as_ref()
+  }
+
+  pub fn reset_name(&mut self) {
+    self.name = None;
   }
 
 }

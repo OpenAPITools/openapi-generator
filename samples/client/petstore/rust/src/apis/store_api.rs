@@ -31,15 +31,15 @@ impl<C: hyper::client::Connect> StoreApiClient<C> {
 }
 
 pub trait StoreApi {
-    fn DeleteOrder(&self, order_id: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn GetInventory(&self, ) -> Box<Future<Item = ::std::collections::HashMap<String, i32>, Error = Error>>;
-    fn GetOrderById(&self, order_id: i64) -> Box<Future<Item = ::models::Order, Error = Error>>;
-    fn PlaceOrder(&self, body: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error>>;
+    fn delete_order(&self, order_id: &str) -> Box<Future<Item = (), Error = Error>>;
+    fn get_inventory(&self, ) -> Box<Future<Item = ::std::collections::HashMap<String, i32>, Error = Error>>;
+    fn get_order_by_id(&self, order_id: i64) -> Box<Future<Item = ::models::Order, Error = Error>>;
+    fn place_order(&self, body: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error>>;
 }
 
 
 impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
-    fn DeleteOrder(&self, order_id: &str) -> Box<Future<Item = (), Error = Error>> {
+    fn delete_order(&self, order_id: &str) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Delete;
@@ -63,7 +63,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         )
     }
 
-    fn GetInventory(&self, ) -> Box<Future<Item = ::std::collections::HashMap<String, i32>, Error = Error>> {
+    fn get_inventory(&self, ) -> Box<Future<Item = ::std::collections::HashMap<String, i32>, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -90,7 +90,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         )
     }
 
-    fn GetOrderById(&self, order_id: i64) -> Box<Future<Item = ::models::Order, Error = Error>> {
+    fn get_order_by_id(&self, order_id: i64) -> Box<Future<Item = ::models::Order, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -117,7 +117,7 @@ impl<C: hyper::client::Connect>StoreApi for StoreApiClient<C> {
         )
     }
 
-    fn PlaceOrder(&self, body: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error>> {
+    fn place_order(&self, body: ::models::Order) -> Box<Future<Item = ::models::Order, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;

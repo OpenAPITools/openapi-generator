@@ -12,13 +12,19 @@
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Order {
-  #[serde(rename = "id")] id: Option<i64>,
-  #[serde(rename = "petId")] pet_id: Option<i64>,
-  #[serde(rename = "quantity")] quantity: Option<i32>,
-  #[serde(rename = "shipDate")] ship_date: Option<String>,
+  #[serde(rename = "id")]
+  id: Option<i64>,
+  #[serde(rename = "petId")]
+  pet_id: Option<i64>,
+  #[serde(rename = "quantity")]
+  quantity: Option<i32>,
+  #[serde(rename = "shipDate")]
+  ship_date: Option<String>,
   /// Order Status
-  #[serde(rename = "status")] status: Option<String>,
-  #[serde(rename = "complete")] complete: Option<bool>
+  #[serde(rename = "status")]
+  status: Option<String>,
+  #[serde(rename = "complete")]
+  complete: Option<bool>
 }
 
 impl Order {
@@ -43,8 +49,12 @@ impl Order {
     self
   }
 
-  pub fn id(&self) -> &i64 {
-    &self.id
+  pub fn id(&self) -> Option<&i64> {
+    self.id.as_ref()
+  }
+
+  pub fn reset_id(&mut self) {
+    self.id = None;
   }
 
   pub fn set_pet_id(&mut self, pet_id: i64) {
@@ -56,8 +66,12 @@ impl Order {
     self
   }
 
-  pub fn pet_id(&self) -> &i64 {
-    &self.pet_id
+  pub fn pet_id(&self) -> Option<&i64> {
+    self.pet_id.as_ref()
+  }
+
+  pub fn reset_pet_id(&mut self) {
+    self.pet_id = None;
   }
 
   pub fn set_quantity(&mut self, quantity: i32) {
@@ -69,8 +83,12 @@ impl Order {
     self
   }
 
-  pub fn quantity(&self) -> &i32 {
-    &self.quantity
+  pub fn quantity(&self) -> Option<&i32> {
+    self.quantity.as_ref()
+  }
+
+  pub fn reset_quantity(&mut self) {
+    self.quantity = None;
   }
 
   pub fn set_ship_date(&mut self, ship_date: String) {
@@ -82,8 +100,12 @@ impl Order {
     self
   }
 
-  pub fn ship_date(&self) -> &String {
-    &self.ship_date
+  pub fn ship_date(&self) -> Option<&String> {
+    self.ship_date.as_ref()
+  }
+
+  pub fn reset_ship_date(&mut self) {
+    self.ship_date = None;
   }
 
   pub fn set_status(&mut self, status: String) {
@@ -95,8 +117,12 @@ impl Order {
     self
   }
 
-  pub fn status(&self) -> &String {
-    &self.status
+  pub fn status(&self) -> Option<&String> {
+    self.status.as_ref()
+  }
+
+  pub fn reset_status(&mut self) {
+    self.status = None;
   }
 
   pub fn set_complete(&mut self, complete: bool) {
@@ -108,8 +134,12 @@ impl Order {
     self
   }
 
-  pub fn complete(&self) -> &bool {
-    &self.complete
+  pub fn complete(&self) -> Option<&bool> {
+    self.complete.as_ref()
+  }
+
+  pub fn reset_complete(&mut self) {
+    self.complete = None;
   }
 
 }
