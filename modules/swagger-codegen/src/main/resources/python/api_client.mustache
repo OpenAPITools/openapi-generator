@@ -66,6 +66,10 @@ class ApiClient(object):
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{packageVersion}}}/python{{/httpUserAgent}}'
+    
+    def __del__(self):
+        self.pool.close()
+        self.pool.join()
 
     @property
     def user_agent(self):
