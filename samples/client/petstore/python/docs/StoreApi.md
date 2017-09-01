@@ -94,7 +94,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**dict(str, int)**](dict.md)
+**dict(str, int)**
 
 ### Authorization
 
