@@ -1,5 +1,5 @@
 [package]
-name = "swagger"
+name = "petstore_client"
 version = "1.0.0"
 authors = ["Swagger Codegen team and contributors"]
 

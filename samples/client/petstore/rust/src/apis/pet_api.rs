@@ -31,19 +31,19 @@ impl<C: hyper::client::Connect> PetApiClient<C> {
 }
 
 pub trait PetApi {
-    fn AddPet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>>;
-    fn DeletePet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn FindPetsByStatus(&self, status: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>>;
-    fn FindPetsByTags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>>;
-    fn GetPetById(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error>>;
-    fn UpdatePet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>>;
-    fn UpdatePetWithForm(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn UploadFile(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error>>;
+    fn add_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>>;
+    fn delete_pet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error>>;
+    fn find_pets_by_status(&self, status: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>>;
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>>;
+    fn get_pet_by_id(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error>>;
+    fn update_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>>;
+    fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error>>;
 }
 
 
 impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
-    fn AddPet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>> {
+    fn add_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -71,7 +71,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn DeletePet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error>> {
+    fn delete_pet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Delete;
@@ -99,7 +99,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn FindPetsByStatus(&self, status: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>> {
+    fn find_pets_by_status(&self, status: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -129,7 +129,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn FindPetsByTags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>> {
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -159,7 +159,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn GetPetById(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error>> {
+    fn get_pet_by_id(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -186,7 +186,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn UpdatePet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>> {
+    fn update_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Put;
@@ -214,7 +214,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn UpdatePetWithForm(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error>> {
+    fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -238,7 +238,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         )
     }
 
-    fn UploadFile(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
