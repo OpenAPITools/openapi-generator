@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
@@ -379,5 +380,10 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         return name;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(super.postProcessModels(objs));
     }
 }
