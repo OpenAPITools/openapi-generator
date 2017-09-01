@@ -6,7 +6,6 @@ import io.reactivex.Observable;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 import io.swagger.client.model.Order;
 
