@@ -6,7 +6,6 @@ import io.reactivex.Observable;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 import java.io.File;
 import io.swagger.client.model.ModelApiResponse;
