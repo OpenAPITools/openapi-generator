@@ -16,7 +16,7 @@ open class CodableHelper {
         var returnedError: Error? = nil
 
         let decoder = JSONDecoder()
-        decoder.dataDecodingStrategy = .base64Decode
+        decoder.dataDecodingStrategy = .base64
         if #available(iOS 10.0, *) {
             decoder.dateDecodingStrategy = .iso8601
         }
@@ -38,7 +38,7 @@ open class CodableHelper {
         if prettyPrint {
             encoder.outputFormatting = .prettyPrinted
         }
-        encoder.dataEncodingStrategy = .base64Encode
+        encoder.dataEncodingStrategy = .base64
         if #available(iOS 10.0, *) {
             encoder.dateEncodingStrategy = .iso8601
         }
