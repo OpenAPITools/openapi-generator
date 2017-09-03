@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -9,8 +10,8 @@ import java.util.Objects;
 
 public class ReadOnlyFirst   {
   
-  private String bar = null;
-  private String baz = null;
+  private @Valid String bar = null;
+  private @Valid String baz = null;
 
   /**
    **/

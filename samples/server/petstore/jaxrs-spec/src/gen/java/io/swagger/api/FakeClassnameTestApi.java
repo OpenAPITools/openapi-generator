@@ -10,6 +10,8 @@ import io.swagger.annotations.*;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
+import java.lang.Exception;
 
 @Path("/fake_classname_test")
 
@@ -29,8 +31,7 @@ public class FakeClassnameTestApi  {
     }, tags={ "fake_classname_tags 123#$%^" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClassname(Client body) {
+    public Response testClassname(@Valid Client body) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 }
-

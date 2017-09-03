@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -15,9 +16,9 @@ import java.util.Objects;
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   
-  private UUID uuid = null;
-  private Date dateTime = null;
-  private Map<String, Animal> map = new HashMap<String, Animal>();
+  private @Valid UUID uuid = null;
+  private @Valid Date dateTime = null;
+  private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
 
   /**
    **/

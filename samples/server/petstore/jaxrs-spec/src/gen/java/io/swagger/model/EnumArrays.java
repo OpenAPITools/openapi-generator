@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -42,7 +43,7 @@ public enum JustSymbolEnum {
     }
 }
 
-  private JustSymbolEnum justSymbol = null;
+  private @Valid JustSymbolEnum justSymbol = null;
 
 public enum ArrayEnumEnum {
 
@@ -74,7 +75,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
   /**
    **/

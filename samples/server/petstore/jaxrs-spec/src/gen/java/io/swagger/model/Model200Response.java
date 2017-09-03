@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 /**
@@ -13,8 +14,8 @@ import java.util.Objects;
 
 public class Model200Response   {
   
-  private Integer name = null;
-  private String propertyClass = null;
+  private @Valid Integer name = null;
+  private @Valid String propertyClass = null;
 
   /**
    **/

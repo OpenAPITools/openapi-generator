@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 /**
@@ -13,10 +14,10 @@ import java.util.Objects;
 
 public class Name   {
   
-  private Integer name = null;
-  private Integer snakeCase = null;
-  private String property = null;
-  private Integer _123Number = null;
+  private @Valid Integer name = null;
+  private @Valid Integer snakeCase = null;
+  private @Valid String property = null;
+  private @Valid Integer _123Number = null;
 
   /**
    **/

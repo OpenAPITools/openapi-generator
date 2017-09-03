@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -12,8 +13,8 @@ import java.util.Objects;
 
 public class AdditionalPropertiesClass   {
   
-  private Map<String, String> mapProperty = new HashMap<String, String>();
-  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
+  private @Valid Map<String, String> mapProperty = new HashMap<String, String>();
+  private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
 
   /**
    **/
