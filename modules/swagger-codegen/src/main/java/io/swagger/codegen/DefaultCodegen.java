@@ -1706,8 +1706,9 @@ public class DefaultCodegen {
             property.isFile = true;
         }
         if (p instanceof UUIDProperty) {
-            property.isString = true;
             property.isUuid = true;
+            // keep isString to true to make it backward compatible
+            property.isString = true;
         }
         if (p instanceof ByteArrayProperty) {
             property.isByteArray = true;
