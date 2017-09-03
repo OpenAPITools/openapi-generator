@@ -349,7 +349,7 @@ class Decoders {
                 {{#optionalVars}}
                 switch Decoders.decodeOptional(clazz: {{#isEnum}}{{^isListContainer}}{{classname}}.{{enumName}}.self{{/isListContainer}}{{#isListContainer}}Array<{{classname}}.{{enumName}}>.self{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{datatype}}}.self{{/isEnum}}, source: sourceDictionary["{{baseName}}"] as AnyObject?) {
                 case let .success(value): _result.{{name}} = value
-                case let .failure(error): return .failure(error)
+                case let .failure(error): break
                 }
                 {{/optionalVars}}
             {{/unwrapRequired}}
@@ -364,7 +364,7 @@ class Decoders {
                 switch Decoders.decodeOptional(clazz: {{#isEnum}}{{^isListContainer}}{{classname}}.{{enumName}}.self{{/isListContainer}}{{#isListContainer}}Array<{{classname}}.{{enumName}}>.self{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{datatype}}}.self{{/isEnum}}, source: sourceDictionary["{{baseName}}"] as AnyObject?) {
                 {{#isEnum}}{{#isMapContainer}}/*{{/isMapContainer}}{{/isEnum}}
                 case let .success(value): _result.{{name}} = value
-                case let .failure(error): return .failure(error)
+                case let .failure(error): break
                 {{#isEnum}}{{#isMapContainer}}*/ default: break //TODO: handle enum map scenario{{/isMapContainer}}{{/isEnum}}
                 }
                 {{/allVars}}
