@@ -955,6 +955,7 @@ Here is a list of template creators:
    * Perl: @wing328
    * PHP (Guzzle): @baartosz
    * PowerShell: @beatcracker
+   * R: @ramnov
    * Rust: @farcaller
    * Swift: @tkqubo
    * Swift 3: @hexelon
