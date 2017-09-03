@@ -14,7 +14,7 @@ public class CodegenParameter {
 
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
+    public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
     public boolean isFile, notFile;
     public boolean isEnum;
@@ -140,6 +140,7 @@ public class CodegenParameter {
         output.isBoolean = this.isBoolean;
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
+        output.isUuid = this.isUuid;
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
 
