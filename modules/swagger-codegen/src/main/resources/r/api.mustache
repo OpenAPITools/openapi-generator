@@ -1,0 +1,60 @@
+{{>partial_header}}
+{{#operations}}
+{{classname}} <- R6::R6Class(
+  '{{classname}}',
+  public = list(
+    userAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}Swagger-Codegen/{{{packageVersion}}}/r{{/httpUserAgent}}",
+    basePath = "{{{basePath}}}",
+    initialize = function(basePath){
+      if (!missing(basePath)) {
+        stopifnot(is.character(basePath), length(basePath) == 1)
+        self$basePath <- basePath
+      }
+    },
+
+    {{#operation}}
+    {{operationId}} = function({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){
+      resp <- httr::{{httpMethod}}(paste0(self$basePath{{#pathParams}}, {{paramName}}{{/pathParams}}),
+          httr::add_headers("User-Agent" = self$userAgent{{#hasConsumes}}, "accept" = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}"{{/hasConsumes}}{{#hasProduces}}, "content-type" = "{{#produces}}{{#-first}}{{{mediaType}}}{{/-first}}{{/produces}}"{{/hasProduces}}{{#headerParams}}, "{{baseName}}" = {{paramName}}{{/headerParams}})
+          {{#hasFormParams}}
+          ,body = list(
+            {{#formParams}}
+              {{^isFile}}
+              "{{baseName}}" = {{paramName}}{{#hasMore}},{{/hasMore}}
+              {{/isFile}}
+              {{#isFile}}
+              "{{baseName}}" = httr::upload_file({{paramName}}){{#hasMore}},{{/hasMore}}
+              {{/isFile}}
+            {{/formParams}}
+            )
+          {{/hasFormParams}}
+          {{#bodyParams}}
+          ,body = {{paramName}}$toJSON()
+          {{/bodyParams}}
+          {{#hasQueryParams}}
+          ,query = list(
+            {{#queryParams}}
+            "{{baseName}}" = {{paramName}}{{#hasMore}},{{/hasMore}}
+            {{/queryParams}}
+          {{/hasQueryParams}}
+          )
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        {{#returnType}} 
+        result <- {{returnType}}$new()$fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyVector = FALSE)
+        Response$new(result, resp)
+        {{/returnType}}
+        {{^returnType}}
+        # void response, no need to return anything
+        {{/returnType}}
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499){
+        Response$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599){
+        Response$new("API server error", resp)
+      }
+
+    }{{#hasMore}},{{/hasMore}}
+    {{/operation}}
+  )
+) 
+{{/operations}}
