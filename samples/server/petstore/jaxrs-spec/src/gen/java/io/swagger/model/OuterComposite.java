@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.math.BigDecimal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -10,9 +11,9 @@ import java.util.Objects;
 
 public class OuterComposite   {
   
-  private BigDecimal myNumber = null;
-  private String myString = null;
-  private Boolean myBoolean = null;
+  private @Valid BigDecimal myNumber = null;
+  private @Valid String myString = null;
+  private @Valid Boolean myBoolean = null;
 
   /**
    **/

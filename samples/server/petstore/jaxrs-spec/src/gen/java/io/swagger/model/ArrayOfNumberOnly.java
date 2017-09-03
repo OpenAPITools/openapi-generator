@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 public class ArrayOfNumberOnly   {
   
-  private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
+  private @Valid List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
 
   /**
    **/

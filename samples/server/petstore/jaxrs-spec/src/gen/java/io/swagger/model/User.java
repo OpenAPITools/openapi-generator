@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -9,14 +10,14 @@ import java.util.Objects;
 
 public class User   {
   
-  private Long id = null;
-  private String username = null;
-  private String firstName = null;
-  private String lastName = null;
-  private String email = null;
-  private String password = null;
-  private String phone = null;
-  private Integer userStatus = null;
+  private @Valid Long id = null;
+  private @Valid String username = null;
+  private @Valid String firstName = null;
+  private @Valid String lastName = null;
+  private @Valid String email = null;
+  private @Valid String password = null;
+  private @Valid String phone = null;
+  private @Valid Integer userStatus = null;
 
   /**
    **/

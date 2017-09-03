@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.List;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
+import java.lang.Exception;
 
 @Path("/{{{baseName}}}")
 
@@ -21,7 +23,7 @@ import javax.validation.constraints.*;
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
 
-public class {{classname}}  {
+public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}}  {
 {{#operations}}
 {{#operation}}
 
@@ -38,10 +40,9 @@ public class {{classname}}  {
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
-    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+    public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) throws Exception{{#interfaceOnly}};{{/interfaceOnly}}{{^interfaceOnly}} {
         return Response.ok().entity("magic!").build();
-    }
+    }{{/interfaceOnly}}
 {{/operation}}
 }
 {{/operations}}
-

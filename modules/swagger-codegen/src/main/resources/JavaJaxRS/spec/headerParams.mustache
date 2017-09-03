@@ -1,1 +1,1 @@
-{{#isHeaderParam}}@HeaderParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isHeaderParam}}
+{{#isHeaderParam}}@HeaderParam("{{baseName}}"){{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{#defaultValue}} @DefaultValue("{{{defaultValue}}}"){{/defaultValue}} {{#description}} @ApiParam("{{description}}"){{/description}} {{{dataType}}} {{paramName}}{{/isHeaderParam}}

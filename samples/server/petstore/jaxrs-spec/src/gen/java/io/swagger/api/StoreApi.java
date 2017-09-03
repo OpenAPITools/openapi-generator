@@ -11,6 +11,8 @@ import io.swagger.annotations.*;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
+import java.lang.Exception;
 
 @Path("/store")
 
@@ -29,7 +31,7 @@ public class StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response deleteOrder(@PathParam("order_id") @ApiParam("ID of the order that needs to be deleted") String orderId) {
+    public Response deleteOrder(@PathParam("order_id") @ApiParam("ID of the order that needs to be deleted") String orderId) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -42,7 +44,7 @@ public class StoreApi  {
     }, tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
-    public Response getInventory() {
+    public Response getInventory() throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -55,7 +57,7 @@ public class StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response getOrderById(@PathParam("order_id") @Min(1) @Max(5) @ApiParam("ID of pet that needs to be fetched") Long orderId) {
+    public Response getOrderById(@PathParam("order_id") @Min(1) @Max(5) @ApiParam("ID of pet that needs to be fetched") Long orderId) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -67,8 +69,7 @@ public class StoreApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    public Response placeOrder(Order body) {
+    public Response placeOrder(@Valid Order body) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 }
-
