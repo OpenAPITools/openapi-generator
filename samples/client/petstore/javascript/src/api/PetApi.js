@@ -41,7 +41,7 @@
    * Constructs a new PetApi. 
    * @alias module:api/PetApi
    * @class
-   * @param {module:ApiClient} apiClient Optional API client implementation to use,
+   * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
    * default to {@link module:ApiClient#instance} if unspecified.
    */
   var exports = function(apiClient) {

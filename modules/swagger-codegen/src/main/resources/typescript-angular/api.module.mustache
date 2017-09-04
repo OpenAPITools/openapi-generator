@@ -1,13 +1,25 @@
-import * as api from './api/api';
-import * as angular from 'angular';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpModule } from '@angular/http';
+import { Configuration } from './configuration';
 
 {{#apiInfo}}
-const apiModule = angular.module('api', [])
 {{#apis}}
-{{#operations}}
-.service('{{classname}}', api.{{classname}})
-{{/operations}}
+import { {{classname}} } from './{{importPath}}';
 {{/apis}}
-
-export default apiModule;
 {{/apiInfo}}
+
+@NgModule({
+  imports:      [ CommonModule, HttpModule ],
+  declarations: [],
+  exports:      [],
+  providers:    [ {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}} ]
+})
+export class ApiModule {
+    public static forConfig(configurationFactory: () => Configuration): ModuleWithProviders {
+        return {
+            ngModule: ApiModule,
+            providers: [ {provide: Configuration, useFactory: configurationFactory}]
+        }
+    }
+}

@@ -10,6 +10,7 @@ import io.swagger.jaxrs.*;
 import java.util.List;
 import io.swagger.model.User;
 
+import java.util.Map;
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
@@ -83,9 +84,9 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = User.class),
         
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = User.class),
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         
-        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = User.class) })
+        @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response getUserByName( @PathParam("username") String username,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getUserByName(username,securityContext);
@@ -98,7 +99,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
         
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = String.class) })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
     public Response loginUser( @NotNull  @QueryParam("username") String username, @NotNull  @QueryParam("password") String password,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.loginUser(username,password,securityContext);

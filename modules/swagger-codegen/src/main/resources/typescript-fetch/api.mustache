@@ -1,0 +1,325 @@
+// tslint:disable
+{{>licenseInfo}}
+
+import * as url from "url";
+import * as isomorphicFetch from "isomorphic-fetch";
+import { Configuration } from "./configuration";
+
+const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
+
+/**
+ *
+ * @export
+ */
+export const COLLECTION_FORMATS = {
+    csv: ",",
+    ssv: " ",
+    tsv: "\t",
+    pipes: "|",
+};
+
+/**
+ *
+ * @export
+ * @interface FetchAPI
+ */
+export interface FetchAPI {
+    (url: string, init?: any): Promise<any>;
+}
+
+/**
+ *  
+ * @export
+ * @interface FetchArgs
+ */
+export interface FetchArgs {
+    url: string;
+    options: any;
+}
+
+/**
+ * 
+ * @export
+ * @class BaseAPI
+ */
+export class BaseAPI {
+    protected configuration: Configuration;
+
+    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = isomorphicFetch) {
+        if (configuration) {
+            this.configuration = configuration;
+            this.basePath = configuration.basePath || this.basePath;
+        }
+    }
+};
+
+/**
+ * 
+ * @export
+ * @class RequiredError
+ * @extends {Error}
+ */
+export class RequiredError extends Error {
+    name: "RequiredError"
+    constructor(public field: string, msg?: string) {
+        super(msg);
+    }
+}
+
+{{#models}}
+{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
+{{/models}}
+{{#apiInfo}}{{#apis}}{{#operations}}
+/**
+ * {{classname}} - fetch parameter creator{{#description}}
+ * {{&description}}{{/description}}
+ * @export
+ */
+export const {{classname}}FetchParamCreator = function (configuration?: Configuration) {
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         {{#allParams}}
+         * @param {{=<% %>=}}{<%dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+         {{/allParams}}
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: any = {}): FetchArgs {
+    {{#allParams}}
+    {{#required}}
+            // verify required parameter '{{paramName}}' is not null or undefined
+            if ({{paramName}} === null || {{paramName}} === undefined) {
+                throw new RequiredError('{{paramName}}','Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+            }
+    {{/required}}
+    {{/allParams}}
+            const path = `{{{path}}}`{{#pathParams}}
+                .replace(`{${"{{baseName}}"}}`, String({{paramName}})){{/pathParams}};
+            const urlObj = url.parse(path, true);
+            const requestOptions = Object.assign({ method: '{{httpMethod}}' }, options);
+            const headerParameter = {} as any;
+            const queryParameter = {} as any;
+    {{#hasFormParams}}
+            const formParams = new url.URLSearchParams();
+    {{/hasFormParams}}
+
+    {{#authMethods}}
+            // authentication {{name}} required
+            {{#isApiKey}}
+            {{#isKeyInHeader}}
+            if (configuration && configuration.apiKey) {
+                const apiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("{{keyParamName}}")
+					: configuration.apiKey;
+                headerParameter["{{keyParamName}}"] = apiKeyValue;
+            }
+            {{/isKeyInHeader}}
+            {{#isKeyInQuery}}
+            if (configuration && configuration.apiKey) {
+                const apiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("{{keyParamName}}")
+					: configuration.apiKey;
+                queryParameter["{{keyParamName}}"] = apiKeyValue;
+            }
+            {{/isKeyInQuery}}
+            {{/isApiKey}}
+            {{#isBasic}}
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                headerParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
+            }
+            {{/isBasic}}
+            {{#isOAuth}}
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const accessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+					: configuration.accessToken;
+                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+            }
+            {{/isOAuth}}
+
+    {{/authMethods}}
+    {{#queryParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+            {{#isCollectionFormatMulti}}
+                queryParameter['{{baseName}}'] = {{paramName}};
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+                queryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+            {{/isCollectionFormatMulti}}
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined) {
+                {{#isDateTime}}
+                queryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
+                {{/isDateTime}}
+                {{^isDateTime}}
+                {{#isDate}}
+                queryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
+                {{/isDate}}
+                {{^isDate}}
+                queryParameter['{{baseName}}'] = {{paramName}};
+                {{/isDate}}
+                {{/isDateTime}}
+            }
+            {{/isListContainer}}
+
+    {{/queryParams}}
+    {{#headerParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+                headerParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined && {{paramName}} !== null) {
+                headerParameter['{{baseName}}'] = String({{paramName}});
+            }
+            {{/isListContainer}}
+
+    {{/headerParams}}
+    {{#formParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+            {{#isCollectionFormatMulti}}
+                {{paramName}}.forEach((element) => {
+                    formParams.append('{{baseName}}', element as any);
+                })
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+                    formParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            {{/isCollectionFormatMulti}}
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined) {
+                formParams.set('{{baseName}}', {{paramName}} as any);
+            }
+            {{/isListContainer}}
+
+    {{/formParams}}
+    {{#hasFormParams}}
+            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+
+    {{/hasFormParams}}
+    {{#bodyParam}}
+            headerParameter['Content-Type'] = 'application/json';
+
+    {{/bodyParam}}
+            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete urlObj.search;
+            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+    {{#hasFormParams}}
+            requestOptions.body = formParams.toString();
+    {{/hasFormParams}}
+    {{#bodyParam}}
+            requestOptions.body = JSON.stringify({{paramName}} || {});
+    {{/bodyParam}}
+
+            return {
+                url: url.format(urlObj),
+                options: requestOptions,
+            };
+        },
+    {{/operation}}
+    }
+};
+
+/**
+ * {{classname}} - functional programming interface{{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ */
+export const {{classname}}Fp = function(configuration?: Configuration) {
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         {{#allParams}}
+         * @param {{=<% %>=}}{<%dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+         {{/allParams}}
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
+            const fetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+            return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response{{#returnType}}.json(){{/returnType}};
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+    {{/operation}}
+    }
+};
+
+/**
+ * {{classname}} - factory interface{{#description}}
+ * {{&description}}{{/description}}
+ * @export
+ */
+export const {{classname}}Factory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         {{#allParams}}
+         * @param {{=<% %>=}}{<%dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+         {{/allParams}}
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
+            return {{classname}}Fp(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(fetch, basePath);
+        },
+    {{/operation}}
+    };
+};
+
+/**
+ * {{classname}} - object-oriented interface{{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ * @class {{classname}}
+ * @extends {BaseAPI}
+ */
+export class {{classname}} extends BaseAPI {
+    {{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{=<% %>=}}{<%%dataType%%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+     {{/allParams}}
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof {{classname}}
+     */
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
+        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(this.fetch, this.basePath);
+    }
+
+    {{/operation}}
+}
+{{/operations}}{{/apis}}{{/apiInfo}}

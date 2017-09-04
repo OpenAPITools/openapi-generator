@@ -93,6 +93,27 @@ class Decoders {
         }
     }
 
+    static func decode<T>(clazz: T.Type, source: AnyObject) -> Decoded<T> {
+        switch Decoders.decode(clazz: T.self, source: source, instance: nil) {
+    	    case let .success(value):
+                return .success(value)
+            case let .failure(error):
+                return .failure(error)
+        }
+    }
+
+    static open func decode<T: RawRepresentable>(clazz: T.Type, source: AnyObject) -> Decoded<T> {
+        if let value = source as? T.RawValue {
+            if let enumValue = T.init(rawValue: value) {
+                return .success(enumValue)
+            } else {
+                return .failure(.typeMismatch(expected: "A value from the enumeration \(T.self)", actual: "\(value)"))
+            }
+        } else {
+            return .failure(.typeMismatch(expected: "\(T.RawValue.self) matching a case from the enumeration \(T.self)", actual: String(describing: type(of: source))))
+        }
+    }
+
     static func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> Decoded<[Key:T]> {
         if let sourceDictionary = source as? [Key: AnyObject] {
             var dictionary = [Key:T]()
@@ -174,6 +195,21 @@ class Decoders {
             case let .success(value): return .success(value)
             case let .failure(error): return .failure(error)
             }
+        } else {
+            return .success(nil)
+        }
+    }
+    
+    static func decodeOptional<T>(clazz: [T].Type, source: AnyObject?) -> Decoded<[T]?> where T: RawRepresentable {
+        if let source = source as? [AnyObject] {
+            var values = [T]()
+            for sourceValue in source {
+                switch Decoders.decodeOptional(clazz: T.self, source: sourceValue) {
+                case let .success(value): if let value = value { values.append(value) }
+                case let .failure(error): return .failure(error)
+                }
+            }
+            return .success(values)
         } else {
             return .success(nil)
         }
@@ -269,6 +305,11 @@ class Decoders {
         {{#models}}
         {{#model}}
         {{^isArrayModel}}        
+        // Decoder for [{{{classname}}}]
+        Decoders.addDecoder(clazz: [{{{classname}}}].self) { (source: AnyObject, instance: AnyObject?) -> Decoded<[{{{classname}}}]> in
+            return Decoders.decode(clazz: [{{{classname}}}].self, source: source)
+        }
+
         // Decoder for {{{classname}}}
         Decoders.addDecoder(clazz: {{{classname}}}.self) { (source: AnyObject, instance: AnyObject?) -> Decoded<{{{classname}}}> in
 {{#isEnum}}
@@ -304,26 +345,26 @@ class Decoders {
                     return .failure(.typeMismatch(expected: "{{classname}}", actual: "\({{name}}Source)"))
                 }
                 {{/requiredVars}}
-                let result = {{classname}}({{#requiredVars}}{{^-first}}, {{/-first}}{{name}}: {{name}}{{/requiredVars}})
+                let _result = {{classname}}({{#requiredVars}}{{^-first}}, {{/-first}}{{name}}: {{name}}{{/requiredVars}})
                 {{#optionalVars}}
                 switch Decoders.decodeOptional(clazz: {{#isEnum}}{{^isListContainer}}{{classname}}.{{enumName}}.self{{/isListContainer}}{{#isListContainer}}Array<{{classname}}.{{enumName}}>.self{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{datatype}}}.self{{/isEnum}}, source: sourceDictionary["{{baseName}}"] as AnyObject?) {
-                case let .success(value): instance.{{name}} = value
-                case let .failure(error): return .failure(error)
+                case let .success(value): _result.{{name}} = value
+                case let .failure(error): break
                 }
                 {{/optionalVars}}
             {{/unwrapRequired}}
             {{^unwrapRequired}}
-                let result = instance == nil ? {{classname}}() : instance as! {{classname}}
+                let _result = instance == nil ? {{classname}}() : instance as! {{classname}}
                 {{#parent}}
                 if decoders["\({{parent}}.self)"] != nil {
-                  _ = Decoders.decode(clazz: {{parent}}.self, source: source, instance: result)
+                  _ = Decoders.decode(clazz: {{parent}}.self, source: source, instance: _result)
                 }
                 {{/parent}}
                 {{#allVars}}
                 switch Decoders.decodeOptional(clazz: {{#isEnum}}{{^isListContainer}}{{classname}}.{{enumName}}.self{{/isListContainer}}{{#isListContainer}}Array<{{classname}}.{{enumName}}>.self{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{datatype}}}.self{{/isEnum}}, source: sourceDictionary["{{baseName}}"] as AnyObject?) {
                 {{#isEnum}}{{#isMapContainer}}/*{{/isMapContainer}}{{/isEnum}}
-                case let .success(value): result.{{name}} = value
-                case let .failure(error): return .failure(error)
+                case let .success(value): _result.{{name}} = value
+                case let .failure(error): break
                 {{#isEnum}}{{#isMapContainer}}*/ default: break //TODO: handle enum map scenario{{/isMapContainer}}{{/isEnum}}
                 }
                 {{/allVars}}
@@ -337,13 +378,13 @@ class Decoders {
                 for key in propsDictionary.keys {
                     switch  Decoders.decodeOptional(clazz: String.self, source: propsDictionary[key] as AnyObject?) {
 
-                    case let .success(value): result[key] = value
+                    case let .success(value): _result[key] = value
                     default: continue
 
                     }
                 }
             {{/additionalPropertiesType}}
-                return .success(result)
+                return .success(_result)
             } else {
                 return .failure(.typeMismatch(expected: "{{classname}}", actual: "\(source)"))
             }

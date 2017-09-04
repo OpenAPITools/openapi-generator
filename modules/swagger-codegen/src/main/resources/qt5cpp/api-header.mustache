@@ -35,6 +35,8 @@ signals:
     {{/operation}}{{/operations}}
     {{#operations}}{{#operation}}void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
     {{/operation}}{{/operations}}
+    {{#operations}}{{#operation}}void {{nickname}}SignalEFull(HttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
+    {{/operation}}{{/operations}}
 };
 
 {{#cppNamespaceDeclarations}}

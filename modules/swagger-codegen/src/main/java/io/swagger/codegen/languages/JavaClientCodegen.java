@@ -25,9 +25,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String DO_NOT_USE_RX = "doNotUseRx";
-    public static final String USE_PLAY24_WS = "usePlay24WS";
+    public static final String USE_PLAY_WS = "usePlayWS";
+    public static final String PLAY_VERSION = "playVersion";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
+
+    public static final String PLAY_24 = "play24";
+    public static final String PLAY_25 = "play25";
 
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
@@ -36,7 +40,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
     protected boolean doNotUseRx = true; // backwards compatibility for swagger configs that specify neither rx1 nor rx2 (mustache does not allow for boolean operators so we need this extra field)
-    protected boolean usePlay24WS = false;
+    protected boolean usePlayWS = false;
+    protected String playVersion = PLAY_25;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
@@ -55,7 +60,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
-        cliOptions.add(CliOption.newBoolean(USE_PLAY24_WS, "Use Play! 2.4 Async HTTP client (Play WS API)"));
+        cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
+        cliOptions.add(CliOption.newString(PLAY_VERSION, "Version of Play! Framework (possible values \"play24\", \"play25\")"));
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library."));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
@@ -111,10 +117,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (!useRxJava && !useRxJava2) {
             additionalProperties.put(DO_NOT_USE_RX, true);
         }
-        if (additionalProperties.containsKey(USE_PLAY24_WS)) {
-            this.setUsePlay24WS(Boolean.valueOf(additionalProperties.get(USE_PLAY24_WS).toString()));
+        if (additionalProperties.containsKey(USE_PLAY_WS)) {
+            this.setUsePlayWS(Boolean.valueOf(additionalProperties.get(USE_PLAY_WS).toString()));
         }
-        additionalProperties.put(USE_PLAY24_WS, usePlay24WS);
+        additionalProperties.put(USE_PLAY_WS, usePlayWS);
+        
+        if (additionalProperties.containsKey(PLAY_VERSION)) {
+            this.setPlayVersion(additionalProperties.get(PLAY_VERSION).toString());
+        }
+        additionalProperties.put(PLAY_VERSION, playVersion);
 
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
             this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
@@ -204,7 +215,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
             additionalProperties.put("gson", "true");
-            if ("retrofit2".equals(getLibrary()) && !usePlay24WS) {
+            if ("retrofit2".equals(getLibrary()) && !usePlayWS) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if ("jersey2".equals(getLibrary()) || "resteasy".equals(getLibrary()))  {
@@ -228,8 +239,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
 
-        if (usePlay24WS) {
-            // remove unsupported auth
+        if (usePlayWS) {
+            // remove unsupported auth 
             Iterator<SupportingFile> iter = supportingFiles.iterator();
             while (iter.hasNext()) {
                 SupportingFile sf = iter.next();
@@ -238,27 +249,39 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
 
-            // auth
-            supportingFiles.add(new SupportingFile("play24/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
+            apiTemplateFiles.remove("api.mustache");
+            
+            if (PLAY_24.equals(playVersion)) {
+                additionalProperties.put(PLAY_24, true);
+                apiTemplateFiles.put("play24/api.mustache", ".java");
+                
+                supportingFiles.add(new SupportingFile("play24/ApiClient.mustache", invokerFolder, "ApiClient.java"));
+                supportingFiles.add(new SupportingFile("play24/Play24CallFactory.mustache", invokerFolder, "Play24CallFactory.java"));
+                supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory.mustache", invokerFolder,
+                        "Play24CallAdapterFactory.java"));
+            } else {
+                additionalProperties.put(PLAY_25, true);
+                apiTemplateFiles.put("play25/api.mustache", ".java");
+                
+                supportingFiles.add(new SupportingFile("play25/ApiClient.mustache", invokerFolder, "ApiClient.java"));
+                supportingFiles.add(new SupportingFile("play25/Play25CallFactory.mustache", invokerFolder, "Play25CallFactory.java"));
+                supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory.mustache", invokerFolder,
+                        "Play25CallAdapterFactory.java"));
+                additionalProperties.put("java8", "true");
+            }
+
+            supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
-
-            // api client
-            supportingFiles.add(new SupportingFile("play24/ApiClient.mustache", invokerFolder, "ApiClient.java"));
-
-            // adapters
-            supportingFiles
-                    .add(new SupportingFile("play24/Play24CallFactory.mustache", invokerFolder, "Play24CallFactory.java"));
-            supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory.mustache", invokerFolder,
-                    "Play24CallAdapterFactory.java"));
+            
             additionalProperties.put("jackson", "true");
             additionalProperties.remove("gson");
         }
 
-        if (additionalProperties.containsKey("jackson") ) {
+        if (additionalProperties.containsKey("jackson")) {
             supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-            if ("threetenbp".equals(dateLibrary)) {
-                supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+            if (!"threetenbp".equals(dateLibrary)) {
+                supportingFiles.remove("CustomInstantDeserializer.mustache");
             }
         }
     }
@@ -445,10 +468,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.doNotUseRx = doNotUseRx;
     }
 
-    public void setUsePlay24WS(boolean usePlay24WS) {
-        this.usePlay24WS = usePlay24WS;
+    public void setUsePlayWS(boolean usePlayWS) {
+        this.usePlayWS = usePlayWS;
     }
 
+    public void setPlayVersion(String playVersion) {
+        this.playVersion = playVersion;
+    }
 
     public void setParcelableModel(boolean parcelableModel) {
         this.parcelableModel = parcelableModel;

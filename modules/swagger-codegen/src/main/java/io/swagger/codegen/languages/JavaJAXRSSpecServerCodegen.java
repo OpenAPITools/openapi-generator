@@ -24,6 +24,10 @@ import io.swagger.util.Json;
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
 {
 
+    private static final String INTERFACE_ONLY = "interfaceOnly";
+
+    protected boolean interfaceOnly = false;
+
     public JavaJAXRSSpecServerCodegen()
     {
         super();
@@ -32,6 +36,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         outputFolder = "generated-code/JavaJaxRS-Spec";
 
         modelTemplateFiles.put("model.mustache", ".java");
+
         apiTemplateFiles.put("api.mustache", ".java");
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
@@ -69,6 +74,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files."));
     }
 
     @Override
@@ -77,11 +83,20 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
         super.processOpts();
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
+
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+            if (!interfaceOnly) {
+                additionalProperties.remove(INTERFACE_ONLY);
+            }
+        }
+
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
 
-        writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
-
+        if (!interfaceOnly) {
+            writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
+        }
     }
 
 
@@ -90,6 +105,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen
     {
         return "jaxrs-spec";
     }
+
+    public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {

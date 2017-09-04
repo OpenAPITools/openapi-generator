@@ -4,14 +4,14 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteOrder**](StoreApi.md#DeleteOrder) | **Delete** /store/order/{orderId} | Delete purchase order by ID
-[**GetInventory**](StoreApi.md#GetInventory) | **Get** /store/inventory | Returns pet inventories by status
-[**GetOrderById**](StoreApi.md#GetOrderById) | **Get** /store/order/{orderId} | Find purchase order by ID
-[**PlaceOrder**](StoreApi.md#PlaceOrder) | **Post** /store/order | Place an order for a pet
+[**delete_order**](StoreApi.md#delete_order) | **Delete** /store/order/{orderId} | Delete purchase order by ID
+[**get_inventory**](StoreApi.md#get_inventory) | **Get** /store/inventory | Returns pet inventories by status
+[**get_order_by_id**](StoreApi.md#get_order_by_id) | **Get** /store/order/{orderId} | Find purchase order by ID
+[**place_order**](StoreApi.md#place_order) | **Post** /store/order | Place an order for a pet
 
 
-# **DeleteOrder**
-> DeleteOrder(order_id)
+# **delete_order**
+> delete_order(order_id)
 Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -37,8 +37,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GetInventory**
-> ::std::collections::HashMap<String, i32> GetInventory(ctx, )
+# **get_inventory**
+> ::std::collections::HashMap<String, i32> get_inventory(ctx, )
 Returns pet inventories by status
 
 Returns a map of status codes to quantities
@@ -61,8 +61,8 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GetOrderById**
-> ::models::Order GetOrderById(order_id)
+# **get_order_by_id**
+> ::models::Order get_order_by_id(order_id)
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -88,8 +88,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **PlaceOrder**
-> ::models::Order PlaceOrder(body)
+# **place_order**
+> ::models::Order place_order(body)
 Place an order for a pet
 
 

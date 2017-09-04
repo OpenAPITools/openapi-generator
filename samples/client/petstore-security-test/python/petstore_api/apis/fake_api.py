@@ -39,22 +39,18 @@ class FakeApi(object):
         """
         To test code injection */ ' \" =end -- \\r\\n \\n \\r
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.test_code_inject____end__rn_n_r(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.test_code_inject____end__rn_n_r(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str test_code_inject____end____rn_n_r: To test code injection */ ' \" =end -- \\r\\n \\n \\r
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
+        if kwargs.get('async'):
             return self.test_code_inject____end__rn_n_r_with_http_info(**kwargs)
         else:
             (data) = self.test_code_inject____end__rn_n_r_with_http_info(**kwargs)
@@ -64,15 +60,11 @@ class FakeApi(object):
         """
         To test code injection */ ' \" =end -- \\r\\n \\n \\r
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.test_code_inject____end__rn_n_r_with_http_info(callback=callback_function)
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.test_code_inject____end__rn_n_r_with_http_info(async=True)
+        >>> result = thread.get()
 
-        :param callback function: The callback function
-            for asynchronous request. (optional)
+        :param async bool
         :param str test_code_inject____end____rn_n_r: To test code injection */ ' \" =end -- \\r\\n \\n \\r
         :return: None
                  If the method is called asynchronously,
@@ -80,7 +72,7 @@ class FakeApi(object):
         """
 
         all_params = ['test_code_inject____end____rn_n_r']
-        all_params.append('callback')
+        all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -130,7 +122,7 @@ class FakeApi(object):
                                         files=local_var_files,
                                         response_type=None,
                                         auth_settings=auth_settings,
-                                        callback=params.get('callback'),
+                                        async=params.get('async'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
                                         _preload_content=params.get('_preload_content', True),
                                         _request_timeout=params.get('_request_timeout'),

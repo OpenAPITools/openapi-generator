@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -9,9 +10,9 @@ import java.util.Objects;
 
 public class ModelApiResponse   {
   
-  private Integer code = null;
-  private String type = null;
-  private String message = null;
+  private @Valid Integer code = null;
+  private @Valid String type = null;
+  private @Valid String message = null;
 
   /**
    **/

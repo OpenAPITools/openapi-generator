@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.util.Date;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -10,10 +11,10 @@ import java.util.Objects;
 
 public class Order   {
   
-  private Long id = null;
-  private Long petId = null;
-  private Integer quantity = null;
-  private Date shipDate = null;
+  private @Valid Long id = null;
+  private @Valid Long petId = null;
+  private @Valid Integer quantity = null;
+  private @Valid Date shipDate = null;
 
 public enum StatusEnum {
 
@@ -45,8 +46,8 @@ public enum StatusEnum {
     }
 }
 
-  private StatusEnum status = null;
-  private Boolean complete = false;
+  private @Valid StatusEnum status = null;
+  private @Valid Boolean complete = false;
 
   /**
    **/
@@ -138,7 +139,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
-  public Boolean getComplete() {
+  public Boolean isComplete() {
     return complete;
   }
   public void setComplete(Boolean complete) {

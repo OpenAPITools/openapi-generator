@@ -1,38 +1,16 @@
 {{>licenseInfo}}
-import * as models from './models';
-
 {{#models}}
 {{#model}}
+{{#tsImports}}
+import { {{classname}} } from './{{filename}}';
+{{/tsImports}}
+
+
 {{#description}}
 /**
  * {{{description}}}
  */
 {{/description}}
-export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
-{{#vars}}
-{{#description}}
-    /**
-     * {{{description}}}
-     */
-{{/description}}
-    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
-{{/vars}}
-}
-
-{{#hasEnums}}
-export namespace {{classname}} {
-{{#vars}}
-{{#isEnum}}
-    export enum {{enumName}} {
-    {{#allowableValues}}
-    {{#enumVars}}
-        {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}}
-    {{/enumVars}}
-    {{/allowableValues}}
-    }
-{{/isEnum}}
-{{/vars}}
-}
-{{/hasEnums}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}
 {{/model}}
 {{/models}}

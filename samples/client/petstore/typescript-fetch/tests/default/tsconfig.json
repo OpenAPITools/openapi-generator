@@ -5,12 +5,15 @@
         "noImplicitAny": true,
         "sourceMap": false,
         "outDir": "dist",
-        "rootDir": "."
+        "types": [
+            "mocha"
+        ],
+        "lib": [
+            "es6",
+            "dom"
+        ]
     },
     "exclude": [
-        "node_modules",
-        "typings/browser",
-        "typings/main",
-        "typings/main.d.ts"
+        "node_modules"
     ]
 }

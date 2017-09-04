@@ -4,18 +4,18 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddPet**](PetApi.md#AddPet) | **Post** /pet | Add a new pet to the store
-[**DeletePet**](PetApi.md#DeletePet) | **Delete** /pet/{petId} | Deletes a pet
-[**FindPetsByStatus**](PetApi.md#FindPetsByStatus) | **Get** /pet/findByStatus | Finds Pets by status
-[**FindPetsByTags**](PetApi.md#FindPetsByTags) | **Get** /pet/findByTags | Finds Pets by tags
-[**GetPetById**](PetApi.md#GetPetById) | **Get** /pet/{petId} | Find pet by ID
-[**UpdatePet**](PetApi.md#UpdatePet) | **Put** /pet | Update an existing pet
-[**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **Post** /pet/{petId} | Updates a pet in the store with form data
-[**UploadFile**](PetApi.md#UploadFile) | **Post** /pet/{petId}/uploadImage | uploads an image
+[**add_pet**](PetApi.md#add_pet) | **Post** /pet | Add a new pet to the store
+[**delete_pet**](PetApi.md#delete_pet) | **Delete** /pet/{petId} | Deletes a pet
+[**find_pets_by_status**](PetApi.md#find_pets_by_status) | **Get** /pet/findByStatus | Finds Pets by status
+[**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **Get** /pet/findByTags | Finds Pets by tags
+[**get_pet_by_id**](PetApi.md#get_pet_by_id) | **Get** /pet/{petId} | Find pet by ID
+[**update_pet**](PetApi.md#update_pet) | **Put** /pet | Update an existing pet
+[**update_pet_with_form**](PetApi.md#update_pet_with_form) | **Post** /pet/{petId} | Updates a pet in the store with form data
+[**upload_file**](PetApi.md#upload_file) | **Post** /pet/{petId}/uploadImage | uploads an image
 
 
-# **AddPet**
-> AddPet(ctx, body)
+# **add_pet**
+> add_pet(ctx, body)
 Add a new pet to the store
 
 
@@ -42,8 +42,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **DeletePet**
-> DeletePet(ctx, pet_id, optional)
+# **delete_pet**
+> delete_pet(ctx, pet_id, optional)
 Deletes a pet
 
 
@@ -79,8 +79,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindPetsByStatus**
-> Vec<::models::Pet> FindPetsByStatus(ctx, status)
+# **find_pets_by_status**
+> Vec<::models::Pet> find_pets_by_status(ctx, status)
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
@@ -107,8 +107,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **FindPetsByTags**
-> Vec<::models::Pet> FindPetsByTags(ctx, tags)
+# **find_pets_by_tags**
+> Vec<::models::Pet> find_pets_by_tags(ctx, tags)
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -135,8 +135,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **GetPetById**
-> ::models::Pet GetPetById(ctx, pet_id)
+# **get_pet_by_id**
+> ::models::Pet get_pet_by_id(ctx, pet_id)
 Find pet by ID
 
 Returns a single pet
@@ -163,8 +163,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **UpdatePet**
-> UpdatePet(ctx, body)
+# **update_pet**
+> update_pet(ctx, body)
 Update an existing pet
 
 
@@ -191,8 +191,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **UpdatePetWithForm**
-> UpdatePetWithForm(ctx, pet_id, optional)
+# **update_pet_with_form**
+> update_pet_with_form(ctx, pet_id, optional)
 Updates a pet in the store with form data
 
 
@@ -229,8 +229,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **UploadFile**
-> ::models::ApiResponse UploadFile(ctx, pet_id, optional)
+# **upload_file**
+> ::models::ApiResponse upload_file(ctx, pet_id, optional)
 uploads an image
 
 

@@ -31,19 +31,19 @@ impl<C: hyper::client::Connect> UserApiClient<C> {
 }
 
 pub trait UserApi {
-    fn CreateUser(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
-    fn CreateUsersWithArrayInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
-    fn CreateUsersWithListInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
-    fn DeleteUser(&self, username: &str) -> Box<Future<Item = (), Error = Error>>;
-    fn GetUserByName(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>>;
-    fn LoginUser(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>>;
-    fn LogoutUser(&self, ) -> Box<Future<Item = (), Error = Error>>;
-    fn UpdateUser(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
+    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
+    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
+    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>>;
+    fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error>>;
+    fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>>;
+    fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>>;
+    fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error>>;
+    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>>;
 }
 
 
 impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
-    fn CreateUser(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
+    fn create_user(&self, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -71,7 +71,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn CreateUsersWithArrayInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
+    fn create_users_with_array_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -99,7 +99,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn CreateUsersWithListInput(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
+    fn create_users_with_list_input(&self, body: Vec<::models::User>) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Post;
@@ -127,7 +127,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn DeleteUser(&self, username: &str) -> Box<Future<Item = (), Error = Error>> {
+    fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Delete;
@@ -151,7 +151,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn GetUserByName(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>> {
+    fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -178,7 +178,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn LoginUser(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>> {
+    fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -209,7 +209,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn LogoutUser(&self, ) -> Box<Future<Item = (), Error = Error>> {
+    fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Get;
@@ -233,7 +233,7 @@ impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
         )
     }
 
-    fn UpdateUser(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
+    fn update_user(&self, username: &str, body: ::models::User) -> Box<Future<Item = (), Error = Error>> {
         let configuration: &configuration::Configuration<C> = self.configuration.borrow();
 
         let method = hyper::Method::Put;

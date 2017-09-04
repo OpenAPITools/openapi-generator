@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 /**
@@ -13,7 +14,7 @@ import java.util.Objects;
 
 public class ModelReturn   {
   
-  private Integer _return = null;
+  private @Valid Integer _return = null;
 
   /**
    **/

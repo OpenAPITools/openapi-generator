@@ -11,8 +11,11 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
+import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
+import java.lang.Exception;
 
 @Path("/fake")
 
@@ -30,7 +33,7 @@ public class FakeApi  {
     @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
-    public Response fakeOuterBooleanSerialize(Boolean body) {
+    public Response fakeOuterBooleanSerialize(@Valid Boolean body) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -41,7 +44,7 @@ public class FakeApi  {
     @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    public Response fakeOuterCompositeSerialize(OuterComposite body) {
+    public Response fakeOuterCompositeSerialize(@Valid OuterComposite body) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -52,7 +55,7 @@ public class FakeApi  {
     @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
-    public Response fakeOuterNumberSerialize(BigDecimal body) {
+    public Response fakeOuterNumberSerialize(@Valid BigDecimal body) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -63,7 +66,7 @@ public class FakeApi  {
     @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
-    public Response fakeOuterStringSerialize(String body) {
+    public Response fakeOuterStringSerialize(@Valid String body) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -74,7 +77,7 @@ public class FakeApi  {
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClientModel(Client body) {
+    public Response testClientModel(@Valid Client body) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -82,13 +85,13 @@ public class FakeApi  {
     
     @Consumes({ "application/xml; charset&#x3D;utf-8", "application/json; charset&#x3D;utf-8" })
     @Produces({ "application/xml; charset&#x3D;utf-8", "application/json; charset&#x3D;utf-8" })
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = void.class, authorizations = {
+    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake",  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = void.class),
-        @ApiResponse(code = 404, message = "User not found", response = void.class) })
-    public Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string,@FormParam(value = "binary")  byte[] binary,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  Date dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback) {
+        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
+        @ApiResponse(code = 404, message = "User not found", response = Void.class) })
+    public Response testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string,@FormParam(value = "binary")  byte[] binary,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  Date dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -96,11 +99,11 @@ public class FakeApi  {
     
     @Consumes({ "*/*" })
     @Produces({ "*/*" })
-    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = void.class, tags={ "fake",  })
+    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake",  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid request", response = void.class),
-        @ApiResponse(code = 404, message = "Not found", response = void.class) })
-    public Response testEnumParameters(@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString,@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string") String enumHeaderString,@QueryParam("enum_query_string_array")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg") String enumQueryString,@QueryParam("enum_query_integer")  Integer enumQueryInteger,@FormParam(value = "enum_query_double")  Double enumQueryDouble) {
+        @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
+        @ApiResponse(code = 404, message = "Not found", response = Void.class) })
+    public Response testEnumParameters(@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString,@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")  @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")   @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@FormParam(value = "enum_query_double")  Double enumQueryDouble) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 
@@ -108,11 +111,10 @@ public class FakeApi  {
     @Path("/jsonFormData")
     @Consumes({ "application/json" })
     
-    @ApiOperation(value = "test json serialization of form data", notes = "", response = void.class, tags={ "fake" })
+    @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = void.class) })
-    public Response testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2) {
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2) throws Exception {
         return Response.ok().entity("magic!").build();
     }
 }
-

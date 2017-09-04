@@ -12,9 +12,12 @@
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ApiResponse {
-  #[serde(rename = "code")] code: Option<i32>,
-  #[serde(rename = "type")] _type: Option<String>,
-  #[serde(rename = "message")] message: Option<String>
+  #[serde(rename = "code")]
+  code: Option<i32>,
+  #[serde(rename = "type")]
+  _type: Option<String>,
+  #[serde(rename = "message")]
+  message: Option<String>
 }
 
 impl ApiResponse {
@@ -36,8 +39,12 @@ impl ApiResponse {
     self
   }
 
-  pub fn code(&self) -> &i32 {
-    &self.code
+  pub fn code(&self) -> Option<&i32> {
+    self.code.as_ref()
+  }
+
+  pub fn reset_code(&mut self) {
+    self.code = None;
   }
 
   pub fn set__type(&mut self, _type: String) {
@@ -49,8 +56,12 @@ impl ApiResponse {
     self
   }
 
-  pub fn _type(&self) -> &String {
-    &self._type
+  pub fn _type(&self) -> Option<&String> {
+    self._type.as_ref()
+  }
+
+  pub fn reset__type(&mut self) {
+    self._type = None;
   }
 
   pub fn set_message(&mut self, message: String) {
@@ -62,8 +73,12 @@ impl ApiResponse {
     self
   }
 
-  pub fn message(&self) -> &String {
-    &self.message
+  pub fn message(&self) -> Option<&String> {
+    self.message.as_ref()
+  }
+
+  pub fn reset_message(&mut self) {
+    self.message = None;
   }
 
 }

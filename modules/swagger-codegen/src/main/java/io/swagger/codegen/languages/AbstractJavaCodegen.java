@@ -639,16 +639,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            String typeDeclaration = getTypeDeclaration(ap.getItems());
-            Object java8obj = additionalProperties.get("java8");
-            if (java8obj != null) {
-                Boolean java8 = Boolean.valueOf(java8obj.toString());
-                if (java8 != null && java8) {
-                    typeDeclaration = "";
-                }
-            }
-
-            return String.format(pattern, typeDeclaration);
+            return String.format(pattern, getTypeDeclaration(ap.getItems()));
         } else if (p instanceof MapProperty) {
             final MapProperty ap = (MapProperty) p;
             final String pattern;
@@ -661,16 +652,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            String typeDeclaration = String.format("String, %s", getTypeDeclaration(ap.getAdditionalProperties()));
-            Object java8obj = additionalProperties.get("java8");
-            if (java8obj != null) {
-                Boolean java8 = Boolean.valueOf(java8obj.toString());
-                if (java8 != null && java8) {
-                    typeDeclaration = "";
-                }
-            }
-
-            return String.format(pattern, typeDeclaration);
+            return String.format(pattern, String.format("String, %s", getTypeDeclaration(ap.getAdditionalProperties())));
         } else if (p instanceof IntegerProperty) {
             IntegerProperty dp = (IntegerProperty) p;
             if (dp.getDefault() != null) {
@@ -857,10 +839,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if ("array".equals(property.containerType)) {
-          model.imports.add("ArrayList");
-        } else if ("map".equals(property.containerType)) {
-          model.imports.add("HashMap");
+        if (!fullJavaUtil) {
+            if ("array".equals(property.containerType)) {
+                model.imports.add("ArrayList");
+            } else if ("map".equals(property.containerType)) {
+                model.imports.add("HashMap");
+            }
         }
 
         if(!BooleanUtils.toBoolean(model.isEnum)) {

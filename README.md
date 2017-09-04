@@ -68,7 +68,7 @@ Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
   - [Companies/Projects using Swagger Codegen](#companiesprojects-using-swagger-codegen)
   - [Presentations/Videos/Tutorials/Books](#presentationsvideostutorialsbooks)
   - [Swagger Codegen Core Team](#swagger-codegen-core-team)
-  - [Swagger Codegen Evangelist](#swagger-codegen-evangelist)
+  - [Swagger Codegen Technical Committee](#swagger-codegen-technical-committee)
   - [License](#license)
 
 
@@ -846,6 +846,8 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 
 Presentations/Videos/Tutorials/Books
 ----------------------------------------
+- 2011/08/31 - [Introducing Swagger](https://www.slideshare.net/fehguy/introducing-swagger) by [Tony Tam](twitter.com/fehguy)
+- 2014/05/22 - [Swagger APIs for Humans and Robots](https://www.slideshare.net/fehguy/swagger-apis-for-humans-and-robots-gluecon) by [Tony Tam](twitter.com/fehguy) at [Gluecon](http://gluecon.com/)
 - 2015/07/28 - [Enriching RESTful Services with Swagger](https://blog.philipphauer.de/enriching-restful-services-swagger/) by [Philipp Hauer](https://blog.philipphauer.de/)
 - 2015/11/11 - [Generate client stubs & document your REST-API using Swagger & Spring](https://www.youtube.com/watch?v=43GhBbP--oI) by [Johannes Fiala](https://github.com/jfiala) @ Devoxx Belgium 2015
 - 2015/12/03 - [こんなに簡単! Swagger Codegenのカスタマイズ](http://qiita.com/Quramy/items/c583f3213f0b77ff1bac) by [Quramy](http://qiita.com/Quramy)
@@ -865,6 +867,7 @@ Presentations/Videos/Tutorials/Books
 - 2017/05/22 - [Automatically generating your API from a swagger file using gradle](https://www.jcore.com/2017/05/22/automatically-generating-api-using-swagger-and-gradle/) by [Deniz Turan](https://www.jcore.com/author/deniz/)
 - 2017/06/21 - [Swagger Presentation - Warsaw Ruby Users Group](https://www.youtube.com/watch?v=uCnnDMFQB8U) by [@rafalpetryka](http://github.com/rafalpetryka)
 - 2017/06/29 - [Making SDKs: the bespoke, the hopeful and the generated](https://devrel.net/developer-experience/making-sdks-bespoke-hopeful-generated) by [Tristan Sokol](https://github.com/tristansokol) ([Square](https://github.com/square)) at DevXcon 2017
+- 2017/07/11 - [OpenAPI development with Python](https://www.slideshare.net/TakuroWada/20170711-euro-python2017) by [Takuro Wada](https://github.com/taxpon) at [EuroPython 2017](https://ep2017.europython.eu/en/)
 - 2017/07/29 - [How Square makes its SDKs](https://medium.com/square-corner-blog/how-square-makes-its-sdks-6a0fd7ea4b2d) by [Tristan Sokol](https://github.com/tristansokol) ([Square](https://github.com/square))
 - 2017/07/31 - [How to Generate a Deployable REST CXF3 Application from a Swagger-Contract](https://www.youtube.com/watch?v=gM63rJlUHZQ) by [Johannes Fiala](https://github.com/jfiala) @ Voxxed Days Vienna
 
@@ -938,7 +941,7 @@ Here is a list of template creators:
    * Go (rewritten in 2.3.0): @antihax
    * Java (Feign): @davidkiss
    * Java (Retrofit): @0legg
-   * Java (Retrofi2): @emilianobonassi
+   * Java (Retrofit2): @emilianobonassi
    * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
    * Java (RestTemplate): @nbruno
@@ -952,6 +955,7 @@ Here is a list of template creators:
    * Perl: @wing328
    * PHP (Guzzle): @baartosz
    * PowerShell: @beatcracker
+   * R: @ramnov
    * Rust: @farcaller
    * Swift: @tkqubo
    * Swift 3: @hexelon
@@ -1002,25 +1006,51 @@ Here are the requirements to become a core team member:
 
  To become a Template Creator, simply submit a PR for new API client (e.g. Rust, Elixir) or server stub (e.g. Ruby Grape) generator.
 
-# Swagger Codegen Evangelist
+# Swagger Codegen Technical Committee
 
-Swagger Codegen Evangelist shoulders one or more of the following responsibilities:
+Members of the Swagger Codegen technical committee shoulder the following responsibilities:
 
-- publishes articles on the benefit of Swagger Codegen
-- organizes local Meetups
-- presents the benefits of Swagger Codegen in local Meetups or conferences
-- actively answers questions from others in [Github](https://github.com/swagger-api/swagger-codegen/issues), [StackOverflow](stackoverflow.com/search?q=%5Bswagger%5D)
-- submits PRs to improve Swagger Codegen
-- reviews PRs submitted by the others
-- ranks within top 100 in the [contributor list](https://github.com/swagger-api/swagger-codegen/graphs/contributors)
+- Provides guidance and direction to other users
+- Reviews pull requests and issues
+- Improves the generator by making enhancements, fixing bugs or updating documentations
+- Sets the technical direction of the generator
 
-If you want to be a Swagger Codegen Evangelist, please kindly apply by sending an email to wing328hk@gmail.com (@wing328)
+Who is eligible? Those who want to join must have at least 3 PRs merged into a generator. (Exceptions can be granted to template creators or contributors who have made a lot of code changes with less than 3 merged PRs)
 
-### List of Swagger Codegen Evangelists
+If you want to join the committee, please kindly apply by sending an email to wing328hk@gmail.com ([@wing328](https://github.com/wing328)) with your Github ID.
 
-- Cliffano Subagio (@cliffano from Australia joined on Dec 9, 2016)
-  - [Building An AEM API Clients Ecosystem](http://www.slideshare.net/cliffano/building-an-aem-api-clients-ecosystem)
-  - [Adobe Marketing Cloud Community Expo](http://blog.cliffano.com/2016/11/10/adobe-marketing-cloud-community-expo/)
+## Members of Technical Committee
+
+| Languages     | Member (join date) |
+|:-------------|:-------------|
+| ActionScript |      |
+| Apex  |     |
+| Bash  | @frol (2017/07) @bkryza (2017/08) |
+| C++      | @ravinikam (2017/07) @stkrwork (2017/07) |  
+| C#        | @mandrean (2017/08) |
+| Clojure   |  |
+| Dart      | @ircecho (2017/07) |
+| Eiffel    |  |
+| Elixir    |  |
+| Erlang    |  |
+| Groovy    |  |
+| Go        |  |
+| Haskell   |  |
+| Java      | @bbdouglas (2017/07) @JFCote (2017/08) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) |
+| Kotlin     |  |
+| Lua     | @daurnimator (2017/08) |
+| NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
+| ObjC      |  |
+| Perl      | @wing328 (2017/07) |
+| PHP      | @jebentier (2017/07) @dkarlovi (2017/07) @mandrean (2017/08) |
+| Python   | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) |
+| R        |  |
+| Ruby      | @cliffano (2017/07)  |
+| Rust      | @frol (2017/07) @farcaller (2017/08) | 
+| Scala     | @clasnake (2017/07) |
+| Swift     | @jgavris (2017/07) @ehyche (2017/08) |
+| TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07)|
+
 
 # License information on Generated Code
 

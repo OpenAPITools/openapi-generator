@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -9,12 +10,12 @@ import java.util.Objects;
 
 public class Capitalization   {
   
-  private String smallCamel = null;
-  private String capitalCamel = null;
-  private String smallSnake = null;
-  private String capitalSnake = null;
-  private String scAETHFlowPoints = null;
-  private String ATT_NAME = null;
+  private @Valid String smallCamel = null;
+  private @Valid String capitalCamel = null;
+  private @Valid String smallSnake = null;
+  private @Valid String capitalSnake = null;
+  private @Valid String scAETHFlowPoints = null;
+  private @Valid String ATT_NAME = null;
 
   /**
    **/

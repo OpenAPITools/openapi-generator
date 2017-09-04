@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import io.swagger.model.Animal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 public class Cat extends Animal  {
   
-  private Boolean declawed = null;
+  private @Valid Boolean declawed = null;
 
   /**
    **/
@@ -21,7 +22,7 @@ public class Cat extends Animal  {
 
   
   @ApiModelProperty(value = "")
-  public Boolean getDeclawed() {
+  public Boolean isDeclawed() {
     return declawed;
   }
   public void setDeclawed(Boolean declawed) {

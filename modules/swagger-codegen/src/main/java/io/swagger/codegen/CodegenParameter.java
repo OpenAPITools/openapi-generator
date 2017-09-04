@@ -14,7 +14,7 @@ public class CodegenParameter {
 
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime;
+    public boolean isString, isNumeric, isInteger, isLong, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
     public boolean isFile, notFile;
     public boolean isEnum;
@@ -133,6 +133,7 @@ public class CodegenParameter {
         output.isBinary = this.isBinary;
         output.isByteArray = this.isByteArray;
         output.isString = this.isString;
+        output.isNumeric = this.isNumeric;
         output.isInteger = this.isInteger;
         output.isLong = this.isLong;
         output.isDouble = this.isDouble;
@@ -140,6 +141,7 @@ public class CodegenParameter {
         output.isBoolean = this.isBoolean;
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
+        output.isUuid = this.isUuid;
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
 
@@ -208,6 +210,8 @@ public class CodegenParameter {
         if (jsonSchema != null ? !jsonSchema.equals(that.jsonSchema) : that.jsonSchema != null)
             return false;
         if (isString != that.isString)
+            return false;
+        if (isNumeric != that.isNumeric)
             return false;
         if (isInteger != that.isInteger)
             return false;
@@ -298,6 +302,7 @@ public class CodegenParameter {
         result = 31 * result + (example != null ? example.hashCode() : 0);
         result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
         result = 31 * result + (isString ? 13:31);
+        result = 31 * result + (isNumeric ? 13:31);
         result = 31 * result + (isInteger ? 13:31);
         result = 31 * result + (isLong ? 13:31);
         result = 31 * result + (isFloat ? 13:31);

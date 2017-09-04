@@ -1647,19 +1647,7 @@ public class DefaultCodegen {
         if (p instanceof BaseIntegerProperty && !(p instanceof IntegerProperty) && !(p instanceof LongProperty)) {
             BaseIntegerProperty sp = (BaseIntegerProperty) p;
             property.isInteger = true;
-            /*if (sp.getEnum() != null) {
-                List<Integer> _enum = sp.getEnum();
-                property._enum = new ArrayList<String>();
-                for(Integer i : _enum) {
-                  property._enum.add(i.toString());
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }*/
+            property.isNumeric = true;
         }
         if (p instanceof IntegerProperty) {
             IntegerProperty sp = (IntegerProperty) p;
@@ -1681,6 +1669,7 @@ public class DefaultCodegen {
         if (p instanceof LongProperty) {
             LongProperty sp = (LongProperty) p;
             property.isLong = true;
+            property.isNumeric = true;
             if (sp.getEnum() != null) {
                 List<Long> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
@@ -1706,6 +1695,8 @@ public class DefaultCodegen {
             property.isFile = true;
         }
         if (p instanceof UUIDProperty) {
+            property.isUuid = true;
+            // keep isString to true to make it backward compatible
             property.isString = true;
         }
         if (p instanceof ByteArrayProperty) {
@@ -1732,6 +1723,7 @@ public class DefaultCodegen {
         if (p instanceof DoubleProperty) {
             DoubleProperty sp = (DoubleProperty) p;
             property.isDouble = true;
+            property.isNumeric = true;
             if (sp.getEnum() != null) {
                 List<Double> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
@@ -1749,6 +1741,7 @@ public class DefaultCodegen {
         if (p instanceof FloatProperty) {
             FloatProperty sp = (FloatProperty) p;
             property.isFloat = true;
+            property.isNumeric = true;
             if (sp.getEnum() != null) {
                 List<Float> _enum = sp.getEnum();
                 property._enum = new ArrayList<String>();
@@ -2383,12 +2376,16 @@ public class DefaultCodegen {
                 r.isBoolean = true;
             } else if (Boolean.TRUE.equals(cm.isLong)) {
                 r.isLong = true;
+                r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cm.isInteger)) {
                 r.isInteger = true;
+                r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cm.isDouble)) {
                 r.isDouble = true;
+                r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cm.isFloat)) {
                 r.isFloat = true;
+                r.isNumeric = true;
             } else if (Boolean.TRUE.equals(cm.isByteArray)) {
                 r.isByteArray = true;
             } else if (Boolean.TRUE.equals(cm.isBinary)) {
@@ -2399,6 +2396,8 @@ public class DefaultCodegen {
                 r.isDate = true;
             } else if (Boolean.TRUE.equals(cm.isDateTime)) {
                 r.isDateTime = true;
+            } else if (Boolean.TRUE.equals(cm.isUuid)) {
+                r.isUuid = true;
             } else {
                 LOGGER.debug("Property type is not primitive: " + cm.datatype);
             }
@@ -2724,6 +2723,8 @@ public class DefaultCodegen {
             p.example = "2013-10-20";
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
             p.example = "2013-10-20T19:20:30+01:00";
+        } else if (Boolean.TRUE.equals(p.isUuid)) {
+            p.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
         } else if (Boolean.TRUE.equals(p.isFile)) {
             p.example = "/path/to/file.txt";
         }
@@ -3573,6 +3574,8 @@ public class DefaultCodegen {
             parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isFile)) {
             parameter.isFile = true;
+        } else if (Boolean.TRUE.equals(property.isUuid)) {
+            parameter.isUuid = true;
             // file is *not* a primitive type
             //parameter.isPrimitiveType = true;
         } else if (Boolean.TRUE.equals(property.isDate)) {

@@ -108,8 +108,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "available",
-            "enum" : [ "available", "pending", "sold" ]
+            "enum" : [ "available", "pending", "sold" ],
+            "default" : "available"
           },
           "collectionFormat" : "csv"
         } ],
@@ -166,7 +166,8 @@
         },
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
-        } ]
+        } ],
+        "deprecated" : true
       }
     },
     "/pet/{petId}" : {
@@ -657,7 +658,10 @@
               "$ref" : "#/definitions/Client"
             }
           }
-        }
+        },
+        "security" : [ {
+          "api_key_query" : [ ]
+        } ]
       }
     },
     "/fake" : {
@@ -676,8 +680,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_form_string",
@@ -695,8 +699,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_header_string",
@@ -714,8 +718,8 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "default" : "$",
-            "enum" : [ ">", "$" ]
+            "enum" : [ ">", "$" ],
+            "default" : "$"
           }
         }, {
           "name" : "enum_query_string",
@@ -1041,6 +1045,11 @@
       "type" : "apiKey",
       "name" : "api_key",
       "in" : "header"
+    },
+    "api_key_query" : {
+      "type" : "apiKey",
+      "name" : "api_key_query",
+      "in" : "query"
     },
     "http_basic_test" : {
       "type" : "basic"

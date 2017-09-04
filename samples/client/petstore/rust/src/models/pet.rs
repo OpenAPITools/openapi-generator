@@ -12,13 +12,19 @@
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pet {
-  #[serde(rename = "id")] id: Option<i64>,
-  #[serde(rename = "category")] category: Option<::models::Category>,
-  #[serde(rename = "name")] name: String,
-  #[serde(rename = "photoUrls")] photo_urls: Vec<String>,
-  #[serde(rename = "tags")] tags: Option<Vec<::models::Tag>>,
+  #[serde(rename = "id")]
+  id: Option<i64>,
+  #[serde(rename = "category")]
+  category: Option<::models::Category>,
+  #[serde(rename = "name")]
+  name: String,
+  #[serde(rename = "photoUrls")]
+  photo_urls: Vec<String>,
+  #[serde(rename = "tags")]
+  tags: Option<Vec<::models::Tag>>,
   /// pet status in the store
-  #[serde(rename = "status")] status: Option<String>
+  #[serde(rename = "status")]
+  status: Option<String>
 }
 
 impl Pet {
@@ -43,8 +49,12 @@ impl Pet {
     self
   }
 
-  pub fn id(&self) -> &i64 {
-    &self.id
+  pub fn id(&self) -> Option<&i64> {
+    self.id.as_ref()
+  }
+
+  pub fn reset_id(&mut self) {
+    self.id = None;
   }
 
   pub fn set_category(&mut self, category: ::models::Category) {
@@ -56,8 +66,12 @@ impl Pet {
     self
   }
 
-  pub fn category(&self) -> &::models::Category {
-    &self.category
+  pub fn category(&self) -> Option<&::models::Category> {
+    self.category.as_ref()
+  }
+
+  pub fn reset_category(&mut self) {
+    self.category = None;
   }
 
   pub fn set_name(&mut self, name: String) {
@@ -73,6 +87,7 @@ impl Pet {
     &self.name
   }
 
+
   pub fn set_photo_urls(&mut self, photo_urls: Vec<String>) {
     self.photo_urls = photo_urls;
   }
@@ -82,9 +97,10 @@ impl Pet {
     self
   }
 
-  pub fn photo_urls(&self) -> &Vec&lt;String&gt; {
+  pub fn photo_urls(&self) -> &Vec<String> {
     &self.photo_urls
   }
+
 
   pub fn set_tags(&mut self, tags: Vec<::models::Tag>) {
     self.tags = Some(tags);
@@ -95,8 +111,12 @@ impl Pet {
     self
   }
 
-  pub fn tags(&self) -> &Vec&lt;::models::Tag&gt; {
-    &self.tags
+  pub fn tags(&self) -> Option<&Vec<::models::Tag>> {
+    self.tags.as_ref()
+  }
+
+  pub fn reset_tags(&mut self) {
+    self.tags = None;
   }
 
   pub fn set_status(&mut self, status: String) {
@@ -108,8 +128,12 @@ impl Pet {
     self
   }
 
-  pub fn status(&self) -> &String {
-    &self.status
+  pub fn status(&self) -> Option<&String> {
+    self.status.as_ref()
+  }
+
+  pub fn reset_status(&mut self) {
+    self.status = None;
   }
 
 }

@@ -4,6 +4,7 @@ import io.swagger.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -12,9 +13,9 @@ import java.util.Objects;
 
 public class ArrayTest   {
   
-  private List<String> arrayOfString = new ArrayList<String>();
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+  private @Valid List<String> arrayOfString = new ArrayList<String>();
+  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
+  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
   /**
    **/

@@ -5,6 +5,7 @@ import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -13,11 +14,11 @@ import java.util.Objects;
 
 public class Pet   {
   
-  private Long id = null;
-  private Category category = null;
-  private String name = null;
-  private List<String> photoUrls = new ArrayList<String>();
-  private List<Tag> tags = new ArrayList<Tag>();
+  private @Valid Long id = null;
+  private @Valid Category category = null;
+  private @Valid String name = null;
+  private @Valid List<String> photoUrls = new ArrayList<String>();
+  private @Valid List<Tag> tags = new ArrayList<Tag>();
 
 public enum StatusEnum {
 
@@ -49,7 +50,7 @@ public enum StatusEnum {
     }
 }
 
-  private StatusEnum status = null;
+  private @Valid StatusEnum status = null;
 
   /**
    **/

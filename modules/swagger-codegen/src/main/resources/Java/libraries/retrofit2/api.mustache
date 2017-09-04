@@ -14,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -24,11 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 {{/fullJavaUtil}}
-
-{{#usePlay24WS}}
-import play.libs.F;
-import retrofit2.Response;
-{{/usePlay24WS}}
 
 {{#operations}}
 public interface {{classname}} {
@@ -60,7 +56,7 @@ public interface {{classname}} {
   {{/prioritizedContentTypes}}
   {{/formParams}}  
   @{{httpMethod}}("{{{path}}}")
-  {{^usePlay24WS}}{{^doNotUseRx}}Observable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}{{/usePlay24WS}}{{#usePlay24WS}}F.Promise<Response{{/usePlay24WS}}<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>{{#usePlay24WS}}>{{/usePlay24WS}} {{operationId}}({{^allParams}});{{/allParams}}
+  {{^doNotUseRx}}Observable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}{{/isResponseFile}}> {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}
   );{{/hasMore}}{{/allParams}}
 

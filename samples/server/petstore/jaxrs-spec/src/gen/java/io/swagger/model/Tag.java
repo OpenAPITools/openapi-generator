@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -9,8 +10,8 @@ import java.util.Objects;
 
 public class Tag   {
   
-  private Long id = null;
-  private String name = null;
+  private @Valid Long id = null;
+  private @Valid String name = null;
 
   /**
    **/

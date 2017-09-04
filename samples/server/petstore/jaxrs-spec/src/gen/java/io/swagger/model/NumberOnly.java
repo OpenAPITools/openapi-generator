@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import java.math.BigDecimal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 public class NumberOnly   {
   
-  private BigDecimal justNumber = null;
+  private @Valid BigDecimal justNumber = null;
 
   /**
    **/

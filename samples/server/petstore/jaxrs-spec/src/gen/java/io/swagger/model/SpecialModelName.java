@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -9,7 +10,7 @@ import java.util.Objects;
 
 public class SpecialModelName   {
   
-  private Long specialPropertyName = null;
+  private @Valid Long specialPropertyName = null;
 
   /**
    **/

@@ -2,6 +2,7 @@ package io.swagger.model;
 
 import io.swagger.model.OuterEnum;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import io.swagger.annotations.*;
@@ -41,7 +42,7 @@ public enum EnumStringEnum {
     }
 }
 
-  private EnumStringEnum enumString = null;
+  private @Valid EnumStringEnum enumString = null;
 
 public enum EnumIntegerEnum {
 
@@ -73,7 +74,7 @@ public enum EnumIntegerEnum {
     }
 }
 
-  private EnumIntegerEnum enumInteger = null;
+  private @Valid EnumIntegerEnum enumInteger = null;
 
 public enum EnumNumberEnum {
 
@@ -105,8 +106,8 @@ public enum EnumNumberEnum {
     }
 }
 
-  private EnumNumberEnum enumNumber = null;
-  private OuterEnum outerEnum = null;
+  private @Valid EnumNumberEnum enumNumber = null;
+  private @Valid OuterEnum outerEnum = null;
 
   /**
    **/

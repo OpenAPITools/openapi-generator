@@ -5,13 +5,9 @@
     "module": "commonjs",
     "noImplicitAny": true,
     "outDir": "dist",
-    "rootDir": "."
-  },
+    "rootDir": "."  },
   "exclude": [
     "dist",
-    "node_modules",
-    "typings/browser",
-    "typings/main",
-    "typings/main.d.ts"
+    "node_modules"
   ]
 }

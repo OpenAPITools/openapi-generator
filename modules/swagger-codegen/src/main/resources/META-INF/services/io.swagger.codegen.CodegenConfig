@@ -50,6 +50,7 @@ io.swagger.codegen.languages.PowerShellClientCodegen
 io.swagger.codegen.languages.PistacheServerCodegen
 io.swagger.codegen.languages.PythonClientCodegen
 io.swagger.codegen.languages.Qt5CPPGenerator
+io.swagger.codegen.languages.RClientCodegen
 io.swagger.codegen.languages.Rails5ServerCodegen
 io.swagger.codegen.languages.RestbedCodegen
 io.swagger.codegen.languages.RubyClientCodegen
@@ -69,9 +70,9 @@ io.swagger.codegen.languages.Swift4Codegen
 io.swagger.codegen.languages.Swift3Codegen
 io.swagger.codegen.languages.SwiftCodegen
 io.swagger.codegen.languages.TizenClientCodegen
-io.swagger.codegen.languages.TypeScriptAngular2ClientCodegen
-io.swagger.codegen.languages.TypeScriptAngularClientCodegen
 io.swagger.codegen.languages.TypeScriptAureliaClientCodegen
+io.swagger.codegen.languages.TypeScriptAngularClientCodegen
+io.swagger.codegen.languages.TypeScriptAngularJsClientCodegen
 io.swagger.codegen.languages.TypeScriptFetchClientCodegen
 io.swagger.codegen.languages.TypeScriptJqueryClientCodegen
 io.swagger.codegen.languages.TypeScriptNodeClientCodegen
