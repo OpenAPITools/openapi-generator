@@ -24,6 +24,7 @@ import { Order } from '../model/order';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { CustomQueryEncoderHelper }                          from '../encoder';
 
 
 @Injectable()
@@ -73,7 +74,7 @@ export class StoreService {
     }
 
     /**
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
@@ -104,7 +105,7 @@ export class StoreService {
     }
 
     /**
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
@@ -145,7 +146,7 @@ export class StoreService {
         const path = this.basePath + '/store/order/${orderId}'
                     .replace('${' + 'orderId' + '}', String(orderId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'orderId' is not null or undefined
@@ -181,7 +182,7 @@ export class StoreService {
     public getInventoryWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/inventory';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
@@ -219,7 +220,7 @@ export class StoreService {
         const path = this.basePath + '/store/order/${orderId}'
                     .replace('${' + 'orderId' + '}', String(orderId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'orderId' is not null or undefined
@@ -256,7 +257,7 @@ export class StoreService {
     public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/order';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'body' is not null or undefined

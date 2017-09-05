@@ -24,6 +24,7 @@ import { Order } from '../model/order';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { CustomQueryEncoderHelper }                          from '../encoder';
 import { StoreServiceInterface }                            from './StoreServiceInterface';
 
 
@@ -146,7 +147,7 @@ export class StoreService implements StoreServiceInterface {
         const path = this.basePath + '/store/order/${orderId}'
                     .replace('${' + 'orderId' + '}', String(orderId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'orderId' is not null or undefined
@@ -182,7 +183,7 @@ export class StoreService implements StoreServiceInterface {
     public getInventoryWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/inventory';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
@@ -220,7 +221,7 @@ export class StoreService implements StoreServiceInterface {
         const path = this.basePath + '/store/order/${orderId}'
                     .replace('${' + 'orderId' + '}', String(orderId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'orderId' is not null or undefined
@@ -257,7 +258,7 @@ export class StoreService implements StoreServiceInterface {
     public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/order';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'body' is not null or undefined
