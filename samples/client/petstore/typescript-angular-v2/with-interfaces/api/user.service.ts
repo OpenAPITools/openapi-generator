@@ -24,6 +24,7 @@ import { User } from '../model/user';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { CustomQueryEncoderHelper }                          from '../encoder';
 import { UserServiceInterface }                            from './UserServiceInterface';
 
 
@@ -211,7 +212,7 @@ export class UserService implements UserServiceInterface {
     public createUserWithHttpInfo(body: User, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'body' is not null or undefined
@@ -251,7 +252,7 @@ export class UserService implements UserServiceInterface {
     public createUsersWithArrayInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/createWithArray';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'body' is not null or undefined
@@ -291,7 +292,7 @@ export class UserService implements UserServiceInterface {
     public createUsersWithListInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/createWithList';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'body' is not null or undefined
@@ -332,7 +333,7 @@ export class UserService implements UserServiceInterface {
         const path = this.basePath + '/user/${username}'
                     .replace('${' + 'username' + '}', String(username));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'username' is not null or undefined
@@ -370,7 +371,7 @@ export class UserService implements UserServiceInterface {
         const path = this.basePath + '/user/${username}'
                     .replace('${' + 'username' + '}', String(username));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'username' is not null or undefined
@@ -408,7 +409,7 @@ export class UserService implements UserServiceInterface {
     public loginUserWithHttpInfo(username: string, password: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/login';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'username' is not null or undefined
@@ -456,7 +457,7 @@ export class UserService implements UserServiceInterface {
     public logoutUserWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/logout';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
 
@@ -491,7 +492,7 @@ export class UserService implements UserServiceInterface {
         const path = this.basePath + '/user/${username}'
                     .replace('${' + 'username' + '}', String(username));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'username' is not null or undefined
