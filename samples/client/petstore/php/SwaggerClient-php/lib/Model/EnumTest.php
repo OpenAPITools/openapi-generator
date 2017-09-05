@@ -39,7 +39,7 @@ use \ArrayAccess;
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class EnumTest implements ArrayAccess
+class EnumTest implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -71,11 +71,21 @@ class EnumTest implements ArrayAccess
         'outer_enum' => null
     ];
 
+    /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
     }
 
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerFormats()
     {
         return self::$swaggerFormats;
@@ -92,7 +102,6 @@ class EnumTest implements ArrayAccess
         'outer_enum' => 'outerEnum'
     ];
 
-
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
@@ -103,7 +112,6 @@ class EnumTest implements ArrayAccess
         'enum_number' => 'setEnumNumber',
         'outer_enum' => 'setOuterEnum'
     ];
-
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
@@ -116,19 +124,44 @@ class EnumTest implements ArrayAccess
         'outer_enum' => 'getOuterEnum'
     ];
 
+    /**
+     * Array of attributes where the key is the local name, and the value is the original name
+     *
+     * @return array
+     */
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
     public static function setters()
     {
         return self::$setters;
     }
 
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
     public static function getters()
     {
         return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName()
+    {
+        return self::$swaggerModelName;
     }
 
     const ENUM_STRING_UPPER = 'UPPER';
@@ -198,7 +231,7 @@ class EnumTest implements ArrayAccess
     }
 
     /**
-     * show all the invalid properties with reasons.
+     * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
      */
