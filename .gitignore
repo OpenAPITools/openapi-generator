@@ -169,3 +169,8 @@ effective.pom
 # kotlin
 samples/client/petstore/kotlin/src/main/kotlin/test/
 \?
+
+# haskell
+.stack-work
+.cabal-sandbox
+cabal.project.local

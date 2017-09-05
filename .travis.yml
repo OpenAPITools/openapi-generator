@@ -7,6 +7,7 @@ cache:
   - $HOME/.ivy2
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+  - $HOME/.stack
   - $HOME/samples/client/petstore/php/SwaggerClient-php/vendor
   - $HOME/samples/client/petstore/ruby/venodr/bundle
   - $HOME/samples/client/petstore/python/.venv/
@@ -23,6 +24,7 @@ cache:
   - $HOME/samples/client/petstore/typescript-angularjs/node_modules
   - $HOME/samples/client/petstore/typescript-angularjs/typings
   - $HOME/.cocoapods/repos/master
+  timeout: 1000
 # note: docker is not yet supported in iOS build
 #services:
 #  - docker
@@ -52,6 +54,9 @@ before_install:
   - brew install curl
   - brew install python3
   - pip install virtualenv
+  - mkdir -p ~/.local/bin
+  - export PATH=$HOME/.local/bin:$PATH
+  - travis_retry curl --insecure -L https://www.stackage.org/stack/osx-x86_64 | tar xz --strip-components=1 --include '*/stack' -C ~/.local/bin
   # start local petstore server
   - git clone -b docker --single-branch https://github.com/wing328/swagger-samples
   - cd swagger-samples/java/java-jersey-jaxrs
@@ -76,6 +81,8 @@ before_install:
   - xcpretty -v
   # show go version
   - go version
+  # show stack version
+  - stack --version
 
 install:
   # Add Godeps dependencies to GOPATH and PATH

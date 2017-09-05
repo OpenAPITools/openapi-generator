@@ -1,0 +1,5 @@
+resolver: lts-9.0
+packages:
+  - location: '.'
+  - location: '..'
+    extra-dep: true

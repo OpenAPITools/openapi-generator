@@ -361,6 +361,30 @@
             </modules>
         </profile>
         <profile>
+            <id>haskell-http-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>haskell-http-client</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/haskell-http-client</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>haskell-http-client-integration-test</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>haskell-http-client</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/haskell-http-client/tests-integration</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-client-jersey1</id>
             <activation>
                 <property>
@@ -823,6 +847,8 @@
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/python</module>
+                <!-- <module>samples/client/petstore/haskell-http-client</module> -->
+                <!-- <module>samples/client/petstore/haskell-http-client/tests-integration</module> -->
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>

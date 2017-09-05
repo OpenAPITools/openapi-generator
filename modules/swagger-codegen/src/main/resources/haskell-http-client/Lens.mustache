@@ -1,0 +1,66 @@
+{-|
+Module : {{title}}.Lens
+-}
+
+{-# LANGUAGE KindSignatures #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
+
+module {{title}}.Lens where
+
+import Data.Text (Text)
+
+import qualified Data.Aeson as A
+import Data.Aeson (Value)
+import qualified Data.ByteString as B
+import Data.ByteString.Lazy (ByteString)
+import qualified Data.Data as P (Data, Typeable)
+import qualified Data.Map as Map
+
+import qualified Data.Time as TI
+import Data.Time (UTCTime)
+
+import Prelude (($), (.),(<$>),(<*>),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import qualified Prelude as P
+
+import {{title}}.Model
+
+-- * Type Aliases
+
+type Traversal_' s a = Traversal_ s s a a
+type Traversal_ s t a b = forall (f :: * -> *). Applicative f => (a -> f b) -> s -> f t
+type Lens_' s a = Lens_ s s a a
+type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
+
+{{#models}}
+{{#model}}
+
+-- * {{classname}}
+
+{{#vars}}
+{{#required}}
+-- | '{{name}}' Lens
+{{name}}L :: Lens_' {{classname}} {{datatype}}
+{{name}}L f {{classname}}{..} = (\{{name}} -> {{classname}} { {{name}}, ..} ) <$> f {{name}}
+{-# INLINE {{name}}L #-}
+{{/required}}
+{{^required}}
+-- | '{{name}}' Traversal
+{{name}}T :: Traversal_' {{classname}} {{datatype}}
+{{name}}T f s = _mtraversal {{name}} (\b -> s { {{name}} = Just b}) f s
+{-# INLINE {{name}}T #-}
+{{/required}}
+
+{{/vars}}
+
+{{/model}}
+{{/models}}
+
+
+-- * Helpers
+
+_mtraversal :: Applicative f => (b -> Maybe t) -> (a -> b) -> (t -> f a) -> b -> f b
+_mtraversal x fsb f s = maybe (pure s) (\a -> fsb <$> f a) (x s)
+{-# INLINE _mtraversal #-}
