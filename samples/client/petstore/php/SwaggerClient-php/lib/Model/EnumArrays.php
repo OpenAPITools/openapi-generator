@@ -39,7 +39,7 @@ use \ArrayAccess;
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class EnumArrays implements ArrayAccess
+class EnumArrays implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -67,11 +67,21 @@ class EnumArrays implements ArrayAccess
         'array_enum' => null
     ];
 
+    /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
     }
 
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerFormats()
     {
         return self::$swaggerFormats;
@@ -86,7 +96,6 @@ class EnumArrays implements ArrayAccess
         'array_enum' => 'array_enum'
     ];
 
-
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
@@ -95,7 +104,6 @@ class EnumArrays implements ArrayAccess
         'just_symbol' => 'setJustSymbol',
         'array_enum' => 'setArrayEnum'
     ];
-
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
@@ -106,19 +114,44 @@ class EnumArrays implements ArrayAccess
         'array_enum' => 'getArrayEnum'
     ];
 
+    /**
+     * Array of attributes where the key is the local name, and the value is the original name
+     *
+     * @return array
+     */
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
     public static function setters()
     {
         return self::$setters;
     }
 
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
     public static function getters()
     {
         return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName()
+    {
+        return self::$swaggerModelName;
     }
 
     const JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO = '>=';
@@ -170,7 +203,7 @@ class EnumArrays implements ArrayAccess
     }
 
     /**
-     * show all the invalid properties with reasons.
+     * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
      */

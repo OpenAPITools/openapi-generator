@@ -39,7 +39,7 @@ use \ArrayAccess;
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class Dog extends Animal implements ArrayAccess
+class Dog extends Animal implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -65,11 +65,21 @@ class Dog extends Animal implements ArrayAccess
         'breed' => null
     ];
 
+    /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerTypes()
     {
         return self::$swaggerTypes + parent::swaggerTypes();
     }
 
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerFormats()
     {
         return self::$swaggerFormats + parent::swaggerFormats();
@@ -83,7 +93,6 @@ class Dog extends Animal implements ArrayAccess
         'breed' => 'breed'
     ];
 
-
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
@@ -91,7 +100,6 @@ class Dog extends Animal implements ArrayAccess
     protected static $setters = [
         'breed' => 'setBreed'
     ];
-
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
@@ -101,19 +109,44 @@ class Dog extends Animal implements ArrayAccess
         'breed' => 'getBreed'
     ];
 
+    /**
+     * Array of attributes where the key is the local name, and the value is the original name
+     *
+     * @return array
+     */
     public static function attributeMap()
     {
         return parent::attributeMap() + self::$attributeMap;
     }
 
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
     public static function setters()
     {
         return parent::setters() + self::$setters;
     }
 
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
     public static function getters()
     {
         return parent::getters() + self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName()
+    {
+        return self::$swaggerModelName;
     }
 
     
@@ -138,7 +171,7 @@ class Dog extends Animal implements ArrayAccess
     }
 
     /**
-     * show all the invalid properties with reasons.
+     * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
      */

@@ -39,7 +39,7 @@ use \ArrayAccess;
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class ArrayTest implements ArrayAccess
+class ArrayTest implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -69,11 +69,21 @@ class ArrayTest implements ArrayAccess
         'array_array_of_model' => null
     ];
 
+    /**
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerTypes()
     {
         return self::$swaggerTypes;
     }
 
+    /**
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @return array
+     */
     public static function swaggerFormats()
     {
         return self::$swaggerFormats;
@@ -89,7 +99,6 @@ class ArrayTest implements ArrayAccess
         'array_array_of_model' => 'array_array_of_model'
     ];
 
-
     /**
      * Array of attributes to setter functions (for deserialization of responses)
      * @var string[]
@@ -99,7 +108,6 @@ class ArrayTest implements ArrayAccess
         'array_array_of_integer' => 'setArrayArrayOfInteger',
         'array_array_of_model' => 'setArrayArrayOfModel'
     ];
-
 
     /**
      * Array of attributes to getter functions (for serialization of requests)
@@ -111,19 +119,44 @@ class ArrayTest implements ArrayAccess
         'array_array_of_model' => 'getArrayArrayOfModel'
     ];
 
+    /**
+     * Array of attributes where the key is the local name, and the value is the original name
+     *
+     * @return array
+     */
     public static function attributeMap()
     {
         return self::$attributeMap;
     }
 
+    /**
+     * Array of attributes to setter functions (for deserialization of responses)
+     *
+     * @return array
+     */
     public static function setters()
     {
         return self::$setters;
     }
 
+    /**
+     * Array of attributes to getter functions (for serialization of requests)
+     *
+     * @return array
+     */
     public static function getters()
     {
         return self::$getters;
+    }
+
+    /**
+     * The original name of the model.
+     *
+     * @return string
+     */
+    public function getModelName()
+    {
+        return self::$swaggerModelName;
     }
 
     
@@ -148,7 +181,7 @@ class ArrayTest implements ArrayAccess
     }
 
     /**
-     * show all the invalid properties with reasons.
+     * Show all the invalid properties with reasons.
      *
      * @return array invalid properties with reasons
      */
