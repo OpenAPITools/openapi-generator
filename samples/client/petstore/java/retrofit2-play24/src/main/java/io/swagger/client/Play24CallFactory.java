@@ -121,7 +121,7 @@ public class Play24CallFactory implements okhttp3.Call.Factory {
                         responseCallback.onFailure(call, new IOException(throwable));
                     }
                 }
-                
+
             });
 
         }
@@ -178,9 +178,9 @@ public class Play24CallFactory implements okhttp3.Call.Factory {
                        public BufferedSource source() {
                            return new Buffer().write(r.asByteArray());
                        }
-                       
+
                    });
-                   
+
             for (Map.Entry<String, List<String>> entry : r.getAllHeaders().entrySet()) {
                 for (String value : entry.getValue()) {
                     builder.addHeader(entry.getKey(), value);
@@ -200,7 +200,7 @@ public class Play24CallFactory implements okhttp3.Call.Factory {
         public void cancel() {
             throw new UnsupportedOperationException("Not supported");
         }
-        
+
         @Override
         public PlayWSCall clone() {
             throw new UnsupportedOperationException("Not supported");
