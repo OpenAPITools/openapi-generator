@@ -123,13 +123,13 @@ namespace IO.Swagger.Model
             return 
                 (
                     this.MapMapOfString == input.MapMapOfString ||
-                    (this.MapMapOfString != null &&
-                    this.MapMapOfString.SequenceEqual(input.MapMapOfString))
+                    this.MapMapOfString != null &&
+                    this.MapMapOfString.SequenceEqual(input.MapMapOfString)
                 ) && 
                 (
                     this.MapOfEnumString == input.MapOfEnumString ||
-                    (this.MapOfEnumString != null &&
-                    this.MapOfEnumString.SequenceEqual(input.MapOfEnumString))
+                    this.MapOfEnumString != null &&
+                    this.MapOfEnumString.SequenceEqual(input.MapOfEnumString)
                 );
         }
 

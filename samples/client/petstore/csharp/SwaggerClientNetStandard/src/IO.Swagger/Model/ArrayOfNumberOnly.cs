@@ -88,8 +88,8 @@ namespace IO.Swagger.Model
             return 
                 (
                     this.ArrayNumber == input.ArrayNumber ||
-                    (this.ArrayNumber != null &&
-                    this.ArrayNumber.SequenceEqual(input.ArrayNumber))
+                    this.ArrayNumber != null &&
+                    this.ArrayNumber.SequenceEqual(input.ArrayNumber)
                 );
         }
 

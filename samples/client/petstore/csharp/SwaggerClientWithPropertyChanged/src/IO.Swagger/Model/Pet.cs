@@ -202,13 +202,13 @@ namespace IO.Swagger.Model
                 ) && 
                 (
                     this.PhotoUrls == input.PhotoUrls ||
-                    (this.PhotoUrls != null &&
-                    this.PhotoUrls.SequenceEqual(input.PhotoUrls))
+                    this.PhotoUrls != null &&
+                    this.PhotoUrls.SequenceEqual(input.PhotoUrls)
                 ) && 
                 (
                     this.Tags == input.Tags ||
-                    (this.Tags != null &&
-                    this.Tags.SequenceEqual(input.Tags))
+                    this.Tags != null &&
+                    this.Tags.SequenceEqual(input.Tags)
                 ) && 
                 (
                     this.Status == input.Status ||

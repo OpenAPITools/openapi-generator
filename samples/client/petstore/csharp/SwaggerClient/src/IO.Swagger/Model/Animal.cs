@@ -19,6 +19,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
@@ -28,6 +29,9 @@ namespace IO.Swagger.Model
     /// Animal
     /// </summary>
     [DataContract]
+    [JsonConverter(typeof(JsonSubtypes), "className")]
+    [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
+    [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     public partial class Animal :  IEquatable<Animal>, IValidatableObject
     {
         /// <summary>
@@ -92,7 +96,7 @@ namespace IO.Swagger.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -153,6 +157,16 @@ namespace IO.Swagger.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
