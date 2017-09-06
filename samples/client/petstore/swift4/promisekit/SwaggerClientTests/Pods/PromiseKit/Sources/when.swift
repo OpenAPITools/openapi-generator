@@ -5,7 +5,11 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
     let root = Promise<Void>.pending()
     var countdown = promises.count
     guard countdown > 0 else {
+      #if swift(>=4.0)
+        root.fulfill(())
+      #else
         root.fulfill()
+      #endif
         return root.promise
     }
 
@@ -34,7 +38,11 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
                     progress.completedUnitCount += 1
                     countdown -= 1
                     if countdown == 0 {
+                      #if swift(>=4.0)
+                        root.fulfill(())
+                      #else
                         root.fulfill()
+                      #endif
                     }
                 }
             }

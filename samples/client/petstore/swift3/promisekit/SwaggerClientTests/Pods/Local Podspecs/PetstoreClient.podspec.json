@@ -13,13 +13,13 @@
   "license": "Proprietary",
   "homepage": "https://github.com/swagger-api/swagger-codegen",
   "summary": "PetstoreClient",
-  "source_files": "PetstoreClient/Classes/Swaggers/**/*.swift",
+  "source_files": "PetstoreClient/Classes/**/*.swift",
   "dependencies": {
-    "PromiseKit": [
-      "~> 4.2.2"
+    "PromiseKit/CorePromise": [
+      "~> 4.4.0"
     ],
     "Alamofire": [
-      "~> 4.0"
+      "~> 4.5.0"
     ]
   }
 }
