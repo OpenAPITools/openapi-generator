@@ -146,7 +146,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
             Buffer buffer = new Buffer();
             request.body().writeTo(buffer);
             wsRequest.setBody(buffer.inputStream());
-            
+
             MediaType mediaType = request.body().contentType();
             if (mediaType != null) {
                 wsRequest.setContentType(mediaType.toString());
@@ -175,7 +175,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
                        public BufferedSource source() {
                            return new Buffer().write(r.asByteArray());
                        }
-                       
+
                    });
                    
             for (Map.Entry<String, List<String>> entry : r.getAllHeaders().entrySet()) {
@@ -197,7 +197,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
         public void cancel() {
             throw new UnsupportedOperationException("Not supported");
         }
-        
+
         @Override
         public PlayWSCall clone() {
             throw new UnsupportedOperationException("Not supported");
