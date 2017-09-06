@@ -148,8 +148,8 @@ namespace IO.Swagger.Model
                 ) && 
                 (
                     this.ArrayEnum == input.ArrayEnum ||
-                    (this.ArrayEnum != null &&
-                    this.ArrayEnum.SequenceEqual(input.ArrayEnum))
+                    this.ArrayEnum != null &&
+                    this.ArrayEnum.SequenceEqual(input.ArrayEnum)
                 );
         }
 

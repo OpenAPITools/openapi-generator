@@ -32,7 +32,7 @@ namespace IO.Swagger.Model
         /// Initializes a new instance of the <see cref="AnimalFarm" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        public AnimalFarm()
+        public AnimalFarm() : base()
         {
         }
         
@@ -44,6 +44,7 @@ namespace IO.Swagger.Model
         {
             var sb = new StringBuilder();
             sb.Append("class AnimalFarm {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -52,7 +53,7 @@ namespace IO.Swagger.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public  new string ToJson()
+        public string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -77,7 +78,7 @@ namespace IO.Swagger.Model
             if (input == null)
                 return false;
 
-            return false;
+            return base.Equals(input);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace IO.Swagger.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                int hashCode = base.GetHashCode();
                 return hashCode;
             }
         }

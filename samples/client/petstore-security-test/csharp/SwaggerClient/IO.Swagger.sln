@@ -7,21 +7,21 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IO.Swagger.Test", "src\IO.Swagger.Test\IO.Swagger.Test.csproj", "{19F1DEBC-DE5E-4517-8062-F000CD499087}"
 EndProject
 Global
-GlobalSection(SolutionConfigurationPlatforms) = preSolution
-Debug|Any CPU = Debug|Any CPU
-Release|Any CPU = Release|Any CPU
-EndGlobalSection
-GlobalSection(ProjectConfigurationPlatforms) = postSolution
-{8CE139DF-64BC-4591-85F8-8506C2B67514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-{8CE139DF-64BC-4591-85F8-8506C2B67514}.Debug|Any CPU.Build.0 = Debug|Any CPU
-{8CE139DF-64BC-4591-85F8-8506C2B67514}.Release|Any CPU.ActiveCfg = Release|Any CPU
-{8CE139DF-64BC-4591-85F8-8506C2B67514}.Release|Any CPU.Build.0 = Release|Any CPU
-{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.Build.0 = Debug|Any CPU
-{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.ActiveCfg = Release|Any CPU
-{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.Build.0 = Release|Any CPU
-EndGlobalSection
-GlobalSection(SolutionProperties) = preSolution
-HideSolutionNode = FALSE
-EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CE139DF-64BC-4591-85F8-8506C2B67514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE139DF-64BC-4591-85F8-8506C2B67514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE139DF-64BC-4591-85F8-8506C2B67514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE139DF-64BC-4591-85F8-8506C2B67514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 EndGlobal

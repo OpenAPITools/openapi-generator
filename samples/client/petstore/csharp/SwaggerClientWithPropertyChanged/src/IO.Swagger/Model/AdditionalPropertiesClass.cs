@@ -102,13 +102,13 @@ namespace IO.Swagger.Model
             return 
                 (
                     this.MapProperty == input.MapProperty ||
-                    (this.MapProperty != null &&
-                    this.MapProperty.SequenceEqual(input.MapProperty))
+                    this.MapProperty != null &&
+                    this.MapProperty.SequenceEqual(input.MapProperty)
                 ) && 
                 (
                     this.MapOfMapProperty == input.MapOfMapProperty ||
-                    (this.MapOfMapProperty != null &&
-                    this.MapOfMapProperty.SequenceEqual(input.MapOfMapProperty))
+                    this.MapOfMapProperty != null &&
+                    this.MapOfMapProperty.SequenceEqual(input.MapOfMapProperty)
                 );
         }
 

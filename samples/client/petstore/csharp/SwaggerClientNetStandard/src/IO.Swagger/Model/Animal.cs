@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using JsonSubTypes;
 using SwaggerDateConverter = IO.Swagger.Client.SwaggerDateConverter;
 
 namespace IO.Swagger.Model
@@ -26,6 +27,9 @@ namespace IO.Swagger.Model
     /// Animal
     /// </summary>
     [DataContract]
+    [JsonConverter(typeof(JsonSubtypes), "className")]
+    [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
+    [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     public partial class Animal :  IEquatable<Animal>
     {
         /// <summary>
@@ -90,7 +94,7 @@ namespace IO.Swagger.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }

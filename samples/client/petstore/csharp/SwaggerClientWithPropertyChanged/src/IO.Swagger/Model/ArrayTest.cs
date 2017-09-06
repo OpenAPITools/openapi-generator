@@ -111,18 +111,18 @@ namespace IO.Swagger.Model
             return 
                 (
                     this.ArrayOfString == input.ArrayOfString ||
-                    (this.ArrayOfString != null &&
-                    this.ArrayOfString.SequenceEqual(input.ArrayOfString))
+                    this.ArrayOfString != null &&
+                    this.ArrayOfString.SequenceEqual(input.ArrayOfString)
                 ) && 
                 (
                     this.ArrayArrayOfInteger == input.ArrayArrayOfInteger ||
-                    (this.ArrayArrayOfInteger != null &&
-                    this.ArrayArrayOfInteger.SequenceEqual(input.ArrayArrayOfInteger))
+                    this.ArrayArrayOfInteger != null &&
+                    this.ArrayArrayOfInteger.SequenceEqual(input.ArrayArrayOfInteger)
                 ) && 
                 (
                     this.ArrayArrayOfModel == input.ArrayArrayOfModel ||
-                    (this.ArrayArrayOfModel != null &&
-                    this.ArrayArrayOfModel.SequenceEqual(input.ArrayArrayOfModel))
+                    this.ArrayArrayOfModel != null &&
+                    this.ArrayArrayOfModel.SequenceEqual(input.ArrayArrayOfModel)
                 );
         }
 

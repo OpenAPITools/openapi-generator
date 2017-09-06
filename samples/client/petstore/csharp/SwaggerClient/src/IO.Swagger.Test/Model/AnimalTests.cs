@@ -8,6 +8,7 @@ using IO.Swagger.Api;
 using IO.Swagger.Model;
 using IO.Swagger.Client;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace IO.Swagger.Test
 {
@@ -48,6 +49,25 @@ namespace IO.Swagger.Test
         public void AnimalInstanceTest()
         {
 			Assert.IsInstanceOfType(typeof(Animal), instance, "instance is a Animal");
+        }
+
+        /// <summary>
+        /// Test deserialize a Dog from type Animal
+        /// </summary>
+        [Test]
+        public void DogDeserializeFromAnimalTest()
+        {
+            // TODO uncomment below to test deserialize a Dog from type Animal
+            //Assert.IsInstanceOf<Animal>(JsonConvert.DeserializeObject<Animal>(new Dog().ToJson()));
+        }
+        /// <summary>
+        /// Test deserialize a Cat from type Animal
+        /// </summary>
+        [Test]
+        public void CatDeserializeFromAnimalTest()
+        {
+            // TODO uncomment below to test deserialize a Cat from type Animal
+            //Assert.IsInstanceOf<Animal>(JsonConvert.DeserializeObject<Animal>(new Cat().ToJson()));
         }
 
         /// <summary>
