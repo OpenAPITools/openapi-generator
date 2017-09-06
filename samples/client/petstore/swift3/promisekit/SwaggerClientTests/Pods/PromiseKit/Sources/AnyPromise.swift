@@ -206,9 +206,9 @@ import Foundation
         })
     }
 
-    @objc func __catchWithPolicy(_ policy: CatchPolicy, execute body: @escaping (Any?) -> Any?) -> AnyPromise {
+    @objc func __catchOn(_ q: DispatchQueue, withPolicy policy: CatchPolicy, execute body: @escaping (Any?) -> Any?) -> AnyPromise {
         return AnyPromise(sealant: { resolve in
-            state.catch(on: .default, policy: policy, else: resolve) { err in
+            state.catch(on: q, policy: policy, else: resolve) { err in
                 makeHandler(body, resolve)(err as NSError)
             }
         })
