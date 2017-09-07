@@ -80,7 +80,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Map&lt;String, Integer&gt;**](Map.md)
+**Map&lt;String, Integer&gt;**
 
 ### Authorization
 
