@@ -29,9 +29,12 @@ dependencies:
 - text >=0.11 && <1.3
 - time >=1.5 && <1.9
 - vector >=0.10.9 && <0.13
+- monad-logger >=0.3 && <0.4
+- exceptions >= 0.4
 - case-insensitive
-- swagger-petstore
+- safe-exceptions <0.2
 - microlens
+- swagger-petstore
 tests:
   tests:
     main: Test.hs
