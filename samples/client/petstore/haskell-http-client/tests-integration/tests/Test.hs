@@ -237,7 +237,11 @@ testUserOps mgr config = do
           }
         _users =
           take 8 $
-          drop 1 $ iterate (L.over S.userUsernameT (<> "*") . L.over S.userIdT (+ 1)) _user
+          drop 1 $
+          iterate
+            (L.over (S.userUsernameL . L._Just) (<> "*") .
+             L.over (S.userIdL . L._Just) (+ 1))
+            _user
 
     before (pure _user) $
       it "createUser" $ \user -> do

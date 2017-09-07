@@ -29,174 +29,165 @@ import SwaggerPetstore.Model
 
 -- * Type Aliases
 
-type Traversal_' s a = Traversal_ s s a a
-type Traversal_ s t a b = forall (f :: * -> *). Applicative f => (a -> f b) -> s -> f t
 type Lens_' s a = Lens_ s s a a
 type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
 
 
 -- * ApiResponse
 
--- | 'apiResponseCode' Traversal
-apiResponseCodeT :: Traversal_' ApiResponse Int
-apiResponseCodeT f s = _mtraversal apiResponseCode (\b -> s { apiResponseCode = Just b}) f s
-{-# INLINE apiResponseCodeT #-}
+-- | 'apiResponseCode' Lens
+apiResponseCodeL :: Lens_' ApiResponse (Maybe Int)
+apiResponseCodeL f ApiResponse{..} = (\apiResponseCode -> ApiResponse { apiResponseCode, ..} ) <$> f apiResponseCode
+{-# INLINE apiResponseCodeL #-}
 
--- | 'apiResponseType' Traversal
-apiResponseTypeT :: Traversal_' ApiResponse Text
-apiResponseTypeT f s = _mtraversal apiResponseType (\b -> s { apiResponseType = Just b}) f s
-{-# INLINE apiResponseTypeT #-}
+-- | 'apiResponseType' Lens
+apiResponseTypeL :: Lens_' ApiResponse (Maybe Text)
+apiResponseTypeL f ApiResponse{..} = (\apiResponseType -> ApiResponse { apiResponseType, ..} ) <$> f apiResponseType
+{-# INLINE apiResponseTypeL #-}
 
--- | 'apiResponseMessage' Traversal
-apiResponseMessageT :: Traversal_' ApiResponse Text
-apiResponseMessageT f s = _mtraversal apiResponseMessage (\b -> s { apiResponseMessage = Just b}) f s
-{-# INLINE apiResponseMessageT #-}
+-- | 'apiResponseMessage' Lens
+apiResponseMessageL :: Lens_' ApiResponse (Maybe Text)
+apiResponseMessageL f ApiResponse{..} = (\apiResponseMessage -> ApiResponse { apiResponseMessage, ..} ) <$> f apiResponseMessage
+{-# INLINE apiResponseMessageL #-}
 
 
 
 -- * Category
 
--- | 'categoryId' Traversal
-categoryIdT :: Traversal_' Category Integer
-categoryIdT f s = _mtraversal categoryId (\b -> s { categoryId = Just b}) f s
-{-# INLINE categoryIdT #-}
+-- | 'categoryId' Lens
+categoryIdL :: Lens_' Category (Maybe Integer)
+categoryIdL f Category{..} = (\categoryId -> Category { categoryId, ..} ) <$> f categoryId
+{-# INLINE categoryIdL #-}
 
--- | 'categoryName' Traversal
-categoryNameT :: Traversal_' Category Text
-categoryNameT f s = _mtraversal categoryName (\b -> s { categoryName = Just b}) f s
-{-# INLINE categoryNameT #-}
+-- | 'categoryName' Lens
+categoryNameL :: Lens_' Category (Maybe Text)
+categoryNameL f Category{..} = (\categoryName -> Category { categoryName, ..} ) <$> f categoryName
+{-# INLINE categoryNameL #-}
 
 
 
 -- * Order
 
--- | 'orderId' Traversal
-orderIdT :: Traversal_' Order Integer
-orderIdT f s = _mtraversal orderId (\b -> s { orderId = Just b}) f s
-{-# INLINE orderIdT #-}
+-- | 'orderId' Lens
+orderIdL :: Lens_' Order (Maybe Integer)
+orderIdL f Order{..} = (\orderId -> Order { orderId, ..} ) <$> f orderId
+{-# INLINE orderIdL #-}
 
--- | 'orderPetId' Traversal
-orderPetIdT :: Traversal_' Order Integer
-orderPetIdT f s = _mtraversal orderPetId (\b -> s { orderPetId = Just b}) f s
-{-# INLINE orderPetIdT #-}
+-- | 'orderPetId' Lens
+orderPetIdL :: Lens_' Order (Maybe Integer)
+orderPetIdL f Order{..} = (\orderPetId -> Order { orderPetId, ..} ) <$> f orderPetId
+{-# INLINE orderPetIdL #-}
 
--- | 'orderQuantity' Traversal
-orderQuantityT :: Traversal_' Order Int
-orderQuantityT f s = _mtraversal orderQuantity (\b -> s { orderQuantity = Just b}) f s
-{-# INLINE orderQuantityT #-}
+-- | 'orderQuantity' Lens
+orderQuantityL :: Lens_' Order (Maybe Int)
+orderQuantityL f Order{..} = (\orderQuantity -> Order { orderQuantity, ..} ) <$> f orderQuantity
+{-# INLINE orderQuantityL #-}
 
--- | 'orderShipDate' Traversal
-orderShipDateT :: Traversal_' Order UTCTime
-orderShipDateT f s = _mtraversal orderShipDate (\b -> s { orderShipDate = Just b}) f s
-{-# INLINE orderShipDateT #-}
+-- | 'orderShipDate' Lens
+orderShipDateL :: Lens_' Order (Maybe UTCTime)
+orderShipDateL f Order{..} = (\orderShipDate -> Order { orderShipDate, ..} ) <$> f orderShipDate
+{-# INLINE orderShipDateL #-}
 
--- | 'orderStatus' Traversal
-orderStatusT :: Traversal_' Order Text
-orderStatusT f s = _mtraversal orderStatus (\b -> s { orderStatus = Just b}) f s
-{-# INLINE orderStatusT #-}
+-- | 'orderStatus' Lens
+orderStatusL :: Lens_' Order (Maybe Text)
+orderStatusL f Order{..} = (\orderStatus -> Order { orderStatus, ..} ) <$> f orderStatus
+{-# INLINE orderStatusL #-}
 
--- | 'orderComplete' Traversal
-orderCompleteT :: Traversal_' Order Bool
-orderCompleteT f s = _mtraversal orderComplete (\b -> s { orderComplete = Just b}) f s
-{-# INLINE orderCompleteT #-}
+-- | 'orderComplete' Lens
+orderCompleteL :: Lens_' Order (Maybe Bool)
+orderCompleteL f Order{..} = (\orderComplete -> Order { orderComplete, ..} ) <$> f orderComplete
+{-# INLINE orderCompleteL #-}
 
 
 
 -- * Pet
 
--- | 'petId' Traversal
-petIdT :: Traversal_' Pet Integer
-petIdT f s = _mtraversal petId (\b -> s { petId = Just b}) f s
-{-# INLINE petIdT #-}
+-- | 'petId' Lens
+petIdL :: Lens_' Pet (Maybe Integer)
+petIdL f Pet{..} = (\petId -> Pet { petId, ..} ) <$> f petId
+{-# INLINE petIdL #-}
 
--- | 'petCategory' Traversal
-petCategoryT :: Traversal_' Pet Category
-petCategoryT f s = _mtraversal petCategory (\b -> s { petCategory = Just b}) f s
-{-# INLINE petCategoryT #-}
+-- | 'petCategory' Lens
+petCategoryL :: Lens_' Pet (Maybe Category)
+petCategoryL f Pet{..} = (\petCategory -> Pet { petCategory, ..} ) <$> f petCategory
+{-# INLINE petCategoryL #-}
 
 -- | 'petName' Lens
-petNameL :: Lens_' Pet Text
+petNameL :: Lens_' Pet (Text)
 petNameL f Pet{..} = (\petName -> Pet { petName, ..} ) <$> f petName
 {-# INLINE petNameL #-}
 
 -- | 'petPhotoUrls' Lens
-petPhotoUrlsL :: Lens_' Pet [Text]
+petPhotoUrlsL :: Lens_' Pet ([Text])
 petPhotoUrlsL f Pet{..} = (\petPhotoUrls -> Pet { petPhotoUrls, ..} ) <$> f petPhotoUrls
 {-# INLINE petPhotoUrlsL #-}
 
--- | 'petTags' Traversal
-petTagsT :: Traversal_' Pet [Tag]
-petTagsT f s = _mtraversal petTags (\b -> s { petTags = Just b}) f s
-{-# INLINE petTagsT #-}
+-- | 'petTags' Lens
+petTagsL :: Lens_' Pet (Maybe [Tag])
+petTagsL f Pet{..} = (\petTags -> Pet { petTags, ..} ) <$> f petTags
+{-# INLINE petTagsL #-}
 
--- | 'petStatus' Traversal
-petStatusT :: Traversal_' Pet Text
-petStatusT f s = _mtraversal petStatus (\b -> s { petStatus = Just b}) f s
-{-# INLINE petStatusT #-}
+-- | 'petStatus' Lens
+petStatusL :: Lens_' Pet (Maybe Text)
+petStatusL f Pet{..} = (\petStatus -> Pet { petStatus, ..} ) <$> f petStatus
+{-# INLINE petStatusL #-}
 
 
 
 -- * Tag
 
--- | 'tagId' Traversal
-tagIdT :: Traversal_' Tag Integer
-tagIdT f s = _mtraversal tagId (\b -> s { tagId = Just b}) f s
-{-# INLINE tagIdT #-}
+-- | 'tagId' Lens
+tagIdL :: Lens_' Tag (Maybe Integer)
+tagIdL f Tag{..} = (\tagId -> Tag { tagId, ..} ) <$> f tagId
+{-# INLINE tagIdL #-}
 
--- | 'tagName' Traversal
-tagNameT :: Traversal_' Tag Text
-tagNameT f s = _mtraversal tagName (\b -> s { tagName = Just b}) f s
-{-# INLINE tagNameT #-}
+-- | 'tagName' Lens
+tagNameL :: Lens_' Tag (Maybe Text)
+tagNameL f Tag{..} = (\tagName -> Tag { tagName, ..} ) <$> f tagName
+{-# INLINE tagNameL #-}
 
 
 
 -- * User
 
--- | 'userId' Traversal
-userIdT :: Traversal_' User Integer
-userIdT f s = _mtraversal userId (\b -> s { userId = Just b}) f s
-{-# INLINE userIdT #-}
+-- | 'userId' Lens
+userIdL :: Lens_' User (Maybe Integer)
+userIdL f User{..} = (\userId -> User { userId, ..} ) <$> f userId
+{-# INLINE userIdL #-}
 
--- | 'userUsername' Traversal
-userUsernameT :: Traversal_' User Text
-userUsernameT f s = _mtraversal userUsername (\b -> s { userUsername = Just b}) f s
-{-# INLINE userUsernameT #-}
+-- | 'userUsername' Lens
+userUsernameL :: Lens_' User (Maybe Text)
+userUsernameL f User{..} = (\userUsername -> User { userUsername, ..} ) <$> f userUsername
+{-# INLINE userUsernameL #-}
 
--- | 'userFirstName' Traversal
-userFirstNameT :: Traversal_' User Text
-userFirstNameT f s = _mtraversal userFirstName (\b -> s { userFirstName = Just b}) f s
-{-# INLINE userFirstNameT #-}
+-- | 'userFirstName' Lens
+userFirstNameL :: Lens_' User (Maybe Text)
+userFirstNameL f User{..} = (\userFirstName -> User { userFirstName, ..} ) <$> f userFirstName
+{-# INLINE userFirstNameL #-}
 
--- | 'userLastName' Traversal
-userLastNameT :: Traversal_' User Text
-userLastNameT f s = _mtraversal userLastName (\b -> s { userLastName = Just b}) f s
-{-# INLINE userLastNameT #-}
+-- | 'userLastName' Lens
+userLastNameL :: Lens_' User (Maybe Text)
+userLastNameL f User{..} = (\userLastName -> User { userLastName, ..} ) <$> f userLastName
+{-# INLINE userLastNameL #-}
 
--- | 'userEmail' Traversal
-userEmailT :: Traversal_' User Text
-userEmailT f s = _mtraversal userEmail (\b -> s { userEmail = Just b}) f s
-{-# INLINE userEmailT #-}
+-- | 'userEmail' Lens
+userEmailL :: Lens_' User (Maybe Text)
+userEmailL f User{..} = (\userEmail -> User { userEmail, ..} ) <$> f userEmail
+{-# INLINE userEmailL #-}
 
--- | 'userPassword' Traversal
-userPasswordT :: Traversal_' User Text
-userPasswordT f s = _mtraversal userPassword (\b -> s { userPassword = Just b}) f s
-{-# INLINE userPasswordT #-}
+-- | 'userPassword' Lens
+userPasswordL :: Lens_' User (Maybe Text)
+userPasswordL f User{..} = (\userPassword -> User { userPassword, ..} ) <$> f userPassword
+{-# INLINE userPasswordL #-}
 
--- | 'userPhone' Traversal
-userPhoneT :: Traversal_' User Text
-userPhoneT f s = _mtraversal userPhone (\b -> s { userPhone = Just b}) f s
-{-# INLINE userPhoneT #-}
+-- | 'userPhone' Lens
+userPhoneL :: Lens_' User (Maybe Text)
+userPhoneL f User{..} = (\userPhone -> User { userPhone, ..} ) <$> f userPhone
+{-# INLINE userPhoneL #-}
 
--- | 'userUserStatus' Traversal
-userUserStatusT :: Traversal_' User Int
-userUserStatusT f s = _mtraversal userUserStatus (\b -> s { userUserStatus = Just b}) f s
-{-# INLINE userUserStatusT #-}
-
-
+-- | 'userUserStatus' Lens
+userUserStatusL :: Lens_' User (Maybe Int)
+userUserStatusL f User{..} = (\userUserStatus -> User { userUserStatus, ..} ) <$> f userUserStatus
+{-# INLINE userUserStatusL #-}
 
 
--- * Helpers
-
-_mtraversal :: Applicative f => (b -> Maybe t) -> (a -> b) -> (t -> f a) -> b -> f b
-_mtraversal x fsb f s = maybe (pure s) (\a -> fsb <$> f a) (x s)
-{-# INLINE _mtraversal #-}

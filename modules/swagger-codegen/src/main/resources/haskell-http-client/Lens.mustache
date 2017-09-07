@@ -29,8 +29,6 @@ import {{title}}.Model
 
 -- * Type Aliases
 
-type Traversal_' s a = Traversal_ s s a a
-type Traversal_ s t a b = forall (f :: * -> *). Applicative f => (a -> f b) -> s -> f t
 type Lens_' s a = Lens_ s s a a
 type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
 
@@ -40,27 +38,12 @@ type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
 -- * {{classname}}
 
 {{#vars}}
-{{#required}}
 -- | '{{name}}' Lens
-{{name}}L :: Lens_' {{classname}} {{datatype}}
+{{name}}L :: Lens_' {{classname}} ({{^required}}Maybe {{/required}}{{datatype}})
 {{name}}L f {{classname}}{..} = (\{{name}} -> {{classname}} { {{name}}, ..} ) <$> f {{name}}
 {-# INLINE {{name}}L #-}
-{{/required}}
-{{^required}}
--- | '{{name}}' Traversal
-{{name}}T :: Traversal_' {{classname}} {{datatype}}
-{{name}}T f s = _mtraversal {{name}} (\b -> s { {{name}} = Just b}) f s
-{-# INLINE {{name}}T #-}
-{{/required}}
 
 {{/vars}}
 
 {{/model}}
 {{/models}}
-
-
--- * Helpers
-
-_mtraversal :: Applicative f => (b -> Maybe t) -> (a -> b) -> (t -> f a) -> b -> f b
-_mtraversal x fsb f s = maybe (pure s) (\a -> fsb <$> f a) (x s)
-{-# INLINE _mtraversal #-}

@@ -62,16 +62,16 @@ These options allow some customization of the code generation process.
 
 **haskell-http-client specific options:**
 
-| OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                              |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------- |
-| allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | {{allowFromJsonNulls}}              |
-| allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | {{allowToJsonNulls}}                |
-| dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | {{dateFormat}}                      |
-| dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          | {{dateTimeFormat}}                  |
-| generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | {{generateFormUrlEncodedInstances}} |
-| generateLenses                  | Generate Lens optics for Models                                                                                               | true     | {{generateLenses}}                  |
-| generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | {{generateModelConstructors}}       |
-| modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          | {{modelDeriving}}                   |
+| OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
+| allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | {{{allowFromJsonNulls}}}              |
+| allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | {{{allowToJsonNulls}}}                |
+| dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | {{{dateFormat}}}                      |
+| dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          | {{{dateTimeFormat}}}                  |
+| generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | {{{generateFormUrlEncodedInstances}}} |
+| generateLenses                  | Generate Lens optics for Models                                                                                               | true     | {{{generateLenses}}}                  |
+| generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | {{{generateModelConstructors}}}       |
+| modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          | {{{modelDeriving}}}                   |
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
 
@@ -85,13 +85,13 @@ java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help
 
 An example of the generated haddock documentation targeting the server http://petstore.swagger.io/ (SwaggerPetstore) can be found [here][2]
 
-[2]: https://jonschoning.github.io/swaggerpetstore-haskell-http-client/
+[2]: https://hackage.haskell.org/package/swagger-petstore
 
 ### Example SwaggerPetstore App
 
 An example application using the auto-generated haskell-http-client bindings for the server http://petstore.swagger.io/ can be found [here][3]
 
-[3]: https://github.com/jonschoning/swagger-codegen/tree/haskell-http-client/samples/client/petstore/haskell-http-client/example-app
+[3]: https://github.com/swagger-api/swagger-codegen/tree/c7d145a4ba3c0627e04ece9eb97e354ac91be821/samples/client/petstore/haskell-http-client/example-app
 
 ### Usage Notes
 
@@ -103,22 +103,23 @@ This library is intended to be imported qualified.
 | {{title}}.API       | construct requetss                                  |
 | {{title}}.Model     | describes models                                    |
 | {{title}}.MimeTypes | encoding/decoding MIME types (content-types/accept) |
-| {{title}}.Lens      | lenses & traversals for model fields                |
+| {{title}}.Lens      | lenses for model fields                             |
 
 This library adds type safety around what swagger specifies as
 Produces and Consumes for each Operation (e.g. the list of MIME types an
 Operation can Produce (using 'accept' headers) and Consume (using 'content-type' headers).
 
 For example, if there is an Operation named _addFoo_, there will be a
-data type generated named _AddFoo_ (note the capitalization) which
-describes additional constraints and actions on the _addFoo_
-operation, which can be viewed in GHCi or via the Haddocks.
+data type generated named _AddFoo_ (note the capitalization), which
+describes additional constraints and actions on the _addFoo_ operation
+via its typeclass instances. These typeclass instances can be viewed
+in GHCi or via the Haddocks.
 
 * requried parameters are included as function arguments to _addFoo_
 * optional non-body parameters are included by using  `applyOptionalParam`
 * optional body parameters are set by using  `setBodyParam`
 
-Example for pretend _addFoo_ operation: 
+Example code generated for pretend _addFoo_ operation: 
 
 ```haskell
 data AddFoo 	

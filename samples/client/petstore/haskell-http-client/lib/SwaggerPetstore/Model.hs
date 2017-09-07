@@ -365,14 +365,14 @@ _parseISO8601 t =
 
 -- * Date Formatting
 
--- | @TI.parseTimeM True TI.defaultTimeLocale ""@
+-- | @TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"@
 _readDate :: (TI.ParseTime t, Monad m) => String -> m t
 _readDate =
-  TI.parseTimeM True TI.defaultTimeLocale ""
+  TI.parseTimeM True TI.defaultTimeLocale "%Y-%m-%d"
 {-# INLINE _readDate #-}
 
--- | @TI.formatTime TI.defaultTimeLocale ""@
+-- | @TI.formatTime TI.defaultTimeLocale "%Y-%m-%d"@
 _showDate :: TI.FormatTime t => t -> String
 _showDate =
-  TI.formatTime TI.defaultTimeLocale ""
+  TI.formatTime TI.defaultTimeLocale "%Y-%m-%d"
 {-# INLINE _showDate #-}

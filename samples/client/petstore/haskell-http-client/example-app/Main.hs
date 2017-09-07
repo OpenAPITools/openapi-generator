@@ -200,8 +200,8 @@ runUser mgr config = do
   let createUserRequest = S.createUser S.MimeJSON user
   _ <- S.dispatchLbs mgr config createUserRequest S.MimeJSON
 
-  -- can use traversals or lenses (model record names are appended with T or L) to view or modify records
-  let users = take 8 $ drop 1 $ iterate (L.over S.userUsernameT (<> "*") . L.over S.userIdT (+1)) user
+  -- can use lenses (model record names are appended L) to view or modify records
+  let users = take 8 $ drop 1 $ iterate (L.over S.userUsernameL (fmap (<> "*")) . L.over S.userIdL (fmap (+ 1))) user
   let createUsersWithArrayInputRequest = S.createUsersWithArrayInput S.MimeJSON users
   _ <- S.dispatchLbs mgr config createUsersWithArrayInputRequest S.MimeNoContent
 

@@ -7,6 +7,7 @@ version:        0.1.0.0
 synopsis:       Auto-generated swagger-petstore API Client
 description:    .
                 Client library for calling the swagger-petstore API based on http-client.
+                host: petstore.swagger.io
                 .
                 base path: http://petstore.swagger.io/v2
                 .
@@ -14,7 +15,7 @@ description:    .
                 .
                 swagger version: 2.0
                 .
-                OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md
+                OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md 
 category:       Web
 homepage:       https://github.com/swagger-api/swagger-codegen#readme
 author:         Author Name Here
