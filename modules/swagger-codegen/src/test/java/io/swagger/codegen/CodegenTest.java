@@ -36,6 +36,8 @@ public class CodegenTest {
         Assert.assertEquals(codegen.camelize("foo_bar_baz"), "FooBarBaz");
         Assert.assertEquals(codegen.camelize("foo/bar.baz"), "FooBarBaz");
         Assert.assertEquals(codegen.camelize("/foo/bar/baz.qux/corge"), "FooBarBazQuxCorge");
+        Assert.assertEquals(codegen.camelize("foo-bar"), "FooBar");
+        Assert.assertEquals(codegen.camelize("foo-bar-xyzzy"), "FooBarXyzzy");
     }
 
     @Test(description = "read a file upload param from a 2.0 spec")

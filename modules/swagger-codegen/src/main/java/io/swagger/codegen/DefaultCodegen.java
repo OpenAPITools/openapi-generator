@@ -3251,8 +3251,16 @@ public class DefaultCodegen {
             word = m.replaceAll(rep);
         }
 
-        // Remove all underscores
+        // Remove all underscores (underscore_case to camelCase)
         p = Pattern.compile("(_)(.)");
+        m = p.matcher(word);
+        while (m.find()) {
+            word = m.replaceFirst(m.group(2).toUpperCase());
+            m = p.matcher(word);
+        }
+
+        // Remove all hyphens (hyphen-case to camelCase)
+        p = Pattern.compile("(-)(.)");
         m = p.matcher(word);
         while (m.find()) {
             word = m.replaceFirst(m.group(2).toUpperCase());
