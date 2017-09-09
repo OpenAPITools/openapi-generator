@@ -56,6 +56,7 @@ library
     , monad-logger >=0.3 && <0.4
     , safe-exceptions <0.2
     , case-insensitive
+    , microlens >= 0.4.3 && <0.5
   exposed-modules:
       SwaggerPetstore
       SwaggerPetstore.API
@@ -72,7 +73,7 @@ test-suite tests
   main-is: Test.hs
   hs-source-dirs:
       tests
-  ghc-options: -fno-warn-orphans
+  ghc-options: -Wall -fno-warn-orphans
   build-depends:
       base >=4.7 && <5.0
     , transformers >=0.4.0.0

@@ -36,16 +36,18 @@ dependencies:
 - transformers >=0.4.0.0
 - mtl >=2.2.1
 - unordered-containers
+ghc-options: -Wall
 library:
   source-dirs: lib
-  ghc-options: -Wall
+  ghc-options:
+  {{#x-strictFields}}- -funbox-strict-fields{{/x-strictFields}}
   exposed-modules:
   - {{title}}
   - {{title}}.API
   - {{title}}.Client
   - {{title}}.Model
   - {{title}}.MimeTypes
-  {{#generateLenses}}- {{title}}.Lens{{/generateLenses}}
+  - {{title}}.Lens
   dependencies:
   - aeson >=1.0 && <2.0
   - bytestring >=0.10.0 && <0.11
@@ -65,6 +67,7 @@ library:
   - monad-logger >=0.3 && <0.4
   - safe-exceptions <0.2
   - case-insensitive
+  - microlens >= 0.4.3 && <0.5
 tests:
   tests:
     main: Test.hs

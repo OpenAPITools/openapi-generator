@@ -11,13 +11,15 @@ Module : SwaggerPetstore.API
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE InstanceSigs #-}
-{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module SwaggerPetstore.API where
 
 
 import SwaggerPetstore.Model as M
 import SwaggerPetstore.MimeTypes
+import SwaggerPetstore.Lens
 
 import qualified Data.Aeson as A
 import Data.Aeson (Value)
@@ -51,6 +53,8 @@ import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Lazy.Encoding as TL
 import qualified GHC.Base as P (Alternative)
 import qualified Control.Arrow as P (left)
+
+import qualified Lens.Micro as L
 
 import Data.Monoid ((<>))
 import Data.Function ((&))
@@ -676,10 +680,25 @@ newtype File = File { unFile :: FilePath } deriving (P.Eq, P.Show)
 -- | Represents a request. The "req" type variable is the request type. The "res" type variable is the response type.
 data SwaggerPetstoreRequest req contentType res = SwaggerPetstoreRequest
   { rMethod  :: NH.Method   -- ^ Method of SwaggerPetstoreRequest
-  , urlPath :: [BCL.ByteString] -- ^ Endpoint of SwaggerPetstoreRequest
-  , params   :: Params -- ^ params of SwaggerPetstoreRequest
+  , rUrlPath :: [BCL.ByteString] -- ^ Endpoint of SwaggerPetstoreRequest
+  , rParams   :: Params -- ^ params of SwaggerPetstoreRequest
   }
   deriving (P.Show)
+
+-- | 'rMethod' Lens
+rMethodL :: Lens_' (SwaggerPetstoreRequest req contentType res) NH.Method
+rMethodL f SwaggerPetstoreRequest{..} = (\rMethod -> SwaggerPetstoreRequest { rMethod, ..} ) <$> f rMethod
+{-# INLINE rMethodL #-}
+
+-- | 'rUrlPath' Lens
+rUrlPathL :: Lens_' (SwaggerPetstoreRequest req contentType res) [BCL.ByteString]
+rUrlPathL f SwaggerPetstoreRequest{..} = (\rUrlPath -> SwaggerPetstoreRequest { rUrlPath, ..} ) <$> f rUrlPath
+{-# INLINE rUrlPathL #-}
+
+-- | 'rParams' Lens
+rParamsL :: Lens_' (SwaggerPetstoreRequest req contentType res) Params
+rParamsL f SwaggerPetstoreRequest{..} = (\rParams -> SwaggerPetstoreRequest { rParams, ..} ) <$> f rParams
+{-# INLINE rParamsL #-}
 
 -- | Request Params
 data Params = Params
@@ -688,6 +707,21 @@ data Params = Params
   , paramsBody :: ParamBody
   }
   deriving (P.Show)
+
+-- | 'paramsQuery' Lens
+paramsQueryL :: Lens_' Params NH.Query
+paramsQueryL f Params{..} = (\paramsQuery -> Params { paramsQuery, ..} ) <$> f paramsQuery
+{-# INLINE paramsQueryL #-}
+
+-- | 'paramsHeaders' Lens
+paramsHeadersL :: Lens_' Params NH.RequestHeaders
+paramsHeadersL f Params{..} = (\paramsHeaders -> Params { paramsHeaders, ..} ) <$> f paramsHeaders
+{-# INLINE paramsHeadersL #-}
+
+-- | 'paramsBody' Lens
+paramsBodyL :: Lens_' Params ParamBody
+paramsBodyL f Params{..} = (\paramsBody -> Params { paramsBody, ..} ) <$> f paramsBody
+{-# INLINE paramsBodyL #-}
 
 -- | Request Body
 data ParamBody
@@ -709,15 +743,18 @@ _mkParams :: Params
 _mkParams = Params [] [] ParamBodyNone
 
 setHeader :: SwaggerPetstoreRequest req contentType res -> [NH.Header] -> SwaggerPetstoreRequest req contentType res
-setHeader req header = 
-    let _params = params (req `removeHeader` P.fmap P.fst header)
-    in req { params = _params { paramsHeaders = header P.++ paramsHeaders _params } }
+setHeader req header =
+  req `removeHeader` P.fmap P.fst header &
+  L.over (rParamsL . paramsHeadersL) (header P.++)
 
 removeHeader :: SwaggerPetstoreRequest req contentType res -> [NH.HeaderName] -> SwaggerPetstoreRequest req contentType res
-removeHeader req header = 
-    let _params = params req
-    in req { params = _params { paramsHeaders = [h | h <- paramsHeaders _params, cifst h `P.notElem` P.fmap CI.mk header] } }
-  where cifst = CI.mk . P.fst
+removeHeader req header =
+  req &
+  L.over
+    (rParamsL . paramsHeadersL)
+    (P.filter (\h -> cifst h `P.notElem` P.fmap CI.mk header))
+  where
+    cifst = CI.mk . P.fst
 
 
 _setContentTypeHeader :: forall req contentType res. MimeType contentType => SwaggerPetstoreRequest req contentType res -> SwaggerPetstoreRequest req contentType res
@@ -734,35 +771,34 @@ _setAcceptHeader req accept =
 
 _setQuery :: SwaggerPetstoreRequest req contentType res -> [NH.QueryItem] -> SwaggerPetstoreRequest req contentType res
 _setQuery req query = 
-    let _params = params req 
-    in req { params = _params { paramsQuery = query P.++ [q | q <- paramsQuery _params, cifst q `P.notElem` P.fmap cifst query] } }
-  where cifst = CI.mk . P.fst
+  req &
+  L.over
+    (rParamsL . paramsQueryL)
+    ((query P.++) . P.filter (\q -> cifst q `P.notElem` P.fmap cifst query))
+  where
+    cifst = CI.mk . P.fst
 
 _addForm :: SwaggerPetstoreRequest req contentType res -> WH.Form -> SwaggerPetstoreRequest req contentType res
 _addForm req newform = 
-    let _params = params req
-        form = case paramsBody _params of
+    let form = case paramsBody (rParams req) of
             ParamBodyFormUrlEncoded _form -> _form
             _ -> mempty
-    in req { params = _params { paramsBody = ParamBodyFormUrlEncoded (newform <> form) } }
+    in req & L.set (rParamsL . paramsBodyL) (ParamBodyFormUrlEncoded (newform <> form))
 
 _addMultiFormPart :: SwaggerPetstoreRequest req contentType res -> NH.Part -> SwaggerPetstoreRequest req contentType res
 _addMultiFormPart req newpart = 
-    let _params = params req
-        parts = case paramsBody _params of
+    let parts = case paramsBody (rParams req) of
             ParamBodyMultipartFormData _parts -> _parts
             _ -> []
-    in req { params = _params { paramsBody = ParamBodyMultipartFormData (newpart : parts) } }
+    in req & L.set (rParamsL . paramsBodyL) (ParamBodyMultipartFormData (newpart : parts))
 
 _setBodyBS :: SwaggerPetstoreRequest req contentType res -> B.ByteString -> SwaggerPetstoreRequest req contentType res
 _setBodyBS req body = 
-    let _params = params req
-    in req { params = _params { paramsBody = ParamBodyB body } }
+    req & L.set (rParamsL . paramsBodyL) (ParamBodyB body)
 
 _setBodyLBS :: SwaggerPetstoreRequest req contentType res -> BL.ByteString -> SwaggerPetstoreRequest req contentType res
 _setBodyLBS req body = 
-    let _params = params req
-    in req { params = _params { paramsBody = ParamBodyBL body } }
+    req & L.set (rParamsL . paramsBodyL) (ParamBodyBL body)
 
 
 -- ** Params Utils
