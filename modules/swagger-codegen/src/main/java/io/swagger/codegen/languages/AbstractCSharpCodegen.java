@@ -47,6 +47,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public AbstractCSharpCodegen() {
         super();
 
+        supportsInheritance = true;
+
         // C# does not use import mapping
         importMapping.clear();
 
