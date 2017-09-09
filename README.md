@@ -871,6 +871,8 @@ Presentations/Videos/Tutorials/Books
 - 2017/07/11 - [OpenAPI development with Python](https://www.slideshare.net/TakuroWada/20170711-euro-python2017) by [Takuro Wada](https://github.com/taxpon) at [EuroPython 2017](https://ep2017.europython.eu/en/)
 - 2017/07/29 - [How Square makes its SDKs](https://medium.com/square-corner-blog/how-square-makes-its-sdks-6a0fd7ea4b2d) by [Tristan Sokol](https://github.com/tristansokol) ([Square](https://github.com/square))
 - 2017/07/31 - [How to Generate a Deployable REST CXF3 Application from a Swagger-Contract](https://www.youtube.com/watch?v=gM63rJlUHZQ) by [Johannes Fiala](https://github.com/jfiala) @ Voxxed Days Vienna
+- 2017/08/11 - [Swagger Codegen 自动生成Retrofit 代码](https://juejin.im/entry/598d8eb86fb9a03c52459e2a) by [徐磊](http://www.jianshu.com/u/792c738b33fc) 
+- 2017/08/24 - [APIs First](https://engineering.squarespace.com/blog/2017/apis-first) by [roykachouh](https://github.com/roykachouh) ([Square](https://github.com/square))
 
 
 # Swagger Codegen Core Team
