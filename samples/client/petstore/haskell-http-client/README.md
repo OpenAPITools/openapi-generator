@@ -50,17 +50,20 @@ haskell-http-client
     
     - use `setHeader` to add any required headers to requests
 
+* Model Inheritance
+
 * Default Parameter Values
 
 * Enum Parameters
 
+
 This is beta software; other cases may not be supported.
 
-### Codegen "config option" parameters
+### Codegen "additional properties" parameters
 
 These options allow some customization of the code generation process.
 
-**haskell-http-client specific options:**
+**haskell-http-client additional properties:**
 
 | OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
@@ -72,14 +75,22 @@ These options allow some customization of the code generation process.
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | true                  |
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          |                    |
+| strictFields                    | Add strictness annotations to all model fields                                                                                | false    | false                  |
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
+
+An example setting _strictFields_ and _dateTimeFormat_:
+
+```
+java -jar swagger-codegen-cli.jar generate -i petstore.yaml -l haskell-http-client -o output/haskell-http-client -DstrictFields=true -DdateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z"
+```
 
 View the full list of Codegen "config option" parameters with the command:
 
 ```
-java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l haskell-http-client
+java -jar swagger-codegen-cli.jar config-help -l haskell-http-client
 ```
+
 
 ### Example SwaggerPetstore Haddock documentation 
 

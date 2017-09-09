@@ -2,7 +2,6 @@
 Module : {{title}}.Model
 -}
 
-{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveFoldable #-}
 {-# LANGUAGE DeriveGeneric #-}
@@ -58,7 +57,7 @@ import qualified Prelude as P
 -- {{{.}}}{{/description}}
 {{^vendorExtensions.x-customNewtype}}
 data {{classname}} = {{classname}}
-  { {{#vars}}{{name}} :: {{^required}}Maybe {{/required}}{{datatype}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{datatype}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   } deriving (P.Show,P.Eq,P.Typeable{{#modelDeriving}},{{modelDeriving}}{{/modelDeriving}})
 
