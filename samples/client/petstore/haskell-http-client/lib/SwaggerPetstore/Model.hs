@@ -2,7 +2,6 @@
 Module : SwaggerPetstore.Model
 -}
 
-{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveFoldable #-}
 {-# LANGUAGE DeriveGeneric #-}

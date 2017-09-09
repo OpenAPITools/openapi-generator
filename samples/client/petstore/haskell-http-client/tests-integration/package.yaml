@@ -33,7 +33,7 @@ dependencies:
 - exceptions >= 0.4
 - case-insensitive
 - safe-exceptions <0.2
-- microlens
+- microlens >= 0.4.3 && <0.5
 - swagger-petstore
 tests:
   tests:

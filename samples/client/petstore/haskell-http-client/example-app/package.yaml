@@ -31,7 +31,7 @@ dependencies:
 - vector >=0.10.9 && <0.13
 - case-insensitive
 - swagger-petstore
-- microlens
+- microlens >= 0.4.3 && <0.5
 executables:
   swagger-petstore-app:
     main: Main.hs
