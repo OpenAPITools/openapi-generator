@@ -57,13 +57,14 @@ library
     , monad-logger >=0.3 && <0.4
     , safe-exceptions <0.2
     , case-insensitive
+    , microlens >= 0.4.3 && <0.5
   exposed-modules:
       {{title}}
       {{title}}.API
       {{title}}.Client
       {{title}}.Model
       {{title}}.MimeTypes
-      {{#generateLenses}}{{title}}.Lens{{/generateLenses}}
+      {{title}}.Lens
   other-modules:
       Paths_{{pathsName}}
   default-language: Haskell2010

@@ -42,7 +42,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected String artifactId = "swagger-haskell-http-client";
     protected String artifactVersion = "1.0.0";
 
-    protected String defaultDateTimeFormat = "%Y-%m-%dT%H:%M:%S%Q%z";
     protected String defaultDateFormat = "%Y-%m-%d";
 
     // CLI
@@ -54,6 +53,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String GENERATE_LENSES = "generateLenses";
     public static final String GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
     public static final String MODEL_DERIVING = "modelDeriving";
+    public static final String STRICT_FIELDS = "strictFields";
 
     // protected String MODEL_IMPORTS = "modelImports";
     // protected String MODEL_EXTENSIONS = "modelExtensions";
@@ -182,21 +182,22 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         importMapping.clear();
         importMapping.put("Map", "qualified Data.Map as Map");
 
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
 
-        cliOptions.add(new CliOption(ALLOW_FROMJSON_NULLS, "allow JSON Null during model decoding from JSON").defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(ALLOW_TOJSON_NULLS, "allow emitting JSON Null during model encoding to JSON").defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(GENERATE_LENSES, "Generate Lens optics for Models").defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(GENERATE_MODEL_CONSTRUCTORS, "Generate smart constructors (only supply required fields) for models").defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(GENERATE_FORM_URLENCODED_INSTANCES, "Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(ALLOW_FROMJSON_NULLS, "allow JSON Null during model decoding from JSON").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(ALLOW_TOJSON_NULLS, "allow emitting JSON Null during model encoding to JSON").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(GENERATE_LENSES, "Generate Lens optics for Models").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(GENERATE_MODEL_CONSTRUCTORS, "Generate smart constructors (only supply required fields) for models").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(GENERATE_FORM_URLENCODED_INSTANCES, "Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded").defaultValue(Boolean.TRUE.toString()));
 
-        cliOptions.add(new CliOption(MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
+        cliOptions.add(CliOption.newString(MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
+        cliOptions.add(CliOption.newBoolean(STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.FALSE.toString())));
 
-        cliOptions.add(new CliOption(DATETIME_FORMAT, "format string used to parse/render a datetime").defaultValue(defaultDateTimeFormat));
-        cliOptions.add(new CliOption(DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
+        cliOptions.add(CliOption.newString(DATETIME_FORMAT, "format string used to parse/render a datetime"));
+        cliOptions.add(CliOption.newString(DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated").defaultValue(Boolean.TRUE.toString()));
 
         // cliOptions.add(new CliOption(MODEL_IMPORTS, "Additional imports in the Models file"));
         // cliOptions.add(new CliOption(MODEL_EXTENSIONS, "Additional extensions in the Models file"));
@@ -241,10 +242,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     public void setDateFormat(String value) {
         if (StringUtils.isBlank(value)) {
-            additionalProperties.put(DATE_FORMAT, defaultDateFormat);
+            additionalProperties.remove(DATE_FORMAT);
         } else {
             additionalProperties.put(DATE_FORMAT, value);
         }
+    }
+
+    public void setStrictFields(Boolean value) {
+        additionalProperties.put("x-strictFields", value);
     }
 
     @Override
@@ -296,13 +301,19 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (additionalProperties.containsKey(DATETIME_FORMAT)) {
             setDateTimeFormat(additionalProperties.get(DATETIME_FORMAT).toString());
         } else {
-            setDateTimeFormat(null);
+            setDateTimeFormat(null); // default should be null
         }
 
         if (additionalProperties.containsKey(DATE_FORMAT)) {
             setDateFormat(additionalProperties.get(DATE_FORMAT).toString());
         } else {
-            setDateFormat(null);
+            setDateFormat(defaultDateFormat);
+        }
+
+        if (additionalProperties.containsKey(STRICT_FIELDS)) {
+            setStrictFields(convertPropertyToBoolean(STRICT_FIELDS));
+        } else {
+            setStrictFields(false);
         }
 
     }

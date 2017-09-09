@@ -33,9 +33,11 @@ dependencies:
 - transformers >=0.4.0.0
 - mtl >=2.2.1
 - unordered-containers
+ghc-options: -Wall
 library:
   source-dirs: lib
-  ghc-options: -Wall
+  ghc-options:
+  
   exposed-modules:
   - SwaggerPetstore
   - SwaggerPetstore.API
@@ -62,6 +64,7 @@ library:
   - monad-logger >=0.3 && <0.4
   - safe-exceptions <0.2
   - case-insensitive
+  - microlens >= 0.4.3 && <0.5
 tests:
   tests:
     main: Test.hs

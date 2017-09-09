@@ -44,7 +44,7 @@ test-suite tests
     , exceptions >= 0.4
     , case-insensitive
     , safe-exceptions <0.2
-    , microlens
+    , microlens >= 0.4.3 && <0.5
     , swagger-petstore
     , swagger-petstore
     , bytestring >=0.10.0 && <0.11

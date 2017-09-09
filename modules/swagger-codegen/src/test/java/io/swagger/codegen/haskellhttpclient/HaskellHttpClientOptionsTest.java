@@ -47,6 +47,8 @@ public class HaskellHttpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setDateFormat(HaskellHttpClientOptionsProvider.DATE_FORMAT);
             times = 1;
+            clientCodegen.setStrictFields(Boolean.valueOf(HaskellHttpClientOptionsProvider.STRICT_FIELDS));
+            times = 1;
 
         }};
     }

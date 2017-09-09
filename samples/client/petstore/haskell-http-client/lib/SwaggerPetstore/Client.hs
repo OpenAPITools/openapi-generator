@@ -225,15 +225,15 @@ _toInitRequest
   -> accept -- ^ "accept" 'MimeType'
   -> IO (InitRequest req contentType res accept) -- ^ initialized request
 _toInitRequest config req0 accept = do
-  parsedReq <- NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (urlPath req0))
+  parsedReq <- NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
   let req1 = _setAcceptHeader req0 accept & _setContentTypeHeader
-      reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders (params req1)
-      reqQuery = NH.renderQuery True (paramsQuery (params req1))
+      reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders (rParams req1)
+      reqQuery = NH.renderQuery True (paramsQuery (rParams req1))
       pReq = parsedReq { NH.method = (rMethod req1)
                        , NH.requestHeaders = reqHeaders
                        , NH.queryString = reqQuery
                        }
-  outReq <- case paramsBody (params req1) of
+  outReq <- case paramsBody (rParams req1) of
     ParamBodyNone -> pure (pReq { NH.requestBody = mempty })
     ParamBodyB bs -> pure (pReq { NH.requestBody = NH.RequestBodyBS bs })
     ParamBodyBL bl -> pure (pReq { NH.requestBody = NH.RequestBodyLBS bl })

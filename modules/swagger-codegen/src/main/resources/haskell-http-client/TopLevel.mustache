@@ -7,11 +7,11 @@ module {{title}}
   , module {{title}}.API
   , module {{title}}.Model
   , module {{title}}.MimeTypes
-  , {{#generateLenses}}module {{title}}.Lens{{/generateLenses}}
+  , module {{title}}.Lens
   ) where
 
 import {{title}}.API
 import {{title}}.Client
 import {{title}}.Model
 import {{title}}.MimeTypes
-{{#generateLenses}}import {{title}}.Lens{{/generateLenses}}
+import {{title}}.Lens
