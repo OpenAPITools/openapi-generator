@@ -97,7 +97,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**NSDictionary<NSString*, NSNumber*>***](NSDictionary.md)
+**NSDictionary<NSString*, NSNumber*>***
 
 ### Authorization
 
