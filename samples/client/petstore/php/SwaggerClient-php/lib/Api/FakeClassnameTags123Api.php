@@ -1,6 +1,6 @@
 <?php
 /**
- * Fake_classname_tags123Api
+ * FakeClassnameTags123Api
  * PHP version 5
  *
  * @category Class
@@ -39,14 +39,14 @@ use Swagger\Client\HeaderSelector;
 use Swagger\Client\ObjectSerializer;
 
 /**
- * Fake_classname_tags123Api Class Doc Comment
+ * FakeClassnameTags123Api Class Doc Comment
  *
  * @category Class
  * @package  Swagger\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
  */
-class Fake_classname_tags123Api
+class FakeClassnameTags123Api
 {
     /**
      * @var ClientInterface

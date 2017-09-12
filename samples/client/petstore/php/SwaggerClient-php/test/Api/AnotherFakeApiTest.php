@@ -1,6 +1,6 @@
 <?php
 /**
- * Fake_classname_tags123ApiTest
+ * AnotherFakeApiTest
  * PHP version 5
  *
  * @category Class
@@ -29,19 +29,18 @@
 namespace Swagger\Client;
 
 use \Swagger\Client\Configuration;
-use \Swagger\Client\ApiClient;
 use \Swagger\Client\ApiException;
 use \Swagger\Client\ObjectSerializer;
 
 /**
- * Fake_classname_tags123ApiTest Class Doc Comment
+ * AnotherFakeApiTest Class Doc Comment
  *
  * @category Class
  * @package  Swagger\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
  */
-class Fake_classname_tags123ApiTest extends \PHPUnit_Framework_TestCase
+class AnotherFakeApiTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -49,7 +48,6 @@ class Fake_classname_tags123ApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-
     }
 
     /**
@@ -57,7 +55,6 @@ class Fake_classname_tags123ApiTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-
     }
 
     /**
@@ -65,7 +62,6 @@ class Fake_classname_tags123ApiTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-
     }
 
     /**
@@ -73,18 +69,15 @@ class Fake_classname_tags123ApiTest extends \PHPUnit_Framework_TestCase
      */
     public static function tearDownAfterClass()
     {
-
     }
 
     /**
-     * Test case for testClassname
+     * Test case for testSpecialTags
      *
-     * To test class name in snake case.
+     * To test special tags.
      *
      */
-    public function testTestClassname()
+    public function testTestSpecialTags()
     {
-
     }
-
 }

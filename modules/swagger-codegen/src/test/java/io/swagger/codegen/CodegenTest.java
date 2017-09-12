@@ -18,7 +18,7 @@ public class CodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         Assert.assertEquals(codegen.sanitizeTag("foo"), "Foo");
         Assert.assertEquals(codegen.sanitizeTag("foo bar"), "FooBar");
-        Assert.assertEquals(codegen.sanitizeTag("foo_bar"), "Foo_bar");
+        Assert.assertEquals(codegen.sanitizeTag("foo_bar"), "FooBar");
         Assert.assertEquals(codegen.sanitizeTag("foo1 bar2"), "Foo1Bar2");
         Assert.assertEquals(codegen.sanitizeTag("foo bar 1"), "FooBar1");
         Assert.assertEquals(codegen.sanitizeTag("1foo"), "_1foo");
