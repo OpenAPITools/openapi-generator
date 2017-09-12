@@ -52,6 +52,7 @@ from .models.cat import Cat
 from .models.dog import Dog
 
 # import apis into sdk package
+from .apis.another_fake_api import AnotherFakeApi
 from .apis.fake_api import FakeApi
 from .apis.fake_classname_tags_123_api import FakeClassnameTags123Api
 from .apis.pet_api import PetApi
