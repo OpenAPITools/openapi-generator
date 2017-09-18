@@ -101,11 +101,30 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return sanitizeName(name);
         }
 
+        if (isReservedWord(name)) {
+            return escapeReservedWord(name);
+        }
+
         if (name.length() > 1) {
             return sanitizeName(Character.toUpperCase(name.charAt(0)) + name.substring(1));
         }
 
         return sanitizeName(name);
+    }
+
+    /**
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle
+     * escaping those terms here. This logic is only called if a variable
+     * matches the reseved words
+     *
+     * @return the escaped term
+     */
+    @Override
+    public String escapeReservedWord(String name) {
+        if(this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return sanitizeName("_" + name);
     }
 
     @Override

@@ -55,7 +55,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
     /**
      * Configures the type of generator.
-     * 
+     *
      * @return the CodegenType for this generator
      * @see io.swagger.codegen.CodegenType
      */
@@ -66,7 +66,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     /**
      * Configures a friendly name for the generator. This will be used by the
      * generator to select the library with the -l flag.
-     * 
+     *
      * @return the friendly name for the generator
      */
     public String getName() {
@@ -76,7 +76,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     /**
      * Returns human-friendly help for the generator. Provide the consumer with
      * help tips, parameters here
-     * 
+     *
      * @return A string value for the help message
      */
     public String getHelp() {
@@ -110,8 +110,6 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         addOption(DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
-
-        reservedWords = new HashSet<String>();
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));
@@ -185,18 +183,6 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
-    }
-
-    /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle
-     * escaping those terms here. This logic is only called if a variable
-     * matches the reseved words
-     * 
-     * @return the escaped term
-     */
-    @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name; // add an underscore to the name
     }
 
     /**
