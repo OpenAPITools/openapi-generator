@@ -75,7 +75,8 @@ These options allow some customization of the code generation process.
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | true                  |
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          |                    |
-| strictFields                    | Add strictness annotations to all model fields                                                                                | false    | false                  |
+| strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
+| useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | false                |
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
 
@@ -115,6 +116,7 @@ This library is intended to be imported qualified.
 | SwaggerPetstore.Model     | describes models                                    |
 | SwaggerPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |
 | SwaggerPetstore.Lens      | lenses for model fields                             |
+| SwaggerPetstore.Logging   | logging functions and utils                         |
 
 This library adds type safety around what swagger specifies as
 Produces and Consumes for each Operation (e.g. the list of MIME types an

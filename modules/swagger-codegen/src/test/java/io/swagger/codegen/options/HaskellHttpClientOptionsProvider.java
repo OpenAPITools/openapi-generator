@@ -23,6 +23,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
     public static final String GENERATE_FORM_URLENCODED_INSTANCES = "true";
     public static final String GENERATE_LENSES = "true";
     public static final String GENERATE_MODEL_CONSTRUCTORS = "true";
+    public static final String USE_MONAD_LOGGER = "false";
 
     @Override
     public String getLanguage() {
@@ -48,6 +49,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
                 .put(HaskellHttpClientCodegen.GENERATE_LENSES, GENERATE_LENSES)
                 .put(HaskellHttpClientCodegen.GENERATE_MODEL_CONSTRUCTORS, GENERATE_MODEL_CONSTRUCTORS)
                 .put(HaskellHttpClientCodegen.STRICT_FIELDS, STRICT_FIELDS)
+                .put(HaskellHttpClientCodegen.USE_MONAD_LOGGER, USE_MONAD_LOGGER)
 
                 .build();
     }

@@ -64,7 +64,7 @@ data {{classname}} = {{classname}}
 instance A.FromJSON {{classname}} where
   parseJSON = A.withObject "{{classname}}" $ \o ->
     {{classname}}
-      <$>{{#vars}} (o {{#required}}.: {{/required}}{{^required}}{{^allowFromJsonNulls}}.:!{{/allowFromJsonNulls}}{{#allowFromJsonNulls}}.:?{{/allowFromJsonNulls}}{{/required}} "{{baseName}}"{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _showDate{{/isDate}}){{#hasMore}}
+      <$>{{#vars}} (o {{#required}}.: {{/required}}{{^required}}{{^allowFromJsonNulls}}.:!{{/allowFromJsonNulls}}{{#allowFromJsonNulls}}.:?{{/allowFromJsonNulls}}{{/required}} "{{baseName}}"{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _readDate{{/isDate}}){{#hasMore}}
       <*>{{/hasMore}}{{/vars}}
 
 instance A.ToJSON {{classname}} where
@@ -78,7 +78,7 @@ instance A.ToJSON {{classname}} where
 instance WH.FromForm {{classname}} where
   fromForm f =
     {{classname}}
-      <$>{{#vars}} ({{#required}}WH.parseUnique {{/required}}{{^required}}WH.parseMaybe {{/required}}"{{baseName}}" f{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _showDate{{/isDate}}){{#hasMore}}
+      <$>{{#vars}} ({{#required}}WH.parseUnique {{/required}}{{^required}}WH.parseMaybe {{/required}}"{{baseName}}" f{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _readDate{{/isDate}}){{#hasMore}}
       <*>{{/hasMore}}{{/vars}}
 
 instance WH.ToForm {{classname}} where

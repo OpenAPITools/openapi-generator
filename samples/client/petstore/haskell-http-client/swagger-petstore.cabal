@@ -7,6 +7,7 @@ version:        0.1.0.0
 synopsis:       Auto-generated swagger-petstore API Client
 description:    .
                 Client library for calling the swagger-petstore API based on http-client.
+                .
                 host: petstore.swagger.io
                 .
                 base path: http://petstore.swagger.io/v2
@@ -15,7 +16,8 @@ description:    .
                 .
                 swagger version: 2.0
                 .
-                OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md 
+                OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md
+                .
 category:       Web
 homepage:       https://github.com/swagger-api/swagger-codegen#readme
 author:         Author Name Here
@@ -32,7 +34,7 @@ extra-source-files:
 library
   hs-source-dirs:
       lib
-  ghc-options: -Wall
+  ghc-options: -Wall -funbox-strict-fields
   build-depends:
       base >=4.7 && <5.0
     , transformers >=0.4.0.0
@@ -53,7 +55,7 @@ library
     , network >=2.6.2 && <2.7
     , random >=1.1
     , exceptions >= 0.4
-    , monad-logger >=0.3 && <0.4
+    , katip >=0.4 && < 0.6
     , safe-exceptions <0.2
     , case-insensitive
     , microlens >= 0.4.3 && <0.5
@@ -64,6 +66,7 @@ library
       SwaggerPetstore.Model
       SwaggerPetstore.MimeTypes
       SwaggerPetstore.Lens
+      SwaggerPetstore.Logging
   other-modules:
       Paths_swagger_petstore
   default-language: Haskell2010

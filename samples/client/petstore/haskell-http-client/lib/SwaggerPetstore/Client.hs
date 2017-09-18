@@ -17,6 +17,7 @@ module SwaggerPetstore.Client where
 import SwaggerPetstore.Model
 import SwaggerPetstore.API
 import SwaggerPetstore.MimeTypes
+import SwaggerPetstore.Logging
 
 import qualified Control.Monad.IO.Class as P
 import qualified Data.Aeson as A
@@ -29,8 +30,6 @@ import GHC.Exts (IsString(..))
 import Web.FormUrlEncoded as WH
 import Web.HttpApiData as WH
 import Control.Monad.Catch (MonadThrow)
-
-import qualified Control.Monad.Logger as LG
 
 import qualified Data.Time as TI
 import qualified Data.Map as Map
@@ -57,8 +56,8 @@ import qualified Control.Exception.Safe as E
 data SwaggerPetstoreConfig = SwaggerPetstoreConfig
   { configHost  :: BCL.ByteString -- ^ host supplied in the Request
   , configUserAgent :: Text -- ^ user-agent supplied in the Request
-  , configExecLoggingT :: ExecLoggingT -- ^ Run a block using a MonadLogger instance
-  , configLoggingFilter :: LG.LogSource -> LG.LogLevel -> Bool -- ^ Only log messages passing the given predicate function.
+  , configLogExecWithContext :: LogExecWithContext -- ^ Run a block using a Logger instance
+  , configLogContext :: LogContext -- ^ Configures the logger
   }
 
 -- | display the config
@@ -79,29 +78,29 @@ instance Show SwaggerPetstoreConfig where
 --
 -- @"swagger-haskell-http-client/1.0.0"@
 --
--- configExecLoggingT: 'runNullLoggingT'
---
--- configLoggingFilter: 'infoLevelFilter'
-newConfig :: SwaggerPetstoreConfig
-newConfig =
-  SwaggerPetstoreConfig
-  { configHost = "http://petstore.swagger.io/v2"
-  , configUserAgent = "swagger-haskell-http-client/1.0.0"
-  , configExecLoggingT = runNullLoggingT
-  , configLoggingFilter = infoLevelFilter
-  }
+newConfig :: IO SwaggerPetstoreConfig
+newConfig = do
+    logCxt <- initLogContext
+    return $ SwaggerPetstoreConfig
+        { configHost = "http://petstore.swagger.io/v2"
+        , configUserAgent = "swagger-haskell-http-client/1.0.0"
+        , configLogExecWithContext = runDefaultLogExecWithContext
+        , configLogContext = logCxt
+        }  
 
--- | updates the config to use a MonadLogger instance which prints to stdout.
-withStdoutLogging :: SwaggerPetstoreConfig -> SwaggerPetstoreConfig
-withStdoutLogging p = p { configExecLoggingT = LG.runStdoutLoggingT}
+withStdoutLogging :: SwaggerPetstoreConfig -> IO SwaggerPetstoreConfig
+withStdoutLogging p = do
+    logCxt <- stdoutLoggingContext (configLogContext p)
+    return $ p { configLogExecWithContext = stdoutLoggingExec, configLogContext = logCxt }
 
--- | updates the config to use a MonadLogger instance which prints to stderr.
-withStderrLogging :: SwaggerPetstoreConfig -> SwaggerPetstoreConfig
-withStderrLogging p = p { configExecLoggingT = LG.runStderrLoggingT}
+withStderrLogging :: SwaggerPetstoreConfig -> IO SwaggerPetstoreConfig
+withStderrLogging p = do
+    logCxt <- stderrLoggingContext (configLogContext p)
+    return $ p { configLogExecWithContext = stderrLoggingExec, configLogContext = logCxt }
 
 -- | updates the config to disable logging
 withNoLogging :: SwaggerPetstoreConfig -> SwaggerPetstoreConfig
-withNoLogging p = p { configExecLoggingT = runNullLoggingT}
+withNoLogging p = p { configLogExecWithContext =  runNullLogExec}
 
 -- * Dispatch
 
@@ -146,10 +145,10 @@ dispatchMime
 dispatchMime manager config request accept = do
   httpResponse <- dispatchLbs manager config request accept
   parsedResult <-
-    runExceptionLoggingT "Client" config $
+    runConfigLogWithExceptions "Client" config $
     do case mimeUnrender' accept (NH.responseBody httpResponse) of
          Left s -> do
-           logNST LG.LevelError "Client" (T.pack s)
+           _log "Client" levelError (T.pack s)
            pure (Left (MimeError s httpResponse))
          Right r -> pure (Right r)
   return (MimeResult parsedResult httpResponse)
@@ -187,15 +186,15 @@ dispatchInitUnsafe
   -> InitRequest req contentType res accept -- ^ init request
   -> IO (NH.Response BCL.ByteString) -- ^ response
 dispatchInitUnsafe manager config (InitRequest req) = do
-  runExceptionLoggingT logSrc config $
-    do logNST LG.LevelInfo logSrc requestLogMsg
-       logNST LG.LevelDebug logSrc requestDbgLogMsg
+  runConfigLogWithExceptions src config $
+    do _log src levelInfo requestLogMsg
+       _log src levelDebug requestDbgLogMsg
        res <- P.liftIO $ NH.httpLbs req manager
-       logNST LG.LevelInfo logSrc (responseLogMsg res)
-       logNST LG.LevelDebug logSrc ((T.pack . show) res)
+       _log src levelInfo (responseLogMsg res)
+       _log src levelDebug ((T.pack . show) res)
        return res
   where
-    logSrc = "Client"
+    src = "Client"
     endpoint =
       T.pack $
       BC.unpack $
@@ -250,68 +249,16 @@ modifyInitRequest (InitRequest req) f = InitRequest (f req)
 modifyInitRequestM :: Monad m => InitRequest req contentType res accept -> (NH.Request -> m NH.Request) -> m (InitRequest req contentType res accept)
 modifyInitRequestM (InitRequest req) f = fmap InitRequest (f req)
 
--- * Logging
-
--- | A block using a MonadLogger instance
-type ExecLoggingT = forall m. P.MonadIO m =>
-                              forall a. LG.LoggingT m a -> m a
-
--- ** Null Logger
-
--- | a logger which disables logging
-nullLogger :: LG.Loc -> LG.LogSource -> LG.LogLevel -> LG.LogStr -> IO ()
-nullLogger _ _ _ _ = return ()
-
--- | run the monad transformer that disables logging
-runNullLoggingT :: LG.LoggingT m a -> m a
-runNullLoggingT = (`LG.runLoggingT` nullLogger)
-
--- ** Logging Filters
-
--- | a log filter that uses 'LevelError' as the minimum logging level
-errorLevelFilter :: LG.LogSource -> LG.LogLevel -> Bool
-errorLevelFilter = minLevelFilter LG.LevelError
-
--- | a log filter that uses 'LevelInfo' as the minimum logging level
-infoLevelFilter :: LG.LogSource -> LG.LogLevel -> Bool
-infoLevelFilter = minLevelFilter LG.LevelInfo
-
--- | a log filter that uses 'LevelDebug' as the minimum logging level
-debugLevelFilter :: LG.LogSource -> LG.LogLevel -> Bool
-debugLevelFilter = minLevelFilter LG.LevelDebug
-
-minLevelFilter :: LG.LogLevel -> LG.LogSource -> LG.LogLevel -> Bool
-minLevelFilter l _ l' = l' >= l
-
 -- ** Logging 
 
--- | Log a message using the current time
-logNST :: (P.MonadIO m, LG.MonadLogger m) => LG.LogLevel -> Text -> Text -> m ()
-logNST level src msg = do
-  now <- P.liftIO (formatTimeLog <$> TI.getCurrentTime)
-  LG.logOtherNS sourceLog level (now <> " " <> msg)
- where
-  sourceLog = "SwaggerPetstore/" <> src
-  formatTimeLog =
-    T.pack . TI.formatTime TI.defaultTimeLocale "%Y-%m-%dT%H:%M:%S%Z"
+-- | Run a block using the configured logger instance
+runConfigLog
+  :: P.MonadIO m
+  => SwaggerPetstoreConfig -> LogExec m
+runConfigLog config = configLogExecWithContext config (configLogContext config)
 
--- | re-throws exceptions after logging them
-logExceptions
-  :: (LG.MonadLogger m, E.MonadCatch m, P.MonadIO m)
-  => Text -> m a -> m a
-logExceptions src =
-  E.handle
-    (\(e :: E.SomeException) -> do
-       logNST LG.LevelError src ((T.pack . show) e)
-       E.throw e)
-
--- | Run a block using the configured MonadLogger instance
-runLoggingT :: SwaggerPetstoreConfig -> ExecLoggingT
-runLoggingT config =
-  configExecLoggingT config . LG.filterLogger (configLoggingFilter config)
-
--- | Run a block using the configured MonadLogger instance (logs exceptions)
-runExceptionLoggingT
+-- | Run a block using the configured logger instance (logs exceptions)
+runConfigLogWithExceptions
   :: (E.MonadCatch m, P.MonadIO m)
-  => T.Text -> SwaggerPetstoreConfig -> LG.LoggingT m a -> m a
-runExceptionLoggingT logSrc config = runLoggingT config . logExceptions logSrc
+  => T.Text -> SwaggerPetstoreConfig -> LogExec m
+runConfigLogWithExceptions src config = runConfigLog config . logExceptions src

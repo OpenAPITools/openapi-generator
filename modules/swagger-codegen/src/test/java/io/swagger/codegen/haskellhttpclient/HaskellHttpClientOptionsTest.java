@@ -49,6 +49,8 @@ public class HaskellHttpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setStrictFields(Boolean.valueOf(HaskellHttpClientOptionsProvider.STRICT_FIELDS));
             times = 1;
+            clientCodegen.setUseMonadLogger(Boolean.valueOf(HaskellHttpClientOptionsProvider.USE_MONAD_LOGGER));
+            times = 1;
 
         }};
     }

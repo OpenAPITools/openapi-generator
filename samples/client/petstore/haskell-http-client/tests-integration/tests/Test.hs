@@ -53,10 +53,8 @@ main = do
         Just h -> BCL.pack h
         _ -> "http://0.0.0.0/v2"
 
-  let config =
-        S.withStdoutLogging
-          S.newConfig { S.configHost = host }
-                      -- , S.configLoggingFilter = S.debugLevelFilter }
+  config0 <- S.withStdoutLogging =<< S.newConfig 
+  let config = config0 { S.configHost = host }
 
   putStrLn "\n******** CONFIG ********"
   putStrLn (show config)
