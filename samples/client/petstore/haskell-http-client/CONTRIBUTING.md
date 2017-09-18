@@ -17,9 +17,10 @@
 2. Check that the following commands complete build without any errors
 
 ```bash
-    (stack clean && stack haddock && stack test);
-    (cd ./example-app; stack clean && stack build);
-    (cd ./tests-integration; stack clean && stack build --no-run-tests);
+    (rm -Rf ./.stack-work ./example-app/.stack-work ./tests-integration/.stack-work);
+    (stack haddock && stack test);
+    (cd ./example-app; stack build);
+    (cd ./tests-integration; stack build --no-run-tests);
 ```
 
 ### Integration Tests

@@ -44,6 +44,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     protected String defaultDateFormat = "%Y-%m-%d";
 
+    protected Boolean useMonadLogger = false;
+
     // CLI
     public static final String ALLOW_FROMJSON_NULLS = "allowFromJsonNulls";
     public static final String ALLOW_TOJSON_NULLS = "allowToJsonNulls";
@@ -54,6 +56,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
     public static final String MODEL_DERIVING = "modelDeriving";
     public static final String STRICT_FIELDS = "strictFields";
+    public static final String USE_MONAD_LOGGER = "useMonadLogger";
 
     // protected String MODEL_IMPORTS = "modelImports";
     // protected String MODEL_EXTENSIONS = "modelExtensions";
@@ -192,7 +195,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newBoolean(GENERATE_FORM_URLENCODED_INSTANCES, "Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded").defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(CliOption.newString(MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
-        cliOptions.add(CliOption.newBoolean(STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.FALSE.toString())));
+        cliOptions.add(CliOption.newBoolean(STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.TRUE.toString())));
+        cliOptions.add(CliOption.newBoolean(USE_MONAD_LOGGER, "Use the monad-logger package to provide logging (if false, use the katip logging package)").defaultValue((Boolean.FALSE.toString())));
 
         cliOptions.add(CliOption.newString(DATETIME_FORMAT, "format string used to parse/render a datetime"));
         cliOptions.add(CliOption.newString(DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
@@ -250,6 +254,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     public void setStrictFields(Boolean value) {
         additionalProperties.put("x-strictFields", value);
+    }
+
+    public void setUseMonadLogger(Boolean value) {
+        additionalProperties.put("x-useMonadLogger", value);
+        this.useMonadLogger = value;
     }
 
     @Override
@@ -313,7 +322,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (additionalProperties.containsKey(STRICT_FIELDS)) {
             setStrictFields(convertPropertyToBoolean(STRICT_FIELDS));
         } else {
-            setStrictFields(false);
+            setStrictFields(true);
+        }
+        if (additionalProperties.containsKey(USE_MONAD_LOGGER)) {
+            setUseMonadLogger(convertPropertyToBoolean(USE_MONAD_LOGGER));
+        } else {
+            setUseMonadLogger(false);
         }
 
     }
@@ -366,9 +380,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // root
         supportingFiles.add(new SupportingFile("haskell-http-client.cabal.mustache", "", cabalName + ".cabal"));
 
-        supportingFiles.add(new SupportingFile("haskell-http-client.cabal.mustache", "", cabalName + ".cabal"));
-        supportingFiles.add(new SupportingFile("package.mustache", "", "package.yaml"));
-
         // lib
         supportingFiles.add(new SupportingFile("TopLevel.mustache", "lib/", apiName + ".hs"));
         supportingFiles.add(new SupportingFile("Client.mustache", "lib/" + apiName, "Client.hs"));
@@ -376,6 +387,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("API.mustache", "lib/" + apiName, "API.hs"));
         supportingFiles.add(new SupportingFile("Model.mustache", "lib/" + apiName, "Model.hs"));
         supportingFiles.add(new SupportingFile("MimeTypes.mustache", "lib/" + apiName, "MimeTypes.hs"));
+
+        // logger
+        supportingFiles.add(new SupportingFile(useMonadLogger ? "LoggingMonadLogger.mustache" : "LoggingKatip.mustache", "lib/" + apiName, "Logging.hs"));
 
         // modelTemplateFiles.put("API.mustache", ".hs");
         // apiTemplateFiles.put("Model.mustache", ".hs");

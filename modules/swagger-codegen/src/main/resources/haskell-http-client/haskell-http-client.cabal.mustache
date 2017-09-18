@@ -8,6 +8,8 @@ synopsis:       Auto-generated {{package}} API Client
 description:    .
                 Client library for calling the {{package}} API based on http-client.
                 .
+                host: {{host}}
+                .
                 base path: {{basePath}}
                 .
                 apiVersion: {{apiVersion}}
@@ -17,6 +19,7 @@ description:    .
                 {{^hideGenerationTimestamp}}Generated on: {{generatedDate}}
                 .
                 {{/hideGenerationTimestamp}}OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/{{swaggerVersion}}.md
+                .
 category:       Web
 homepage:       https://github.com/swagger-api/swagger-codegen#readme
 author:         Author Name Here
@@ -33,7 +36,7 @@ extra-source-files:
 library
   hs-source-dirs:
       lib
-  ghc-options: -Wall
+  ghc-options: -Wall -funbox-strict-fields
   build-depends:
       base >=4.7 && <5.0
     , transformers >=0.4.0.0
@@ -54,7 +57,7 @@ library
     , network >=2.6.2 && <2.7
     , random >=1.1
     , exceptions >= 0.4
-    , monad-logger >=0.3 && <0.4
+    , {{^x-useMonadLogger}}katip >=0.4 && < 0.6{{/x-useMonadLogger}}{{#x-useMonadLogger}}monad-logger >=0.3 && <0.4{{/x-useMonadLogger}}
     , safe-exceptions <0.2
     , case-insensitive
     , microlens >= 0.4.3 && <0.5
@@ -65,6 +68,7 @@ library
       {{title}}.Model
       {{title}}.MimeTypes
       {{title}}.Lens
+      {{title}}.Logging
   other-modules:
       Paths_{{pathsName}}
   default-language: Haskell2010
@@ -74,7 +78,7 @@ test-suite tests
   main-is: Test.hs
   hs-source-dirs:
       tests
-  ghc-options: -fno-warn-orphans
+  ghc-options: -Wall -fno-warn-orphans
   build-depends:
       base >=4.7 && <5.0
     , transformers >=0.4.0.0

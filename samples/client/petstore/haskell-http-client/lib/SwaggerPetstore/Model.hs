@@ -52,9 +52,9 @@ import qualified Prelude as P
 -- 
 -- Describes the result of uploading an image resource
 data ApiResponse = ApiResponse
-  { apiResponseCode :: Maybe Int -- ^ "code"
-  , apiResponseType :: Maybe Text -- ^ "type"
-  , apiResponseMessage :: Maybe Text -- ^ "message"
+  { apiResponseCode :: !(Maybe Int) -- ^ "code"
+  , apiResponseType :: !(Maybe Text) -- ^ "type"
+  , apiResponseMessage :: !(Maybe Text) -- ^ "message"
   } deriving (P.Show,P.Eq,P.Typeable)
 
 instance A.FromJSON ApiResponse where
@@ -91,8 +91,8 @@ mkApiResponse =
 -- 
 -- A category for a pet
 data Category = Category
-  { categoryId :: Maybe Integer -- ^ "id"
-  , categoryName :: Maybe Text -- ^ "name"
+  { categoryId :: !(Maybe Integer) -- ^ "id"
+  , categoryName :: !(Maybe Text) -- ^ "name"
   } deriving (P.Show,P.Eq,P.Typeable)
 
 instance A.FromJSON Category where
@@ -126,12 +126,12 @@ mkCategory =
 -- 
 -- An order for a pets from the pet store
 data Order = Order
-  { orderId :: Maybe Integer -- ^ "id"
-  , orderPetId :: Maybe Integer -- ^ "petId"
-  , orderQuantity :: Maybe Int -- ^ "quantity"
-  , orderShipDate :: Maybe UTCTime -- ^ "shipDate"
-  , orderStatus :: Maybe Text -- ^ "status" - Order Status
-  , orderComplete :: Maybe Bool -- ^ "complete"
+  { orderId :: !(Maybe Integer) -- ^ "id"
+  , orderPetId :: !(Maybe Integer) -- ^ "petId"
+  , orderQuantity :: !(Maybe Int) -- ^ "quantity"
+  , orderShipDate :: !(Maybe UTCTime) -- ^ "shipDate"
+  , orderStatus :: !(Maybe Text) -- ^ "status" - Order Status
+  , orderComplete :: !(Maybe Bool) -- ^ "complete"
   } deriving (P.Show,P.Eq,P.Typeable)
 
 instance A.FromJSON Order where
@@ -177,12 +177,12 @@ mkOrder =
 -- 
 -- A pet for sale in the pet store
 data Pet = Pet
-  { petId :: Maybe Integer -- ^ "id"
-  , petCategory :: Maybe Category -- ^ "category"
-  , petName :: Text -- ^ /Required/ "name"
-  , petPhotoUrls :: [Text] -- ^ /Required/ "photoUrls"
-  , petTags :: Maybe [Tag] -- ^ "tags"
-  , petStatus :: Maybe Text -- ^ "status" - pet status in the store
+  { petId :: !(Maybe Integer) -- ^ "id"
+  , petCategory :: !(Maybe Category) -- ^ "category"
+  , petName :: !(Text) -- ^ /Required/ "name"
+  , petPhotoUrls :: !([Text]) -- ^ /Required/ "photoUrls"
+  , petTags :: !(Maybe [Tag]) -- ^ "tags"
+  , petStatus :: !(Maybe Text) -- ^ "status" - pet status in the store
   } deriving (P.Show,P.Eq,P.Typeable)
 
 instance A.FromJSON Pet where
@@ -230,8 +230,8 @@ mkPet petName petPhotoUrls =
 -- 
 -- A tag for a pet
 data Tag = Tag
-  { tagId :: Maybe Integer -- ^ "id"
-  , tagName :: Maybe Text -- ^ "name"
+  { tagId :: !(Maybe Integer) -- ^ "id"
+  , tagName :: !(Maybe Text) -- ^ "name"
   } deriving (P.Show,P.Eq,P.Typeable)
 
 instance A.FromJSON Tag where
@@ -265,14 +265,14 @@ mkTag =
 -- 
 -- A User who is purchasing from the pet store
 data User = User
-  { userId :: Maybe Integer -- ^ "id"
-  , userUsername :: Maybe Text -- ^ "username"
-  , userFirstName :: Maybe Text -- ^ "firstName"
-  , userLastName :: Maybe Text -- ^ "lastName"
-  , userEmail :: Maybe Text -- ^ "email"
-  , userPassword :: Maybe Text -- ^ "password"
-  , userPhone :: Maybe Text -- ^ "phone"
-  , userUserStatus :: Maybe Int -- ^ "userStatus" - User Status
+  { userId :: !(Maybe Integer) -- ^ "id"
+  , userUsername :: !(Maybe Text) -- ^ "username"
+  , userFirstName :: !(Maybe Text) -- ^ "firstName"
+  , userLastName :: !(Maybe Text) -- ^ "lastName"
+  , userEmail :: !(Maybe Text) -- ^ "email"
+  , userPassword :: !(Maybe Text) -- ^ "password"
+  , userPhone :: !(Maybe Text) -- ^ "phone"
+  , userUserStatus :: !(Maybe Int) -- ^ "userStatus" - User Status
   } deriving (P.Show,P.Eq,P.Typeable)
 
 instance A.FromJSON User where

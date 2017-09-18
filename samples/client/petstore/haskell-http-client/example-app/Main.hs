@@ -13,19 +13,22 @@ import qualified SwaggerPetstore as S
 
 import Data.Monoid ((<>))
 
+import System.Environment (getEnvironment)
+
 -- * MAIN
 
 main :: IO ()
 main = do
 
+  env <- getEnvironment
+
   mgr <- NH.newManager NH.defaultManagerSettings
 
-  -- print log messages to sdtout
-  let config =
-        S.withStdoutLogging
-          S.newConfig { S.configHost = "http://0.0.0.0/v2"
-                      -- , S.configLoggingFilter = S.debugLevelFilter
-                      }
+  config0 <- S.withStdoutLogging =<< S.newConfig 
+
+  let config = case lookup "HOST" env of
+        Just h -> config0 { S.configHost = BCL.pack h }
+        _ -> config0
 
   putStrLn "******** CONFIG ********"
   putStrLn (show config)
