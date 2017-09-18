@@ -9,6 +9,7 @@ import Foundation
 
 
 /** This object contains property names which we know will be different from their variable name. Examples of this include snake case property names and property names which are Swift 4 reserved words. */
+
 open class VariableNameTest: Codable {
 
     /** This snake-case examle_name property name should be converted to a camelCase variable name like exampleName */
@@ -16,12 +17,24 @@ open class VariableNameTest: Codable {
     /** This property name is a reserved word in most languages, including Swift 4. */
     public var _for: String?
 
-    public init() {}
 
+    // Encodable protocol methods
 
-    private enum CodingKeys: String, CodingKey { 
-        case exampleName = "example_name"
-        case _for = "for"
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(exampleName, forKey: "example_name")
+        try container.encodeIfPresent(_for, forKey: "for")
     }
 
+    // Decodable protocol methods
+    
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        exampleName = try container.decodeIfPresent(String.self, forKey: "example_name")
+        _for = try container.decodeIfPresent(String.self, forKey: "for")
+    }
 }
+

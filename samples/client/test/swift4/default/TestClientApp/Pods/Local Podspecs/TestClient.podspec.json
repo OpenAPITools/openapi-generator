@@ -13,10 +13,10 @@
   "license": "Proprietary",
   "homepage": "https://github.com/swagger-api/swagger-codegen",
   "summary": "TestClient",
-  "source_files": "TestClient/Classes/Swaggers/**/*.swift",
+  "source_files": "TestClient/Classes/**/*.swift",
   "dependencies": {
     "Alamofire": [
-      "~> 4.5"
+      "~> 4.5.0"
     ]
   }
 }
