@@ -9,19 +9,33 @@ import Foundation
 
 
 /** Example Error object */
+
 open class ErrorInfo: Codable {
 
     public var code: Int?
     public var message: String?
     public var details: [String]?
 
-    public init() {}
 
+    // Encodable protocol methods
 
-    private enum CodingKeys: String, CodingKey { 
-        case code = "code"
-        case message = "message"
-        case details = "details"
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(code, forKey: "code")
+        try container.encodeIfPresent(message, forKey: "message")
+        try container.encodeArrayIfPresent(details, forKey: "details")
     }
 
+    // Decodable protocol methods
+    
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        code = try container.decodeIfPresent(Int.self, forKey: "code")
+        message = try container.decodeIfPresent(String.self, forKey: "message")
+        details = try container.decodeArrayIfPresent(String.self, forKey: "details")
+    }
 }
+

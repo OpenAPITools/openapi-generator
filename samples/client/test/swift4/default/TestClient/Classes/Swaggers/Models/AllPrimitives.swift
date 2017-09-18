@@ -9,6 +9,7 @@ import Foundation
 
 
 /** Object which contains lots of different primitive Swagger types */
+
 open class AllPrimitives: Codable {
 
     public var myInteger: Int?
@@ -36,34 +37,68 @@ open class AllPrimitives: Codable {
     public var myStringEnum: StringEnum?
     public var myStringEnumArray: [StringEnum]?
 
-    public init() {}
 
+    // Encodable protocol methods
 
-    private enum CodingKeys: String, CodingKey { 
-        case myInteger = "myInteger"
-        case myIntegerArray = "myIntegerArray"
-        case myLong = "myLong"
-        case myLongArray = "myLongArray"
-        case myFloat = "myFloat"
-        case myFloatArray = "myFloatArray"
-        case myDouble = "myDouble"
-        case myDoubleArray = "myDoubleArray"
-        case myString = "myString"
-        case myStringArray = "myStringArray"
-        case myBytes = "myBytes"
-        case myBytesArray = "myBytesArray"
-        case myBoolean = "myBoolean"
-        case myBooleanArray = "myBooleanArray"
-        case myDate = "myDate"
-        case myDateArray = "myDateArray"
-        case myDateTime = "myDateTime"
-        case myDateTimeArray = "myDateTimeArray"
-        case myFile = "myFile"
-        case myFileArray = "myFileArray"
-        case myUUID = "myUUID"
-        case myUUIDArray = "myUUIDArray"
-        case myStringEnum = "myStringEnum"
-        case myStringEnumArray = "myStringEnumArray"
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(myInteger, forKey: "myInteger")
+        try container.encodeArrayIfPresent(myIntegerArray, forKey: "myIntegerArray")
+        try container.encodeIfPresent(myLong, forKey: "myLong")
+        try container.encodeArrayIfPresent(myLongArray, forKey: "myLongArray")
+        try container.encodeIfPresent(myFloat, forKey: "myFloat")
+        try container.encodeArrayIfPresent(myFloatArray, forKey: "myFloatArray")
+        try container.encodeIfPresent(myDouble, forKey: "myDouble")
+        try container.encodeArrayIfPresent(myDoubleArray, forKey: "myDoubleArray")
+        try container.encodeIfPresent(myString, forKey: "myString")
+        try container.encodeArrayIfPresent(myStringArray, forKey: "myStringArray")
+        try container.encodeIfPresent(myBytes, forKey: "myBytes")
+        try container.encodeArrayIfPresent(myBytesArray, forKey: "myBytesArray")
+        try container.encodeIfPresent(myBoolean, forKey: "myBoolean")
+        try container.encodeArrayIfPresent(myBooleanArray, forKey: "myBooleanArray")
+        try container.encodeIfPresent(myDate, forKey: "myDate")
+        try container.encodeArrayIfPresent(myDateArray, forKey: "myDateArray")
+        try container.encodeIfPresent(myDateTime, forKey: "myDateTime")
+        try container.encodeArrayIfPresent(myDateTimeArray, forKey: "myDateTimeArray")
+        try container.encodeIfPresent(myFile, forKey: "myFile")
+        try container.encodeArrayIfPresent(myFileArray, forKey: "myFileArray")
+        try container.encodeIfPresent(myUUID, forKey: "myUUID")
+        try container.encodeArrayIfPresent(myUUIDArray, forKey: "myUUIDArray")
+        try container.encodeIfPresent(myStringEnum, forKey: "myStringEnum")
+        try container.encodeArrayIfPresent(myStringEnumArray, forKey: "myStringEnumArray")
     }
 
+    // Decodable protocol methods
+    
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        myInteger = try container.decodeIfPresent(Int.self, forKey: "myInteger")
+        myIntegerArray = try container.decodeArrayIfPresent(Int.self, forKey: "myIntegerArray")
+        myLong = try container.decodeIfPresent(Int64.self, forKey: "myLong")
+        myLongArray = try container.decodeArrayIfPresent(Int64.self, forKey: "myLongArray")
+        myFloat = try container.decodeIfPresent(Float.self, forKey: "myFloat")
+        myFloatArray = try container.decodeArrayIfPresent(Float.self, forKey: "myFloatArray")
+        myDouble = try container.decodeIfPresent(Double.self, forKey: "myDouble")
+        myDoubleArray = try container.decodeArrayIfPresent(Double.self, forKey: "myDoubleArray")
+        myString = try container.decodeIfPresent(String.self, forKey: "myString")
+        myStringArray = try container.decodeArrayIfPresent(String.self, forKey: "myStringArray")
+        myBytes = try container.decodeIfPresent(Data.self, forKey: "myBytes")
+        myBytesArray = try container.decodeArrayIfPresent(Data.self, forKey: "myBytesArray")
+        myBoolean = try container.decodeIfPresent(Bool.self, forKey: "myBoolean")
+        myBooleanArray = try container.decodeArrayIfPresent(Bool.self, forKey: "myBooleanArray")
+        myDate = try container.decodeIfPresent(Date.self, forKey: "myDate")
+        myDateArray = try container.decodeArrayIfPresent(Date.self, forKey: "myDateArray")
+        myDateTime = try container.decodeIfPresent(Date.self, forKey: "myDateTime")
+        myDateTimeArray = try container.decodeArrayIfPresent(Date.self, forKey: "myDateTimeArray")
+        myFile = try container.decodeIfPresent(URL.self, forKey: "myFile")
+        myFileArray = try container.decodeArrayIfPresent(URL.self, forKey: "myFileArray")
+        myUUID = try container.decodeIfPresent(UUID.self, forKey: "myUUID")
+        myUUIDArray = try container.decodeArrayIfPresent(UUID.self, forKey: "myUUIDArray")
+        myStringEnum = try container.decodeIfPresent(StringEnum.self, forKey: "myStringEnum")
+        myStringEnumArray = try container.decodeArrayIfPresent(StringEnum.self, forKey: "myStringEnumArray")
+    }
 }
+

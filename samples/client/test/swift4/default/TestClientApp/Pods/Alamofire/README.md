@@ -1,9 +1,9 @@
-![Alamofire: Elegant Networking in Swift](https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png)
+![Alamofire: Elegant Networking in Swift](https://raw.githubusercontent.com/Alamofire/Alamofire/master/alamofire.png)
 
 [![Build Status](https://travis-ci.org/Alamofire/Alamofire.svg?branch=master)](https://travis-ci.org/Alamofire/Alamofire)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Alamofire.svg)](https://img.shields.io/cocoapods/v/Alamofire.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Platform](https://img.shields.io/cocoapods/p/Alamofire.svg?style=flat)](http://cocoadocs.org/docsets/Alamofire)
+[![Platform](https://img.shields.io/cocoapods/p/Alamofire.svg?style=flat)](https://alamofire.github.io/Alamofire)
 [![Twitter](https://img.shields.io/badge/twitter-@AlamofireSF-blue.svg?style=flat)](http://twitter.com/AlamofireSF)
 [![Gitter](https://badges.gitter.im/Alamofire/Alamofire.svg)](https://gitter.im/Alamofire/Alamofire?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -45,7 +45,7 @@ Alamofire is an HTTP networking library written in Swift.
 - [x] TLS Certificate and Public Key Pinning
 - [x] Network Reachability
 - [x] Comprehensive Unit and Integration Test Coverage
-- [x] [Complete Documentation](http://cocoadocs.org/docsets/Alamofire)
+- [x] [Complete Documentation](https://alamofire.github.io/Alamofire)
 
 ## Component Libraries
 
@@ -57,8 +57,8 @@ In order to keep Alamofire focused specifically on core networking implementatio
 ## Requirements
 
 - iOS 8.0+ / macOS 10.10+ / tvOS 9.0+ / watchOS 2.0+
-- Xcode 8.1, 8.2, 8.3, and 9.0
-- Swift 3.0, 3.1, 3.2, and 4.0
+- Xcode 8.3+
+- Swift 3.1+
 
 ## Migration Guides
 
@@ -84,7 +84,7 @@ In order to keep Alamofire focused specifically on core networking implementatio
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1.0+ is required to build Alamofire 4.0.0+.
+> CocoaPods 1.1+ is required to build Alamofire 4.0+.
 
 To integrate Alamofire into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -94,7 +94,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'Alamofire', '~> 4.4'
+    pod 'Alamofire', '~> 4.5'
 end
 ```
 
@@ -118,7 +118,7 @@ $ brew install carthage
 To integrate Alamofire into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Alamofire/Alamofire" ~> 4.4
+github "Alamofire/Alamofire" ~> 4.5
 ```
 
 Run `carthage update` to build the framework and drag the built `Alamofire.framework` into your Xcode project.
@@ -736,7 +736,7 @@ When sending relatively small amounts of data to a server using JSON or URL enco
 #### Uploading Data
 
 ```swift
-let imageData = UIPNGRepresentation(image)!
+let imageData = UIImagePNGRepresentation(image)!
 
 Alamofire.upload(imageData, to: "https://httpbin.org/post").responseJSON { response in
     debugPrint(response)
@@ -1812,9 +1812,14 @@ There are some important things to remember when using network reachability to d
 The following radars have some effect on the current implementation of Alamofire.
 
 - [`rdar://21349340`](http://www.openradar.me/radar?id=5517037090635776) - Compiler throwing warning due to toll-free bridging issue in test case
-- [`rdar://26761490`](http://www.openradar.me/radar?id=5010235949318144) - Swift string interpolation causing memory leak with common usage
 - `rdar://26870455` - Background URL Session Configurations do not work in the simulator
 - `rdar://26849668` - Some URLProtocol APIs do not properly handle `URLRequest`
+
+## Resolved Radars
+
+The following radars have been resolved over time after being filed against the Alamofire project.
+
+- [`rdar://26761490`](http://www.openradar.me/radar?id=5010235949318144) - Swift string interpolation causing memory leak with common usage (Resolved on 9/1/17 in Xcode 9 beta 6).
 
 ## FAQ
 
