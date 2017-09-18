@@ -283,7 +283,7 @@ class ApiClient(object):
                  _request_timeout=None):
         """
         Makes the HTTP request (synchronous) and return the deserialized data.
-        To make an async request, define a function for callback.
+        To make an async request, set the async parameter.
 
         :param resource_path: Path to method endpoint.
         :param method: Method to call.
@@ -307,10 +307,10 @@ class ApiClient(object):
         :param _request_timeout: timeout setting for this request. If one number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of (connection, read) timeouts.
         :return:
-            If provide parameter callback,
+            If async parameter is True,
             the request will be called asynchronously.
             The method will return the request thread.
-            If parameter callback is None,
+            If parameter async is False or missing,
             then the method will return the response directly.
         """
         if not async:

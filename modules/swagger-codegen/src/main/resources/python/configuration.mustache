@@ -6,8 +6,9 @@ from __future__ import absolute_import
 
 import urllib3
 
-import sys
 import logging
+import multiprocessing
+import sys
 
 from six import iteritems
 from six.moves import http_client as httplib
@@ -66,6 +67,16 @@ class Configuration(object):
         self.cert_file = None
         # client key file
         self.key_file = None
+        # Set this to True/False to enable/disable SSL hostname verification.
+        self.assert_hostname = None
+
+        # urllib3 connection pool's maximum number of connections saved
+        # per pool. urllib3 uses 1 connection as default value, but this is
+        # not the best value when you are making a lot of possibly parallel
+        # requests to the same host, which is often the case here.
+        # cpu_count * 5 is used as default value to increase performance.
+        self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
+
 
         # Proxy URL
         self.proxy = None
