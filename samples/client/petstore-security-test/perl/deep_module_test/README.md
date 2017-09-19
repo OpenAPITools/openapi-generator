@@ -88,37 +88,37 @@ you are accessing. Usually `prefix` and `in` will be determined by the code gene
 the spec and you will not need to set them at run time. If not, `in` will
 default to 'head' and `prefix` to the empty string.
 
-The tokens will be placed in the `Something::Deep::Configuration` namespace
+The tokens will be placed in a L<Something::Deep::Configuration> instance
 as follows, but you don't need to know about this.
 
-- `$Something::Deep::Configuration::username`
+- `$cfg->{username}`
 
     String. The username for basic auth.
 
-- `$Something::Deep::Configuration::password`
+- `$cfg->{password}`
 
     String. The password for basic auth.
 
-- `$Something::Deep::Configuration::api_key`
+- `$cfg->{api_key}`
 
     Hashref. Keyed on the name of each key (there can be multiple tokens).
 
-            $Something::Deep::Configuration::api_key = {
+            $cfg->{api_key} = {
                     secretKey => 'aaaabbbbccccdddd',
                     anotherKey => '1111222233334444',
                     };
 
-- `$Something::Deep::Configuration::api_key_prefix`
+- `$cfg->{api_key_prefix}`
 
     Hashref. Keyed on the name of each key (there can be multiple tokens). Note not
     all api keys require a prefix.
 
-            $Something::Deep::Configuration::api_key_prefix = {
+            $cfg->{api_key_prefix} = {
                     secretKey => 'string',
                     anotherKey => 'same or some other string',
                     };
 
-- `$Something::Deep::Configuration::access_token`
+- `$cfg->{access_token}`
 
     String. The OAuth access token.
 
@@ -127,8 +127,7 @@ as follows, but you don't need to know about this.
 ## `base_url`
 
 The generated code has the `base_url` already set as a default value. This method
-returns (and optionally sets, but only if the API client has not been
-created yet) the current value of `base_url`.
+returns the current value of `base_url`.
 
 ## `api_factory`
 
@@ -247,10 +246,11 @@ use Something::Deep::Object::ModelReturn;
 
 # for displaying the API response data
 use Data::Dumper;
-use Something::Deep::Configuration;
 use Something::Deep::;
 
-my $api_instance = Something::Deep::FakeApi->new();
+my $api_instance = Something::Deep::->new(
+);
+
 my $test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r = 'test code inject */ ' " =end __ \r\n \n \r_example'; # string | To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 
 eval {

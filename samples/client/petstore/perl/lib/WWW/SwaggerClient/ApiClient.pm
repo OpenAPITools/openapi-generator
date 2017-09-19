@@ -348,6 +348,13 @@ sub update_params_for_auth {
                 $header_params->{'api_key'} = $api_key;
             }
         }
+elsif ($auth eq 'api_key_query') {
+            
+            my $api_key = $self->get_api_key_with_prefix('api_key_query');
+            if ($api_key) {
+                $query_params->{'api_key_query'} = $api_key;
+            }
+        }
 elsif ($auth eq 'http_basic_test') {
             
             if ($self->{config}{username} || $self->{config}{password}) {

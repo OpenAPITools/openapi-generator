@@ -705,4 +705,81 @@ sub test_enum_parameters {
     return;
 }
 
+#
+# test_json_form_data
+#
+# test json serialization of form data
+# 
+# @param string $param field1 (required)
+# @param string $param2 field2 (required)
+{
+    my $params = {
+    'param' => {
+        data_type => 'string',
+        description => 'field1',
+        required => '1',
+    },
+    'param2' => {
+        data_type => 'string',
+        description => 'field2',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_json_form_data' } = { 
+    	summary => 'test json serialization of form data',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_json_form_data {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'param' is set
+    unless (exists $args{'param'}) {
+      croak("Missing the required parameter 'param' when calling test_json_form_data");
+    }
+
+    # verify the required parameter 'param2' is set
+    unless (exists $args{'param2'}) {
+      croak("Missing the required parameter 'param2' when calling test_json_form_data");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/jsonFormData';
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    # form params
+    if ( exists $args{'param'} ) {
+                $form_params->{'param'} = $self->{api_client}->to_form_value($args{'param'});
+    }
+    
+    # form params
+    if ( exists $args{'param2'} ) {
+                $form_params->{'param2'} = $self->{api_client}->to_form_value($args{'param2'});
+    }
+    
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
 1;
