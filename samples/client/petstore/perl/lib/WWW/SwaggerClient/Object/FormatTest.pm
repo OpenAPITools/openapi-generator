@@ -30,6 +30,9 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
+use WWW::SwaggerClient::Object::Number;
+use WWW::SwaggerClient::Object::UUID;
+
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
 

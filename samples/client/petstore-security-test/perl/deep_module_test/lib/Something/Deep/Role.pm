@@ -47,8 +47,8 @@ has tokens => ( is => 'ro',
                 );
 
 has _cfg => ( is => 'ro',
-              isa => 'Str',
-              default => 'Something::Deep::Configuration',
+              isa => 'Something::Deep::Configuration',
+              default => sub { Something::Deep::Configuration->new() },
               );
 
 has version_info => ( is => 'ro',
@@ -201,39 +201,39 @@ you are accessing. Usually C<prefix> and C<in> will be determined by the code ge
 the spec and you will not need to set them at run time. If not, C<in> will
 default to 'head' and C<prefix> to the empty string.
 
-The tokens will be placed in the C<Something::Deep::Configuration> namespace
+The tokens will be placed in a L<Something::Deep::Configuration> instance
 as follows, but you don't need to know about this.
 
 =over 4
 
-=item C<$Something::Deep::Configuration::username>
+=item C<$cfg-\>{username}>
 
 String. The username for basic auth.
 
-=item C<$Something::Deep::Configuration::password>
+=item C<$cfg-\>{password}>
 
 String. The password for basic auth.
 
-=item C<$Something::Deep::Configuration::api_key>
+=item C<$cfg-\>{api_key}>
 
 Hashref. Keyed on the name of each key (there can be multiple tokens).
 
-	$Something::Deep::Configuration::api_key = {
+	$cfg->{api_key} = {
 		secretKey => 'aaaabbbbccccdddd',
 		anotherKey => '1111222233334444',
 		};
 
-=item C<$Something::Deep::Configuration::api_key_prefix>
+=item C<$cfg->{api_key_prefix}>
 
 Hashref. Keyed on the name of each key (there can be multiple tokens). Note not
 all api keys require a prefix.
 
-	$Something::Deep::Configuration::api_key_prefix = {
+	$cfg->{api_key_prefix} = {
 		secretKey => 'string',
 		anotherKey => 'same or some other string',
 		};
 
-=item C<$Something::Deep::Configuration::access_token>
+=item C<$config-\>{access_token}>
 
 String. The OAuth access token.
 
@@ -244,8 +244,7 @@ String. The OAuth access token.
 =head2 C<base_url>
 
 The generated code has the C<base_url> already set as a default value. This method
-returns (and optionally sets, but only if the API client has not been
-created yet) the current value of C<base_url>.
+returns the current value of C<base_url>.
 
 =head2 C<api_factory>
 

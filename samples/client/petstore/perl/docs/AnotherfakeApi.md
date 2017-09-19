@@ -1,42 +1,39 @@
-# WWW::SwaggerClient::FakeClassnameTags123Api
+# WWW::SwaggerClient::AnotherfakeApi
 
 ## Load the API package
 ```perl
-use WWW::SwaggerClient::Object::FakeClassnameTags123Api;
+use WWW::SwaggerClient::Object::AnotherfakeApi;
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_classname**](FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
+[**test_special_tags**](AnotherfakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-# **test_classname**
-> Client test_classname(body => $body)
+# **test_special_tags**
+> Client test_special_tags(body => $body)
 
-To test class name in snake case
+To test special tags
+
+To test special tags
 
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::FakeClassnameTags123Api;
-my $api_instance = WWW::SwaggerClient::FakeClassnameTags123Api->new(
-
-    # Configure API key authorization: api_key_query
-    api_key => {'api_key_query' => 'YOUR_API_KEY'},
-    # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-    #api_key_prefix => {'api_key_query' => 'Bearer'},
+use WWW::SwaggerClient::AnotherfakeApi;
+my $api_instance = WWW::SwaggerClient::AnotherfakeApi->new(
 );
 
 my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
 
 eval { 
-    my $result = $api_instance->test_classname(body => $body);
+    my $result = $api_instance->test_special_tags(body => $body);
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling FakeClassnameTags123Api->test_classname: $@\n";
+    warn "Exception when calling AnotherfakeApi->test_special_tags: $@\n";
 }
 ```
 
@@ -52,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key_query](../README.md#api_key_query)
+No authorization required
 
 ### HTTP request headers
 

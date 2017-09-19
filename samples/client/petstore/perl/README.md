@@ -226,6 +226,7 @@ use WWW::SwaggerClient::FakeClassnameTags123Api;
 use WWW::SwaggerClient::PetApi;
 use WWW::SwaggerClient::StoreApi;
 use WWW::SwaggerClient::UserApi;
+use WWW::SwaggerClient::AnotherfakeApi;
 
 ```
 
@@ -283,6 +284,7 @@ use WWW::SwaggerClient::FakeClassnameTags123Api;
 use WWW::SwaggerClient::PetApi;
 use WWW::SwaggerClient::StoreApi;
 use WWW::SwaggerClient::UserApi;
+use WWW::SwaggerClient::AnotherfakeApi;
 
 # load the models
 use WWW::SwaggerClient::Object::AdditionalPropertiesClass;
@@ -354,6 +356,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -375,6 +378,7 @@ Class | Method | HTTP request | Description
 *UserApi* | [**login_user**](docs/UserApi.md#login_user) | **GET** /user/login | Logs user into the system
 *UserApi* | [**logout_user**](docs/UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
 *UserApi* | [**update_user**](docs/UserApi.md#update_user) | **PUT** /user/{username} | Updated user
+*AnotherfakeApi* | [**test_special_tags**](docs/AnotherfakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 
 
 # DOCUMENTATION FOR MODELS
@@ -423,6 +427,12 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+## api_key_query
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
 
 ## http_basic_test
 
