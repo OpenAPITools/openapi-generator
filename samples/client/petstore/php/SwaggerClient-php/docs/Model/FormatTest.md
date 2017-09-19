@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **string** | **string** |  | [optional] 
 **byte** | **string** |  | 
 **binary** | **string** |  | [optional] 
-**date** | [**\DateTime**](Date.md) |  | 
+**date** | [**\DateTime**](\DateTime.md) |  | 
 **date_time** | [**\DateTime**](\DateTime.md) |  | [optional] 
 **uuid** | **string** |  | [optional] 
 **password** | **string** |  | 
