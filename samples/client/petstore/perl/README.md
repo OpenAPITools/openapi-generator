@@ -221,12 +221,12 @@ Each of these calls returns a hashref with various useful pieces of information.
 
 To load the API packages:
 ```perl
+use WWW::SwaggerClient::AnotherFakeApi;
 use WWW::SwaggerClient::FakeApi;
 use WWW::SwaggerClient::FakeClassnameTags123Api;
 use WWW::SwaggerClient::PetApi;
 use WWW::SwaggerClient::StoreApi;
 use WWW::SwaggerClient::UserApi;
-use WWW::SwaggerClient::AnotherfakeApi;
 
 ```
 
@@ -279,12 +279,12 @@ use lib 'lib';
 use strict;
 use warnings;
 # load the API package
+use WWW::SwaggerClient::AnotherFakeApi;
 use WWW::SwaggerClient::FakeApi;
 use WWW::SwaggerClient::FakeClassnameTags123Api;
 use WWW::SwaggerClient::PetApi;
 use WWW::SwaggerClient::StoreApi;
 use WWW::SwaggerClient::UserApi;
-use WWW::SwaggerClient::AnotherfakeApi;
 
 # load the models
 use WWW::SwaggerClient::Object::AdditionalPropertiesClass;
@@ -331,14 +331,14 @@ use WWW::SwaggerClient::;
 my $api_instance = WWW::SwaggerClient::->new(
 );
 
-my $body = WWW::SwaggerClient::Object::OuterBoolean->new(); # OuterBoolean | Input boolean as post body
+my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
 
 eval {
-    my $result = $api_instance->fake_outer_boolean_serialize(body => $body);
+    my $result = $api_instance->test_special_tags(body => $body);
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling FakeApi->fake_outer_boolean_serialize: $@\n";
+    warn "Exception when calling AnotherFakeApi->test_special_tags: $@\n";
 }
 
 ```
@@ -349,6 +349,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AnotherFakeApi* | [**test_special_tags**](docs/AnotherFakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -378,7 +379,6 @@ Class | Method | HTTP request | Description
 *UserApi* | [**login_user**](docs/UserApi.md#login_user) | **GET** /user/login | Logs user into the system
 *UserApi* | [**logout_user**](docs/UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
 *UserApi* | [**update_user**](docs/UserApi.md#update_user) | **PUT** /user/{username} | Updated user
-*AnotherfakeApi* | [**test_special_tags**](docs/AnotherfakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 
 
 # DOCUMENTATION FOR MODELS

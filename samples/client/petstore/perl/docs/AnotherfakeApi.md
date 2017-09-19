@@ -1,15 +1,15 @@
-# WWW::SwaggerClient::AnotherfakeApi
+# WWW::SwaggerClient::AnotherFakeApi
 
 ## Load the API package
 ```perl
-use WWW::SwaggerClient::Object::AnotherfakeApi;
+use WWW::SwaggerClient::Object::AnotherFakeApi;
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_special_tags**](AnotherfakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+[**test_special_tags**](AnotherFakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 
 
 # **test_special_tags**
@@ -22,8 +22,8 @@ To test special tags
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::AnotherfakeApi;
-my $api_instance = WWW::SwaggerClient::AnotherfakeApi->new(
+use WWW::SwaggerClient::AnotherFakeApi;
+my $api_instance = WWW::SwaggerClient::AnotherFakeApi->new(
 );
 
 my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
@@ -33,7 +33,7 @@ eval {
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling AnotherfakeApi->test_special_tags: $@\n";
+    warn "Exception when calling AnotherFakeApi->test_special_tags: $@\n";
 }
 ```
 
