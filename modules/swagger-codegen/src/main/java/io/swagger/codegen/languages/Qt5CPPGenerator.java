@@ -317,6 +317,9 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
         } else if (p instanceof MapProperty) {
             MapProperty ap = (MapProperty) p;
             String inner = getSwaggerType(ap.getAdditionalProperties());
+            if (!languageSpecificPrimitives.contains(inner)) {
+                inner += "*";
+            }
             return "new QMap<QString, " + inner + ">()";
         } else if (p instanceof ArrayProperty) {
             ArrayProperty ap = (ArrayProperty) p;
