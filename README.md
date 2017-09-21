@@ -745,6 +745,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [DecentFoX](http://decentfox.com/)
 - [DocRaptor](https://docraptor.com)
 - [DocuSign](https://www.docusign.com)
+- [Elastic](https://www.elastic.co/)
 - [Ergon](http://www.ergon.ch/)
 - [Dell EMC](https://www.emc.com/)
 - [eureka](http://eure.jp/)
