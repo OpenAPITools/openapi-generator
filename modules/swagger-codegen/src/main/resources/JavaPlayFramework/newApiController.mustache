@@ -74,7 +74,7 @@ public class {{classname}}Controller extends Controller {
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
-            {{paramName}}.add({{>conversionBegin}}curParam{{>conversionEnd}});
+            {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
@@ -105,7 +105,7 @@ public class {{classname}}Controller extends Controller {
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
-            {{paramName}}.add({{>conversionBegin}}curParam{{>conversionEnd}});
+            {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
@@ -128,7 +128,7 @@ public class {{classname}}Controller extends Controller {
         {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
         for (String curParam : {{paramName}}List) {
             //noinspection UseBulkOperation
-            {{paramName}}.add({{>conversionBegin}}curParam{{>conversionEnd}});
+            {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
         }
         {{/collectionFormat}}
         {{^collectionFormat}}
