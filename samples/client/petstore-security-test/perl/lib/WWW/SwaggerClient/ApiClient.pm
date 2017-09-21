@@ -39,21 +39,24 @@ use Module::Runtime qw(use_module);
 
 use WWW::SwaggerClient::Configuration;
 
-use base 'Class::Singleton';
 
-sub _new_instance
-{
+sub new {
     my $class = shift;
+
+    my $config;
+    if ( $_[0] && ref $_[0] && ref $_[0] eq 'WWW::SwaggerClient::Configuration' ) {
+        $config = $_[0];
+    } else {
+        $config = WWW::SwaggerClient::Configuration->new(@_);
+    }
+
     my (%args) = (
         'ua' => LWP::UserAgent->new,
-        'base_url' => 'https://petstore.swagger.io */ ' \" =_end -- \\r\\n \\n \\r/v2 */ ' \" =_end -- \\r\\n \\n \\r',
-        @_
+        'config' => $config,
     );
   
     return bless \%args, $class;
 }
-
-sub _cfg {'WWW::SwaggerClient::Configuration'}
 
 # Set the user agent of the API client
 #
@@ -91,7 +94,7 @@ sub call_api {
     $self->update_params_for_auth($header_params, $query_params, $auth_settings); 
   
   
-    my $_url = $self->{base_url} . $resource_path;
+    my $_url = $self->{config}{base_url} . $resource_path;
   
     # build query 
     if (%$query_params) {
@@ -138,8 +141,8 @@ sub call_api {
     else {
     }
    
-    $self->{ua}->timeout($self->{http_timeout} || $WWW::SwaggerClient::Configuration::http_timeout); 
-    $self->{ua}->agent($self->{http_user_agent} || $WWW::SwaggerClient::Configuration::http_user_agent);
+    $self->{ua}->timeout($self->{http_timeout} || $self->{config}{http_timeout});
+    $self->{ua}->agent($self->{http_user_agent} || $self->{config}{http_user_agent});
     
     $log->debugf("REQUEST: %s", $_request->as_string);
     my $_response = $self->{ua}->request($_request);
@@ -313,11 +316,11 @@ sub get_api_key_with_prefix
 {
 	my ($self, $key_name) = @_;
 
-	my $api_key = $WWW::SwaggerClient::Configuration::api_key->{$key_name};
+	my $api_key = $self->{config}{api_key}{$key_name};
 	
 	return unless $api_key;
 	
-	my $prefix = $WWW::SwaggerClient::Configuration::api_key_prefix->{$key_name};
+	my $prefix = $self->{config}{api_key_prefix}{$key_name};
 	return $prefix ? "$prefix $api_key" : $api_key;
 }	
 
@@ -347,8 +350,8 @@ sub update_params_for_auth {
         }
 elsif ($auth eq 'petstore_auth') {
             
-            if ($WWW::SwaggerClient::Configuration::access_token) {
-                $header_params->{'Authorization'} = 'Bearer ' . $WWW::SwaggerClient::Configuration::access_token;
+            if ($self->{config}{access_token}) {
+                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
             }
         }
         else {
@@ -364,7 +367,7 @@ elsif ($auth eq 'petstore_auth') {
 sub _global_auth_setup {
 	my ($self, $header_params, $query_params) = @_; 
 	
-	my $tokens = $self->_cfg->get_tokens;
+	my $tokens = $self->{config}->get_tokens;
 	return unless keys %$tokens;
 	
 	# basic

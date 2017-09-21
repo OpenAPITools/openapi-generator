@@ -116,8 +116,8 @@ namespace IO.Swagger.Model
                 ) && 
                 (
                     this.Map == input.Map ||
-                    (this.Map != null &&
-                    this.Map.SequenceEqual(input.Map))
+                    this.Map != null &&
+                    this.Map.SequenceEqual(input.Map)
                 );
         }
 

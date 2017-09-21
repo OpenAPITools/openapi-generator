@@ -1,7 +1,7 @@
 #import "PMKCallVariadicBlock.m"
 #import "AnyPromise+Private.h"
 
-extern dispatch_queue_t PMKDefaultDispatchQueue();
+extern dispatch_queue_t PMKDefaultDispatchQueue(void);
 
 NSString *const PMKErrorDomain = @"PMKErrorDomain";
 
@@ -38,9 +38,33 @@ NSString *const PMKErrorDomain = @"PMKErrorDomain";
     };
 }
 
+- (AnyPromise *(^)(dispatch_queue_t, id))catchOn {
+    return ^(dispatch_queue_t q, id block) {
+        return [self __catchOn:q withPolicy:PMKCatchPolicyAllErrorsExceptCancellation execute:^(id obj) {
+            return PMKCallVariadicBlock(block, obj);
+        }];
+    };
+}
+
 - (AnyPromise *(^)(id))catch {
     return ^(id block) {
-        return [self __catchWithPolicy:PMKCatchPolicyAllErrorsExceptCancellation execute:^(id obj) {
+        return [self __catchOn:PMKDefaultDispatchQueue() withPolicy:PMKCatchPolicyAllErrorsExceptCancellation execute:^(id obj) {
+            return PMKCallVariadicBlock(block, obj);
+        }];
+    };
+}
+
+- (AnyPromise *(^)(id))catchInBackground {
+    return ^(id block) {
+        return [self __catchOn:dispatch_get_global_queue(0, 0) withPolicy:PMKCatchPolicyAllErrorsExceptCancellation execute:^(id obj) {
+            return PMKCallVariadicBlock(block, obj);
+        }];
+    };
+}
+
+- (AnyPromise *(^)(dispatch_queue_t, PMKCatchPolicy, id))catchOnWithPolicy {
+    return ^(dispatch_queue_t q, PMKCatchPolicy policy, id block) {
+        return [self __catchOn:q withPolicy:policy execute:^(id obj) {
             return PMKCallVariadicBlock(block, obj);
         }];
     };
@@ -48,7 +72,7 @@ NSString *const PMKErrorDomain = @"PMKErrorDomain";
 
 - (AnyPromise *(^)(PMKCatchPolicy, id))catchWithPolicy {
     return ^(PMKCatchPolicy policy, id block) {
-        return [self __catchWithPolicy:policy execute:^(id obj) {
+        return [self __catchOn:PMKDefaultDispatchQueue() withPolicy:policy execute:^(id obj) {
             return PMKCallVariadicBlock(block, obj);
         }];
     };

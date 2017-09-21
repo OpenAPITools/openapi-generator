@@ -28,71 +28,142 @@ use Carp;
 
 use constant VERSION => '1.0.0';
 
-# class/static variables
-our $http_timeout = 180;
-our $http_user_agent = 'Swagger-Codegen/1.0.0/perl';
+=head1 Name
 
-# authentication setting
-our $api_key = {};
-our $api_key_prefix = {};
-our $api_key_in = {};
+        Something::Deep::Configuration - holds the configuration for all Something::Deep Modules
 
-# username and password for HTTP basic authentication
-our $username = '';
-our $password = '';
+=head1 new(%paramters)
 
-# access token for OAuth
-our $access_token = '';
+=over 4
+
+=item http_timeout: (optional)
+
+Integer. timeout for HTTP requests in seconds
+
+default: 180
+
+=item http_user_agent: (optional)
+
+String. custom UserAgent header
+
+default: Swagger-Codegen/1.0.0/perl
+
+=item api_key: (optional)
+
+Hashref. Keyed on the name of each key (there can be multiple tokens).
+
+    api_key => {
+	secretKey => 'aaaabbbbccccdddd',
+	anotherKey => '1111222233334444',
+    };
+
+=item api_key_prefix: (optional)
+
+Hashref. Keyed on the name of each key (there can be multiple tokens). Note not all api keys require a prefix.
+
+    api_key_prefix => {
+        secretKey => 'string',
+	anotherKey => 'same or some other string',
+    };
+ 
+=item api_key_in: (optional)
+
+=item username: (optional)
+
+String. The username for basic auth.
+
+=item password: (optional)
+
+String. The password for basic auth.
+
+=item access_token: (optional)
+
+String. The OAuth access token.
+
+=item base_url: (optional)
+
+String. The base URL of the API
+
+default: https://petstore.swagger.io */ ' \" =_end -- \\r\\n \\n \\r/v2 */ ' \" =_end -- \\r\\n \\n \\r
+
+=back
+
+=cut
+
+sub new {
+	my ($self, %p) = (shift,@_);
+
+	# class/static variables
+	$p{http_timeout} //= 180;
+	$p{http_user_agent} //= 'Swagger-Codegen/1.0.0/perl';
+
+	# authentication setting
+	$p{api_key} //= {};
+	$p{api_key_prefix} //= {};
+	$p{api_key_in} //= {};
+
+	# username and password for HTTP basic authentication
+	$p{username} //= '';
+	$p{password} //= '';
+
+	# access token for OAuth
+	$p{access_token} //= '';
+
+	# base_url
+        $p{base_url} //= 'https://petstore.swagger.io */ ' \" =_end -- \\r\\n \\n \\r/v2 */ ' \" =_end -- \\r\\n \\n \\r';
+
+	return bless \%p => $self;
+}
+
 
 sub get_tokens {
-	my $class = shift;
+	my $self = shift;
 	
 	my $tokens = {};
-	$tokens->{username} = $username if $username;
-	$tokens->{password} = $password if $password;
-	$tokens->{access_token} = $access_token if $access_token;
+	$tokens->{username} = $self->{username} if $self->{username};
+	$tokens->{password} = $self->{password} if $self->{password};
+	$tokens->{access_token} = $self->{access_token} if $self->{access_token};
 	
-	foreach my $token_name (keys %{ $api_key }) {
-		$tokens->{$token_name}->{token} = $api_key->{$token_name};
-		$tokens->{$token_name}->{prefix} = $api_key_prefix->{$token_name};
-		$tokens->{$token_name}->{in} = $api_key_in->{$token_name};
+	foreach my $token_name (keys %{ $self->{api_key} }) {
+		$tokens->{$token_name}->{token} = $self->{api_key}{$token_name};
+		$tokens->{$token_name}->{prefix} = $self->{api_key_prefix}{$token_name};
+		$tokens->{$token_name}->{in} = $self->{api_key_in}{$token_name};
 	}
 
 	return $tokens;
 }
 
 sub clear_tokens {
-	my $class = shift;
-	my %tokens = %{$class->get_tokens}; # copy
+	my $self = shift;
+	my %tokens = %{$self->get_tokens}; # copy
 	
-	$username = undef;
-	$password = undef;
-	$access_token = undef;
+	$self->{username} = '';
+	$self->{password} = '';
+	$self->{access_token} = '';
 
-	$api_key = {};
-	$api_key_prefix = {};
-	$api_key_in = {};
+	$self->{api_key} = {};
+	$self->{api_key_prefix} = {};
+	$self->{api_key_in} = {};
 	
 	return \%tokens;
 }
 
 sub accept_tokens {
-	my ($class, $tokens) = @_;
+	my ($self, $tokens) = @_;
 	
 	foreach my $known_name (qw(username password access_token)) {
 		next unless $tokens->{$known_name};
-		eval "\$$known_name = delete \$tokens->{\$known_name}";
-		die $@ if $@;
+		$self->{$known_name} = delete $tokens->{$known_name};
 	}
 	
 	foreach my $token_name (keys %$tokens) {
-		$api_key->{$token_name} = $tokens->{$token_name}->{token};
-		if ($tokens->{$token_name}->{prefix}) {
-			$api_key_prefix->{$token_name} = $tokens->{$token_name}->{prefix};
+		$self->{api_key}{$token_name} = $tokens->{$token_name}{token};
+		if ($tokens->{$token_name}{prefix}) {
+			$self->{api_key_prefix}{$token_name} = $tokens->{$token_name}{prefix};
 		}
 		my $in = $tokens->{$token_name}->{in} || 'head';
 		croak "Tokens can only go in 'head' or 'query' (not in '$in')" unless $in =~ /^(?:head|query)$/;
-		$api_key_in->{$token_name} = $in;
+		$self->{api_key_in}{$token_name} = $in;
 	}
 }	
 

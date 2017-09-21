@@ -27,7 +27,7 @@
 
 @interface AnyPromise (Swift)
 - (AnyPromise * __nonnull)__thenOn:(__nonnull dispatch_queue_t)q execute:(id __nullable (^ __nonnull)(id __nullable))body;
-- (AnyPromise * __nonnull)__catchWithPolicy:(PMKCatchPolicy)policy execute:(id __nullable (^ __nonnull)(id __nullable))body;
+- (AnyPromise * __nonnull)__catchOn:(__nonnull dispatch_queue_t)q withPolicy:(PMKCatchPolicy)policy execute:(id __nullable (^ __nonnull)(id __nullable))body;
 - (AnyPromise * __nonnull)__alwaysOn:(__nonnull dispatch_queue_t)q execute:(void (^ __nonnull)(void))body;
 - (void)__pipe:(void(^ __nonnull)(__nullable id))body;
 - (AnyPromise * __nonnull)initWithResolverBlock:(void (^ __nonnull)(PMKResolver __nonnull))resolver;

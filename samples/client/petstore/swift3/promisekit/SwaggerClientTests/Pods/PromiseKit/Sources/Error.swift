@@ -128,6 +128,7 @@ extension NSError {
 
 private var cancelledErrorIdentifiers = Set([
     ErrorPair(PMKErrorDomain, PMKOperationCancelled),
+    ErrorPair(NSCocoaErrorDomain, NSUserCancelledError),
     ErrorPair(NSURLErrorDomain, NSURLErrorCancelled),
 ])
 

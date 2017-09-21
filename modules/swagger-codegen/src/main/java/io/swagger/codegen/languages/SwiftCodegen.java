@@ -23,6 +23,11 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Swift (2.x) generator is no longer actively maintained. Please use 
+ * 'swift3' or 'swift4' generator instead.
+ */
+
 public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
@@ -61,7 +66,7 @@ public class SwiftCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a swift client library.";
+        return "Generates a Swift (2.x) client library. IMPORTANT NOTE: this generator (swfit 2.x)  is no longer actively maintained so please use 'swift3' or 'swift4' generator instead.";
     }
 
     public SwiftCodegen() {

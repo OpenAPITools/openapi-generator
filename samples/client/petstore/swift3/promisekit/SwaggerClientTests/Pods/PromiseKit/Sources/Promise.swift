@@ -626,3 +626,12 @@ extension Promise where T: Collection {
         }
     }
 }
+
+
+#if swift(>=3.1)
+public extension Promise where T == Void {
+    convenience init() {
+        self.init(value: ())
+    }
+}
+#endif

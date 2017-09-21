@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Creates {@link Call} instances that invoke underlying {@link WSClient}
@@ -120,7 +121,7 @@ public class Play24CallFactory implements okhttp3.Call.Factory {
                         responseCallback.onFailure(call, new IOException(throwable));
                     }
                 }
-                
+
             });
 
         }
@@ -163,18 +164,21 @@ public class Play24CallFactory implements okhttp3.Call.Factory {
 
                        @Override
                        public MediaType contentType() {
-                           return MediaType.parse(r.getHeader("Content-Type"));
+                           return Optional.ofNullable(r.getHeader("Content-Type"))
+                                          .map(MediaType::parse)
+                                          .orElse(null);
                        }
 
                        @Override
                        public long contentLength() {
-                           return r.getBody().getBytes().length;
+                           return r.asByteArray().length;
                        }
 
                        @Override
                        public BufferedSource source() {
-                           return new Buffer().write(r.getBody().getBytes());
+                           return new Buffer().write(r.asByteArray());
                        }
+
                    });
 
             for (Map.Entry<String, List<String>> entry : r.getAllHeaders().entrySet()) {
@@ -196,7 +200,7 @@ public class Play24CallFactory implements okhttp3.Call.Factory {
         public void cancel() {
             throw new UnsupportedOperationException("Not supported");
         }
-        
+
         @Override
         public PlayWSCall clone() {
             throw new UnsupportedOperationException("Not supported");

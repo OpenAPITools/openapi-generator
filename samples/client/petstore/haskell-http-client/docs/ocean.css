@@ -1,0 +1,612 @@
+/* @group Fundamentals */
+
+* { margin: 0; padding: 0 }
+
+/* Is this portable? */
+html {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: white;
+  color: black;
+  text-align: left;
+  min-height: 100%;
+  position: relative;
+}
+
+p {
+  margin: 0.8em 0;
+}
+
+ul, ol {
+  margin: 0.8em 0 0.8em 2em;
+}
+
+dl {
+  margin: 0.8em 0;
+}
+
+dt {
+  font-weight: bold;
+}
+dd {
+  margin-left: 2em;
+}
+
+a { text-decoration: none; }
+a[href]:link { color: rgb(196,69,29); }
+a[href]:visited { color: rgb(171,105,84); }
+a[href]:hover { text-decoration:underline; }
+
+a[href].def:link, a[href].def:visited { color: black; }
+a[href].def:hover { color: rgb(78, 98, 114); }
+
+/* @end */
+
+/* @group Fonts & Sizes */
+
+/* Basic technique & IE workarounds from YUI 3
+   For reasons, see:
+      http://yui.yahooapis.com/3.1.1/build/cssfonts/fonts.css
+ */
+
+body {
+	font:13px/1.4 sans-serif;
+	*font-size:small; /* for IE */
+	*font:x-small; /* for IE in quirks mode */
+}
+
+h1 { font-size: 146.5%; /* 19pt */ }
+h2 { font-size: 131%;   /* 17pt */ }
+h3 { font-size: 116%;   /* 15pt */ }
+h4 { font-size: 100%;   /* 13pt */ }
+h5 { font-size: 100%;   /* 13pt */ }
+
+select, input, button, textarea {
+	font:99% sans-serif;
+}
+
+table {
+	font-size:inherit;
+	font:100%;
+}
+
+pre, code, kbd, samp, tt, .src {
+	font-family:monospace;
+	*font-size:108%;
+	line-height: 124%;
+}
+
+.links, .link {
+  font-size: 85%; /* 11pt */
+}
+
+#module-header .caption {
+  font-size: 182%; /* 24pt */
+}
+
+.info  {
+  font-size: 85%; /* 11pt */
+}
+
+#table-of-contents, #synopsis  {
+  /* font-size: 85%; /* 11pt */
+}
+
+
+/* @end */
+
+/* @group Common */
+
+.caption, h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: rgb(78,98,114);
+  margin: 0.8em 0 0.4em;
+}
+
+* + h1, * + h2, * + h3, * + h4, * + h5, * + h6 {
+  margin-top: 2em;
+}
+
+h1 + h2, h2 + h3, h3 + h4, h4 + h5, h5 + h6 {
+  margin-top: inherit;
+}
+
+ul.links {
+  list-style: none;
+  text-align: left;
+  float: right;
+  display: inline-table;
+  margin: 0 0 0 1em;
+}
+
+ul.links li {
+  display: inline;
+  border-left: 1px solid #d5d5d5;
+  white-space: nowrap;
+  padding: 0;
+}
+
+ul.links li a {
+  padding: 0.2em 0.5em;
+}
+
+.hide { display: none; }
+.show { display: inherit; }
+.clear { clear: both; }
+
+.collapser {
+  background-image: url(minus.gif);
+  background-repeat: no-repeat;
+}
+.expander {
+  background-image: url(plus.gif);
+  background-repeat: no-repeat;
+}
+.collapser, .expander {
+  padding-left: 14px;
+  margin-left: -14px;
+  cursor: pointer;
+}
+p.caption.collapser,
+p.caption.expander {
+  background-position: 0 0.4em;
+}
+
+.instance.collapser, .instance.expander {
+  margin-left: 0px;
+  background-position: left center;
+  min-width: 9px;
+  min-height: 9px;
+}
+
+
+pre {
+  padding: 0.25em;
+  margin: 0.8em 0;
+  background: rgb(229,237,244);
+  overflow: auto;
+  border-bottom: 0.25em solid white;
+  /* white border adds some space below the box to compensate
+     for visual extra space that paragraphs have between baseline
+     and the bounding box */
+}
+
+.src {
+  background: #f0f0f0;
+  padding: 0.2em 0.5em;
+}
+
+.keyword { font-weight: normal; }
+.def { font-weight: bold; }
+
+@media print {
+  #footer { display: none; }
+}
+
+/* @end */
+
+/* @group Page Structure */
+
+#content {
+  margin: 0 auto;
+  padding: 0 2em 6em;
+}
+
+#package-header {
+  background: rgb(41,56,69);
+  border-top: 5px solid rgb(78,98,114);
+  color: #ddd;
+  padding: 0.2em;
+  position: relative;
+  text-align: left;
+}
+
+#package-header .caption {
+  background: url(hslogo-16.png) no-repeat 0em;
+  color: white;
+  margin: 0 2em;
+  font-weight: normal;
+  font-style: normal;
+  padding-left: 2em;
+}
+
+#package-header a:link, #package-header a:visited { color: white; }
+#package-header a:hover { background: rgb(78,98,114); }
+
+#module-header .caption {
+  color: rgb(78,98,114);
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+table.info {
+  float: right;
+  padding: 0.5em 1em;
+  border: 1px solid #ddd;
+  color: rgb(78,98,114);
+  background-color: #fff;
+  max-width: 40%;
+  border-spacing: 0;
+  position: relative;
+  top: -0.5em;
+  margin: 0 0 0 2em;
+}
+
+.info th {
+	padding: 0 1em 0 0;
+}
+
+div#style-menu-holder {
+  position: relative;
+  z-index: 2;
+  display: inline;
+}
+
+#style-menu {
+  position: absolute;
+  z-index: 1;
+  overflow: visible;
+  background: #374c5e;
+  margin: 0;
+  text-align: center;
+  right: 0;
+  padding: 0;
+  top: 1.25em;
+}
+
+#style-menu li {
+	display: list-item;
+	border-style: none;
+	margin: 0;
+	padding: 0;
+	color: #000;
+	list-style-type: none;
+}
+
+#style-menu li + li {
+	border-top: 1px solid #919191;
+}
+
+#style-menu a {
+  width: 6em;
+  padding: 3px;
+  display: block;
+}
+
+#footer {
+  background: #ddd;
+  border-top: 1px solid #aaa;
+  padding: 0.5em 0;
+  color: #666;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3em;
+}
+
+/* @end */
+
+/* @group Front Matter */
+
+#table-of-contents {
+  float: right;
+  clear: right;
+  background: #faf9dc;
+  border: 1px solid #d8d7ad;
+  padding: 0.5em 1em;
+  max-width: 20em;
+  margin: 0.5em 0 1em 1em;
+}
+
+#table-of-contents .caption {
+  text-align: center;
+  margin: 0;
+}
+
+#table-of-contents ul {
+  list-style: none;
+  margin: 0;
+}
+
+#table-of-contents ul ul {
+  margin-left: 2em;
+}
+
+#description .caption {
+  display: none;
+}
+
+#synopsis {
+  display: none;
+}
+
+.no-frame #synopsis {
+  display: block;
+  position: fixed;
+  right: 0;
+  height: 80%;
+  top: 10%;
+  padding: 0;
+  max-width: 75%;
+  /* Ensure that synopsis covers everything (including MathJAX markup) */
+  z-index: 1;
+}
+
+#synopsis .caption {
+  float: left;
+  width: 29px;
+  color: rgba(255,255,255,0);
+  height: 110px;
+  margin: 0;
+  font-size: 1px;
+  padding: 0;
+}
+
+#synopsis p.caption.collapser {
+  background: url(synopsis.png) no-repeat -64px -8px;
+}
+
+#synopsis p.caption.expander {
+  background: url(synopsis.png) no-repeat 0px -8px;
+}
+
+#synopsis ul {
+  height: 100%;
+  overflow: auto;
+  padding: 0.5em;
+  margin: 0;
+}
+
+#synopsis ul ul {
+  overflow: hidden;
+}
+
+#synopsis ul,
+#synopsis ul li.src {
+  background-color: #faf9dc;
+  white-space: nowrap;
+  list-style: none;
+  margin-left: 0;
+}
+
+/* @end */
+
+/* @group Main Content */
+
+#interface div.top { margin: 2em 0; }
+#interface h1 + div.top,
+#interface h2 + div.top,
+#interface h3 + div.top,
+#interface h4 + div.top,
+#interface h5 + div.top {
+ 	margin-top: 1em;
+}
+#interface .src .selflink,
+#interface .src .link {
+  float: right;
+  color: #919191;
+  background: #f0f0f0;
+  padding: 0 0.5em 0.2em;
+  margin: 0 -0.5em 0 0;
+}
+#interface .src .selflink {
+  border-left: 1px solid #919191;
+  margin: 0 -0.5em 0 0.5em;
+}
+
+#interface span.fixity {
+  color: #919191;
+  border-left: 1px solid #919191;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  margin: 0 -1em 0 1em;
+}
+
+#interface span.rightedge {
+  border-left: 1px solid #919191;
+  padding: 0.2em 0 0.2em 0;
+  margin: 0 0 0 1em;
+}
+
+#interface table { border-spacing: 2px; }
+#interface td {
+  vertical-align: top;
+  padding-left: 0.5em;
+}
+#interface td.src {
+  white-space: nowrap;
+}
+#interface td.doc p {
+  margin: 0;
+}
+#interface td.doc p + p {
+  margin-top: 0.8em;
+}
+
+.clearfix:after {
+  clear: both;
+  content: " ";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+.subs ul {
+  list-style: none;
+  display: table;
+  margin: 0;
+}
+
+.subs ul li {
+  display: table-row;
+}
+
+.subs ul li dfn {
+  display: table-cell;
+  font-style: normal;
+  font-weight: bold;
+  margin: 1px 0;
+  white-space: nowrap;
+}
+
+.subs ul li > .doc {
+  display: table-cell;
+  padding-left: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.subs ul li > .doc p {
+  margin: 0;
+}
+
+/* Render short-style data instances */
+.inst ul {
+  height: 100%;
+  padding: 0.5em;
+  margin: 0;
+}
+
+.inst, .inst li {
+  list-style: none;
+  margin-left: 1em;
+}
+
+/* Workaround for bug in Firefox (issue #384) */
+.inst-left {
+  float: left;
+}
+
+.top p.src {
+  border-top: 1px solid #ccc;
+}
+
+.subs, .doc {
+  /* use this selector for one level of indent */
+  padding-left: 2em;
+}
+
+.warning {
+  color: red;
+}
+
+.arguments {
+  margin-top: -0.4em;
+}
+.arguments .caption {
+  display: none;
+}
+
+.fields { padding-left: 1em; }
+
+.fields .caption { display: none; }
+
+.fields p { margin: 0 0; }
+
+/* this seems bulky to me
+.methods, .constructors {
+  background: #f8f8f8;
+  border: 1px solid #eee;
+}
+*/
+
+/* @end */
+
+/* @group Auxillary Pages */
+
+
+.extension-list {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+#mini {
+  margin: 0 auto;
+  padding: 0 1em 1em;
+}
+
+#mini > * {
+  font-size: 93%; /* 12pt */
+}
+
+#mini #module-list .caption,
+#mini #module-header .caption {
+  font-size: 125%; /* 15pt */
+}
+
+#mini #interface h1,
+#mini #interface h2,
+#mini #interface h3,
+#mini #interface h4 {
+  font-size: 109%; /* 13pt */
+  margin: 1em 0 0;
+}
+
+#mini #interface .top,
+#mini #interface .src {
+  margin: 0;
+}
+
+#mini #module-list ul {
+  list-style: none;
+  margin: 0;
+}
+
+#alphabet ul {
+	list-style: none;
+	padding: 0;
+	margin: 0.5em 0 0;
+	text-align: center;
+}
+
+#alphabet li {
+	display: inline;
+	margin: 0 0.25em;
+}
+
+#alphabet a {
+	font-weight: bold;
+}
+
+#index .caption,
+#module-list .caption { font-size: 131%; /* 17pt */ }
+
+#index table {
+  margin-left: 2em;
+}
+
+#index .src {
+  font-weight: bold;
+}
+#index .alt {
+  font-size: 77%; /* 10pt */
+  font-style: italic;
+  padding-left: 2em;
+}
+
+#index td + td {
+  padding-left: 1em;
+}
+
+#module-list ul {
+  list-style: none;
+  margin: 0 0 0 2em;
+}
+
+#module-list li {
+  clear: right;
+}
+
+#module-list span.collapser,
+#module-list span.expander {
+  background-position: 0 0.3em;
+}
+
+#module-list .package {
+  float: right;
+}
+
+/* @end */

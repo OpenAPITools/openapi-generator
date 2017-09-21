@@ -25,6 +25,7 @@ import { Pet } from '../model/pet';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { CustomQueryEncoderHelper }                          from '../encoder';
 import { PetServiceInterface }                            from './PetServiceInterface';
 
 
@@ -216,7 +217,7 @@ export class PetService implements PetServiceInterface {
     public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'body' is not null or undefined
@@ -267,7 +268,7 @@ export class PetService implements PetServiceInterface {
         const path = this.basePath + '/pet/${petId}'
                     .replace('${' + 'petId' + '}', String(petId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'petId' is not null or undefined
@@ -317,7 +318,7 @@ export class PetService implements PetServiceInterface {
     public findPetsByStatusWithHttpInfo(status: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/findByStatus';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'status' is not null or undefined
@@ -367,7 +368,7 @@ export class PetService implements PetServiceInterface {
     public findPetsByTagsWithHttpInfo(tags: Array<string>, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/findByTags';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'tags' is not null or undefined
@@ -418,7 +419,7 @@ export class PetService implements PetServiceInterface {
         const path = this.basePath + '/pet/${petId}'
                     .replace('${' + 'petId' + '}', String(petId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'petId' is not null or undefined
@@ -460,7 +461,7 @@ export class PetService implements PetServiceInterface {
     public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet';
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'body' is not null or undefined
@@ -512,7 +513,7 @@ export class PetService implements PetServiceInterface {
         const path = this.basePath + '/pet/${petId}'
                     .replace('${' + 'petId' + '}', String(petId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'petId' is not null or undefined
@@ -579,7 +580,7 @@ export class PetService implements PetServiceInterface {
         const path = this.basePath + '/pet/${petId}/uploadImage'
                     .replace('${' + 'petId' + '}', String(petId));
 
-        let queryParameters = new URLSearchParams();
+        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // verify required parameter 'petId' is not null or undefined

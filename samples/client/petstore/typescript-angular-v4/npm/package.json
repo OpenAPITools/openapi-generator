@@ -35,6 +35,6 @@
     "typescript": "^2.1.5"
   },
   "publishConfig": {
-    "registry": "https://skimdb.npmjs.com/registry"
+    "registry":"https://skimdb.npmjs.com/registry"
   }
 }

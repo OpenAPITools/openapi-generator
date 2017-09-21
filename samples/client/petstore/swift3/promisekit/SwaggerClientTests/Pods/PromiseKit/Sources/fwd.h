@@ -219,7 +219,7 @@ extern AnyPromise * __nonnull dispatch_promise_on(dispatch_queue_t __nonnull que
 
  By default this returns dispatch_get_main_queue()
  */
-extern __nonnull dispatch_queue_t PMKDefaultDispatchQueue() NS_REFINED_FOR_SWIFT;
+extern __nonnull dispatch_queue_t PMKDefaultDispatchQueue(void) NS_REFINED_FOR_SWIFT;
 
 /**
  You may alter the default dispatch queue, but you may only alter it once, and you must alter it before any `then`, etc. calls are made in your app.

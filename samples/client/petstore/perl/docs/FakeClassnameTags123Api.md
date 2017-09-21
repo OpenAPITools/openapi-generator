@@ -22,6 +22,11 @@ To test class name in snake case
 use Data::Dumper;
 use WWW::SwaggerClient::FakeClassnameTags123Api;
 my $api_instance = WWW::SwaggerClient::FakeClassnameTags123Api->new(
+
+    # Configure API key authorization: api_key_query
+    api_key => {'api_key_query' => 'YOUR_API_KEY'},
+    # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+    #api_key_prefix => {'api_key_query' => 'Bearer'},
 );
 
 my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
@@ -47,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key_query](../README.md#api_key_query)
 
 ### HTTP request headers
 

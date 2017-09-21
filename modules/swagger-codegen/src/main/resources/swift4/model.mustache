@@ -21,10 +21,7 @@ public enum {{classname}}: {{dataType}}, Codable {
 }
 {{/isEnum}}
 {{^isEnum}}
-{{#vars.isEmpty}}
-public typealias {{classname}} = {{dataType}}
-{{/vars.isEmpty}}
-{{^vars.isEmpty}}
+
 open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{/parent}} {
 
 {{#vars}}
@@ -37,11 +34,11 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
 {{#vars}}
 {{#isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
+    {{/description}}public var {{name}}: {{{datatype}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
     public var {{name}}Num: NSNumber? {
         get {
             return {{name}}.map({ return NSNumber(value: $0) })
@@ -51,19 +48,9 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
 {{/vars}}
 
 {{#additionalPropertiesType}}
-    public var additionalProperties: [AnyHashable:{{{additionalPropertiesType}}}] = [:]
+    public var additionalProperties: [String:{{{additionalPropertiesType}}}] = [:]
 
-{{/additionalPropertiesType}}
-{{^unwrapRequired}}
-    {{^parent}}public init() {}{{/parent}}{{/unwrapRequired}}
-{{#unwrapRequired}}
-    public init({{#allVars}}{{^-first}}, {{/-first}}{{name}}: {{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{^required}}?=nil{{/required}}{{/allVars}}) {
-        {{#vars}}
-        self.{{name}} = {{name}}
-        {{/vars}}
-    }{{/unwrapRequired}}
-{{#additionalPropertiesType}}
-    public subscript(key: AnyHashable) -> {{{additionalPropertiesType}}}? {
+    public subscript(key: String) -> {{{additionalPropertiesType}}}? {
         get {
             if let value = additionalProperties[key] {
                 return value
@@ -77,12 +64,38 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}Codable{{
     }
 {{/additionalPropertiesType}}
 
-    private enum CodingKeys: String, CodingKey { {{#vars}}
-        case {{{name}}} = "{{{baseName}}}"{{/vars}}
+    // Encodable protocol methods
+
+    public {{#parent}}override {{/parent}}func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        {{#vars}}
+        try container.encode{{#isListContainer}}Array{{/isListContainer}}{{^required}}IfPresent{{/required}}({{{name}}}, forKey: "{{{baseName}}}")
+        {{/vars}}
+        {{#additionalPropertiesType}}
+        try container.encodeMap(additionalProperties)
+        {{/additionalPropertiesType}}
     }
 
+    // Decodable protocol methods
+    
+    public {{#parent}}override {{/parent}}required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        {{#vars}}
+        {{name}} = try container.decode{{#isListContainer}}Array{{/isListContainer}}{{^required}}IfPresent{{/required}}({{#isListContainer}}{{{items.datatype}}}{{/isListContainer}}{{^isListContainer}}{{{datatype}}}{{/isListContainer}}.self, forKey: "{{{baseName}}}")
+        {{/vars}}
+        {{#additionalPropertiesType}}
+        var nonAdditionalPropertyKeys = Set<String>()
+        {{#vars}}
+        nonAdditionalPropertyKeys.insert("{{{baseName}}}")
+        {{/vars}}
+        additionalProperties = try container.decodeMap({{{additionalPropertiesType}}}.self, excludedKeys: nonAdditionalPropertyKeys)
+        {{/additionalPropertiesType}}
+    }
 }
-{{/vars.isEmpty}}
+
 {{/isEnum}}
 {{/isArrayModel}}
 {{/model}}

@@ -47,6 +47,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public AbstractCSharpCodegen() {
         super();
 
+        supportsInheritance = true;
+
         // C# does not use import mapping
         importMapping.clear();
 
@@ -553,6 +555,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
         String type;
+
+        if (swaggerType == null) {
+            swaggerType = ""; // set swagger type to empty string if null
+        }
+
+        // TODO avoid using toLowerCase as typeMapping should be case-sensitive
         if (typeMapping.containsKey(swaggerType.toLowerCase())) {
             type = typeMapping.get(swaggerType.toLowerCase());
             if (languageSpecificPrimitives.contains(type)) {

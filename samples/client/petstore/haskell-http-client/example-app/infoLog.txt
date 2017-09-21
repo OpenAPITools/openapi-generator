@@ -1,0 +1,55 @@
+******** CONFIG ********
+{ configHost = "http://0.0.0.0/v2", configUserAgent = "swagger-haskell-http-client/1.0.0", ..}
+******** Pet operations ********
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:POST 0.0.0.0/v2/pet
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (POST 0.0.0.0/v2/pet)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/pet/11
+getPetById: found pet: Pet {petId = Just 11, petCategory = Nothing, petName = "name", petPhotoUrls = ["url1","url2"], petTags = Just [], petStatus = Nothing}
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/pet/11)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/pet/findByStatus?status=available%2Cpending%2Csold
+findPetsByStatus: found 10 pets
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/pet/findByStatus?status=available%2Cpending%2Csold)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/pet/findByTags?tags=name%2Ctag1
+findPetsByTags: found 3 pets
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/pet/findByTags?tags=name%2Ctag1)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:PUT 0.0.0.0/v2/pet
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (PUT 0.0.0.0/v2/pet)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:POST 0.0.0.0/v2/pet/11
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (POST 0.0.0.0/v2/pet/11)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:POST 0.0.0.0/v2/pet/11/uploadImage
+uploadFile: ApiResponse {apiResponseCode = Just 200, apiResponseType = Just "unknown", apiResponseMessage = Just "additionalMetadata: a package.yaml file\nFile uploaded to ./package.yaml, 942 bytes"}
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (POST 0.0.0.0/v2/pet/11/uploadImage)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:DELETE 0.0.0.0/v2/pet/11
+******** Store operations ********
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (DELETE 0.0.0.0/v2/pet/11)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/store/inventory
+getInventoryRequest: found 3 results
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/store/inventory)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:POST 0.0.0.0/v2/store/order
+placeOrderResult: Order {orderId = Just 21, orderPetId = Just 0, orderQuantity = Just 210, orderShipDate = Just 2017-09-12 03:59:19.571 UTC, orderStatus = Nothing, orderComplete = Just False}
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (POST 0.0.0.0/v2/store/order)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/store/order/21
+getOrderById: found order: Order {orderId = Just 21, orderPetId = Just 0, orderQuantity = Just 210, orderShipDate = Just 2017-09-12 03:59:19.571 UTC, orderStatus = Nothing, orderComplete = Just False}
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/store/order/21)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:DELETE 0.0.0.0/v2/store/order/21
+******** User operations ********
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (DELETE 0.0.0.0/v2/store/order/21)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:POST 0.0.0.0/v2/user
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (POST 0.0.0.0/v2/user)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:POST 0.0.0.0/v2/user/createWithArray
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (POST 0.0.0.0/v2/user/createWithArray)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:POST 0.0.0.0/v2/user/createWithList
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (POST 0.0.0.0/v2/user/createWithList)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/user/hsusername
+getUserByName: found user: User {userId = Just 21, userUsername = Just "hsusername", userFirstName = Nothing, userLastName = Nothing, userEmail = Nothing, userPassword = Nothing, userPhone = Nothing, userUserStatus = Just 0}
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/user/hsusername)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/user/login?password=password1&username=hsusername
+loginUser: logged in user session:1505188759581
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/user/login?password=password1&username=hsusername)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:PUT 0.0.0.0/v2/user/hsusername
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (PUT 0.0.0.0/v2/user/hsusername)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:GET 0.0.0.0/v2/user/logout
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (GET 0.0.0.0/v2/user/logout)
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] REQ:DELETE 0.0.0.0/v2/user/hsusername
+******** END ********
+[2017-09-12 03:59:19][SwaggerPetstore.Client][Info][kestrel][18748][ThreadId 1] RES:statusCode=200 (DELETE 0.0.0.0/v2/user/hsusername)

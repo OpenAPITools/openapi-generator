@@ -1,12 +1,14 @@
 package io.swagger.codegen.php;
 
 import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.PhpClientCodegen;
 import io.swagger.models.ArrayModel;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
+import io.swagger.models.Operation;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.DateTimeProperty;
@@ -344,5 +346,17 @@ public class PhpModelTest {
         Assert.assertEquals(codegen.toEnumVarName("hello", null), "HELLO");
     }
 
+    @Test(description = "returns DateTime when using `--model-name-prefix`")
+    public void dateTest() {
+        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/datePropertyTest.json");
+        final DefaultCodegen codegen = new PhpClientCodegen();
+        codegen.setModelNamePrefix("foo");
 
+        final String path = "/tests/dateResponse";
+        final Operation p = model.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getDefinitions());
+
+        Assert.assertEquals(op.returnType, "\\DateTime");
+        Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");
+    }
 }

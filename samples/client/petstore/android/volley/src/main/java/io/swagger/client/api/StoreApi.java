@@ -214,7 +214,7 @@ public class StoreApi {
     try {
       String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if (localVarResponse != null) {
-         return (Map<String, Integer>) ApiInvoker.deserialize(localVarResponse, "map", Map.class);
+         return (Map<String, Integer>) ApiInvoker.deserialize(localVarResponse, "map", Integer.class);
       } else {
          return null;
       }
@@ -280,7 +280,7 @@ public class StoreApi {
           @Override
           public void onResponse(String localVarResponse) {
             try {
-              responseListener.onResponse((Map<String, Integer>) ApiInvoker.deserialize(localVarResponse,  "map", Map.class));
+              responseListener.onResponse((Map<String, Integer>) ApiInvoker.deserialize(localVarResponse,  "map", Integer.class));
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }

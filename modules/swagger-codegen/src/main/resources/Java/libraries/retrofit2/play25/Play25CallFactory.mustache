@@ -6,6 +6,7 @@ import okio.BufferedSource;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
+import play.libs.ws.WSRequestFilter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -30,9 +32,17 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
 
     /** Extra query parameters to add to request */
     private List<Pair> extraQueryParams = new ArrayList<>();
+    
+    /** Filters (interceptors) */
+    private List<WSRequestFilter> filters = new ArrayList<>();
 
     public Play25CallFactory(WSClient wsClient) {
         this.wsClient = wsClient;
+    }
+
+    public Play25CallFactory(WSClient wsClient, List<WSRequestFilter> filters) {
+        this.wsClient = wsClient;
+        this.filters.addAll(filters);
     }
 
     public Play25CallFactory(WSClient wsClient, Map<String, String> extraHeaders,
@@ -73,7 +83,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
             }
         }
 
-        return new PlayWSCall(wsClient, rb.build());
+        return new PlayWSCall(wsClient, this.filters, rb.build());
     }
 
     /**
@@ -83,12 +93,14 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
 
         private final WSClient wsClient;
         private WSRequest wsRequest;
+        private List<WSRequestFilter> filters;
 
         private final Request request;
 
-        public PlayWSCall(WSClient wsClient, Request request) {
+        public PlayWSCall(WSClient wsClient, List<WSRequestFilter> filters, Request request) {
             this.wsClient = wsClient;
             this.request = request;
+            this.filters = filters;
         }
 
         @Override
@@ -125,6 +137,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
                 if (request.body() != null) {
                     addBody(wsRequest);
                 }
+                filters.stream().forEach(f -> wsRequest.withRequestFilter(f));
 
                 return wsRequest.execute(request.method());
             } catch (Exception e) {
@@ -145,7 +158,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
             Buffer buffer = new Buffer();
             request.body().writeTo(buffer);
             wsRequest.setBody(buffer.inputStream());
-            
+
             MediaType mediaType = request.body().contentType();
             if (mediaType != null) {
                 wsRequest.setContentType(mediaType.toString());
@@ -160,20 +173,23 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
 
                        @Override
                        public MediaType contentType() {
-                           return MediaType.parse(r.getHeader("Content-Type"));
+                           return Optional.ofNullable(r.getHeader("Content-Type"))
+                                          .map(MediaType::parse)
+                                          .orElse(null);
                        }
 
                        @Override
                        public long contentLength() {
-                           return r.getBody().getBytes().length;
+                           return r.asByteArray().length;
                        }
 
                        @Override
                        public BufferedSource source() {
-                           return new Buffer().write(r.getBody().getBytes());
+                           return new Buffer().write(r.asByteArray());
                        }
-                   });
 
+                   });
+                   
             for (Map.Entry<String, List<String>> entry : r.getAllHeaders().entrySet()) {
                 for (String value : entry.getValue()) {
                     builder.addHeader(entry.getKey(), value);
@@ -193,7 +209,7 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
         public void cancel() {
             throw new UnsupportedOperationException("Not supported");
         }
-        
+
         @Override
         public PlayWSCall clone() {
             throw new UnsupportedOperationException("Not supported");

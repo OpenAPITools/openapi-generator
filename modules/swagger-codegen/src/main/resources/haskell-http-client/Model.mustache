@@ -1,0 +1,169 @@
+{-|
+Module : {{title}}.Model
+-}
+
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveFoldable #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveTraversable #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# OPTIONS_GHC -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
+
+module {{title}}.Model where
+
+import Data.Aeson ((.:),(.:!),(.:?),(.=))
+import Data.Text (Text)
+
+import Data.Aeson (Value)
+import Data.ByteString.Lazy (ByteString)
+
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.Data as P (Data, Typeable)
+import qualified Data.HashMap.Lazy as HM
+import qualified Data.Map as Map
+import qualified Data.Maybe as P
+import qualified Data.Foldable as P
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
+
+import qualified Data.Time as TI
+import qualified Data.Time.ISO8601 as TI
+import Data.Time (UTCTime)
+
+import Control.Applicative ((<|>))
+import Control.Applicative (Alternative)
+import Prelude (($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import qualified Prelude as P
+
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+-- * Models
+
+{{#models}}
+{{#model}}
+
+-- ** {{classname}}
+-- |{{#title}}
+-- {{{.}}}
+-- {{/title}}{{#description}}
+-- {{{.}}}{{/description}}
+{{^vendorExtensions.x-customNewtype}}
+data {{classname}} = {{classname}}
+  { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{datatype}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
+  , {{/hasMore}}{{/vars}}
+  } deriving (P.Show,P.Eq,P.Typeable{{#modelDeriving}},{{modelDeriving}}{{/modelDeriving}})
+
+instance A.FromJSON {{classname}} where
+  parseJSON = A.withObject "{{classname}}" $ \o ->
+    {{classname}}
+      <$>{{#vars}} (o {{#required}}.: {{/required}}{{^required}}{{^allowFromJsonNulls}}.:!{{/allowFromJsonNulls}}{{#allowFromJsonNulls}}.:?{{/allowFromJsonNulls}}{{/required}} "{{baseName}}"{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _readDate{{/isDate}}){{#hasMore}}
+      <*>{{/hasMore}}{{/vars}}
+
+instance A.ToJSON {{classname}} where
+  toJSON {{classname}} {..} =
+   {{^allowToJsonNulls}}_omitNulls{{/allowToJsonNulls}}{{#allowToJsonNulls}}A.object{{/allowToJsonNulls}}
+      [ {{#vars}}"{{baseName}}" .= {{#isDateTime}}{{^required}}P.fmap {{/required}}_showDateTime{{/isDateTime}}{{#isDate}}{{^required}}P.fmap {{/required}}_showDate{{/isDate}} {{name}}{{#hasMore}}
+      , {{/hasMore}}{{/vars}}
+      ]
+
+{{#vendorExtensions.x-hasMimeFormUrlEncoded}}
+instance WH.FromForm {{classname}} where
+  fromForm f =
+    {{classname}}
+      <$>{{#vars}} ({{#required}}WH.parseUnique {{/required}}{{^required}}WH.parseMaybe {{/required}}"{{baseName}}" f{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _readDate{{/isDate}}){{#hasMore}}
+      <*>{{/hasMore}}{{/vars}}
+
+instance WH.ToForm {{classname}} where
+  toForm {{classname}} {..} =
+    WH.Form $ HM.fromList $ P.catMaybes $
+      [ {{#vars}}_toFormItem "{{baseName}}" ({{#required}}Just $ {{/required}}{{#isDateTime}}{{^required}}P.fmap {{/required}}_showDateTime {{/isDateTime}}{{#isDate}}{{^required}}P.fmap {{/required}}_showDate {{/isDate}}{{name}}){{#hasMore}}
+      , {{/hasMore}}{{/vars}}
+      ]
+{{/vendorExtensions.x-hasMimeFormUrlEncoded}}
+
+{{#generateModelConstructors}}
+-- | Construct a value of type '{{classname}}' (by applying it's required fields, if any)
+mk{{classname}}
+  :: {{#requiredVars}}{{{datatype}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
+  -> {{/requiredVars}}{{classname}}
+mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
+  {{classname}}
+  { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isListContainer}}Nothing{{/isListContainer}}{{#isMapContainer}}Nothing{{/isMapContainer}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
+  , {{/hasMore}}{{/vars}}
+  }
+{{/generateModelConstructors}}
+  
+{{/vendorExtensions.x-customNewtype}}
+{{#vendorExtensions.x-customNewtype}}
+newtype {{classname}} = {{classname}} {{vendorExtensions.x-customNewtype}} deriving (P.Show, P.Eq, P.Data, P.Typeable, P.Generic, A.FromJSON, A.ToJSON)
+{-# WARNING {{classname}} "untested/unimlemented behavior" #-}
+{{/vendorExtensions.x-customNewtype}}
+
+{{/model}}
+{{/models}}
+
+-- * Utils
+
+-- | Removes Null fields.  (OpenAPI-Specification 2.0 does not allow Null in JSON)
+
+_omitNulls :: [(Text, A.Value)] -> A.Value
+_omitNulls = A.object . P.filter notNull
+  where
+    notNull (_, A.Null) = False
+    notNull _ = True
+
+_toFormItem :: (WH.ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])
+_toFormItem name x = (name,) . (:[]) . WH.toQueryParam <$> x
+
+_emptyToNothing :: Maybe String -> Maybe String
+_emptyToNothing (Just "") = Nothing
+_emptyToNothing x = x
+{-# INLINE _emptyToNothing #-}
+
+_memptyToNothing :: (P.Monoid a, P.Eq a) => Maybe a -> Maybe a
+_memptyToNothing (Just x) | x P.== P.mempty = Nothing
+_memptyToNothing x = x
+{-# INLINE _memptyToNothing #-}
+
+-- * DateTime Formatting
+
+-- | @{{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
+_readDateTime :: (TI.ParseTime t, Monad m, {{^dateTimeFormat}}Alternative m{{/dateTimeFormat}}) => String -> m t
+_readDateTime =
+  {{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
+{-# INLINE _readDateTime #-}
+
+-- | @{{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
+_showDateTime :: ({{^dateTimeFormat}}t ~ UTCTime, {{/dateTimeFormat}}TI.FormatTime t) => t -> String
+_showDateTime =
+  {{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
+{-# INLINE _showDateTime #-}
+
+_parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
+_parseISO8601 t =
+  P.asum $
+  P.flip (TI.parseTimeM True TI.defaultTimeLocale) t <$>
+  ["%FT%T%QZ", "%FT%T%Q%z", "%FT%T%Q%Z"]
+{-# INLINE _parseISO8601 #-}
+
+-- * Date Formatting
+
+-- | @TI.parseTimeM True TI.defaultTimeLocale "{{{dateFormat}}}"@
+_readDate :: (TI.ParseTime t, Monad m) => String -> m t
+_readDate =
+  TI.parseTimeM True TI.defaultTimeLocale "{{{dateFormat}}}"
+{-# INLINE _readDate #-}
+
+-- | @TI.formatTime TI.defaultTimeLocale "{{{dateFormat}}}"@
+_showDate :: TI.FormatTime t => t -> String
+_showDate =
+  TI.formatTime TI.defaultTimeLocale "{{{dateFormat}}}"
+{-# INLINE _showDate #-}

@@ -30,7 +30,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// 
 ///  code:405 message:"Invalid input"
 ///
-/// @return 
+/// @return void
 -(NSURLSessionTask*) addPetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
@@ -43,7 +43,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// 
 ///  code:400 message:"Invalid pet value"
 ///
-/// @return 
+/// @return void
 -(NSURLSessionTask*) deletePetWithPetId: (NSNumber*) petId
     apiKey: (NSString*) apiKey
     completionHandler: (void (^)(NSError* error)) handler;
@@ -98,7 +98,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 ///  code:404 message:"Pet not found",
 ///  code:405 message:"Validation exception"
 ///
-/// @return 
+/// @return void
 -(NSURLSessionTask*) updatePetWithBody: (SWGPet*) body
     completionHandler: (void (^)(NSError* error)) handler;
 
@@ -112,7 +112,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// 
 ///  code:405 message:"Invalid input"
 ///
-/// @return 
+/// @return void
 -(NSURLSessionTask*) updatePetWithFormWithPetId: (NSString*) petId
     name: (NSString*) name
     status: (NSString*) status
@@ -128,7 +128,7 @@ extern NSInteger kSWGPetApiMissingParamErrorCode;
 /// 
 ///  code:0 message:"successful operation"
 ///
-/// @return 
+/// @return void
 -(NSURLSessionTask*) uploadFileWithPetId: (NSNumber*) petId
     additionalMetadata: (NSString*) additionalMetadata
     file: (NSURL*) file

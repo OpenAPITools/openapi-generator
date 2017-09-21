@@ -274,6 +274,72 @@
         }
       },
       "description": "Response object containing AllPrimitives object"
+    },
+    "ModelWithStringAdditionalPropertiesOnly": {
+      "description": "This is an empty model with no properties and only additionalProperties of type string",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ModelWithIntAdditionalPropertiesOnly": {
+      "description": "This is an empty model with no properties and only additionalProperties of type int32",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "ModelWithPropertiesAndAdditionalProperties": {
+      "description": "This is an empty model with no properties and only additionalProperties of type int32",
+      "type": "object",
+      "required": [
+        "myIntegerReq",
+        "myPrimitiveReq",
+        "myStringArrayReq",
+        "myPrimitiveArrayReq"
+      ],
+      "properties": {
+        "myIntegerReq": {
+          "type": "integer"
+        },
+        "myIntegerOpt": {
+          "type": "integer"
+        },
+        "myPrimitiveReq": {
+          "$ref": "#/definitions/AllPrimitives"
+        },
+        "myPrimitiveOpt": {
+          "$ref": "#/definitions/AllPrimitives"
+        },
+        "myStringArrayReq": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "myStringArrayOpt": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "myPrimitiveArrayReq": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AllPrimitives"
+          }
+        },
+        "myPrimitiveArrayOpt": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AllPrimitives"
+          }
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
     }
   }
 }

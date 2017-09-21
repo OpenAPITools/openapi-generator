@@ -221,6 +221,7 @@ Each of these calls returns a hashref with various useful pieces of information.
 
 To load the API packages:
 ```perl
+use WWW::SwaggerClient::AnotherFakeApi;
 use WWW::SwaggerClient::FakeApi;
 use WWW::SwaggerClient::FakeClassnameTags123Api;
 use WWW::SwaggerClient::PetApi;
@@ -278,6 +279,7 @@ use lib 'lib';
 use strict;
 use warnings;
 # load the API package
+use WWW::SwaggerClient::AnotherFakeApi;
 use WWW::SwaggerClient::FakeApi;
 use WWW::SwaggerClient::FakeClassnameTags123Api;
 use WWW::SwaggerClient::PetApi;
@@ -329,14 +331,14 @@ use WWW::SwaggerClient::;
 my $api_instance = WWW::SwaggerClient::->new(
 );
 
-my $body = WWW::SwaggerClient::Object::OuterBoolean->new(); # OuterBoolean | Input boolean as post body
+my $body = WWW::SwaggerClient::Object::Client->new(); # Client | client model
 
 eval {
-    my $result = $api_instance->fake_outer_boolean_serialize(body => $body);
+    my $result = $api_instance->test_special_tags(body => $body);
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling FakeApi->fake_outer_boolean_serialize: $@\n";
+    warn "Exception when calling AnotherFakeApi->test_special_tags: $@\n";
 }
 
 ```
@@ -347,6 +349,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AnotherFakeApi* | [**test_special_tags**](docs/AnotherFakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -354,6 +357,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -423,6 +427,12 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+## api_key_query
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
 
 ## http_basic_test
 

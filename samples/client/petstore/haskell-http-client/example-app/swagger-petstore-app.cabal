@@ -1,0 +1,43 @@
+-- This file has been generated from package.yaml by hpack version 0.17.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           swagger-petstore-app
+version:        0.1.0.0
+synopsis:       Auto-generated swagger-petstore API Client
+description:     Sample app for calling the swagger-petstore API based on http-client. 
+category:       Web
+homepage:       https://github.com/swagger-api/swagger-codegen#readme
+author:         Author Name Here
+maintainer:     author.name@email.com
+copyright:      YEAR - AUTHOR
+license:        UnspecifiedLicense
+build-type:     Simple
+cabal-version:  >= 1.10
+
+extra-source-files:
+    README.md
+
+executable swagger-petstore-app
+  main-is: Main.hs
+  ghc-options: -Wall
+  build-depends:
+      base >=4.7 && <5.0
+    , transformers >=0.4.0.0
+    , mtl >=2.2.1
+    , unordered-containers
+    , containers >=0.5.0.0 && <0.6
+    , aeson >=1.0 && <2.0
+    , bytestring >=0.10.0 && <0.11
+    , http-types >=0.8 && <0.10
+    , http-client >=0.5 && <0.6
+    , http-client-tls
+    , http-api-data >= 0.3.4 && <0.4
+    , http-media >= 0.4 && < 0.8
+    , text >=0.11 && <1.3
+    , time >=1.5 && <1.9
+    , vector >=0.10.9 && <0.13
+    , case-insensitive
+    , swagger-petstore
+    , microlens >= 0.4.3 && <0.5
+  default-language: Haskell2010

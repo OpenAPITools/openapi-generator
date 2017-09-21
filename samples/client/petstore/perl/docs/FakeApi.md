@@ -16,6 +16,7 @@ Method | HTTP request | Description
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+[**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
 # **fake_outer_boolean_serialize**
@@ -269,7 +270,7 @@ my $api_instance = WWW::SwaggerClient::FakeApi->new(
 my $number = 3.4; # Number | None
 my $double = 1.2; # double | None
 my $pattern_without_delimiter = 'pattern_without_delimiter_example'; # string | None
-my $byte = 'B'; # string | None
+my $byte = 'byte_example'; # string | None
 my $integer = 56; # int | None
 my $int32 = 56; # int | None
 my $int64 = 789; # int | None
@@ -379,6 +380,53 @@ No authorization required
 
  - **Content-Type**: */*
  - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_json_form_data**
+> test_json_form_data(param => $param, param2 => $param2)
+
+test json serialization of form data
+
+
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::SwaggerClient::FakeApi;
+my $api_instance = WWW::SwaggerClient::FakeApi->new(
+);
+
+my $param = 'param_example'; # string | field1
+my $param2 = 'param2_example'; # string | field2
+
+eval { 
+    $api_instance->test_json_form_data(param => $param, param2 => $param2);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_json_form_data: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | **string**| field1 | 
+ **param2** | **string**| field2 | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

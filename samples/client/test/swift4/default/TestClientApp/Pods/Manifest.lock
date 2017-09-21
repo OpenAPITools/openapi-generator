@@ -1,7 +1,7 @@
 PODS:
-  - Alamofire (4.5.0)
+  - Alamofire (4.5.1)
   - TestClient (0.0.1):
-    - Alamofire (~> 4.5)
+    - Alamofire (~> 4.5.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
@@ -12,8 +12,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
-  TestClient: bcecc2c065b23aaa97f5b66a3f96741b560c381b
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  TestClient: c12a94972a1128167637d39ea0b072f46c0790de
 
 PODFILE CHECKSUM: a4351ac5e001fd96f35ed7e647981803864100b5
 

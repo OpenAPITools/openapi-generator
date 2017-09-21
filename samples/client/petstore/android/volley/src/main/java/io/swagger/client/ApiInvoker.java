@@ -365,24 +365,32 @@ public class ApiInvoker {
   }
 
   public String invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames) throws ApiException, InterruptedException, ExecutionException, TimeoutException {
-    RequestFuture<String> future = RequestFuture.newFuture();
-    Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, future, future);
-    if(request != null) {
-       mRequestQueue.add(request);
-       return future.get(connectionTimeout, TimeUnit.SECONDS);
-    } else {
-      return "no data";
+    try {
+      RequestFuture<String> future = RequestFuture.newFuture();
+      Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, future, future);
+      if(request != null) {
+         mRequestQueue.add(request);
+         return future.get(connectionTimeout, TimeUnit.SECONDS);
+      } else {
+        return "no data";
+      }
+    } catch (UnsupportedEncodingException ex) {
+      throw new ApiException(0, "UnsupportedEncodingException");
     }
   }
 
   public void invokeAPI(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
-    Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, stringRequest, errorListener);
-    if (request != null) {
-      mRequestQueue.add(request);
+    try {
+      Request request = createRequest(host, path, method, queryParams, body, headerParams, formParams, contentType, authNames, stringRequest, errorListener);
+      if (request != null) {
+        mRequestQueue.add(request);
+      }
+    } catch (UnsupportedEncodingException ex) {
+      throw new ApiException(0, "UnsupportedEncodingException");
     }
   }
 
-  public Request<String> createRequest(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException {
+  public Request<String> createRequest(String host, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType, String[] authNames, Response.Listener<String> stringRequest, Response.ErrorListener errorListener) throws ApiException, UnsupportedEncodingException {
     StringBuilder b = new StringBuilder();
     b.append("?");
 

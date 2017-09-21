@@ -30,6 +30,10 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
+use WWW::SwaggerClient::Object::OuterBoolean;
+use WWW::SwaggerClient::Object::OuterNumber;
+use WWW::SwaggerClient::Object::OuterString;
+
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
 

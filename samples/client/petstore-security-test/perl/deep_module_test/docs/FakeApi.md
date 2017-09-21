@@ -20,10 +20,10 @@ To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 ### Example 
 ```perl
 use Data::Dumper;
-use Something::Deep::Configuration;
 use Something::Deep::FakeApi;
+my $api_instance = Something::Deep::FakeApi->new(
+);
 
-my $api_instance = Something::Deep::FakeApi->new();
 my $test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r = 'test code inject */ ' " =end __ \r\n \n \r_example'; # string | To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 
 eval { 
