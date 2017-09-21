@@ -923,7 +923,7 @@ Swagger Codegen core team members are contributors who have been making signific
 | Java Play Framework |  |
 | NancyFX |  |
 | NodeJS | @kolyjjj (2016/05/01) |  
-| PHP Lumen | @abcsum (2016/05/01) |
+| PHP Lumen | @abcsun (2016/05/01) |
 | PHP Silex |  |
 | PHP Slim  |  |
 | Python Flask  |  |
@@ -991,7 +991,7 @@ Here is a list of template creators:
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
    * JAX-RS RestEasy (JBoss EAP): @jfiala
-   * PHP Lumen: @abcsum
+   * PHP Lumen: @abcsun
    * PHP Slim: @jfastnacht
    * PHP Symfony: @ksm2
    * PHP Zend Expressive (with Path Handler): @Articus
