@@ -124,7 +124,10 @@ pplx::task<web::http::http_response> ApiClient::callApi(
                 {
                     body_data[kvp.first] = ModelBase::toJson(kvp.second);
                 }
-                request.set_body(body_data);
+                if (!formParams.empty())
+                {
+                    request.set_body(body_data);
+		}
             }
             else
             {
@@ -133,7 +136,10 @@ pplx::task<web::http::http_response> ApiClient::callApi(
                 {
                     formData.append_query(kvp.first, kvp.second);
                 }
-                request.set_body(formData.query(), U("application/x-www-form-urlencoded"));
+                if (!formParams.empty())
+                {
+                    request.set_body(formData.query(), U("application/x-www-form-urlencoded"));
+                }
             }
         }
     }
