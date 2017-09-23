@@ -87,7 +87,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**map[string,int]**
+[**map[string,int]**](../Model/map.md)
 
 ### Authorization
 
