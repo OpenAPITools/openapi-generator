@@ -160,6 +160,10 @@ export class StoreService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -190,6 +194,10 @@ export class StoreService {
         let produces: string[] = [
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -234,6 +242,10 @@ export class StoreService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -270,6 +282,10 @@ export class StoreService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');

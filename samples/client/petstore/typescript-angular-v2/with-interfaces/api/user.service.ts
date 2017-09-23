@@ -226,6 +226,10 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -266,6 +270,10 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -305,6 +313,10 @@ export class UserService implements UserServiceInterface {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');
@@ -347,6 +359,10 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -384,6 +400,10 @@ export class UserService implements UserServiceInterface {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -435,6 +455,10 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -466,6 +490,10 @@ export class UserService implements UserServiceInterface {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -509,6 +537,10 @@ export class UserService implements UserServiceInterface {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');
