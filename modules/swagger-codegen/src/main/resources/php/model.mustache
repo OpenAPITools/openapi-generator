@@ -21,20 +21,23 @@
 
 namespace {{modelPackage}};
 {{^isEnum}}
+{{^parentSchema}}
 
 use \ArrayAccess;
+{{/parentSchema}}
 {{/isEnum}}
+use \{{invokerPackage}}\ObjectSerializer;
 
 /**
  * {{classname}} Class Doc Comment
  *
- * @category    Class
+ * @category Class
 {{#description}}
  * @description {{description}}
 {{/description}}
- * @package     {{invokerPackage}}
- * @author      Swagger Codegen team
- * @link        https://github.com/swagger-api/swagger-codegen
+ * @package  {{invokerPackage}}
+ * @author   Swagger Codegen team
+ * @link     https://github.com/swagger-api/swagger-codegen
  */
 {{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}
 {{/model}}{{/models}}
