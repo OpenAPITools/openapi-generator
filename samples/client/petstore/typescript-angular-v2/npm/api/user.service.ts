@@ -225,6 +225,10 @@ export class UserService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -265,6 +269,10 @@ export class UserService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -304,6 +312,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');
@@ -346,6 +358,10 @@ export class UserService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -383,6 +399,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -434,6 +454,10 @@ export class UserService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -465,6 +489,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -508,6 +536,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');

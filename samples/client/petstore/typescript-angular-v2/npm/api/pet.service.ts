@@ -230,6 +230,10 @@ export class PetService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -285,6 +289,10 @@ export class PetService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -334,6 +342,10 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
         // authentication (petstore_auth) required
         // oauth required
@@ -385,6 +397,10 @@ export class PetService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -432,6 +448,10 @@ export class PetService {
             'application/json'
         ];
 
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
+
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
@@ -473,6 +493,10 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
         // authentication (petstore_auth) required
         // oauth required
@@ -523,6 +547,11 @@ export class PetService {
         let consumes: string[] = [
             'application/x-www-form-urlencoded'
         ];
+
+        if ((consumes != null) && (consumes.length > 0)) {
+            headers.set('Content-Type', consumes.join(';'));
+        }
+
         let canConsumeForm = this.canConsumeForm(consumes);
         let useForm = false;
         let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
@@ -534,6 +563,10 @@ export class PetService {
             'application/xml',
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
         // authentication (petstore_auth) required
         // oauth required
@@ -590,6 +623,11 @@ export class PetService {
         let consumes: string[] = [
             'multipart/form-data'
         ];
+
+        if ((consumes != null) && (consumes.length > 0)) {
+            headers.set('Content-Type', consumes.join(';'));
+        }
+
         let canConsumeForm = this.canConsumeForm(consumes);
         let useForm = false;
         useForm = canConsumeForm;
@@ -601,6 +639,10 @@ export class PetService {
         let produces: string[] = [
             'application/json'
         ];
+
+        if ((produces != null) && (produces.length > 0)) {
+            headers.set('Accept', produces.join(';'));
+        }
 
         // authentication (petstore_auth) required
         // oauth required
