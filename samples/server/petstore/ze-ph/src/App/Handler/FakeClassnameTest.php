@@ -10,25 +10,25 @@ use Articus\PathHandler\Attribute as PHAttribute;
 use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
-class StoreOrder implements Operation\PostInterface
+class FakeClassnameTest implements Operation\PatchInterface
 {
     /**
-     * Place an order for a pet
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\Order::class,"objectAttr":"body"})
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
+     * To test class name in snake case
+     * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
+     * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\Client::class,"objectAttr":"body"})
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
      *
-     * @return \App\DTO\Order
+     * @return \App\DTO\Client
      */
-    public function handlePost(ServerRequestInterface $request)
+    public function handlePatch(ServerRequestInterface $request)
     {
         //TODO implement method
-        /** @var \App\DTO\Order $body */
+        /** @var \App\DTO\Client $body */
         $body = $request->getAttribute("body");
         throw new PHException\HttpCode(500, "Not implemented");
     }

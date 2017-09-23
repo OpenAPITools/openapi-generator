@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class EnumArrays 
+class EnumArrays
 {
     /**
      * @DTA\Data(field="just_symbol", nullable=true)
@@ -23,4 +23,3 @@ class EnumArrays
      */
     public $array_enum;
 }
-

@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class ApiResponse 
+class ApiResponse
 {
     /**
      * @DTA\Data(field="code", nullable=true)
@@ -27,4 +27,3 @@ class ApiResponse
      */
     public $message;
 }
-

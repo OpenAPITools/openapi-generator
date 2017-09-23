@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class Capitalization 
+class Capitalization
 {
     /**
      * @DTA\Data(field="smallCamel", nullable=true)
@@ -46,4 +46,3 @@ class Capitalization
      */
     public $att_name;
 }
-

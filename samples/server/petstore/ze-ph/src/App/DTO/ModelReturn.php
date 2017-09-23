@@ -7,7 +7,7 @@ use Articus\DataTransfer\Annotation as DTA;
 /**
  * Model for testing reserved words
  */
-class ModelReturn 
+class ModelReturn
 {
     /**
      * @DTA\Data(field="return", nullable=true)
@@ -16,4 +16,3 @@ class ModelReturn
      */
     public $return;
 }
-

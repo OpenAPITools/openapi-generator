@@ -7,7 +7,7 @@ use Articus\DataTransfer\Annotation as DTA;
 /**
  * Model for testing model name same as property name
  */
-class Name 
+class Name
 {
     /**
      * @DTA\Data(field="name")
@@ -34,4 +34,3 @@ class Name
      */
     public $_123_number;
 }
-

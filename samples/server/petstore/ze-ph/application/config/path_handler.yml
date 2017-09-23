@@ -9,6 +9,12 @@ path_handler:
             handler: Fake
         may_terminate: true
         child_routes:
+          'jsonFormData':
+            type: Literal
+            options:
+              route: /jsonFormData
+              defaults:
+                handler: FakeJsonFormData
           'outer':
             type: Literal
             options:
@@ -38,6 +44,12 @@ path_handler:
                   route: /string
                   defaults:
                     handler: FakeOuterString
+      'fake_classname_test':
+        type: Literal
+        options:
+          route: /fake_classname_test
+          defaults:
+            handler: FakeClassnameTest
       'pet':
         type: Literal
         options:
@@ -150,10 +162,12 @@ path_handler:
   handlers:
     invokables:
       Fake: App\Handler\Fake
+      FakeJsonFormData: App\Handler\FakeJsonFormData
       FakeOuterBoolean: App\Handler\FakeOuterBoolean
       FakeOuterComposite: App\Handler\FakeOuterComposite
       FakeOuterNumber: App\Handler\FakeOuterNumber
       FakeOuterString: App\Handler\FakeOuterString
+      FakeClassnameTest: App\Handler\FakeClassnameTest
       Pet: App\Handler\Pet
       PetFindByStatus: App\Handler\PetFindByStatus
       PetFindByTags: App\Handler\PetFindByTags

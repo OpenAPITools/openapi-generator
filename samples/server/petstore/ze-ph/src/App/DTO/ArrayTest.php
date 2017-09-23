@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class ArrayTest 
+class ArrayTest
 {
     /**
      * @DTA\Data(field="array_of_string", nullable=true)
@@ -35,4 +35,3 @@ class ArrayTest
      */
     public $array_array_of_model;
 }
-

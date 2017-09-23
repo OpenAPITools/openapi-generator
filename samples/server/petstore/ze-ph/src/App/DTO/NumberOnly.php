@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class NumberOnly 
+class NumberOnly
 {
     /**
      * @DTA\Data(field="JustNumber", nullable=true)
@@ -15,4 +15,3 @@ class NumberOnly
      */
     public $just_number;
 }
-

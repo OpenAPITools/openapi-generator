@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class MixedPropertiesAndAdditionalPropertiesClass 
+class MixedPropertiesAndAdditionalPropertiesClass
 {
     /**
      * @DTA\Data(field="uuid", nullable=true)
@@ -29,4 +29,3 @@ class MixedPropertiesAndAdditionalPropertiesClass
      */
     public $map;
 }
-

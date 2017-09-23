@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class User 
+class User
 {
     /**
      * @DTA\Data(field="id", nullable=true)
@@ -58,4 +58,3 @@ class User
      */
     public $user_status;
 }
-

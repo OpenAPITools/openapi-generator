@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class Order 
+class Order
 {
     /**
      * @DTA\Data(field="id", nullable=true)
@@ -47,4 +47,3 @@ class Order
      */
     public $complete;
 }
-
