@@ -348,7 +348,7 @@ export class UserService implements UserServiceInterface {
      */
     public deleteUserWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', String(username));
+                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -390,7 +390,7 @@ export class UserService implements UserServiceInterface {
      */
     public getUserByNameWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', String(username));
+                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -523,7 +523,7 @@ export class UserService implements UserServiceInterface {
      */
     public updateUserWithHttpInfo(username: string, body: User, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', String(username));
+                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
