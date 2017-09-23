@@ -7,7 +7,7 @@ use Articus\DataTransfer\Annotation as DTA;
 /**
  * Model for testing model name starting with number
  */
-class Model200Response 
+class Model200Response
 {
     /**
      * @DTA\Data(field="name", nullable=true)
@@ -22,4 +22,3 @@ class Model200Response
      */
     public $class;
 }
-

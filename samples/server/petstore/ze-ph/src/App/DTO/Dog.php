@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class Dog 
+class Dog
 {
     /**
      * @DTA\Data(field="className")
@@ -27,4 +27,3 @@ class Dog
      */
     public $breed;
 }
-

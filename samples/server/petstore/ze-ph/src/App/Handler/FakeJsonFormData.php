@@ -10,19 +10,13 @@ use Articus\PathHandler\Attribute as PHAttribute;
 use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
-class PetFindByStatus implements Operation\GetInterface
+class FakeJsonFormData implements Operation\GetInterface
 {
     /**
-     * Finds Pets by status
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
-     * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
+     * test json serialization of form data
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
-     *
-     * @return \App\DTO\Pet[]
      */
     public function handleGet(ServerRequestInterface $request)
     {

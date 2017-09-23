@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class ArrayOfNumberOnly 
+class ArrayOfNumberOnly
 {
     /**
      * @DTA\Data(field="ArrayNumber", nullable=true)
@@ -17,4 +17,3 @@ class ArrayOfNumberOnly
      */
     public $array_number;
 }
-

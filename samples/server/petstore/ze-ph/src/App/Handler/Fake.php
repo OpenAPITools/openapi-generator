@@ -10,7 +10,6 @@ use Articus\PathHandler\Attribute as PHAttribute;
 use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
-
 class Fake implements Operation\PatchInterface, Operation\PostInterface, Operation\GetInterface
 {
     /**
@@ -20,6 +19,10 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\Client::class,"objectAttr":"body"})
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
+     * @param ServerRequestInterface $request
+     *
+     * @throws PHException\HttpCode 500 if the method is not implemented
+     *
      * @return \App\DTO\Client
      */
     public function handlePatch(ServerRequestInterface $request)
@@ -35,6 +38,9 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml; charset&#x3D;utf-8")
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json; charset&#x3D;utf-8")
+     * @param ServerRequestInterface $request
+     *
+     * @throws PHException\HttpCode 500 if the method is not implemented
      */
     public function handlePost(ServerRequestInterface $request)
     {
@@ -45,6 +51,9 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
      * To test enum parameters
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="*/*")
+     * @param ServerRequestInterface $request
+     *
+     * @throws PHException\HttpCode 500 if the method is not implemented
      */
     public function handleGet(ServerRequestInterface $request)
     {

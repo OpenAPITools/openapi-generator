@@ -12,6 +12,10 @@ class Date extends DateTime
      */
     protected function parseDateString($arrayValue)
     {
-        return \DateTime::createFromFormat(static::DATE_TIME_FORMAT.' H:i:sP', $arrayValue.' 00:00:00+00:00', new \DateTimeZone('UTC'));
+        return \DateTime::createFromFormat(
+            static::DATE_TIME_FORMAT . ' H:i:sP',
+            $arrayValue . ' 00:00:00+00:00',
+            new \DateTimeZone('UTC')
+        );
     }
 }

@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class EnumTest 
+class EnumTest
 {
     /**
      * @DTA\Data(field="enum_string", nullable=true)
@@ -34,4 +34,3 @@ class EnumTest
      */
     public $outer_enum;
 }
-

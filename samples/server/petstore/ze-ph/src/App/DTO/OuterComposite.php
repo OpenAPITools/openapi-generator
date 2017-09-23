@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class OuterComposite 
+class OuterComposite
 {
     /**
      * @DTA\Data(field="my_number", nullable=true)
@@ -30,4 +30,3 @@ class OuterComposite
      */
     public $my_boolean;
 }
-

@@ -55,7 +55,6 @@ public class ZendExpressivePathHandlerServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("Date.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Strategy", "Date.php"));
         supportingFiles.add(new SupportingFile("DateTime.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Strategy", "DateTime.php"));
         supportingFiles.add(new SupportingFile("Type.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Validator", "Type.php"));
-        supportingFiles.add(new SupportingFile("ErrorMiddleware.php.mustache", packagePath + File.separator + srcBasePath, "ErrorMiddleware.php"));
 
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "1.0.0");
     }

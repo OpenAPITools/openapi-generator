@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class Category 
+class Category
 {
     /**
      * @DTA\Data(field="id", nullable=true)
@@ -21,4 +21,3 @@ class Category
      */
     public $name;
 }
-

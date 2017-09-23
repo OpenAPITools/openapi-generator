@@ -1,2 +1,3 @@
 #App
 cache_configuration: false
+debug: true

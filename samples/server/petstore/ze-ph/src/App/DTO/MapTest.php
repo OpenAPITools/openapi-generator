@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class MapTest 
+class MapTest
 {
     /**
      * @DTA\Data(field="map_map_of_string", nullable=true)
@@ -21,4 +21,3 @@ class MapTest
      */
     public $map_of_enum_string;
 }
-
