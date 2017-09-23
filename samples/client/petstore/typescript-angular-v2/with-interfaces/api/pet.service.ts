@@ -75,6 +75,11 @@ export class PetService implements PetServiceInterface {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
     /**
      * 
      * @summary Add a new pet to the store
@@ -231,8 +236,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (petstore_auth) required
@@ -290,8 +295,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (petstore_auth) required
@@ -344,8 +349,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (petstore_auth) required
@@ -398,8 +403,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (petstore_auth) required
@@ -449,8 +454,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (api_key) required
@@ -495,8 +500,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (petstore_auth) required
@@ -549,8 +554,8 @@ export class PetService implements PetServiceInterface {
             'application/x-www-form-urlencoded'
         ];
 
-        if ((consumes != null) && (consumes.length > 0)) {
-            headers.set('Content-Type', consumes.join(';'));
+        if (consumes != null && consumes.length > 0) {
+            headers.set('Content-Type', consumes.filter(item => this.isJsonMime(item)).join(";"));
         }
 
         let canConsumeForm = this.canConsumeForm(consumes);
@@ -565,8 +570,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (petstore_auth) required
@@ -625,8 +630,8 @@ export class PetService implements PetServiceInterface {
             'multipart/form-data'
         ];
 
-        if ((consumes != null) && (consumes.length > 0)) {
-            headers.set('Content-Type', consumes.join(';'));
+        if (consumes != null && consumes.length > 0) {
+            headers.set('Content-Type', consumes.filter(item => this.isJsonMime(item)).join(";"));
         }
 
         let canConsumeForm = this.canConsumeForm(consumes);
@@ -641,8 +646,8 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (petstore_auth) required

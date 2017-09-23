@@ -73,6 +73,11 @@ export class UserService {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
     /**
      * This can only be done by the logged in user.
      * @summary Create user
@@ -225,6 +230,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -265,6 +274,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -304,6 +317,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');
@@ -346,6 +363,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
@@ -383,6 +404,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -434,6 +459,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -465,6 +494,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -508,6 +541,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');

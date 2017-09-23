@@ -74,6 +74,11 @@ export class UserService implements UserServiceInterface {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
     /**
      * This can only be done by the logged in user.
      * @summary Create user
@@ -226,8 +231,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -270,8 +275,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -314,8 +319,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -359,8 +364,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -401,8 +406,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -455,8 +460,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -491,8 +496,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -538,8 +543,8 @@ export class UserService implements UserServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             

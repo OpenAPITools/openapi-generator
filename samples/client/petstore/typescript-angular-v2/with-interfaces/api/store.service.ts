@@ -74,6 +74,11 @@ export class StoreService implements StoreServiceInterface {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
@@ -161,8 +166,8 @@ export class StoreService implements StoreServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -196,8 +201,8 @@ export class StoreService implements StoreServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
         // authentication (api_key) required
@@ -243,8 +248,8 @@ export class StoreService implements StoreServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
@@ -284,8 +289,8 @@ export class StoreService implements StoreServiceInterface {
             'application/json'
         ];
 
-        if ((produces != null) && (produces.length > 0)) {
-            headers.set('Accept', produces.join(';'));
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
             
