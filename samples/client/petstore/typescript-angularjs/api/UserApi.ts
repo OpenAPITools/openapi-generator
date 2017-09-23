@@ -117,7 +117,7 @@ export class UserApi {
      */
     public deleteUser (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -145,7 +145,7 @@ export class UserApi {
      */
     public getUserByName (username: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.User> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -236,7 +236,7 @@ export class UserApi {
      */
     public updateUser (username: string, body: models.User, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
