@@ -1,6 +1,6 @@
 <?php
 /**
- * AnotherfakeApi
+ * Fake_classname_tags123Api
  * PHP version 5
  *
  * @category Class
@@ -39,14 +39,14 @@ use Swagger\Client\HeaderSelector;
 use Swagger\Client\ObjectSerializer;
 
 /**
- * AnotherfakeApi Class Doc Comment
+ * Fake_classname_tags123Api Class Doc Comment
  *
  * @category Class
  * @package  Swagger\Client
  * @author   Swagger Codegen team
  * @link     https://github.com/swagger-api/swagger-codegen
  */
-class AnotherfakeApi
+class Fake_classname_tags123Api
 {
     /**
      * @var ClientInterface
@@ -82,9 +82,9 @@ class AnotherfakeApi
     }
 
     /**
-     * Operation testSpecialTags
+     * Operation testClassname
      *
-     * To test special tags
+     * To test class name in snake case
      *
      * @param  \Swagger\Client\Model\Client $body client model (required)
      *
@@ -92,16 +92,16 @@ class AnotherfakeApi
      * @throws \InvalidArgumentException
      * @return \Swagger\Client\Model\Client
      */
-    public function testSpecialTags($body)
+    public function testClassname($body)
     {
-        list($response) = $this->testSpecialTagsWithHttpInfo($body);
+        list($response) = $this->testClassnameWithHttpInfo($body);
         return $response;
     }
 
     /**
-     * Operation testSpecialTagsWithHttpInfo
+     * Operation testClassnameWithHttpInfo
      *
-     * To test special tags
+     * To test class name in snake case
      *
      * @param  \Swagger\Client\Model\Client $body client model (required)
      *
@@ -109,10 +109,10 @@ class AnotherfakeApi
      * @throws \InvalidArgumentException
      * @return array of \Swagger\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testSpecialTagsWithHttpInfo($body)
+    public function testClassnameWithHttpInfo($body)
     {
         $returnType = '\Swagger\Client\Model\Client';
-        $request = $this->testSpecialTagsRequest($body);
+        $request = $this->testClassnameRequest($body);
 
         try {
 
@@ -173,18 +173,18 @@ class AnotherfakeApi
     }
 
     /**
-     * Operation testSpecialTagsAsync
+     * Operation testClassnameAsync
      *
-     * To test special tags
+     * To test class name in snake case
      *
      * @param  \Swagger\Client\Model\Client $body client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testSpecialTagsAsync($body)
+    public function testClassnameAsync($body)
     {
-        return $this->testSpecialTagsAsyncWithHttpInfo($body)
+        return $this->testClassnameAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -193,19 +193,19 @@ class AnotherfakeApi
     }
 
     /**
-     * Operation testSpecialTagsAsyncWithHttpInfo
+     * Operation testClassnameAsyncWithHttpInfo
      *
-     * To test special tags
+     * To test class name in snake case
      *
      * @param  \Swagger\Client\Model\Client $body client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testSpecialTagsAsyncWithHttpInfo($body)
+    public function testClassnameAsyncWithHttpInfo($body)
     {
         $returnType = '\Swagger\Client\Model\Client';
-        $request = $this->testSpecialTagsRequest($body);
+        $request = $this->testClassnameRequest($body);
 
         return $this->client
             ->sendAsync($request)
@@ -245,23 +245,23 @@ class AnotherfakeApi
     }
 
     /**
-     * Create request for operation 'testSpecialTags'
+     * Create request for operation 'testClassname'
      *
      * @param  \Swagger\Client\Model\Client $body client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testSpecialTagsRequest($body)
+    protected function testClassnameRequest($body)
     {
         // verify the required parameter 'body' is set
         if ($body === null) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling testSpecialTags'
+                'Missing the required parameter $body when calling testClassname'
             );
         }
 
-        $resourcePath = '/another-fake/dummy';
+        $resourcePath = '/fake_classname_test';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -312,6 +312,11 @@ class AnotherfakeApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('api_key_query');
+        if ($apiKey !== null) {
+            $queryParams['api_key_query'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
