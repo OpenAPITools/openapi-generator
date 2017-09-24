@@ -1,10 +1,10 @@
-# Swagger\Client\AnotherFakeApi
+# Swagger\Client\AnotherfakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testSpecialTags**](AnotherFakeApi.md#testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**testSpecialTags**](AnotherfakeApi.md#testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 
 
 # **testSpecialTags**
@@ -19,14 +19,14 @@ To test special tags
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\AnotherFakeApi(new \Http\Adapter\Guzzle6\Client());
+$api_instance = new Swagger\Client\Api\AnotherfakeApi(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
     $result = $api_instance->testSpecialTags($body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AnotherFakeApi->testSpecialTags: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling AnotherfakeApi->testSpecialTags: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```

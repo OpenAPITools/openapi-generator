@@ -11,7 +11,6 @@ use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
 {{#operations}}
-
 {{#description}}
 /**
  * {{&description}}
@@ -40,7 +39,11 @@ class {{classname}} implements {{interfacesToImplement}}
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="{{mediaType}}")
 {{/produces}}
+     * @param ServerRequestInterface $request
+     *
+     * @throws PHException\HttpCode 500 if the method is not implemented
 {{#returnType}}
+     *
      * @return {{returnType}}
 {{/returnType}}
      */

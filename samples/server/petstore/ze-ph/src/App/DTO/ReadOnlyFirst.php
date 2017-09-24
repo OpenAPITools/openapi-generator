@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class ReadOnlyFirst 
+class ReadOnlyFirst
 {
     /**
      * @DTA\Data(field="bar", nullable=true)
@@ -21,4 +21,3 @@ class ReadOnlyFirst
      */
     public $baz;
 }
-

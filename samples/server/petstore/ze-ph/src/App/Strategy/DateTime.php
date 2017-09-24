@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Strategy;
+
 use Articus\DataTransfer\Strategy\StrategyInterface;
 
 class DateTime implements StrategyInterface
 {
     const DATE_TIME_FORMAT = \DateTime::RFC3339;
+
     /**
      * @inheritDoc
      */

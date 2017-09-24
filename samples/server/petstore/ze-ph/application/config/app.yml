@@ -3,17 +3,24 @@ dependencies:
     #Has to add this line because currently router is strict requirement for Zend\Expressive\Application even if only middleware_pipeline is used
     Zend\Expressive\Router\RouterInterface: Zend\Expressive\Router\ZendRouter
     Zend\Diactoros\Response\EmitterInterface: Zend\Diactoros\Response\SapiStreamEmitter
-    App\ErrorMiddleware: App\ErrorMiddleware
   factories:
     Zend\Expressive\Application: Zend\Expressive\Container\ApplicationFactory
     Articus\PathHandler\Middleware: Articus\PathHandler\MiddlewareFactory
     Articus\DataTransfer\Service: Articus\DataTransfer\ServiceFactory
+    Zend\Stratigility\Middleware\ErrorHandler: Zend\Expressive\Container\ErrorHandlerFactory
+    Zend\Expressive\Middleware\ErrorResponseGenerator: Zend\Expressive\Container\WhoopsErrorResponseGeneratorFactory
+    Zend\Expressive\Whoops: Zend\Expressive\Container\WhoopsFactory
+    Zend\Expressive\WhoopsPageHandler: Zend\Expressive\Container\WhoopsPageHandlerFactory
 
 middleware_pipeline:
+  error:
+    middleware: Zend\Stratigility\Middleware\ErrorHandler
   api:
     middleware: Articus\PathHandler\Middleware
     path: /v2
-  error:
-    middleware: App\ErrorMiddleware
-    error: true
-    priority: -10000
+
+whoops:
+  json_exceptions:
+    display: true
+    show_trace: true
+    ajax_only: true

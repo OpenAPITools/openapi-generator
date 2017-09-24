@@ -75,6 +75,11 @@ export class PetService implements PetServiceInterface {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
     /**
      * 
      * @summary Add a new pet to the store
@@ -231,6 +236,10 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -266,7 +275,7 @@ export class PetService implements PetServiceInterface {
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -285,6 +294,10 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
         // authentication (petstore_auth) required
         // oauth required
@@ -336,6 +349,10 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -386,6 +403,10 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -417,7 +438,7 @@ export class PetService implements PetServiceInterface {
      */
     public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -432,6 +453,10 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -475,6 +500,10 @@ export class PetService implements PetServiceInterface {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
         // authentication (petstore_auth) required
         // oauth required
         if (this.configuration.accessToken) {
@@ -511,7 +540,7 @@ export class PetService implements PetServiceInterface {
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -524,6 +553,11 @@ export class PetService implements PetServiceInterface {
         let consumes: string[] = [
             'application/x-www-form-urlencoded'
         ];
+
+        if (consumes != null && consumes.length > 0) {
+            headers.set('Content-Type', consumes.filter(item => this.isJsonMime(item)).join(";"));
+        }
+
         let canConsumeForm = this.canConsumeForm(consumes);
         let useForm = false;
         let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
@@ -535,6 +569,10 @@ export class PetService implements PetServiceInterface {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
         // authentication (petstore_auth) required
         // oauth required
@@ -578,7 +616,7 @@ export class PetService implements PetServiceInterface {
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}/uploadImage'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -591,6 +629,11 @@ export class PetService implements PetServiceInterface {
         let consumes: string[] = [
             'multipart/form-data'
         ];
+
+        if (consumes != null && consumes.length > 0) {
+            headers.set('Content-Type', consumes.filter(item => this.isJsonMime(item)).join(";"));
+        }
+
         let canConsumeForm = this.canConsumeForm(consumes);
         let useForm = false;
         useForm = canConsumeForm;
@@ -602,6 +645,10 @@ export class PetService implements PetServiceInterface {
         let produces: string[] = [
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
         // authentication (petstore_auth) required
         // oauth required

@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class AdditionalPropertiesClass 
+class AdditionalPropertiesClass
 {
     /**
      * @DTA\Data(field="map_property", nullable=true)
@@ -21,4 +21,3 @@ class AdditionalPropertiesClass
      */
     public $map_of_map_property;
 }
-

@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class SpecialModelName 
+class SpecialModelName
 {
     /**
      * @DTA\Data(field="$special[property.name]", nullable=true)
@@ -15,4 +15,3 @@ class SpecialModelName
      */
     public $special_property_name;
 }
-

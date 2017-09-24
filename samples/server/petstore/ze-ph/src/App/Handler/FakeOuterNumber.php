@@ -10,11 +10,14 @@ use Articus\PathHandler\Attribute as PHAttribute;
 use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
-
 class FakeOuterNumber implements Operation\PostInterface
 {
     /**
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\OuterNumber::class,"objectAttr":"body"})
+     * @param ServerRequestInterface $request
+     *
+     * @throws PHException\HttpCode 500 if the method is not implemented
+     *
      * @return \App\DTO\OuterNumber
      */
     public function handlePost(ServerRequestInterface $request)

@@ -231,6 +231,8 @@ public class CodegenParameter {
             return false;
         if (isDateTime != that.isDateTime)
             return false;
+        if (isUuid != that.isUuid)
+            return false;
         if (isListContainer != that.isListContainer)
             return false;
         if (isMapContainer != that.isMapContainer)
@@ -312,6 +314,7 @@ public class CodegenParameter {
         result = 31 * result + (isBoolean ? 13:31);
         result = 31 * result + (isDate ? 13:31);
         result = 31 * result + (isDateTime ? 13:31);
+        result = 31 * result + (isUuid ? 13:31);
         result = 31 * result + (isListContainer ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);

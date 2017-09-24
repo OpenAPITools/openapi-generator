@@ -6,7 +6,6 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class OuterEnum 
+class OuterEnum
 {
 }
-

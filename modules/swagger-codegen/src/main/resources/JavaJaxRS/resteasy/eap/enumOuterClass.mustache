@@ -1,3 +1,7 @@
 public enum {{classname}} {
-    {{#allowableValues}}{{.}}{{^-last}}, {{/-last}}{{/allowableValues}}
+  {{#allowableValues}}
+  {{#enumVars}}
+  {{{name}}}{{^-last}},{{/-last}}{{#-last}};{{/-last}}
+  {{/enumVars}}
+  {{/allowableValues}}
 }

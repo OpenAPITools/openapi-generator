@@ -7,7 +7,7 @@ use Articus\DataTransfer\Annotation as DTA;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-class ClassModel 
+class ClassModel
 {
     /**
      * @DTA\Data(field="_class", nullable=true)
@@ -16,4 +16,3 @@ class ClassModel
      */
     public $_class;
 }
-

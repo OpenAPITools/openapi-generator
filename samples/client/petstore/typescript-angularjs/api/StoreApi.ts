@@ -33,7 +33,7 @@ export class StoreApi {
      */
     public deleteOrder (orderId: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<{}> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', String(orderId));
+            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -83,7 +83,7 @@ export class StoreApi {
      */
     public getOrderById (orderId: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.Order> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', String(orderId));
+            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);

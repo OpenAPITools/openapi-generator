@@ -78,6 +78,11 @@ export class {{classname}} {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
 {{#operation}}
     /**
      * {{&notes}}
@@ -117,7 +122,7 @@ export class {{classname}} {
      {{/allParams}}*/
     public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '{{{path}}}'{{#pathParams}}
-                    .replace('${' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
+                    .replace('${' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -175,6 +180,11 @@ export class {{classname}} {
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/consumes}}
         ];
+
+        if (consumes != null && consumes.length > 0) {
+            headers.set('Content-Type', consumes.filter(item => this.isJsonMime(item)).join(";"));
+        }
+
         let canConsumeForm = this.canConsumeForm(consumes);
         let useForm = false;
 {{#formParams}}
@@ -193,6 +203,10 @@ export class {{classname}} {
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/produces}}
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
 {{#authMethods}}
         // authentication ({{name}}) required

@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class HasOnlyReadOnly 
+class HasOnlyReadOnly
 {
     /**
      * @DTA\Data(field="bar", nullable=true)
@@ -21,4 +21,3 @@ class HasOnlyReadOnly
      */
     public $foo;
 }
-

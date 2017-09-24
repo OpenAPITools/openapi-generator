@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class Client 
+class Client
 {
     /**
      * @DTA\Data(field="client", nullable=true)
@@ -15,4 +15,3 @@ class Client
      */
     public $client;
 }
-

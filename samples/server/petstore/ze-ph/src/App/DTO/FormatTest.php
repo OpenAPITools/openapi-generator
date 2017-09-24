@@ -6,7 +6,7 @@ use Articus\DataTransfer\Annotation as DTA;
 
 /**
  */
-class FormatTest 
+class FormatTest
 {
     /**
      * @DTA\Data(field="integer", nullable=true)
@@ -63,6 +63,8 @@ class FormatTest
     public $string;
     /**
      * @DTA\Data(field="byte")
+     * @DTA\Validator(name="Type", options={"type":"string"})
+     * @DTA\Validator(name="Regex", options={"pattern":"/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/"})
      * @var string
      */
     public $byte;
@@ -99,4 +101,3 @@ class FormatTest
      */
     public $password;
 }
-

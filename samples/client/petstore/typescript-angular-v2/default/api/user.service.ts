@@ -73,6 +73,11 @@ export class UserService {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
     /**
      * This can only be done by the logged in user.
      * @summary Create user
@@ -225,6 +230,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -264,6 +273,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');
@@ -305,6 +318,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         headers.set('Content-Type', 'application/json');
 
@@ -330,7 +347,7 @@ export class UserService {
      */
     public deleteUserWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', String(username));
+                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -345,6 +362,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -368,7 +389,7 @@ export class UserService {
      */
     public getUserByNameWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', String(username));
+                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -383,6 +404,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -434,6 +459,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -466,6 +495,10 @@ export class UserService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
@@ -489,7 +522,7 @@ export class UserService {
      */
     public updateUserWithHttpInfo(username: string, body: User, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', String(username));
+                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -508,6 +541,10 @@ export class UserService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');

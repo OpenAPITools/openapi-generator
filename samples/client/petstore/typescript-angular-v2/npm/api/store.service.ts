@@ -73,6 +73,11 @@ export class StoreService {
         return false;
     }
 
+    public isJsonMime(mime: string): boolean {
+        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
@@ -144,7 +149,7 @@ export class StoreService {
      */
     public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/order/${orderId}'
-                    .replace('${' + 'orderId' + '}', String(orderId));
+                    .replace('${' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -159,6 +164,10 @@ export class StoreService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -191,6 +200,10 @@ export class StoreService {
             'application/json'
         ];
 
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
+
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
@@ -218,7 +231,7 @@ export class StoreService {
      */
     public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/order/${orderId}'
-                    .replace('${' + 'orderId' + '}', String(orderId));
+                    .replace('${' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -233,6 +246,10 @@ export class StoreService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -270,6 +287,10 @@ export class StoreService {
             'application/xml',
             'application/json'
         ];
+
+        if (produces != null && produces.length > 0) {
+            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
+        }
 
             
         headers.set('Content-Type', 'application/json');

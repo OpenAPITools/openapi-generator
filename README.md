@@ -62,6 +62,8 @@ Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for addit
     - [To build a server stub](#to-build-a-server-stub)
     - [To build the codegen library](#to-build-the-codegen-library)
   - [Workflow Integration](#workflow-integration)
+    - [Maven Integration](#maven-integration)
+    - [Gradle Integration](#gradle-integration)
   - [Github Integration](#github-integration)
   - [Online Generators](#online-generators)
   - [Guidelines for Contribution](https://github.com/swagger-api/swagger-codegen/wiki/Guidelines-for-Contribution)
@@ -618,9 +620,15 @@ mvn package
 
 Note!  The templates are included in the library generated.  If you want to modify the templates, you'll need to either repackage the library OR specify a path to your scripts
 
-## Workflow integration
+## Workflow Integration
+
+### Maven Integration
 
 You can use the [swagger-codegen-maven-plugin](modules/swagger-codegen-maven-plugin/README.md) for integrating with your workflow, and generating any codegen target.
+
+### Gradle Integration
+
+[Gradle Swagger Generator Plugin](https://github.com/int128/gradle-swagger-generator-plugin) is available for generating source code and API document.
 
 ## GitHub Integration
 
@@ -745,6 +753,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [DecentFoX](http://decentfox.com/)
 - [DocRaptor](https://docraptor.com)
 - [DocuSign](https://www.docusign.com)
+- [Elastic](https://www.elastic.co/)
 - [Ergon](http://www.ergon.ch/)
 - [Dell EMC](https://www.emc.com/)
 - [eureka](http://eure.jp/)
@@ -879,7 +888,9 @@ Presentations/Videos/Tutorials/Books
 - 2017/07/31 - [How to Generate a Deployable REST CXF3 Application from a Swagger-Contract](https://www.youtube.com/watch?v=gM63rJlUHZQ) by [Johannes Fiala](https://github.com/jfiala) @ Voxxed Days Vienna
 - 2017/08/11 - [Swagger Codegen 自动生成Retrofit 代码](https://juejin.im/entry/598d8eb86fb9a03c52459e2a) by [徐磊](http://www.jianshu.com/u/792c738b33fc) 
 - 2017/08/24 - [APIs First](https://engineering.squarespace.com/blog/2017/apis-first) by [roykachouh](https://github.com/roykachouh) ([Square](https://github.com/square))
+- 2017/08/31 - [Bringing Jenkins Remote Access API To The Masses](http://blog.cliffano.com/2017/09/01/jenkins-world-2017/) by [Cliffano Subagio](http://cliffano.com) from Shine Solutions @ [Jenkins World 2017](https://jenkinsworld20162017.sched.com/)
 - 2017/09/09 - [OpenAPIを利用したPythonWebアプリケーション開発](https://www.slideshare.net/TakuroWada/openapipythonweb) by [taxpon](https://github.com/taxpon) at [PyCon JP 2017](https://pycon.jp/2017/ja/)
+- 2017/09/21 - [Generating an Elastic Cloud Enterprise Client](https://www.elastic.co/blog/generating-an-elastic-cloud-enterprise-client) by [Greg Marzouka](https://github.com/gmarz) ([Elastic](https://www.elastic.co/))
 
 
 # Swagger Codegen Core Team
@@ -1055,11 +1066,11 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | PHP      | @jebentier (2017/07) @dkarlovi (2017/07) @mandrean (2017/08) @jfastnacht (2017/09) |
 | Python   | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) |
 | R        |  |
-| Ruby      | @cliffano (2017/07)  |
+| Ruby      | @cliffano (2017/07) @zlx (2017/09) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) | 
 | Scala     | @clasnake (2017/07) |
 | Swift     | @jgavris (2017/07) @ehyche (2017/08) |
-| TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07)|
+| TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) |
 
 
 # License information on Generated Code
