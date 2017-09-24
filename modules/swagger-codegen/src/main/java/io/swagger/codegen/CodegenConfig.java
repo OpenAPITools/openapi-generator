@@ -5,12 +5,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.samskivert.mustache.Mustache.Compiler;
-
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.models.properties.Property;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.security.SecurityScheme;
 
 public interface CodegenConfig {
     CodegenType getTag();
@@ -65,7 +63,7 @@ public interface CodegenConfig {
 
     String escapeQuotationMark(String input);
 
-    String getTypeDeclaration(Property p);
+    String getTypeDeclaration(Schema schema);
 
     String getTypeDeclaration(String name);
 
@@ -87,15 +85,15 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
-    CodegenModel fromModel(String name, Model model);
+    CodegenModel fromModel(String name, Schema schema);
 
-    CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions);
+    CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions);
 
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger);
+    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI);
 
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions);
+    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions);
 
-    List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);
+    List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes);
 
     Set<String> defaultIncludes();
 
@@ -121,9 +119,9 @@ public interface CodegenConfig {
 
     Map<String, String> reservedWordsMappings();
 
-    void preprocessSwagger(Swagger swagger);
+    void preprocessOpenAPI(OpenAPI openAPI);
 
-    void processSwagger(Swagger swagger);
+    void processOpenAPI(OpenAPI openAPI);
 
     Compiler processCompiler(Compiler compiler);
 
