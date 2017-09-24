@@ -1,32 +1,35 @@
-# Swagger\Client\AnotherfakeApi
+# Swagger\Client\Fake_classname_tags123Api
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testSpecialTags**](AnotherfakeApi.md#testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**testClassname**](Fake_classname_tags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-# **testSpecialTags**
-> \Swagger\Client\Model\Client testSpecialTags($body)
+# **testClassname**
+> \Swagger\Client\Model\Client testClassname($body)
 
-To test special tags
-
-To test special tags
+To test class name in snake case
 
 ### Example
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api\AnotherfakeApi(new \Http\Adapter\Guzzle6\Client());
+// Configure API key authorization: api_key_query
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('api_key_query', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key_query', 'Bearer');
+
+$api_instance = new Swagger\Client\Api\Fake_classname_tags123Api(new \Http\Adapter\Guzzle6\Client());
 $body = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
 
 try {
-    $result = $api_instance->testSpecialTags($body);
+    $result = $api_instance->testClassname($body);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AnotherfakeApi->testSpecialTags: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling Fake_classname_tags123Api->testClassname: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -43,7 +46,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key_query](../../README.md#api_key_query)
 
 ### HTTP request headers
 
