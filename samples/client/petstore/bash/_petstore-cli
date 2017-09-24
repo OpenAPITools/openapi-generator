@@ -296,7 +296,7 @@ case $state in
   ops)
     # Operations
     _values "Operations" \
-            "fakeOuterBooleanSerialize[]" \
+            "testSpecialTags[To test special tags]"             "fakeOuterBooleanSerialize[]" \
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
             "fakeOuterStringSerialize[]" \
@@ -330,6 +330,12 @@ case $state in
     ;;
   args)
     case $line[1] in
+      testSpecialTags)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
       fakeOuterBooleanSerialize)
         local -a _op_arguments
         _op_arguments=(

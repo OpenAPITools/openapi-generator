@@ -411,15 +411,7 @@ build_request_path() {
                 query_request_part+="&"
             fi
         fi
-
-        #
-        # Append parameters without specific cardinality
-        #
-        local collection_type="${operation_parameters_collection_type["${operation}:::${qparam}"]}"
-{{#hasAuthMethods}}
-{{#authMethods}}
-{{#isApiKey}}
-{{#isKeyInQuery}}
+{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
         if [[ ${qparam} == "{{keyParamName}}" ]]; then
             if [[ -n "${parameter_values[@]}" ]]; then
                 parameter_value+="${qparam}=${parameter_values}"
@@ -431,8 +423,14 @@ build_request_path() {
                 echo "Missing ApiKey!!! {{#x-codegen-apikey-env}}Define env variable {{x-codegen-apikey-env}} like 'export {{x-codegen-apikey-env}}=...' or{{/x-codegen-apikey-env}}{{^x-codegen-apikey-env}}You have to{{/x-codegen-apikey-env}} provide on command line option '{{keyParamName}}=...'"
                 exit 1
             fi
-        elif{{/isKeyInQuery}}{{^isKeyInQuery}}
-        if{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}} [[ "${collection_type}" == "" ]]; then
+            continue
+        fi{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
+
+        #
+        # Append parameters without specific cardinality
+        #
+        local collection_type="${operation_parameters_collection_type["${operation}:::${qparam}"]}"
+        if [[ "${collection_type}" == "" ]]; then
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
                 if [[ $((vcount++)) -gt 0 ]]; then
