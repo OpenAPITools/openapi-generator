@@ -217,7 +217,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess
     /**
      * Sets special_property_name
      *
-     * @param int $special_property_name
+     * @param int $special_property_name special_property_name
      *
      * @return $this
      */

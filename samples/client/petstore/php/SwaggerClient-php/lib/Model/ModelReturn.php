@@ -218,7 +218,7 @@ class ModelReturn implements ModelInterface, ArrayAccess
     /**
      * Sets return
      *
-     * @param int $return
+     * @param int $return return
      *
      * @return $this
      */

@@ -305,7 +305,7 @@ class PetApi
      * Deletes a pet
      *
      * @param  int $pet_id Pet id to delete (required)
-     * @param  string $api_key (optional)
+     * @param  string $api_key api_key (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException

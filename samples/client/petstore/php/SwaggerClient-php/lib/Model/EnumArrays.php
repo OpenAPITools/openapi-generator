@@ -265,7 +265,7 @@ class EnumArrays implements ModelInterface, ArrayAccess
     /**
      * Sets just_symbol
      *
-     * @param string $just_symbol
+     * @param string $just_symbol just_symbol
      *
      * @return $this
      */
@@ -298,7 +298,7 @@ class EnumArrays implements ModelInterface, ArrayAccess
     /**
      * Sets array_enum
      *
-     * @param string[] $array_enum
+     * @param string[] $array_enum array_enum
      *
      * @return $this
      */

@@ -218,7 +218,7 @@ class ClassModel implements ModelInterface, ArrayAccess
     /**
      * Sets _class
      *
-     * @param string $_class
+     * @param string $_class _class
      *
      * @return $this
      */

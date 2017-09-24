@@ -217,7 +217,7 @@ class Client implements ModelInterface, ArrayAccess
     /**
      * Sets client
      *
-     * @param string $client
+     * @param string $client client
      *
      * @return $this
      */

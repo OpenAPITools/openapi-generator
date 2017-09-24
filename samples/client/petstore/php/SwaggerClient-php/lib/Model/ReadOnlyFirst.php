@@ -223,7 +223,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
     /**
      * Sets bar
      *
-     * @param string $bar
+     * @param string $bar bar
      *
      * @return $this
      */
@@ -247,7 +247,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
     /**
      * Sets baz
      *
-     * @param string $baz
+     * @param string $baz baz
      *
      * @return $this
      */

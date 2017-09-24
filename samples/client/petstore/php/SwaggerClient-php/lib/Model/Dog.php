@@ -214,7 +214,7 @@ class Dog extends Animal
     /**
      * Sets breed
      *
-     * @param string $breed
+     * @param string $breed breed
      *
      * @return $this
      */

@@ -242,7 +242,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param int $name
+     * @param int $name name
      *
      * @return $this
      */
@@ -266,7 +266,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Sets snake_case
      *
-     * @param int $snake_case
+     * @param int $snake_case snake_case
      *
      * @return $this
      */
@@ -290,7 +290,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Sets property
      *
-     * @param string $property
+     * @param string $property property
      *
      * @return $this
      */
@@ -314,7 +314,7 @@ class Name implements ModelInterface, ArrayAccess
     /**
      * Sets _123_number
      *
-     * @param int $_123_number
+     * @param int $_123_number _123_number
      *
      * @return $this
      */

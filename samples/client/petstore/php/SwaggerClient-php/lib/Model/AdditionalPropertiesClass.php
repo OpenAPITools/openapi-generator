@@ -223,7 +223,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     /**
      * Sets map_property
      *
-     * @param map[string,string] $map_property
+     * @param map[string,string] $map_property map_property
      *
      * @return $this
      */
@@ -247,7 +247,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
     /**
      * Sets map_of_map_property
      *
-     * @param map[string,map[string,string]] $map_of_map_property
+     * @param map[string,map[string,string]] $map_of_map_property map_of_map_property
      *
      * @return $this
      */
