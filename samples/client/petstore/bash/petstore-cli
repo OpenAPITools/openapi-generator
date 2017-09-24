@@ -95,6 +95,7 @@ declare -a result_color_table=( "$WHITE" "$WHITE" "$GREEN" "$YELLOW" "$WHITE" "$
 # 0 - optional
 # 1 - required
 declare -A operation_parameters_minimum_occurences
+operation_parameters_minimum_occurences["testSpecialTags:::body"]=1
 operation_parameters_minimum_occurences["fakeOuterBooleanSerialize:::body"]=0
 operation_parameters_minimum_occurences["fakeOuterCompositeSerialize:::body"]=0
 operation_parameters_minimum_occurences["fakeOuterNumberSerialize:::body"]=0
@@ -158,6 +159,7 @@ operation_parameters_minimum_occurences["updateUser:::body"]=1
 # N - N values
 # 0 - unlimited
 declare -A operation_parameters_maximum_occurences
+operation_parameters_maximum_occurences["testSpecialTags:::body"]=0
 operation_parameters_maximum_occurences["fakeOuterBooleanSerialize:::body"]=0
 operation_parameters_maximum_occurences["fakeOuterCompositeSerialize:::body"]=0
 operation_parameters_maximum_occurences["fakeOuterNumberSerialize:::body"]=0
@@ -218,6 +220,7 @@ operation_parameters_maximum_occurences["updateUser:::body"]=0
 # The type of collection for specifying multiple values for parameter:
 # - multi, csv, ssv, tsv
 declare -A operation_parameters_collection_type
+operation_parameters_collection_type["testSpecialTags:::body"]=""
 operation_parameters_collection_type["fakeOuterBooleanSerialize:::body"]=""
 operation_parameters_collection_type["fakeOuterCompositeSerialize:::body"]=""
 operation_parameters_collection_type["fakeOuterNumberSerialize:::body"]=""
@@ -527,11 +530,22 @@ build_request_path() {
             fi
         fi
 
+        if [[ ${qparam} == "api_key_query" ]]; then
+            if [[ -n "${parameter_values[@]}" ]]; then
+                parameter_value+="${qparam}=${parameter_values}"
+            elif [[ -n "$MATRIX_API_KEY" ]]; then
+                parameter_value+="${qparam}=$PETSTORE_API_KEY"
+            else
+                echo "Missing ApiKey!!! Define env variable PETSTORE_API_KEY like 'export PETSTORE_API_KEY=...' or provide on command line option 'api_key_query=...'"
+                exit 1
+            fi
+            continue
+        fi
+
         #
         # Append parameters without specific cardinality
         #
         local collection_type="${operation_parameters_collection_type["${operation}:::${qparam}"]}"
-
         if [[ "${collection_type}" == "" ]]; then
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
@@ -648,6 +662,8 @@ EOF
     echo -e ""
     echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
     echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
     echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
     echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
     echo -e "  - ${MAGENTA}OAuth2 (flow: implicit)${OFF}"
@@ -658,6 +674,12 @@ EOF
     echo -e "        * read:pets - read your pets"
     echo ""
     echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
+    echo ""
+    echo -e "${BOLD}${WHITE}[anotherFake]${OFF}"
+read -d '' ops <<EOF
+  ${CYAN}testSpecialTags${OFF};To test special tags
+EOF
+echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}[fake]${OFF}"
 read -d '' ops <<EOF
@@ -675,9 +697,9 @@ read -d '' ops <<EOF
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
-    echo -e "${BOLD}${WHITE}[fake_classname_tags123]${OFF}"
+    echo -e "${BOLD}${WHITE}[fakeClassnameTags123]${OFF}"
 read -d '' ops <<EOF
-  ${CYAN}testClassname${OFF};To test class name in snake case
+  ${CYAN}testClassname${OFF};To test class name in snake case (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
@@ -766,6 +788,25 @@ print_version() {
     echo ""
 }
 
+##############################################################################
+#
+# Print help for testSpecialTags operation
+#
+##############################################################################
+print_testSpecialTags_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}testSpecialTags - To test special tags${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "To test special tags" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;successful operation${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
 ##############################################################################
 #
 # Print help for fakeOuterBooleanSerialize operation
@@ -937,7 +978,7 @@ print_testJsonFormData_help() {
 ##############################################################################
 print_testClassname_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}testClassname - To test class name in snake case${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}testClassname - To test class name in snake case${OFF}${BLUE}(AUTH - QUERY)${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}body${OFF} ${BLUE}[application/json]${OFF} ${RED}(required)${OFF}${OFF} - client model" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1351,6 +1392,80 @@ print_updateUser_help() {
     echo -e "${result_color_table[${code:0:1}]}  404;User not found${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 
+
+##############################################################################
+#
+# Call testSpecialTags operation
+#
+##############################################################################
+call_testSpecialTags() {
+    local path_parameter_names=()
+    local query_parameter_names=()
+    local path
+
+    path=$(build_request_path "/v2/another-fake/dummy" path_parameter_names query_parameter_names)
+    if [ $? -ne 0 ]; then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="PATCH"
+    local headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    local body_json_curl=""
+
+    #
+    # Check if the user provided 'Content-type' headers in the
+    # command line. If not try to set them based on the Swagger specification
+    # if values produces and consumes are defined unambigously
+    #
+    if [[ -z $header_content_type ]]; then
+        header_content_type="application/json"
+    fi
+
+
+    if [[ -z $header_content_type && "$force" = false ]]; then
+        :
+        echo "ERROR: Request's content-type not specified!!!"
+        echo "This operation expects content-type in one of the following formats:"
+        echo -e "\t- application/json"
+        echo ""
+        echo "Use '--content-type' to set proper content type"
+        exit 1
+    else
+        headers_curl="${headers_curl} -H 'Content-type: ${header_content_type}'"
+    fi
+
+
+    #
+    # If we have received some body content over pipe, pass it from the
+    # temporary file to cURL
+    #
+    if [[ -n $body_content_temp_file ]]; then
+        if [[ "$print_curl" = true ]]; then
+            echo "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        else
+            eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
+        fi
+        rm "${body_content_temp_file}"
+    #
+    # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
+    #
+    else
+        body_json_curl=$(body_parameters_to_json)
+        if [[ "$print_curl" = true ]]; then
+            echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        else
+            eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} ${body_json_curl} \"${host}${path}\""
+        fi
+    fi
+}
 
 ##############################################################################
 #
@@ -1789,7 +1904,7 @@ call_testJsonFormData() {
 ##############################################################################
 call_testClassname() {
     local path_parameter_names=()
-    local query_parameter_names=()
+    local query_parameter_names=( api_key_query )
     local path
 
     path=$(build_request_path "/v2/fake_classname_test" path_parameter_names query_parameter_names)
@@ -2838,6 +2953,9 @@ case $key in
         OFF=""
         result_color_table=( "" "" "" "" "" "" "" )
     ;;
+    testSpecialTags)
+    operation="testSpecialTags"
+    ;;
     fakeOuterBooleanSerialize)
     operation="fakeOuterBooleanSerialize"
     ;;
@@ -3007,6 +3125,9 @@ fi
 
 # Run cURL command based on the operation ID
 case $operation in
+    testSpecialTags)
+    call_testSpecialTags
+    ;;
     fakeOuterBooleanSerialize)
     call_fakeOuterBooleanSerialize
     ;;

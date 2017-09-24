@@ -39,6 +39,7 @@ For convenience, you can export the following environment variables:\n\
 \n\
 $(tput setaf 3)PETSTORE_HOST$(tput sgr0) - server URL, e.g. https://example.com:8080\n\
 $(tput setaf 3)PETSTORE_API_KEY$(tput sgr0) - access token, e.g. "ASDASHJDG63456asdASSD"\n\
+$(tput setaf 3)PETSTORE_API_KEY$(tput sgr0) - access token, e.g. "ASDASHJDG63456asdASSD"\n\
 $(tput setaf 3)PETSTORE_BASIC_AUTH$(tput sgr0) - basic authentication credentials, e.g.: "username:password"\n\
 \n\
 $(tput setaf 7)Basic usage:$(tput sgr0)\n\
