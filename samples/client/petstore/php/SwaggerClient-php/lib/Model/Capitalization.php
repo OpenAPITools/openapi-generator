@@ -247,7 +247,7 @@ class Capitalization implements ModelInterface, ArrayAccess
     /**
      * Sets small_camel
      *
-     * @param string $small_camel
+     * @param string $small_camel small_camel
      *
      * @return $this
      */
@@ -271,7 +271,7 @@ class Capitalization implements ModelInterface, ArrayAccess
     /**
      * Sets capital_camel
      *
-     * @param string $capital_camel
+     * @param string $capital_camel capital_camel
      *
      * @return $this
      */
@@ -295,7 +295,7 @@ class Capitalization implements ModelInterface, ArrayAccess
     /**
      * Sets small_snake
      *
-     * @param string $small_snake
+     * @param string $small_snake small_snake
      *
      * @return $this
      */
@@ -319,7 +319,7 @@ class Capitalization implements ModelInterface, ArrayAccess
     /**
      * Sets capital_snake
      *
-     * @param string $capital_snake
+     * @param string $capital_snake capital_snake
      *
      * @return $this
      */
@@ -343,7 +343,7 @@ class Capitalization implements ModelInterface, ArrayAccess
     /**
      * Sets sca_eth_flow_points
      *
-     * @param string $sca_eth_flow_points
+     * @param string $sca_eth_flow_points sca_eth_flow_points
      *
      * @return $this
      */

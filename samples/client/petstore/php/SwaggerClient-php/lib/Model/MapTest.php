@@ -238,7 +238,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Sets map_map_of_string
      *
-     * @param map[string,map[string,string]] $map_map_of_string
+     * @param map[string,map[string,string]] $map_map_of_string map_map_of_string
      *
      * @return $this
      */
@@ -262,7 +262,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Sets map_of_enum_string
      *
-     * @param map[string,string] $map_of_enum_string
+     * @param map[string,string] $map_of_enum_string map_of_enum_string
      *
      * @return $this
      */

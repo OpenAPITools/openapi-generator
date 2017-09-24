@@ -84,7 +84,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
 {{/description}}
 {{#allParams}}
-     * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
      *
      * @throws \{{invokerPackage}}\ApiException on non-2xx response

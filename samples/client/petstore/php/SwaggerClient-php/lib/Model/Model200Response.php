@@ -224,7 +224,7 @@ class Model200Response implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param int $name
+     * @param int $name name
      *
      * @return $this
      */
@@ -248,7 +248,7 @@ class Model200Response implements ModelInterface, ArrayAccess
     /**
      * Sets class
      *
-     * @param string $class
+     * @param string $class class
      *
      * @return $this
      */

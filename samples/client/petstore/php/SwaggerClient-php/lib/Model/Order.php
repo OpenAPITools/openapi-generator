@@ -276,7 +276,7 @@ class Order implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param int $id
+     * @param int $id id
      *
      * @return $this
      */
@@ -300,7 +300,7 @@ class Order implements ModelInterface, ArrayAccess
     /**
      * Sets pet_id
      *
-     * @param int $pet_id
+     * @param int $pet_id pet_id
      *
      * @return $this
      */
@@ -324,7 +324,7 @@ class Order implements ModelInterface, ArrayAccess
     /**
      * Sets quantity
      *
-     * @param int $quantity
+     * @param int $quantity quantity
      *
      * @return $this
      */
@@ -348,7 +348,7 @@ class Order implements ModelInterface, ArrayAccess
     /**
      * Sets ship_date
      *
-     * @param \DateTime $ship_date
+     * @param \DateTime $ship_date ship_date
      *
      * @return $this
      */
@@ -405,7 +405,7 @@ class Order implements ModelInterface, ArrayAccess
     /**
      * Sets complete
      *
-     * @param bool $complete
+     * @param bool $complete complete
      *
      * @return $this
      */

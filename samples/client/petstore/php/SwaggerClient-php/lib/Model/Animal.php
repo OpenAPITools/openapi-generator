@@ -233,7 +233,7 @@ class Animal implements ModelInterface, ArrayAccess
     /**
      * Sets class_name
      *
-     * @param string $class_name
+     * @param string $class_name class_name
      *
      * @return $this
      */
@@ -257,7 +257,7 @@ class Animal implements ModelInterface, ArrayAccess
     /**
      * Sets color
      *
-     * @param string $color
+     * @param string $color color
      *
      * @return $this
      */

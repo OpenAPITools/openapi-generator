@@ -223,7 +223,7 @@ class Tag implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param int $id
+     * @param int $id id
      *
      * @return $this
      */
@@ -247,7 +247,7 @@ class Tag implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param string $name
+     * @param string $name name
      *
      * @return $this
      */

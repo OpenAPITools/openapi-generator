@@ -59,8 +59,8 @@ class FakeClassnameTags123Api
 
     /**
      * @param ClientInterface $client
-     * @param Configuration $config
-     * @param HeaderSelector $selector
+     * @param Configuration   $config
+     * @param HeaderSelector  $selector
      */
     public function __construct(
         ClientInterface $client = null,
@@ -85,7 +85,8 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @param  \Swagger\Client\Model\Client $body client model (required)
+     *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Swagger\Client\Model\Client
@@ -101,7 +102,8 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @param  \Swagger\Client\Model\Client $body client model (required)
+     *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Swagger\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
@@ -127,7 +129,11 @@ class FakeClassnameTags123Api
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
-                    "[$statusCode] Error connecting to the API ({$request->getUri()})",
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
                     $statusCode,
                     $response->getHeaders(),
                     $response->getBody()
@@ -153,7 +159,11 @@ class FakeClassnameTags123Api
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Swagger\Client\Model\Client', $e->getResponseHeaders());
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Swagger\Client\Model\Client',
+                        $e->getResponseHeaders()
+                    );
                     $e->setResponseObject($data);
                     break;
             }
@@ -166,15 +176,19 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @param  \Swagger\Client\Model\Client $body client model (required)
+     *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function testClassnameAsync($body)
     {
-        return $this->testClassnameAsyncWithHttpInfo($body)->then(function ($response) {
-            return $response[0];
-        });
+        return $this->testClassnameAsyncWithHttpInfo($body)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
     }
 
     /**
@@ -182,7 +196,8 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @param  \Swagger\Client\Model\Client $body client model (required)
+     *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
@@ -191,38 +206,48 @@ class FakeClassnameTags123Api
         $returnType = '\Swagger\Client\Model\Client';
         $request = $this->testClassnameRequest($body);
 
-        return $this->client->sendAsync($request)->then(function ($response) use ($returnType) {
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
+        return $this->client
+            ->sendAsync($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-        }, function ($exception) {
-            $response = $exception->getResponse();
-            $statusCode = $response->getStatusCode();
-            throw new ApiException(
-                "[$statusCode] Error connecting to the API ({$exception->getRequest()->getUri()})",
-                $statusCode,
-                $response->getHeaders(),
-                $response->getBody()
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
             );
-        });
     }
 
     /**
      * Create request for operation 'testClassname'
      *
-     * @param \Swagger\Client\Model\Client $body client model (required)
+     * @param  \Swagger\Client\Model\Client $body client model (required)
+     *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
@@ -230,7 +255,9 @@ class FakeClassnameTags123Api
     {
         // verify the required parameter 'body' is set
         if ($body === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testClassname');
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $body when calling testClassname'
+            );
         }
 
         $resourcePath = '/fake_classname_test';
@@ -272,13 +299,15 @@ class FakeClassnameTags123Api
                         'contents' => $formParamValue
                     ];
                 }
-                $httpBody = new MultipartStream($multipartContents); // for HTTP post (form)
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
 
             } else {
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams); // for HTTP post (form)
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -287,9 +316,6 @@ class FakeClassnameTags123Api
         if ($apiKey !== null) {
             $queryParams['api_key_query'] = $apiKey;
         }
-
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        $url = $this->config->getHost() . $resourcePath . ($query ? '?' . $query : '');
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -302,9 +328,10 @@ class FakeClassnameTags123Api
             $headers
         );
 
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PATCH',
-            $url,
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );

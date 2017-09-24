@@ -318,7 +318,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets enum_string
      *
-     * @param string $enum_string
+     * @param string $enum_string enum_string
      *
      * @return $this
      */
@@ -351,7 +351,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets enum_integer
      *
-     * @param int $enum_integer
+     * @param int $enum_integer enum_integer
      *
      * @return $this
      */
@@ -384,7 +384,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets enum_number
      *
-     * @param double $enum_number
+     * @param double $enum_number enum_number
      *
      * @return $this
      */
@@ -417,7 +417,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets outer_enum
      *
-     * @param \Swagger\Client\Model\OuterEnum $outer_enum
+     * @param \Swagger\Client\Model\OuterEnum $outer_enum outer_enum
      *
      * @return $this
      */
