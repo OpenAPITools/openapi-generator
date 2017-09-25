@@ -1229,11 +1229,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(propertyKey, value);
     }
 
-    @Override
-    public String sanitizeTag(String tag) {
-        return camelize(sanitizeName(tag));
-    }
-
     /**
      * Output the Getter name for boolean property, e.g. isActive
      *
