@@ -3502,7 +3502,7 @@ public class DefaultCodegen {
 
         // tag starts with numbers
         if (tag.matches("^\\d.*")) {
-            tag = "_" + tag;
+            tag = "Class" + tag;
         }
 
         return tag;
