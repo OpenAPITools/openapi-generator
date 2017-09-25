@@ -380,7 +380,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling deletePet.');
             }
             const path = `/pet/{petId}`
-                .replace(`{${"petId"}}`, String(petId));
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'DELETE' }, options);
             const headerParameter = {} as any;
@@ -504,7 +504,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling getPetById.');
             }
             const path = `/pet/{petId}`
-                .replace(`{${"petId"}}`, String(petId));
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'GET' }, options);
             const headerParameter = {} as any;
@@ -583,7 +583,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling updatePetWithForm.');
             }
             const path = `/pet/{petId}`
-                .replace(`{${"petId"}}`, String(petId));
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'POST' }, options);
             const headerParameter = {} as any;
@@ -635,7 +635,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling uploadFile.');
             }
             const path = `/pet/{petId}/uploadImage`
-                .replace(`{${"petId"}}`, String(petId));
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'POST' }, options);
             const headerParameter = {} as any;
@@ -1064,7 +1064,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling deleteOrder.');
             }
             const path = `/store/order/{orderId}`
-                .replace(`{${"orderId"}}`, String(orderId));
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'DELETE' }, options);
             const headerParameter = {} as any;
@@ -1124,7 +1124,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderById.');
             }
             const path = `/store/order/{orderId}`
-                .replace(`{${"orderId"}}`, String(orderId));
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'GET' }, options);
             const headerParameter = {} as any;
@@ -1474,7 +1474,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
                 throw new RequiredError('username','Required parameter username was null or undefined when calling deleteUser.');
             }
             const path = `/user/{username}`
-                .replace(`{${"username"}}`, String(username));
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'DELETE' }, options);
             const headerParameter = {} as any;
@@ -1503,7 +1503,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
                 throw new RequiredError('username','Required parameter username was null or undefined when calling getUserByName.');
             }
             const path = `/user/{username}`
-                .replace(`{${"username"}}`, String(username));
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'GET' }, options);
             const headerParameter = {} as any;
@@ -1601,7 +1601,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
                 throw new RequiredError('body','Required parameter body was null or undefined when calling updateUser.');
             }
             const path = `/user/{username}`
-                .replace(`{${"username"}}`, String(username));
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
             const urlObj = url.parse(path, true);
             const requestOptions = Object.assign({ method: 'PUT' }, options);
             const headerParameter = {} as any;

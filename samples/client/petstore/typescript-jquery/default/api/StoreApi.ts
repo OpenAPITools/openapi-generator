@@ -48,7 +48,7 @@ export class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder(orderId: string): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
-        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', String(orderId));
+        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -144,7 +144,7 @@ export class StoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById(orderId: number): JQueryPromise<{ response: JQueryXHR; body: models.Order;  }> {
-        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', String(orderId));
+        let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
