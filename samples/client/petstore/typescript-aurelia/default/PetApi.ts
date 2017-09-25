@@ -99,7 +99,6 @@ export class PetApi extends Api {
 
   /**
    * Add a new pet to the store
-   *
    * 
    * @param params.body Pet object that needs to be added to the store
    */
@@ -131,7 +130,6 @@ export class PetApi extends Api {
 
   /**
    * Deletes a pet
-   *
    * 
    * @param params.petId Pet id to delete
    * @param params.apiKey 
@@ -142,7 +140,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}`
-      .replace(`{${'petId'}}`, `${params['petId']}`);
+      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -162,7 +160,6 @@ export class PetApi extends Api {
 
   /**
    * Finds Pets by status
-   *
    * Multiple status values can be provided with comma separated strings
    * @param params.status Status values that need to be considered for filter
    */
@@ -195,7 +192,6 @@ export class PetApi extends Api {
 
   /**
    * Finds Pets by tags
-   *
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param params.tags Tags to filter by
    */
@@ -228,7 +224,6 @@ export class PetApi extends Api {
 
   /**
    * Find pet by ID
-   *
    * Returns a single pet
    * @param params.petId ID of pet to return
    */
@@ -238,7 +233,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}`
-      .replace(`{${'petId'}}`, `${params['petId']}`);
+      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -259,7 +254,6 @@ export class PetApi extends Api {
 
   /**
    * Update an existing pet
-   *
    * 
    * @param params.body Pet object that needs to be added to the store
    */
@@ -291,7 +285,6 @@ export class PetApi extends Api {
 
   /**
    * Updates a pet in the store with form data
-   *
    * 
    * @param params.petId ID of pet that needs to be updated
    * @param params.name Updated name of the pet
@@ -303,7 +296,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}`
-      .replace(`{${'petId'}}`, `${params['petId']}`);
+      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -329,7 +322,6 @@ export class PetApi extends Api {
 
   /**
    * uploads an image
-   *
    * 
    * @param params.petId ID of pet to update
    * @param params.additionalMetadata Additional data to pass to server
@@ -341,7 +333,7 @@ export class PetApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/pet/{petId}/uploadImage`
-      .replace(`{${'petId'}}`, `${params['petId']}`);
+      .replace(`{${'petId'}}`, encodeURIComponent(String(${params['petId']})));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method

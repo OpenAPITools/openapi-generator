@@ -41,6 +41,7 @@ export class StoreApi {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
+
         let httpRequestParams: ng.IRequestConfig = {
             method: 'DELETE',
             url: localVarPath,
@@ -91,6 +92,7 @@ export class StoreApi {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
+
         let httpRequestParams: ng.IRequestConfig = {
             method: 'GET',
             url: localVarPath,
@@ -118,6 +120,7 @@ export class StoreApi {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
+
         let httpRequestParams: ng.IRequestConfig = {
             method: 'POST',
             url: localVarPath,

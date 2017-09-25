@@ -48,10 +48,12 @@ export class {{classname}} {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
-     {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}*/
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): JQueryPromise<{ response: JQueryXHR; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
-        let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace('{' + '{{baseName}}' + '}', String({{paramName}})){{/pathParams}};
+        let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -66,8 +68,8 @@ export class {{classname}} {
         if ({{paramName}} === null || {{paramName}} === undefined) {
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
-{{/required}}
 
+{{/required}}
 {{/allParams}}
 {{#queryParams}}
         {{#isListContainer}}
