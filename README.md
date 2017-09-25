@@ -857,6 +857,7 @@ Presentations/Videos/Tutorials/Books
 ----------------------------------------
 - 2011/08/31 - [Introducing Swagger](https://www.slideshare.net/fehguy/introducing-swagger) by [Tony Tam](https://twitter.com/fehguy)
 - 2014/05/22 - [Swagger APIs for Humans and Robots](https://www.slideshare.net/fehguy/swagger-apis-for-humans-and-robots-gluecon) by [Tony Tam](https://twitter.com/fehguy) at [Gluecon](http://gluecon.com/)
+- 2014/11/11 - [Genie 2.0: Second Wish Granted!](https://medium.com/netflix-techblog/genie-2-0-second-wish-granted-d888d79455c6) by [Tom Gianos](http://www.linkedin.com/in/thomasgianos/) and [Amit Sharma](https://www.linkedin.com/pub/amit-sharma/5/163/a83) @ [Netflix](https://www.netflix.com/) Big Data Platform Team
 - 2015/07/28 - [Enriching RESTful Services with Swagger](https://blog.philipphauer.de/enriching-restful-services-swagger/) by [Philipp Hauer](https://blog.philipphauer.de/)
 - 2015/11/11 - [Generate client stubs & document your REST-API using Swagger & Spring](https://www.youtube.com/watch?v=43GhBbP--oI) by [Johannes Fiala](https://github.com/jfiala) @ Devoxx Belgium 2015
 - 2015/12/03 - [こんなに簡単! Swagger Codegenのカスタマイズ](http://qiita.com/Quramy/items/c583f3213f0b77ff1bac) by [Quramy](http://qiita.com/Quramy)
