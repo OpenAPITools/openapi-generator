@@ -78,7 +78,7 @@ class RESTClientObject(object):
 
         addition_pool_args = {}
         if configuration.assert_hostname is not None:
-            addition_pool_args['assert_hostname'] = config.assert_hostname
+            addition_pool_args['assert_hostname'] = configuration.assert_hostname
 
         if maxsize is None:
             if configuration.connection_pool_maxsize is not None:
