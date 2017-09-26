@@ -50,7 +50,7 @@ fi
 
 ##
 # The filename of this script for help messages
-script_name=`basename "$0"`
+script_name=$(basename "$0")
 
 ##
 # Map for headers passed after operation as KEY:VALUE
@@ -372,9 +372,9 @@ url_escape() {
        -e 's/)/%29/g' \
        -e 's/:/%3A/g' \
        -e 's/\t/%09/g' \
-       -e 's/?/%3F/g' <<<$raw_url);
+       -e 's/?/%3F/g' <<<"$raw_url");
 
-    echo $value
+    echo "$value"
 }
 
 ##############################################################################
@@ -384,12 +384,12 @@ url_escape() {
 #
 ##############################################################################
 lookup_mime_type() {
-    local mime_type=$1
+    local mime_type="$1"
 
     if [[ ${mime_type_abbreviations[$mime_type]} ]]; then
-        echo ${mime_type_abbreviations[$mime_type]}
+        echo "${mime_type_abbreviations[$mime_type]}"
     else
-        echo $1
+        echo "$mime_type"
     fi
 }
 
@@ -433,7 +433,6 @@ header_arguments_to_curl() {
 ##############################################################################
 body_parameters_to_json() {
     local body_json="-d '{"
-    local body_parameter_count=${#body_parameters[@]}
     local count=0
     for key in "${!body_parameters[@]}"; do
         if [[ $((count++)) -gt 0 ]]; then
@@ -484,7 +483,8 @@ build_request_path() {
     if [[ "$force" = false ]]; then
         local was_error=""
         for qparam in "${query_params[@]}" "${path_params[@]}"; do
-            local parameter_values=($(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}"))
+            local parameter_values
+            mapfile -t parameter_values < <(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}")
 
             #
             # Check if the number of provided values is not less than minimum required
@@ -509,29 +509,30 @@ build_request_path() {
     fi
 
     # First replace all path parameters in the path
+    local path_regex="(.*)(\\{$pparam\\})(.*)"
     for pparam in "${path_params[@]}"; do
-        if [[ $path_template =~ (.*)(\{$pparam\})(.*) ]]; then
+        if [[ $path_template =~ $path_regex ]]; then
             path_template=${BASH_REMATCH[1]}${operation_parameters[$pparam]}${BASH_REMATCH[3]}
         fi
     done
 
     local query_request_part=""
 
-    local query_parameter_count=${#query_params[@]}
     local count=0
     for qparam in "${query_params[@]}"; do
         # Get the array of parameter values
-        local parameter_values=($(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}"))
         local parameter_value=""
+        local parameter_values
+        mapfile -t parameter_values < <(sed -e 's/'":::"'/\n/g' <<<"${operation_parameters[$qparam]}")
 
-        if [[ -n "${parameter_values[@]}" ]]; then
+        if [[ -n "${parameter_values[*]}" ]]; then
             if [[ $((count++)) -gt 0 ]]; then
                 query_request_part+="&"
             fi
         fi
 
         if [[ ${qparam} == "api_key_query" ]]; then
-            if [[ -n "${parameter_values[@]}" ]]; then
+            if [[ -n "${parameter_values[*]}" ]]; then
                 parameter_value+="${qparam}=${parameter_values}"
             elif [[ -n "$MATRIX_API_KEY" ]]; then
                 parameter_value+="${qparam}=$PETSTORE_API_KEY"
@@ -597,7 +598,7 @@ build_request_path() {
             local vcount=0
             for qvalue in "${parameter_values[@]}"; do
                 if [[ $((vcount++)) -gt 0 ]]; then
-                    parameter_value+="\t"
+                    parameter_value+="\\t"
                 fi
                 parameter_value+="${qvalue}"
             done
@@ -618,7 +619,7 @@ build_request_path() {
         path_template+="?${query_request_part}"
     fi
 
-    echo $path_template
+    echo "$path_template"
 }
 
 
@@ -676,13 +677,13 @@ EOF
     echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
     echo ""
     echo -e "${BOLD}${WHITE}[anotherFake]${OFF}"
-read -d '' ops <<EOF
+read -r -d '' ops <<EOF
   ${CYAN}testSpecialTags${OFF};To test special tags
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}[fake]${OFF}"
-read -d '' ops <<EOF
+read -r -d '' ops <<EOF
   ${CYAN}fakeOuterBooleanSerialize${OFF};
   ${CYAN}fakeOuterCompositeSerialize${OFF};
   ${CYAN}fakeOuterNumberSerialize${OFF};
@@ -698,13 +699,13 @@ EOF
 echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}[fakeClassnameTags123]${OFF}"
-read -d '' ops <<EOF
+read -r -d '' ops <<EOF
   ${CYAN}testClassname${OFF};To test class name in snake case (AUTH)
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}[pet]${OFF}"
-read -d '' ops <<EOF
+read -r -d '' ops <<EOF
   ${CYAN}addPet${OFF};Add a new pet to the store (AUTH)
   ${CYAN}deletePet${OFF};Deletes a pet (AUTH)
   ${CYAN}findPetsByStatus${OFF};Finds Pets by status (AUTH)
@@ -717,7 +718,7 @@ EOF
 echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}[store]${OFF}"
-read -d '' ops <<EOF
+read -r -d '' ops <<EOF
   ${CYAN}deleteOrder${OFF};Delete purchase order by ID
   ${CYAN}getInventory${OFF};Returns pet inventories by status (AUTH)
   ${CYAN}getOrderById${OFF};Find purchase order by ID
@@ -726,7 +727,7 @@ EOF
 echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}[user]${OFF}"
-read -d '' ops <<EOF
+read -r -d '' ops <<EOF
   ${CYAN}createUser${OFF};Create user
   ${CYAN}createUsersWithArrayInput${OFF};Creates list of users with given input array
   ${CYAN}createUsersWithListInput${OFF};Creates list of users with given input array
@@ -739,20 +740,20 @@ EOF
 echo "  $ops" | column -t -s ';'
     echo ""
     echo -e "${BOLD}${WHITE}Options${OFF}"
-    echo -e "  -h,--help\t\t\t\tPrint this help"
-    echo -e "  -V,--version\t\t\t\tPrint API version"
-    echo -e "  --about\t\t\t\tPrint the information about service"
-    echo -e "  --host ${CYAN}<url>${OFF}\t\t\t\tSpecify the host URL "
-echo -e "              \t\t\t\t(e.g. 'https://petstore.swagger.io:80')"
+    echo -e "  -h,--help\\t\\t\\t\\tPrint this help"
+    echo -e "  -V,--version\\t\\t\\t\\tPrint API version"
+    echo -e "  --about\\t\\t\\t\\tPrint the information about service"
+    echo -e "  --host ${CYAN}<url>${OFF}\\t\\t\\t\\tSpecify the host URL "
+echo -e "              \\t\\t\\t\\t(e.g. 'https://petstore.swagger.io:80')"
 
-    echo -e "  --force\t\t\t\tForce command invocation in spite of missing"
-    echo -e "         \t\t\t\trequired parameters or wrong content type"
-    echo -e "  --dry-run\t\t\t\tPrint out the cURL command without"
-    echo -e "           \t\t\t\texecuting it"
-    echo -e "  -nc,--no-colors\t\t\tEnforce print without colors, otherwise autodected"
-    echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\t\tSet the 'Accept' header in the request"
-    echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\tSet the 'Content-type' header in "
-    echo -e "                                \tthe request"
+    echo -e "  --force\\t\\t\\t\\tForce command invocation in spite of missing"
+    echo -e "         \\t\\t\\t\\trequired parameters or wrong content type"
+    echo -e "  --dry-run\\t\\t\\t\\tPrint out the cURL command without"
+    echo -e "           \\t\\t\\t\\texecuting it"
+    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodected"
+    echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\\t\\tSet the 'Accept' header in the request"
+    echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\\tSet the 'Content-type' header in "
+    echo -e "                                \\tthe request"
     echo ""
 }
 
@@ -769,7 +770,7 @@ print_about() {
     echo -e "License: Apache 2.0"
     echo -e "Contact: apiteam@swagger.io"
     echo ""
-read -d '' appdescription <<EOF
+read -r -d '' appdescription <<EOF
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 EOF
@@ -1399,17 +1400,21 @@ print_updateUser_help() {
 #
 ##############################################################################
 call_testSpecialTags() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/another-fake/dummy" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/another-fake/dummy" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="PATCH"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1434,7 +1439,7 @@ call_testSpecialTags() {
         :
         echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
-        echo -e "\t- application/json"
+        echo -e "\\t- application/json"
         echo ""
         echo "Use '--content-type' to set proper content type"
         exit 1
@@ -1473,17 +1478,21 @@ call_testSpecialTags() {
 #
 ##############################################################################
 call_fakeOuterBooleanSerialize() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/fake/outer/boolean" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake/outer/boolean" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1538,17 +1547,21 @@ call_fakeOuterBooleanSerialize() {
 #
 ##############################################################################
 call_fakeOuterCompositeSerialize() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/fake/outer/composite" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake/outer/composite" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1603,17 +1616,21 @@ call_fakeOuterCompositeSerialize() {
 #
 ##############################################################################
 call_fakeOuterNumberSerialize() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/fake/outer/number" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake/outer/number" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1668,17 +1685,21 @@ call_fakeOuterNumberSerialize() {
 #
 ##############################################################################
 call_fakeOuterStringSerialize() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/fake/outer/string" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake/outer/string" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1733,17 +1754,21 @@ call_fakeOuterStringSerialize() {
 #
 ##############################################################################
 call_testClientModel() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="PATCH"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1768,7 +1793,7 @@ call_testClientModel() {
         :
         echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
-        echo -e "\t- application/json"
+        echo -e "\\t- application/json"
         echo ""
         echo "Use '--content-type' to set proper content type"
         exit 1
@@ -1807,17 +1832,21 @@ call_testClientModel() {
 #
 ##############################################################################
 call_testEndpointParameters() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1839,17 +1868,21 @@ call_testEndpointParameters() {
 #
 ##############################################################################
 call_testEnumParameters() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(enum_query_string_array enum_query_string enum_query_integer)
     local path
 
-    path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1871,17 +1904,21 @@ call_testEnumParameters() {
 #
 ##############################################################################
 call_testJsonFormData() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/fake/jsonFormData" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake/jsonFormData" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1903,17 +1940,21 @@ call_testJsonFormData() {
 #
 ##############################################################################
 call_testClassname() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=( api_key_query )
     local path
 
-    path=$(build_request_path "/v2/fake_classname_test" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/fake_classname_test" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="PATCH"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -1938,7 +1979,7 @@ call_testClassname() {
         :
         echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
-        echo -e "\t- application/json"
+        echo -e "\\t- application/json"
         echo ""
         echo "Use '--content-type' to set proper content type"
         exit 1
@@ -1977,17 +2018,21 @@ call_testClassname() {
 #
 ##############################################################################
 call_addPet() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2009,8 +2054,8 @@ call_addPet() {
         :
         echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
-        echo -e "\t- application/json"
-        echo -e "\t- application/xml"
+        echo -e "\\t- application/json"
+        echo -e "\\t- application/xml"
         echo ""
         echo "Use '--content-type' to set proper content type"
         exit 1
@@ -2049,17 +2094,21 @@ call_addPet() {
 #
 ##############################################################################
 call_deletePet() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(petId)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="DELETE"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2081,17 +2130,21 @@ call_deletePet() {
 #
 ##############################################################################
 call_findPetsByStatus() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(status  )
     local path
 
-    path=$(build_request_path "/v2/pet/findByStatus" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet/findByStatus" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2113,17 +2166,21 @@ call_findPetsByStatus() {
 #
 ##############################################################################
 call_findPetsByTags() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(tags  )
     local path
 
-    path=$(build_request_path "/v2/pet/findByTags" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet/findByTags" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2145,17 +2202,21 @@ call_findPetsByTags() {
 #
 ##############################################################################
 call_getPetById() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(petId)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2177,17 +2238,21 @@ call_getPetById() {
 #
 ##############################################################################
 call_updatePet() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="PUT"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2209,8 +2274,8 @@ call_updatePet() {
         :
         echo "ERROR: Request's content-type not specified!!!"
         echo "This operation expects content-type in one of the following formats:"
-        echo -e "\t- application/json"
-        echo -e "\t- application/xml"
+        echo -e "\\t- application/json"
+        echo -e "\\t- application/xml"
         echo ""
         echo "Use '--content-type' to set proper content type"
         exit 1
@@ -2249,17 +2314,21 @@ call_updatePet() {
 #
 ##############################################################################
 call_updatePetWithForm() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(petId)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet/{petId}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2281,17 +2350,21 @@ call_updatePetWithForm() {
 #
 ##############################################################################
 call_uploadFile() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(petId)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/pet/{petId}/uploadImage" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/pet/{petId}/uploadImage" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2313,17 +2386,21 @@ call_uploadFile() {
 #
 ##############################################################################
 call_deleteOrder() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(order_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="DELETE"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2345,17 +2422,21 @@ call_deleteOrder() {
 #
 ##############################################################################
 call_getInventory() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(  )
     local path
 
-    path=$(build_request_path "/v2/store/inventory" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/store/inventory" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2377,17 +2458,21 @@ call_getInventory() {
 #
 ##############################################################################
 call_getOrderById() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(order_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/store/order/{order_id}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2409,17 +2494,21 @@ call_getOrderById() {
 #
 ##############################################################################
 call_placeOrder() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/store/order" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/store/order" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2474,17 +2563,21 @@ call_placeOrder() {
 #
 ##############################################################################
 call_createUser() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/user" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2539,17 +2632,21 @@ call_createUser() {
 #
 ##############################################################################
 call_createUsersWithArrayInput() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/user/createWithArray" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user/createWithArray" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2604,17 +2701,21 @@ call_createUsersWithArrayInput() {
 #
 ##############################################################################
 call_createUsersWithListInput() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/user/createWithList" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user/createWithList" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="POST"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2669,17 +2770,21 @@ call_createUsersWithListInput() {
 #
 ##############################################################################
 call_deleteUser() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(username)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="DELETE"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2701,17 +2806,21 @@ call_deleteUser() {
 #
 ##############################################################################
 call_getUserByName() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(username)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2733,17 +2842,21 @@ call_getUserByName() {
 #
 ##############################################################################
 call_loginUser() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=(username password)
     local path
 
-    path=$(build_request_path "/v2/user/login" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user/login" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2765,17 +2878,21 @@ call_loginUser() {
 #
 ##############################################################################
 call_logoutUser() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/user/logout" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user/logout" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="GET"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -2797,17 +2914,21 @@ call_logoutUser() {
 #
 ##############################################################################
 call_updateUser() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local path_parameter_names=(username)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
     local query_parameter_names=()
     local path
 
-    path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names)
-    if [ $? -ne 0 ]; then
+    if ! path=$(build_request_path "/v2/user/{username}" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
     local method="PUT"
-    local headers_curl=$(header_arguments_to_curl)
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
         headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
     fi
@@ -3047,7 +3168,7 @@ case $key in
     # Parse body arguments and convert them into top level
     # JSON properties passed in the body content as strings
     if [[ "$operation" ]]; then
-        IFS='==' read body_key sep body_value <<< "$key"
+        IFS='==' read -r body_key sep body_value <<< "$key"
         body_parameters[${body_key}]="\"${body_value}\""
     fi
     ;;
@@ -3055,7 +3176,9 @@ case $key in
     # Parse body arguments and convert them into top level
     # JSON properties passed in the body content without qoutes
     if [[ "$operation" ]]; then
-        IFS=':=' read body_key sep body_value <<< "$key"
+        # ignore error about 'sep' being unused
+        # shellcheck disable=SC2034
+        IFS=':=' read -r body_key sep body_value <<< "$key"
         body_parameters[${body_key}]=${body_value}
     fi
     ;;
@@ -3063,7 +3186,7 @@ case $key in
     # Parse header arguments and convert them into curl
     # only after the operation argument
     if [[ "$operation" ]]; then
-        IFS=':' read header_name header_value <<< "$key"
+        IFS=':' read -r header_name header_value <<< "$key"
         #
         # If the header key is the same as the api_key expected by API in the
         # header, override the ${apikey_auth_credential} variable
@@ -3078,13 +3201,13 @@ case $key in
     ;;
     -)
     body_content_temp_file=$(mktemp)
-    cat - > $body_content_temp_file
+    cat - > "$body_content_temp_file"
     ;;
     *=*)
     # Parse operation arguments and convert them into curl
     # only after the operation argument
     if [[ "$operation" ]]; then
-        IFS='=' read parameter_name parameter_value <<< "$key"
+        IFS='=' read -r parameter_name parameter_value <<< "$key"
         if [[ -z "${operation_parameters[$parameter_name]+foo}" ]]; then
             operation_parameters[$parameter_name]=$(url_escape "${parameter_value}")
         else
