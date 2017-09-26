@@ -9,11 +9,22 @@ import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 
 /**
  * Creates {@link CallAdapter} instances that convert {@link Call} into {@link java.util.concurrent.CompletionStage}
  */
 public class Play25CallAdapterFactory extends CallAdapter.Factory {
+
+    private Function<RuntimeException, RuntimeException> exceptionConverter = Function.identity();
+
+    public Play25CallAdapterFactory() {
+    }
+
+    public Play25CallAdapterFactory(
+            Function<RuntimeException, RuntimeException> exceptionConverter) {
+        this.exceptionConverter = exceptionConverter;
+    }
 
     @Override
     public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
@@ -49,7 +60,7 @@ public class Play25CallAdapterFactory extends CallAdapter.Factory {
             includeResponse = true;
         }
 
-        return new ValueAdapter(resultType, includeResponse);
+        return new ValueAdapter(resultType, includeResponse, exceptionConverter);
     }
 
     /**
@@ -59,10 +70,13 @@ public class Play25CallAdapterFactory extends CallAdapter.Factory {
 
         private final Type responseType;
         private final boolean includeResponse;
+        private Function<RuntimeException, RuntimeException> exceptionConverter;
 
-        ValueAdapter(Type responseType, boolean includeResponse) {
+        ValueAdapter(Type responseType, boolean includeResponse,
+                     Function<RuntimeException, RuntimeException> exceptionConverter) {
             this.responseType = responseType;
             this.includeResponse = includeResponse;
+            this.exceptionConverter = exceptionConverter;
         }
 
         @Override
@@ -85,7 +99,7 @@ public class Play25CallAdapterFactory extends CallAdapter.Factory {
                             promise.complete(response.body());
                         }
                     } else {
-                        promise.completeExceptionally(new HttpException(response));
+                        promise.completeExceptionally(exceptionConverter.apply(new HttpException(response)));
                     }
                 }
 
