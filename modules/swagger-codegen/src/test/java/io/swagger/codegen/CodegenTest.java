@@ -33,6 +33,8 @@ public class CodegenTest {
         Assert.assertEquals(codegen.camelize(".foo"), "Foo");
         Assert.assertEquals(codegen.camelize(".foo.bar"), "FooBar");
         Assert.assertEquals(codegen.camelize("foo$bar"), "Foo$bar");
+        Assert.assertEquals(codegen.camelize("foo_$bar"), "Foo$bar");
+        
         Assert.assertEquals(codegen.camelize("foo_bar"), "FooBar");
         Assert.assertEquals(codegen.camelize("foo_bar_baz"), "FooBarBaz");
         Assert.assertEquals(codegen.camelize("foo/bar.baz"), "FooBarBaz");
