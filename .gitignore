@@ -177,3 +177,8 @@ cabal.project.local
 
 # R
 .Rproj.user
+
+# elixir
+samples/client/petstore/elixir/_build/
+samples/client/petstore/elixir/deps/
+samples/client/petstore/elixir/mix.lock
