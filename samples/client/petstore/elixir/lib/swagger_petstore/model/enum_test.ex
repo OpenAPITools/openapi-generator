@@ -2,7 +2,7 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit the class manually.
 
-defmodule SwaggerPetstore.Model.Enum_Test do
+defmodule SwaggerPetstore.Model.EnumTest do
   @moduledoc """
   
   """
@@ -16,7 +16,7 @@ defmodule SwaggerPetstore.Model.Enum_Test do
   ]
 end
 
-defimpl Poison.Decoder, for: SwaggerPetstore.Model.Enum_Test do
+defimpl Poison.Decoder, for: SwaggerPetstore.Model.EnumTest do
   import SwaggerPetstore.Deserializer
   def decode(value, options) do
     value

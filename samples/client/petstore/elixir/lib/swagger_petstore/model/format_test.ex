@@ -2,7 +2,7 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit the class manually.
 
-defmodule SwaggerPetstore.Model.Format_test do
+defmodule SwaggerPetstore.Model.FormatTest do
   @moduledoc """
   
   """
@@ -25,7 +25,7 @@ defmodule SwaggerPetstore.Model.Format_test do
   ]
 end
 
-defimpl Poison.Decoder, for: SwaggerPetstore.Model.Format_test do
+defimpl Poison.Decoder, for: SwaggerPetstore.Model.FormatTest do
   import SwaggerPetstore.Deserializer
   def decode(value, options) do
     value

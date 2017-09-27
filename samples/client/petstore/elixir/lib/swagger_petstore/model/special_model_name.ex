@@ -2,19 +2,18 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit the class manually.
 
-defmodule SwaggerPetstore.Model.200_response do
+defmodule SwaggerPetstore.Model.SpecialModelName do
   @moduledoc """
-  Model for testing model name starting with number
+  
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"name",
-    :"class"
+    :"$special[property.name]"
   ]
 end
 
-defimpl Poison.Decoder, for: SwaggerPetstore.Model.200_response do
+defimpl Poison.Decoder, for: SwaggerPetstore.Model.SpecialModelName do
   def decode(value, _options) do
     value
   end
