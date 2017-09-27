@@ -274,21 +274,4 @@ defmodule SwaggerPetstore.Api.Fake do
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
   end
-
-  @doc """
-  test json serialization of form data
-  """
-  def test_json_form_data(param, param2) do
-    method = [method: :get]
-    url = [url: "/fake/jsonFormData"]
-    query_params = []
-    header_params = []
-    body_params = []
-    form_params = [body: Enum.map_join([{:"param", param}, {:"param2", param2}], "&", &("#{elem(&1, 0)}=#{elem(&1, 1)}"))]
-    params = query_params ++ header_params ++ body_params ++ form_params
-    opts = []
-    options = method ++ url ++ params ++ opts
-
-    request(options)
-  end
 end

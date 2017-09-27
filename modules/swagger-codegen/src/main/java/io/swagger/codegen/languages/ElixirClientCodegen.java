@@ -66,6 +66,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         /**
          * Reserved words.  Override this with reserved words specific to your language
+         * Ref: https://github.com/itsgreggreg/elixir_quick_reference#reserved-words
          */
         reservedWords = new HashSet<String>(
                 Arrays.asList(
@@ -355,16 +356,49 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "Default";
         }
-        return initialCaps(name);
+        return camelize(name);
     }
 
     @Override
     public String toApiFilename(String name) {
+        // replace - with _ e.g. created-at => created_at
+        name = name.replaceAll("-", "_");
+
+        // e.g. PetApi.go => pet_api.go
         return underscore(name);
     }
 
     @Override
+    public String toModelName(String name) {
+        // camelize the model name
+        // phone_number => PhoneNumber
+        return camelize(toModelFilename(name));
+    }
+
+    @Override
     public String toModelFilename(String name) {
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        name = sanitizeName(name);
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
         return underscore(name);
     }
 
