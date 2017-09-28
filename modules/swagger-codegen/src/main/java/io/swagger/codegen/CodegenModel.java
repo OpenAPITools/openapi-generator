@@ -1,13 +1,13 @@
 package io.swagger.codegen;
 
+import io.swagger.oas.models.ExternalDocumentation;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Objects;
-
-import io.swagger.models.ExternalDocs;
 
 
 public class CodegenModel {
@@ -42,7 +42,7 @@ public class CodegenModel {
     public Set<String> imports = new TreeSet<String>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
-    public ExternalDocs externalDocs;
+    public ExternalDocumentation externalDocumentation;
 
     public Map<String, Object> vendorExtensions;
 
@@ -132,7 +132,7 @@ public class CodegenModel {
             return false;
         if (isEnum != that.isEnum)
             return false;
-        if (externalDocs != null ? !externalDocs.equals(that.externalDocs) : that.externalDocs != null)
+        if (externalDocumentation != null ? !externalDocumentation.equals(that.externalDocumentation) : that.externalDocumentation != null)
             return false;
         if (!Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly))
             return false;
@@ -178,7 +178,7 @@ public class CodegenModel {
         result = 31 * result + (hasMoreModels ? 13:31);
         result = 31 * result + (hasEnums ? 13:31);
         result = 31 * result + (isEnum ? 13:31);
-        result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
+        result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
         result = 31 * result + Objects.hash(hasChildren);
