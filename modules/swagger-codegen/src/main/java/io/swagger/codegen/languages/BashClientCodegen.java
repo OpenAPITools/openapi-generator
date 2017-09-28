@@ -39,7 +39,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String hostEnvironmentVariable;
   protected String basicAuthEnvironmentVariable;
   protected String apiKeyAuthEnvironmentVariable;
-
+  protected String apiDocPath = "docs/";
+  protected String modelDocPath = "docs/";
 
   public static final String CURL_OPTIONS = "curlOptions";
   public static final String PROCESS_MARKDOWN = "processMarkdown";
@@ -106,6 +107,13 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 
     /**
+     * docs files.
+     */
+    modelDocTemplateFiles.put("model_doc.mustache", ".md");
+    apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+
+    /**
      * Templates location for client script and bash completion template.
      */
     embeddedTemplateDir = templateDir = "bash";
@@ -169,6 +177,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     typeMapping.put("int", "integer");
     typeMapping.put("float", "float");
     typeMapping.put("number", "integer");
+    typeMapping.put("date", "string");
     typeMapping.put("DateTime", "string");
     typeMapping.put("long", "integer");
     typeMapping.put("short", "integer");
@@ -185,12 +194,22 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      * are available in models, apis, and supporting files.
      */
     additionalProperties.put("apiVersion", apiVersion);
+    // make api and model doc path available in mustache template
+    additionalProperties.put("apiDocPath", apiDocPath);
+    additionalProperties.put("modelDocPath", modelDocPath);
 
     /**
      * Language Specific Primitives.  These types will not trigger imports by
      * the client generator
      */
-    languageSpecificPrimitives = new HashSet<String>();
+    languageSpecificPrimitives.clear();
+    languageSpecificPrimitives.add("array");
+    languageSpecificPrimitives.add("map");
+    languageSpecificPrimitives.add("boolean");
+    languageSpecificPrimitives.add("integer");
+    languageSpecificPrimitives.add("float");
+    languageSpecificPrimitives.add("string");
+    languageSpecificPrimitives.add("binary");
   }
 
 
@@ -239,15 +258,15 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       }
 
       supportingFiles.add(new SupportingFile(
-                                          "client.mustache",  "", scriptName));
+              "client.mustache",  "", scriptName));
       supportingFiles.add(new SupportingFile(
-               "bash-completion.mustache", "", scriptName+".bash-completion"));
+              "bash-completion.mustache", "", scriptName+".bash-completion"));
       supportingFiles.add(new SupportingFile(
-               "zsh-completion.mustache", "", "_"+scriptName));
+              "zsh-completion.mustache", "", "_"+scriptName));
       supportingFiles.add(new SupportingFile(
-               "README.mustache", "", "README.md"));
+              "README.mustache", "", "README.md"));
       supportingFiles.add(new SupportingFile(
-               "Dockerfile.mustache", "", "Dockerfile"));
+              "Dockerfile.mustache", "", "Dockerfile"));
   }
 
   public void setCurlOptions(String curlOptions) {
@@ -314,6 +333,25 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     return outputFolder;
   }
 
+  @Override
+  public String apiDocFileFolder() {
+    return (outputFolder + "/" + apiDocPath);
+  }
+
+  @Override
+  public String modelDocFileFolder() {
+    return (outputFolder + "/" + modelDocPath);
+  }
+
+  @Override
+  public String toModelDocFilename(String name) {
+    return toModelName(name);
+  }
+
+  @Override
+  public String toApiDocFilename(String name) {
+    return toApiName(name);
+  }
 
   /**
    * Optional - type declaration. This is a String which is used by the
@@ -355,8 +393,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       if(languageSpecificPrimitives.contains(type))
         return type;
     }
-    else
+    else {
       type = swaggerType;
+    }
     return toModelName(type);
   }
 
@@ -654,6 +693,71 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
       }
 
+  }
+
+  @Override
+  public void setParameterExampleValue(CodegenParameter p) {
+      String example;
+
+      if (p.defaultValue == null) {
+          example = p.example;
+      } else {
+          example = p.defaultValue;
+      }
+
+      String type = p.baseType;
+      if (type == null) {
+          type = p.dataType;
+      }
+
+      if ("string".equalsIgnoreCase(type)) {
+          if (example == null) {
+              example = p.paramName + "_example";
+          }
+          example = "'" + escapeText(example) + "'";
+      } else if ("integer".equals(type)) {
+          if (example == null) {
+              example = "56";
+          }
+      } else if ("float".equalsIgnoreCase(type)) {
+          if (example == null) {
+              example = "3.4";
+          }
+      } else if ("boolean".equalsIgnoreCase(type)) {
+          if (example == null) {
+              example = "True";
+          }
+      } else if ("file".equalsIgnoreCase(type)) {
+          if (example == null) {
+              example = "/path/to/file";
+          }
+          example = "'" + escapeText(example) + "'";
+      } else if ("date".equalsIgnoreCase(type)) {
+          if (example == null) {
+              example = "2013-10-20";
+          }
+          example = "'" + escapeText(example) + "'";
+      } else if ("datetime".equalsIgnoreCase(type)) {
+          if (example == null) {
+              example = "2013-10-20T19:20:30+01:00";
+          }
+          example = "'" + escapeText(example) + "'";
+      } else if (!languageSpecificPrimitives.contains(type)) {
+          // type is a model class, e.g. User
+          example = type;
+      } else {
+          LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+      }
+
+      if (example == null) {
+          example = "NULL";
+      } else if (Boolean.TRUE.equals(p.isListContainer)) {
+          example = "[" + example + "]";
+      } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+          example = "{'key': " + example + "}";
+      }
+
+      p.example = example;
   }
 
 }
