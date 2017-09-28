@@ -940,13 +940,13 @@ print_testEnumParameters_help() {
     echo -e "To test enum parameters" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}enum_header_string_array${OFF} ${BLUE}[Array[String]]${OFF}${OFF} - Header parameter enum test (string array) ${YELLOW}Specify as: enum_header_string_array:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[String]${OFF} ${CYAN}(default: -efg)${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[Array[String]]${OFF}${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: ${OFF}" \
+    echo -e "  * ${GREEN}enum_header_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Header parameter enum test (string array) ${YELLOW}Specify as: enum_header_string_array:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF}${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[String]${OFF} ${CYAN}(default: -efg)${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
+    echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_integer${OFF} ${BLUE}[Integer]${OFF}${OFF} - Query parameter enum test (double)${YELLOW} Specify as: enum_query_integer=value${OFF}" \
+    echo -e "  * ${GREEN}enum_query_integer${OFF} ${BLUE}[integer]${OFF}${OFF} - Query parameter enum test (double)${YELLOW} Specify as: enum_query_integer=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1020,8 +1020,8 @@ print_deletePet_help() {
     echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - Pet id to delete ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}api_key${OFF} ${BLUE}[String]${OFF}${OFF} -  ${YELLOW}Specify as: api_key:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - Pet id to delete ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}api_key${OFF} ${BLUE}[string]${OFF}${OFF} -  ${YELLOW}Specify as: api_key:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=400
@@ -1039,7 +1039,7 @@ print_findPetsByStatus_help() {
     echo -e "Multiple status values can be provided with comma separated strings" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}status${OFF} ${BLUE}[Array[String]]${OFF} ${RED}(required)${OFF}${OFF} - Status values that need to be considered for filter${YELLOW} Specify as: status="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}status${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF}${OFF} - Status values that need to be considered for filter${YELLOW} Specify as: status="value1,value2,..."${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1060,7 +1060,7 @@ print_findPetsByTags_help() {
     echo -e "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}tags${OFF} ${BLUE}[Array[String]]${OFF} ${RED}(required)${OFF}${OFF} - Tags to filter by${YELLOW} Specify as: tags="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}tags${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF}${OFF} - Tags to filter by${YELLOW} Specify as: tags="value1,value2,..."${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1081,7 +1081,7 @@ print_getPetById_help() {
     echo -e "Returns a single pet" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to return ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to return ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -1126,7 +1126,7 @@ print_updatePetWithForm_help() {
     echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet that needs to be updated ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet that needs to be updated ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=405
@@ -1144,7 +1144,7 @@ print_uploadFile_help() {
     echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to update ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}petId${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet to update ${YELLOW}Specify as: petId=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -1162,7 +1162,7 @@ print_deleteOrder_help() {
     echo -e "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - ID of the order that needs to be deleted ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - ID of the order that needs to be deleted ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=400
@@ -1198,7 +1198,7 @@ print_getOrderById_help() {
     echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[Integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet that needs to be fetched ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF}${OFF} - ID of pet that needs to be fetched ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -1298,7 +1298,7 @@ print_deleteUser_help() {
     echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The name that needs to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - The name that needs to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=400
@@ -1318,7 +1318,7 @@ print_getUserByName_help() {
     echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The name that needs to be fetched. Use user1 for testing. ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - The name that needs to be fetched. Use user1 for testing. ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -1340,9 +1340,9 @@ print_loginUser_help() {
     echo -e "" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The user name for login${YELLOW} Specify as: username=value${OFF}" \
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - The user name for login${YELLOW} Specify as: username=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}password${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - The password for login in clear text${YELLOW} Specify as: password=value${OFF}" \
+    echo -e "  * ${GREEN}password${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - The password for login in clear text${YELLOW} Specify as: password=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1382,7 +1382,7 @@ print_updateUser_help() {
     echo -e "This can only be done by the logged in user." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}username${OFF} ${BLUE}[String]${OFF} ${RED}(required)${OFF}${OFF} - name that need to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}username${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF}${OFF} - name that need to be deleted ${YELLOW}Specify as: username=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}body${OFF} ${BLUE}[]${OFF} ${RED}(required)${OFF}${OFF} - Updated user object" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
     echo ""
