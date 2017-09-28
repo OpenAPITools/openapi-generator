@@ -48,6 +48,34 @@ class UserAPITests: XCTestCase {
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
     
+    func testCreateUserWithArray() {
+        let expectation = self.expectation(description: "testCreateUserWithArray")
+        let newUser = User()
+        newUser.email = "test@test.com"
+        newUser.firstName = "Test"
+        newUser.lastName = "Tester"
+        newUser.id = 1000
+        newUser.password = "test!"
+        newUser.phone = "867-5309"
+        newUser.username = "test@test.com"
+        newUser.userStatus = 0
+        
+        let newUser2 = User()
+        newUser2.email = "test2@test.com"
+        newUser2.firstName = "Test2"
+        newUser2.lastName = "Tester2"
+        newUser2.id = 1001
+        newUser2.password = "test2!"
+        newUser2.phone = "867-5302"
+        newUser2.username = "test2@test.com"
+        newUser2.userStatus = 0
+        
+        _ = UserAPI.createUsersWithArrayInput(body: [newUser, newUser2]).then {
+            expectation.fulfill()
+        }
+        self.waitForExpectations(timeout: testTimeout, handler: nil)
+    }
+    
     func test2GetUser() {
         let expectation = self.expectation(description: "testGetUser")
         UserAPI.getUserByName(username: "test@test.com").then {user -> Void in

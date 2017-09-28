@@ -50,7 +50,7 @@ open class UserAPI: APIBase {
     open class func createUserWithRequestBuilder(body: User) -> RequestBuilder<Void> {
         let path = "/user"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -98,7 +98,7 @@ open class UserAPI: APIBase {
     open class func createUsersWithArrayInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -146,7 +146,7 @@ open class UserAPI: APIBase {
     open class func createUsersWithListInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -438,7 +438,7 @@ open class UserAPI: APIBase {
         var path = "/user/{username}"
         path = path.replacingOccurrences(of: "{username}", with: "\(username)", options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
