@@ -48,7 +48,7 @@ open class FakeAPI: APIBase {
     open class func fakeOuterBooleanSerializeWithRequestBuilder(body: OuterBoolean? = nil) -> RequestBuilder<OuterBoolean> {
         let path = "/fake/outer/boolean"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -98,7 +98,7 @@ open class FakeAPI: APIBase {
     open class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
         let path = "/fake/outer/composite"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -144,7 +144,7 @@ open class FakeAPI: APIBase {
     open class func fakeOuterNumberSerializeWithRequestBuilder(body: OuterNumber? = nil) -> RequestBuilder<OuterNumber> {
         let path = "/fake/outer/number"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -190,7 +190,7 @@ open class FakeAPI: APIBase {
     open class func fakeOuterStringSerializeWithRequestBuilder(body: OuterString? = nil) -> RequestBuilder<OuterString> {
         let path = "/fake/outer/string"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -241,7 +241,7 @@ open class FakeAPI: APIBase {
     open class func testClientModelWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -413,7 +413,7 @@ open class FakeAPI: APIBase {
      */
     public enum EnumQueryInteger_testEnumParameters: Int32 { 
         case _1 = 1
-        case numberminus2 = -2
+        case number2 = -2
     }
 
     /**
@@ -421,7 +421,7 @@ open class FakeAPI: APIBase {
      */
     public enum EnumQueryDouble_testEnumParameters: Double { 
         case _11 = 1.1
-        case numberminus12 = -1.2
+        case number12 = -1.2
     }
 
     /**

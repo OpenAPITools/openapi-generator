@@ -266,7 +266,7 @@ open class StoreAPI: APIBase {
     open class func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 

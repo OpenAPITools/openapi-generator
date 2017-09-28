@@ -123,7 +123,7 @@ open class {{classname}}: APIBase {
         path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: "\({{paramName}}{{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}})", options: .literal, range: nil){{/pathParams}}
         let URLString = {{projectName}}API.basePath + path
         {{#bodyParam}}
-        let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON() as? [String:AnyObject]
+        let parameters = {{paramName}}{{^required}}?{{/required}}.encodeToJSON()
         {{/bodyParam}}
         {{^bodyParam}}
             {{#hasFormParams}}

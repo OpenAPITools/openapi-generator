@@ -43,11 +43,24 @@ private struct SynchronizedDictionary<K: Hashable, V> {
 
 }
 
+class JSONEncodingWrapper: ParameterEncoding {
+    var bodyParameters: Any?
+    var encoding: JSONEncoding = JSONEncoding()
+
+    public init(parameters: Any?) {
+        self.bodyParameters = parameters
+    }
+
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+        return try encoding.encode(urlRequest, withJSONObject: bodyParameters)
+    }
+}
+
 // Store manager to retain its reference
 private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManager>()
 
 open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
-    required public init(method: String, URLString: String, parameters: [String : Any]?, isBody: Bool, headers: [String : String] = [:]) {
+    required public init(method: String, URLString: String, parameters: Any?, isBody: Bool, headers: [String : String] = [:]) {
         super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
     }
 
@@ -77,7 +90,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
      configuration (e.g. to override the cache policy).
      */
     open func makeRequest(manager: SessionManager, method: HTTPMethod, encoding: ParameterEncoding, headers: [String:String]) -> DataRequest {
-        return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: headers)
+        return manager.request(URLString, method: method, parameters: parameters as? Parameters, encoding: encoding, headers: headers)
     }
 
     override open func execute(_ completion: @escaping (_ response: Response<T>?, _ error: ErrorResponse?) -> Void) {
@@ -86,15 +99,17 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         let manager = createSessionManager()
         managerStore[managerId] = manager
 
-        let encoding:ParameterEncoding = isBody ? JSONEncoding() : URLEncoding()
+        let encoding:ParameterEncoding = isBody ? JSONEncodingWrapper(parameters: parameters) : URLEncoding()
 
         let xMethod = Alamofire.HTTPMethod(rawValue: method)
-        let fileKeys = parameters == nil ? [] : parameters!.filter { $1 is NSURL }
+
+        let param = parameters as? Parameters
+        let fileKeys = param == nil ? [] : param!.filter { $1 is NSURL }
                                                            .map { $0.0 }
 
         if fileKeys.count > 0 {
             manager.upload(multipartFormData: { mpForm in
-                for (k, v) in self.parameters! {
+                for (k, v) in param! {
                     switch v {
                     case let fileURL as URL:
                         if let mimeType = self.contentTypeForFormPart(fileURL: fileURL) {
