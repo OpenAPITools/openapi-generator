@@ -2,34 +2,24 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit the class manually.
 
-defmodule SwaggerPetstore.Model.Format_test do
+defmodule SwaggerPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @moduledoc """
   
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"integer",
-    :"int32",
-    :"int64",
-    :"number",
-    :"float",
-    :"double",
-    :"string",
-    :"byte",
-    :"binary",
-    :"date",
-    :"dateTime",
     :"uuid",
-    :"password"
+    :"dateTime",
+    :"map"
   ]
 end
 
-defimpl Poison.Decoder, for: SwaggerPetstore.Model.Format_test do
+defimpl Poison.Decoder, for: SwaggerPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   import SwaggerPetstore.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"date", :date, nil, options)
+    |> deserialize(:"map", :map, SwaggerPetstore.Model.Animal, options)
   end
 end
 

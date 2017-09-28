@@ -2,18 +2,19 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit the class manually.
 
-defmodule SwaggerPetstore.Model.Return do
+defmodule SwaggerPetstore.Model.EnumArrays do
   @moduledoc """
-  Model for testing reserved words
+  
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"return"
+    :"just_symbol",
+    :"array_enum"
   ]
 end
 
-defimpl Poison.Decoder, for: SwaggerPetstore.Model.Return do
+defimpl Poison.Decoder, for: SwaggerPetstore.Model.EnumArrays do
   def decode(value, _options) do
     value
   end
