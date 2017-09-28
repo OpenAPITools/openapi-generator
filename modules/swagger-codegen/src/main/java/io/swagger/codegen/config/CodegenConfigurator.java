@@ -9,9 +9,10 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.auth.AuthParser;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.AuthorizationValue;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.parser.models.AuthorizationValue;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import io.swagger.util.Json;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -428,10 +429,10 @@ public class CodegenConfigurator implements Serializable {
 
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
 
-        Swagger swagger = new SwaggerParser().read(inputSpec, authorizationValues, true);
+        OpenAPI openAPI = new OpenAPIV3Parser().read(inputSpec, authorizationValues, null);
 
         input.opts(new ClientOpts())
-                .swagger(swagger);
+                .openAPI(openAPI);
 
         return input;
     }

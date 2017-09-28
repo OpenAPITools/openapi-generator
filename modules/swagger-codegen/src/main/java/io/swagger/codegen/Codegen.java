@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -16,8 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import config.Config;
 import config.ConfigParser;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
 
 /**
  * @deprecated use instead {@link io.swagger.codegen.DefaultGenerator}
@@ -51,7 +51,7 @@ public class Codegen extends DefaultGenerator {
 
         ClientOptInput clientOptInput = new ClientOptInput();
         ClientOpts clientOpts = new ClientOpts();
-        Swagger swagger = null;
+        OpenAPI openAPI = null;
 
         CommandLine cmd = null;
         try {
@@ -89,7 +89,7 @@ public class Codegen extends DefaultGenerator {
                 return;
             }
             if (cmd.hasOption("i")) {
-                swagger = new SwaggerParser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), true);
+                openAPI = new OpenAPIV3Parser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), null);
             }
             if (cmd.hasOption("c")) {
                 String configFile = cmd.getOptionValue("c");
@@ -113,7 +113,7 @@ public class Codegen extends DefaultGenerator {
         try {
             clientOptInput
                     .opts(clientOpts)
-                    .swagger(swagger);
+                    .openAPI(openAPI);
             new Codegen().opts(clientOptInput).generate();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
