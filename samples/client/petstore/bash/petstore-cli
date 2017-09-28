@@ -509,8 +509,8 @@ build_request_path() {
     fi
 
     # First replace all path parameters in the path
-    local path_regex="(.*)(\\{$pparam\\})(.*)"
     for pparam in "${path_params[@]}"; do
+        local path_regex="(.*)(\\{$pparam\\})(.*)"
         if [[ $path_template =~ $path_regex ]]; then
             path_template=${BASH_REMATCH[1]}${operation_parameters[$pparam]}${BASH_REMATCH[3]}
         fi
