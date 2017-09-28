@@ -1,7 +1,9 @@
 package io.swagger.codegen;
 
-import io.swagger.models.ExternalDocs;
-import io.swagger.models.Tag;
+
+
+import io.swagger.oas.models.ExternalDocumentation;
+import io.swagger.oas.models.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,7 +36,7 @@ public class CodegenOperation {
     public Set<String> imports = new HashSet<String>();
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
-    public ExternalDocs externalDocs;
+    public ExternalDocumentation externalDocs;
     public Map<String, Object> vendorExtensions;
     public String nickname; // legacy support
     public String operationIdLowerCase; // for markdown documentation
