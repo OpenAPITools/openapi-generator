@@ -47,7 +47,7 @@ export class PetService implements PetServiceInterface {
     }
 
     /**
-     * 
+     *
      * Extends object by coping non-existing properties.
      * @param objA object to be extended
      * @param objB source object
@@ -76,7 +76,7 @@ export class PetService implements PetServiceInterface {
     }
 
     public isJsonMime(mime: string): boolean {
-        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 
@@ -249,7 +249,7 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -308,7 +308,7 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -362,7 +362,7 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -416,7 +416,7 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -463,7 +463,7 @@ export class PetService implements PetServiceInterface {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -513,7 +513,7 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -583,7 +583,7 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         if (name !== undefined) {
             formParams.set('name', <any>name);
         }
@@ -659,7 +659,7 @@ export class PetService implements PetServiceInterface {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         if (additionalMetadata !== undefined) {
             formParams.set('additionalMetadata', <any>additionalMetadata);
         }

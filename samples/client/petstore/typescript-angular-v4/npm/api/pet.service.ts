@@ -46,7 +46,7 @@ export class PetService {
     }
 
     /**
-     * 
+     *
      * Extends object by coping non-existing properties.
      * @param objA object to be extended
      * @param objB source object
@@ -75,7 +75,7 @@ export class PetService {
     }
 
     public isJsonMime(mime: string): boolean {
-        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 
@@ -248,7 +248,7 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -274,7 +274,7 @@ export class PetService {
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -307,7 +307,7 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -361,7 +361,7 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -415,7 +415,7 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -437,7 +437,7 @@ export class PetService {
      */
     public getPetByIdWithHttpInfo(petId: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -462,7 +462,7 @@ export class PetService {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -512,7 +512,7 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -539,7 +539,7 @@ export class PetService {
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -582,7 +582,7 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         if (name !== undefined) {
             formParams.set('name', <any>name);
         }
@@ -615,7 +615,7 @@ export class PetService {
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: Blob, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/pet/${petId}/uploadImage'
-                    .replace('${' + 'petId' + '}', String(petId));
+                    .replace('${' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -658,7 +658,7 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-            
+
         if (additionalMetadata !== undefined) {
             formParams.set('additionalMetadata', <any>additionalMetadata);
         }
