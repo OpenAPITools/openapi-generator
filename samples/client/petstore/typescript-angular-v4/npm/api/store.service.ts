@@ -45,7 +45,7 @@ export class StoreService {
     }
 
     /**
-     * 
+     *
      * Extends object by coping non-existing properties.
      * @param objA object to be extended
      * @param objB source object
@@ -74,7 +74,7 @@ export class StoreService {
     }
 
     public isJsonMime(mime: string): boolean {
-        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 
@@ -149,7 +149,7 @@ export class StoreService {
      */
     public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/order/${orderId}'
-                    .replace('${' + 'orderId' + '}', String(orderId));
+                    .replace('${' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -169,7 +169,7 @@ export class StoreService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -209,7 +209,7 @@ export class StoreService {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -231,7 +231,7 @@ export class StoreService {
      */
     public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: any): Observable<Response> {
         const path = this.basePath + '/store/order/${orderId}'
-                    .replace('${' + 'orderId' + '}', String(orderId));
+                    .replace('${' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -251,7 +251,7 @@ export class StoreService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -292,7 +292,7 @@ export class StoreService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({

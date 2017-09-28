@@ -45,7 +45,7 @@ export class UserService {
     }
 
     /**
-     * 
+     *
      * Extends object by coping non-existing properties.
      * @param objA object to be extended
      * @param objB source object
@@ -74,7 +74,7 @@ export class UserService {
     }
 
     public isJsonMime(mime: string): boolean {
-        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 
@@ -234,7 +234,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -278,7 +278,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -322,7 +322,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -367,7 +367,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -409,7 +409,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -463,7 +463,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -499,7 +499,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -546,7 +546,7 @@ export class UserService {
             headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
         }
 
-            
+
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
