@@ -197,7 +197,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
                 "use JavaScript ES6 (ECMAScript 6)")
-                .defaultValue(Boolean.FALSE.toString()));
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
