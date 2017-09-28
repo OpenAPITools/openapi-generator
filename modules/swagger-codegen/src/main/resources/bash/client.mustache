@@ -577,9 +577,11 @@ EOF
     {{#x-codegen-apikey-env}}echo -e "              or export ${RED}{{x-codegen-apikey-env}}='<api-key>'${OFF}"{{/x-codegen-apikey-env}}
 {{/isApiKey}}
 {{#isOAuth}}
-    echo -e "  - ${MAGENTA}OAuth2 (flow: {{flow}})${OFF}"
+    echo -e "  - ${MAGENTA}OAuth2 (flow: {{flow}})${OFF}"{{#authorizationUrl}}
     echo -e "      Authorization URL: "
-    echo -e "        * {{authorizationUrl}}"
+    echo -e "        * {{authorizationUrl}}"{{/authorizationUrl}}{{#tokenUrl}}
+    echo -e "      Token URL: "
+    echo -e "        * {{tokenUrl}}"{{/tokenUrl}}
     echo -e "      Scopes:"
 {{#scopes}}
     echo -e "        * {{scope}} - {{description}}"
