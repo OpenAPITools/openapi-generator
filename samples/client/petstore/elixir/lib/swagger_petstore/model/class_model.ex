@@ -2,18 +2,18 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit the class manually.
 
-defmodule SwaggerPetstore.Model.Return do
+defmodule SwaggerPetstore.Model.ClassModel do
   @moduledoc """
-  Model for testing reserved words
+  Model for testing model with \&quot;_class\&quot; property
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"return"
+    :"_class"
   ]
 end
 
-defimpl Poison.Decoder, for: SwaggerPetstore.Model.Return do
+defimpl Poison.Decoder, for: SwaggerPetstore.Model.ClassModel do
   def decode(value, _options) do
     value
   end

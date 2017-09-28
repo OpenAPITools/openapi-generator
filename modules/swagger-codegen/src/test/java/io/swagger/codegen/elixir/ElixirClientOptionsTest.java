@@ -4,6 +4,7 @@ import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.languages.ElixirClientCodegen;
 import io.swagger.codegen.options.ElixirClientOptionsProvider;
+import io.swagger.codegen.options.PhpClientOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;
 
@@ -26,6 +27,8 @@ public class ElixirClientOptionsTest extends AbstractOptionsTest {
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
             // TODO
+            clientCodegen.setModuleName(ElixirClientOptionsProvider.INVOKER_PACKAGE_VALUE);
+            times = 1;
         }};
     }
 }

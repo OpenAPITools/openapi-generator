@@ -2,9 +2,9 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit the class manually.
 
-defmodule SwaggerPetstore.Api.FakeClassnameTags123 do
+defmodule SwaggerPetstore.Api.AnotherFake do
   @moduledoc """
-  API calls for all endpoints tagged `FakeClassnameTags123`.
+  API calls for all endpoints tagged `AnotherFake`.
   """
 
   alias SwaggerPetstore.Connection
@@ -12,7 +12,8 @@ defmodule SwaggerPetstore.Api.FakeClassnameTags123 do
 
 
   @doc """
-  To test class name in snake case
+  To test special tags
+  To test special tags
 
   ## Parameters
 
@@ -25,11 +26,11 @@ defmodule SwaggerPetstore.Api.FakeClassnameTags123 do
   {:ok, %SwaggerPetstore.Model.Client{}} on success
   {:error, info} on failure
   """
-  @spec test_classname(Tesla.Env.client, SwaggerPetstore.Model.Client.t, keyword()) :: {:ok, SwaggerPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def test_classname(connection, body, _opts \\ []) do
+  @spec test_special_tags(Tesla.Env.client, SwaggerPetstore.Model.Client.t, keyword()) :: {:ok, SwaggerPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  def test_special_tags(connection, body, _opts \\ []) do
     %{}
     |> method(:patch)
-    |> url("/fake_classname_test")
+    |> url("/another-fake/dummy")
     |> add_param(:body, :"body", body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
