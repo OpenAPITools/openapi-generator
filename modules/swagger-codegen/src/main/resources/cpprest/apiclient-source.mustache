@@ -100,10 +100,10 @@ pplx::task<web::http::http_response> ApiClient::callApi(
             uploadData.add(ModelBase::toHttpContent(kvp.first, kvp.second));
         }
         std::stringstream data;
-        postBody->writeTo(data);
+        uploadData.writeTo(data);
         auto bodyString = data.str();
         auto length = bodyString.size();
-        request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, contentType);
+        request.set_body(concurrency::streams::bytestream::open_istream(std::move(bodyString)), length, U("multipart/form-data; boundary=") + uploadData.getBoundary());
     }
     else
     {
