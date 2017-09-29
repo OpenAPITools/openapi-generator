@@ -221,9 +221,6 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         throw ApiException(415, U("{{classname}}->{{operationId}} does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
     {{#authMethods}}
     // authentication ({{name}}) required
     {{#isApiKey}}

@@ -98,9 +98,6 @@ pplx::task<void> StoreApi::deleteOrder(utility::string_t orderId)
         throw ApiException(415, U("StoreApi->deleteOrder does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
 
     return m_ApiClient->callApi(path, U("DELETE"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
@@ -195,9 +192,6 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory()
     {
         throw ApiException(415, U("StoreApi->getInventory does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
     // authentication (api_key) required
     {
@@ -326,9 +320,6 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId)
     {
         throw ApiException(415, U("StoreApi->getOrderById does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
 
     return m_ApiClient->callApi(path, U("GET"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
@@ -462,9 +453,6 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
     {
         throw ApiException(415, U("StoreApi->placeOrder does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
 
     return m_ApiClient->callApi(path, U("POST"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)

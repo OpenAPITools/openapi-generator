@@ -116,9 +116,6 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body)
         throw ApiException(415, U("UserApi->createUser does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
 
     return m_ApiClient->callApi(path, U("POST"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
@@ -240,9 +237,6 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
     {
         throw ApiException(415, U("UserApi->createUsersWithArrayInput does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
 
     return m_ApiClient->callApi(path, U("POST"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
@@ -366,9 +360,6 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
         throw ApiException(415, U("UserApi->createUsersWithListInput does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
 
     return m_ApiClient->callApi(path, U("POST"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
@@ -466,9 +457,6 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username)
         throw ApiException(415, U("UserApi->deleteUser does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
 
     return m_ApiClient->callApi(path, U("DELETE"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
@@ -565,9 +553,6 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
     {
         throw ApiException(415, U("UserApi->getUserByName does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
 
     return m_ApiClient->callApi(path, U("GET"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
@@ -696,9 +681,6 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
         throw ApiException(415, U("UserApi->loginUser does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
 
     return m_ApiClient->callApi(path, U("GET"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
@@ -818,9 +800,6 @@ pplx::task<void> UserApi::logoutUser()
         throw ApiException(415, U("UserApi->logoutUser does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
 
     return m_ApiClient->callApi(path, U("GET"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
     .then([=](web::http::http_response response)
@@ -936,9 +915,6 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
     {
         throw ApiException(415, U("UserApi->updateUser does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
 
     return m_ApiClient->callApi(path, U("PUT"), queryParams, httpBody, headerParams, formParams, fileParams, requestHttpContentType)
