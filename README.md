@@ -1052,7 +1052,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | C#        | @mandrean (2017/08) |
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) |
-| Eiffel    |  |
+| Eiffel    | @jvelilla (2017/09) |
 | Elixir    |  |
 | Erlang    |  |
 | Groovy    |  |
