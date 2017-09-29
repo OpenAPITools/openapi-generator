@@ -85,7 +85,7 @@ Swagger Codegen Version    | Release Date | OpenAPI Spec compatibility | Notes
 [2.2.2](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.2.2) | 2017-03-01   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.2](https://github.com/swagger-api/swagger-codegen/tree/v2.2.2)
 [2.2.1](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.2.1) | 2016-08-07   | 1.0, 1.1, 1.2, 2.0   | [tag v2.2.1](https://github.com/swagger-api/swagger-codegen/tree/v2.2.1)
 [2.1.6](https://github.com/swagger-api/swagger-codegen/releases/tag/v2.1.6) | 2016-04-06   | 1.0, 1.1, 1.2, 2.0   | [tag v2.1.6](https://github.com/swagger-api/swagger-codegen/tree/v2.1.6)
-2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/v2.0.17)
+2.0.17                     | 2014-08-22   | 1.1, 1.2             | [tag v2.0.17](https://github.com/swagger-api/swagger-codegen/tree/2.0.17)
 1.0.4                      | 2012-04-12   | 1.0, 1.1             | [tag v1.0.4](https://github.com/swagger-api/swagger-codegen/tree/swagger-codegen_2.9.1-1.1)
 
 
@@ -1049,7 +1049,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Apex  |     |
 | Bash  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
 | C++      | @ravinikam (2017/07) @stkrwork (2017/07) |  
-| C#        | @mandrean (2017/08) |
+| C#        | @mandrean (2017/08) @jimschubert (2017/09) |
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) |
 | Eiffel    | @jvelilla (2017/09) |
@@ -1058,8 +1058,8 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Groovy    |  |
 | Go        |  |
 | Haskell   |  |
-| Java      | @bbdouglas (2017/07) @JFCote (2017/08) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) |
-| Kotlin     |  |
+| Java      | @bbdouglas (2017/07) @JFCote (2017/08) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) |
+| Kotlin     | @jimschubert (2017/09) |
 | Lua     | @daurnimator (2017/08) |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
@@ -1069,7 +1069,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | R        |  |
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) | 
-| Scala     | @clasnake (2017/07) |
+| Scala     | @clasnake (2017/07) @jimschubert (2017/09) |
 | Swift     | @jgavris (2017/07) @ehyche (2017/08) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) |
 
