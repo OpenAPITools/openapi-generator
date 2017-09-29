@@ -2,7 +2,6 @@ package io.swagger.codegen.swift;
 
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.InlineModelResolver;
 import io.swagger.codegen.languages.SwiftCodegen;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
