@@ -1047,7 +1047,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 |:-------------|:-------------|
 | ActionScript |      |
 | Apex  |     |
-| Bash  | @frol (2017/07) @bkryza (2017/08) |
+| Bash  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
 | C++      | @ravinikam (2017/07) @stkrwork (2017/07) |  
 | C#        | @mandrean (2017/08) |
 | Clojure   |  |
