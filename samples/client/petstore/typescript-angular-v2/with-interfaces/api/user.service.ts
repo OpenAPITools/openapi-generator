@@ -165,7 +165,7 @@ export class UserService implements UserServiceInterface {
      * 
      * @summary Logs out current logged in user session
      */
-    public logoutUser(, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+    public logoutUser(extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.logoutUserWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -370,7 +370,7 @@ export class UserService implements UserServiceInterface {
      * Logs out current logged in user session
      * 
      */
-    public logoutUserWithHttpInfo(, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public logoutUserWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
