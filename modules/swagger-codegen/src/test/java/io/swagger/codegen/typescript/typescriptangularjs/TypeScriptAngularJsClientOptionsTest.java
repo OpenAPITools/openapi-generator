@@ -1,4 +1,4 @@
-package io.swagger.codegen.typescript.typescriptangular;
+package io.swagger.codegen.typescript.typescriptangularjs;
 
 import io.swagger.codegen.AbstractOptionsTest;
 import io.swagger.codegen.CodegenConfig;
