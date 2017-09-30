@@ -300,7 +300,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/${encodeURIComponent(username)}`, requestOptions);
+        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
     /**
@@ -325,7 +325,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/${encodeURIComponent(username)}`, requestOptions);
+        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
     /**
@@ -416,7 +416,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/${encodeURIComponent(username)}`, requestOptions);
+        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
 }

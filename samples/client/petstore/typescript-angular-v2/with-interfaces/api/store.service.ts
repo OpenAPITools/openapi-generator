@@ -59,6 +59,7 @@ export class StoreService implements StoreServiceInterface {
         return false;
     }
 
+
     public isJsonMime(mime: string): boolean {
         const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
@@ -150,7 +151,7 @@ export class StoreService implements StoreServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(orderId)}`, requestOptions);
+        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**
@@ -201,7 +202,7 @@ export class StoreService implements StoreServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(orderId)}`, requestOptions);
+        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**

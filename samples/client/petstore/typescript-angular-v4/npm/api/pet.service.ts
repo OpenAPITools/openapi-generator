@@ -59,6 +59,7 @@ export class PetService {
         return false;
     }
 
+
     public isJsonMime(mime: string): boolean {
         const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
@@ -258,7 +259,6 @@ export class PetService {
             headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
@@ -269,7 +269,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(petId)}`, requestOptions);
+        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -377,7 +377,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(petId)}`, requestOptions);
+        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -447,7 +447,6 @@ export class PetService {
         let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
           set(param: string, value: any): void;
         };
-
         if (name !== undefined) {
             formParams.set('name', <any>name);
         }
@@ -466,7 +465,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(petId)}`, requestOptions);
+        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -501,7 +500,6 @@ export class PetService {
         let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
           set(param: string, value: any): void;
         };
-
         if (additionalMetadata !== undefined) {
             formParams.set('additionalMetadata', <any>additionalMetadata);
         }
@@ -520,7 +518,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(petId)}/uploadImage`, requestOptions);
+        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, requestOptions);
     }
 
 }

@@ -58,6 +58,7 @@ export class StoreService {
         return false;
     }
 
+
     public isJsonMime(mime: string): boolean {
         const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
@@ -83,7 +84,7 @@ export class StoreService {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public getInventory(, extraHttpRequestParams?: RequestOptionsArgs): Observable<{ [key: string]: number; }> {
+    public getInventory(extraHttpRequestParams?: RequestOptionsArgs): Observable<{ [key: string]: number; }> {
         return this.getInventoryWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -149,14 +150,14 @@ export class StoreService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(orderId)}`, requestOptions);
+        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    public getInventoryWithHttpInfo(, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+    public getInventoryWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
@@ -200,7 +201,7 @@ export class StoreService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(orderId)}`, requestOptions);
+        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**
