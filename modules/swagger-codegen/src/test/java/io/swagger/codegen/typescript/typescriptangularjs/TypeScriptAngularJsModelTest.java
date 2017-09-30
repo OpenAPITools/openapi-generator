@@ -1,4 +1,4 @@
-package io.swagger.codegen.typescript.typescriptangular;
+package io.swagger.codegen.typescript.typescriptangularjs;
 
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;

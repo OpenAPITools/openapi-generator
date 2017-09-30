@@ -1,6 +1,6 @@
-import { {{#isNg2x}}OpaqueToken{{/isNg2x}}{{#isNg4x}}InjectionToken{{/isNg4x}} } from '@angular/core';
+import { {{injectionToken}} } from '@angular/core';
 
-export const BASE_PATH = new {{#isNg2x}}OpaqueToken{{/isNg2x}}{{#isNg4x}}InjectionToken<string>{{/isNg4x}}('basePath');
+export const BASE_PATH = new {{injectionToken}}{{#injectionTokenTyped}}<string>{{/injectionTokenTyped}}('basePath');
 export const COLLECTION_FORMATS = {
     'csv': ',',
     'tsv': '   ',
