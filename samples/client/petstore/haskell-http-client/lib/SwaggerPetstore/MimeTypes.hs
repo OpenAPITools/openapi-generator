@@ -13,6 +13,7 @@ Module : SwaggerPetstore.MimeTypes
 
 module SwaggerPetstore.MimeTypes where
 
+import SwaggerPetstore.Model as M
 
 import qualified Data.Aeson as A
 
@@ -22,13 +23,16 @@ import qualified Data.ByteString.Builder as BB
 import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy.Char8 as BCL
 
+
 import qualified Network.HTTP.Media as ME
 
 import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
 
 import qualified Data.Data as P (Typeable)
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
+import qualified Data.String as P
 import qualified Data.Text.Encoding as T
 import qualified Control.Arrow as P (left)
 
@@ -50,7 +54,10 @@ data MimeFormUrlEncoded = MimeFormUrlEncoded deriving (P.Typeable)
 data MimeMultipartFormData = MimeMultipartFormData deriving (P.Typeable)
 data MimeOctetStream = MimeOctetStream deriving (P.Typeable)
 data MimeNoContent = MimeNoContent deriving (P.Typeable)
+data MimeAny = MimeAny deriving (P.Typeable)
 
+data MimeXmlCharsetutf8 = MimeXmlCharsetutf8 deriving (P.Typeable)
+data MimeJsonCharsetutf8 = MimeJsonCharsetutf8 deriving (P.Typeable)
 
 -- ** MimeType Class
 
@@ -76,32 +83,39 @@ class P.Typeable mtype => MimeType mtype  where
 
 -- ** MimeType Instances
 
--- | @application/json@
+-- | @application/json; charset=utf-8@
 instance MimeType MimeJSON where
-  mimeTypes _ =
-    [ "application" ME.// "json" ME./: ("charset", "utf-8")
-    , "application" ME.// "json"
-    ]
-
--- | @application/xml@
+  mimeType _ = Just $ P.fromString "application/json"
+-- | @application/xml; charset=utf-8@
 instance MimeType MimeXML where
-  mimeType _ = Just $ "application" ME.// "xml"
-
+  mimeType _ = Just $ P.fromString "application/xml"
 -- | @application/x-www-form-urlencoded@
 instance MimeType MimeFormUrlEncoded where
-  mimeType _ = Just $ "application" ME.// "x-www-form-urlencoded"
-
+  mimeType _ = Just $ P.fromString "application/x-www-form-urlencoded"
 -- | @multipart/form-data@
 instance MimeType MimeMultipartFormData where
-  mimeType _ = Just $ "multipart" ME.// "form-data"
-
--- | @text/plain;charset=utf-8@
+  mimeType _ = Just $ P.fromString "multipart/form-data"
+-- | @text/plain; charset=utf-8@
 instance MimeType MimePlainText where
-  mimeType _ = Just $ "text" ME.// "plain" ME./: ("charset", "utf-8")
+  mimeType _ = Just $ P.fromString "text/plain"
+-- | @application/octet-stream@
 instance MimeType MimeOctetStream where
-  mimeType _ = Just $ "application" ME.// "octet-stream"
+  mimeType _ = Just $ P.fromString "application/octet-stream"
+-- | @"*/*"@
+instance MimeType MimeAny where
+  mimeType _ = Just $ P.fromString "*/*"
 instance MimeType MimeNoContent where
   mimeType _ = Nothing
+
+-- | @application/xml; charset=utf-8@
+instance MimeType MimeXmlCharsetutf8 where
+  mimeType _ = Just $ P.fromString "application/xml; charset=utf-8"
+
+-- | @application/json; charset=utf-8@
+instance MimeType MimeJsonCharsetutf8 where
+  mimeType _ = Just $ P.fromString "application/json; charset=utf-8"
+instance A.ToJSON a => MimeRender MimeJsonCharsetutf8 a where mimeRender _ = A.encode
+instance A.FromJSON a => MimeUnrender MimeJsonCharsetutf8 a where mimeUnrender _ = A.eitherDecode
 
 
 -- ** MimeRender Class
@@ -133,12 +147,23 @@ instance MimeRender MimeOctetStream T.Text where mimeRender _ = BL.fromStrict . 
 -- | @BCL.pack@
 instance MimeRender MimeOctetStream String where mimeRender _ = BCL.pack
 
--- | @P.id@
 instance MimeRender MimeMultipartFormData BL.ByteString where mimeRender _ = P.id
--- | @BL.fromStrict . T.encodeUtf8@
-instance MimeRender MimeMultipartFormData T.Text where mimeRender _ = BL.fromStrict . T.encodeUtf8
--- | @BCL.pack@
-instance MimeRender MimeMultipartFormData String where mimeRender _ = BCL.pack
+instance MimeRender MimeMultipartFormData Binary where mimeRender _ = unBinary
+
+instance MimeRender MimeMultipartFormData ByteArray where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData Bool where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData Char where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData Date where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData DateTime where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData Double where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData Float where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData Int where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData Integer where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData String where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance MimeRender MimeMultipartFormData T.Text where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+mimeRenderDefaultMultipartFormData :: WH.ToHttpApiData a => a -> BL.ByteString
+mimeRenderDefaultMultipartFormData = BL.fromStrict . T.encodeUtf8 . WH.toQueryParam
 
 -- | @P.Right . P.const NoContent@
 instance MimeRender MimeNoContent NoContent where mimeRender _ = P.const BCL.empty
@@ -148,6 +173,8 @@ instance MimeRender MimeNoContent NoContent where mimeRender _ = P.const BCL.emp
 -- instance MimeRender MimeOctetStream Int where mimeRender _ = BB.toLazyByteString . BB.intDec
 -- instance MimeRender MimeOctetStream Integer where mimeRender _ = BB.toLazyByteString . BB.integerDec
 
+-- instance MimeRender MimeXmlCharsetutf8 T.Text where mimeRender _ = undefined
+-- instance MimeRender MimeJsonCharsetutf8 T.Text where mimeRender _ = undefined
 
 -- ** MimeUnrender Class
 
@@ -180,6 +207,8 @@ instance MimeUnrender MimeOctetStream String where mimeUnrender _ = P.Right . BC
 -- | @P.Right . P.const NoContent@
 instance MimeUnrender MimeNoContent NoContent where mimeUnrender _ = P.Right . P.const NoContent
 
+-- instance MimeUnrender MimeXmlCharsetutf8 T.Text where mimeUnrender _ = undefined
+-- instance MimeUnrender MimeJsonCharsetutf8 T.Text where mimeUnrender _ = undefined
 
 -- ** Request Consumes
 

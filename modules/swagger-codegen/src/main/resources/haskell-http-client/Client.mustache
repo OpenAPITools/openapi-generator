@@ -81,7 +81,7 @@ instance Show {{configType}} where
 newConfig :: IO {{configType}}
 newConfig = do
     logCxt <- initLogContext
-    return $ SwaggerPetstoreConfig
+    return $ {{configType}}
         { configHost = "{{{basePath}}}"
         , configUserAgent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}{{{artifactId}}}/{{{artifactVersion}}}{{/httpUserAgent}}"
         , configLogExecWithContext = runDefaultLogExecWithContext

@@ -22,14 +22,11 @@ import SwaggerPetstore.MimeTypes
 import SwaggerPetstore.Lens
 
 import qualified Data.Aeson as A
-import Data.Aeson (Value)
 
 import qualified Data.Time as TI
-import Data.Time (UTCTime)
 
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
-import Data.ByteString.Lazy (ByteString)
 import qualified Data.ByteString.Builder as BB
 import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy.Char8 as BCL
@@ -45,6 +42,7 @@ import qualified Data.CaseInsensitive as CI
 import qualified Data.Data as P (Typeable)
 import qualified Data.Foldable as P
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 import qualified Data.Maybe as P
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
@@ -58,7 +56,6 @@ import qualified Lens.Micro as L
 
 import Data.Monoid ((<>))
 import Data.Function ((&))
-import Data.Set (Set)
 import Data.Text (Text)
 import GHC.Base ((<|>))
 
@@ -66,6 +63,352 @@ import Prelude ((==),(/=),($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Dou
 import qualified Prelude as P
 
 -- * Operations
+
+
+-- ** AnotherFake
+
+-- *** testSpecialTags
+
+-- | @PATCH \/another-fake\/dummy@
+-- 
+-- To test special tags
+-- 
+-- To test special tags
+-- 
+testSpecialTags 
+  :: (Consumes TestSpecialTags contentType, MimeRender contentType Client)
+  => contentType -- ^ request content-type ('MimeType')
+  -> Client -- ^ "body" -  client model
+  -> SwaggerPetstoreRequest TestSpecialTags contentType Client
+testSpecialTags _ body =
+  _mkRequest "PATCH" ["/another-fake/dummy"]
+    `setBodyParam` body
+
+data TestSpecialTags 
+
+-- | /Body Param/ "body" - client model
+instance HasBodyParam TestSpecialTags Client 
+
+-- | @application/json@
+instance Consumes TestSpecialTags MimeJSON
+
+-- | @application/json@
+instance Produces TestSpecialTags MimeJSON
+
+
+-- ** Fake
+
+-- *** fakeOuterBooleanSerialize
+
+-- | @POST \/fake\/outer\/boolean@
+-- 
+-- Test serialization of outer boolean types
+-- 
+fakeOuterBooleanSerialize 
+  :: (Consumes FakeOuterBooleanSerialize contentType)
+  => contentType -- ^ request content-type ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterBooleanSerialize contentType OuterBoolean
+fakeOuterBooleanSerialize _ =
+  _mkRequest "POST" ["/fake/outer/boolean"]
+
+data FakeOuterBooleanSerialize 
+
+-- | /Body Param/ "body" - Input boolean as post body
+instance HasBodyParam FakeOuterBooleanSerialize OuterBoolean 
+
+-- *** fakeOuterCompositeSerialize
+
+-- | @POST \/fake\/outer\/composite@
+-- 
+-- Test serialization of object with outer number type
+-- 
+fakeOuterCompositeSerialize 
+  :: (Consumes FakeOuterCompositeSerialize contentType)
+  => contentType -- ^ request content-type ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterCompositeSerialize contentType OuterComposite
+fakeOuterCompositeSerialize _ =
+  _mkRequest "POST" ["/fake/outer/composite"]
+
+data FakeOuterCompositeSerialize 
+
+-- | /Body Param/ "body" - Input composite as post body
+instance HasBodyParam FakeOuterCompositeSerialize OuterComposite 
+
+-- *** fakeOuterNumberSerialize
+
+-- | @POST \/fake\/outer\/number@
+-- 
+-- Test serialization of outer number types
+-- 
+fakeOuterNumberSerialize 
+  :: (Consumes FakeOuterNumberSerialize contentType)
+  => contentType -- ^ request content-type ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterNumberSerialize contentType OuterNumber
+fakeOuterNumberSerialize _ =
+  _mkRequest "POST" ["/fake/outer/number"]
+
+data FakeOuterNumberSerialize 
+
+-- | /Body Param/ "body" - Input number as post body
+instance HasBodyParam FakeOuterNumberSerialize OuterNumber 
+
+-- *** fakeOuterStringSerialize
+
+-- | @POST \/fake\/outer\/string@
+-- 
+-- Test serialization of outer string types
+-- 
+fakeOuterStringSerialize 
+  :: (Consumes FakeOuterStringSerialize contentType)
+  => contentType -- ^ request content-type ('MimeType')
+  -> SwaggerPetstoreRequest FakeOuterStringSerialize contentType OuterString
+fakeOuterStringSerialize _ =
+  _mkRequest "POST" ["/fake/outer/string"]
+
+data FakeOuterStringSerialize 
+
+-- | /Body Param/ "body" - Input string as post body
+instance HasBodyParam FakeOuterStringSerialize OuterString 
+
+-- *** testClientModel
+
+-- | @PATCH \/fake@
+-- 
+-- To test \"client\" model
+-- 
+-- To test \"client\" model
+-- 
+testClientModel 
+  :: (Consumes TestClientModel contentType, MimeRender contentType Client)
+  => contentType -- ^ request content-type ('MimeType')
+  -> Client -- ^ "body" -  client model
+  -> SwaggerPetstoreRequest TestClientModel contentType Client
+testClientModel _ body =
+  _mkRequest "PATCH" ["/fake"]
+    `setBodyParam` body
+
+data TestClientModel 
+
+-- | /Body Param/ "body" - client model
+instance HasBodyParam TestClientModel Client 
+
+-- | @application/json@
+instance Consumes TestClientModel MimeJSON
+
+-- | @application/json@
+instance Produces TestClientModel MimeJSON
+
+
+-- *** testEndpointParameters
+
+-- | @POST \/fake@
+-- 
+-- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+-- 
+-- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+-- 
+-- AuthMethod: http_basic_test
+-- 
+-- Note: Has 'Produces' instances, but no response schema
+-- 
+testEndpointParameters 
+  :: (Consumes TestEndpointParameters contentType)
+  => contentType -- ^ request content-type ('MimeType')
+  -> Double -- ^ "number" -  None
+  -> Double -- ^ "double" -  None
+  -> Text -- ^ "patternWithoutDelimiter" -  None
+  -> ByteArray -- ^ "byte" -  None
+  -> SwaggerPetstoreRequest TestEndpointParameters contentType res
+testEndpointParameters _ number double patternWithoutDelimiter byte =
+  _mkRequest "POST" ["/fake"]
+    `_addForm` toForm ("number", number)
+    `_addForm` toForm ("double", double)
+    `_addForm` toForm ("pattern_without_delimiter", patternWithoutDelimiter)
+    `_addForm` toForm ("byte", byte)
+
+data TestEndpointParameters  
+
+-- | /Optional Param/ "integer" - None
+instance HasOptionalParam TestEndpointParameters ParamInteger where
+  applyOptionalParam req (ParamInteger xs) =
+    req `_addForm` toForm ("integer", xs)
+
+-- | /Optional Param/ "int32" - None
+instance HasOptionalParam TestEndpointParameters Int32 where
+  applyOptionalParam req (Int32 xs) =
+    req `_addForm` toForm ("int32", xs)
+
+-- | /Optional Param/ "int64" - None
+instance HasOptionalParam TestEndpointParameters Int64 where
+  applyOptionalParam req (Int64 xs) =
+    req `_addForm` toForm ("int64", xs)
+
+-- | /Optional Param/ "float" - None
+instance HasOptionalParam TestEndpointParameters ParamFloat where
+  applyOptionalParam req (ParamFloat xs) =
+    req `_addForm` toForm ("float", xs)
+
+-- | /Optional Param/ "string" - None
+instance HasOptionalParam TestEndpointParameters ParamString where
+  applyOptionalParam req (ParamString xs) =
+    req `_addForm` toForm ("string", xs)
+
+-- | /Optional Param/ "binary" - None
+instance HasOptionalParam TestEndpointParameters ParamBinary where
+  applyOptionalParam req (ParamBinary xs) =
+    req `_addForm` toForm ("binary", xs)
+
+-- | /Optional Param/ "date" - None
+instance HasOptionalParam TestEndpointParameters ParamDate where
+  applyOptionalParam req (ParamDate xs) =
+    req `_addForm` toForm ("date", xs)
+
+-- | /Optional Param/ "dateTime" - None
+instance HasOptionalParam TestEndpointParameters ParamDateTime where
+  applyOptionalParam req (ParamDateTime xs) =
+    req `_addForm` toForm ("dateTime", xs)
+
+-- | /Optional Param/ "password" - None
+instance HasOptionalParam TestEndpointParameters Password where
+  applyOptionalParam req (Password xs) =
+    req `_addForm` toForm ("password", xs)
+
+-- | /Optional Param/ "callback" - None
+instance HasOptionalParam TestEndpointParameters Callback where
+  applyOptionalParam req (Callback xs) =
+    req `_addForm` toForm ("callback", xs)
+
+-- | @application/xml; charset=utf-8@
+instance Consumes TestEndpointParameters MimeXmlCharsetutf8
+-- | @application/json; charset=utf-8@
+instance Consumes TestEndpointParameters MimeJsonCharsetutf8
+
+-- | @application/xml; charset=utf-8@
+instance Produces TestEndpointParameters MimeXmlCharsetutf8
+-- | @application/json; charset=utf-8@
+instance Produces TestEndpointParameters MimeJsonCharsetutf8
+
+
+-- *** testEnumParameters
+
+-- | @GET \/fake@
+-- 
+-- To test enum parameters
+-- 
+-- To test enum parameters
+-- 
+-- Note: Has 'Produces' instances, but no response schema
+-- 
+testEnumParameters 
+  :: (Consumes TestEnumParameters contentType)
+  => contentType -- ^ request content-type ('MimeType')
+  -> SwaggerPetstoreRequest TestEnumParameters contentType res
+testEnumParameters _ =
+  _mkRequest "GET" ["/fake"]
+
+data TestEnumParameters  
+
+-- | /Optional Param/ "enum_form_string_array" - Form parameter enum test (string array)
+instance HasOptionalParam TestEnumParameters EnumFormStringArray where
+  applyOptionalParam req (EnumFormStringArray xs) =
+    req `_addForm` toFormColl CommaSeparated ("enum_form_string_array", xs)
+
+-- | /Optional Param/ "enum_form_string" - Form parameter enum test (string)
+instance HasOptionalParam TestEnumParameters EnumFormString where
+  applyOptionalParam req (EnumFormString xs) =
+    req `_addForm` toForm ("enum_form_string", xs)
+
+-- | /Optional Param/ "enum_header_string_array" - Header parameter enum test (string array)
+instance HasOptionalParam TestEnumParameters EnumHeaderStringArray where
+  applyOptionalParam req (EnumHeaderStringArray xs) =
+    req `setHeader` toHeaderColl CommaSeparated ("enum_header_string_array", xs)
+
+-- | /Optional Param/ "enum_header_string" - Header parameter enum test (string)
+instance HasOptionalParam TestEnumParameters EnumHeaderString where
+  applyOptionalParam req (EnumHeaderString xs) =
+    req `setHeader` toHeader ("enum_header_string", xs)
+
+-- | /Optional Param/ "enum_query_string_array" - Query parameter enum test (string array)
+instance HasOptionalParam TestEnumParameters EnumQueryStringArray where
+  applyOptionalParam req (EnumQueryStringArray xs) =
+    req `_setQuery` toQueryColl CommaSeparated ("enum_query_string_array", Just xs)
+
+-- | /Optional Param/ "enum_query_string" - Query parameter enum test (string)
+instance HasOptionalParam TestEnumParameters EnumQueryString where
+  applyOptionalParam req (EnumQueryString xs) =
+    req `_setQuery` toQuery ("enum_query_string", Just xs)
+
+-- | /Optional Param/ "enum_query_integer" - Query parameter enum test (double)
+instance HasOptionalParam TestEnumParameters EnumQueryInteger where
+  applyOptionalParam req (EnumQueryInteger xs) =
+    req `_setQuery` toQuery ("enum_query_integer", Just xs)
+
+-- | /Optional Param/ "enum_query_double" - Query parameter enum test (double)
+instance HasOptionalParam TestEnumParameters EnumQueryDouble where
+  applyOptionalParam req (EnumQueryDouble xs) =
+    req `_addForm` toForm ("enum_query_double", xs)
+
+-- | @*/*@
+instance Consumes TestEnumParameters MimeAny
+
+-- | @*/*@
+instance Produces TestEnumParameters MimeAny
+
+
+-- *** testJsonFormData
+
+-- | @GET \/fake\/jsonFormData@
+-- 
+-- test json serialization of form data
+-- 
+-- 
+-- 
+testJsonFormData 
+  :: (Consumes TestJsonFormData contentType)
+  => contentType -- ^ request content-type ('MimeType')
+  -> Text -- ^ "param" -  field1
+  -> Text -- ^ "param2" -  field2
+  -> SwaggerPetstoreRequest TestJsonFormData contentType NoContent
+testJsonFormData _ param param2 =
+  _mkRequest "GET" ["/fake/jsonFormData"]
+    `_addForm` toForm ("param", param)
+    `_addForm` toForm ("param2", param2)
+
+data TestJsonFormData  
+
+-- | @application/json@
+instance Consumes TestJsonFormData MimeJSON
+
+
+-- ** FakeClassnameTags123
+
+-- *** testClassname
+
+-- | @PATCH \/fake_classname_test@
+-- 
+-- To test class name in snake case
+-- 
+-- AuthMethod: api_key_query
+-- 
+testClassname 
+  :: (Consumes TestClassname contentType, MimeRender contentType Client)
+  => contentType -- ^ request content-type ('MimeType')
+  -> Client -- ^ "body" -  client model
+  -> SwaggerPetstoreRequest TestClassname contentType Client
+testClassname _ body =
+  _mkRequest "PATCH" ["/fake_classname_test"]
+    `setBodyParam` body
+
+data TestClassname 
+
+-- | /Body Param/ "body" - client model
+instance HasBodyParam TestClassname Client 
+
+-- | @application/json@
+instance Consumes TestClassname MimeJSON
+
+-- | @application/json@
+instance Produces TestClassname MimeJSON
 
 
 -- ** Pet
@@ -127,8 +470,8 @@ deletePet petId =
     
 
 data DeletePet  
-instance HasOptionalParam DeletePet ApiUnderscorekey where
-  applyOptionalParam req (ApiUnderscorekey xs) =
+instance HasOptionalParam DeletePet ApiKey where
+  applyOptionalParam req (ApiKey xs) =
     req `setHeader` toHeader ("api_key", xs)
 -- | @application/xml@
 instance Produces DeletePet MimeXML
@@ -271,8 +614,8 @@ updatePetWithForm _ petId =
 data UpdatePetWithForm  
 
 -- | /Optional Param/ "name" - Updated name of the pet
-instance HasOptionalParam UpdatePetWithForm Name where
-  applyOptionalParam req (Name xs) =
+instance HasOptionalParam UpdatePetWithForm Name2 where
+  applyOptionalParam req (Name2 xs) =
     req `_addForm` toForm ("name", xs)
 
 -- | /Optional Param/ "status" - Updated status of the pet
@@ -331,7 +674,7 @@ instance Produces UploadFile MimeJSON
 
 -- *** deleteOrder
 
--- | @DELETE \/store\/order\/{orderId}@
+-- | @DELETE \/store\/order\/{order_id}@
 -- 
 -- Delete purchase order by ID
 -- 
@@ -364,7 +707,7 @@ instance Produces DeleteOrder MimeJSON
 -- AuthMethod: api_key
 -- 
 getInventory 
-  :: SwaggerPetstoreRequest GetInventory MimeNoContent (Map.Map String Int)
+  :: SwaggerPetstoreRequest GetInventory MimeNoContent ((Map.Map String Int))
 getInventory =
   _mkRequest "GET" ["/store/inventory"]
 
@@ -375,7 +718,7 @@ instance Produces GetInventory MimeJSON
 
 -- *** getOrderById
 
--- | @GET \/store\/order\/{orderId}@
+-- | @GET \/store\/order\/{order_id}@
 -- 
 -- Find purchase order by ID
 -- 
@@ -664,9 +1007,53 @@ infixl 2 -&-
 -- * Optional Request Parameter Types
 
 
-newtype ApiUnderscorekey = ApiUnderscorekey { unApiUnderscorekey :: Text } deriving (P.Eq, P.Show)
+newtype BodyOuterBoolean = BodyOuterBoolean { unBodyOuterBoolean :: OuterBoolean } deriving (P.Eq, P.Show)
 
-newtype Name = Name { unName :: Text } deriving (P.Eq, P.Show)
+newtype BodyOuterComposite = BodyOuterComposite { unBodyOuterComposite :: OuterComposite } deriving (P.Eq, P.Show)
+
+newtype Body = Body { unBody :: OuterNumber } deriving (P.Eq, P.Show)
+
+newtype BodyOuterString = BodyOuterString { unBodyOuterString :: OuterString } deriving (P.Eq, P.Show)
+
+newtype ParamInteger = ParamInteger { unParamInteger :: Int } deriving (P.Eq, P.Show)
+
+newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
+
+newtype Int64 = Int64 { unInt64 :: Integer } deriving (P.Eq, P.Show)
+
+newtype ParamFloat = ParamFloat { unParamFloat :: Float } deriving (P.Eq, P.Show)
+
+newtype ParamString = ParamString { unParamString :: Text } deriving (P.Eq, P.Show)
+
+newtype ParamBinary = ParamBinary { unParamBinary :: Binary } deriving (P.Eq, P.Show)
+
+newtype ParamDate = ParamDate { unParamDate :: Date } deriving (P.Eq, P.Show)
+
+newtype ParamDateTime = ParamDateTime { unParamDateTime :: DateTime } deriving (P.Eq, P.Show)
+
+newtype Password = Password { unPassword :: Text } deriving (P.Eq, P.Show)
+
+newtype Callback = Callback { unCallback :: Text } deriving (P.Eq, P.Show)
+
+newtype EnumFormStringArray = EnumFormStringArray { unEnumFormStringArray :: [Text] } deriving (P.Eq, P.Show)
+
+newtype EnumFormString = EnumFormString { unEnumFormString :: Text } deriving (P.Eq, P.Show)
+
+newtype EnumHeaderStringArray = EnumHeaderStringArray { unEnumHeaderStringArray :: [Text] } deriving (P.Eq, P.Show)
+
+newtype EnumHeaderString = EnumHeaderString { unEnumHeaderString :: Text } deriving (P.Eq, P.Show)
+
+newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: [Text] } deriving (P.Eq, P.Show)
+
+newtype EnumQueryString = EnumQueryString { unEnumQueryString :: Text } deriving (P.Eq, P.Show)
+
+newtype EnumQueryInteger = EnumQueryInteger { unEnumQueryInteger :: Int } deriving (P.Eq, P.Show)
+
+newtype EnumQueryDouble = EnumQueryDouble { unEnumQueryDouble :: Double } deriving (P.Eq, P.Show)
+
+newtype ApiKey = ApiKey { unApiKey :: Text } deriving (P.Eq, P.Show)
+
+newtype Name2 = Name2 { unName2 :: Text } deriving (P.Eq, P.Show)
 
 newtype Status = Status { unStatus :: Text } deriving (P.Eq, P.Show)
 
