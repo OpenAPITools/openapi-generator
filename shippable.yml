@@ -7,7 +7,11 @@ build:
   cache: true
   cache_dir_list:
     - $HOME/.m2
+    - $SHIPPABLE_REPO_DIR/samples/client/petstore/haskell-http-client/.stack-work
   ci:
+    - sudo apt-get update -qq
+    # install stack
+    - curl -sSL https://get.haskellstack.org/ | sh
     # install elixir
     - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
     - sudo apt-get update

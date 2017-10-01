@@ -839,6 +839,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/elixir</module>
+                <module>samples/client/petstore/haskell-http-client</module>
             </modules>
         </profile>
     </profiles>
