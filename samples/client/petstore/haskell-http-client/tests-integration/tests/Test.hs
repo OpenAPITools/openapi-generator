@@ -130,7 +130,7 @@ testPetOps mgr config =
       readIORef _pet >>= \case
         Just S.Pet {S.petId = Just petId} -> do
           let updatePetWithFormRequest = S.updatePetWithForm S.MimeFormUrlEncoded petId
-                  `S.applyOptionalParam` S.Name "petName"
+                  `S.applyOptionalParam` S.Name2 "petName"
                   `S.applyOptionalParam` S.Status "pending"
           updatePetWithFormResponse <- S.dispatchLbs mgr config updatePetWithFormRequest S.MimeJSON
           NH.responseStatus updatePetWithFormResponse `shouldBe` NH.status200
@@ -156,7 +156,7 @@ testPetOps mgr config =
         _ -> pendingWith "no petId") $
       it "deletePet" $ \petId -> do
         let deletePetRequest = S.deletePet petId
-                  `S.applyOptionalParam` S.ApiUnderscorekey "api key"
+                  `S.applyOptionalParam` S.ApiKey "api key"
         deletePetResponse <- S.dispatchLbs mgr config deletePetRequest S.MimeJSON
         NH.responseStatus deletePetResponse `shouldBe` NH.status200
 
@@ -185,7 +185,7 @@ testStoreOps mgr config = do
             (S.mkOrder
              { S.orderId = Just 21
              , S.orderQuantity = Just 210
-             , S.orderShipDate = Just now
+             , S.orderShipDate = Just (S.DateTime now)
              })
       placeOrderResult <- S.dispatchMime mgr config placeOrderRequest S.MimeJSON
       NH.responseStatus (S.mimeResultResponse placeOrderResult) `shouldBe` NH.status200

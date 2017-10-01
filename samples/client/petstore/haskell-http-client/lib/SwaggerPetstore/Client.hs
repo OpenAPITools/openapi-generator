@@ -72,7 +72,7 @@ instance Show SwaggerPetstoreConfig where
 --
 -- configHost:
 --
--- @http://petstore.swagger.io/v2@
+-- @http://petstore.swagger.io:80/v2@
 --
 -- configUserAgent:
 --
@@ -82,7 +82,7 @@ newConfig :: IO SwaggerPetstoreConfig
 newConfig = do
     logCxt <- initLogContext
     return $ SwaggerPetstoreConfig
-        { configHost = "http://petstore.swagger.io/v2"
+        { configHost = "http://petstore.swagger.io:80/v2"
         , configUserAgent = "swagger-haskell-http-client/1.0.0"
         , configLogExecWithContext = runDefaultLogExecWithContext
         , configLogContext = logCxt

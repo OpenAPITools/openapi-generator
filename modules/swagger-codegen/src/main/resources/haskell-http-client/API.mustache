@@ -22,14 +22,11 @@ import {{title}}.MimeTypes
 import {{title}}.Lens
 
 import qualified Data.Aeson as A
-import Data.Aeson (Value)
 
 import qualified Data.Time as TI
-import Data.Time (UTCTime)
 
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
-import Data.ByteString.Lazy (ByteString)
 import qualified Data.ByteString.Builder as BB
 import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy.Char8 as BCL
@@ -45,6 +42,7 @@ import qualified Data.CaseInsensitive as CI
 import qualified Data.Data as P (Typeable)
 import qualified Data.Foldable as P
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 import qualified Data.Maybe as P
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
@@ -58,7 +56,6 @@ import qualified Lens.Micro as L
 
 import Data.Monoid ((<>))
 import Data.Function ((&))
-import Data.Set (Set)
 import Data.Text (Text)
 import GHC.Base ((<|>))
 

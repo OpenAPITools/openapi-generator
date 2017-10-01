@@ -120,7 +120,7 @@ runPet mgr config = do
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Status
         --   -- Defined in ‘SwaggerPetstore.API’
         let updatePetWithFormRequest = S.updatePetWithForm S.MimeFormUrlEncoded pid
-                `S.applyOptionalParam` S.Name "petName"
+                `S.applyOptionalParam` S.Name2 "petName"
                 `S.applyOptionalParam` S.Status "pending"
         _ <- S.dispatchLbs mgr config updatePetWithFormRequest S.MimeJSON
 
@@ -133,7 +133,7 @@ runPet mgr config = do
 
         -- deletePet
         let deletePetRequest = S.deletePet pid
-                `S.applyOptionalParam` S.ApiUnderscorekey "api key"
+                `S.applyOptionalParam` S.ApiKey "api key"
         _ <- S.dispatchLbs mgr config deletePetRequest S.MimeJSON
 
         return ()
@@ -161,7 +161,7 @@ runStore mgr config = do
 
   -- placeOrder
   now <- TI.getCurrentTime
-  let placeOrderRequest = S.placeOrder S.MimeJSON (S.mkOrder { S.orderId = Just 21, S.orderQuantity = Just 210, S.orderShipDate = Just now})
+  let placeOrderRequest = S.placeOrder S.MimeJSON (S.mkOrder { S.orderId = Just 21, S.orderQuantity = Just 210, S.orderShipDate = Just (S.DateTime now)})
   placeOrderResult <- S.dispatchMime mgr config placeOrderRequest S.MimeJSON
   mapM_ (\r -> putStrLn $ "placeOrderResult: " <> show r) placeOrderResult
 
