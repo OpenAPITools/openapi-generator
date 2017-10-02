@@ -8,6 +8,7 @@ build:
   cache_dir_list:
     - $HOME/.m2
     - $HOME/.stack
+    - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
     - sudo apt-get update -qq
     # install stack
