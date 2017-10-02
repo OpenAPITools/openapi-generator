@@ -619,7 +619,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getAlias(String name) {
-        if (typeAliases.containsKey(name)) {
+        if (typeAliases != null && typeAliases.containsKey(name)) {
             return typeAliases.get(name);
         }
         return name;
