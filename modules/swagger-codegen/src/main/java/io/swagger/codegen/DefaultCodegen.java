@@ -119,7 +119,7 @@ public class DefaultCodegen {
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
     // When a model is an alias for a simple type
-    protected Map<String, String> typeAliases = new HashMap<>();
+    protected Map<String, String> typeAliases = null;
 
     protected String ignoreFilePathOverride;
 
@@ -1312,6 +1312,10 @@ public class DefaultCodegen {
      * @return Codegen Model object
      */
     public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+        if (typeAliases == null) {
+            // Only do this once during first call
+            typeAliases = getAllAliases(allDefinitions);
+        }
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
         if (reservedWords.contains(name)) {
             m.name = escapeReservedWord(name);
@@ -1327,6 +1331,7 @@ public class DefaultCodegen {
         m.modelJson = Json.pretty(model);
         m.externalDocs = model.getExternalDocs();
         m.vendorExtensions = model.getVendorExtensions();
+        m.isAlias = typeAliases.containsKey(name);
 
         if (model instanceof ModelImpl) {
           ModelImpl modelImpl = (ModelImpl) model;
@@ -1444,10 +1449,6 @@ public class DefaultCodegen {
             ModelImpl impl = (ModelImpl) model;
             if (impl.getType() != null) {
                 Property p = PropertyBuilder.build(impl.getType(), impl.getFormat(), null);
-                if (!impl.getType().equals("object") && impl.getEnum() == null) {
-                    typeAliases.put(name, impl.getType());
-                    m.isAlias = true;
-                }
                 m.dataType = getSwaggerType(p);
             }
             if(impl.getEnum() != null && impl.getEnum().size() > 0) {
@@ -3164,6 +3165,31 @@ public class DefaultCodegen {
                 }
             }
         }
+    }
+
+    /**
+     * Determine all of the types in the model definitions that are aliases of
+     * simple types.
+     * @param allDefinitions The complete set of model definitions.
+     * @return A mapping from model name to type alias
+     */
+    private static Map<String, String> getAllAliases(Map<String, Model> allDefinitions) {
+        Map<String, String> aliases = new HashMap<>();
+        if (allDefinitions != null) {
+            for (Map.Entry<String, Model> entry : allDefinitions.entrySet()) {
+                String swaggerName = entry.getKey();
+                Model m = entry.getValue();
+                if (m instanceof ModelImpl) {
+                    ModelImpl impl = (ModelImpl) m;
+                    if (impl.getType() != null &&
+                            !impl.getType().equals("object") &&
+                            impl.getEnum() == null) {
+                        aliases.put(swaggerName, impl.getType());
+                    }
+                }
+            }
+        }
+        return aliases;
     }
 
     /**
