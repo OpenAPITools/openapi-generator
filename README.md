@@ -890,6 +890,8 @@ Presentations/Videos/Tutorials/Books
 - 2017/08/11 - [Swagger Codegen 自动生成Retrofit 代码](https://juejin.im/entry/598d8eb86fb9a03c52459e2a) by [徐磊](http://www.jianshu.com/u/792c738b33fc) 
 - 2017/08/24 - [APIs First](https://engineering.squarespace.com/blog/2017/apis-first) by [roykachouh](https://github.com/roykachouh) ([Square](https://github.com/square))
 - 2017/08/31 - [Bringing Jenkins Remote Access API To The Masses](http://blog.cliffano.com/2017/09/01/jenkins-world-2017/) by [Cliffano Subagio](http://cliffano.com) from [Shine Solutions](https://shinesolutions.com/) @ [Jenkins World 2017](https://jenkinsworld20162017.sched.com/)
+- 2017/09/08 - [Swagger Codegen で自動生成したクライアントSDKを使う(iOS編)](http://blog.techium.jp/entry/2017/09/08/071650) by [kfurue](http://profile.hatena.ne.jp/kfurue/)
+- 2017/09/09 - [Swagger Codegen で自動生成したクライアントSDKを使う(RxSwift 編)](http://blog.techium.jp/entry/2017/09/09/113003) by [kfurue](http://profile.hatena.ne.jp/kfurue/)
 - 2017/09/09 - [OpenAPIを利用したPythonWebアプリケーション開発](https://www.slideshare.net/TakuroWada/openapipythonweb) by [taxpon](https://github.com/taxpon) at [PyCon JP 2017](https://pycon.jp/2017/ja/)
 - 2017/09/21 - [Generating an Elastic Cloud Enterprise Client](https://www.elastic.co/blog/generating-an-elastic-cloud-enterprise-client) by [Greg Marzouka](https://github.com/gmarz) ([Elastic](https://www.elastic.co/))
 - 2017/09/26 - [How to Use IoT Application Enablement Api Hub JSON Descriptor in Postman and How to Generate Client Code](https://www.linkedin.com/in/radu-simen/) by [Radu Simen](https://www.linkedin.com/in/radu-simen/) ([SAP](https://www.sap.com/))
