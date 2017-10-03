@@ -34,13 +34,13 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
 
         modelPackage = packagePath + "/lib/models";
         apiPackage = packagePath + "/lib";
-        outputFolder = "generated-code/silex";
+        outputFolder = "generated-code/php-silex";
 
         // no model, api files
         modelTemplateFiles.clear();
         apiTemplateFiles.clear();
 
-        embeddedTemplateDir = templateDir = "silex";
+        embeddedTemplateDir = templateDir = "php-silex";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -103,12 +103,12 @@ public class SilexServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getName() {
-        return "silex-PHP";
+        return "php-silex";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Silex server library.";
+        return "Generates a PHP Silex server library.";
     }
 
     @Override
