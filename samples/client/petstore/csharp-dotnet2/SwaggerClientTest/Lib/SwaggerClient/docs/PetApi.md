@@ -1,4 +1,4 @@
-# IO.Swagger..PetApi
+# IO.Swagger.Api.PetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 

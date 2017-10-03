@@ -28,9 +28,9 @@ Run the following command to generate the DLL
 
 Then include the DLL (under the `bin` folder) in the C# project, and use the namespaces:
 ```csharp
-using IO.Swagger.IO.Swagger.Api;
+using IO.Swagger.Api;
 using IO.Swagger.Client;
-using IO.Swagger.IO.Swagger.Model;
+using IO.Swagger.Model;
 ```
 <a name="getting-started"></a>
 ## Getting Started
