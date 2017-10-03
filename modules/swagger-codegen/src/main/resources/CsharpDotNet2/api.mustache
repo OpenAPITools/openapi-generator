@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using RestSharp;
-using {{packageName}}.Client;
-{{#hasImport}}using {{packageName}}.Model;
+using {{clientPackage}};
+{{#hasImport}}using {{modelPackage}};
 {{/hasImport}}
 
-namespace {{packageName}}.Api
+namespace {{apiPackage}}
 {
     {{#operations}}
     /// <summary>
