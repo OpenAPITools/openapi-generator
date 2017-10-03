@@ -26,7 +26,7 @@ public class CsharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
         setApiPackage(packageName + ".Api");
         setModelPackage(packageName + ".Model");
         setClientPackage(packageName + ".Client");
-        setSourceFolder("src" + File.separator + "main" + File.separator + this.getName());
+        setSourceFolder("src" + File.separator + "main" + File.separator + "CsharpDotNet2");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -96,7 +96,7 @@ public class CsharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "CsharpDotNet2";
+        return "csharp-dotnet2";
     }
 
     @Override
