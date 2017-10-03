@@ -22,7 +22,7 @@ namespace {{packageName}}.{{packageContext}}.Modules
         /// Sets up HTTP methods mappings.
         /// </summary>
         /// <param name="service">Service handling requests</param>
-        public {{classname}}Module({{classname}}Service service) : base("{{{baseContext}}}")
+        public {{classname}}Module({{interfacePrefix}}{{classname}}Service service) : base("{{{baseContext}}}")
         { {{#operation}}
             {{httpMethod}}["{{{path}}}"] = parameters =>
             {
