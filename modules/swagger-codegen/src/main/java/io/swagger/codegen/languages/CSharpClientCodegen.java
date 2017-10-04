@@ -225,8 +225,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setTargetFrameworkNuget("uwp");
             setSupportsAsync(Boolean.TRUE);
             setSupportsUWP(Boolean.TRUE);
-            additionalProperties.put("supportsAsync", this.supportsUWP);
-            additionalProperties.put("supportsUWP", this.supportsAsync);
+            additionalProperties.put("supportsAsync", this.supportsAsync);
+            additionalProperties.put("supportsUWP", this.supportsUWP);
 
         } else {
             setTargetFrameworkNuget("net45");
