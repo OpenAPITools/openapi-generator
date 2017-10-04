@@ -1,0 +1,62 @@
+{{>licenseInfo}}
+
+package body {{package}}.Models is
+
+   use Swagger.Streams;
+
+{{#orderedModels}}
+{{#model}}
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in {{classname}}) is
+   begin
+      Into.Start_Entity (Name);{{#vars}}{{^isPrimitiveType}}{{^isString}}{{^isContainer}}{{^isDateTime}}
+      Serialize (Into, "{{baseName}}", Value.{{name}});{{/isDateTime}}{{/isContainer}}{{/isString}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{^isLong}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{/isPrimitiveType}}{{#isLong}}
+      Serialize (Into, "{{baseName}}", Value.{{name}});{{/isLong}}{{#isString}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isString}}{{#isContainer}}
+      Serialize (Into, "{{baseName}}", Value.{{name}});{{/isContainer}}{{#isDateTime}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isDateTime}}{{/vars}}
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in {{classname}}_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out {{classname}}) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);{{#vars}}{{#vendorExtensions.x-is-model-type}}
+      Deserialize (Object, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
+      Swagger.Streams.Deserialize (Object, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-model-type}}{{/vars}}
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out {{classname}}_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : {{classname}};
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+{{/model}}
+{{/orderedModels}}
+
+end {{package}}.Models;
