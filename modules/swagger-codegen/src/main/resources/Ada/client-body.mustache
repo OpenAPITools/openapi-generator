@@ -1,0 +1,50 @@
+{{>licenseInfo}}
+with Swagger.Streams;
+package body {{package}}.Clients is
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+   --  {{summary}}{{#vendorExtensions.x-has-notes}}
+   --  {{unescapedNotes}}{{/vendorExtensions.x-has-notes}}
+   procedure {{operationId}}
+      (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
+       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{#hasMore}};{{/hasMore}}{{/allParams}}{{#returnType}};
+       Result : out {{returnType}}{{/returnType}}) is
+      URI   : Swagger.Clients.URI_Type;{{#hasBodyParam}}
+      Req   : Swagger.Clients.Request_Type;{{/hasBodyParam}}{{#hasFormParams}}
+      Req   : Swagger.Clients.Request_Type;{{/hasFormParams}}
+      {{#returnType}}
+      Reply : Swagger.Value_Type;
+      {{/returnType}}
+   begin
+      Client.Set_Accept (({{#hasProduces}}{{#produces}}{{#vendorExtensions.x-has-uniq-produces}}1 => {{/vendorExtensions.x-has-uniq-produces}}Swagger.Clients.{{adaMediaType}}{{#hasMore}},
+                          {{/hasMore}}{{/produces}}{{/hasProduces}}));{{#hasBodyParam}}
+      Client.Initialize (Req, ({{#hasConsumes}}{{#consumes}}{{#vendorExtensions.x-has-uniq-consumes}}1 -> {{/vendorExtensions.x-has-uniq-consumes}}Swagger.Clients.{{adaMediaType}}{{#hasMore}},
+                               {{/hasMore}}{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}1 => Swagger.Clients.APPLICATION_JSON{{/hasConsumes}}));{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+      {{package}}.Models.Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
+      --  TODO: Serialize (Req.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
+      Req.Stream.Write_Entity ("{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}
+      Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}
+      Client.Initialize (Req, (1 => Swagger.Clients.APPLICATION_FORM));{{#formParams}}{{#vendorExtensions.x-is-model-type}}
+      {{package}}.Models.Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
+      Req.Stream.Write_Entity ("{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{/formParams}}{{/hasFormParams}}
+{{#queryParams}}{{#isQueryParam}}{{^isPrimitiveType}}{{^isString}}{{^isContainer}}{{^isDateTime}}
+      URI.Add_Param ("{{baseName}}", {{paramName}});{{/isDateTime}}{{/isContainer}}{{/isString}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{^isLong}}
+      URI.Add_Param ("{{baseName}}", {{paramName}});{{/isLong}}{{/isPrimitiveType}}{{#isLong}}
+      URI.Add_Param ("{{baseName}}", {{paramName}});{{/isLong}}{{#isContainer}}
+      URI.Add_Param ("{{baseName}}", {{paramName}});{{/isContainer}}{{#isDateTime}}
+      URI.Add_Param ("{{baseName}}", {{paramName}});{{/isDateTime}}{{/isQueryParam}}{{/queryParams}}
+      URI.Set_Path ("{{path}}");{{#pathParams}}
+      URI.Set_Path_Param ("{{baseName}}", {{^isString}}Swagger.To_String ({{/isString}}{{paramName}}{{^isString}}){{/isString}});{{/pathParams}}
+      Client.Call (Swagger.Clients.{{httpMethod}}, URI{{#hasBodyParam}}, Req{{/hasBodyParam}}{{#returnType}}, Reply{{/returnType}});{{#returnType}}{{#vendorExtensions.x-codegen-response.isString}}
+      Swagger.Streams.Deserialize (Reply, "", Result);{{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}{{#returnTypeIsPrimitive}}
+      Swagger.Streams.Deserialize (Reply, "", Result);{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}
+      {{package}}.Models.Deserialize (Reply, "", Result);{{/returnTypeIsPrimitive}}{{/vendorExtensions.x-codegen-response.isString}}{{/returnType}}
+   end {{operationId}};
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+end {{package}}.Clients;

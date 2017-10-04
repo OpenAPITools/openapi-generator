@@ -1,0 +1,20 @@
+{{>licenseInfo}}
+{{#imports}}with {{import}};
+{{/imports}}
+with {{package}}.Models;
+package {{package}}.Servers is
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+   --  {{summary}}
+   --  {{notes}}
+   procedure {{operationId}} ({{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
+      {{/hasMore}}{{/allParams}});
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+end {{package}}.Servers;
