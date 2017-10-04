@@ -5,12 +5,12 @@ import static io.swagger.codegen.testutils.AssertFile.assertPathEqualsRecursivel
 import java.io.IOException;
 import java.util.Map;
 
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.testng.annotations.Test;
 import org.testng.reporters.Files;
 
 import io.swagger.codegen.testutils.IntegrationTestPathsConfig;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
 
 public abstract class AbstractIntegrationTest {
 
@@ -27,7 +27,8 @@ public abstract class AbstractIntegrationTest {
         IntegrationTestPathsConfig integrationTestPathsConfig = getIntegrationTestPathsConfig();
 
         String specContent = Files.readFile(integrationTestPathsConfig.getSpecPath().toFile());
-        Swagger swagger = new SwaggerParser().parse(specContent);
+        OpenAPI openAPI = new OpenAPIV3Parser().readContents(specContent, null, null).getOpenAPI();
+
 
         CodegenConfig codegenConfig = getCodegenConfig();
         codegenConfig.setOutputDir(integrationTestPathsConfig.getOutputPath().toString());
@@ -37,7 +38,7 @@ public abstract class AbstractIntegrationTest {
         ClientOptInput opts = new ClientOptInput()
                 .config(codegenConfig)
                 .opts(clientOpts)
-                .swagger(swagger);
+                .openAPI(openAPI);
 
         codeGen.opts(opts).generate();
 
