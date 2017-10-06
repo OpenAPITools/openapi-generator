@@ -590,9 +590,26 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 buildTypespec(param.items, sb);
                 sb.append("}");
             } else if (param.isPrimitiveType) {
-                // <type>.t
-                sb.append(param.dataType);
-                sb.append(".t");
+                // <type>() OR <type>.t
+
+                // Primitive types in Elixir
+                // https://hexdocs.pm/elixir/1.5.2/typespecs.html#types-and-their-syntax
+                //
+                // NOTE: List, Tuple and Map are declared as primitive in a variable `languageSpecificPrimitives`.
+                HashMap map = new HashMap<String, String>();
+                map.put("Integer", "integer()");
+                map.put("Float", "float()");
+                map.put("Boolean", "boolean()");
+                map.put("String", "String.t");
+                map.put("List", "list()");
+                map.put("Atom", "atom()");
+                map.put("Map", "map()");
+                map.put("Tuple", "tuple()");
+                map.put("PID", "pid()");
+                map.put("DateTime", "DateTime.t");
+
+                String dataType = (String) map.get(param.dataType);
+                sb.append(dataType);
             } else if (param.isFile) {
                 sb.append("String.t");
             } else {

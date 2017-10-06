@@ -177,7 +177,7 @@ defmodule SwaggerPetstore.Api.Fake do
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec test_endpoint_parameters(Tesla.Env.client, Float.t, Float.t, String.t, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_endpoint_parameters(Tesla.Env.client, float(), float(), String.t, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_endpoint_parameters(connection, number, double, pattern_without_delimiter, byte, opts \\ []) do
     optional_params = %{
       :"integer" => :form,
