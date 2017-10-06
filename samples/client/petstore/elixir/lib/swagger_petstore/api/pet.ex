@@ -53,7 +53,7 @@ defmodule SwaggerPetstore.Api.Pet do
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec delete_pet(Tesla.Env.client, Integer.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec delete_pet(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def delete_pet(connection, pet_id, opts \\ []) do
     optional_params = %{
       :"api_key" => :headers
@@ -134,7 +134,7 @@ defmodule SwaggerPetstore.Api.Pet do
   {:ok, %SwaggerPetstore.Model.Pet{}} on success
   {:error, info} on failure
   """
-  @spec get_pet_by_id(Tesla.Env.client, Integer.t, keyword()) :: {:ok, SwaggerPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
+  @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, SwaggerPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
   def get_pet_by_id(connection, pet_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -187,7 +187,7 @@ defmodule SwaggerPetstore.Api.Pet do
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec update_pet_with_form(Tesla.Env.client, Integer.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec update_pet_with_form(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def update_pet_with_form(connection, pet_id, opts \\ []) do
     optional_params = %{
       :"name" => :form,
@@ -219,7 +219,7 @@ defmodule SwaggerPetstore.Api.Pet do
   {:ok, %SwaggerPetstore.Model.ApiResponse{}} on success
   {:error, info} on failure
   """
-  @spec upload_file(Tesla.Env.client, Integer.t, keyword()) :: {:ok, SwaggerPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
+  @spec upload_file(Tesla.Env.client, integer(), keyword()) :: {:ok, SwaggerPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file(connection, pet_id, opts \\ []) do
     optional_params = %{
       :"additionalMetadata" => :form,

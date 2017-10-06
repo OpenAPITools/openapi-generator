@@ -75,7 +75,7 @@ defmodule SwaggerPetstore.Api.Store do
   {:ok, %SwaggerPetstore.Model.Order{}} on success
   {:error, info} on failure
   """
-  @spec get_order_by_id(Tesla.Env.client, Integer.t, keyword()) :: {:ok, SwaggerPetstore.Model.Order.t} | {:error, Tesla.Env.t}
+  @spec get_order_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, SwaggerPetstore.Model.Order.t} | {:error, Tesla.Env.t}
   def get_order_by_id(connection, order_id, _opts \\ []) do
     %{}
     |> method(:get)
