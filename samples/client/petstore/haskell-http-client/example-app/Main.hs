@@ -26,9 +26,16 @@ main = do
 
   config0 <- S.withStdoutLogging =<< S.newConfig 
 
-  let config = case lookup "HOST" env of
-        Just h -> config0 { S.configHost = BCL.pack h }
-        _ -> config0
+  let config =
+        -- configure host
+        case lookup "HOST" env of
+            Just h -> config0 { S.configHost = BCL.pack h }
+            _ -> config0
+        -- each configured auth method is only applied to requests that specify them
+        `S.addAuthMethod` S.AuthBasicHttpBasicTest "username" "password"
+        `S.addAuthMethod` S.AuthApiKeyApiKey "secret-key"
+        `S.addAuthMethod` S.AuthApiKeyApiKeyQuery "secret-key"
+        `S.addAuthMethod` S.AuthOAuthPetstoreAuth "secret-key"
 
   putStrLn "******** CONFIG ********"
   putStrLn (show config)
@@ -87,7 +94,7 @@ runPet mgr config = do
     Right pet@S.Pet { S.petId = Just pid } -> do
 
         -- create the request for getPetById
-        let getPetByIdRequest = S.getPetById pid
+        let getPetByIdRequest = S.getPetById (S.PetId pid)
 
         -- dispatchMime returns MimeResult, which includes the
         -- expected decoded model object 'Pet', or a parse failure
@@ -97,12 +104,12 @@ runPet mgr config = do
           Right r -> putStrLn $ "getPetById: found pet: " <> show r  -- display 'Pet' model object, r 
 
         -- findPetsByStatus
-        let findPetsByStatusRequest = S.findPetsByStatus ["available","pending","sold"]
+        let findPetsByStatusRequest = S.findPetsByStatus (S.Status ["available","pending","sold"])
         findPetsByStatusResult <- S.dispatchMime mgr config findPetsByStatusRequest S.MimeJSON
         mapM_ (\r -> putStrLn $ "findPetsByStatus: found " <> (show . length) r <> " pets") findPetsByStatusResult 
 
         -- findPetsByTags
-        let findPetsByTagsRequest = S.findPetsByTags ["name","tag1"]
+        let findPetsByTagsRequest = S.findPetsByTags (S.Tags ["name","tag1"])
         findPetsByTagsResult <- S.dispatchMime mgr config findPetsByTagsRequest S.MimeJSON
         mapM_ (\r -> putStrLn $ "findPetsByTags: found " <> (show . length) r <> " pets") findPetsByTagsResult 
 
@@ -119,20 +126,20 @@ runPet mgr config = do
         --   -- Defined in ‘SwaggerPetstore.API’
         -- instance S.HasOptionalParam S.UpdatePetWithForm S.Status
         --   -- Defined in ‘SwaggerPetstore.API’
-        let updatePetWithFormRequest = S.updatePetWithForm S.MimeFormUrlEncoded pid
+        let updatePetWithFormRequest = S.updatePetWithForm S.MimeFormUrlEncoded (S.PetId pid)
                 `S.applyOptionalParam` S.Name2 "petName"
-                `S.applyOptionalParam` S.Status "pending"
+                `S.applyOptionalParam` S.StatusText "pending"
         _ <- S.dispatchLbs mgr config updatePetWithFormRequest S.MimeJSON
 
         -- multipart/form-data file uploads are just a different content-type
-        let uploadFileRequest = S.uploadFile S.MimeMultipartFormData pid
+        let uploadFileRequest = S.uploadFile S.MimeMultipartFormData (S.PetId pid)
                 `S.applyOptionalParam` S.File "package.yaml" -- the file contents of the path are read when dispatched
                 `S.applyOptionalParam` S.AdditionalMetadata "a package.yaml file"
         uploadFileRequestResult <- S.dispatchMime mgr config uploadFileRequest S.MimeJSON
         mapM_ (\r -> putStrLn $ "uploadFile: " <> show r) uploadFileRequestResult 
 
         -- deletePet
-        let deletePetRequest = S.deletePet pid
+        let deletePetRequest = S.deletePet (S.PetId pid)
                 `S.applyOptionalParam` S.ApiKey "api key"
         _ <- S.dispatchLbs mgr config deletePetRequest S.MimeJSON
 
@@ -155,7 +162,7 @@ runStore mgr config = do
 
   -- we can set arbitrary headers with setHeader
   let getInventoryRequest = S.getInventory
-        `S.setHeader` [("api_key","special-key")] 
+        `S.setHeader` [("random-header","random-value")] 
   getInventoryRequestRequestResult <- S.dispatchMime mgr config getInventoryRequest S.MimeJSON
   mapM_ (\r -> putStrLn $ "getInventoryRequest: found " <> (show . length) r <> " results") getInventoryRequestRequestResult
 
@@ -168,12 +175,12 @@ runStore mgr config = do
   let orderId = maybe 10 id $ either (const Nothing) (S.orderId) (S.mimeResult placeOrderResult)
 
   -- getOrderByid
-  let getOrderByIdRequest = S.getOrderById orderId
+  let getOrderByIdRequest = S.getOrderById (S.OrderId orderId)
   getOrderByIdRequestResult <- S.dispatchMime mgr config getOrderByIdRequest S.MimeJSON
   mapM_ (\r -> putStrLn $ "getOrderById: found order: " <> show r) getOrderByIdRequestResult 
 
   -- deleteOrder
-  let deleteOrderRequest = S.deleteOrder "21"
+  let deleteOrderRequest = S.deleteOrder (S.OrderIdText "21")
   _ <- S.dispatchLbs mgr config deleteOrderRequest S.MimeJSON
 
   return ()
@@ -205,32 +212,32 @@ runUser mgr config = do
 
   -- can use lenses (model record names are appended L) to view or modify records
   let users = take 8 $ drop 1 $ iterate (L.over S.userUsernameL (fmap (<> "*")) . L.over S.userIdL (fmap (+ 1))) user
-  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput S.MimeJSON users
+  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput S.MimeJSON (S.Body users)
   _ <- S.dispatchLbs mgr config createUsersWithArrayInputRequest S.MimeNoContent
 
   -- createUsersWithArrayInput
-  let createUsersWithListInputRequest = S.createUsersWithListInput S.MimeJSON users
+  let createUsersWithListInputRequest = S.createUsersWithListInput S.MimeJSON (S.Body users)
   _ <- S.dispatchLbs mgr config createUsersWithListInputRequest S.MimeNoContent
 
   -- getUserByName
-  let getUserByNameRequest = S.getUserByName username
+  let getUserByNameRequest = S.getUserByName (S.Username username)
   getUserByNameResult <- S.dispatchMime mgr config getUserByNameRequest S.MimeJSON
   mapM_ (\r -> putStrLn $ "getUserByName: found user: " <> show r) getUserByNameResult 
 
   -- loginUser
-  let loginUserRequest = S.loginUser username "password1"
+  let loginUserRequest = S.loginUser (S.Username username) (S.Password "password1")
   loginUserResult <- S.dispatchLbs mgr config loginUserRequest S.MimeJSON
   BCL.putStrLn $ "loginUser: " <> (NH.responseBody loginUserResult)
 
   -- updateUser
-  let updateUserRequest = S.updateUser S.MimeJSON username (user { S.userEmail = Just "xyz@example.com" })
+  let updateUserRequest = S.updateUser S.MimeJSON (S.Username username) (user { S.userEmail = Just "xyz@example.com" })
   _ <- S.dispatchLbs mgr config updateUserRequest S.MimeJSON
 
   -- logoutUser
   _ <- S.dispatchLbs mgr config S.logoutUser S.MimeJSON
   
   -- deleteUser
-  let deleteUserRequest = S.deleteUser username
+  let deleteUserRequest = S.deleteUser (S.Username username)
   _ <- S.dispatchLbs mgr config deleteUserRequest S.MimeJSON
 
   return ()

@@ -17,7 +17,8 @@ import {{title}}.MimeTypes
 
 main :: IO ()
 main =
-  hspec $ modifyMaxSize (const 10) $
-  do describe "JSON instances" $
-       do {{#models}}{{#model}}propMimeEq MimeJSON (Proxy :: Proxy {{classname}})
-          {{/model}}{{/models}}
+  hspec $ modifyMaxSize (const 10) $ do
+    describe "JSON instances" $ do
+      pure ()
+      {{#models}}{{#model}}propMimeEq MimeJSON (Proxy :: Proxy {{classname}})
+      {{/model}}{{/models}}

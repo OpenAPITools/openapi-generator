@@ -61,18 +61,21 @@ import qualified Prelude as P
 
 
 -- ** AdditionalPropertiesClass
--- |
+-- | AdditionalPropertiesClass
 data AdditionalPropertiesClass = AdditionalPropertiesClass
   { additionalPropertiesClassMapProperty :: !(Maybe (Map.Map String Text)) -- ^ "map_property"
   , additionalPropertiesClassMapOfMapProperty :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_of_map_property"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON AdditionalPropertiesClass
 instance A.FromJSON AdditionalPropertiesClass where
   parseJSON = A.withObject "AdditionalPropertiesClass" $ \o ->
     AdditionalPropertiesClass
       <$> (o .:? "map_property")
       <*> (o .:? "map_of_map_property")
 
+-- | ToJSON AdditionalPropertiesClass
 instance A.ToJSON AdditionalPropertiesClass where
   toJSON AdditionalPropertiesClass {..} =
    _omitNulls
@@ -92,18 +95,21 @@ mkAdditionalPropertiesClass =
   
 
 -- ** Animal
--- |
+-- | Animal
 data Animal = Animal
   { animalClassName :: !(Text) -- ^ /Required/ "className"
   , animalColor :: !(Maybe Text) -- ^ "color"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Animal
 instance A.FromJSON Animal where
   parseJSON = A.withObject "Animal" $ \o ->
     Animal
       <$> (o .:  "className")
       <*> (o .:? "color")
 
+-- | ToJSON Animal
 instance A.ToJSON Animal where
   toJSON Animal {..} =
    _omitNulls
@@ -124,16 +130,19 @@ mkAnimal animalClassName =
   
 
 -- ** AnimalFarm
--- |
+-- | AnimalFarm
 data AnimalFarm = AnimalFarm
   { 
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON AnimalFarm
 instance A.FromJSON AnimalFarm where
   parseJSON = A.withObject "AnimalFarm" $ \o ->
     pure AnimalFarm
       
 
+-- | ToJSON AnimalFarm
 instance A.ToJSON AnimalFarm where
   toJSON AnimalFarm  =
    _omitNulls
@@ -151,13 +160,15 @@ mkAnimalFarm =
   
 
 -- ** ApiResponse
--- |
+-- | ApiResponse
 data ApiResponse = ApiResponse
   { apiResponseCode :: !(Maybe Int) -- ^ "code"
   , apiResponseType :: !(Maybe Text) -- ^ "type"
   , apiResponseMessage :: !(Maybe Text) -- ^ "message"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ApiResponse
 instance A.FromJSON ApiResponse where
   parseJSON = A.withObject "ApiResponse" $ \o ->
     ApiResponse
@@ -165,6 +176,7 @@ instance A.FromJSON ApiResponse where
       <*> (o .:? "type")
       <*> (o .:? "message")
 
+-- | ToJSON ApiResponse
 instance A.ToJSON ApiResponse where
   toJSON ApiResponse {..} =
    _omitNulls
@@ -186,16 +198,19 @@ mkApiResponse =
   
 
 -- ** ArrayOfArrayOfNumberOnly
--- |
+-- | ArrayOfArrayOfNumberOnly
 data ArrayOfArrayOfNumberOnly = ArrayOfArrayOfNumberOnly
   { arrayOfArrayOfNumberOnlyArrayArrayNumber :: !(Maybe [[Double]]) -- ^ "ArrayArrayNumber"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ArrayOfArrayOfNumberOnly
 instance A.FromJSON ArrayOfArrayOfNumberOnly where
   parseJSON = A.withObject "ArrayOfArrayOfNumberOnly" $ \o ->
     ArrayOfArrayOfNumberOnly
       <$> (o .:? "ArrayArrayNumber")
 
+-- | ToJSON ArrayOfArrayOfNumberOnly
 instance A.ToJSON ArrayOfArrayOfNumberOnly where
   toJSON ArrayOfArrayOfNumberOnly {..} =
    _omitNulls
@@ -213,16 +228,19 @@ mkArrayOfArrayOfNumberOnly =
   
 
 -- ** ArrayOfNumberOnly
--- |
+-- | ArrayOfNumberOnly
 data ArrayOfNumberOnly = ArrayOfNumberOnly
   { arrayOfNumberOnlyArrayNumber :: !(Maybe [Double]) -- ^ "ArrayNumber"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ArrayOfNumberOnly
 instance A.FromJSON ArrayOfNumberOnly where
   parseJSON = A.withObject "ArrayOfNumberOnly" $ \o ->
     ArrayOfNumberOnly
       <$> (o .:? "ArrayNumber")
 
+-- | ToJSON ArrayOfNumberOnly
 instance A.ToJSON ArrayOfNumberOnly where
   toJSON ArrayOfNumberOnly {..} =
    _omitNulls
@@ -240,13 +258,15 @@ mkArrayOfNumberOnly =
   
 
 -- ** ArrayTest
--- |
+-- | ArrayTest
 data ArrayTest = ArrayTest
   { arrayTestArrayOfString :: !(Maybe [Text]) -- ^ "array_of_string"
   , arrayTestArrayArrayOfInteger :: !(Maybe [[Integer]]) -- ^ "array_array_of_integer"
   , arrayTestArrayArrayOfModel :: !(Maybe [[ReadOnlyFirst]]) -- ^ "array_array_of_model"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ArrayTest
 instance A.FromJSON ArrayTest where
   parseJSON = A.withObject "ArrayTest" $ \o ->
     ArrayTest
@@ -254,6 +274,7 @@ instance A.FromJSON ArrayTest where
       <*> (o .:? "array_array_of_integer")
       <*> (o .:? "array_array_of_model")
 
+-- | ToJSON ArrayTest
 instance A.ToJSON ArrayTest where
   toJSON ArrayTest {..} =
    _omitNulls
@@ -275,7 +296,7 @@ mkArrayTest =
   
 
 -- ** Capitalization
--- |
+-- | Capitalization
 data Capitalization = Capitalization
   { capitalizationSmallCamel :: !(Maybe Text) -- ^ "smallCamel"
   , capitalizationCapitalCamel :: !(Maybe Text) -- ^ "CapitalCamel"
@@ -285,6 +306,8 @@ data Capitalization = Capitalization
   , capitalizationAttName :: !(Maybe Text) -- ^ "ATT_NAME" - Name of the pet 
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Capitalization
 instance A.FromJSON Capitalization where
   parseJSON = A.withObject "Capitalization" $ \o ->
     Capitalization
@@ -295,6 +318,7 @@ instance A.FromJSON Capitalization where
       <*> (o .:? "SCA_ETH_Flow_Points")
       <*> (o .:? "ATT_NAME")
 
+-- | ToJSON Capitalization
 instance A.ToJSON Capitalization where
   toJSON Capitalization {..} =
    _omitNulls
@@ -322,18 +346,21 @@ mkCapitalization =
   
 
 -- ** Category
--- |
+-- | Category
 data Category = Category
   { categoryId :: !(Maybe Integer) -- ^ "id"
   , categoryName :: !(Maybe Text) -- ^ "name"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Category
 instance A.FromJSON Category where
   parseJSON = A.withObject "Category" $ \o ->
     Category
       <$> (o .:? "id")
       <*> (o .:? "name")
 
+-- | ToJSON Category
 instance A.ToJSON Category where
   toJSON Category {..} =
    _omitNulls
@@ -353,17 +380,20 @@ mkCategory =
   
 
 -- ** ClassModel
--- |
+-- | ClassModel
 -- Model for testing model with \"_class\" property
 data ClassModel = ClassModel
   { classModelClass :: !(Maybe Text) -- ^ "_class"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ClassModel
 instance A.FromJSON ClassModel where
   parseJSON = A.withObject "ClassModel" $ \o ->
     ClassModel
       <$> (o .:? "_class")
 
+-- | ToJSON ClassModel
 instance A.ToJSON ClassModel where
   toJSON ClassModel {..} =
    _omitNulls
@@ -381,16 +411,19 @@ mkClassModel =
   
 
 -- ** Client
--- |
+-- | Client
 data Client = Client
   { clientClient :: !(Maybe Text) -- ^ "client"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Client
 instance A.FromJSON Client where
   parseJSON = A.withObject "Client" $ \o ->
     Client
       <$> (o .:? "client")
 
+-- | ToJSON Client
 instance A.ToJSON Client where
   toJSON Client {..} =
    _omitNulls
@@ -408,18 +441,21 @@ mkClient =
   
 
 -- ** EnumArrays
--- |
+-- | EnumArrays
 data EnumArrays = EnumArrays
   { enumArraysJustSymbol :: !(Maybe Text) -- ^ "just_symbol"
   , enumArraysArrayEnum :: !(Maybe [Text]) -- ^ "array_enum"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON EnumArrays
 instance A.FromJSON EnumArrays where
   parseJSON = A.withObject "EnumArrays" $ \o ->
     EnumArrays
       <$> (o .:? "just_symbol")
       <*> (o .:? "array_enum")
 
+-- | ToJSON EnumArrays
 instance A.ToJSON EnumArrays where
   toJSON EnumArrays {..} =
    _omitNulls
@@ -439,16 +475,19 @@ mkEnumArrays =
   
 
 -- ** EnumClass
--- |
+-- | EnumClass
 data EnumClass = EnumClass
   { 
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON EnumClass
 instance A.FromJSON EnumClass where
   parseJSON = A.withObject "EnumClass" $ \o ->
     pure EnumClass
       
 
+-- | ToJSON EnumClass
 instance A.ToJSON EnumClass where
   toJSON EnumClass  =
    _omitNulls
@@ -466,7 +505,7 @@ mkEnumClass =
   
 
 -- ** EnumTest
--- |
+-- | EnumTest
 data EnumTest = EnumTest
   { enumTestEnumString :: !(Maybe Text) -- ^ "enum_string"
   , enumTestEnumInteger :: !(Maybe Int) -- ^ "enum_integer"
@@ -474,6 +513,8 @@ data EnumTest = EnumTest
   , enumTestOuterEnum :: !(Maybe OuterEnum) -- ^ "outerEnum"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON EnumTest
 instance A.FromJSON EnumTest where
   parseJSON = A.withObject "EnumTest" $ \o ->
     EnumTest
@@ -482,6 +523,7 @@ instance A.FromJSON EnumTest where
       <*> (o .:? "enum_number")
       <*> (o .:? "outerEnum")
 
+-- | ToJSON EnumTest
 instance A.ToJSON EnumTest where
   toJSON EnumTest {..} =
    _omitNulls
@@ -505,7 +547,7 @@ mkEnumTest =
   
 
 -- ** FormatTest
--- |
+-- | FormatTest
 data FormatTest = FormatTest
   { formatTestInteger :: !(Maybe Int) -- ^ "integer"
   , formatTestInt32 :: !(Maybe Int) -- ^ "int32"
@@ -522,6 +564,8 @@ data FormatTest = FormatTest
   , formatTestPassword :: !(Text) -- ^ /Required/ "password"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON FormatTest
 instance A.FromJSON FormatTest where
   parseJSON = A.withObject "FormatTest" $ \o ->
     FormatTest
@@ -539,6 +583,7 @@ instance A.FromJSON FormatTest where
       <*> (o .:? "uuid")
       <*> (o .:  "password")
 
+-- | ToJSON FormatTest
 instance A.ToJSON FormatTest where
   toJSON FormatTest {..} =
    _omitNulls
@@ -584,18 +629,21 @@ mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
   
 
 -- ** HasOnlyReadOnly
--- |
+-- | HasOnlyReadOnly
 data HasOnlyReadOnly = HasOnlyReadOnly
   { hasOnlyReadOnlyBar :: !(Maybe Text) -- ^ "bar"
   , hasOnlyReadOnlyFoo :: !(Maybe Text) -- ^ "foo"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON HasOnlyReadOnly
 instance A.FromJSON HasOnlyReadOnly where
   parseJSON = A.withObject "HasOnlyReadOnly" $ \o ->
     HasOnlyReadOnly
       <$> (o .:? "bar")
       <*> (o .:? "foo")
 
+-- | ToJSON HasOnlyReadOnly
 instance A.ToJSON HasOnlyReadOnly where
   toJSON HasOnlyReadOnly {..} =
    _omitNulls
@@ -615,18 +663,21 @@ mkHasOnlyReadOnly =
   
 
 -- ** MapTest
--- |
+-- | MapTest
 data MapTest = MapTest
   { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
   , mapTestMapOfEnumString :: !(Maybe (Map.Map String Text)) -- ^ "map_of_enum_string"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON MapTest
 instance A.FromJSON MapTest where
   parseJSON = A.withObject "MapTest" $ \o ->
     MapTest
       <$> (o .:? "map_map_of_string")
       <*> (o .:? "map_of_enum_string")
 
+-- | ToJSON MapTest
 instance A.ToJSON MapTest where
   toJSON MapTest {..} =
    _omitNulls
@@ -646,13 +697,15 @@ mkMapTest =
   
 
 -- ** MixedPropertiesAndAdditionalPropertiesClass
--- |
+-- | MixedPropertiesAndAdditionalPropertiesClass
 data MixedPropertiesAndAdditionalPropertiesClass = MixedPropertiesAndAdditionalPropertiesClass
   { mixedPropertiesAndAdditionalPropertiesClassUuid :: !(Maybe Text) -- ^ "uuid"
   , mixedPropertiesAndAdditionalPropertiesClassDateTime :: !(Maybe DateTime) -- ^ "dateTime"
   , mixedPropertiesAndAdditionalPropertiesClassMap :: !(Maybe (Map.Map String Animal)) -- ^ "map"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON MixedPropertiesAndAdditionalPropertiesClass
 instance A.FromJSON MixedPropertiesAndAdditionalPropertiesClass where
   parseJSON = A.withObject "MixedPropertiesAndAdditionalPropertiesClass" $ \o ->
     MixedPropertiesAndAdditionalPropertiesClass
@@ -660,6 +713,7 @@ instance A.FromJSON MixedPropertiesAndAdditionalPropertiesClass where
       <*> (o .:? "dateTime")
       <*> (o .:? "map")
 
+-- | ToJSON MixedPropertiesAndAdditionalPropertiesClass
 instance A.ToJSON MixedPropertiesAndAdditionalPropertiesClass where
   toJSON MixedPropertiesAndAdditionalPropertiesClass {..} =
    _omitNulls
@@ -681,19 +735,22 @@ mkMixedPropertiesAndAdditionalPropertiesClass =
   
 
 -- ** Model200Response
--- |
+-- | Model200Response
 -- Model for testing model name starting with number
 data Model200Response = Model200Response
   { model200ResponseName :: !(Maybe Int) -- ^ "name"
   , model200ResponseClass :: !(Maybe Text) -- ^ "class"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Model200Response
 instance A.FromJSON Model200Response where
   parseJSON = A.withObject "Model200Response" $ \o ->
     Model200Response
       <$> (o .:? "name")
       <*> (o .:? "class")
 
+-- | ToJSON Model200Response
 instance A.ToJSON Model200Response where
   toJSON Model200Response {..} =
    _omitNulls
@@ -713,16 +770,19 @@ mkModel200Response =
   
 
 -- ** ModelList
--- |
+-- | ModelList
 data ModelList = ModelList
   { modelList123List :: !(Maybe Text) -- ^ "123-list"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ModelList
 instance A.FromJSON ModelList where
   parseJSON = A.withObject "ModelList" $ \o ->
     ModelList
       <$> (o .:? "123-list")
 
+-- | ToJSON ModelList
 instance A.ToJSON ModelList where
   toJSON ModelList {..} =
    _omitNulls
@@ -740,17 +800,20 @@ mkModelList =
   
 
 -- ** ModelReturn
--- |
+-- | ModelReturn
 -- Model for testing reserved words
 data ModelReturn = ModelReturn
   { modelReturnReturn :: !(Maybe Int) -- ^ "return"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ModelReturn
 instance A.FromJSON ModelReturn where
   parseJSON = A.withObject "ModelReturn" $ \o ->
     ModelReturn
       <$> (o .:? "return")
 
+-- | ToJSON ModelReturn
 instance A.ToJSON ModelReturn where
   toJSON ModelReturn {..} =
    _omitNulls
@@ -768,7 +831,7 @@ mkModelReturn =
   
 
 -- ** Name
--- |
+-- | Name
 -- Model for testing model name same as property name
 data Name = Name
   { nameName :: !(Int) -- ^ /Required/ "name"
@@ -777,6 +840,8 @@ data Name = Name
   , name123Number :: !(Maybe Int) -- ^ "123Number"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Name
 instance A.FromJSON Name where
   parseJSON = A.withObject "Name" $ \o ->
     Name
@@ -785,6 +850,7 @@ instance A.FromJSON Name where
       <*> (o .:? "property")
       <*> (o .:? "123Number")
 
+-- | ToJSON Name
 instance A.ToJSON Name where
   toJSON Name {..} =
    _omitNulls
@@ -809,16 +875,19 @@ mkName nameName =
   
 
 -- ** NumberOnly
--- |
+-- | NumberOnly
 data NumberOnly = NumberOnly
   { numberOnlyJustNumber :: !(Maybe Double) -- ^ "JustNumber"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON NumberOnly
 instance A.FromJSON NumberOnly where
   parseJSON = A.withObject "NumberOnly" $ \o ->
     NumberOnly
       <$> (o .:? "JustNumber")
 
+-- | ToJSON NumberOnly
 instance A.ToJSON NumberOnly where
   toJSON NumberOnly {..} =
    _omitNulls
@@ -836,7 +905,7 @@ mkNumberOnly =
   
 
 -- ** Order
--- |
+-- | Order
 data Order = Order
   { orderId :: !(Maybe Integer) -- ^ "id"
   , orderPetId :: !(Maybe Integer) -- ^ "petId"
@@ -846,6 +915,8 @@ data Order = Order
   , orderComplete :: !(Maybe Bool) -- ^ "complete"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Order
 instance A.FromJSON Order where
   parseJSON = A.withObject "Order" $ \o ->
     Order
@@ -856,6 +927,7 @@ instance A.FromJSON Order where
       <*> (o .:? "status")
       <*> (o .:? "complete")
 
+-- | ToJSON Order
 instance A.ToJSON Order where
   toJSON Order {..} =
    _omitNulls
@@ -883,16 +955,19 @@ mkOrder =
   
 
 -- ** OuterBoolean
--- |
+-- | OuterBoolean
 data OuterBoolean = OuterBoolean
   { 
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON OuterBoolean
 instance A.FromJSON OuterBoolean where
   parseJSON = A.withObject "OuterBoolean" $ \o ->
     pure OuterBoolean
       
 
+-- | ToJSON OuterBoolean
 instance A.ToJSON OuterBoolean where
   toJSON OuterBoolean  =
    _omitNulls
@@ -910,13 +985,15 @@ mkOuterBoolean =
   
 
 -- ** OuterComposite
--- |
+-- | OuterComposite
 data OuterComposite = OuterComposite
   { outerCompositeMyNumber :: !(Maybe OuterNumber) -- ^ "my_number"
   , outerCompositeMyString :: !(Maybe OuterString) -- ^ "my_string"
   , outerCompositeMyBoolean :: !(Maybe OuterBoolean) -- ^ "my_boolean"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON OuterComposite
 instance A.FromJSON OuterComposite where
   parseJSON = A.withObject "OuterComposite" $ \o ->
     OuterComposite
@@ -924,6 +1001,7 @@ instance A.FromJSON OuterComposite where
       <*> (o .:? "my_string")
       <*> (o .:? "my_boolean")
 
+-- | ToJSON OuterComposite
 instance A.ToJSON OuterComposite where
   toJSON OuterComposite {..} =
    _omitNulls
@@ -945,16 +1023,19 @@ mkOuterComposite =
   
 
 -- ** OuterEnum
--- |
+-- | OuterEnum
 data OuterEnum = OuterEnum
   { 
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON OuterEnum
 instance A.FromJSON OuterEnum where
   parseJSON = A.withObject "OuterEnum" $ \o ->
     pure OuterEnum
       
 
+-- | ToJSON OuterEnum
 instance A.ToJSON OuterEnum where
   toJSON OuterEnum  =
    _omitNulls
@@ -972,16 +1053,19 @@ mkOuterEnum =
   
 
 -- ** OuterNumber
--- |
+-- | OuterNumber
 data OuterNumber = OuterNumber
   { 
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON OuterNumber
 instance A.FromJSON OuterNumber where
   parseJSON = A.withObject "OuterNumber" $ \o ->
     pure OuterNumber
       
 
+-- | ToJSON OuterNumber
 instance A.ToJSON OuterNumber where
   toJSON OuterNumber  =
    _omitNulls
@@ -999,16 +1083,19 @@ mkOuterNumber =
   
 
 -- ** OuterString
--- |
+-- | OuterString
 data OuterString = OuterString
   { 
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON OuterString
 instance A.FromJSON OuterString where
   parseJSON = A.withObject "OuterString" $ \o ->
     pure OuterString
       
 
+-- | ToJSON OuterString
 instance A.ToJSON OuterString where
   toJSON OuterString  =
    _omitNulls
@@ -1026,7 +1113,7 @@ mkOuterString =
   
 
 -- ** Pet
--- |
+-- | Pet
 data Pet = Pet
   { petId :: !(Maybe Integer) -- ^ "id"
   , petCategory :: !(Maybe Category) -- ^ "category"
@@ -1036,6 +1123,8 @@ data Pet = Pet
   , petStatus :: !(Maybe Text) -- ^ "status" - pet status in the store
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Pet
 instance A.FromJSON Pet where
   parseJSON = A.withObject "Pet" $ \o ->
     Pet
@@ -1046,6 +1135,7 @@ instance A.FromJSON Pet where
       <*> (o .:? "tags")
       <*> (o .:? "status")
 
+-- | ToJSON Pet
 instance A.ToJSON Pet where
   toJSON Pet {..} =
    _omitNulls
@@ -1075,18 +1165,21 @@ mkPet petName petPhotoUrls =
   
 
 -- ** ReadOnlyFirst
--- |
+-- | ReadOnlyFirst
 data ReadOnlyFirst = ReadOnlyFirst
   { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"
   , readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON ReadOnlyFirst
 instance A.FromJSON ReadOnlyFirst where
   parseJSON = A.withObject "ReadOnlyFirst" $ \o ->
     ReadOnlyFirst
       <$> (o .:? "bar")
       <*> (o .:? "baz")
 
+-- | ToJSON ReadOnlyFirst
 instance A.ToJSON ReadOnlyFirst where
   toJSON ReadOnlyFirst {..} =
    _omitNulls
@@ -1106,16 +1199,19 @@ mkReadOnlyFirst =
   
 
 -- ** SpecialModelName
--- |
+-- | SpecialModelName
 data SpecialModelName = SpecialModelName
   { specialModelNameSpecialPropertyName :: !(Maybe Integer) -- ^ "$special[property.name]"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON SpecialModelName
 instance A.FromJSON SpecialModelName where
   parseJSON = A.withObject "SpecialModelName" $ \o ->
     SpecialModelName
       <$> (o .:? "$special[property.name]")
 
+-- | ToJSON SpecialModelName
 instance A.ToJSON SpecialModelName where
   toJSON SpecialModelName {..} =
    _omitNulls
@@ -1133,18 +1229,21 @@ mkSpecialModelName =
   
 
 -- ** Tag
--- |
+-- | Tag
 data Tag = Tag
   { tagId :: !(Maybe Integer) -- ^ "id"
   , tagName :: !(Maybe Text) -- ^ "name"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Tag
 instance A.FromJSON Tag where
   parseJSON = A.withObject "Tag" $ \o ->
     Tag
       <$> (o .:? "id")
       <*> (o .:? "name")
 
+-- | ToJSON Tag
 instance A.ToJSON Tag where
   toJSON Tag {..} =
    _omitNulls
@@ -1164,7 +1263,7 @@ mkTag =
   
 
 -- ** User
--- |
+-- | User
 data User = User
   { userId :: !(Maybe Integer) -- ^ "id"
   , userUsername :: !(Maybe Text) -- ^ "username"
@@ -1176,6 +1275,8 @@ data User = User
   , userUserStatus :: !(Maybe Int) -- ^ "userStatus" - User Status
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON User
 instance A.FromJSON User where
   parseJSON = A.withObject "User" $ \o ->
     User
@@ -1188,6 +1289,7 @@ instance A.FromJSON User where
       <*> (o .:? "phone")
       <*> (o .:? "userStatus")
 
+-- | ToJSON User
 instance A.ToJSON User where
   toJSON User {..} =
    _omitNulls
@@ -1219,13 +1321,15 @@ mkUser =
   
 
 -- ** Cat
--- |
+-- | Cat
 data Cat = Cat
   { catClassName :: !(Text) -- ^ /Required/ "className"
   , catColor :: !(Maybe Text) -- ^ "color"
   , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Cat
 instance A.FromJSON Cat where
   parseJSON = A.withObject "Cat" $ \o ->
     Cat
@@ -1233,6 +1337,7 @@ instance A.FromJSON Cat where
       <*> (o .:? "color")
       <*> (o .:? "declawed")
 
+-- | ToJSON Cat
 instance A.ToJSON Cat where
   toJSON Cat {..} =
    _omitNulls
@@ -1255,13 +1360,15 @@ mkCat catClassName =
   
 
 -- ** Dog
--- |
+-- | Dog
 data Dog = Dog
   { dogClassName :: !(Text) -- ^ /Required/ "className"
   , dogColor :: !(Maybe Text) -- ^ "color"
   , dogBreed :: !(Maybe Text) -- ^ "breed"
   } deriving (P.Show,P.Eq,P.Typeable)
 
+
+-- | FromJSON Dog
 instance A.FromJSON Dog where
   parseJSON = A.withObject "Dog" $ \o ->
     Dog
@@ -1269,6 +1376,7 @@ instance A.FromJSON Dog where
       <*> (o .:? "color")
       <*> (o .:? "breed")
 
+-- | ToJSON Dog
 instance A.ToJSON Dog where
   toJSON Dog {..} =
    _omitNulls
@@ -1293,21 +1401,23 @@ mkDog dogClassName =
 -- * Utils
 
 -- | Removes Null fields.  (OpenAPI-Specification 2.0 does not allow Null in JSON)
-
 _omitNulls :: [(Text, A.Value)] -> A.Value
 _omitNulls = A.object . P.filter notNull
   where
     notNull (_, A.Null) = False
     notNull _ = True
 
+-- | Encodes fields using WH.toQueryParam
 _toFormItem :: (WH.ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])
 _toFormItem name x = (name,) . (:[]) . WH.toQueryParam <$> x
 
+-- | Collapse (Just "") to Nothing
 _emptyToNothing :: Maybe String -> Maybe String
 _emptyToNothing (Just "") = Nothing
 _emptyToNothing x = x
 {-# INLINE _emptyToNothing #-}
 
+-- | Collapse (Just mempty) to Nothing
 _memptyToNothing :: (P.Monoid a, P.Eq a) => Maybe a -> Maybe a
 _memptyToNothing (Just x) | x P.== P.mempty = Nothing
 _memptyToNothing x = x
@@ -1340,6 +1450,7 @@ _showDateTime =
   TI.formatISO8601Millis
 {-# INLINE _showDateTime #-}
 
+-- | parse an ISO8601 date-time string
 _parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
 _parseISO8601 t =
   P.asum $

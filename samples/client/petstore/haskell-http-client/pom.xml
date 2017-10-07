@@ -38,6 +38,7 @@
                 <argument>--install-ghc</argument>
                 <argument>--no-haddock-deps</argument>
                 <argument>haddock</argument>
+                <argument>--fast</argument>
               </arguments>
             </configuration>
           </execution>
@@ -51,6 +52,7 @@
               <executable>stack</executable>
               <arguments>
                 <argument>test</argument>
+                <argument>--fast</argument>
               </arguments>
             </configuration>
           </execution>
