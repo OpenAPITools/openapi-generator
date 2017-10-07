@@ -68,6 +68,7 @@ data SwaggerPetstoreConfig = SwaggerPetstoreConfig
   , configUserAgent :: Text -- ^ user-agent supplied in the Request
   , configLogExecWithContext :: LogExecWithContext -- ^ Run a block using a Logger instance
   , configLogContext :: LogContext -- ^ Configures the logger
+  , configAuthMethods :: [AnyAuthMethod] -- ^ List of configured auth methods
   }
 
 -- | display the config
@@ -96,13 +97,21 @@ newConfig = do
         , configUserAgent = "swagger-haskell-http-client/1.0.0"
         , configLogExecWithContext = runDefaultLogExecWithContext
         , configLogContext = logCxt
+        , configAuthMethods = []
         }  
 
+-- | updates config use AuthMethod on matching requests
+addAuthMethod :: AuthMethod auth => SwaggerPetstoreConfig -> auth -> SwaggerPetstoreConfig
+addAuthMethod config@SwaggerPetstoreConfig {configAuthMethods = as} a =
+  config { configAuthMethods = AnyAuthMethod a : as}
+
+-- | updates the config to use stdout logging
 withStdoutLogging :: SwaggerPetstoreConfig -> IO SwaggerPetstoreConfig
 withStdoutLogging p = do
     logCxt <- stdoutLoggingContext (configLogContext p)
     return $ p { configLogExecWithContext = stdoutLoggingExec, configLogContext = logCxt }
 
+-- | updates the config to use stderr logging
 withStderrLogging :: SwaggerPetstoreConfig -> IO SwaggerPetstoreConfig
 withStderrLogging p = do
     logCxt <- stderrLoggingContext (configLogContext p)
@@ -235,7 +244,9 @@ _toInitRequest
   -> IO (InitRequest req contentType res accept) -- ^ initialized request
 _toInitRequest config req0 accept = do
   parsedReq <- NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
-  let req1 = _setAcceptHeader req0 accept & _setContentTypeHeader
+  let req1 = _applyAuthMethods req0 config
+                & _setContentTypeHeader
+                & flip _setAcceptHeader accept
       reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders (rParams req1)
       reqQuery = NH.renderQuery True (paramsQuery (rParams req1))
       pReq = parsedReq { NH.method = (rMethod req1)
@@ -250,6 +261,16 @@ _toInitRequest config req0 accept = do
     ParamBodyMultipartFormData parts -> NH.formDataBody parts pReq
 
   pure (InitRequest outReq)
+
+-- | apply all matching AuthMethods in config to request
+_applyAuthMethods
+  :: SwaggerPetstoreRequest req contentType res
+  -> SwaggerPetstoreConfig
+  -> SwaggerPetstoreRequest req contentType res
+_applyAuthMethods req SwaggerPetstoreConfig {configAuthMethods = as} =
+  foldl go req as
+  where
+    go r (AnyAuthMethod a) = r `applyAuthMethod` a
 
 -- | modify the underlying Request
 modifyInitRequest :: InitRequest req contentType res accept -> (NH.Request -> NH.Request) -> InitRequest req contentType res accept 

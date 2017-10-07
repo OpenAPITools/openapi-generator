@@ -56,7 +56,7 @@ import qualified Prelude as P
 {{#model}}
 
 -- ** {{classname}}
--- |{{#title}}
+-- | {{classname}}{{#title}}
 -- {{{.}}}
 -- {{/title}}{{#description}}
 -- {{{.}}}{{/description}}
@@ -65,12 +65,15 @@ data {{classname}} = {{classname}}
   , {{/hasMore}}{{/vars}}
   } deriving (P.Show,P.Eq,P.Typeable{{#modelDeriving}},{{modelDeriving}}{{/modelDeriving}})
 
+
+-- | FromJSON {{classname}}
 instance A.FromJSON {{classname}} where
   parseJSON = A.withObject "{{classname}}" $ \o ->
     {{^hasVars}}pure {{/hasVars}}{{classname}}
       {{#hasVars}}<$>{{/hasVars}}{{#vars}} (o {{#required}}.: {{/required}}{{^required}}{{^allowFromJsonNulls}}.:!{{/allowFromJsonNulls}}{{#allowFromJsonNulls}}.:?{{/allowFromJsonNulls}}{{/required}} "{{baseName}}"){{#hasMore}}
       <*>{{/hasMore}}{{/vars}}
 
+-- | ToJSON {{classname}}
 instance A.ToJSON {{classname}} where
   toJSON {{classname}} {{#hasVars}}{..}{{/hasVars}} =
    {{^allowToJsonNulls}}_omitNulls{{/allowToJsonNulls}}{{#allowToJsonNulls}}A.object{{/allowToJsonNulls}}
@@ -79,12 +82,14 @@ instance A.ToJSON {{classname}} where
       ]
 
 {{#vendorExtensions.x-hasMimeFormUrlEncoded}}
+-- | FromForm {{classname}}
 instance WH.FromForm {{classname}} where
   fromForm f =
     {{^hasVars}}pure {{/hasVars}}{{classname}}
       {{#hasVars}}<$>{{/hasVars}}{{#vars}} ({{#required}}WH.parseUnique {{/required}}{{^required}}WH.parseMaybe {{/required}}"{{baseName}}" f){{#hasMore}}
       <*>{{/hasMore}}{{/vars}}
 
+-- | ToForm {{classname}}
 instance WH.ToForm {{classname}} where
   toForm {{classname}} {{#hasVars}}{..}{{/hasVars}} =
     WH.Form $ HM.fromList $ P.catMaybes $
@@ -111,21 +116,23 @@ mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
 -- * Utils
 
 -- | Removes Null fields.  (OpenAPI-Specification 2.0 does not allow Null in JSON)
-
 _omitNulls :: [(Text, A.Value)] -> A.Value
 _omitNulls = A.object . P.filter notNull
   where
     notNull (_, A.Null) = False
     notNull _ = True
 
+-- | Encodes fields using WH.toQueryParam
 _toFormItem :: (WH.ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])
 _toFormItem name x = (name,) . (:[]) . WH.toQueryParam <$> x
 
+-- | Collapse (Just "") to Nothing
 _emptyToNothing :: Maybe String -> Maybe String
 _emptyToNothing (Just "") = Nothing
 _emptyToNothing x = x
 {-# INLINE _emptyToNothing #-}
 
+-- | Collapse (Just mempty) to Nothing
 _memptyToNothing :: (P.Monoid a, P.Eq a) => Maybe a -> Maybe a
 _memptyToNothing (Just x) | x P.== P.mempty = Nothing
 _memptyToNothing x = x
@@ -158,6 +165,7 @@ _showDateTime =
   {{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
 {-# INLINE _showDateTime #-}
 
+-- | parse an ISO8601 date-time string
 _parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
 _parseISO8601 t =
   P.asum $
