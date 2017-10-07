@@ -154,11 +154,11 @@
     // NSDate
     data = [NSDate dateWithISO8601String:@"1997-07-16T19:20:30.45+01:00"];
     result = [self.apiClient.sanitizer sanitizeForSerialization:data];
-    XCTAssertEqualObjects(result, [data ISO8601String]);
+    XCTAssertEqualObjects(result, [data ISO8601StringWithTimeZone:nil usingCalendar:nil]);
     
     data = [NSDate dateWithISO8601String:@"1997-07-16"];
     result = [self.apiClient.sanitizer sanitizeForSerialization:data];
-    XCTAssertEqualObjects(result, [data ISO8601String]);
+    XCTAssertEqualObjects(result, [data ISO8601StringWithTimeZone:nil usingCalendar:nil]);
     
     // model
     NSDictionary *petDict = @{@"id": @1, @"name": @"monkey",

@@ -32,6 +32,11 @@ extern NSString * const kSWGApplicationJSONType;
 - (NSString *) parameterToString: (id) param;
 
 /**
+ * Convert date to NSString
+ */
++ (NSString *)dateToString:(id)date;
+
+/**
  * Detects Accept header from accepts NSArray
  *
  * @param accepts NSArray of header
