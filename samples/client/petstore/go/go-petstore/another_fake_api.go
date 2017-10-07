@@ -23,14 +23,15 @@ var (
 	_ context.Context
 )
 
-type FakeClassnameTags123ApiService service
+type AnotherFakeApiService service
 
 
-/* FakeClassnameTags123ApiService To test class name in snake case
- * @param ctx context.Context Authentication Context 
+/* AnotherFakeApiService To test special tags
+ To test special tags
+
  @param body client model
  @return Client*/
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body Client) (Client,  *http.Response, error) {
+func (a *AnotherFakeApiService) TestSpecialTags(body Client) (Client,  *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Patch")
 		localVarPostBody interface{}
@@ -40,7 +41,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/fake_classname_test"
+	localVarPath := a.client.cfg.BasePath + "/another-fake/dummy"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -68,19 +69,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 	}
 	// body params
 	localVarPostBody = &body
-	if ctx != nil {
-		// API Key Authentication
-		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
-			var key string
-			if auth.Prefix != "" {
-				key = auth.Prefix + " " + auth.Key
-			} else {
-				key = auth.Key
-			}
-			localVarQueryParams.Add("api_key_query", key)
-		}
-	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(nil, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return successPayload, nil, err
 	}

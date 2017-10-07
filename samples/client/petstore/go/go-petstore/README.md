@@ -21,6 +21,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AnotherFakeApi* | [**TestSpecialTags**](docs/AnotherFakeApi.md#testspecialtags) | **Patch** /another-fake/dummy | To test special tags
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **Post** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
@@ -29,7 +30,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **Get** /fake | To test enum parameters
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
-*Fake_classname_tags123Api* | [**TestClassname**](docs/Fake_classname_tags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
+*FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
 *PetApi* | [**FindPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **Get** /pet/findByStatus | Finds Pets by status
@@ -95,6 +96,17 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 ## api_key
+- **Type**: API key 
+
+Example
+```
+	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
+		Key: "APIKEY",
+		Prefix: "Bearer", // Omit if not necessary.
+	})
+    r, err := client.Service.Operation(auth, args)
+```
+## api_key_query
 - **Type**: API key 
 
 Example
