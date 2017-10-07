@@ -44,8 +44,9 @@ type APIClient struct {
 	common 	service 		// Reuse a single struct instead of allocating one for each service on the heap.
 
 	 // API Services
+	AnotherFakeApi	*AnotherFakeApiService
 	FakeApi	*FakeApiService
-	Fake_classname_tags123Api	*Fake_classname_tags123ApiService
+	FakeClassnameTags123Api	*FakeClassnameTags123ApiService
 	PetApi	*PetApiService
 	StoreApi	*StoreApiService
 	UserApi	*UserApiService
@@ -67,8 +68,9 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.AnotherFakeApi = (*AnotherFakeApiService)(&c.common)
 	c.FakeApi = (*FakeApiService)(&c.common)
-	c.Fake_classname_tags123Api = (*Fake_classname_tags123ApiService)(&c.common)
+	c.FakeClassnameTags123Api = (*FakeClassnameTags123ApiService)(&c.common)
 	c.PetApi = (*PetApiService)(&c.common)
 	c.StoreApi = (*StoreApiService)(&c.common)
 	c.UserApi = (*UserApiService)(&c.common)
