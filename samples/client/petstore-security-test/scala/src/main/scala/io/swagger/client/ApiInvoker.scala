@@ -63,6 +63,9 @@ class ApiInvoker(val mapper: ObjectMapper = ScalaJsonUtil.getJsonMapper,
   def escape(value: String): String = {
     URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
   }
+  def escape(values: List[String]): String = {
+     values.map(escape).mkString(",")
+  }
 
   def escape(value: Long): String = value.toString
 
