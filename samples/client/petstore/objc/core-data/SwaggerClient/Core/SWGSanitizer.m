@@ -1,6 +1,7 @@
 #import "SWGSanitizer.h"
 #import "SWGObject.h"
 #import "SWGQueryParamCollection.h"
+#import "SWGDefaultConfiguration.h"
 #import <ISO8601/ISO8601.h>
 
 NSString * const kSWGApplicationJSONType = @"application/json";
@@ -63,7 +64,7 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
         return object;
     }
     else if ([object isKindOfClass:[NSDate class]]) {
-        return [self dateParameterToString:object];
+        return [SWGSanitizer dateToString:object];
     }
     else if ([object isKindOfClass:[NSArray class]]) {
         NSArray *objectArray = object;
@@ -107,7 +108,7 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
         return [param stringValue];
     }
     else if ([param isKindOfClass:[NSDate class]]) {
-        return [self dateParameterToString:param];
+        return [SWGSanitizer dateToString:param];
     }
     else if ([param isKindOfClass:[NSArray class]]) {
         NSMutableArray *mutableParam = [NSMutableArray array];
@@ -125,8 +126,9 @@ NSString * SWGPercentEscapedStringFromString(NSString *string) {
     }
 }
 
-- (NSString *)dateParameterToString:(id)param {
-    return [param ISO8601String];
++ (NSString *)dateToString:(id)date {
+    NSTimeZone* timeZone = [SWGDefaultConfiguration sharedConfig].serializationTimeZone;
+    return [date ISO8601StringWithTimeZone:timeZone usingCalendar:nil];
 }
 
 #pragma mark - Utility Methods
