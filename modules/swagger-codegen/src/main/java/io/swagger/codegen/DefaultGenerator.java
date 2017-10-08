@@ -708,6 +708,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return files;
     }
 
+
     private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         if (ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {

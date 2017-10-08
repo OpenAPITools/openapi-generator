@@ -2,6 +2,7 @@ package io.swagger.client;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonElement;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -25,6 +26,7 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.HashMap;
 
 public class ApiClient {
 
