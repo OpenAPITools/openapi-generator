@@ -58,7 +58,7 @@ public class JavaScriptClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setProjectVersion(JavaScriptOptionsProvider.PROJECT_VERSION_VALUE);
             times = 1;
-            clientCodegen.setProjectLicenseName(JavaScriptOptionsProvider.PROJECT_LICENSE_NAME_VALUE);
+            clientCodegen.setLicenseName(JavaScriptOptionsProvider.PROJECT_LICENSE_NAME_VALUE);
             times = 1;
             clientCodegen.setUsePromises(Boolean.valueOf(JavaScriptOptionsProvider.USE_PROMISES_VALUE));
             times = 1;

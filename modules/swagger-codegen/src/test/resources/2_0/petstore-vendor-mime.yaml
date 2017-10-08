@@ -7,7 +7,7 @@ info:
   contact:
     email: apiteam@swagger.io 
   license:
-    name: Apache 2.0 
+    name: Apache-2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 host: petstore.swagger.io 
 basePath: /v2 
