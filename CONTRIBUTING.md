@@ -35,6 +35,7 @@ For a list of variables available in the template, please refer to this [page](h
 
 ### Style guide
 Code change should conform to the programming style guide of the respective languages:
+- Ada: https://en.wikibooks.org/wiki/Ada_Style_Guide/Source_Code_Presentation
 - Android: https://source.android.com/source/code-style.html
 - Bash: https://github.com/bahamas10/bash-style-guide
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
