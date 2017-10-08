@@ -2739,11 +2739,19 @@ public class DefaultCodegen {
     }
 
     public boolean isDataTypeBinary(String dataType) {
-        return dataType.toLowerCase().startsWith("byte");
+        if (dataType != null) {
+            return dataType.toLowerCase().startsWith("byte");
+        } else {
+            return false;
+        }
     }
 
     public boolean isDataTypeFile(String dataType) {
-        return dataType.toLowerCase().equals("file");
+        if (dataType != null) {
+            return dataType.toLowerCase().equals("file");
+        } else {
+            return false;
+        }
     }
 
     /**
