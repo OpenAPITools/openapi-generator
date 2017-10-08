@@ -70,12 +70,11 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```javascript
 var SwaggerPetstore = require('swagger_petstore');
 
-var api = new SwaggerPetstore.FakeApi()
+var api = new SwaggerPetstore.AnotherFakeApi()
 
-var opts = { 
-  'body': new SwaggerPetstore.OuterBoolean() // {OuterBoolean} Input boolean as post body
-};
-api.fakeOuterBooleanSerialize(opts).then(function(data) {
+var body = new SwaggerPetstore.Client(); // {Client} client model
+
+api.testSpecialTags(body).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -90,6 +89,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*SwaggerPetstore.AnotherFakeApi* | [**testSpecialTags**](docs/AnotherFakeApi.md#testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 *SwaggerPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *SwaggerPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *SwaggerPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -98,7 +98,7 @@ Class | Method | HTTP request | Description
 *SwaggerPetstore.FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *SwaggerPetstore.FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *SwaggerPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-*SwaggerPetstore.Fake_classname_tags123Api* | [**testClassname**](docs/Fake_classname_tags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+*SwaggerPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *SwaggerPetstore.PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *SwaggerPetstore.PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *SwaggerPetstore.PetApi* | [**findPetsByStatus**](docs/PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
