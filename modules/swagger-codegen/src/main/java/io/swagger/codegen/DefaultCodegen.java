@@ -3035,6 +3035,8 @@ public class DefaultCodegen {
         word = word.replaceAll(firstPattern, replacementPattern);
         word = word.replaceAll(secondPattern, replacementPattern);
         word = word.replace('-', '_');
+        // replace space with underscore
+        word = word.replace(' ', '_');
         word = word.toLowerCase();
         return word;
     }

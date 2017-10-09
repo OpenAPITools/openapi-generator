@@ -25,6 +25,18 @@ public class CodegenTest {
         Assert.assertEquals(codegen.sanitizeTag("1foo"), "Class1foo");
     }
 
+    @Test(description = "test underscore")
+    public void underscoreNamesTest() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Assert.assertEquals(codegen.underscore("foo"), "foo");
+        Assert.assertEquals(codegen.underscore("foo-bar"), "foo_bar");
+        Assert.assertEquals(codegen.underscore("foo bar"), "foo_bar");
+
+        Assert.assertEquals(codegen.underscore("FooBar"), "foo_bar");
+        Assert.assertEquals(codegen.underscore("FooBarBaz"), "foo_bar_baz");
+    }
+
     @Test(description = "test camelize")
     public void camelizeNamesTest() {
         final DefaultCodegen codegen = new DefaultCodegen();
