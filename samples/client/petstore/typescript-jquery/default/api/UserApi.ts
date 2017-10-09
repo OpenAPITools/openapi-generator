@@ -204,7 +204,7 @@ export class UserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUser(username: string): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
-        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', String(username));
+        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -253,7 +253,7 @@ export class UserApi {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     public getUserByName(username: string): JQueryPromise<{ response: JQueryXHR; body: models.User;  }> {
-        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', String(username));
+        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -407,7 +407,7 @@ export class UserApi {
      * @param body Updated user object
      */
     public updateUser(username: string, body: models.User): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
-        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', String(username));
+        let localVarPath = this.basePath + '/user/{username}'.replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         let queryParameters: any = {};
         let headerParams: any = {};

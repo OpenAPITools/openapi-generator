@@ -288,7 +288,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param int $id
+     * @param int $id id
      *
      * @return $this
      */
@@ -312,7 +312,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets category
      *
-     * @param \Swagger\Client\Model\Category $category
+     * @param \Swagger\Client\Model\Category $category category
      *
      * @return $this
      */
@@ -336,7 +336,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param string $name
+     * @param string $name name
      *
      * @return $this
      */
@@ -360,7 +360,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets photo_urls
      *
-     * @param string[] $photo_urls
+     * @param string[] $photo_urls photo_urls
      *
      * @return $this
      */
@@ -384,7 +384,7 @@ class Pet implements ModelInterface, ArrayAccess
     /**
      * Sets tags
      *
-     * @param \Swagger\Client\Model\Tag[] $tags
+     * @param \Swagger\Client\Model\Tag[] $tags tags
      *
      * @return $this
      */

@@ -52,7 +52,7 @@ open class PetAPI: APIBase {
     open class func addPetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 
@@ -546,7 +546,7 @@ open class PetAPI: APIBase {
     open class func updatePetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = body.encodeToJSON() as? [String:AnyObject]
+        let parameters = body.encodeToJSON()
 
         let url = NSURLComponents(string: URLString)
 

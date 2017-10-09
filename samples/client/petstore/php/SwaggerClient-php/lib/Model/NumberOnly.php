@@ -217,7 +217,7 @@ class NumberOnly implements ModelInterface, ArrayAccess
     /**
      * Sets just_number
      *
-     * @param float $just_number
+     * @param float $just_number just_number
      *
      * @return $this
      */

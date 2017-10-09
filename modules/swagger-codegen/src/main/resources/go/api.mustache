@@ -196,7 +196,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}({{#hasAuthMethods}}ctx context.C
 			} else {
 				key = auth.Key
 			}
-			{{#isKeyInHeader}}localVarHeaderParams["{{keyParamName}}"] = key{{/isKeyInHeader}}{{#isKeyInQuery}}localVarQueryParams['{{keyParamName}}'] = key{{/isKeyInQuery}}
+			{{#isKeyInHeader}}localVarHeaderParams["{{keyParamName}}"] = key{{/isKeyInHeader}}{{#isKeyInQuery}}localVarQueryParams.Add("{{keyParamName}}", key){{/isKeyInQuery}}
 		}
 	}
 {{/isApiKey}}

@@ -13,6 +13,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Strings;
 
 import io.swagger.codegen.CliOption;
@@ -42,6 +45,7 @@ import io.swagger.models.properties.StringProperty;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
 
+    static Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     public static final String FULL_JAVA_UTIL = "fullJavaUtil";
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -493,6 +497,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        return camelize(name) + "Api";
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        return toApiName(name);
+    }
+
+    @Override
     public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
@@ -619,7 +636,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getAlias(String name) {
-        if (typeAliases.containsKey(name)) {
+        if (typeAliases != null && typeAliases.containsKey(name)) {
             return typeAliases.get(name);
         }
         return name;
@@ -1229,11 +1246,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(propertyKey, value);
     }
 
-    @Override
-    public String sanitizeTag(String tag) {
-        return camelize(sanitizeName(tag));
-    }
-
     /**
      * Output the Getter name for boolean property, e.g. isActive
      *
@@ -1242,6 +1254,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
+    }
+
+    @Override
+    public String sanitizeTag(String tag) {
+        tag = camelize(underscore(sanitizeName(tag)));
+
+        // tag starts with numbers
+        if (tag.matches("^\\d.*")) {
+            tag = "Class" + tag;
+        }
+        return tag;
     }
 
 }

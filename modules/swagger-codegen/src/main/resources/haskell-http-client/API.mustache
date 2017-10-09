@@ -1,17 +1,19 @@
+{{>partial_header}}
 {-|
 Module : {{title}}.API
 -}
 
-{-# LANGUAGE RecordWildCards #-}
-
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE ConstraintKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE ExistentialQuantification #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module {{title}}.API where
@@ -22,17 +24,15 @@ import {{title}}.MimeTypes
 import {{title}}.Lens
 
 import qualified Data.Aeson as A
-import Data.Aeson (Value)
 
 import qualified Data.Time as TI
-import Data.Time (UTCTime)
 
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
-import Data.ByteString.Lazy (ByteString)
 import qualified Data.ByteString.Builder as BB
 import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy.Char8 as BCL
+import qualified Data.ByteString.Base64 as B64
 
 import qualified Network.HTTP.Client.MultipartFormData as NH
 import qualified Network.HTTP.Media as ME
@@ -42,9 +42,10 @@ import qualified Web.HttpApiData as WH
 import qualified Web.FormUrlEncoded as WH
 
 import qualified Data.CaseInsensitive as CI
-import qualified Data.Data as P (Typeable)
+import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
 import qualified Data.Foldable as P
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 import qualified Data.Maybe as P
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
@@ -58,7 +59,6 @@ import qualified Lens.Micro as L
 
 import Data.Monoid ((<>))
 import Data.Function ((&))
-import Data.Set (Set)
 import Data.Text (Text)
 import GHC.Base ((<|>))
 
@@ -78,30 +78,31 @@ import qualified Prelude as P
 -- {{/summary}}{{#notes}}
 -- {{{.}}}
 -- {{/notes}}{{#hasAuthMethods}}
--- AuthMethod: {{#authMethods}}{{{name}}}{{#hasMore}}, {{/hasMore}}{{/authMethods}}
+-- AuthMethod: {{#authMethods}}'{{{name}}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}
 -- {{/hasAuthMethods}}{{#vendorExtensions.x-hasUnknownReturn}}
 -- Note: Has 'Produces' instances, but no response schema
 -- {{/vendorExtensions.x-hasUnknownReturn}}
 {{operationId}} 
-  :: {{#vendorExtensions.x-hasBodyOrFormParam}}(Consumes {{{vendorExtensions.x-operationType}}} contentType{{#allParams}}{{#isBodyParam}}{{#required}}, MimeRender contentType {{dataType}}{{/required}}{{/isBodyParam}}{{/allParams}})
+  :: {{#vendorExtensions.x-hasBodyOrFormParam}}(Consumes {{{vendorExtensions.x-operationType}}} contentType{{#allParams}}{{#isBodyParam}}{{#required}}, MimeRender contentType {{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}}{{/required}}{{/isBodyParam}}{{/allParams}})
   => contentType -- ^ request content-type ('MimeType')
-  -> {{/vendorExtensions.x-hasBodyOrFormParam}}{{#allParams}}{{#required}}{{dataType}} -- ^ "{{{paramName}}}"{{#description}} - {{/description}} {{{description}}}
+  -> {{/vendorExtensions.x-hasBodyOrFormParam}}{{#allParams}}{{#required}}{{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}} -- ^ "{{{paramName}}}"{{#description}} - {{/description}} {{{description}}}
   -> {{/required}}{{/allParams}}{{requestType}} {{{vendorExtensions.x-operationType}}} {{#vendorExtensions.x-hasBodyOrFormParam}}contentType{{/vendorExtensions.x-hasBodyOrFormParam}}{{^vendorExtensions.x-hasBodyOrFormParam}}MimeNoContent{{/vendorExtensions.x-hasBodyOrFormParam}} {{vendorExtensions.x-returnType}}
-{{operationId}} {{#vendorExtensions.x-hasBodyOrFormParam}}_ {{/vendorExtensions.x-hasBodyOrFormParam}}{{#allParams}}{{#required}}{{{paramName}}} {{/required}}{{/allParams}}=
+{{operationId}} {{#vendorExtensions.x-hasBodyOrFormParam}}_ {{/vendorExtensions.x-hasBodyOrFormParam}}{{#allParams}}{{#required}}{{#isBodyParam}}{{{paramName}}}{{/isBodyParam}}{{^isBodyParam}}({{{vendorExtensions.x-paramNameType}}} {{{paramName}}}){{/isBodyParam}} {{/required}}{{/allParams}}=
   _mkRequest "{{httpMethod}}" [{{#pathParams}}{{#vendorExtensions.x-pathPrefix}}"{{.}}",{{/vendorExtensions.x-pathPrefix}}toPath {{{paramName}}}{{#hasMore}},{{/hasMore}}{{/pathParams}}{{#vendorExtensions.x-pathSuffix}}{{#vendorExtensions.x-hasPathParams}},{{/vendorExtensions.x-hasPathParams}}"{{.}}"{{/vendorExtensions.x-pathSuffix}}]{{#allParams}}{{#required}}
-    {{#isHeaderParam}}`setHeader` {{>_headerColl}} ("{{{baseName}}}", {{{paramName}}}){{/isHeaderParam}}{{#isQueryParam}}`_setQuery` {{>_queryColl}} ("{{{baseName}}}", Just {{{paramName}}}){{/isQueryParam}}{{#isFormParam}}{{#isFile}}`_addMultiFormPart` NH.partFileSource "{{{baseName}}}" {{{paramName}}}{{/isFile}}{{^isFile}}{{#isMultipart}}`_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData {{{paramName}}}){{/isMultipart}}{{^isMultipart}}`_addForm` {{>_formColl}} ("{{{baseName}}}", {{{paramName}}}){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{#isBodyParam}}`setBodyParam` {{{paramName}}}{{/isBodyParam}}{{/required}}{{/allParams}}{{#isDeprecated}}
+    {{#isHeaderParam}}`setHeader` {{>_headerColl}} ("{{{baseName}}}", {{{paramName}}}){{/isHeaderParam}}{{#isQueryParam}}`setQuery` {{>_queryColl}} ("{{{baseName}}}", Just {{{paramName}}}){{/isQueryParam}}{{#isFormParam}}{{#isFile}}`_addMultiFormPart` NH.partFileSource "{{{baseName}}}" {{{paramName}}}{{/isFile}}{{^isFile}}{{#isMultipart}}`_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData {{{paramName}}}){{/isMultipart}}{{^isMultipart}}`addForm` {{>_formColl}} ("{{{baseName}}}", {{{paramName}}}){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{#isBodyParam}}`setBodyParam` {{{paramName}}}{{/isBodyParam}}{{/required}}{{/allParams}}{{#authMethods}}
+    `_hasAuthType` (P.Proxy :: P.Proxy {{name}}){{/authMethods}}{{#isDeprecated}}
 
 {-# DEPRECATED {{operationId}} "" #-}{{/isDeprecated}}
 
 data {{{vendorExtensions.x-operationType}}} {{#allParams}}{{#isBodyParam}}{{#description}}
 
 -- | /Body Param/ "{{{baseName}}}" - {{{description}}}{{/description}}
-instance HasBodyParam {{{vendorExtensions.x-operationType}}} {{{dataType}}}{{/isBodyParam}}{{/allParams}} {{#vendorExtensions.x-hasOptionalParams}}{{#allParams}}{{^isBodyParam}}{{^required}}{{#description}}
+instance HasBodyParam {{{vendorExtensions.x-operationType}}} {{#vendorExtensions.x-paramNameType}}{{{.}}}{{/vendorExtensions.x-paramNameType}}{{^vendorExtensions.x-paramNameType}}{{{dataType}}}{{/vendorExtensions.x-paramNameType}}{{/isBodyParam}}{{/allParams}} {{#vendorExtensions.x-hasOptionalParams}}{{#allParams}}{{^isBodyParam}}{{^required}}{{#description}}
 
 -- | /Optional Param/ "{{{baseName}}}" - {{{description}}}{{/description}}
 instance HasOptionalParam {{{vendorExtensions.x-operationType}}} {{{vendorExtensions.x-paramNameType}}} where
   applyOptionalParam req ({{{vendorExtensions.x-paramNameType}}} xs) =
-    {{#isHeaderParam}}req `setHeader` {{>_headerColl}} ("{{{baseName}}}", xs){{/isHeaderParam}}{{#isQueryParam}}req `_setQuery` {{>_queryColl}} ("{{{baseName}}}", Just xs){{/isQueryParam}}{{#isFormParam}}{{#isFile}}req `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" xs{{/isFile}}{{^isFile}}{{#isMultipart}}req `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData xs){{/isMultipart}}{{^isMultipart}}req `_addForm` {{>_formColl}} ("{{{baseName}}}", xs){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{/required}}{{/isBodyParam}}{{/allParams}}{{/vendorExtensions.x-hasOptionalParams}}{{#hasConsumes}}
+    {{#isHeaderParam}}req `setHeader` {{>_headerColl}} ("{{{baseName}}}", xs){{/isHeaderParam}}{{#isQueryParam}}req `setQuery` {{>_queryColl}} ("{{{baseName}}}", Just xs){{/isQueryParam}}{{#isFormParam}}{{#isFile}}req `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" xs{{/isFile}}{{^isFile}}{{#isMultipart}}req `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData xs){{/isMultipart}}{{^isMultipart}}req `addForm` {{>_formColl}} ("{{{baseName}}}", xs){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{/required}}{{/isBodyParam}}{{/allParams}}{{/vendorExtensions.x-hasOptionalParams}}{{#hasConsumes}}
 
 {{#consumes}}-- | @{{{mediaType}}}@
 instance Consumes {{{vendorExtensions.x-operationType}}} {{{x-mediaDataType}}}
@@ -137,11 +138,12 @@ class HasOptionalParam req param where
 
 infixl 2 -&-
  
--- * Optional Request Parameter Types
+-- * Request Parameter Types
 
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#vendorExtensions.x-hasOptionalParams}}{{#allParams}}{{^required}}{{^vendorExtensions.x-duplicate}}
-newtype {{{vendorExtensions.x-paramNameType}}} = {{{vendorExtensions.x-paramNameType}}} { un{{{vendorExtensions.x-paramNameType}}} :: {{{dataType}}} } deriving (P.Eq, P.Show)
-{{/vendorExtensions.x-duplicate}}{{/required}}{{/allParams}}{{/vendorExtensions.x-hasOptionalParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{#x-allUniqueParams}}
+-- | {{{vendorExtensions.x-paramNameType}}}
+newtype {{{vendorExtensions.x-paramNameType}}} = {{{vendorExtensions.x-paramNameType}}} { un{{{vendorExtensions.x-paramNameType}}} :: {{{dataType}}} } deriving (P.Eq, P.Show{{#isBodyParam}}, A.ToJSON{{/isBodyParam}})
+{{/x-allUniqueParams}}
 
 -- * {{requestType}}
 
@@ -150,6 +152,7 @@ data {{requestType}} req contentType res = {{requestType}}
   { rMethod  :: NH.Method   -- ^ Method of {{requestType}}
   , rUrlPath :: [BCL.ByteString] -- ^ Endpoint of {{requestType}}
   , rParams   :: Params -- ^ params of {{requestType}}
+  , rAuthTypes :: [P.TypeRep] -- ^ types of auth methods
   }
   deriving (P.Show)
 
@@ -167,6 +170,11 @@ rUrlPathL f {{requestType}}{..} = (\rUrlPath -> {{requestType}} { rUrlPath, ..} 
 rParamsL :: Lens_' ({{requestType}} req contentType res) Params
 rParamsL f {{requestType}}{..} = (\rParams -> {{requestType}} { rParams, ..} ) <$> f rParams
 {-# INLINE rParamsL #-}
+
+-- | 'rParams' Lens
+rAuthTypesL :: Lens_' ({{requestType}} req contentType res) [P.TypeRep]
+rAuthTypesL f {{requestType}}{..} = (\rAuthTypes -> {{requestType}} { rAuthTypes, ..} ) <$> f rAuthTypes
+{-# INLINE rAuthTypesL #-}
 
 -- | Request Params
 data Params = Params
@@ -205,7 +213,7 @@ data ParamBody
 _mkRequest :: NH.Method -- ^ Method 
           -> [BCL.ByteString] -- ^ Endpoint
           -> {{requestType}} req contentType res -- ^ req: Request Type, res: Response Type
-_mkRequest m u = {{requestType}} m u _mkParams
+_mkRequest m u = {{requestType}} m u _mkParams []
 
 _mkParams :: Params
 _mkParams = Params [] [] ParamBodyNone
@@ -237,8 +245,8 @@ _setAcceptHeader req accept =
         Just m -> req `setHeader` [("accept", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["accept"]
 
-_setQuery :: {{requestType}} req contentType res -> [NH.QueryItem] -> {{requestType}} req contentType res
-_setQuery req query = 
+setQuery :: {{requestType}} req contentType res -> [NH.QueryItem] -> {{requestType}} req contentType res
+setQuery req query = 
   req &
   L.over
     (rParamsL . paramsQueryL)
@@ -246,8 +254,8 @@ _setQuery req query =
   where
     cifst = CI.mk . P.fst
 
-_addForm :: {{requestType}} req contentType res -> WH.Form -> {{requestType}} req contentType res
-_addForm req newform = 
+addForm :: {{requestType}} req contentType res -> WH.Form -> {{requestType}} req contentType res
+addForm req newform = 
     let form = case paramsBody (rParams req) of
             ParamBodyFormUrlEncoded _form -> _form
             _ -> mempty
@@ -268,6 +276,9 @@ _setBodyLBS :: {{requestType}} req contentType res -> BL.ByteString -> {{request
 _setBodyLBS req body = 
     req & L.set (rParamsL . paramsBodyL) (ParamBodyBL body)
 
+_hasAuthType :: AuthMethod authMethod => {{requestType}} req contentType res -> P.Proxy authMethod -> {{requestType}} req contentType res
+_hasAuthType req proxy =
+  req & L.over rAuthTypesL (P.typeRep proxy :)
 
 -- ** Params Utils
 
@@ -332,3 +343,49 @@ _toCollA' c encode one xs = case c of
     {-# INLINE expandList #-}
     {-# INLINE combine #-}
   
+-- * AuthMethods
+
+-- | Provides a method to apply auth methods to requests
+class P.Typeable a => AuthMethod a where
+  applyAuthMethod :: {{requestType}} req contentType res -> a -> {{requestType}} req contentType res
+
+-- | An existential wrapper for any AuthMethod
+data AnyAuthMethod = forall a. AuthMethod a => AnyAuthMethod a deriving (P.Typeable)
+
+instance AuthMethod AnyAuthMethod where applyAuthMethod req (AnyAuthMethod a) = applyAuthMethod req a
+
+{{#authMethods}}{{#isBasic}}-- ** {{name}}
+data {{name}} =
+  {{name}} B.ByteString B.ByteString -- ^ username password
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod {{name}} where
+  applyAuthMethod req a@({{name}} user pw) =
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req `setHeader` toHeader ("Authorization", T.decodeUtf8 cred)
+      else req
+    where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
+
+{{/isBasic}}{{#isApiKey}}-- ** {{name}}
+data {{name}} =
+  {{name}} Text -- ^ secret
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod {{name}} where
+  applyAuthMethod req a@({{name}} secret) =
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req {{#isKeyInHeader}}`setHeader` toHeader ("{{keyParamName}}", secret){{/isKeyInHeader}}{{^isKeyInHeader}}`setQuery` toQuery ("{{keyParamName}}", Just secret){{/isKeyInHeader}}
+      else req
+
+{{/isApiKey}}{{#isOAuth}}-- ** {{name}}
+data {{name}} =
+  {{name}} Text -- ^ secret
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod {{name}} where
+  applyAuthMethod req a@({{name}} secret) =
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
+      else req
+
+{{/isOAuth}}{{/authMethods}}

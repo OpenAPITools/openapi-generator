@@ -35,6 +35,7 @@ For a list of variables available in the template, please refer to this [page](h
 
 ### Style guide
 Code change should conform to the programming style guide of the respective languages:
+- Ada: https://en.wikibooks.org/wiki/Ada_Style_Guide/Source_Code_Presentation
 - Android: https://source.android.com/source/code-style.html
 - Bash: https://github.com/bahamas10/bash-style-guide
 - C#: https://msdn.microsoft.com/en-us/library/vstudio/ff926074.aspx
@@ -47,16 +48,18 @@ Code change should conform to the programming style guide of the respective lang
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/
+- Kotlin: https://kotlinlang.org/docs/reference/coding-conventions.html
 - Groovy: http://groovy-lang.org/style-guide.html
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - Perl: http://perldoc.perl.org/perlstyle.html
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+- PowerShell: https://msdn.microsoft.com/en-us/library/dd878270(v=vs.85).aspx
 - Python: https://www.python.org/dev/peps/pep-0008/
 - R: https://google.github.io/styleguide/Rguide.xml
 - Ruby: https://github.com/bbatsov/ruby-style-guide
 - Scala: http://docs.scala-lang.org/style/
-- Swift: https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html
+- Swift: [Apple Developer](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html)
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
 
 For other languages, feel free to suggest.

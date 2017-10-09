@@ -32,8 +32,10 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
 
 {{#operations}}
-class {{classname}}(val defBasePath: String = "{{{basePath}}}",
-                        defApiInvoker: ApiInvoker = ApiInvoker) {
+class {{classname}}(
+  val defBasePath: String = "{{{basePath}}}",
+  defApiInvoker: ApiInvoker = ApiInvoker
+) {
 
   implicit val formats = new org.json4s.DefaultFormats {
     override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
@@ -45,10 +47,12 @@ class {{classname}}(val defBasePath: String = "{{{basePath}}}",
   implicit val stringWriter = RequestWriters.StringWriter
   implicit val jsonWriter = JsonFormatsWriter
 
-  var basePath = defBasePath
-  var apiInvoker = defApiInvoker
+  var basePath: String = defBasePath
+  var apiInvoker: ApiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
+  def addHeader(key: String, value: String): mutable.HashMap[String, String] = {
+    apiInvoker.defaultHeaders += key -> value
+  }
 
   val config = SwaggerConfig.forUrl(new URI(defBasePath))
   val client = new RestClient(config)
@@ -78,7 +82,6 @@ class {{classname}}(val defBasePath: String = "{{{basePath}}}",
   def {{operationId}}Async({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}} = {
       helper.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
   }
-
 
   {{/operation}}
 }

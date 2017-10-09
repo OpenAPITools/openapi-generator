@@ -229,7 +229,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Sets uuid
      *
-     * @param string $uuid
+     * @param string $uuid uuid
      *
      * @return $this
      */
@@ -253,7 +253,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Sets date_time
      *
-     * @param \DateTime $date_time
+     * @param \DateTime $date_time date_time
      *
      * @return $this
      */
@@ -277,7 +277,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
     /**
      * Sets map
      *
-     * @param map[string,\Swagger\Client\Model\Animal] $map
+     * @param map[string,\Swagger\Client\Model\Animal] $map map
      *
      * @return $this
      */

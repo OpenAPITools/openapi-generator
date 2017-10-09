@@ -532,7 +532,6 @@ export class PetApi {
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
-
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
@@ -584,11 +583,10 @@ export class PetApi {
      */
     public deletePet (petId: number, apiKey?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
-            .replace('{' + 'petId' + '}', String(petId));
+            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -643,7 +641,6 @@ export class PetApi {
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'status' is not null or undefined
         if (status === null || status === undefined) {
@@ -703,7 +700,6 @@ export class PetApi {
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
-
         // verify required parameter 'tags' is not null or undefined
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
@@ -758,11 +754,10 @@ export class PetApi {
      */
     public getPetById (petId: number) : Promise<{ response: http.ClientResponse; body: Pet;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
-            .replace('{' + 'petId' + '}', String(petId));
+            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -818,7 +813,6 @@ export class PetApi {
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
-
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
@@ -871,11 +865,10 @@ export class PetApi {
      */
     public updatePetWithForm (petId: number, name?: string, status?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
-            .replace('{' + 'petId' + '}', String(petId));
+            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -936,11 +929,10 @@ export class PetApi {
      */
     public uploadFile (petId: number, additionalMetadata?: string, file?: Buffer) : Promise<{ response: http.ClientResponse; body: ApiResponse;  }> {
         const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
-            .replace('{' + 'petId' + '}', String(petId));
+            .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -1053,11 +1045,10 @@ export class StoreApi {
      */
     public deleteOrder (orderId: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', String(orderId));
+            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
@@ -1110,7 +1101,6 @@ export class StoreApi {
         let formParams: any = {};
 
 
-
         let useFormData = false;
 
         let requestOptions: request.Options = {
@@ -1155,11 +1145,10 @@ export class StoreApi {
      */
     public getOrderById (orderId: number) : Promise<{ response: http.ClientResponse; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
-            .replace('{' + 'orderId' + '}', String(orderId));
+            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
@@ -1212,7 +1201,6 @@ export class StoreApi {
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
@@ -1319,7 +1307,6 @@ export class UserApi {
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
-
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUser.');
@@ -1371,7 +1358,6 @@ export class UserApi {
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
@@ -1425,7 +1411,6 @@ export class UserApi {
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
 
-
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
@@ -1474,11 +1459,10 @@ export class UserApi {
      */
     public deleteUser (username: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -1527,11 +1511,10 @@ export class UserApi {
      */
     public getUserByName (username: string) : Promise<{ response: http.ClientResponse; body: User;  }> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -1585,7 +1568,6 @@ export class UserApi {
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -1652,7 +1634,6 @@ export class UserApi {
         let formParams: any = {};
 
 
-
         let useFormData = false;
 
         let requestOptions: request.Options = {
@@ -1695,11 +1676,10 @@ export class UserApi {
      */
     public updateUser (username: string, body: User) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
-            .replace('{' + 'username' + '}', String(username));
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {

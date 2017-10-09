@@ -2,8 +2,14 @@
 {{#model}}
 {{>partial_header}}
 
-
 #' {{classname}} Class
+#'
+{{#vars}}
+#' @field {{baseName}} {{title}}
+{{/vars}}
+#'
+#' @importFrom R6 R6Class
+#' @importFrom jsonlite fromJSON toJSON
 #' @export
 {{classname}} <- R6::R6Class(
   '{{classname}}',
@@ -37,8 +43,7 @@
         stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
         {{/isDateTime}}
         {{^isPrimitiveType}}
-        stopifnot(is.list(tags), length(tags) != 0)
-        lapply(`{{baseName}}`, function(x) stopifnot("Element" %in% class(x), !is.list(x)))
+        stopifnot(R6::is.R6(`{{baseName}}`))
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isListContainer}}
@@ -47,8 +52,8 @@
         lapply(`{{baseName}}`, function(x) stopifnot(is.character(x)))
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        stopifnot(is.list(tags), length(tags) != 0)
-        lapply(`{{baseName}}`, function(x) stopifnot("Element" %in% class(x), !is.list(x)))
+        stopifnot(is.list(`{{baseName}}`), length(`{{baseName}}`) != 0)
+        lapply(`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
         {{/isPrimitiveType}}
         {{/isListContainer}}
         self$`{{baseName}}` <- `{{baseName}}`
@@ -56,6 +61,40 @@
       {{/vars}}
     },
     toJSON = function() {
+      {{classname}}Object <- list()
+      {{#vars}}
+      if (!is.null(self$`{{baseName}}`)) {
+        {{classname}}Object[['{{baseName}}']] <- {{#isListContainer}}{{#isPrimitiveType}}self$`{{baseName}}`{{/isPrimitiveType}}{{^isPrimitiveType}}lapply(self$`{{baseName}}`, function(x) x$toJSON()){{/isPrimitiveType}}{{/isListContainer}}{{^isListContainer}}self$`{{baseName}}`{{^isPrimitiveType}}$toJSON(){{/isPrimitiveType}}{{/isListContainer}}
+      }
+      {{/vars}}
+
+      {{classname}}Object
+    },
+    fromJSON = function({{classname}}Json) {
+      {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
+      {{#vars}}
+      if (!is.null({{classname}}Object$`{{baseName}}`)) {
+        {{#isPrimitiveType}}
+        self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isListContainer}}
+        self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function(x) {
+          {{baseName}}Object <- {{datatype}}$new()
+          {{baseName}}Object$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
+          {{baseName}}Object
+        })
+        {{/isListContainer}}
+        {{^isListContainer}}
+        {{baseName}}Object <- {{datatype}}$new()
+        {{baseName}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
+        self$`{{baseName}}` <- {{baseName}}Object
+        {{/isListContainer}}
+        {{/isPrimitiveType}}
+      }
+      {{/vars}}
+    },
+    toJSONString = function() {
        sprintf(
         '{
            {{#vars}}
@@ -77,62 +116,22 @@
         {{/vars}}
       )
     },
-    fromJSON = function({{classname}}Json) {
+    fromJSONString = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       {{#isPrimitiveType}}
-      self$`{{baseName}}` <- {{classname}}Object`${{baseName}}`
+      self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       {{#isListContainer}}
-      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function(x) {{datatype}}$new()$fromJSON(jsonlite::toJSON(x))
+      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function(x) {{datatype}}$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
       {{/isListContainer}}
       {{^isListContainer}}
-      self$`{{baseName}}` <- {{datatype}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}))
+      {{datatype}}Object -> {{datatype}}$new()
+      self$`{{baseName}}` <- {{datatype}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
       {{/isListContainer}}
       {{/isPrimitiveType}}
       {{/vars}}
-    }
-  )
-)
-
-#' Element Class
-#'
-#' Element Class
-#' @export
-Element  <- R6::R6Class(
-  'Element',
-  public = list(
-    id = NULL,
-    name = NULL,
-    initialize = function(id,name){
-      if (!missing(id)) {
-        stopifnot(is.numeric(id), length(id) == 1)
-        self$id <- id
-      }
-      if (!missing(name)) {
-        stopifnot(is.character(name), length(name) == 1)
-        self$name <- name
-      }
-    },
-    toJSON = function() {
-       sprintf('{"id":%d,"name":"%s"}', self$id, self$name)
-    }
-  )
-)
-
-#' Response Class
-#'
-#' Response Class
-#' @export
-Response  <- R6::R6Class(
-  'Response',
-  public = list(
-    content = NULL,
-    response = NULL,
-    initialize = function(content, response){
-      self$content <- content
-      self$response <- response
     }
   )
 )

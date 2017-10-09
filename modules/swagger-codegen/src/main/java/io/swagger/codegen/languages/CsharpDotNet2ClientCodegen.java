@@ -1,26 +1,16 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
-import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.codegen.CliOption;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 
 public class CsharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
     public static final String CLIENT_PACKAGE = "clientPackage";
     protected String clientPackage = "IO.Swagger.Client";
-    protected String apiDocPath = "docs/"; 
+    protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
     public CsharpDotNet2ClientCodegen() {
@@ -33,9 +23,10 @@ public class CsharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
 
-        setApiPackage("IO.Swagger.Api");
-        setModelPackage("IO.Swagger.Model");
-        setSourceFolder("src" + File.separator + "main" + File.separator + this.getName());
+        setApiPackage(packageName + ".Api");
+        setModelPackage(packageName + ".Model");
+        setClientPackage(packageName + ".Client");
+        setSourceFolder("src" + File.separator + "main" + File.separator + "CsharpDotNet2");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -57,7 +48,7 @@ public class CsharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CLIENT_PACKAGE)) {
-            this.setClientPackage((String) additionalProperties.get(CLIENT_PACKAGE));
+            setClientPackage((String) additionalProperties.get(CLIENT_PACKAGE));
         } else {
             additionalProperties.put(CLIENT_PACKAGE, getClientPackage());
         }
@@ -90,8 +81,8 @@ public class CsharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
         return packageName + ".Model";
     }
 
-    public String getClientPackage(){
-        return packageName + ".Client";
+    public String getClientPackage() {
+        return clientPackage;
     }
 
     public void setClientPackage(String clientPackage) {
@@ -105,7 +96,7 @@ public class CsharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "CsharpDotNet2";
+        return "csharp-dotnet2";
     }
 
     @Override

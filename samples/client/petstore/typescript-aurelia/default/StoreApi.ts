@@ -62,7 +62,6 @@ export class StoreApi extends Api {
 
   /**
    * Delete purchase order by ID
-   *
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
    * @param params.orderId ID of the order that needs to be deleted
    */
@@ -72,7 +71,7 @@ export class StoreApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/store/order/{orderId}`
-      .replace(`{${'orderId'}}`, `${params['orderId']}`);
+      .replace(`{${'orderId'}}`, encodeURIComponent(String(${params['orderId']})));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -91,7 +90,6 @@ export class StoreApi extends Api {
 
   /**
    * Returns pet inventories by status
-   *
    * Returns a map of status codes to quantities
    */
   async getInventory(): Promise<{ [key: string]: number; }> {
@@ -119,7 +117,6 @@ export class StoreApi extends Api {
 
   /**
    * Find purchase order by ID
-   *
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param params.orderId ID of pet that needs to be fetched
    */
@@ -129,7 +126,7 @@ export class StoreApi extends Api {
 
     // Create URL to call
     const url = `${this.basePath}/store/order/{orderId}`
-      .replace(`{${'orderId'}}`, `${params['orderId']}`);
+      .replace(`{${'orderId'}}`, encodeURIComponent(String(${params['orderId']})));
 
     const response = await this.httpClient.createRequest(url)
       // Set HTTP method
@@ -148,7 +145,6 @@ export class StoreApi extends Api {
 
   /**
    * Place an order for a pet
-   *
    * 
    * @param params.body order placed for purchasing the pet
    */

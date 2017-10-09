@@ -32,8 +32,8 @@ import { UserServiceInterface }                            from './UserServiceIn
 export class UserService implements UserServiceInterface {
 
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders: Headers = new Headers();
-    public configuration: Configuration = new Configuration();
+    public defaultHeaders = new Headers();
+    public configuration = new Configuration();
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
         if (basePath) {
@@ -41,23 +41,8 @@ export class UserService implements UserServiceInterface {
         }
         if (configuration) {
             this.configuration = configuration;
-			this.basePath = basePath || configuration.basePath || this.basePath;
+            this.basePath = basePath || configuration.basePath || this.basePath;
         }
-    }
-
-    /**
-     * 
-     * Extends object by coping non-existing properties.
-     * @param objA object to be extended
-     * @param objB source object
-     */
-    private extendObj<T1,T2>(objA: T1, objB: T2) {
-        for(let key in objB){
-            if(objB.hasOwnProperty(key)){
-                (objA as any)[key] = (objB as any)[key];
-            }
-        }
-        return <T1&T2>objA;
     }
 
     /**
@@ -74,8 +59,9 @@ export class UserService implements UserServiceInterface {
         return false;
     }
 
+
     public isJsonMime(mime: string): boolean {
-        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 
@@ -84,7 +70,7 @@ export class UserService implements UserServiceInterface {
      * @summary Create user
      * @param body Created user object
      */
-    public createUser(body: User, extraHttpRequestParams?: any): Observable<{}> {
+    public createUser(body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.createUserWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -100,7 +86,7 @@ export class UserService implements UserServiceInterface {
      * @summary Creates list of users with given input array
      * @param body List of user object
      */
-    public createUsersWithArrayInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}> {
+    public createUsersWithArrayInput(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.createUsersWithArrayInputWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -116,7 +102,7 @@ export class UserService implements UserServiceInterface {
      * @summary Creates list of users with given input array
      * @param body List of user object
      */
-    public createUsersWithListInput(body: Array<User>, extraHttpRequestParams?: any): Observable<{}> {
+    public createUsersWithListInput(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.createUsersWithListInputWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -132,7 +118,7 @@ export class UserService implements UserServiceInterface {
      * @summary Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUser(username: string, extraHttpRequestParams?: any): Observable<{}> {
+    public deleteUser(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.deleteUserWithHttpInfo(username, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -148,7 +134,7 @@ export class UserService implements UserServiceInterface {
      * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    public getUserByName(username: string, extraHttpRequestParams?: any): Observable<User> {
+    public getUserByName(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<User> {
         return this.getUserByNameWithHttpInfo(username, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -165,7 +151,7 @@ export class UserService implements UserServiceInterface {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUser(username: string, password: string, extraHttpRequestParams?: any): Observable<string> {
+    public loginUser(username: string, password: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<string> {
         return this.loginUserWithHttpInfo(username, password, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -180,7 +166,7 @@ export class UserService implements UserServiceInterface {
      * 
      * @summary Logs out current logged in user session
      */
-    public logoutUser(extraHttpRequestParams?: any): Observable<{}> {
+    public logoutUser(extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.logoutUserWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -197,7 +183,7 @@ export class UserService implements UserServiceInterface {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    public updateUser(username: string, body: User, extraHttpRequestParams?: any): Observable<{}> {
+    public updateUser(username: string, body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.updateUserWithHttpInfo(username, body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -214,35 +200,19 @@ export class UserService implements UserServiceInterface {
      * This can only be done by the logged in user.
      * @param body Created user object
      */
-    public createUserWithHttpInfo(body: User, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user';
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'body' is not null or undefined
+    public createUserWithHttpInfo(body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUser.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -250,7 +220,7 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user`, requestOptions);
     }
 
     /**
@@ -258,35 +228,19 @@ export class UserService implements UserServiceInterface {
      * 
      * @param body List of user object
      */
-    public createUsersWithArrayInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user/createWithArray';
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'body' is not null or undefined
+    public createUsersWithArrayInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -294,7 +248,7 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user/createWithArray`, requestOptions);
     }
 
     /**
@@ -302,35 +256,19 @@ export class UserService implements UserServiceInterface {
      * 
      * @param body List of user object
      */
-    public createUsersWithListInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user/createWithList';
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'body' is not null or undefined
+    public createUsersWithListInputWithHttpInfo(body: Array<User>, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -338,7 +276,7 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user/createWithList`, requestOptions);
     }
 
     /**
@@ -346,33 +284,16 @@ export class UserService implements UserServiceInterface {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
      */
-    public deleteUserWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'username' is not null or undefined
+    public deleteUserWithHttpInfo(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -380,7 +301,7 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
     /**
@@ -388,33 +309,16 @@ export class UserService implements UserServiceInterface {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    public getUserByNameWithHttpInfo(username: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'username' is not null or undefined
+    public getUserByNameWithHttpInfo(username: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -422,7 +326,7 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
     /**
@@ -431,40 +335,24 @@ export class UserService implements UserServiceInterface {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUserWithHttpInfo(username: string, password: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user/login';
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'username' is not null or undefined
+    public loginUserWithHttpInfo(username: string, password: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
-        // verify required parameter 'password' is not null or undefined
         if (password === null || password === undefined) {
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
+
+        let queryParameters = new URLSearchParams();
         if (username !== undefined) {
             queryParameters.set('username', <any>username);
         }
-
         if (password !== undefined) {
             queryParameters.set('password', <any>password);
         }
 
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
@@ -476,35 +364,20 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user/login`, requestOptions);
     }
 
     /**
      * Logs out current logged in user session
      * 
      */
-    public logoutUserWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user/logout';
+    public logoutUserWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
-
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -512,7 +385,7 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user/logout`, requestOptions);
     }
 
     /**
@@ -521,40 +394,22 @@ export class UserService implements UserServiceInterface {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    public updateUserWithHttpInfo(username: string, body: User, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/user/${username}'
-                    .replace('${' + 'username' + '}', encodeURIComponent(String(username)));
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'username' is not null or undefined
+    public updateUserWithHttpInfo(username: string, body: User, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
-        // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updateUser.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -562,7 +417,7 @@ export class UserService implements UserServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
 }

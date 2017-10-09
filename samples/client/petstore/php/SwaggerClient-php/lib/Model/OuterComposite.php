@@ -229,7 +229,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Sets my_number
      *
-     * @param \Swagger\Client\Model\OuterNumber $my_number
+     * @param \Swagger\Client\Model\OuterNumber $my_number my_number
      *
      * @return $this
      */
@@ -253,7 +253,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Sets my_string
      *
-     * @param \Swagger\Client\Model\OuterString $my_string
+     * @param \Swagger\Client\Model\OuterString $my_string my_string
      *
      * @return $this
      */
@@ -277,7 +277,7 @@ class OuterComposite implements ModelInterface, ArrayAccess
     /**
      * Sets my_boolean
      *
-     * @param \Swagger\Client\Model\OuterBoolean $my_boolean
+     * @param \Swagger\Client\Model\OuterBoolean $my_boolean my_boolean
      *
      * @return $this
      */

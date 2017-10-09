@@ -68,6 +68,7 @@ _petstore-cli()
     # The list of available operation in the REST service
     # It's modelled as an associative array for efficient key lookup
     declare -A operations
+    operations["testSpecialTags"]=1
     operations["fakeOuterBooleanSerialize"]=1
     operations["fakeOuterCompositeSerialize"]=1
     operations["fakeOuterNumberSerialize"]=1
@@ -101,6 +102,7 @@ _petstore-cli()
     # An associative array of operations to their parameters
     # Only include path, query and header parameters
     declare -A operation_parameters
+    operation_parameters["testSpecialTags"]=""
     operation_parameters["fakeOuterBooleanSerialize"]=""
     operation_parameters["fakeOuterCompositeSerialize"]=""
     operation_parameters["fakeOuterNumberSerialize"]=""

@@ -7,7 +7,7 @@ info:
   contact:
     email: apiteam@swagger.io */ ' " =end -- \r\n \n \r
   license:
-    name: Apache 2.0 */ ' " =end -- \r\n \n \r
+    name: Apache-2.0 */ ' " =end -- \r\n \n \r
     url: http://www.apache.org/licenses/LICENSE-2.0.html */ ' " =end -- \r\n \n \r
 host: petstore.swagger.io */ ' " =end -- \r\n \n \r
 basePath: /v2 */ ' " =end -- \r\n \n \r

@@ -821,8 +821,8 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/go</module>
                 <!-- test java-related projects -->
+                <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
@@ -836,10 +836,10 @@
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/kotlin/</module>
-                <!-- comment out bash as it's failing after switching to CircleCI
-                  <module>samples/client/petstore/bash</module> -->
+                <!-- test non-java projects -->
+                <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/ruby</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-inflector</module>
                 <module>samples/server/petstore/java-play-framework</module>

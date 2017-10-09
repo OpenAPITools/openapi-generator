@@ -52,7 +52,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String MODULE_NAME = "moduleName";
     public static final String PROJECT_DESCRIPTION = "projectDescription";
     public static final String PROJECT_VERSION = "projectVersion";
-    public static final String PROJECT_LICENSE_NAME = "projectLicenseName";
     public static final String USE_PROMISES = "usePromises";
     public static final String USE_INHERITANCE = "useInheritance";
     public static final String EMIT_MODEL_METHODS = "emitModelMethods";
@@ -84,7 +83,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String moduleName;
     protected String projectDescription;
     protected String projectVersion;
-    protected String projectLicenseName;
+    protected String licenseName;
 
     protected String invokerPackage;
     protected String sourceFolder = "src";
@@ -179,7 +178,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "description of the project (Default: using info.description or \"Client library of <projectName>\")"));
         cliOptions.add(new CliOption(PROJECT_VERSION,
                 "version of the project (Default: using info.version or \"1.0.0\")"));
-        cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
+        cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME,
                 "name of the license the project uses (Default: using info.license.name)"));
         cliOptions.add(new CliOption(USE_PROMISES,
                 "use Promises as return values from the client API, instead of superagent callbacks")
@@ -197,7 +196,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
                 "use JavaScript ES6 (ECMAScript 6)")
-                .defaultValue(Boolean.FALSE.toString()));
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -244,8 +243,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(PROJECT_VERSION)) {
             setProjectVersion(((String) additionalProperties.get(PROJECT_VERSION)));
         }
-        if (additionalProperties.containsKey(PROJECT_LICENSE_NAME)) {
-            setProjectLicenseName(((String) additionalProperties.get(PROJECT_LICENSE_NAME)));
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            setLicenseName(((String) additionalProperties.get(CodegenConstants.LICENSE_NAME)));
         }
         if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
             setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
@@ -291,12 +290,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 // when projectDescription is not specified, use info.description
                 projectDescription = sanitizeName(info.getDescription());
             }
-            if (additionalProperties.get(PROJECT_LICENSE_NAME) == null) {
-                // when projectLicense is not specified, use info.license
-                if (info.getLicense() != null) {
-                    License license = info.getLicense();
-                    additionalProperties.put(PROJECT_LICENSE_NAME, sanitizeName(license.getName()));
-                }
+
+            // when licenceName is not specified, use info.license
+            if (additionalProperties.get(CodegenConstants.LICENSE_NAME) == null && info.getLicense() != null) {
+                License license = info.getLicense();
+                licenseName = license.getName();
             }
         }
 
@@ -313,11 +311,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (projectDescription == null) {
             projectDescription = "Client library of " + projectName;
         }
+        if (StringUtils.isBlank(licenseName)) {
+            licenseName = "Unlicense";
+        }
 
         additionalProperties.put(PROJECT_NAME, projectName);
         additionalProperties.put(MODULE_NAME, moduleName);
         additionalProperties.put(PROJECT_DESCRIPTION, escapeText(projectDescription));
         additionalProperties.put(PROJECT_VERSION, projectVersion);
+        additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
@@ -422,8 +424,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         this.projectVersion = projectVersion;
     }
 
-    public void setProjectLicenseName(String projectLicenseName) {
-        this.projectLicenseName = projectLicenseName;
+    public void setLicenseName(String licenseName) {
+        this.licenseName = licenseName;
     }
 
     public void setUsePromises(boolean usePromises) {

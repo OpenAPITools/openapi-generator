@@ -217,7 +217,7 @@ class ModelList implements ModelInterface, ArrayAccess
     /**
      * Sets _123_list
      *
-     * @param string $_123_list
+     * @param string $_123_list _123_list
      *
      * @return $this
      */

@@ -7,7 +7,7 @@ info:
   contact:
     email: apiteam@swagger.io
   license:
-    name: Apache 2.0
+    name: Apache-2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 host: petstore.swagger.io:80
 basePath: /v2
@@ -1402,12 +1402,6 @@ definitions:
     - "placed"
     - "approved"
     - "delivered"
-  OuterNumber:
-    type: number
-  OuterString:
-    type: string
-  OuterBoolean:
-    type: boolean
   OuterComposite:
     type: object
     properties:
@@ -1417,6 +1411,12 @@ definitions:
         $ref: '#/definitions/OuterString'
       my_boolean:
         $ref: '#/definitions/OuterBoolean'
+  OuterNumber:
+    type: number
+  OuterString:
+    type: string
+  OuterBoolean:
+    type: boolean
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

@@ -29,7 +29,7 @@ extern NSInteger kSWGFakeApiMissingParamErrorCode;
 /// 
 ///  code:400 message:"To test code injection *_/ ' \" =end -- \\r\\n \\n \\r"
 ///
-/// @return 
+/// @return void
 -(NSURLSessionTask*) testCodeInjectEndRnNRWithTestCodeInjectEndRnNR: (NSString*) testCodeInjectEndRnNR
     completionHandler: (void (^)(NSError* error)) handler;
 

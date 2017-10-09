@@ -1,0 +1,19 @@
+{{>licenseInfo}}
+package body {{package}}.Servers is
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+   --  {{summary}}
+   --  {{notes}}
+   procedure {{operationId}} ({{#allParams}}{{paramName}} : in {{dataType}}{{#hasMore}};
+      {{/hasMore}}{{/allParams}}) is
+   begin
+      null;
+   end {{operationId}};
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+end {{package}}.Servers;

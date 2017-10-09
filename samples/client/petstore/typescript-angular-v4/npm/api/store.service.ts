@@ -31,8 +31,8 @@ import { CustomQueryEncoderHelper }                          from '../encoder';
 export class StoreService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders: Headers = new Headers();
-    public configuration: Configuration = new Configuration();
+    public defaultHeaders = new Headers();
+    public configuration = new Configuration();
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
         if (basePath) {
@@ -40,23 +40,8 @@ export class StoreService {
         }
         if (configuration) {
             this.configuration = configuration;
-			this.basePath = basePath || configuration.basePath || this.basePath;
+            this.basePath = basePath || configuration.basePath || this.basePath;
         }
-    }
-
-    /**
-     * 
-     * Extends object by coping non-existing properties.
-     * @param objA object to be extended
-     * @param objB source object
-     */
-    private extendObj<T1,T2>(objA: T1, objB: T2) {
-        for(let key in objB){
-            if(objB.hasOwnProperty(key)){
-                (objA as any)[key] = (objB as any)[key];
-            }
-        }
-        return <T1&T2>objA;
     }
 
     /**
@@ -73,8 +58,9 @@ export class StoreService {
         return false;
     }
 
+
     public isJsonMime(mime: string): boolean {
-        const jsonMime: RegExp = new RegExp('(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$');
+        const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime != null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
     }
 
@@ -83,7 +69,7 @@ export class StoreService {
      * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrder(orderId: string, extraHttpRequestParams?: any): Observable<{}> {
+    public deleteOrder(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
         return this.deleteOrderWithHttpInfo(orderId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -98,7 +84,7 @@ export class StoreService {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public getInventory(extraHttpRequestParams?: any): Observable<{ [key: string]: number; }> {
+    public getInventory(extraHttpRequestParams?: RequestOptionsArgs): Observable<{ [key: string]: number; }> {
         return this.getInventoryWithHttpInfo(extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -114,7 +100,7 @@ export class StoreService {
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: number, extraHttpRequestParams?: any): Observable<Order> {
+    public getOrderById(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
         return this.getOrderByIdWithHttpInfo(orderId, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -130,7 +116,7 @@ export class StoreService {
      * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
-    public placeOrder(body: Order, extraHttpRequestParams?: any): Observable<Order> {
+    public placeOrder(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Order> {
         return this.placeOrderWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
@@ -147,33 +133,16 @@ export class StoreService {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/store/order/${orderId}'
-                    .replace('${' + 'orderId' + '}', String(orderId));
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'orderId' is not null or undefined
+    public deleteOrderWithHttpInfo(orderId: string, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Delete,
             headers: headers,
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -181,39 +150,25 @@ export class StoreService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    public getInventoryWithHttpInfo(extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/store/inventory';
+    public getInventoryWithHttpInfo(extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
 
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/json'
-        ];
-
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -221,7 +176,7 @@ export class StoreService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/store/inventory`, requestOptions);
     }
 
     /**
@@ -229,33 +184,16 @@ export class StoreService {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/store/order/${orderId}'
-                    .replace('${' + 'orderId' + '}', String(orderId));
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'orderId' is not null or undefined
+    public getOrderByIdWithHttpInfo(orderId: number, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Get,
             headers: headers,
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -263,7 +201,7 @@ export class StoreService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, requestOptions);
     }
 
     /**
@@ -271,35 +209,19 @@ export class StoreService {
      * 
      * @param body order placed for purchasing the pet
      */
-    public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: any): Observable<Response> {
-        const path = this.basePath + '/store/order';
-
-        let queryParameters = new URLSearchParams('', new CustomQueryEncoderHelper());
-        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
-
-        // verify required parameter 'body' is not null or undefined
+    public placeOrderWithHttpInfo(body: Order, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
 
-        // to determine the Accept header
-        let produces: string[] = [
-            'application/xml',
-            'application/json'
-        ];
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
-        if (produces != null && produces.length > 0) {
-            headers.set('Accept', produces.filter(item => this.isJsonMime(item)).join(';'));
-        }
-
-            
         headers.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
             body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
-            search: queryParameters,
             withCredentials:this.configuration.withCredentials
         });
         // https://github.com/swagger-api/swagger-codegen/issues/4037
@@ -307,7 +229,7 @@ export class StoreService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(path, requestOptions);
+        return this.http.request(`${this.basePath}/store/order`, requestOptions);
     }
 
 }

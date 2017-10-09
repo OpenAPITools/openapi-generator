@@ -1,3 +1,4 @@
+{{>partial_header}}
 {-|
 Module : {{title}}.Model
 -}
@@ -17,24 +18,28 @@ Module : {{title}}.Model
 module {{title}}.Model where
 
 import Data.Aeson ((.:),(.:!),(.:?),(.=))
-import Data.Text (Text)
-
-import Data.Aeson (Value)
-import Data.ByteString.Lazy (ByteString)
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Base64.Lazy as BL64
 import qualified Data.Data as P (Data, Typeable)
 import qualified Data.HashMap.Lazy as HM
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 import qualified Data.Maybe as P
 import qualified Data.Foldable as P
 import qualified Web.FormUrlEncoded as WH
 import qualified Web.HttpApiData as WH
+import qualified Control.DeepSeq as NF
+import qualified Data.Ix as P
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Control.Arrow as P (left)
+import Data.Text (Text)
 
 import qualified Data.Time as TI
 import qualified Data.Time.ISO8601 as TI
-import Data.Time (UTCTime)
 
 import Control.Applicative ((<|>))
 import Control.Applicative (Alternative)
@@ -51,40 +56,44 @@ import qualified Prelude as P
 {{#model}}
 
 -- ** {{classname}}
--- |{{#title}}
+-- | {{classname}}{{#title}}
 -- {{{.}}}
 -- {{/title}}{{#description}}
 -- {{{.}}}{{/description}}
-{{^vendorExtensions.x-customNewtype}}
 data {{classname}} = {{classname}}
   { {{#vars}}{{name}} :: {{#x-strictFields}}!({{/x-strictFields}}{{^required}}Maybe {{/required}}{{datatype}}{{#x-strictFields}}){{/x-strictFields}} -- ^ {{#required}}/Required/ {{/required}}{{#readOnly}}/ReadOnly/ {{/readOnly}}"{{baseName}}"{{#description}} - {{description}}{{/description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   } deriving (P.Show,P.Eq,P.Typeable{{#modelDeriving}},{{modelDeriving}}{{/modelDeriving}})
 
+
+-- | FromJSON {{classname}}
 instance A.FromJSON {{classname}} where
   parseJSON = A.withObject "{{classname}}" $ \o ->
-    {{classname}}
-      <$>{{#vars}} (o {{#required}}.: {{/required}}{{^required}}{{^allowFromJsonNulls}}.:!{{/allowFromJsonNulls}}{{#allowFromJsonNulls}}.:?{{/allowFromJsonNulls}}{{/required}} "{{baseName}}"{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _readDate{{/isDate}}){{#hasMore}}
+    {{^hasVars}}pure {{/hasVars}}{{classname}}
+      {{#hasVars}}<$>{{/hasVars}}{{#vars}} (o {{#required}}.: {{/required}}{{^required}}{{^allowFromJsonNulls}}.:!{{/allowFromJsonNulls}}{{#allowFromJsonNulls}}.:?{{/allowFromJsonNulls}}{{/required}} "{{baseName}}"){{#hasMore}}
       <*>{{/hasMore}}{{/vars}}
 
+-- | ToJSON {{classname}}
 instance A.ToJSON {{classname}} where
-  toJSON {{classname}} {..} =
+  toJSON {{classname}} {{#hasVars}}{..}{{/hasVars}} =
    {{^allowToJsonNulls}}_omitNulls{{/allowToJsonNulls}}{{#allowToJsonNulls}}A.object{{/allowToJsonNulls}}
-      [ {{#vars}}"{{baseName}}" .= {{#isDateTime}}{{^required}}P.fmap {{/required}}_showDateTime{{/isDateTime}}{{#isDate}}{{^required}}P.fmap {{/required}}_showDate{{/isDate}} {{name}}{{#hasMore}}
+      [ {{#vars}}"{{baseName}}" .= {{name}}{{#hasMore}}
       , {{/hasMore}}{{/vars}}
       ]
 
 {{#vendorExtensions.x-hasMimeFormUrlEncoded}}
+-- | FromForm {{classname}}
 instance WH.FromForm {{classname}} where
   fromForm f =
-    {{classname}}
-      <$>{{#vars}} ({{#required}}WH.parseUnique {{/required}}{{^required}}WH.parseMaybe {{/required}}"{{baseName}}" f{{#isDateTime}} >>={{^required}} P.mapM{{/required}} _readDateTime{{/isDateTime}}{{#isDate}} >>={{^required}} P.mapM{{/required}} _readDate{{/isDate}}){{#hasMore}}
+    {{^hasVars}}pure {{/hasVars}}{{classname}}
+      {{#hasVars}}<$>{{/hasVars}}{{#vars}} ({{#required}}WH.parseUnique {{/required}}{{^required}}WH.parseMaybe {{/required}}"{{baseName}}" f){{#hasMore}}
       <*>{{/hasMore}}{{/vars}}
 
+-- | ToForm {{classname}}
 instance WH.ToForm {{classname}} where
-  toForm {{classname}} {..} =
+  toForm {{classname}} {{#hasVars}}{..}{{/hasVars}} =
     WH.Form $ HM.fromList $ P.catMaybes $
-      [ {{#vars}}_toFormItem "{{baseName}}" ({{#required}}Just $ {{/required}}{{#isDateTime}}{{^required}}P.fmap {{/required}}_showDateTime {{/isDateTime}}{{#isDate}}{{^required}}P.fmap {{/required}}_showDate {{/isDate}}{{name}}){{#hasMore}}
+      [ {{#vars}}_toFormItem "{{baseName}}" ({{#required}}Just {{/required}}{{name}}){{#hasMore}}
       , {{/hasMore}}{{/vars}}
       ]
 {{/vendorExtensions.x-hasMimeFormUrlEncoded}}
@@ -101,39 +110,48 @@ mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
   }
 {{/generateModelConstructors}}
   
-{{/vendorExtensions.x-customNewtype}}
-{{#vendorExtensions.x-customNewtype}}
-newtype {{classname}} = {{classname}} {{vendorExtensions.x-customNewtype}} deriving (P.Show, P.Eq, P.Data, P.Typeable, P.Generic, A.FromJSON, A.ToJSON)
-{-# WARNING {{classname}} "untested/unimlemented behavior" #-}
-{{/vendorExtensions.x-customNewtype}}
-
 {{/model}}
 {{/models}}
 
 -- * Utils
 
 -- | Removes Null fields.  (OpenAPI-Specification 2.0 does not allow Null in JSON)
-
 _omitNulls :: [(Text, A.Value)] -> A.Value
 _omitNulls = A.object . P.filter notNull
   where
     notNull (_, A.Null) = False
     notNull _ = True
 
+-- | Encodes fields using WH.toQueryParam
 _toFormItem :: (WH.ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])
 _toFormItem name x = (name,) . (:[]) . WH.toQueryParam <$> x
 
+-- | Collapse (Just "") to Nothing
 _emptyToNothing :: Maybe String -> Maybe String
 _emptyToNothing (Just "") = Nothing
 _emptyToNothing x = x
 {-# INLINE _emptyToNothing #-}
 
+-- | Collapse (Just mempty) to Nothing
 _memptyToNothing :: (P.Monoid a, P.Eq a) => Maybe a -> Maybe a
 _memptyToNothing (Just x) | x P.== P.mempty = Nothing
 _memptyToNothing x = x
 {-# INLINE _memptyToNothing #-}
 
 -- * DateTime Formatting
+
+newtype DateTime = DateTime { unDateTime :: TI.UTCTime }
+  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData,TI.ParseTime,TI.FormatTime)
+instance A.FromJSON DateTime where
+  parseJSON = A.withText "DateTime" (_readDateTime . T.unpack)
+instance A.ToJSON DateTime where
+  toJSON (DateTime t) = A.toJSON (_showDateTime t)
+instance WH.FromHttpApiData DateTime where
+  parseUrlPiece = P.left T.pack . _readDateTime . T.unpack
+instance WH.ToHttpApiData DateTime where
+  toUrlPiece (DateTime t) = T.pack (_showDateTime t)
+instance P.Show DateTime where
+  show (DateTime t) = _showDateTime t
 
 -- | @{{^dateTimeFormat}}_parseISO8601{{/dateTimeFormat}}{{#dateTimeFormat}}TI.parseTimeM True TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
 _readDateTime :: (TI.ParseTime t, Monad m, {{^dateTimeFormat}}Alternative m{{/dateTimeFormat}}) => String -> m t
@@ -142,11 +160,12 @@ _readDateTime =
 {-# INLINE _readDateTime #-}
 
 -- | @{{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}@
-_showDateTime :: ({{^dateTimeFormat}}t ~ UTCTime, {{/dateTimeFormat}}TI.FormatTime t) => t -> String
+_showDateTime :: ({{^dateTimeFormat}}t ~ TI.UTCTime, {{/dateTimeFormat}}TI.FormatTime t) => t -> String
 _showDateTime =
   {{^dateTimeFormat}}TI.formatISO8601Millis{{/dateTimeFormat}}{{#dateTimeFormat}}TI.formatTime TI.defaultTimeLocale "{{{dateTimeFormat}}}"{{/dateTimeFormat}}
 {-# INLINE _showDateTime #-}
 
+-- | parse an ISO8601 date-time string
 _parseISO8601 :: (TI.ParseTime t, Monad m, Alternative m) => String -> m t
 _parseISO8601 t =
   P.asum $
@@ -155,6 +174,19 @@ _parseISO8601 t =
 {-# INLINE _parseISO8601 #-}
 
 -- * Date Formatting
+
+newtype Date = Date { unDate :: TI.Day }
+  deriving (P.Enum,P.Eq,P.Data,P.Ord,P.Ix,NF.NFData,TI.ParseTime,TI.FormatTime)
+instance A.FromJSON Date where
+  parseJSON = A.withText "Date" (_readDate . T.unpack)
+instance A.ToJSON Date where
+  toJSON (Date t) = A.toJSON (_showDate t)
+instance WH.FromHttpApiData Date where
+  parseUrlPiece = P.left T.pack . _readDate . T.unpack
+instance WH.ToHttpApiData Date where
+  toUrlPiece (Date t) = T.pack (_showDate t)
+instance P.Show Date where
+  show (Date t) = _showDate t
 
 -- | @TI.parseTimeM True TI.defaultTimeLocale "{{{dateFormat}}}"@
 _readDate :: (TI.ParseTime t, Monad m) => String -> m t
@@ -167,3 +199,54 @@ _showDate :: TI.FormatTime t => t -> String
 _showDate =
   TI.formatTime TI.defaultTimeLocale "{{{dateFormat}}}"
 {-# INLINE _showDate #-}
+
+-- * Byte/Binary Formatting
+
+  
+-- | base64 encoded characters
+newtype ByteArray = ByteArray { unByteArray :: BL.ByteString }
+  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData)
+
+instance A.FromJSON ByteArray where
+  parseJSON = A.withText "ByteArray" _readByteArray
+instance A.ToJSON ByteArray where
+  toJSON = A.toJSON . _showByteArray
+instance WH.FromHttpApiData ByteArray where
+  parseUrlPiece = P.left T.pack . _readByteArray
+instance WH.ToHttpApiData ByteArray where
+  toUrlPiece = _showByteArray
+instance P.Show ByteArray where
+  show = T.unpack . _showByteArray
+
+-- | read base64 encoded characters
+_readByteArray :: Monad m => Text -> m ByteArray
+_readByteArray = P.either P.fail (pure . ByteArray) . BL64.decode . BL.fromStrict . T.encodeUtf8
+{-# INLINE _readByteArray #-}
+
+-- | show base64 encoded characters
+_showByteArray :: ByteArray -> Text
+_showByteArray = T.decodeUtf8 . BL.toStrict . BL64.encode . unByteArray
+{-# INLINE _showByteArray #-}
+
+-- | any sequence of octets
+newtype Binary = Binary { unBinary :: BL.ByteString }
+  deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData)
+
+instance A.FromJSON Binary where
+  parseJSON = A.withText "Binary" _readBinaryBase64
+instance A.ToJSON Binary where
+  toJSON = A.toJSON . _showBinaryBase64
+instance WH.FromHttpApiData Binary where
+  parseUrlPiece = P.left T.pack . _readBinaryBase64
+instance WH.ToHttpApiData Binary where
+  toUrlPiece = _showBinaryBase64
+instance P.Show Binary where
+  show = T.unpack . _showBinaryBase64
+
+_readBinaryBase64 :: Monad m => Text -> m Binary
+_readBinaryBase64 = P.either P.fail (pure . Binary) . BL64.decode . BL.fromStrict . T.encodeUtf8
+{-# INLINE _readBinaryBase64 #-}
+
+_showBinaryBase64 :: Binary -> Text
+_showBinaryBase64 = T.decodeUtf8 . BL.toStrict . BL64.encode . unBinary
+{-# INLINE _showBinaryBase64 #-}

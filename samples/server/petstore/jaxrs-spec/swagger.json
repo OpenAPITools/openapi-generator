@@ -1029,6 +1029,33 @@
           }
         }
       }
+    },
+    "/another-fake/dummy" : {
+      "patch" : {
+        "tags" : [ "$another-fake?" ],
+        "summary" : "To test special tags",
+        "description" : "To test special tags",
+        "operationId" : "test_special_tags",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "client model",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Client"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Client"
+            }
+          }
+        }
+      }
     }
   },
   "securityDefinitions" : {
@@ -1635,15 +1662,6 @@
       "type" : "string",
       "enum" : [ "placed", "approved", "delivered" ]
     },
-    "OuterNumber" : {
-      "type" : "number"
-    },
-    "OuterString" : {
-      "type" : "string"
-    },
-    "OuterBoolean" : {
-      "type" : "boolean"
-    },
     "OuterComposite" : {
       "type" : "object",
       "properties" : {
@@ -1657,6 +1675,15 @@
           "$ref" : "#/definitions/OuterBoolean"
         }
       }
+    },
+    "OuterNumber" : {
+      "type" : "number"
+    },
+    "OuterString" : {
+      "type" : "string"
+    },
+    "OuterBoolean" : {
+      "type" : "boolean"
     }
   },
   "externalDocs" : {

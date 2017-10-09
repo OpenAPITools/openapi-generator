@@ -229,7 +229,7 @@ class ApiResponse implements ModelInterface, ArrayAccess
     /**
      * Sets code
      *
-     * @param int $code
+     * @param int $code code
      *
      * @return $this
      */
@@ -253,7 +253,7 @@ class ApiResponse implements ModelInterface, ArrayAccess
     /**
      * Sets type
      *
-     * @param string $type
+     * @param string $type type
      *
      * @return $this
      */
@@ -277,7 +277,7 @@ class ApiResponse implements ModelInterface, ArrayAccess
     /**
      * Sets message
      *
-     * @param string $message
+     * @param string $message message
      *
      * @return $this
      */

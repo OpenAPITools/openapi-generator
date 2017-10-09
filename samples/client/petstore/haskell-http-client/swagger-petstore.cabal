@@ -8,9 +8,9 @@ synopsis:       Auto-generated swagger-petstore API Client
 description:    .
                 Client library for calling the swagger-petstore API based on http-client.
                 .
-                host: petstore.swagger.io
+                host: petstore.swagger.io:80
                 .
-                base path: http://petstore.swagger.io/v2
+                base path: http://petstore.swagger.io:80/v2
                 .
                 apiVersion: 0.0.1
                 .
@@ -42,6 +42,7 @@ library
     , unordered-containers
     , aeson >=1.0 && <2.0
     , bytestring >=0.10.0 && <0.11
+    , base64-bytestring >1.0 && <2.0
     , containers >=0.5.0.0 && <0.6
     , http-types >=0.8 && <0.10
     , http-client >=0.5 && <0.6
@@ -59,6 +60,7 @@ library
     , safe-exceptions <0.2
     , case-insensitive
     , microlens >= 0.4.3 && <0.5
+    , deepseq >= 1.4 && <1.6
   exposed-modules:
       SwaggerPetstore
       SwaggerPetstore.API
@@ -90,6 +92,7 @@ test-suite tests
     , time
     , iso8601-time
     , aeson
+    , vector
     , semigroups
     , QuickCheck
   other-modules:

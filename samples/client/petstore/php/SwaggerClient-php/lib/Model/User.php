@@ -259,7 +259,7 @@ class User implements ModelInterface, ArrayAccess
     /**
      * Sets id
      *
-     * @param int $id
+     * @param int $id id
      *
      * @return $this
      */
@@ -283,7 +283,7 @@ class User implements ModelInterface, ArrayAccess
     /**
      * Sets username
      *
-     * @param string $username
+     * @param string $username username
      *
      * @return $this
      */
@@ -307,7 +307,7 @@ class User implements ModelInterface, ArrayAccess
     /**
      * Sets first_name
      *
-     * @param string $first_name
+     * @param string $first_name first_name
      *
      * @return $this
      */
@@ -331,7 +331,7 @@ class User implements ModelInterface, ArrayAccess
     /**
      * Sets last_name
      *
-     * @param string $last_name
+     * @param string $last_name last_name
      *
      * @return $this
      */
@@ -355,7 +355,7 @@ class User implements ModelInterface, ArrayAccess
     /**
      * Sets email
      *
-     * @param string $email
+     * @param string $email email
      *
      * @return $this
      */
@@ -379,7 +379,7 @@ class User implements ModelInterface, ArrayAccess
     /**
      * Sets password
      *
-     * @param string $password
+     * @param string $password password
      *
      * @return $this
      */
@@ -403,7 +403,7 @@ class User implements ModelInterface, ArrayAccess
     /**
      * Sets phone
      *
-     * @param string $phone
+     * @param string $phone phone
      *
      * @return $this
      */

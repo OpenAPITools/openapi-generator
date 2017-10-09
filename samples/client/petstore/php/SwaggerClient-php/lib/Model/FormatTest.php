@@ -310,6 +310,10 @@ class FormatTest implements ModelInterface, ArrayAccess
         if ($this->container['byte'] === null) {
             $invalidProperties[] = "'byte' can't be null";
         }
+        if (!preg_match("/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/", $this->container['byte'])) {
+            $invalidProperties[] = "invalid value for 'byte', must be conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.";
+        }
+
         if ($this->container['date'] === null) {
             $invalidProperties[] = "'date' can't be null";
         }
@@ -375,6 +379,9 @@ class FormatTest implements ModelInterface, ArrayAccess
         if ($this->container['byte'] === null) {
             return false;
         }
+        if (!preg_match("/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/", $this->container['byte'])) {
+            return false;
+        }
         if ($this->container['date'] === null) {
             return false;
         }
@@ -404,7 +411,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets integer
      *
-     * @param int $integer
+     * @param int $integer integer
      *
      * @return $this
      */
@@ -436,7 +443,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets int32
      *
-     * @param int $int32
+     * @param int $int32 int32
      *
      * @return $this
      */
@@ -468,7 +475,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets int64
      *
-     * @param int $int64
+     * @param int $int64 int64
      *
      * @return $this
      */
@@ -492,7 +499,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets number
      *
-     * @param float $number
+     * @param float $number number
      *
      * @return $this
      */
@@ -524,7 +531,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets float
      *
-     * @param float $float
+     * @param float $float float
      *
      * @return $this
      */
@@ -556,7 +563,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets double
      *
-     * @param double $double
+     * @param double $double double
      *
      * @return $this
      */
@@ -588,7 +595,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets string
      *
-     * @param string $string
+     * @param string $string string
      *
      * @return $this
      */
@@ -617,12 +624,17 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets byte
      *
-     * @param string $byte
+     * @param string $byte byte
      *
      * @return $this
      */
     public function setByte($byte)
     {
+
+        if ((!preg_match("/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/", $byte))) {
+            throw new \InvalidArgumentException("invalid value for $byte when calling FormatTest., must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.");
+        }
+
         $this->container['byte'] = $byte;
 
         return $this;
@@ -641,7 +653,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets binary
      *
-     * @param string $binary
+     * @param string $binary binary
      *
      * @return $this
      */
@@ -665,7 +677,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets date
      *
-     * @param \DateTime $date
+     * @param \DateTime $date date
      *
      * @return $this
      */
@@ -689,7 +701,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets date_time
      *
-     * @param \DateTime $date_time
+     * @param \DateTime $date_time date_time
      *
      * @return $this
      */
@@ -713,7 +725,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets uuid
      *
-     * @param string $uuid
+     * @param string $uuid uuid
      *
      * @return $this
      */
@@ -737,7 +749,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets password
      *
-     * @param string $password
+     * @param string $password password
      *
      * @return $this
      */

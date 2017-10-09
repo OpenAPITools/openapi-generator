@@ -2,12 +2,17 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>{{groupId}}</groupId>
   <artifactId>{{artifactId}}</artifactId>
-  <packaging>war</packaging>
+  <packaging>{{#interfaceOnly}}jar{{/interfaceOnly}}{{^interfaceOnly}}war{{/interfaceOnly}}</packaging>
   <name>{{artifactId}}</name>
   <version>{{artifactVersion}}</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
-    <plugins>
+    <plugins>{{#interfaceOnly}}
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>{{/interfaceOnly}}{{^interfaceOnly}}
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -27,7 +32,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin>{{/interfaceOnly}}
     </plugins>
   </build>
   <dependencies>
@@ -48,7 +53,7 @@
       <artifactId>junit</artifactId>
       <version>${junit-version}</version>
       <scope>test</scope>
-    </dependency>
+    </dependency>{{^interfaceOnly}}
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -68,7 +73,7 @@
           <groupId>org.beanshell</groupId>
         </exclusion>
       </exclusions>
-    </dependency>
+    </dependency>{{/interfaceOnly}}
     {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>

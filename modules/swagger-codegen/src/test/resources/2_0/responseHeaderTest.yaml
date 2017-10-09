@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: Response header test
   license:
-    name: Apache 2.0
+    name: Apache-2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 basePath: /
 schemes:

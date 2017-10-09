@@ -310,7 +310,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.util.concurrent.ListenableFuture");
                 break;
             case "DeferredResult":
-                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.DeferredResult");
+                additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.async.DeferredResult");
                 break;
             case "HystrixCommand":
                 additionalProperties.put(RESPONSE_WRAPPER, "com.netflix.hystrix.HystrixCommand");

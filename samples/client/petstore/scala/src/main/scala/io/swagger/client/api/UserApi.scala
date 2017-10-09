@@ -41,8 +41,10 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
 
-class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
-                        defApiInvoker: ApiInvoker = ApiInvoker) {
+class UserApi(
+  val defBasePath: String = "http://petstore.swagger.io/v2",
+  defApiInvoker: ApiInvoker = ApiInvoker
+) {
 
   implicit val formats = new org.json4s.DefaultFormats {
     override def dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+0000")
@@ -54,10 +56,12 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   implicit val stringWriter = RequestWriters.StringWriter
   implicit val jsonWriter = JsonFormatsWriter
 
-  var basePath = defBasePath
-  var apiInvoker = defApiInvoker
+  var basePath: String = defBasePath
+  var apiInvoker: ApiInvoker = defApiInvoker
 
-  def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value
+  def addHeader(key: String, value: String): mutable.HashMap[String, String] = {
+    apiInvoker.defaultHeaders += key -> value
+  }
 
   val config = SwaggerConfig.forUrl(new URI(defBasePath))
   val client = new RestClient(config)
@@ -87,7 +91,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       helper.createUser(body)
   }
 
-
   /**
    * Creates list of users with given input array
    * 
@@ -111,7 +114,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   def createUsersWithArrayInputAsync(body: List[User]) = {
       helper.createUsersWithArrayInput(body)
   }
-
 
   /**
    * Creates list of users with given input array
@@ -137,7 +139,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       helper.createUsersWithListInput(body)
   }
 
-
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -162,7 +163,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       helper.deleteUser(username)
   }
 
-
   /**
    * Get user by user name
    * 
@@ -186,7 +186,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   def getUserByNameAsync(username: String): Future[User] = {
       helper.getUserByName(username)
   }
-
 
   /**
    * Logs user into the system
@@ -214,7 +213,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
       helper.loginUser(username, password)
   }
 
-
   /**
    * Logs out current logged in user session
    * 
@@ -236,7 +234,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   def logoutUserAsync() = {
       helper.logoutUser()
   }
-
 
   /**
    * Updated user
@@ -263,7 +260,6 @@ class UserApi(val defBasePath: String = "http://petstore.swagger.io/v2",
   def updateUserAsync(username: String, body: User) = {
       helper.updateUser(username, body)
   }
-
 
 }
 

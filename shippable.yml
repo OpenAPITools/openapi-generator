@@ -1,15 +1,28 @@
 language: java
 
 jdk:
-- oraclejdk8
-# no need to test jdk7 as smoke test is already covered by travis-ci
-#- openjdk7
+- oraclejdk8 
 
 build:
   cache: true
   cache_dir_list:
     - $HOME/.m2
+    - $HOME/.stack
+    - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
+    - sudo apt-get update -qq
+    # install stack
+    - curl -sSL https://get.haskellstack.org/ | sh
+    # install elixir
+    - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
+    - sudo apt-get update
+    - sudo apt-get install esl-erlang
+    - sudo apt-get install elixir
+    - elixir --version
+    - mix --version
+    # test samples defined in pom.xml
+    - cp pom.xml.shippable pom.xml
+    - mvn verify -P samples
     # generate all petstore sampless (client, servers, doc)
     - ./bin/run-all-petstore 2>&1 > run-all-petstore.log
   post_ci:

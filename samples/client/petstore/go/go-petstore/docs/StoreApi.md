@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**map[string]int32**](map.md)
+**map[string]int32**
 
 ### Authorization
 

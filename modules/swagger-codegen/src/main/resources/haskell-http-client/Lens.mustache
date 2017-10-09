@@ -1,3 +1,4 @@
+{{>partial_header}}
 {-|
 Module : {{title}}.Lens
 -}
@@ -10,17 +11,14 @@ Module : {{title}}.Lens
 
 module {{title}}.Lens where
 
-import Data.Text (Text)
-
 import qualified Data.Aeson as A
-import Data.Aeson (Value)
-import qualified Data.ByteString as B
-import Data.ByteString.Lazy (ByteString)
+import qualified Data.ByteString.Lazy as BL
 import qualified Data.Data as P (Data, Typeable)
 import qualified Data.Map as Map
-
+import qualified Data.Set as Set
 import qualified Data.Time as TI
-import Data.Time (UTCTime)
+
+import Data.Text (Text)
 
 import Prelude (($), (.),(<$>),(<*>),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
 import qualified Prelude as P

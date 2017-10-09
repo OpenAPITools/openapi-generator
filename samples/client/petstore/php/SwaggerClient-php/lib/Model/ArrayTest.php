@@ -229,7 +229,7 @@ class ArrayTest implements ModelInterface, ArrayAccess
     /**
      * Sets array_of_string
      *
-     * @param string[] $array_of_string
+     * @param string[] $array_of_string array_of_string
      *
      * @return $this
      */
@@ -253,7 +253,7 @@ class ArrayTest implements ModelInterface, ArrayAccess
     /**
      * Sets array_array_of_integer
      *
-     * @param int[][] $array_array_of_integer
+     * @param int[][] $array_array_of_integer array_array_of_integer
      *
      * @return $this
      */
@@ -277,7 +277,7 @@ class ArrayTest implements ModelInterface, ArrayAccess
     /**
      * Sets array_array_of_model
      *
-     * @param \Swagger\Client\Model\ReadOnlyFirst[][] $array_array_of_model
+     * @param \Swagger\Client\Model\ReadOnlyFirst[][] $array_array_of_model array_array_of_model
      *
      * @return $this
      */

@@ -17,11 +17,24 @@ public class CodegenTest {
     public void sanitizeTagTest() {
         final DefaultCodegen codegen = new DefaultCodegen();
         Assert.assertEquals(codegen.sanitizeTag("foo"), "Foo");
+        Assert.assertEquals(codegen.sanitizeTag("$foo!"), "Foo");
         Assert.assertEquals(codegen.sanitizeTag("foo bar"), "FooBar");
         Assert.assertEquals(codegen.sanitizeTag("foo_bar"), "FooBar");
         Assert.assertEquals(codegen.sanitizeTag("foo1 bar2"), "Foo1Bar2");
         Assert.assertEquals(codegen.sanitizeTag("foo bar 1"), "FooBar1");
-        Assert.assertEquals(codegen.sanitizeTag("1foo"), "_1foo");
+        Assert.assertEquals(codegen.sanitizeTag("1foo"), "Class1foo");
+    }
+
+    @Test(description = "test underscore")
+    public void underscoreNamesTest() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Assert.assertEquals(codegen.underscore("foo"), "foo");
+        Assert.assertEquals(codegen.underscore("foo-bar"), "foo_bar");
+        Assert.assertEquals(codegen.underscore("foo bar"), "foo_bar");
+
+        Assert.assertEquals(codegen.underscore("FooBar"), "foo_bar");
+        Assert.assertEquals(codegen.underscore("FooBarBaz"), "foo_bar_baz");
     }
 
     @Test(description = "test camelize")
@@ -32,6 +45,8 @@ public class CodegenTest {
         Assert.assertEquals(codegen.camelize(".foo"), "Foo");
         Assert.assertEquals(codegen.camelize(".foo.bar"), "FooBar");
         Assert.assertEquals(codegen.camelize("foo$bar"), "Foo$bar");
+        Assert.assertEquals(codegen.camelize("foo_$bar"), "Foo$bar");
+        
         Assert.assertEquals(codegen.camelize("foo_bar"), "FooBar");
         Assert.assertEquals(codegen.camelize("foo_bar_baz"), "FooBarBaz");
         Assert.assertEquals(codegen.camelize("foo/bar.baz"), "FooBarBaz");

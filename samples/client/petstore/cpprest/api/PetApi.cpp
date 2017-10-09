@@ -118,9 +118,6 @@ pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> body)
         throw ApiException(415, U("PetApi->addPet does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
     // authentication (petstore_auth) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
@@ -224,9 +221,6 @@ pplx::task<void> PetApi::deletePet(int64_t petId, utility::string_t apiKey)
         throw ApiException(415, U("PetApi->deletePet does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
     // authentication (petstore_auth) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
@@ -328,9 +322,6 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vect
     {
         throw ApiException(415, U("PetApi->findPetsByStatus does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
     // authentication (petstore_auth) required
     // oauth2 authentication is added automatically as part of the http_client_config
@@ -459,9 +450,6 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
         throw ApiException(415, U("PetApi->findPetsByTags does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
     // authentication (petstore_auth) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
@@ -585,9 +573,6 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId)
     {
         throw ApiException(415, U("PetApi->getPetById does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
     // authentication (api_key) required
     {
@@ -732,9 +717,6 @@ pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> body)
         throw ApiException(415, U("PetApi->updatePet does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
     // authentication (petstore_auth) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
@@ -843,9 +825,6 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, utility::string_t name
         throw ApiException(415, U("PetApi->updatePetWithForm does not consume any supported media type"));
     }
 
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
-
     // authentication (petstore_auth) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
@@ -952,9 +931,6 @@ pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, utili
     {
         throw ApiException(415, U("PetApi->uploadFile does not consume any supported media type"));
     }
-
-    //Set the request content type in the header.
-    headerParams[U("Content-Type")] = requestHttpContentType;
 
     // authentication (petstore_auth) required
     // oauth2 authentication is added automatically as part of the http_client_config

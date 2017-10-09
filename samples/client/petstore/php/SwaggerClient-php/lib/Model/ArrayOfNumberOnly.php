@@ -217,7 +217,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
     /**
      * Sets array_number
      *
-     * @param float[] $array_number
+     * @param float[] $array_number array_number
      *
      * @return $this
      */
