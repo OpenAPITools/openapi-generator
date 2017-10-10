@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 import org.joda.time.LocalDate;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -12,7 +13,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class FormatTest   {
+public class FormatTest  implements Serializable {
   
   private @Valid Integer integer = null;
   private @Valid Integer int32 = null;

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -14,7 +15,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class MixedPropertiesAndAdditionalPropertiesClass   {
+public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
   private @Valid UUID uuid = null;
   private @Valid Date dateTime = null;

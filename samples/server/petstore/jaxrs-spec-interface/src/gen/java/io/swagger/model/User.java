@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -8,7 +9,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class User   {
+public class User  implements Serializable {
   
   private @Valid Long id = null;
   private @Valid String username = null;

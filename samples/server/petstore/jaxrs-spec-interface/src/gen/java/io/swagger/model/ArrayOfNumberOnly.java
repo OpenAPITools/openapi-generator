@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -11,7 +12,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class ArrayOfNumberOnly   {
+public class ArrayOfNumberOnly  implements Serializable {
   
   private @Valid List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
 

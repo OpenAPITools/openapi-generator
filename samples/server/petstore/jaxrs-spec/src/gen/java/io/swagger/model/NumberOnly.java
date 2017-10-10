@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import java.math.BigDecimal;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -9,7 +10,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class NumberOnly   {
+public class NumberOnly  implements Serializable {
   
   private @Valid BigDecimal justNumber = null;
 

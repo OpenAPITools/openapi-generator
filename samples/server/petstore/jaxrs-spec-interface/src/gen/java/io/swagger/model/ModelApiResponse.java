@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -8,7 +9,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class ModelApiResponse   {
+public class ModelApiResponse  implements Serializable {
   
   private @Valid Integer code = null;
   private @Valid String type = null;

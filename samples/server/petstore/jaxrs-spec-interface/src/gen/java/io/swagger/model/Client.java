@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -8,7 +9,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class Client   {
+public class Client  implements Serializable {
   
   private @Valid String client = null;
 

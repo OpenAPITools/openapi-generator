@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.annotations.ApiModel;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -12,7 +13,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 @ApiModel(description = "Model for testing reserved words")
 
-public class ModelReturn   {
+public class ModelReturn  implements Serializable {
   
   private @Valid Integer _return = null;
 

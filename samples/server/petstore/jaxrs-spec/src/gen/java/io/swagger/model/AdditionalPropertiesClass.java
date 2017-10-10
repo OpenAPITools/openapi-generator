@@ -3,6 +3,7 @@ package io.swagger.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -11,7 +12,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class AdditionalPropertiesClass   {
+public class AdditionalPropertiesClass  implements Serializable {
   
   private @Valid Map<String, String> mapProperty = new HashMap<String, String>();
   private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
