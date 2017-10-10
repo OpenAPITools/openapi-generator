@@ -1,7 +1,3 @@
--- This file has been generated from package.yaml by hpack version 0.17.1.
---
--- see: https://github.com/sol/hpack
-
 name:           {{package}}
 version:        0.1.0.0
 synopsis:       Auto-generated {{package}} API Client
@@ -11,10 +7,12 @@ description:    .
                 host: {{host}}
                 .
                 base path: {{basePath}}
+                {{#version}}
                 .
-                apiVersion: {{apiVersion}}
+                {{appName}} API version: {{{.}}}
+                {{/version}}
                 .
-                swagger version: {{swaggerVersion}}
+                OpenAPI spec version: {{swaggerVersion}}
                 .
                 {{^hideGenerationTimestamp}}Generated on: {{generatedDate}}
                 .

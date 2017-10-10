@@ -113,6 +113,12 @@ mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
 {{/model}}
 {{/models}}
 
+-- * Parameter newtypes
+
+{{#x-allUniqueParams}}
+newtype {{{vendorExtensions.x-paramNameType}}} = {{{vendorExtensions.x-paramNameType}}} { un{{{vendorExtensions.x-paramNameType}}} :: {{{dataType}}} } deriving (P.Eq, P.Show{{#isBodyParam}}, A.ToJSON{{/isBodyParam}})
+{{/x-allUniqueParams}}
+
 -- * Utils
 
 -- | Removes Null fields.  (OpenAPI-Specification 2.0 does not allow Null in JSON)
