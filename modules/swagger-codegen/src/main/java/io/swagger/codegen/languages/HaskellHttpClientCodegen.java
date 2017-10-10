@@ -26,7 +26,6 @@ import java.io.File;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.regex.Matcher;
 
@@ -34,7 +33,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     // source folder where to write the files
     protected String sourceFolder = "src";
-    protected String apiVersion = "0.0.1";
 
     protected String artifactId = "swagger-haskell-http-client";
     protected String artifactVersion = "1.0.0";
@@ -67,7 +65,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     protected Map<String, CodegenParameter> uniqueParamsByName = new HashMap<String, CodegenParameter>();
     protected Set<String> typeNames = new HashSet<String>();
-    protected Map<String, Map<String,String>> allMimeTypes = new HashMap<String, Map<String,String>>();
     protected Map<String, String> knownMimeDataTypes = new HashMap<String, String>();
     protected Map<String, Set<String>> modelMimeTypes = new HashMap<String, Set<String>>();
     protected String lastTag = "";
@@ -124,7 +121,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 )
         );
 
-        additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("artifactId", artifactId);
         additionalProperties.put("artifactVersion", artifactVersion);
 
@@ -398,13 +394,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         additionalProperties.put("configType", apiName + "Config");
         additionalProperties.put("swaggerVersion", swagger.getSwagger());
 
-        //copy input swagger to output folder
-        try {
-            String swaggerJson = Json.pretty(swagger);
-            FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
+        WriteInputSwaggerToFile(swagger);
 
         super.preprocessSwagger(swagger);
     }
@@ -461,7 +451,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             return null;
         }
     }
-
     @Override
     public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
         CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, swagger);
@@ -486,100 +475,20 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             if(!param.required) {
                 op.vendorExtensions.put("x-hasOptionalParams", true);
             }
-            if (typeMapping.containsKey(param.dataType) || param.isPrimitiveType || param.isListContainer || param.isMapContainer || param.isFile) {
-                String paramNameType = toTypeName("Param", param.paramName);
 
-                if (uniqueParamsByName.containsKey(paramNameType)) {
-                    CodegenParameter lastParam = this.uniqueParamsByName.get(paramNameType);
-                    if (lastParam.dataType != null && lastParam.dataType.equals(param.dataType)) {
-                        param.vendorExtensions.put("x-duplicate", true);
-                    } else {
-                        paramNameType = paramNameType + param.dataType;
-                        while (typeNames.contains(paramNameType)) {
-                            paramNameType = generateNextName(paramNameType);
-                        }
-                        uniqueParamsByName.put(paramNameType, param);
-                    }
-                } else {
-                    while (typeNames.contains(paramNameType)) {
-                        paramNameType = generateNextName(paramNameType);
-                    }
-                    uniqueParamsByName.put(paramNameType, param);
-                }
-
-                param.vendorExtensions.put("x-paramNameType", paramNameType);
-                typeNames.add(paramNameType);
-            }
-        }
-        if (op.getHasPathParams()) {
-            String remainingPath = op.path;
-            for (CodegenParameter param : op.pathParams) {
-                String[] pieces = remainingPath.split("\\{" + param.baseName + "\\}");
-                if (pieces.length == 0)
-                    throw new RuntimeException("paramName {" + param.baseName + "} not in path " + op.path);
-                if (pieces.length > 2)
-                    throw new RuntimeException("paramName {" + param.baseName + "} found multiple times in path " + op.path);
-                if (pieces.length == 2) {
-                    param.vendorExtensions.put("x-pathPrefix", pieces[0]);
-                    remainingPath = pieces[1];
-                } else {
-                    if (remainingPath.startsWith("{" + param.baseName + "}")) {
-                        remainingPath = pieces[0];
-                    } else {
-                        param.vendorExtensions.put("x-pathPrefix", pieces[0]);
-                        remainingPath = "";
-                    }
-                }
-            }
-            op.vendorExtensions.put("x-hasPathParams", true);
-            if (remainingPath.length() > 0) {
-                op.vendorExtensions.put("x-pathSuffix", remainingPath);
-            }
-        } else {
-            op.vendorExtensions.put("x-hasPathParams", false);
-            op.vendorExtensions.put("x-pathSuffix", op.path);
-        }
-        for (CodegenParameter param : op.queryParams) {
-        }
-        for (CodegenParameter param : op.headerParams) {
-        }
-        for (CodegenParameter param : op.bodyParams) {
-        }
-        for (CodegenParameter param : op.formParams) {
+            deduplicateParameter(param);
         }
 
-        if (op.hasConsumes) {
-            for (Map<String, String> m : op.consumes) {
-                processMediaType(op,m);
-            }
-            if (isMultipartOperation(op.consumes)) {
-                op.isMultipart = Boolean.TRUE;
-            }
-        }
-        if (op.hasProduces) {
-            for (Map<String, String> m : op.produces) {
-                processMediaType(op,m);
-            }
-        }
+        processPathExpr(op);
 
-        String returnType = op.returnType;
-        if (returnType == null || returnType.equals("null")) {
-            if(op.hasProduces) {
-                returnType = "res";
-                op.vendorExtensions.put("x-hasUnknownReturn", true);
-            } else {
-                returnType = "NoContent";
-            }
-        }
-        if (returnType.indexOf(" ") >= 0) {
-            returnType = "(" + returnType + ")";
-        }
-        op.vendorExtensions.put("x-returnType", returnType);
+        processProducesConsumes(op);
 
+        processReturnType(op);
 
         return op;
     }
-    
+
+    @Override
     public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
         List<CodegenSecurity> secs = super.fromSecurity(schemes);
         for(CodegenSecurity sec : secs) {
@@ -603,8 +512,26 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
 
         additionalProperties.put("x-hasUnknownMimeTypes", !unknownMimeTypes.isEmpty());
+
+        Collections.sort(unknownMimeTypes, new Comparator<Map<String, String>>() {
+            @Override
+            public int compare(Map<String, String> o1, Map<String, String> o2) {
+                return o1.get(MEDIA_TYPE).compareTo(o2.get(MEDIA_TYPE));
+            }
+        });
         additionalProperties.put("x-unknownMimeTypes", unknownMimeTypes);
-        additionalProperties.put("x-allUniqueParams", uniqueParamsByName.values());
+
+        ArrayList<CodegenParameter> params = new ArrayList<>(uniqueParamsByName.values());
+        Collections.sort(params, new Comparator<CodegenParameter>() {
+            @Override
+            public int compare(CodegenParameter o1, CodegenParameter o2) {
+                return
+                        ((String) o1.vendorExtensions.get("x-paramNameType"))
+                                .compareTo(
+                                        (String) o2.vendorExtensions.get("x-paramNameType"));
+            }
+        });
+        additionalProperties.put("x-allUniqueParams", params);
 
         return ret;
     }
@@ -687,10 +614,114 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return dataType != null && dataType.equals("B.ByteString");
     }
 
+    //copy input swagger to output folder
+    private void WriteInputSwaggerToFile(Swagger swagger) {
+        try {
+            String swaggerJson = Json.pretty(swagger);
+            FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
+    }
+
+    private void processReturnType(CodegenOperation op) {
+        String returnType = op.returnType;
+        if (returnType == null || returnType.equals("null")) {
+            if(op.hasProduces) {
+                returnType = "res";
+                op.vendorExtensions.put("x-hasUnknownReturn", true);
+            } else {
+                returnType = "NoContent";
+            }
+        }
+        if (returnType.indexOf(" ") >= 0) {
+            returnType = "(" + returnType + ")";
+        }
+        op.vendorExtensions.put("x-returnType", returnType);
+    }
+
+    private void processProducesConsumes(CodegenOperation op) {
+        if (op.hasConsumes) {
+            for (Map<String, String> m : op.consumes) {
+                processMediaType(op,m);
+            }
+            if (isMultipartOperation(op.consumes)) {
+                op.isMultipart = Boolean.TRUE;
+            }
+        }
+        if (op.hasProduces) {
+            for (Map<String, String> m : op.produces) {
+                processMediaType(op,m);
+            }
+        }
+    }
+
+    private void deduplicateParameter(CodegenParameter param) {
+        if (typeMapping.containsKey(param.dataType) || param.isPrimitiveType || param.isListContainer || param.isMapContainer || param.isFile) {
+
+            String paramNameType = toTypeName("Param", param.paramName);
+
+            if (uniqueParamsByName.containsKey(paramNameType)) {
+                if(!checkParamForDuplicates(paramNameType, param)) {
+                    paramNameType = paramNameType + param.dataType;
+                    if(!checkParamForDuplicates(paramNameType, param)) {
+                        while (typeNames.contains(paramNameType)) {
+                            paramNameType = generateNextName(paramNameType);
+                            if(checkParamForDuplicates(paramNameType, param)) {
+                                break;
+                            }
+                        }
+                    }
+
+                    uniqueParamsByName.put(paramNameType, param);
+                }
+            } else {
+
+                while (typeNames.contains(paramNameType)) {
+                    paramNameType = generateNextName(paramNameType);
+                    if(checkParamForDuplicates(paramNameType, param)) {
+                        break;
+                    }
+                }
+
+                uniqueParamsByName.put(paramNameType, param);
+            }
+
+            param.vendorExtensions.put("x-paramNameType", paramNameType);
+            typeNames.add(paramNameType);
+        }
+    }
+
+    public Boolean checkParamForDuplicates(String paramNameType, CodegenParameter param) {
+        CodegenParameter lastParam = this.uniqueParamsByName.get(paramNameType);
+        if (lastParam != null && lastParam.dataType != null && lastParam.dataType.equals(param.dataType)) {
+            param.vendorExtensions.put("x-duplicate", true);
+            return true;
+        }
+        return false;
+    }
+
+    // build the parameterized path segments, according to pathParams
+    private void processPathExpr(CodegenOperation op) {
+        String xPath = "[\"" + escapeText(op.path) + "\"]";
+        if (op.getHasPathParams()) {
+            for (CodegenParameter param : op.pathParams) {
+                xPath = xPath.replaceAll("\\{" + param.baseName + "\\}", "\",toPath " + param.paramName + ",\"");
+            }
+            xPath = xPath.replaceAll(",\"\",", ",");
+            xPath = xPath.replaceAll("\"\",", ",");
+            xPath = xPath.replaceAll(",\"\"", ",");
+            xPath = xPath.replaceAll("^\\[,", "[");
+            xPath = xPath.replaceAll(",\\]$", "]");
+        }
+        op.vendorExtensions.put("x-path", xPath);
+    }
+
+
     private void processMediaType(CodegenOperation op, Map<String, String> m) {
         String mediaType = m.get(MEDIA_TYPE);
 
-        if(StringUtils.isBlank(mediaType)) return;
+        if (StringUtils.isBlank(mediaType)) return;
 
         String mimeType = getMimeDataType(mediaType);
         typeNames.add(mimeType);
@@ -699,8 +730,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             m.put(MEDIA_IS_JSON, "true");
         }
 
-        allMimeTypes.put(mediaType, m);
-        if(!knownMimeDataTypes.containsKey(mediaType) && !unknownMimeTypes.contains(m)) {
+        if (!knownMimeDataTypes.containsValue(mimeType) && !unknownMimeTypesContainsType(mimeType)) {
             unknownMimeTypes.add(m);
         }
         for (CodegenParameter param : op.allParams) {
@@ -710,6 +740,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 modelMimeTypes.put(param.dataType, mimeTypes);
             }
         }
+    }
+
+    private Boolean unknownMimeTypesContainsType(String mimeType) {
+        for(Map<String,String> m : unknownMimeTypes) {
+            String mimeType0 = m.get(MEDIA_DATA_TYPE);
+            if(mimeType0 != null && mimeType0.equals(mimeType)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public String firstLetterToUpper(String word) {

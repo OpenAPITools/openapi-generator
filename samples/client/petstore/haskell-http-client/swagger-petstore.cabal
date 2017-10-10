@@ -1,7 +1,3 @@
--- This file has been generated from package.yaml by hpack version 0.17.1.
---
--- see: https://github.com/sol/hpack
-
 name:           swagger-petstore
 version:        0.1.0.0
 synopsis:       Auto-generated swagger-petstore API Client
@@ -12,9 +8,9 @@ description:    .
                 .
                 base path: http://petstore.swagger.io:80/v2
                 .
-                apiVersion: 0.0.1
+                Swagger Petstore API version: 1.0.0
                 .
-                swagger version: 2.0
+                OpenAPI spec version: 2.0
                 .
                 OpenAPI-Specification: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md
                 .
