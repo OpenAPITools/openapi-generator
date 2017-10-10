@@ -23,7 +23,7 @@ import { Pet } from '../model/pet';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { CustomQueryEncoderHelper }                          from '../encoder';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 
 @Injectable()
@@ -58,6 +58,7 @@ export class PetService {
     }
 
 
+
     /**
      * Add a new pet to the store
      * 
@@ -78,7 +79,8 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/pet`, body, {
+        return this.httpClient.post<any>(`${this.basePath}/pet`, body, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -108,7 +110,8 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(petId)}`, {
+        return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -124,7 +127,7 @@ export class PetService {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let queryParameters = new HttpParams();
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (status) {
             queryParameters = queryParameters.set('status', status.join(COLLECTION_FORMATS['csv']));
         }
@@ -139,7 +142,8 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/findByStatus`, {
+        return this.httpClient.get<any>(`${this.basePath}/pet/findByStatus`, 
+        {
             params: queryParameters,
             headers: headers,
             withCredentials: this.configuration.withCredentials,
@@ -156,7 +160,7 @@ export class PetService {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
-        let queryParameters = new HttpParams();
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (tags) {
             queryParameters = queryParameters.set('tags', tags.join(COLLECTION_FORMATS['csv']));
         }
@@ -171,7 +175,8 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/findByTags`, {
+        return this.httpClient.get<any>(`${this.basePath}/pet/findByTags`, 
+        {
             params: queryParameters,
             headers: headers,
             withCredentials: this.configuration.withCredentials,
@@ -195,7 +200,8 @@ export class PetService {
             headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
-        return this.httpClient.get<any>(`${this.basePath}/pet/${encodeURIComponent(petId)}`, {
+        return this.httpClient.get<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -221,7 +227,8 @@ export class PetService {
             headers = headers.set('Authorization', 'Bearer ' + accessToken);
         }
 
-        return this.httpClient.put<any>(`${this.basePath}/pet`, body, {
+        return this.httpClient.put<any>(`${this.basePath}/pet`, body, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -253,19 +260,28 @@ export class PetService {
         let consumes: string[] = [
             'application/x-www-form-urlencoded'
         ];
-        let canConsumeForm = this.canConsumeForm(consumes);
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
         let useForm = false;
-        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
-          set(param: string, value: any): void;
-        };
-        if (name !== undefined) {
-            formParams.set('name', <any>name);
-        }
-        if (status !== undefined) {
-            formParams.set('status', <any>status);
+        let convertFormParamsToString = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(petId)}`, formParams, {
+
+
+        if (name !== undefined) {
+            formParams = formParams.append('name', <any>name) || formParams;
+        }
+        if (status !== undefined) {
+            formParams = formParams.append('status', <any>status) || formParams;
+        }
+
+        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, 
+        convertFormParamsToString ? formParams.toString() : formParams, {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -297,20 +313,31 @@ export class PetService {
         let consumes: string[] = [
             'multipart/form-data'
         ];
-        let canConsumeForm = this.canConsumeForm(consumes);
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): void; };
         let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         useForm = canConsumeForm;
-        let formParams = new (useForm ? FormData : URLSearchParams as any)() as {
-          set(param: string, value: any): void;
-        };
-        if (additionalMetadata !== undefined) {
-            formParams.set('additionalMetadata', <any>additionalMetadata);
-        }
-        if (file !== undefined) {
-            formParams.set('file', <any>file);
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(petId)}/uploadImage`, formParams, {
+
+
+        if (additionalMetadata !== undefined) {
+            formParams = formParams.append('additionalMetadata', <any>additionalMetadata) || formParams;
+        }
+        if (file !== undefined) {
+            formParams = formParams.append('file', <any>file) || formParams;
+        }
+
+        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, 
+        convertFormParamsToString ? formParams.toString() : formParams, {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });

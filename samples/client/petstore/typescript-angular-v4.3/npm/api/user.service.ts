@@ -22,7 +22,7 @@ import { User } from '../model/user';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { CustomQueryEncoderHelper }                          from '../encoder';
+import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 
 @Injectable()
@@ -57,6 +57,7 @@ export class UserService {
     }
 
 
+
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -69,7 +70,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.post<any>(`${this.basePath}/user`, body, {
+        return this.httpClient.post<any>(`${this.basePath}/user`, body, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -87,7 +89,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`, body, {
+        return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`, body, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -105,7 +108,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.post<any>(`${this.basePath}/user/createWithList`, body, {
+        return this.httpClient.post<any>(`${this.basePath}/user/createWithList`, body, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -123,7 +127,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(username)}`, {
+        return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -141,7 +146,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.get<any>(`${this.basePath}/user/${encodeURIComponent(username)}`, {
+        return this.httpClient.get<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -161,7 +167,7 @@ export class UserService {
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
 
-        let queryParameters = new HttpParams();
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (username !== undefined) {
             queryParameters = queryParameters.set('username', <any>username);
         }
@@ -171,7 +177,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.get<any>(`${this.basePath}/user/login`, {
+        return this.httpClient.get<any>(`${this.basePath}/user/login`, 
+        {
             params: queryParameters,
             headers: headers,
             withCredentials: this.configuration.withCredentials,
@@ -186,7 +193,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.get<any>(`${this.basePath}/user/logout`, {
+        return this.httpClient.get<any>(`${this.basePath}/user/logout`, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
@@ -208,7 +216,8 @@ export class UserService {
 
         let headers = this.defaultHeaders;
 
-        return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(username)}`, body, {
+        return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`, body, 
+        {
             headers: headers,
             withCredentials: this.configuration.withCredentials,
         });
