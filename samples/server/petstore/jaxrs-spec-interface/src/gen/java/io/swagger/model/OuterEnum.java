@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 

@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import java.util.Date;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -9,7 +10,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class Order   {
+public class Order  implements Serializable {
   
   private @Valid Long id = null;
   private @Valid Long petId = null;

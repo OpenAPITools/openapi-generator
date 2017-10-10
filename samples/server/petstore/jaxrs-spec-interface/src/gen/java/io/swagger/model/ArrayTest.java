@@ -3,6 +3,7 @@ package io.swagger.model;
 import io.swagger.model.ReadOnlyFirst;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -11,7 +12,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class ArrayTest   {
+public class ArrayTest  implements Serializable {
   
   private @Valid List<String> arrayOfString = new ArrayList<String>();
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();

@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -8,7 +9,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class Capitalization   {
+public class Capitalization  implements Serializable {
   
   private @Valid String smallCamel = null;
   private @Valid String capitalCamel = null;

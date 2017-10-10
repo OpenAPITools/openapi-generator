@@ -1,6 +1,7 @@
 package io.swagger.model;
 
 import io.swagger.model.Animal;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -9,7 +10,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class Dog extends Animal  {
+public class Dog extends Animal implements Serializable {
   
   private @Valid String breed = null;
 

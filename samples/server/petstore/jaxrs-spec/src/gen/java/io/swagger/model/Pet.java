@@ -4,6 +4,7 @@ import io.swagger.model.Category;
 import io.swagger.model.Tag;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -12,7 +13,7 @@ import io.swagger.annotations.*;
 import java.util.Objects;
 
 
-public class Pet   {
+public class Pet  implements Serializable {
   
   private @Valid Long id = null;
   private @Valid Category category = null;
