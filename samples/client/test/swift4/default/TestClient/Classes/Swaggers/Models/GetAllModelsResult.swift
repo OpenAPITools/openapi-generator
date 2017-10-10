@@ -29,7 +29,7 @@ open class GetAllModelsResult: Codable {
     }
 
     // Decodable protocol methods
-    
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
