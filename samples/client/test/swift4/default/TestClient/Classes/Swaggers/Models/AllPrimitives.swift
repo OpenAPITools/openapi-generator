@@ -12,6 +12,11 @@ import Foundation
 
 open class AllPrimitives: Codable {
 
+    public enum MyInlineStringEnum: String, Codable { 
+        case inlinestringenumvalue1 = "inlineStringEnumValue1"
+        case inlinestringenumvalue2 = "inlineStringEnumValue2"
+        case inlinestringenumvalue3 = "inlineStringEnumValue3"
+    }
     public var myInteger: Int?
     public var myIntegerArray: [Int]?
     public var myLong: Int64?
@@ -36,6 +41,7 @@ open class AllPrimitives: Codable {
     public var myUUIDArray: [UUID]?
     public var myStringEnum: StringEnum?
     public var myStringEnumArray: [StringEnum]?
+    public var myInlineStringEnum: MyInlineStringEnum?
 
 
     // Encodable protocol methods
@@ -68,10 +74,11 @@ open class AllPrimitives: Codable {
         try container.encodeArrayIfPresent(myUUIDArray, forKey: "myUUIDArray")
         try container.encodeIfPresent(myStringEnum, forKey: "myStringEnum")
         try container.encodeArrayIfPresent(myStringEnumArray, forKey: "myStringEnumArray")
+        try container.encodeIfPresent(myInlineStringEnum, forKey: "myInlineStringEnum")
     }
 
     // Decodable protocol methods
-    
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
@@ -99,6 +106,7 @@ open class AllPrimitives: Codable {
         myUUIDArray = try container.decodeArrayIfPresent(UUID.self, forKey: "myUUIDArray")
         myStringEnum = try container.decodeIfPresent(StringEnum.self, forKey: "myStringEnum")
         myStringEnumArray = try container.decodeArrayIfPresent(StringEnum.self, forKey: "myStringEnumArray")
+        myInlineStringEnum = try container.decodeIfPresent(MyInlineStringEnum.self, forKey: "myInlineStringEnum")
     }
 }
 
