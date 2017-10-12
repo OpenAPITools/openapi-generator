@@ -34,6 +34,18 @@ public class Meta implements Runnable {
     private String name = "default";
     private String targetPackage = "io.swagger.codegen";
 
+    public void setOutputFolder(String outputFolder) {
+        this.outputFolder = outputFolder;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTargetPackage(String targetPackage) {
+        this.targetPackage = targetPackage;
+    }
+
     @Override
     public void run() {
         final File targetDir = new File(outputFolder);

@@ -7,6 +7,10 @@ import io.swagger.codegen.CodegenConfigLoader;
 public class ConfigHelp implements Runnable {
     private String lang;
 
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
     @Override
     public void run() {
         System.out.println();
