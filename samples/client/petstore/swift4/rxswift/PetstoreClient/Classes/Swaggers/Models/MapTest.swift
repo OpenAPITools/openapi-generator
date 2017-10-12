@@ -8,6 +8,7 @@
 import Foundation
 
 
+
 open class MapTest: Codable {
 
     public enum MapOfEnumString: String, Codable { 
@@ -17,12 +18,29 @@ open class MapTest: Codable {
     public var mapMapOfString: [String:[String:String]]?
     public var mapOfEnumString: [String:String]?
 
-    public init() {}
 
-
-    private enum CodingKeys: String, CodingKey { 
-        case mapMapOfString = "map_map_of_string"
-        case mapOfEnumString = "map_of_enum_string"
+    public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?) {
+        self.mapMapOfString = mapMapOfString
+        self.mapOfEnumString = mapOfEnumString
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(mapMapOfString, forKey: "map_map_of_string")
+        try container.encodeIfPresent(mapOfEnumString, forKey: "map_of_enum_string")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        mapMapOfString = try container.decodeIfPresent([String:[String:String]].self, forKey: "map_map_of_string")
+        mapOfEnumString = try container.decodeIfPresent([String:String].self, forKey: "map_of_enum_string")
+    }
 }
+

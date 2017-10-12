@@ -8,17 +8,35 @@
 import Foundation
 
 
+
 open class ReadOnlyFirst: Codable {
 
     public var bar: String?
     public var baz: String?
 
-    public init() {}
 
-
-    private enum CodingKeys: String, CodingKey { 
-        case bar = "bar"
-        case baz = "baz"
+    public init(bar: String?, baz: String?) {
+        self.bar = bar
+        self.baz = baz
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(bar, forKey: "bar")
+        try container.encodeIfPresent(baz, forKey: "baz")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        bar = try container.decodeIfPresent(String.self, forKey: "bar")
+        baz = try container.decodeIfPresent(String.self, forKey: "baz")
+    }
 }
+

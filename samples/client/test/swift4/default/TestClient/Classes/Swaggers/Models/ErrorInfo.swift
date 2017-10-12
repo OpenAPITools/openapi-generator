@@ -17,6 +17,12 @@ open class ErrorInfo: Codable {
     public var details: [String]?
 
 
+    public init(code: Int?, message: String?, details: [String]?) {
+        self.code = code
+        self.message = message
+        self.details = details
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {

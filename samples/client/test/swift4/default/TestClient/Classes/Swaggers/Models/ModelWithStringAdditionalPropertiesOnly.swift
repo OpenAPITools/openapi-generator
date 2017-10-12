@@ -28,6 +28,7 @@ open class ModelWithStringAdditionalPropertiesOnly: Codable {
         }
     }
 
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {

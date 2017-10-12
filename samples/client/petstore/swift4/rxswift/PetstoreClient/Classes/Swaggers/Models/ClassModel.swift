@@ -9,15 +9,31 @@ import Foundation
 
 
 /** Model for testing model with \&quot;_class\&quot; property */
+
 open class ClassModel: Codable {
 
     public var _class: String?
 
-    public init() {}
 
-
-    private enum CodingKeys: String, CodingKey { 
-        case _class = "_class"
+    public init(_class: String?) {
+        self._class = _class
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: String.self)
+
+        try container.encodeIfPresent(_class, forKey: "_class")
+    }
+
+    // Decodable protocol methods
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: String.self)
+
+        _class = try container.decodeIfPresent(String.self, forKey: "_class")
+    }
 }
+
