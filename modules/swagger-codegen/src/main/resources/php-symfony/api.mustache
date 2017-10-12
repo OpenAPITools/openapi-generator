@@ -18,7 +18,7 @@
 
 namespace {{apiPackage}};
 
-{{#operations}}{{#imports}}use {{this}};
+{{#operations}}{{#imports}}use {{import}};
 {{/imports}}
 
 /**
@@ -56,7 +56,7 @@ interface {{classname}}
      *
     {{/description}}
     {{#allParams}}
-     * @param  {{vendorExtensions.x-simpleName}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     * @param  {{dataType}} ${{paramName}}  {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}}
      *
     {{#responses}}
@@ -64,7 +64,7 @@ interface {{classname}}
      * @throws {{vendorExtensions.x-symfonyExceptionSimple}}  {{message}}
     {{/vendorExtensions.x-symfonyExceptionSimple}}
     {{^vendorExtensions.x-symfonyExceptionSimple}}
-     * @return {{^dataType}}void{{/dataType}}{{#dataType}}{{vendorExtensions.x-simpleName}}{{/dataType}}  {{message}}
+     * @return {{^dataType}}void{{/dataType}}{{#dataType}}{{dataType}}{{/dataType}}  {{message}}
      *
     {{/vendorExtensions.x-symfonyExceptionSimple}}
     {{/responses}}

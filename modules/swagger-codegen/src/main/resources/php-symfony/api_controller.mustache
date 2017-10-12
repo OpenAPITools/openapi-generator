@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use {{apiPackage}}\{{classname}};
-{{#imports}}use {{this}};
+{{#imports}}use {{import}};
 {{/imports}}
 
 /**
@@ -179,11 +179,9 @@ class {{controllerName}} extends Controller
             return new Response('', 204);
             {{/returnType}}
         {{#responses}}
-        {{#vendorExtensions.x-symfonyExceptionSimple}}
-        } catch ({{vendorExtensions.x-symfonyExceptionSimple}} $exception) {
+        } catch (HttpException $exception) {
             // {{message}}
             return $this->createErrorResponse($exception);
-        {{/vendorExtensions.x-symfonyExceptionSimple}}
         {{/responses}}
         } catch (Exception $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
