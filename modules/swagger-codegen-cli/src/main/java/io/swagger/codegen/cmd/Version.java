@@ -1,14 +1,12 @@
 package io.swagger.codegen.cmd;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import io.airlift.airline.Command;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-@Command(name = "version", description = "Show version information")
 public class Version implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Meta.class);
