@@ -57,6 +57,126 @@ public class Generate implements Runnable {
     private String ignoreFileOverride;
     private Boolean removeOperationIdPrefix;
 
+    public void setVerbose(Boolean verbose) {
+        this.verbose = verbose;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    public void setSpec(String spec) {
+        this.spec = spec;
+    }
+
+    public void setTemplateDir(String templateDir) {
+        this.templateDir = templateDir;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
+    }
+
+    public void setSystemProperties(List<String> systemProperties) {
+        this.systemProperties = systemProperties;
+    }
+
+    public void setConfigFile(String configFile) {
+        this.configFile = configFile;
+    }
+
+    public void setSkipOverwrite(Boolean skipOverwrite) {
+        this.skipOverwrite = skipOverwrite;
+    }
+
+    public void setApiPackage(String apiPackage) {
+        this.apiPackage = apiPackage;
+    }
+
+    public void setModelPackage(String modelPackage) {
+        this.modelPackage = modelPackage;
+    }
+
+    public void setModelNamePrefix(String modelNamePrefix) {
+        this.modelNamePrefix = modelNamePrefix;
+    }
+
+    public void setModelNameSuffix(String modelNameSuffix) {
+        this.modelNameSuffix = modelNameSuffix;
+    }
+
+    public void setInstantiationTypes(List<String> instantiationTypes) {
+        this.instantiationTypes = instantiationTypes;
+    }
+
+    public void setTypeMappings(List<String> typeMappings) {
+        this.typeMappings = typeMappings;
+    }
+
+    public void setAdditionalProperties(List<String> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+    }
+
+    public void setLanguageSpecificPrimitives(List<String> languageSpecificPrimitives) {
+        this.languageSpecificPrimitives = languageSpecificPrimitives;
+    }
+
+    public void setImportMappings(List<String> importMappings) {
+        this.importMappings = importMappings;
+    }
+
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public void setArtifactId(String artifactId) {
+        this.artifactId = artifactId;
+    }
+
+    public void setArtifactVersion(String artifactVersion) {
+        this.artifactVersion = artifactVersion;
+    }
+
+    public void setLibrary(String library) {
+        this.library = library;
+    }
+
+    public void setGitUserId(String gitUserId) {
+        this.gitUserId = gitUserId;
+    }
+
+    public void setGitRepoId(String gitRepoId) {
+        this.gitRepoId = gitRepoId;
+    }
+
+    public void setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+    }
+
+    public void setHttpUserAgent(String httpUserAgent) {
+        this.httpUserAgent = httpUserAgent;
+    }
+
+    public void setReservedWordsMappings(List<String> reservedWordsMappings) {
+        this.reservedWordsMappings = reservedWordsMappings;
+    }
+
+    public void setIgnoreFileOverride(String ignoreFileOverride) {
+        this.ignoreFileOverride = ignoreFileOverride;
+    }
+
+    public void setRemoveOperationIdPrefix(Boolean removeOperationIdPrefix) {
+        this.removeOperationIdPrefix = removeOperationIdPrefix;
+    }
+
     @Override
     public void run() {
 

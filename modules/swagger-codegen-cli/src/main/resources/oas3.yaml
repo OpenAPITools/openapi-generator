@@ -1,0 +1,213 @@
+openapi: 3.0.0
+info:
+  description: "Commands options for swagger codegen"
+  version: "1.0.0"
+  title: Swagger codegen command options
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+paths: {}
+components:
+  schemas:
+    Generate:
+      x-command-description: "Generate code with chosen lang"
+      x-class-name: "io.swagger.codegen.cmd.Generate"
+      properties:
+        verbose:
+          type: "boolean"
+          description: "verbose mode"
+          x-option: "--verbose"
+          x-short-version: "-v"
+        lang:
+          type: "string"
+          title: "language"
+          description: "client language to generate (maybe class name in classpath, required)"
+          x-option: "--lang"
+          x-short-version: "-l"
+        output:
+          type: "string"
+          title: "output directory"
+          description: "where to write the generated files (current dir by default)"
+          x-option: "--output"
+          x-short-version: "-o"
+        spec:
+          type: "string"
+          title: "spec file"
+          description: "location of the swagger spec, as URL or file (required)"
+          x-option: "--input-spec"
+          x-short-version: "-i"
+        templateDir:
+          type: "string"
+          title: "template directory"
+          description: "folder containing the template files"
+          x-option: "--template-dir"
+          x-short-version: "-t"
+        auth:
+          type: "string"
+          title: "authorization"
+          description: "adds authorization headers when fetching the swagger definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values"
+          x-option: "--auth"
+          x-short-version: "-a"
+        configFile:
+          type: "string"
+          title: "configuration file"
+          description: Path to json configuration file.  File content should be in a json format {"optionKey":"optionValue", "optionKey1":"optionValue1"...} Supported options can be different for each language. Run config-help -l {lang} command for language specific config options.
+          x-option: "--config"
+          x-short-version: "-c"
+        skipOverwrite:
+          type: "string"
+          title: "skip overwrite"
+          description: "specifies if the existing files should be overwritten during the generation."
+          x-option: "--skip-overwrite"
+          x-short-version: "-s"
+        apiPackage:
+          type: "string"
+          title: "api package"
+          description: "package for generated api classes"
+          x-option: "--api-package"
+        modelPackage:
+          type: "string"
+          title: "model package"
+          description: "package for generated models"
+          x-option: "--model-package"
+        modelNamePrefix:
+          type: "string"
+          title: "model name prefix"
+          description: "Prefix that will be prepended to all model names. Default is the empty string."
+          x-option: "--model-name-prefix"
+        modelNameSuffix:
+          type: "string"
+          title: "model name suffix"
+          description: "PrefixSuffix that will be appended to all model names. Default is the empty string."
+          x-option: "--model-name-suffix"
+        instantiationTypes:
+          type: "array"
+          items:
+            type: string
+          title: "instantiation types"
+          description: "sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType. For example (in Java): array=ArrayList,map=HashMap. In other words array types will get instantiated as ArrayList in generated code. You can also have multiple occurrences of this option."
+          x-option: "--instantiation-types"
+        typeMappings:
+          type: "array"
+          items:
+            type: string
+          title: "type mappings"
+          description: "sets mappings between swagger spec types and generated code types in the format of swaggerType=generatedType,swaggerType=generatedType. For example: array=List,map=Map,string=String. You can also have multiple occurrences of this option."
+          x-option: "--type-mappings"
+        additionalProperties:
+          type: "array"
+          items:
+            type: string
+          title: "additional properties"
+          description: "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value. You can also have multiple occurrences of this option."
+          x-option: "--additional-properties"
+        importMappings:
+          type: "array"
+          items:
+            type: string
+          title: "import mappings"
+          description: "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import. You can also have multiple occurrences of this option."
+          x-option: "--import-mappings"
+        invokerPackage:
+          type: "string"
+          title: "invoker package"
+          description: "root package for generated code"
+          x-option: "--invoker-package"
+        groupId:
+          type: "string"
+          title: "group id"
+          description: "groupId in generated pom.xml"
+          x-option: "--group-id"
+        artifactId:
+          type: "string"
+          title: "artifact id"
+          description: "artifactId in generated pom.xml"
+          x-option: "--artifact-id"
+        artifactVersion:
+          type: "string"
+          title: "artifact version"
+          description: "artifact version generated in pom.xml"
+          x-option: "--artifact-version"
+        library:
+          type: "string"
+          title: "library"
+          description: "library template (sub-template)"
+          x-option: "--library"
+        gitUserId:
+          type: "string"
+          title: "git user id"
+          description: "Git user ID, e.g. swagger-api."
+          x-option: "--git-user-id"
+        gitRepoId:
+          type: "string"
+          title: "git repo id"
+          description: "Git repo ID, e.g. swagger-codegen."
+          x-option: "--git-repo-id"
+        releaseNote:
+          type: "string"
+          title: "release note"
+          description: "Release note, default to 'Minor update'."
+          x-option: "--release-note"
+        httpUserAgent:
+          type: "string"
+          title: "http user agent"
+          description: "HTTP user agent, e.g. codegen_csharp_api_client, default to 'Swagger-Codegen/{packageVersion}}/{language}'"
+          x-option: "--http-user-agent"
+        reservedWordsMappings:
+          type: "array"
+          items:
+            type: string
+          title: "reserved words mappings"
+          description: "pecifies how a reserved name should be escaped to. Otherwise, the default _<name> is used. For example id=identifier. You can also have multiple occurrences of this option."
+          x-option: "--reserved-words-mappings"
+        ignoreFileOverride:
+          type: "string"
+          title: "ignore file override location"
+          description: "Specifies an override location for the .swagger-codegen-ignore file. Most useful on initial generation."
+          x-option: "--ignore-file-override"
+        removeOperationIdPrefix:
+          type: "string"
+          title: "remove prefix of the operationId"
+          description: "Remove prefix of operationId, e.g. config_getId => getId"
+          x-option: "--remove-operation-id-prefix"
+    ConfigHelp:
+      x-command: "config-help"
+      x-command-description: "Config help for chosen lang"
+      x-class-name: "io.swagger.codegen.cmd.ConfigHelp"
+      properties:
+        lang:
+          type: "string"
+          title: "language"
+          description: "language to get config help for"
+          x-option: "--lang"
+          x-short-version: "-l"
+          x-require: true
+    Meta:
+      x-command-description: "MetaGenerator. Generator for creating a new template set and configuration for Codegen.  The output will be based on the language you specify, and includes default templates to include."
+      x-class-name: "io.swagger.codegen.cmd.Meta"
+      properties:
+        outputFolder:
+          type: "string"
+          title: "output directory"
+          description: "where to write the generated files (current dir by default)"
+          x-option: "--output"
+          x-short-version: "-o"
+        name:
+          type: "string"
+          title: "name"
+          description: "the human-readable name of the generator"
+          x-option: "--name"
+          x-short-version: "-n"
+          x-default-value: "default"
+        targetPackage:
+          type: "string"
+          title: "package"
+          description: "the package to put the main class into (defaults to io.swagger.codegen)"
+          x-option: "--package"
+          x-short-version: "-p"
+    Version:
+      x-command-description: "Show version information"
+      x-class-name: "io.swagger.codegen.cmd.Version"
