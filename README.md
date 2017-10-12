@@ -1077,7 +1077,7 @@ If you want to join the committee, please kindly apply by sending an email to wi
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) | 
 | Scala     | @clasnake (2017/07) @jimschubert (2017/09) |
-| Swift     | @jgavris (2017/07) @ehyche (2017/08) |
+| Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) |
 
 
