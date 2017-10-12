@@ -55,15 +55,14 @@ public class SwaggerCodegen {
             final Schema schema = schemaMap.get(schemaName);
             final String command = CLIHelper.getCommand(schemaName, schema);
             final Map<String, Schema> schemaProperties = schema.getProperties();
-            if(schemaProperties == null || schemaProperties.isEmpty()) {
-                LOGGER.warn(String.format("there are not options for command '%s'", command));
-                continue;
-            }
+            final Subparser parser = subparsers.addParser(command).help(command);
 
             commandMap.put(command, schema);
 
-            final Subparser parser = subparsers.addParser(command).help(command);
-
+            if(schemaProperties == null || schemaProperties.isEmpty()) {
+                LOGGER.debug(String.format("there are not options for command '%s'", command));
+                continue;
+            }
             for (String propertyName : schemaProperties.keySet()) {
                 final Schema property = schemaProperties.get(propertyName);
                 final Map<String, Object> extensions = property.getExtensions();
@@ -114,18 +113,11 @@ public class SwaggerCodegen {
 
             BeanUtils.populate(commandObject, optionValueMap);
             if(commandObject instanceof Runnable) {
-                System.out.println("time to run boy...");
-                ((Runnable) commandObject).run();
+                new Thread(((Runnable) commandObject)).start();
             }
 
-        } catch (ClassNotFoundException e) {
-            LOGGER.error(String.format("Could not load class '%s' for command '%s'", className, userInputCommand));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
+            LOGGER.error(String.format("Could not load class '%s' for command '%s'", className, userInputCommand), ex);
         }
     }
 }
