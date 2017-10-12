@@ -1,8 +1,5 @@
 package io.swagger.codegen.cmd;
 
-import io.airlift.airline.Command;
-import io.airlift.airline.Option;
-
 import io.swagger.parser.SwaggerParser;
 import io.swagger.parser.util.SwaggerDeserializationResult;
 
@@ -10,12 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Command(name = "validate", description = "Validate specification")
 public class Validate implements Runnable {
 
-    @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
-            description = "location of the swagger spec, as URL or file (required)")
     private String spec;
+
+    public void setSpec(String spec) {
+        this.spec = spec;
+    }
 
     @Override
     public void run() {

@@ -1,13 +1,25 @@
 package io.swagger.codegen;
 
-import io.airlift.airline.Cli;
-import io.airlift.airline.Help;
-import io.swagger.codegen.cmd.ConfigHelp;
-import io.swagger.codegen.cmd.Generate;
-import io.swagger.codegen.cmd.Langs;
-import io.swagger.codegen.cmd.Meta;
-import io.swagger.codegen.cmd.Validate;
-import io.swagger.codegen.cmd.Version;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.parser.v3.OpenAPIV3Parser;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.Argument;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Subparser;
+import net.sourceforge.argparse4j.inf.Subparsers;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 17:56
@@ -19,19 +31,93 @@ import io.swagger.codegen.cmd.Version;
 public class SwaggerCodegen {
 
 
-    public static void main(String[] args) {
-        String version = Version.readVersionFromResources();
-        @SuppressWarnings("unchecked")
-        Cli.CliBuilder<Runnable> builder =
-                Cli.<Runnable>builder("swagger-codegen-cli")
-                        .withDescription(
-                                String.format(
-                                        "Swagger code generator CLI (version %s). More info on swagger.io",
-                                        version))
-                        .withDefaultCommand(Langs.class)
-                        .withCommands(Generate.class, Meta.class, Langs.class, Help.class,
-                                ConfigHelp.class, Validate.class, Version.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(SwaggerCodegen.class);
 
-        builder.build().parse(args).run();
+    public static void main(String[] args) {
+        final String oas3 = CLIHelper.loadResourceOAS3File();
+        if(StringUtils.isBlank(oas3)) {
+            LOGGER.error("Could not load resource file.");
+            return;
+        }
+        final OpenAPI openAPI = new OpenAPIV3Parser().readContents(oas3, null, null).getOpenAPI();
+        final Map<String, Schema> schemaMap = openAPI.getComponents().getSchemas();
+        final Set<String> schemaNames = schemaMap.keySet();
+
+        final ArgumentParser codegenParser = ArgumentParsers.newFor("swagger-codegen").build();
+        final Subparsers subparsers = codegenParser.addSubparsers()
+                .title("commands")
+                .help("additional help")
+                .metavar("Command");
+
+        final Map<String, Schema> commandMap = new HashMap<>();
+
+        for(String schemaName : schemaNames) {
+            final Schema schema = schemaMap.get(schemaName);
+            final String command = CLIHelper.getCommand(schemaName, schema);
+            final Map<String, Schema> schemaProperties = schema.getProperties();
+            final Subparser parser = subparsers.addParser(command).help(command);
+
+            commandMap.put(command, schema);
+
+            if(schemaProperties == null || schemaProperties.isEmpty()) {
+                LOGGER.debug(String.format("there are not options for command '%s'", command));
+                continue;
+            }
+            for (String propertyName : schemaProperties.keySet()) {
+                final Schema property = schemaProperties.get(propertyName);
+                final Map<String, Object> extensions = property.getExtensions();
+                if(!CLIHelper.containsOptionExtensions(extensions)) {
+                    LOGGER.warn(String.format("there are not option extensions for property '%s?", propertyName));
+                    continue;
+                }
+                String[] arguments = CLIHelper.getArguments(extensions);
+                final Argument argument = parser.addArgument(arguments)
+                        .type(CLIHelper.getClass(property))
+                        .help(property.getDescription())
+                        .metavar(StringUtils.EMPTY);
+
+                if(property instanceof BooleanSchema) {
+                    argument.nargs("?").setConst(true);
+                } else if(property instanceof ArraySchema) {
+                    argument.nargs("*");
+                }
+            }
+        }
+        final Map<String, Object> inputArgs = new HashMap<>();
+        try {
+            codegenParser.parseArgs(args, inputArgs);
+        } catch (ArgumentParserException e) {
+            codegenParser.handleError(e);
+            return;
+        }
+        final String userInputCommand = CLIHelper.detectCommand(args);
+        if(userInputCommand == null) {
+            LOGGER.error("No command found.");
+            return;
+        }
+        final Schema commandSchema = commandMap.get(userInputCommand);
+        if(commandSchema == null) {
+            LOGGER.error(String.format("There are not schema related to command '%s'", userInputCommand));
+            return;
+        }
+        final Map<String, Object> extensions = commandSchema.getExtensions();
+        if(extensions == null || extensions.isEmpty() || extensions.get("x-class-name") == null) {
+            LOGGER.error("Extensions are required to run command. i.e: 'x-class-name'");
+            return;
+        }
+        final String className = extensions.get("x-class-name").toString();
+        try {
+            final Class clazz = Class.forName(className);
+            final Object commandObject = clazz.newInstance();
+            final Map<String, Object> optionValueMap = CLIHelper.createOptionValueMap(commandSchema, inputArgs);
+
+            BeanUtils.populate(commandObject, optionValueMap);
+            if(commandObject instanceof Runnable) {
+                new Thread(((Runnable) commandObject)).start();
+            }
+
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
+            LOGGER.error(String.format("Could not load class '%s' for command '%s'", className, userInputCommand), ex);
+        }
     }
 }
