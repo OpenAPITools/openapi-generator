@@ -208,6 +208,9 @@ components:
           description: "the package to put the main class into (defaults to io.swagger.codegen)"
           x-option: "--package"
           x-short-version: "-p"
+    Langs:
+      x-command-description: "Shows available langs"
+      x-class-name: "io.swagger.codegen.cmd.Langs"
     Version:
       x-command-description: "Show version information"
       x-class-name: "io.swagger.codegen.cmd.Version"

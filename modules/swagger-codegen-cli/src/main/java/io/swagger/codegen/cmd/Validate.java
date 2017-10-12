@@ -11,6 +11,10 @@ public class Validate implements Runnable {
 
     private String spec;
 
+    public void setSpec(String spec) {
+        this.spec = spec;
+    }
+
     @Override
     public void run() {
         System.out.println("Validating spec file (" + spec + ")");
