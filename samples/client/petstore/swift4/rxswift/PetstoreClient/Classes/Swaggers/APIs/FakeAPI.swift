@@ -451,7 +451,7 @@ open class FakeAPI {
      */
     public enum EnumQueryInteger_testEnumParameters: Int { 
         case _1 = 1
-        case numberminus2 = -2
+        case number2 = -2
     }
 
     /**
@@ -459,7 +459,7 @@ open class FakeAPI {
      */
     public enum EnumQueryDouble_testEnumParameters: Double { 
         case _11 = 1.1
-        case numberminus12 = -1.2
+        case number12 = -1.2
     }
 
     /**

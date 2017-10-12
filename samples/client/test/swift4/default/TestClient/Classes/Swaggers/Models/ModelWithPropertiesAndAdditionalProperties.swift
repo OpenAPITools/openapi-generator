@@ -36,6 +36,17 @@ open class ModelWithPropertiesAndAdditionalProperties: Codable {
         }
     }
 
+    public init(myIntegerReq: Int, myIntegerOpt: Int?, myPrimitiveReq: AllPrimitives, myPrimitiveOpt: AllPrimitives?, myStringArrayReq: [String], myStringArrayOpt: [String]?, myPrimitiveArrayReq: [AllPrimitives], myPrimitiveArrayOpt: [AllPrimitives]?) {
+        self.myIntegerReq = myIntegerReq
+        self.myIntegerOpt = myIntegerOpt
+        self.myPrimitiveReq = myPrimitiveReq
+        self.myPrimitiveOpt = myPrimitiveOpt
+        self.myStringArrayReq = myStringArrayReq
+        self.myStringArrayOpt = myStringArrayOpt
+        self.myPrimitiveArrayReq = myPrimitiveArrayReq
+        self.myPrimitiveArrayOpt = myPrimitiveArrayOpt
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
