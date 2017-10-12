@@ -79,12 +79,6 @@
             <artifactId>swagger-codegen</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--https://github.com/airlift/airline-->
-        <dependency>
-            <groupId>io.airlift</groupId>
-            <artifactId>airline</artifactId>
-            <version>0.7</version>
-        </dependency>
         <dependency>
             <groupId>com.googlecode.lambdaj</groupId>
             <artifactId>lambdaj</artifactId>
