@@ -35,10 +35,12 @@ public class UserApiController extends Controller {
     public Result createUser() throws Exception {
         JsonNode nodebody = request().body().asJson();
         User body;
-
-        body = mapper.readValue(nodebody.toString(), User.class);
-        body.validate();
-
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
+            body.validate();
+        } else {
+            throw new IllegalArgumentException("'body' parameter is required");
+        }
         return ok();
     }
 
@@ -46,12 +48,14 @@ public class UserApiController extends Controller {
     public Result createUsersWithArrayInput() throws Exception {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
-
-        body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
-        for (User curItem : body) {
-            curItem.validate();
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+            for (User curItem : body) {
+                curItem.validate();
+            }
+        } else {
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-
         return ok();
     }
 
@@ -59,12 +63,14 @@ public class UserApiController extends Controller {
     public Result createUsersWithListInput() throws Exception {
         JsonNode nodebody = request().body().asJson();
         List<User> body;
-
-        body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
-        for (User curItem : body) {
-            curItem.validate();
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+            for (User curItem : body) {
+                curItem.validate();
+            }
+        } else {
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-
         return ok();
     }
 
@@ -82,14 +88,18 @@ public class UserApiController extends Controller {
     public Result loginUser() throws Exception {
         String valueusername = request().getQueryString("username");
         String username;
-
-        username = valueusername;
-
+        if (valueusername != null) {
+            username = valueusername;
+        } else {
+            throw new IllegalArgumentException("'username' parameter is required");
+        }
         String valuepassword = request().getQueryString("password");
         String password;
-
-        password = valuepassword;
-
+        if (valuepassword != null) {
+            password = valuepassword;
+        } else {
+            throw new IllegalArgumentException("'password' parameter is required");
+        }
         return ok();
     }
 
@@ -102,10 +112,12 @@ public class UserApiController extends Controller {
     public Result updateUser(String username) throws Exception {
         JsonNode nodebody = request().body().asJson();
         User body;
-
-        body = mapper.readValue(nodebody.toString(), User.class);
-        body.validate();
-
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
+            body.validate();
+        } else {
+            throw new IllegalArgumentException("'body' parameter is required");
+        }
         return ok();
     }
 }
