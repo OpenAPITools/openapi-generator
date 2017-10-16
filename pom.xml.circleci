@@ -823,6 +823,7 @@
                 <!-- clients -->
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/scala</module>
+                <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
