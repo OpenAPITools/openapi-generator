@@ -181,7 +181,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
     @Override
     public String getHelp() {
-        return "Generates a Scalaz client library that uses http4s";
+        return "Generates a Scalaz client library (beta) that uses http4s";
     }
 
     @Override
