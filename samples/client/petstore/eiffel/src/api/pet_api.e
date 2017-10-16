@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -31,6 +31,7 @@ feature -- API Access
 			-- argument: body Pet object that needs to be added to the store (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -40,6 +41,7 @@ feature -- API Access
 			create l_request
 			l_request.set_body(body)
 			l_path := "/pet"
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -52,7 +54,7 @@ feature -- API Access
 			end
 		end	
 
-	delete_pet (pet_id: INTEGER_64; api_key: detachable STRING_32)
+	delete_pet (pet_id: INTEGER_64; api_key: STRING_32)
 			-- Deletes a pet
 			-- 
 			-- 
@@ -61,6 +63,7 @@ feature -- API Access
 			-- argument: api_key  (optional)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -71,6 +74,7 @@ feature -- API Access
 			
 			l_path := "/pet/{petId}"
 			l_path.replace_substring_all ("{"+"petId"+"}", api_client.url_encode (pet_id.out))
+
 			if attached api_key as l_api_key then
 				l_request.add_header(l_api_key.out,"api_key");
 			end
@@ -94,6 +98,7 @@ feature -- API Access
 			-- 
 			-- 
 			-- Result LIST [PET]
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -104,6 +109,7 @@ feature -- API Access
 			
 			l_path := "/pet/findByStatus"
 			l_request.fill_query_params(api_client.parameter_to_tuple("csv", "status", status));
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -128,6 +134,7 @@ feature -- API Access
 			-- 
 			-- 
 			-- Result LIST [PET]
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -138,6 +145,7 @@ feature -- API Access
 			
 			l_path := "/pet/findByTags"
 			l_request.fill_query_params(api_client.parameter_to_tuple("csv", "tags", tags));
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -162,6 +170,7 @@ feature -- API Access
 			-- 
 			-- 
 			-- Result PET
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -172,6 +181,7 @@ feature -- API Access
 			
 			l_path := "/pet/{petId}"
 			l_path.replace_substring_all ("{"+"petId"+"}", api_client.url_encode (pet_id.out))
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -195,6 +205,7 @@ feature -- API Access
 			-- argument: body Pet object that needs to be added to the store (required)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -204,6 +215,7 @@ feature -- API Access
 			create l_request
 			l_request.set_body(body)
 			l_path := "/pet"
+
 
 			if attached {STRING} api_client.select_header_accept (<<"application/xml", "application/json">>)  as l_accept then
 				l_request.add_header(l_accept,"Accept");
@@ -216,7 +228,7 @@ feature -- API Access
 			end
 		end	
 
-	update_pet_with_form (pet_id: INTEGER_64; name: detachable STRING_32; status: detachable STRING_32)
+	update_pet_with_form (pet_id: INTEGER_64; name: STRING_32; status: STRING_32)
 			-- Updates a pet in the store with form data
 			-- 
 			-- 
@@ -227,6 +239,7 @@ feature -- API Access
 			-- argument: status Updated status of the pet (optional)
 			-- 
 			-- 
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -237,6 +250,7 @@ feature -- API Access
 			
 			l_path := "/pet/{petId}"
 			l_path.replace_substring_all ("{"+"petId"+"}", api_client.url_encode (pet_id.out))
+
 			if attached name as l_name then
 				l_request.add_form(l_name,"name");
 			end
@@ -255,7 +269,7 @@ feature -- API Access
 			end
 		end	
 
-	upload_file (pet_id: INTEGER_64; additional_metadata: detachable STRING_32; file: detachable FILE): detachable API_RESPONSE
+	upload_file (pet_id: INTEGER_64; additional_metadata: STRING_32; file: detachable FILE): detachable API_RESPONSE
 			-- uploads an image
 			-- 
 			-- 
@@ -267,6 +281,7 @@ feature -- API Access
 			-- 
 			-- 
 			-- Result API_RESPONSE
+		require
 		local
   			l_path: STRING
   			l_request: API_CLIENT_REQUEST
@@ -277,6 +292,7 @@ feature -- API Access
 			
 			l_path := "/pet/{petId}/uploadImage"
 			l_path.replace_substring_all ("{"+"petId"+"}", api_client.url_encode (pet_id.out))
+
 			if attached additional_metadata as l_additional_metadata then
 				l_request.add_form(l_additional_metadata,"additionalMetadata");
 			end

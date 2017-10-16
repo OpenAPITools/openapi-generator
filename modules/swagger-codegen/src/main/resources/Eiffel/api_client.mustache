@@ -232,6 +232,10 @@ feature -- Query Parameter Helpers
 						-- TODO improve to support
 						-- dateTime	string	date-time	As defined by date-time - RFC3339
 					Result := date_time.date.debug_output
+				elseif attached {STRING_32} a_param as str_32 then
+					Result := str_32
+				elseif attached {STRING_8} a_param as str_8 then
+					Result := str_8
 				else
 					-- Unsupported Object type.
 					Result := ""

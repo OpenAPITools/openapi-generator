@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -31,16 +31,14 @@ feature {NONE} -- Initialization
 
 			create authentications.make (3) 
 			authentications.force (create {API_KEY_AUTH}.make ("header", "api_key"), "api_key") 
-			is_api_key_configured := True 
-			authentications.force (create {HTTP_BASIC_AUTH}, "http_basic_test") 
-			is_basic_auth_configured := True  
+			is_api_key_configured := True  
 			authentications.force (create {OAUTH},"petstore_auth")
 			is_oauth_configured := True	 
 		end
 
 feature -- Access
 
-	default_base_path: STRING = "http://petstore.swagger.io:80/v2"
+	default_base_path: STRING = "http://petstore.swagger.io/v2"
 			-- default base path.
 
 	base_path: STRING
@@ -136,7 +134,7 @@ feature -- Helper: OAuth Authentication
 
 feature -- Query Parameter Helpers
 
-	parameter_to_tuple (a_collection_format, a_name: STRING; a_value: ANY): LIST [TUPLE [name: STRING; value: STRING]]
+	parameter_to_tuple (a_collection_format, a_name: STRING; a_value: detachable ANY): LIST [TUPLE [name: STRING; value: STRING]]
 			-- A list of tuples with name and valule.
 			-- collectionFormat collection format (e.g. csv, tsv)
 			-- name Name
@@ -148,7 +146,7 @@ feature -- Query Parameter Helpers
 			l_delimiter: STRING
 			l_value: STRING
 		do
-			if attached {LIST [STRING_32]} a_value as a_list then
+			if attached {LIST [ANY]} a_value as a_list then
 					-- Collection
 				if a_list.is_empty then
 						-- Return an empty list	
@@ -163,7 +161,7 @@ feature -- Query Parameter Helpers
 					end
 					if l_format.is_case_insensitive_equal ("multi") then
 						across a_list as ic loop
-							Result.force ([a_name, ic.item.as_string_8])
+							Result.force ([a_name, parameter_to_string (ic.item)])
 						end
 					else
 						if l_format.is_case_insensitive_equal ("csv") then
@@ -179,7 +177,7 @@ feature -- Query Parameter Helpers
 						end
 						across a_list as ic  from create l_value.make_empty
 						loop
-							l_value.append (ic.item)
+							l_value.append (parameter_to_string (ic.item))
 							l_value.append (l_delimiter)
 						end
 						l_value.remove_tail (1)
@@ -188,7 +186,71 @@ feature -- Query Parameter Helpers
 				end
 			else
 				create {ARRAYED_LIST [TUPLE [name: STRING; value: STRING]]} Result.make (1)
-				Result.force ([a_name,a_value.out])
+				if attached a_value then
+					Result.force ([a_name,a_value.out])
+				else
+					Result.force ([a_name,""])
+				end
+
+			end
+		end
+
+
+	parameter_to_string (a_param: detachable ANY): STRING
+			-- return the string representation of the givien object `a_param'.
+		do
+			if a_param = Void then
+				Result := ""
+			else
+				if attached {BOOLEAN} a_param as bool then
+					Result := bool.out
+				elseif attached {NUMERIC} a_param as num then
+					if attached {INTEGER_64} num as i64 then
+						Result := i64.out
+					elseif attached {INTEGER_32} num as i32 then
+						Result := i32.out
+					elseif attached {INTEGER_16} num as i16 then
+						Result := i16.out
+					elseif attached {INTEGER_8} num as i8 then
+						Result := i8.out
+					elseif attached {NATURAL_64} num as n64 then
+						Result := n64.out
+					elseif attached {NATURAL_32} num as n32 then
+						Result := n32.out
+					elseif attached {NATURAL_16} num as n16 then
+						Result := n16.out
+					elseif attached {NATURAL_8} num as n8 then
+						Result := n8.out
+					elseif attached {REAL_64} num as r64 then
+						Result := r64.out
+					elseif attached {REAL_32} num as r32 then
+						Result := r32.out
+					else
+						check is_basic_numeric_type: False end
+					end
+					Result := num.out
+				elseif attached {CHARACTER_8} a_param as ch8 then
+					Result := ch8.out
+				elseif attached {CHARACTER_32} a_param as ch32 then
+					Result := ch32.out
+				elseif attached {POINTER} a_param as ptr then
+					Result := ptr.to_integer_32.out
+				elseif attached {DATE} a_param as date then
+						--TODO improve to support
+						-- date	string	As defined by full-date - RFC3339
+					Result := date.debug_output
+				elseif attached {DATE_TIME} a_param as date_time then
+						-- TODO improve to support
+						-- dateTime	string	date-time	As defined by date-time - RFC3339
+					Result := date_time.date.debug_output
+				elseif attached {STRING_32} a_param as str_32 then
+					Result := str_32
+				elseif attached {STRING_8} a_param as str_8 then
+					Result := str_8
+				else
+					-- Unsupported Object type.
+					Result := ""
+				end
 			end
 		end
 
