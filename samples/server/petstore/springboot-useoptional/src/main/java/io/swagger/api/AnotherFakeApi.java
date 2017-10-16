@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
 
-    @ApiOperation(value = "To test special tags", notes = "To test special tags", response = Client.class, tags={ "$another-fake?", })
+    @ApiOperation(value = "To test special tags", nickname = "testSpecialTags", notes = "To test special tags", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @RequestMapping(value = "/another-fake/dummy",

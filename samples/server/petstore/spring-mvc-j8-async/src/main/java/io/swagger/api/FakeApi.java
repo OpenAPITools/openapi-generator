@@ -33,7 +33,7 @@ import javax.validation.Valid;
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
 
-    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
+    @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
     @RequestMapping(value = "/fake/outer/boolean",
@@ -44,7 +44,7 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
+    @ApiOperation(value = "", nickname = "fakeOuterCompositeSerialize", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
     @RequestMapping(value = "/fake/outer/composite",
@@ -55,7 +55,7 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
+    @ApiOperation(value = "", nickname = "fakeOuterNumberSerialize", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
     @RequestMapping(value = "/fake/outer/number",
@@ -66,7 +66,7 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
+    @ApiOperation(value = "", nickname = "fakeOuterStringSerialize", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     @RequestMapping(value = "/fake/outer/string",
@@ -77,7 +77,7 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
+    @ApiOperation(value = "To test \"client\" model", nickname = "testClientModel", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @RequestMapping(value = "/fake",
@@ -90,7 +90,7 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
+    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", nickname = "testEndpointParameters", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake", })
     @ApiResponses(value = { 
@@ -106,7 +106,7 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
+    @ApiOperation(value = "To test enum parameters", nickname = "testEnumParameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found") })
@@ -120,7 +120,7 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
+    @ApiOperation(value = "test json serialization of form data", nickname = "testJsonFormData", notes = "", response = Void.class, tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/fake/jsonFormData",
