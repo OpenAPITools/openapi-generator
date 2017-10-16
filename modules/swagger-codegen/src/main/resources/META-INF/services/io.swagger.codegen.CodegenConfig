@@ -58,6 +58,7 @@ io.swagger.codegen.languages.RubyClientCodegen
 io.swagger.codegen.languages.RustClientCodegen
 io.swagger.codegen.languages.ScalaClientCodegen
 io.swagger.codegen.languages.ScalatraServerCodegen
+io.swagger.codegen.languages.ScalazClientCodegen
 io.swagger.codegen.languages.SilexServerCodegen
 io.swagger.codegen.languages.SinatraServerCodegen
 io.swagger.codegen.languages.SlimFrameworkServerCodegen
