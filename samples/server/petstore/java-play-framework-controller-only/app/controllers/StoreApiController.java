@@ -50,10 +50,12 @@ public class StoreApiController extends Controller {
     public Result placeOrder() throws Exception {
         JsonNode nodebody = request().body().asJson();
         Order body;
-
-        body = mapper.readValue(nodebody.toString(), Order.class);
-        body.validate();
-
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), Order.class);
+            body.validate();
+        } else {
+            throw new IllegalArgumentException("'body' parameter is required");
+        }
         return ok();
     }
 }

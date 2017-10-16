@@ -20,20 +20,20 @@ import javax.validation.constraints.*;
 import swagger.SwaggerUtils.ApiAction;
 
 
-public class FakeClassnameTags123ApiController extends Controller {
+public class AnotherFakeApiController extends Controller {
 
-    private final FakeClassnameTags123ApiControllerImpInterface imp;
+    private final AnotherFakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
 
     @Inject
-    private FakeClassnameTags123ApiController(FakeClassnameTags123ApiControllerImpInterface imp) {
+    private AnotherFakeApiController(AnotherFakeApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
     }
 
 
     @ApiAction
-    public Result testClassname() throws Exception {
+    public Result testSpecialTags() throws Exception {
         JsonNode nodebody = request().body().asJson();
         Client body;
         if (nodebody != null) {
@@ -42,7 +42,7 @@ public class FakeClassnameTags123ApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Client obj = imp.testClassname(body);
+        Client obj = imp.testSpecialTags(body);
         obj.validate();
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
