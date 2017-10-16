@@ -1,6 +1,5 @@
 part of swagger.api;
 
-
 @Entity()
 class User {
   
@@ -41,6 +40,5 @@ class User {
   String toString()  {
     return 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus, ]';
   }
-
 }
 
