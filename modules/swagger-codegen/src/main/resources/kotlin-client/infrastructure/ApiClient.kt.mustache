@@ -60,9 +60,9 @@ open class ApiClient(val baseUrl: String) {
         var urlBuilder = httpUrl.newBuilder()
                 .addPathSegments(requestConfig.path.trimStart('/'))
 
-        requestConfig.query.forEach { k, v ->
-            v.forEach { queryValue ->
-                urlBuilder = urlBuilder.addQueryParameter(k,queryValue)
+        requestConfig.query.forEach { query ->
+            query.value.forEach { queryValue ->
+                urlBuilder = urlBuilder.addQueryParameter(query.key, queryValue)
             }
         }
 
