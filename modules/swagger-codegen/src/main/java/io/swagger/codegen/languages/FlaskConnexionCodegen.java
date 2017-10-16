@@ -663,6 +663,12 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter){
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
     }
