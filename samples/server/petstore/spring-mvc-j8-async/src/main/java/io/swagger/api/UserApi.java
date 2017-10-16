@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
+    @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user",
@@ -42,7 +42,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
+    @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithArray",
@@ -54,7 +54,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
+    @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithList",
@@ -66,7 +66,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
+    @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
@@ -79,7 +79,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user", })
+    @ApiOperation(value = "Get user by user name", nickname = "getUserByName", notes = "", response = User.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -93,7 +93,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
+    @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", response = String.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied") })
@@ -106,7 +106,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
+    @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/logout",
@@ -118,7 +118,7 @@ public interface UserApi {
     }
 
 
-    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
+    @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
