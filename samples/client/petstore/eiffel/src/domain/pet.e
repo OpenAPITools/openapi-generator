@@ -1,7 +1,7 @@
 note
  description:"[
 		Swagger Petstore
- 		This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ 		This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.
   		OpenAPI spec version: 1.0.0
  	    Contact: apiteam@swagger.io
 
@@ -12,7 +12,6 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS:"Eiffel swagger codegen", "src=https://github.com/swagger-api/swagger-codegen.git", "protocol=uri"
-
 class PET 
 
 inherit
@@ -97,38 +96,40 @@ feature -- Change Element
         create Result.make_empty
         Result.append("%Nclass PET%N")
         if attached id as l_id then
-          Result.append ("%N")
+          Result.append ("%Nid:")
           Result.append (l_id.out)
           Result.append ("%N")    
         end  
         if attached category as l_category then
-          Result.append ("%N")
+          Result.append ("%Ncategory:")
           Result.append (l_category.out)
           Result.append ("%N")    
         end  
         if attached name as l_name then
-          Result.append ("%N")
+          Result.append ("%Nname:")
           Result.append (l_name.out)
           Result.append ("%N")    
         end  
         if attached photo_urls as l_photo_urls then
           across l_photo_urls as ic loop
-            Result.append ("%N")
+            Result.append ("%N photo_urls:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
         end 
         if attached tags as l_tags then
           across l_tags as ic loop
-            Result.append ("%N")
+            Result.append ("%N tags:")
             Result.append (ic.item.out)
             Result.append ("%N")
           end
         end 
         if attached status as l_status then
-          Result.append ("%N")
+          Result.append ("%Nstatus:")
           Result.append (l_status.out)
           Result.append ("%N")    
         end  
       end
 end
+
+
