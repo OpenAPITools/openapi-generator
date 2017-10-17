@@ -57,22 +57,22 @@ func (a *{{{classname}}}Service) {{{nickname}}}({{#hasAuthMethods}}ctx context.C
 	{{#required}}
 	{{#minItems}}
 	if len({{paramName}}) < {{minItems}} {
-			return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minItems}} elements")
+		return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minItems}} elements")
 	}
 	{{/minItems}}
 	{{#maxItems}}
 	if len({{paramName}}) > {{maxItems}} {
-			return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxItems}} elements")
+		return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxItems}} elements")
 	}
 	{{/maxItems}}
 	{{#minLength}}
 	if strlen({{paramName}}) < {{minLength}} {
-			return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minLength}} elements")
+		return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minLength}} elements")
 	}
 	{{/minLength}}
 	{{#maxLength}}
 	if strlen({{paramName}}) > {{maxLength}} {
-			return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxLength}} elements")
+		return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxLength}} elements")
 	}
 	{{/maxLength}}
 	{{#minimum}}
@@ -83,7 +83,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}({{#hasAuthMethods}}ctx context.C
 	{{^isString}}
 	if {{paramName}} < {{minimum}} {
 	{{/isString}}
-			return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must be greater than {{minimum}}")
+		return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must be greater than {{minimum}}")
 	}
 	{{/minimum}}
 	{{#maximum}}
@@ -94,7 +94,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}({{#hasAuthMethods}}ctx context.C
 	{{^isString}}
 	if {{paramName}} > {{maximum}} {
 	{{/isString}}
-			return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must be less than {{maximum}}")
+		return {{#returnType}}successPayload, {{/returnType}}nil, reportError("{{paramName}} must be less than {{maximum}}")
 	}
 	{{/maximum}}
 	{{/required}}
@@ -206,18 +206,18 @@ func (a *{{{classname}}}Service) {{{nickname}}}({{#hasAuthMethods}}ctx context.C
 		return {{#returnType}}successPayload, {{/returnType}}nil, err
 	}
 
-	 localVarHttpResponse, err := a.client.callAPI(r)
-	 if err != nil || localVarHttpResponse == nil {
-		  return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, err
-	 }
-	 defer localVarHttpResponse.Body.Close()
-	 if localVarHttpResponse.StatusCode >= 300 {
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, err
+	}
+	defer localVarHttpResponse.Body.Close()
+	if localVarHttpResponse.StatusCode >= 300 {
 		return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, reportError(localVarHttpResponse.Status)
-	 }
+	}
 {{#returnType}}
-	
+
 	if err = json.NewDecoder(localVarHttpResponse.Body).Decode(&successPayload); err != nil {
-	 	return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, err
+		return {{#returnType}}successPayload, {{/returnType}}localVarHttpResponse, err
 	}
 
 {{/returnType}}
