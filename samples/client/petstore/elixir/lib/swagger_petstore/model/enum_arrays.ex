@@ -12,6 +12,11 @@ defmodule SwaggerPetstore.Model.EnumArrays do
     :"just_symbol",
     :"array_enum"
   ]
+
+  @type t :: %__MODULE__{
+    :"just_symbol" => String.t,
+    :"array_enum" => [String.t]
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.EnumArrays do

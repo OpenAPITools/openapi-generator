@@ -44,7 +44,7 @@ defmodule SwaggerPetstore.Api.User do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - body (List[User]): List of user object
+  - body ([User]): List of user object
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -70,7 +70,7 @@ defmodule SwaggerPetstore.Api.User do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - body (List[User]): List of user object
+  - body ([User]): List of user object
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -96,7 +96,7 @@ defmodule SwaggerPetstore.Api.User do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - username (String): The name that needs to be deleted
+  - username (String.t): The name that needs to be deleted
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -121,7 +121,7 @@ defmodule SwaggerPetstore.Api.User do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - username (String): The name that needs to be fetched. Use user1 for testing. 
+  - username (String.t): The name that needs to be fetched. Use user1 for testing. 
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -146,13 +146,13 @@ defmodule SwaggerPetstore.Api.User do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - username (String): The user name for login
-  - password (String): The password for login in clear text
+  - username (String.t): The user name for login
+  - password (String.t): The password for login in clear text
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
 
-  {:ok, %SwaggerPetstore.Model.String{}} on success
+  {:ok, %SwaggerPetstore.Model.String.t{}} on success
   {:error, info} on failure
   """
   @spec login_user(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
@@ -198,7 +198,7 @@ defmodule SwaggerPetstore.Api.User do
   ## Parameters
 
   - connection (SwaggerPetstore.Connection): Connection to server
-  - username (String): name that need to be deleted
+  - username (String.t): name that need to be deleted
   - body (User): Updated user object
   - opts (KeywordList): [optional] Optional parameters
 

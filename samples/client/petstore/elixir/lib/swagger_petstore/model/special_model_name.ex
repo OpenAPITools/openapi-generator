@@ -11,6 +11,10 @@ defmodule SwaggerPetstore.Model.SpecialModelName do
   defstruct [
     :"$special[property.name]"
   ]
+
+  @type t :: %__MODULE__{
+    :"$special[property.name]" => integer()
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.SpecialModelName do

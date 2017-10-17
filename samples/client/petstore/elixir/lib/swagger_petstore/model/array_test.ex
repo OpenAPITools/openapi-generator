@@ -13,6 +13,12 @@ defmodule SwaggerPetstore.Model.ArrayTest do
     :"array_array_of_integer",
     :"array_array_of_model"
   ]
+
+  @type t :: %__MODULE__{
+    :"array_of_string" => [String.t],
+    :"array_array_of_integer" => [[integer()]],
+    :"array_array_of_model" => [[ReadOnlyFirst]]
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.ArrayTest do
