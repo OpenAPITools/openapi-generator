@@ -288,8 +288,12 @@ class AnotherFakeApi
 
         // for model (json/xml)
         if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
