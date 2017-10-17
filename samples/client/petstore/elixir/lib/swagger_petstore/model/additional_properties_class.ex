@@ -12,6 +12,11 @@ defmodule SwaggerPetstore.Model.AdditionalPropertiesClass do
     :"map_property",
     :"map_of_map_property"
   ]
+
+  @type t :: %__MODULE__{
+    :"map_property" => %{optional(String.t) => String.t},
+    :"map_of_map_property" => %{optional(String.t) => %{optional(String.t) => String.t}}
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.AdditionalPropertiesClass do

@@ -11,6 +11,10 @@ defmodule SwaggerPetstore.Model.ClassModel do
   defstruct [
     :"_class"
   ]
+
+  @type t :: %__MODULE__{
+    :"_class" => String.t
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.ClassModel do

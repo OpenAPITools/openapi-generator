@@ -12,6 +12,11 @@ defmodule SwaggerPetstore.Model.HasOnlyReadOnly do
     :"bar",
     :"foo"
   ]
+
+  @type t :: %__MODULE__{
+    :"bar" => String.t,
+    :"foo" => String.t
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.HasOnlyReadOnly do

@@ -12,6 +12,11 @@ defmodule SwaggerPetstore.Model.ReadOnlyFirst do
     :"bar",
     :"baz"
   ]
+
+  @type t :: %__MODULE__{
+    :"bar" => String.t,
+    :"baz" => String.t
+  }
 end
 
 defimpl Poison.Decoder, for: SwaggerPetstore.Model.ReadOnlyFirst do
