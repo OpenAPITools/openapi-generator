@@ -45,6 +45,16 @@ class ParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['string1,string2'], $headers['enum_header_string_array']);
     }
 
+    public function testInlineAdditionalProperties()
+    {
+        $param = new \stdClass();
+        $param->foo = 'bar';
+        $this->fakeApi->testInlineAdditionalProperties($param);
+
+        $request = $this->fakeHttpClient->getLastRequest();
+        $this->assertSame('{"foo":"bar"}', $request->getBody()->getContents());
+    }
+
 //    missing example for collection path param in config
 //    public function testPathParamCollection()
 //    {
