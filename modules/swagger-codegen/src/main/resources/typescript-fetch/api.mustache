@@ -98,14 +98,14 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             }
     {{/required}}
     {{/allParams}}
-            const path = `{{{path}}}`{{#pathParams}}
+            const localVarPath = `{{{path}}}`{{#pathParams}}
                 .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: '{{httpMethod}}' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: '{{httpMethod}}' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
     {{#hasFormParams}}
-            const formParams = new url.URLSearchParams();
+            const localVarFormParams = new url.URLSearchParams();
     {{/hasFormParams}}
 
     {{#authMethods}}
@@ -113,34 +113,34 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             {{#isApiKey}}
             {{#isKeyInHeader}}
             if (configuration && configuration.apiKey) {
-                const apiKeyValue = typeof configuration.apiKey === 'function'
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
 					? configuration.apiKey("{{keyParamName}}")
 					: configuration.apiKey;
-                headerParameter["{{keyParamName}}"] = apiKeyValue;
+                localVarHeaderParameter["{{keyParamName}}"] = localVarApiKeyValue;
             }
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
             if (configuration && configuration.apiKey) {
-                const apiKeyValue = typeof configuration.apiKey === 'function'
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
 					? configuration.apiKey("{{keyParamName}}")
 					: configuration.apiKey;
-                queryParameter["{{keyParamName}}"] = apiKeyValue;
+                localVarQueryParameter["{{keyParamName}}"] = localVarApiKeyValue;
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasic}}
             // http basic authentication required
             if (configuration && (configuration.username || configuration.password)) {
-                headerParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
+                localVarHeaderParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
             }
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
             {{/isOAuth}}
 
@@ -149,24 +149,24 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             {{#isListContainer}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
-                queryParameter['{{baseName}}'] = {{paramName}};
+                localVarQueryParameter['{{baseName}}'] = {{paramName}};
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                queryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             {{/isCollectionFormatMulti}}
             }
             {{/isListContainer}}
             {{^isListContainer}}
             if ({{paramName}} !== undefined) {
                 {{#isDateTime}}
-                queryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
+                localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
                 {{/isDateTime}}
                 {{^isDateTime}}
                 {{#isDate}}
-                queryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
+                localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
                 {{/isDate}}
                 {{^isDate}}
-                queryParameter['{{baseName}}'] = {{paramName}};
+                localVarQueryParameter['{{baseName}}'] = {{paramName}};
                 {{/isDate}}
                 {{/isDateTime}}
             }
@@ -176,12 +176,12 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
     {{#headerParams}}
             {{#isListContainer}}
             if ({{paramName}}) {
-                headerParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
             }
             {{/isListContainer}}
             {{^isListContainer}}
             if ({{paramName}} !== undefined && {{paramName}} !== null) {
-                headerParameter['{{baseName}}'] = String({{paramName}});
+                localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
             }
             {{/isListContainer}}
 
@@ -191,43 +191,43 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
                 {{paramName}}.forEach((element) => {
-                    formParams.append('{{baseName}}', element as any);
+                    localVarFormParams.append('{{baseName}}', element as any);
                 })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                    formParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+                    localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
             }
             {{/isListContainer}}
             {{^isListContainer}}
             if ({{paramName}} !== undefined) {
-                formParams.set('{{baseName}}', {{paramName}} as any);
+                localVarFormParams.set('{{baseName}}', {{paramName}} as any);
             }
             {{/isListContainer}}
 
     {{/formParams}}
     {{#hasFormParams}}
-            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
 
     {{/hasFormParams}}
     {{#bodyParam}}
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
     {{/bodyParam}}
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
     {{#hasFormParams}}
-            requestOptions.body = formParams.toString();
+            localVarRequestOptions.body = localVarFormParams.toString();
     {{/hasFormParams}}
     {{#bodyParam}}
-            requestOptions.body = JSON.stringify({{paramName}} || {});
+            localVarRequestOptions.body = JSON.stringify({{paramName}} || {});
     {{/bodyParam}}
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
     {{/operation}}
@@ -254,9 +254,9 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}> {
-            const fetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+            const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response{{#returnType}}.json(){{/returnType}};
                     } else {
