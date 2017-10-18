@@ -12,10 +12,10 @@ import { FakeService } from './api/fake.service';
   providers:    [ FakeService ]
 })
 export class ApiModule {
-    public static forConfig(configuration: Configuration): ModuleWithProviders {
+    public static forConfig(configurationFactory: () => Configuration): ModuleWithProviders {
         return {
             ngModule: ApiModule,
-            providers: [ {provide: Configuration, useValue: configuration}]
+            providers: [ {provide: Configuration, useFactory: configurationFactory}]
         }
     }
 }

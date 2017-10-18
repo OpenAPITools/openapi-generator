@@ -269,8 +269,8 @@ export class FakeApi {
         this.authentications.petstore_auth.accessToken = token;
     }
     /**
-     * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * 
+     * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      * @param test code inject * &#39; &quot; &#x3D;end  rn n r To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      */
     public testCodeInjectEndRnNR (test code inject * &#39; &quot; &#x3D;end  rn n r?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
@@ -278,7 +278,6 @@ export class FakeApi {
         let queryParameters: any = {};
         let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let formParams: any = {};
-
 
 
         let useFormData = false;

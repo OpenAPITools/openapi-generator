@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **test_code_inject____end__rn_n_r**
-> test_code_inject____end__rn_n_r(test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r => $test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r)
+> test_code_inject____end__rn_n_r(test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r => $test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r)
 
 To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 
@@ -24,10 +24,10 @@ use Something::Deep::FakeApi;
 my $api_instance = Something::Deep::FakeApi->new(
 );
 
-my $test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r = 'test code inject */ ' " =end __ \r\n \n \r_example'; # string | To test code injection */ ' \" =_end -- \\r\\n \\n \\r
+my $test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r = 'test_code_inject_*/_'_"_=end____\r\n_\n_\r_example'; # string | To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 
 eval { 
-    $api_instance->test_code_inject____end__rn_n_r(test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r => $test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r);
+    $api_instance->test_code_inject____end__rn_n_r(test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r => $test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_code_inject____end__rn_n_r: $@\n";
@@ -38,7 +38,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **test code inject */ &#39; &quot; &#x3D;end __ \r\n \n \r** | **string**| To test code injection */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r | [optional] 
+ **test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r** | **string**| To test code injection */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r | [optional] 
 
 ### Return type
 
