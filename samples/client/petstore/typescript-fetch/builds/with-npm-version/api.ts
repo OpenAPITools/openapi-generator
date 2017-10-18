@@ -338,32 +338,32 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
             }
-            const path = `/pet`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'POST' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/pet`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = JSON.stringify(body || {});
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = JSON.stringify(body || {});
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -379,34 +379,34 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling deletePet.');
             }
-            const path = `/pet/{petId}`
+            const localVarPath = `/pet/{petId}`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'DELETE' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'DELETE' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
             if (apiKey !== undefined && apiKey !== null) {
-                headerParameter['api_key'] = String(apiKey);
+                localVarHeaderParameter['api_key'] = String(apiKey);
             }
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -421,33 +421,33 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (status === null || status === undefined) {
                 throw new RequiredError('status','Required parameter status was null or undefined when calling findPetsByStatus.');
             }
-            const path = `/pet/findByStatus`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/pet/findByStatus`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
             if (status) {
-                queryParameter['status'] = status.join(COLLECTION_FORMATS["csv"]);
+                localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS["csv"]);
             }
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -462,33 +462,33 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (tags === null || tags === undefined) {
                 throw new RequiredError('tags','Required parameter tags was null or undefined when calling findPetsByTags.');
             }
-            const path = `/pet/findByTags`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/pet/findByTags`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
             if (tags) {
-                queryParameter['tags'] = tags.join(COLLECTION_FORMATS["csv"]);
+                localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS["csv"]);
             }
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -503,29 +503,29 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling getPetById.');
             }
-            const path = `/pet/{petId}`
+            const localVarPath = `/pet/{petId}`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             // authentication api_key required
             if (configuration && configuration.apiKey) {
-                const apiKeyValue = typeof configuration.apiKey === 'function'
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
 					? configuration.apiKey("api_key")
 					: configuration.apiKey;
-                headerParameter["api_key"] = apiKeyValue;
+                localVarHeaderParameter["api_key"] = localVarApiKeyValue;
             }
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -540,32 +540,32 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
             }
-            const path = `/pet`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'PUT' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/pet`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'PUT' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = JSON.stringify(body || {});
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = JSON.stringify(body || {});
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -582,42 +582,42 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling updatePetWithForm.');
             }
-            const path = `/pet/{petId}`
+            const localVarPath = `/pet/{petId}`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'POST' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
-            const formParams = new url.URLSearchParams();
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new url.URLSearchParams();
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
             if (name !== undefined) {
-                formParams.set('name', name as any);
+                localVarFormParams.set('name', name as any);
             }
 
             if (status !== undefined) {
-                formParams.set('status', status as any);
+                localVarFormParams.set('status', status as any);
             }
 
-            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = formParams.toString();
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = localVarFormParams.toString();
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -634,42 +634,42 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             if (petId === null || petId === undefined) {
                 throw new RequiredError('petId','Required parameter petId was null or undefined when calling uploadFile.');
             }
-            const path = `/pet/{petId}/uploadImage`
+            const localVarPath = `/pet/{petId}/uploadImage`
                 .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'POST' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
-            const formParams = new url.URLSearchParams();
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new url.URLSearchParams();
 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const accessTokenValue = typeof configuration.accessToken === 'function'
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
 					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
 					: configuration.accessToken;
-                headerParameter["Authorization"] = "Bearer " + accessTokenValue;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
             if (additionalMetadata !== undefined) {
-                formParams.set('additionalMetadata', additionalMetadata as any);
+                localVarFormParams.set('additionalMetadata', additionalMetadata as any);
             }
 
             if (file !== undefined) {
-                formParams.set('file', file as any);
+                localVarFormParams.set('file', file as any);
             }
 
-            headerParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = formParams.toString();
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = localVarFormParams.toString();
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
     }
@@ -689,9 +689,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         addPet(body: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).addPet(body, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).addPet(body, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -709,9 +709,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         deletePet(petId: number, apiKey?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).deletePet(petId, apiKey, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).deletePet(petId, apiKey, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -728,9 +728,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         findPetsByStatus(status: Array<string>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).findPetsByStatus(status, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).findPetsByStatus(status, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -747,9 +747,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         findPetsByTags(tags: Array<string>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<Pet>> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).findPetsByTags(tags, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).findPetsByTags(tags, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -766,9 +766,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         getPetById(petId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Pet> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).getPetById(petId, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).getPetById(petId, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -785,9 +785,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         updatePet(body: Pet, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).updatePet(body, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).updatePet(body, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -806,9 +806,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         updatePetWithForm(petId: number, name?: string, status?: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).updatePetWithForm(petId, name, status, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).updatePetWithForm(petId, name, status, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -827,9 +827,9 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<ApiResponse> {
-            const fetchArgs = PetApiFetchParamCreator(configuration).uploadFile(petId, additionalMetadata, file, options);
+            const localVarFetchArgs = PetApiFetchParamCreator(configuration).uploadFile(petId, additionalMetadata, file, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -1063,21 +1063,21 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             if (orderId === null || orderId === undefined) {
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling deleteOrder.');
             }
-            const path = `/store/order/{orderId}`
+            const localVarPath = `/store/order/{orderId}`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'DELETE' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'DELETE' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1087,28 +1087,28 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         getInventory(options: any = {}): FetchArgs {
-            const path = `/store/inventory`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/store/inventory`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             // authentication api_key required
             if (configuration && configuration.apiKey) {
-                const apiKeyValue = typeof configuration.apiKey === 'function'
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
 					? configuration.apiKey("api_key")
 					: configuration.apiKey;
-                headerParameter["api_key"] = apiKeyValue;
+                localVarHeaderParameter["api_key"] = localVarApiKeyValue;
             }
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1123,21 +1123,21 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             if (orderId === null || orderId === undefined) {
                 throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderById.');
             }
-            const path = `/store/order/{orderId}`
+            const localVarPath = `/store/order/{orderId}`
                 .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1152,23 +1152,23 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
             }
-            const path = `/store/order`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'POST' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/store/order`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = JSON.stringify(body || {});
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = JSON.stringify(body || {});
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
     }
@@ -1188,9 +1188,9 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         deleteOrder(orderId: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = StoreApiFetchParamCreator(configuration).deleteOrder(orderId, options);
+            const localVarFetchArgs = StoreApiFetchParamCreator(configuration).deleteOrder(orderId, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -1206,9 +1206,9 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         getInventory(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{ [key: string]: number; }> {
-            const fetchArgs = StoreApiFetchParamCreator(configuration).getInventory(options);
+            const localVarFetchArgs = StoreApiFetchParamCreator(configuration).getInventory(options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -1225,9 +1225,9 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         getOrderById(orderId: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
-            const fetchArgs = StoreApiFetchParamCreator(configuration).getOrderById(orderId, options);
+            const localVarFetchArgs = StoreApiFetchParamCreator(configuration).getOrderById(orderId, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -1244,9 +1244,9 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         placeOrder(body: Order, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Order> {
-            const fetchArgs = StoreApiFetchParamCreator(configuration).placeOrder(body, options);
+            const localVarFetchArgs = StoreApiFetchParamCreator(configuration).placeOrder(body, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -1380,23 +1380,23 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling createUser.');
             }
-            const path = `/user`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'POST' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/user`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = JSON.stringify(body || {});
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = JSON.stringify(body || {});
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1411,23 +1411,23 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithArrayInput.');
             }
-            const path = `/user/createWithArray`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'POST' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/user/createWithArray`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = JSON.stringify(body || {});
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = JSON.stringify(body || {});
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1442,23 +1442,23 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithListInput.');
             }
-            const path = `/user/createWithList`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'POST' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/user/createWithList`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = JSON.stringify(body || {});
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = JSON.stringify(body || {});
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1473,21 +1473,21 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling deleteUser.');
             }
-            const path = `/user/{username}`
+            const localVarPath = `/user/{username}`
                 .replace(`{${"username"}}`, encodeURIComponent(String(username)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'DELETE' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'DELETE' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1502,21 +1502,21 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling getUserByName.');
             }
-            const path = `/user/{username}`
+            const localVarPath = `/user/{username}`
                 .replace(`{${"username"}}`, encodeURIComponent(String(username)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1536,28 +1536,28 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             if (password === null || password === undefined) {
                 throw new RequiredError('password','Required parameter password was null or undefined when calling loginUser.');
             }
-            const path = `/user/login`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/user/login`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
             if (username !== undefined) {
-                queryParameter['username'] = username;
+                localVarQueryParameter['username'] = username;
             }
 
             if (password !== undefined) {
-                queryParameter['password'] = password;
+                localVarQueryParameter['password'] = password;
             }
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1567,20 +1567,20 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         logoutUser(options: any = {}): FetchArgs {
-            const path = `/user/logout`;
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'GET' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarPath = `/user/logout`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
         /**
@@ -1600,24 +1600,24 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             if (body === null || body === undefined) {
                 throw new RequiredError('body','Required parameter body was null or undefined when calling updateUser.');
             }
-            const path = `/user/{username}`
+            const localVarPath = `/user/{username}`
                 .replace(`{${"username"}}`, encodeURIComponent(String(username)));
-            const urlObj = url.parse(path, true);
-            const requestOptions = Object.assign({ method: 'PUT' }, options);
-            const headerParameter = {} as any;
-            const queryParameter = {} as any;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions = Object.assign({ method: 'PUT' }, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-            headerParameter['Content-Type'] = 'application/json';
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            urlObj.query = Object.assign({}, urlObj.query, queryParameter, options.query);
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete urlObj.search;
-            requestOptions.headers = Object.assign({}, headerParameter, options.headers);
-            requestOptions.body = JSON.stringify(body || {});
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = JSON.stringify(body || {});
 
             return {
-                url: url.format(urlObj),
-                options: requestOptions,
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
             };
         },
     }
@@ -1637,9 +1637,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         createUser(body: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).createUser(body, options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUser(body, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -1656,9 +1656,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         createUsersWithArrayInput(body: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).createUsersWithArrayInput(body, options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUsersWithArrayInput(body, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -1675,9 +1675,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         createUsersWithListInput(body: Array<User>, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).createUsersWithListInput(body, options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).createUsersWithListInput(body, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -1694,9 +1694,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         deleteUser(username: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).deleteUser(username, options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).deleteUser(username, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -1713,9 +1713,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         getUserByName(username: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<User> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).getUserByName(username, options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).getUserByName(username, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -1733,9 +1733,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         loginUser(username: string, password: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<string> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).loginUser(username, password, options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).loginUser(username, password, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();
                     } else {
@@ -1751,9 +1751,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         logoutUser(options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).logoutUser(options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).logoutUser(options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
@@ -1771,9 +1771,9 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @throws {RequiredError}
          */
         updateUser(username: string, body: User, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
-            const fetchArgs = UserApiFetchParamCreator(configuration).updateUser(username, body, options);
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).updateUser(username, body, options);
             return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-                return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         return response;
                     } else {
