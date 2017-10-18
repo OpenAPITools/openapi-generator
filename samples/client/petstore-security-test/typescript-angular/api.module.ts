@@ -1,7 +1,21 @@
-import * as api from './api/api';
-import * as angular from 'angular';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpModule } from '@angular/http';
+import { Configuration } from './configuration';
 
-const apiModule = angular.module('api', [])
-.service('FakeApi', api.FakeApi)
+import { FakeService } from './api/fake.service';
 
-export default apiModule;
+@NgModule({
+  imports:      [ CommonModule, HttpModule ],
+  declarations: [],
+  exports:      [],
+  providers:    [ FakeService ]
+})
+export class ApiModule {
+    public static forConfig(configurationFactory: () => Configuration): ModuleWithProviders {
+        return {
+            ngModule: ApiModule,
+            providers: [ {provide: Configuration, useFactory: configurationFactory}]
+        }
+    }
+}
