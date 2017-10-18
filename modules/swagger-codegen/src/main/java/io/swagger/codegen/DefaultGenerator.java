@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import io.swagger.codegen.utils.URLPathUtil;
 import io.swagger.oas.models.OpenAPI;
 import io.swagger.oas.models.Operation;
 import io.swagger.oas.models.PathItem;
@@ -54,7 +55,6 @@ import io.swagger.util.Json;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
-    protected final String LOCAL_HOST = "http://localhost";
     protected CodegenConfig config;
     protected ClientOptInput opts;
     protected OpenAPI openAPI;
@@ -92,39 +92,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         return this;
-    }
-
-    private URL getServerURL() {
-        final List<Server> servers = this.openAPI.getServers();
-        if (servers == null || servers.isEmpty()) {
-            return null;
-        }
-        final Server server = servers.get(0);
-        try {
-            return new URL(server.getUrl());
-        } catch (MalformedURLException e) {
-            LOGGER.warn("Not valid URL: " + server.getUrl(), e);
-            return null;
-        }
-    }
-
-    private String getScheme() {
-        String scheme;
-        URL url = getServerURL();
-        if (url != null) {
-            scheme = url.getProtocol();
-        } else {
-            scheme = "https";
-        }
-        scheme = config.escapeText(scheme);
-        return scheme;
-    }
-
-    private String getHost(){
-        if (this.openAPI.getServers() != null && this.openAPI.getServers().size() > 0) {
-            return this.openAPI.getServers().get(0).getUrl();
-        }
-        return LOCAL_HOST;
     }
 
     private void configureGeneratorProperties() {
@@ -180,10 +147,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             config.vendorExtensions().putAll(this.openAPI.getExtensions());
         }
 
-        URL url = getServerURL();
+        URL url = URLPathUtil.getServerURL(openAPI);
 
         contextPath = config.escapeText(url == null ? StringUtils.EMPTY : url.getPath());
-        basePath = config.escapeText(getHost());
+        basePath = config.escapeText(URLPathUtil.getHost(openAPI));
         basePathWithoutHost = config.escapeText(contextPath);
 
     }
@@ -640,7 +607,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> apis = new HashMap<String, Object>();
         apis.put("apis", allOperations);
 
-        URL url = getServerURL();
+        URL url = URLPathUtil.getServerURL(openAPI);
 
         if (url != null) {
             bundle.put("host", url.getHost());
@@ -649,7 +616,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         bundle.put("openAPI", openAPI);
         bundle.put("basePath", basePath);
         bundle.put("basePathWithoutHost",basePathWithoutHost);
-        bundle.put("scheme", getScheme());
+        bundle.put("scheme", URLPathUtil.getScheme(openAPI, config));
         bundle.put("contextPath", contextPath);
         bundle.put("apiInfo", apis);
         bundle.put("models", allModels);
