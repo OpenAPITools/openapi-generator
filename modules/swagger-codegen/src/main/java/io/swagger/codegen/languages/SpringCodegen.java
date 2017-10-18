@@ -2,17 +2,33 @@ package io.swagger.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.codegen.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenResponse;
+import io.swagger.codegen.CodegenSecurity;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.codegen.languages.features.OptionalFeatures;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
+import io.swagger.codegen.utils.ModelUtils;
+import io.swagger.codegen.utils.URLPathUtil;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 
@@ -370,15 +386,12 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
-        }
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
         if(!additionalProperties.containsKey(TITLE)) {
             // From the title, compute a reasonable name for the package and the API
-            String title = swagger.getInfo().getTitle();
+            String title = openAPI.getInfo().getTitle();
 
             // Drop any API suffix
             if (title != null) {
@@ -392,38 +405,34 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(TITLE, this.title);
         }
 
-        String host = swagger.getHost();
-        String port = "8080";
-        if (host != null) {
-            String[] parts = host.split(":");
-            if (parts.length > 1) {
-                port = parts[1];
-            }
+        final URL urlInfo = URLPathUtil.getServerURL(openAPI);
+        String port = "8080"; // Default value for a JEE Server
+        if ( urlInfo != null && urlInfo.getPort() != 0) {
+            port = String.valueOf(urlInfo.getPort());
         }
 
         this.additionalProperties.put("serverPort", port);
-        if (swagger.getPaths() != null) {
-            for (String pathname : swagger.getPaths().keySet()) {
-                Path path = swagger.getPath(pathname);
-                if (path.getOperations() != null) {
-                    for (Operation operation : path.getOperations()) {
-                        if (operation.getTags() != null) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-                            for (String tag : operation.getTags()) {
-                                Map<String, String> value = new HashMap<String, String>();
-                                value.put("tag", tag);
-                                value.put("hasMore", "true");
-                                tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
-                            }
-                            if (operation.getTags().size() > 0) {
-                                String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
-                            }
-                            operation.setVendorExtension("x-tags", tags);
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem pathItem = openAPI.getPaths().get(pathname);
+                final Operation[] operations = ModelUtils.createOperationArray(pathItem);
+                for (Operation operation : operations) {
+                    if (operation.getTags() != null) {
+                        List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
+                        for (String tag : operation.getTags()) {
+                            Map<String, String> value = new HashMap<String, String>();
+                            value.put("tag", tag);
+                            value.put("hasMore", "true");
+                            tags.add(value);
                         }
+                        if (tags.size() > 0) {
+                            tags.get(tags.size() - 1).remove("hasMore");
+                        }
+                        if (operation.getTags().size() > 0) {
+                            String tag = operation.getTags().get(0);
+                            operation.setTags(Arrays.asList(tag));
+                        }
+                        operation.addExtension("x-tags", tags);
                     }
                 }
             }

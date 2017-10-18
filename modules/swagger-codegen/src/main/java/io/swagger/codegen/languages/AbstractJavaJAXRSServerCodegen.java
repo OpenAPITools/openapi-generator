@@ -1,14 +1,5 @@
 package io.swagger.codegen.languages;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
@@ -16,10 +7,20 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenResponse;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
-import io.swagger.codegen.languages.features.UseGenericResponseFeatures;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
+import io.swagger.codegen.utils.ModelUtils;
+import io.swagger.codegen.utils.URLPathUtil;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     /**
@@ -86,46 +87,37 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        if ( "/".equals(swagger.getBasePath()) ) {
-            swagger.setBasePath("");
-        }
-
+    public void preprocessOpenAPI(OpenAPI openAPI) {
         if (!this.additionalProperties.containsKey("serverPort")) {
-            final String host = swagger.getHost();
+            final URL urlInfo = URLPathUtil.getServerURL(openAPI);
             String port = "8080"; // Default value for a JEE Server
-            if ( host != null ) {
-                String[] parts = host.split(":");
-                if ( parts.length > 1 ) {
-                    port = parts[1];
-                }
+            if ( urlInfo != null && urlInfo.getPort() != 0) {
+                port = String.valueOf(urlInfo.getPort());
             }
-
             this.additionalProperties.put("serverPort", port);
         }
 
-        if ( swagger.getPaths() != null ) {
-            for ( String pathname : swagger.getPaths().keySet() ) {
-                Path path = swagger.getPath(pathname);
-                if ( path.getOperations() != null ) {
-                    for ( Operation operation : path.getOperations() ) {
-                        if ( operation.getTags() != null ) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-                            for ( String tag : operation.getTags() ) {
-                                Map<String, String> value = new HashMap<String, String>();
-                                value.put("tag", tag);
-                                value.put("hasMore", "true");
-                                tags.add(value);
-                            }
-                            if ( tags.size() > 0 ) {
-                                tags.get(tags.size() - 1).remove("hasMore");
-                            }
-                            if ( operation.getTags().size() > 0 ) {
-                                String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
-                            }
-                            operation.setVendorExtension("x-tags", tags);
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem pathItem = openAPI.getPaths().get(pathname);
+                final Operation[] operations = ModelUtils.createOperationArray(pathItem);
+                for (Operation operation : operations) {
+                    if (operation.getTags() != null) {
+                        List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
+                        for (String tag : operation.getTags()) {
+                            Map<String, String> value = new HashMap<String, String>();
+                            value.put("tag", tag);
+                            value.put("hasMore", "true");
+                            tags.add(value);
                         }
+                        if (tags.size() > 0) {
+                            tags.get(tags.size() - 1).remove("hasMore");
+                        }
+                        if (operation.getTags().size() > 0) {
+                            String tag = operation.getTags().get(0);
+                            operation.setTags(Arrays.asList(tag));
+                        }
+                        operation.addExtension("x-tags", tags);
                     }
                 }
             }

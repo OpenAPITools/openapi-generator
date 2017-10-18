@@ -26,6 +26,7 @@ import io.swagger.oas.models.parameters.HeaderParameter;
 import io.swagger.oas.models.parameters.Parameter;
 import io.swagger.oas.models.parameters.PathParameter;
 import io.swagger.oas.models.parameters.QueryParameter;
+import io.swagger.oas.models.parameters.RequestBody;
 import io.swagger.oas.models.responses.ApiResponse;
 import io.swagger.oas.models.responses.ApiResponses;
 import io.swagger.oas.models.security.OAuthFlow;
@@ -3440,6 +3441,13 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void writePropertyBack(String propertyKey, boolean value) {
         additionalProperties.put(propertyKey, value);
+    }
+
+    protected String getContentType(RequestBody requestBody) {
+        if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+            return null;
+        }
+        return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
 
     private Schema getSchemaFromResponse(ApiResponse response) {

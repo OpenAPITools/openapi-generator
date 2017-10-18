@@ -6,10 +6,7 @@ import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenProperty;
-import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
-import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -19,6 +16,13 @@ import java.util.Map;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -300,21 +304,20 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema schema) {
+        if (schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof RefProperty) {
-            String type = super.getTypeDeclaration(p);
+        } else if (schema instanceof MapSchema) {
+            Schema inner = schema.getAdditionalProperties();
+            return String.format("%s[string,%s]", getSchemaType(schema), getTypeDeclaration(inner));
+        } else if (StringUtils.isNotBlank(schema.get$ref())) {
+            String type = super.getTypeDeclaration(schema);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + type : type;
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(schema);
     }
 
     @Override
@@ -326,8 +329,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -467,47 +470,21 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param schema Schema property object
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateProperty) {
-            // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
+    public String toDefaultValue(Schema schema) {
+        if (schema instanceof StringSchema && schema.getDefault() != null) {
+            return String.format("'%s'", schema.getDefault());
         }
-
+        if (schema instanceof DateSchema || schema instanceof DateTimeSchema) {
+            // TODO still...
+            return null;
+        }
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        }
         return null;
     }
 

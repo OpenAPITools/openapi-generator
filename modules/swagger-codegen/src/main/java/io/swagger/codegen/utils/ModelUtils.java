@@ -1,6 +1,8 @@
 package io.swagger.codegen.utils;
 
 import io.swagger.codegen.CodegenModel;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
 
 import java.util.List;
 import java.util.Map;
@@ -32,5 +34,17 @@ public class ModelUtils {
             }
         }
         return null;
+    }
+
+    public static Operation[] createOperationArray (PathItem pathItem) {
+        return new Operation[]{
+                pathItem.getGet(),
+                pathItem.getPost(),
+                pathItem.getDelete(),
+                pathItem.getHead(),
+                pathItem.getPut(),
+                pathItem.getPatch(),
+                pathItem.getOptions()
+        };
     }
 }
