@@ -14,17 +14,19 @@ Module : SwaggerPetstore
 -}
 
 module SwaggerPetstore
-  ( module SwaggerPetstore.Client
-  , module SwaggerPetstore.API
-  , module SwaggerPetstore.Model
-  , module SwaggerPetstore.MimeTypes
-  , module SwaggerPetstore.Lens
+  ( module SwaggerPetstore.API
+  , module SwaggerPetstore.Client
+  , module SwaggerPetstore.Core
   , module SwaggerPetstore.Logging
+  , module SwaggerPetstore.MimeTypes
+  , module SwaggerPetstore.Model
+  , module SwaggerPetstore.ModelLens
   ) where
 
 import SwaggerPetstore.API
 import SwaggerPetstore.Client
-import SwaggerPetstore.Model
-import SwaggerPetstore.MimeTypes
-import SwaggerPetstore.Lens
+import SwaggerPetstore.Core
 import SwaggerPetstore.Logging
+import SwaggerPetstore.MimeTypes
+import SwaggerPetstore.Model
+import SwaggerPetstore.ModelLens

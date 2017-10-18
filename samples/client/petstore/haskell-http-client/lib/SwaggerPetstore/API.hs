@@ -14,6 +14,7 @@ Module : SwaggerPetstore.API
 -}
 
 {-# LANGUAGE ConstraintKinds #-}
+{-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
@@ -23,49 +24,38 @@ Module : SwaggerPetstore.API
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE ExistentialQuantification #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module SwaggerPetstore.API where
 
-
-import SwaggerPetstore.Model as M
+import SwaggerPetstore.Core
 import SwaggerPetstore.MimeTypes
-import SwaggerPetstore.Lens
+import SwaggerPetstore.Model as M
 
 import qualified Data.Aeson as A
-
-import qualified Data.Time as TI
-
 import qualified Data.ByteString as B
-import qualified Data.ByteString.Lazy as BL
-import qualified Data.ByteString.Builder as BB
-import qualified Data.ByteString.Char8 as BC
-import qualified Data.ByteString.Lazy.Char8 as BCL
 import qualified Data.ByteString.Base64 as B64
-
-import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Media as ME
-import qualified Network.HTTP.Types as NH
-
-import qualified Web.HttpApiData as WH
-import qualified Web.FormUrlEncoded as WH
-
-import qualified Data.CaseInsensitive as CI
+import qualified Data.ByteString.Char8 as BC
+import qualified Data.ByteString.Lazy as BL
 import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
 import qualified Data.Foldable as P
 import qualified Data.Map as Map
-import qualified Data.Set as Set
 import qualified Data.Maybe as P
 import qualified Data.Proxy as P (Proxy(..))
+import qualified Data.Set as Set
+import qualified Data.String as P
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Lazy.Encoding as TL
+import qualified Data.Time as TI
 import qualified GHC.Base as P (Alternative)
-import qualified Control.Arrow as P (left)
-
 import qualified Lens.Micro as L
+import qualified Network.HTTP.Client.MultipartFormData as NH
+import qualified Network.HTTP.Media as ME
+import qualified Network.HTTP.Types as NH
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
 
 import Data.Monoid ((<>))
 import Data.Function ((&))
@@ -993,240 +983,46 @@ instance Produces UpdateUser MimeJSON
 
 
 
--- * HasBodyParam
+-- * Parameter newtypes
 
--- | Designates the body parameter of a request
-class HasBodyParam req param where
-  setBodyParam :: forall contentType res. (Consumes req contentType, MimeRender contentType param) => SwaggerPetstoreRequest req contentType res -> param -> SwaggerPetstoreRequest req contentType res
-  setBodyParam req xs =
-    req `_setBodyLBS` mimeRender (P.Proxy :: P.Proxy contentType) xs & _setContentTypeHeader
+newtype AdditionalMetadata = AdditionalMetadata { unAdditionalMetadata :: Text } deriving (P.Eq, P.Show)
+newtype ApiKey = ApiKey { unApiKey :: Text } deriving (P.Eq, P.Show)
+newtype Body = Body { unBody :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
+newtype Byte = Byte { unByte :: ByteArray } deriving (P.Eq, P.Show)
+newtype Callback = Callback { unCallback :: Text } deriving (P.Eq, P.Show)
+newtype EnumFormString = EnumFormString { unEnumFormString :: Text } deriving (P.Eq, P.Show)
+newtype EnumFormStringArray = EnumFormStringArray { unEnumFormStringArray :: [Text] } deriving (P.Eq, P.Show)
+newtype EnumHeaderString = EnumHeaderString { unEnumHeaderString :: Text } deriving (P.Eq, P.Show)
+newtype EnumHeaderStringArray = EnumHeaderStringArray { unEnumHeaderStringArray :: [Text] } deriving (P.Eq, P.Show)
+newtype EnumQueryDouble = EnumQueryDouble { unEnumQueryDouble :: Double } deriving (P.Eq, P.Show)
+newtype EnumQueryInteger = EnumQueryInteger { unEnumQueryInteger :: Int } deriving (P.Eq, P.Show)
+newtype EnumQueryString = EnumQueryString { unEnumQueryString :: Text } deriving (P.Eq, P.Show)
+newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: [Text] } deriving (P.Eq, P.Show)
+newtype File = File { unFile :: FilePath } deriving (P.Eq, P.Show)
+newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
+newtype Int64 = Int64 { unInt64 :: Integer } deriving (P.Eq, P.Show)
+newtype Name2 = Name2 { unName2 :: Text } deriving (P.Eq, P.Show)
+newtype Number = Number { unNumber :: Double } deriving (P.Eq, P.Show)
+newtype OrderId = OrderId { unOrderId :: Integer } deriving (P.Eq, P.Show)
+newtype OrderIdText = OrderIdText { unOrderIdText :: Text } deriving (P.Eq, P.Show)
+newtype Param = Param { unParam :: Text } deriving (P.Eq, P.Show)
+newtype Param2 = Param2 { unParam2 :: Text } deriving (P.Eq, P.Show)
+newtype ParamBinary = ParamBinary { unParamBinary :: Binary } deriving (P.Eq, P.Show)
+newtype ParamDate = ParamDate { unParamDate :: Date } deriving (P.Eq, P.Show)
+newtype ParamDateTime = ParamDateTime { unParamDateTime :: DateTime } deriving (P.Eq, P.Show)
+newtype ParamDouble = ParamDouble { unParamDouble :: Double } deriving (P.Eq, P.Show)
+newtype ParamFloat = ParamFloat { unParamFloat :: Float } deriving (P.Eq, P.Show)
+newtype ParamInteger = ParamInteger { unParamInteger :: Int } deriving (P.Eq, P.Show)
+newtype ParamString = ParamString { unParamString :: Text } deriving (P.Eq, P.Show)
+newtype Password = Password { unPassword :: Text } deriving (P.Eq, P.Show)
+newtype PatternWithoutDelimiter = PatternWithoutDelimiter { unPatternWithoutDelimiter :: Text } deriving (P.Eq, P.Show)
+newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
+newtype Status = Status { unStatus :: [Text] } deriving (P.Eq, P.Show)
+newtype StatusText = StatusText { unStatusText :: Text } deriving (P.Eq, P.Show)
+newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)
+newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
 
--- * HasOptionalParam
-
--- | Designates the optional parameters of a request
-class HasOptionalParam req param where
-  {-# MINIMAL applyOptionalParam | (-&-) #-}
-
-  -- | Apply an optional parameter to a request
-  applyOptionalParam :: SwaggerPetstoreRequest req contentType res -> param -> SwaggerPetstoreRequest req contentType res
-  applyOptionalParam = (-&-)
-  {-# INLINE applyOptionalParam #-}
-
-  -- | infix operator \/ alias for 'addOptionalParam'
-  (-&-) :: SwaggerPetstoreRequest req contentType res -> param -> SwaggerPetstoreRequest req contentType res
-  (-&-) = applyOptionalParam
-  {-# INLINE (-&-) #-}
-
-infixl 2 -&-
- 
--- * SwaggerPetstoreRequest
-
--- | Represents a request. The "req" type variable is the request type. The "res" type variable is the response type.
-data SwaggerPetstoreRequest req contentType res = SwaggerPetstoreRequest
-  { rMethod  :: NH.Method   -- ^ Method of SwaggerPetstoreRequest
-  , rUrlPath :: [BCL.ByteString] -- ^ Endpoint of SwaggerPetstoreRequest
-  , rParams   :: Params -- ^ params of SwaggerPetstoreRequest
-  , rAuthTypes :: [P.TypeRep] -- ^ types of auth methods
-  }
-  deriving (P.Show)
-
--- | 'rMethod' Lens
-rMethodL :: Lens_' (SwaggerPetstoreRequest req contentType res) NH.Method
-rMethodL f SwaggerPetstoreRequest{..} = (\rMethod -> SwaggerPetstoreRequest { rMethod, ..} ) <$> f rMethod
-{-# INLINE rMethodL #-}
-
--- | 'rUrlPath' Lens
-rUrlPathL :: Lens_' (SwaggerPetstoreRequest req contentType res) [BCL.ByteString]
-rUrlPathL f SwaggerPetstoreRequest{..} = (\rUrlPath -> SwaggerPetstoreRequest { rUrlPath, ..} ) <$> f rUrlPath
-{-# INLINE rUrlPathL #-}
-
--- | 'rParams' Lens
-rParamsL :: Lens_' (SwaggerPetstoreRequest req contentType res) Params
-rParamsL f SwaggerPetstoreRequest{..} = (\rParams -> SwaggerPetstoreRequest { rParams, ..} ) <$> f rParams
-{-# INLINE rParamsL #-}
-
--- | 'rParams' Lens
-rAuthTypesL :: Lens_' (SwaggerPetstoreRequest req contentType res) [P.TypeRep]
-rAuthTypesL f SwaggerPetstoreRequest{..} = (\rAuthTypes -> SwaggerPetstoreRequest { rAuthTypes, ..} ) <$> f rAuthTypes
-{-# INLINE rAuthTypesL #-}
-
--- | Request Params
-data Params = Params
-  { paramsQuery :: NH.Query
-  , paramsHeaders :: NH.RequestHeaders
-  , paramsBody :: ParamBody
-  }
-  deriving (P.Show)
-
--- | 'paramsQuery' Lens
-paramsQueryL :: Lens_' Params NH.Query
-paramsQueryL f Params{..} = (\paramsQuery -> Params { paramsQuery, ..} ) <$> f paramsQuery
-{-# INLINE paramsQueryL #-}
-
--- | 'paramsHeaders' Lens
-paramsHeadersL :: Lens_' Params NH.RequestHeaders
-paramsHeadersL f Params{..} = (\paramsHeaders -> Params { paramsHeaders, ..} ) <$> f paramsHeaders
-{-# INLINE paramsHeadersL #-}
-
--- | 'paramsBody' Lens
-paramsBodyL :: Lens_' Params ParamBody
-paramsBodyL f Params{..} = (\paramsBody -> Params { paramsBody, ..} ) <$> f paramsBody
-{-# INLINE paramsBodyL #-}
-
--- | Request Body
-data ParamBody
-  = ParamBodyNone
-  | ParamBodyB B.ByteString
-  | ParamBodyBL BL.ByteString
-  | ParamBodyFormUrlEncoded WH.Form
-  | ParamBodyMultipartFormData [NH.Part]
-  deriving (P.Show)
-
--- ** SwaggerPetstoreRequest Utils
-
-_mkRequest :: NH.Method -- ^ Method 
-          -> [BCL.ByteString] -- ^ Endpoint
-          -> SwaggerPetstoreRequest req contentType res -- ^ req: Request Type, res: Response Type
-_mkRequest m u = SwaggerPetstoreRequest m u _mkParams []
-
-_mkParams :: Params
-_mkParams = Params [] [] ParamBodyNone
-
-setHeader :: SwaggerPetstoreRequest req contentType res -> [NH.Header] -> SwaggerPetstoreRequest req contentType res
-setHeader req header =
-  req `removeHeader` P.fmap P.fst header &
-  L.over (rParamsL . paramsHeadersL) (header P.++)
-
-removeHeader :: SwaggerPetstoreRequest req contentType res -> [NH.HeaderName] -> SwaggerPetstoreRequest req contentType res
-removeHeader req header =
-  req &
-  L.over
-    (rParamsL . paramsHeadersL)
-    (P.filter (\h -> cifst h `P.notElem` P.fmap CI.mk header))
-  where
-    cifst = CI.mk . P.fst
-
-
-_setContentTypeHeader :: forall req contentType res. MimeType contentType => SwaggerPetstoreRequest req contentType res -> SwaggerPetstoreRequest req contentType res
-_setContentTypeHeader req =
-    case mimeType (P.Proxy :: P.Proxy contentType) of 
-        Just m -> req `setHeader` [("content-type", BC.pack $ P.show m)]
-        Nothing -> req `removeHeader` ["content-type"]
-
-_setAcceptHeader :: forall req contentType res accept. MimeType accept => SwaggerPetstoreRequest req contentType res -> accept -> SwaggerPetstoreRequest req contentType res
-_setAcceptHeader req accept =
-    case mimeType' accept of 
-        Just m -> req `setHeader` [("accept", BC.pack $ P.show m)]
-        Nothing -> req `removeHeader` ["accept"]
-
-setQuery :: SwaggerPetstoreRequest req contentType res -> [NH.QueryItem] -> SwaggerPetstoreRequest req contentType res
-setQuery req query = 
-  req &
-  L.over
-    (rParamsL . paramsQueryL)
-    ((query P.++) . P.filter (\q -> cifst q `P.notElem` P.fmap cifst query))
-  where
-    cifst = CI.mk . P.fst
-
-addForm :: SwaggerPetstoreRequest req contentType res -> WH.Form -> SwaggerPetstoreRequest req contentType res
-addForm req newform = 
-    let form = case paramsBody (rParams req) of
-            ParamBodyFormUrlEncoded _form -> _form
-            _ -> mempty
-    in req & L.set (rParamsL . paramsBodyL) (ParamBodyFormUrlEncoded (newform <> form))
-
-_addMultiFormPart :: SwaggerPetstoreRequest req contentType res -> NH.Part -> SwaggerPetstoreRequest req contentType res
-_addMultiFormPart req newpart = 
-    let parts = case paramsBody (rParams req) of
-            ParamBodyMultipartFormData _parts -> _parts
-            _ -> []
-    in req & L.set (rParamsL . paramsBodyL) (ParamBodyMultipartFormData (newpart : parts))
-
-_setBodyBS :: SwaggerPetstoreRequest req contentType res -> B.ByteString -> SwaggerPetstoreRequest req contentType res
-_setBodyBS req body = 
-    req & L.set (rParamsL . paramsBodyL) (ParamBodyB body)
-
-_setBodyLBS :: SwaggerPetstoreRequest req contentType res -> BL.ByteString -> SwaggerPetstoreRequest req contentType res
-_setBodyLBS req body = 
-    req & L.set (rParamsL . paramsBodyL) (ParamBodyBL body)
-
-_hasAuthType :: AuthMethod authMethod => SwaggerPetstoreRequest req contentType res -> P.Proxy authMethod -> SwaggerPetstoreRequest req contentType res
-_hasAuthType req proxy =
-  req & L.over rAuthTypesL (P.typeRep proxy :)
-
--- ** Params Utils
-
-toPath
-  :: WH.ToHttpApiData a
-  => a -> BCL.ByteString
-toPath = BB.toLazyByteString . WH.toEncodedUrlPiece
-
-toHeader :: WH.ToHttpApiData a => (NH.HeaderName, a) -> [NH.Header]
-toHeader x = [fmap WH.toHeader x]
-
-toForm :: WH.ToHttpApiData v => (BC.ByteString, v) -> WH.Form
-toForm (k,v) = WH.toForm [(BC.unpack k,v)]
-
-toQuery :: WH.ToHttpApiData a => (BC.ByteString, Maybe a) -> [NH.QueryItem]
-toQuery x = [(fmap . fmap) toQueryParam x]
-  where toQueryParam = T.encodeUtf8 . WH.toQueryParam
-
--- *** Swagger `CollectionFormat` Utils
-
--- | Determines the format of the array if type array is used.
-data CollectionFormat
-  = CommaSeparated -- ^ CSV format for multiple parameters.
-  | SpaceSeparated -- ^ Also called "SSV"
-  | TabSeparated -- ^ Also called "TSV"
-  | PipeSeparated -- ^ `value1|value2|value2`
-  | MultiParamArray -- ^ Using multiple GET parameters, e.g. `foo=bar&foo=baz`. This is valid only for parameters in "query" ('NH.Query') or "formData" ('WH.Form')
-
-toHeaderColl :: WH.ToHttpApiData a => CollectionFormat -> (NH.HeaderName, [a]) -> [NH.Header]
-toHeaderColl c xs = _toColl c toHeader xs
-
-toFormColl :: WH.ToHttpApiData v => CollectionFormat -> (BC.ByteString, [v]) -> WH.Form
-toFormColl c xs = WH.toForm $ fmap unpack $ _toColl c toHeader $ pack xs
-  where
-    pack (k,v) = (CI.mk k, v)
-    unpack (k,v) = (BC.unpack (CI.original k), BC.unpack v)
-
-toQueryColl :: WH.ToHttpApiData a => CollectionFormat -> (BC.ByteString, Maybe [a]) -> NH.Query
-toQueryColl c xs = _toCollA c toQuery xs
-
-_toColl :: P.Traversable f => CollectionFormat -> (f a -> [(b, BC.ByteString)]) -> f [a] -> [(b, BC.ByteString)]
-_toColl c encode xs = fmap (fmap P.fromJust) (_toCollA' c fencode BC.singleton (fmap Just xs))
-  where fencode = fmap (fmap Just) . encode . fmap P.fromJust
-        {-# INLINE fencode #-}
-
-_toCollA :: (P.Traversable f, P.Traversable t, P.Alternative t) => CollectionFormat -> (f (t a) -> [(b, t BC.ByteString)]) -> f (t [a]) -> [(b, t BC.ByteString)]
-_toCollA c encode xs = _toCollA' c encode BC.singleton xs
-
-_toCollA' :: (P.Monoid c, P.Traversable f, P.Traversable t, P.Alternative t) => CollectionFormat -> (f (t a) -> [(b, t c)]) -> (Char -> c) -> f (t [a]) -> [(b, t c)]
-_toCollA' c encode one xs = case c of
-  CommaSeparated -> go (one ',')
-  SpaceSeparated -> go (one ' ')
-  TabSeparated -> go (one '\t')
-  PipeSeparated -> go (one '|')
-  MultiParamArray -> expandList
-  where
-    go sep =
-      [P.foldl1 (\(sk, sv) (_, v) -> (sk, (combine sep <$> sv <*> v) <|> sv <|> v)) expandList]
-    combine sep x y = x <> sep <> y
-    expandList = (P.concatMap encode . (P.traverse . P.traverse) P.toList) xs
-    {-# INLINE go #-}
-    {-# INLINE expandList #-}
-    {-# INLINE combine #-}
-  
--- * AuthMethods
-
--- | Provides a method to apply auth methods to requests
-class P.Typeable a => AuthMethod a where
-  applyAuthMethod :: SwaggerPetstoreRequest req contentType res -> a -> SwaggerPetstoreRequest req contentType res
-
--- | An existential wrapper for any AuthMethod
-data AnyAuthMethod = forall a. AuthMethod a => AnyAuthMethod a deriving (P.Typeable)
-
-instance AuthMethod AnyAuthMethod where applyAuthMethod req (AnyAuthMethod a) = applyAuthMethod req a
+-- * Auth Methods
 
 -- ** AuthApiKeyApiKey
 data AuthApiKeyApiKey =
@@ -1234,9 +1030,11 @@ data AuthApiKeyApiKey =
   deriving (P.Eq, P.Show, P.Typeable)
 
 instance AuthMethod AuthApiKeyApiKey where
-  applyAuthMethod req a@(AuthApiKeyApiKey secret) =
+  applyAuthMethod _ a@(AuthApiKeyApiKey secret) req =
+    P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
       then req `setHeader` toHeader ("api_key", secret)
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
 
 -- ** AuthApiKeyApiKeyQuery
@@ -1245,9 +1043,11 @@ data AuthApiKeyApiKeyQuery =
   deriving (P.Eq, P.Show, P.Typeable)
 
 instance AuthMethod AuthApiKeyApiKeyQuery where
-  applyAuthMethod req a@(AuthApiKeyApiKeyQuery secret) =
+  applyAuthMethod _ a@(AuthApiKeyApiKeyQuery secret) req =
+    P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
       then req `setQuery` toQuery ("api_key_query", Just secret)
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
 
 -- ** AuthBasicHttpBasicTest
@@ -1256,9 +1056,11 @@ data AuthBasicHttpBasicTest =
   deriving (P.Eq, P.Show, P.Typeable)
 
 instance AuthMethod AuthBasicHttpBasicTest where
-  applyAuthMethod req a@(AuthBasicHttpBasicTest user pw) =
+  applyAuthMethod _ a@(AuthBasicHttpBasicTest user pw) req =
+    P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
       then req `setHeader` toHeader ("Authorization", T.decodeUtf8 cred)
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
     where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
 
@@ -1268,9 +1070,37 @@ data AuthOAuthPetstoreAuth =
   deriving (P.Eq, P.Show, P.Typeable)
 
 instance AuthMethod AuthOAuthPetstoreAuth where
-  applyAuthMethod req a@(AuthOAuthPetstoreAuth secret) =
+  applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
+    P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
       then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
+
+
+
+-- * Custom Mime Types
+
+-- ** MimeJsonCharsetutf8
+
+data MimeJsonCharsetutf8 = MimeJsonCharsetutf8 deriving (P.Typeable)
+
+-- | @application/json; charset=utf-8@
+instance MimeType MimeJsonCharsetutf8 where
+  mimeType _ = Just $ P.fromString "application/json; charset=utf-8"
+instance A.ToJSON a => MimeRender MimeJsonCharsetutf8 a where mimeRender _ = A.encode
+instance A.FromJSON a => MimeUnrender MimeJsonCharsetutf8 a where mimeUnrender _ = A.eitherDecode
+-- instance MimeRender MimeJsonCharsetutf8 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeJsonCharsetutf8 T.Text where mimeUnrender _ = undefined
+
+-- ** MimeXmlCharsetutf8
+
+data MimeXmlCharsetutf8 = MimeXmlCharsetutf8 deriving (P.Typeable)
+
+-- | @application/xml; charset=utf-8@
+instance MimeType MimeXmlCharsetutf8 where
+  mimeType _ = Just $ P.fromString "application/xml; charset=utf-8"
+-- instance MimeRender MimeXmlCharsetutf8 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeXmlCharsetutf8 T.Text where mimeUnrender _ = undefined
 
 

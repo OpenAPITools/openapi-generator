@@ -19,7 +19,7 @@ Module : SwaggerPetstore.Lens
 {-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module SwaggerPetstore.Lens where
+module SwaggerPetstore.ModelLens where
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BL
@@ -34,11 +34,7 @@ import Prelude (($), (.),(<$>),(<*>),(=<<),Maybe(..),Bool(..),Char,Double,FilePa
 import qualified Prelude as P
 
 import SwaggerPetstore.Model
-
--- * Type Aliases
-
-type Lens_' s a = Lens_ s s a a
-type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
+import SwaggerPetstore.Core
 
 
 -- * AdditionalPropertiesClass
