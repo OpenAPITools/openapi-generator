@@ -1,14 +1,36 @@
 package io.swagger.codegen.languages;
 
-import java.io.File;
-import java.util.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.FileSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.MediaType;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.responses.ApiResponse;
+import v2.io.swagger.annotations.Api;
 
-import io.swagger.codegen.*;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Response;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
     protected String packageName = "swagger";
@@ -159,18 +181,15 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
      *         `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
+    public String getTypeDeclaration(Schema propertySchema) {
+        String swaggerType = getSchemaType(propertySchema);
 
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getTypeDeclaration(inner) + "_Vectors.Vector";
+        if (propertySchema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) propertySchema;
+            return String.format("%s_Vectors.Vector", getTypeDeclaration(arraySchema.getItems()));
         }
-        if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "Swagger." + getTypeDeclaration(inner) + "_Map";
+        if (propertySchema instanceof MapSchema) {
+            return String.format("Swagger._Map", getTypeDeclaration(propertySchema.getAdditionalProperties()));
         }
         if (typeMapping.containsKey(swaggerType)) {
             return typeMapping.get(swaggerType);
@@ -180,8 +199,8 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
             return swaggerType;
         }
         String modelType = toModelName(swaggerType);
-        if (p instanceof StringProperty || p instanceof DateProperty
-                || p instanceof DateTimeProperty || p instanceof FileProperty
+        if (propertySchema instanceof StringSchema || propertySchema instanceof DateSchema
+                || propertySchema instanceof DateTimeSchema|| propertySchema instanceof FileSchema
                 || languageSpecificPrimitives.contains(modelType)) {
             return modelType;
         }
@@ -233,24 +252,26 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
-            Response methodResponse = findMethodResponse(operation.getResponses());
+            ApiResponse response = findMethodResponse(operation.getResponses());
 
-            if (methodResponse != null) {
-                if (methodResponse.getSchema() != null) {
-                    CodegenProperty cm = fromProperty("response", methodResponse.getSchema());
-                    op.vendorExtensions.put("x-codegen-response", cm);
+            if (response != null && response.getContent() != null && !response.getContent().isEmpty()) {
+
+                final MediaType mediaType = new ArrayList<>(response.getContent().values()).get(0);
+
+                if (mediaType.getSchema() != null) {
+                    CodegenProperty cm = fromProperty("response", mediaType.getSchema());
+                    codegenOperation.vendorExtensions.put("x-codegen-response", cm);
                     if(cm.datatype == "HttpContent") {
-                        op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
+                        codegenOperation.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
                     }
                 }
             }
         }
-        return op;
+        return codegenOperation;
     }
 
     @SuppressWarnings("unchecked")
