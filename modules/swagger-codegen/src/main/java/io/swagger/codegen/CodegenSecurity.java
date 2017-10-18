@@ -1,5 +1,7 @@
 package io.swagger.codegen;
 
+import io.swagger.oas.models.security.Scopes;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +14,7 @@ public class CodegenSecurity {
     public Boolean isKeyInQuery, isKeyInHeader;
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
-    public List<Map<String, Object>> scopes;
+    public Scopes scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
 
     @Override

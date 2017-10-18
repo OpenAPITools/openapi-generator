@@ -3,6 +3,8 @@ package io.swagger.codegen;
 
 
 import io.swagger.oas.models.ExternalDocumentation;
+import io.swagger.oas.models.media.Discriminator;
+import io.swagger.oas.models.parameters.RequestBody;
 import io.swagger.oas.models.tags.Tag;
 
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ public class CodegenOperation {
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated;
     public String path, operationId, returnType, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator;
+            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+    public Discriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
