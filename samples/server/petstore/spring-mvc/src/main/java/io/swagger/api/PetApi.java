@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @Api(value = "pet", description = "the pet API")
 public interface PetApi {
 
-    @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", response = Void.class, authorizations = {
+    @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets")
@@ -44,7 +44,7 @@ public interface PetApi {
     ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
-    @ApiOperation(value = "Deletes a pet", nickname = "deletePet", notes = "", response = Void.class, authorizations = {
+    @ApiOperation(value = "Deletes a pet", nickname = "deletePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets")
@@ -101,7 +101,7 @@ public interface PetApi {
     ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true ) @PathVariable("petId") Long petId, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
-    @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", response = Void.class, authorizations = {
+    @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets")
@@ -118,7 +118,7 @@ public interface PetApi {
     ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
-    @ApiOperation(value = "Updates a pet in the store with form data", nickname = "updatePetWithForm", notes = "", response = Void.class, authorizations = {
+    @ApiOperation(value = "Updates a pet in the store with form data", nickname = "updatePetWithForm", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets")
