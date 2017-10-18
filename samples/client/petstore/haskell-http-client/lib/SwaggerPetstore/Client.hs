@@ -25,102 +25,30 @@ Module : SwaggerPetstore.Client
 
 module SwaggerPetstore.Client where
 
-import SwaggerPetstore.Model
-import SwaggerPetstore.API
-import SwaggerPetstore.MimeTypes
+import SwaggerPetstore.Core
 import SwaggerPetstore.Logging
+import SwaggerPetstore.MimeTypes
 
+import qualified Control.Exception.Safe as E
 import qualified Control.Monad.IO.Class as P
-import qualified Data.Aeson as A
+import qualified Control.Monad as P
 import qualified Data.Aeson.Types as A
+import qualified Data.ByteString.Char8 as BC
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Lazy.Char8 as BCL
 import qualified Data.Proxy as P (Proxy(..))
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Network.HTTP.Client as NH
+import qualified Network.HTTP.Client.MultipartFormData as NH
+import qualified Network.HTTP.Types as NH
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
+
 import Data.Function ((&))
 import Data.Monoid ((<>))
 import Data.Text (Text)
 import GHC.Exts (IsString(..))
-import Web.FormUrlEncoded as WH
-import Web.HttpApiData as WH
-import Control.Monad.Catch (MonadThrow)
-
-import qualified Data.Time as TI
-import qualified Data.Map as Map
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
-import qualified Text.Printf as T
-
-import qualified Data.ByteString as B
-import qualified Data.ByteString.Lazy as BL
-import qualified Data.ByteString.Char8 as BC
-import qualified Data.ByteString.Lazy.Char8 as BCL
-import qualified Data.ByteString.Builder as BB
-import qualified Network.HTTP.Client as NH
-import qualified Network.HTTP.Client.TLS as NH
-import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Types.Method as NH
-import qualified Network.HTTP.Types as NH
-import qualified Network.HTTP.Types.URI as NH
-
-import qualified Control.Exception.Safe as E
--- * Config
-
--- | 
-data SwaggerPetstoreConfig = SwaggerPetstoreConfig
-  { configHost  :: BCL.ByteString -- ^ host supplied in the Request
-  , configUserAgent :: Text -- ^ user-agent supplied in the Request
-  , configLogExecWithContext :: LogExecWithContext -- ^ Run a block using a Logger instance
-  , configLogContext :: LogContext -- ^ Configures the logger
-  , configAuthMethods :: [AnyAuthMethod] -- ^ List of configured auth methods
-  }
-
--- | display the config
-instance Show SwaggerPetstoreConfig where
-  show c =
-    T.printf
-      "{ configHost = %v, configUserAgent = %v, ..}"
-      (show (configHost c))
-      (show (configUserAgent c))
-
--- | constructs a default SwaggerPetstoreConfig
---
--- configHost:
---
--- @http://petstore.swagger.io:80/v2@
---
--- configUserAgent:
---
--- @"swagger-haskell-http-client/1.0.0"@
---
-newConfig :: IO SwaggerPetstoreConfig
-newConfig = do
-    logCxt <- initLogContext
-    return $ SwaggerPetstoreConfig
-        { configHost = "http://petstore.swagger.io:80/v2"
-        , configUserAgent = "swagger-haskell-http-client/1.0.0"
-        , configLogExecWithContext = runDefaultLogExecWithContext
-        , configLogContext = logCxt
-        , configAuthMethods = []
-        }  
-
--- | updates config use AuthMethod on matching requests
-addAuthMethod :: AuthMethod auth => SwaggerPetstoreConfig -> auth -> SwaggerPetstoreConfig
-addAuthMethod config@SwaggerPetstoreConfig {configAuthMethods = as} a =
-  config { configAuthMethods = AnyAuthMethod a : as}
-
--- | updates the config to use stdout logging
-withStdoutLogging :: SwaggerPetstoreConfig -> IO SwaggerPetstoreConfig
-withStdoutLogging p = do
-    logCxt <- stdoutLoggingContext (configLogContext p)
-    return $ p { configLogExecWithContext = stdoutLoggingExec, configLogContext = logCxt }
-
--- | updates the config to use stderr logging
-withStderrLogging :: SwaggerPetstoreConfig -> IO SwaggerPetstoreConfig
-withStderrLogging p = do
-    logCxt <- stderrLoggingContext (configLogContext p)
-    return $ p { configLogExecWithContext = stderrLoggingExec, configLogContext = logCxt }
-
--- | updates the config to disable logging
-withNoLogging :: SwaggerPetstoreConfig -> SwaggerPetstoreConfig
-withNoLogging p = p { configLogExecWithContext =  runNullLogExec}
 
 -- * Dispatch
 
@@ -243,35 +171,28 @@ _toInitRequest
   -> SwaggerPetstoreRequest req contentType res -- ^ request
   -> accept -- ^ "accept" 'MimeType'
   -> IO (InitRequest req contentType res accept) -- ^ initialized request
-_toInitRequest config req0 accept = do
-  parsedReq <- NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
-  let req1 = _applyAuthMethods req0 config
-                & _setContentTypeHeader
-                & flip _setAcceptHeader accept
-      reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders (rParams req1)
-      reqQuery = NH.renderQuery True (paramsQuery (rParams req1))
-      pReq = parsedReq { NH.method = (rMethod req1)
-                       , NH.requestHeaders = reqHeaders
-                       , NH.queryString = reqQuery
-                       }
-  outReq <- case paramsBody (rParams req1) of
-    ParamBodyNone -> pure (pReq { NH.requestBody = mempty })
-    ParamBodyB bs -> pure (pReq { NH.requestBody = NH.RequestBodyBS bs })
-    ParamBodyBL bl -> pure (pReq { NH.requestBody = NH.RequestBodyLBS bl })
-    ParamBodyFormUrlEncoded form -> pure (pReq { NH.requestBody = NH.RequestBodyLBS (WH.urlEncodeForm form) })
-    ParamBodyMultipartFormData parts -> NH.formDataBody parts pReq
+_toInitRequest config req0 accept = 
+  runConfigLogWithExceptions "Client" config $ do
+    parsedReq <- P.liftIO $ NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
+    req1 <- P.liftIO $ _applyAuthMethods req0 config
+    P.when
+        (configValidateAuthMethods config && (not . null . rAuthTypes) req1)
+        (E.throwString $ "AuthMethod not configured: " <> (show . head . rAuthTypes) req1)
+    let req2 = req1 & _setContentTypeHeader & flip _setAcceptHeader accept
+        reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders (rParams req2)
+        reqQuery = NH.renderQuery True (paramsQuery (rParams req2))
+        pReq = parsedReq { NH.method = (rMethod req2)
+                        , NH.requestHeaders = reqHeaders
+                        , NH.queryString = reqQuery
+                        }
+    outReq <- case paramsBody (rParams req2) of
+        ParamBodyNone -> pure (pReq { NH.requestBody = mempty })
+        ParamBodyB bs -> pure (pReq { NH.requestBody = NH.RequestBodyBS bs })
+        ParamBodyBL bl -> pure (pReq { NH.requestBody = NH.RequestBodyLBS bl })
+        ParamBodyFormUrlEncoded form -> pure (pReq { NH.requestBody = NH.RequestBodyLBS (WH.urlEncodeForm form) })
+        ParamBodyMultipartFormData parts -> NH.formDataBody parts pReq
 
-  pure (InitRequest outReq)
-
--- | apply all matching AuthMethods in config to request
-_applyAuthMethods
-  :: SwaggerPetstoreRequest req contentType res
-  -> SwaggerPetstoreConfig
-  -> SwaggerPetstoreRequest req contentType res
-_applyAuthMethods req SwaggerPetstoreConfig {configAuthMethods = as} =
-  foldl go req as
-  where
-    go r (AnyAuthMethod a) = r `applyAuthMethod` a
+    pure (InitRequest outReq)
 
 -- | modify the underlying Request
 modifyInitRequest :: InitRequest req contentType res accept -> (NH.Request -> NH.Request) -> InitRequest req contentType res accept 

@@ -19,10 +19,8 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.util.Json;
-
-import java.io.IOException;
-import java.io.File;
+import io.swagger.util.Yaml;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -41,17 +39,18 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     protected Boolean useMonadLogger = false;
 
-    // CLI
-    public static final String ALLOW_FROMJSON_NULLS = "allowFromJsonNulls";
-    public static final String ALLOW_TOJSON_NULLS = "allowToJsonNulls";
-    public static final String DATETIME_FORMAT = "dateTimeFormat";
-    public static final String DATE_FORMAT = "dateFormat";
-    public static final String GENERATE_FORM_URLENCODED_INSTANCES = "generateFormUrlEncodedInstances";
-    public static final String GENERATE_LENSES = "generateLenses";
-    public static final String GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
-    public static final String MODEL_DERIVING = "modelDeriving";
-    public static final String STRICT_FIELDS = "strictFields";
-    public static final String USE_MONAD_LOGGER = "useMonadLogger";
+    // CLI PROPS
+    public static final String PROP_ALLOW_FROMJSON_NULLS = "allowFromJsonNulls";
+    public static final String PROP_ALLOW_TOJSON_NULLS = "allowToJsonNulls";
+    public static final String PROP_DATETIME_FORMAT = "dateTimeFormat";
+    public static final String PROP_DATE_FORMAT = "dateFormat";
+    public static final String PROP_GENERATE_FORM_URLENCODED_INSTANCES = "generateFormUrlEncodedInstances";
+    public static final String PROP_GENERATE_LENSES = "generateLenses";
+    public static final String PROP_GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
+    public static final String PROP_INLINE_CONSUMES_CONTENT_TYPES = "inlineConsumesContentTypes";
+    public static final String PROP_MODEL_DERIVING = "modelDeriving";
+    public static final String PROP_STRICT_FIELDS = "strictFields";
+    public static final String PROP_USE_MONAD_LOGGER = "useMonadLogger";
 
     // protected String MODEL_IMPORTS = "modelImports";
     // protected String MODEL_EXTENSIONS = "modelExtensions";
@@ -59,8 +58,30 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
     static final String MEDIA_TYPE = "mediaType";
-    static final String MEDIA_DATA_TYPE = "x-mediaDataType";
-    static final String MEDIA_IS_JSON = "x-mediaIsJson";
+
+    // vendor extensions
+    static final String X_ALL_UNIQUE_PARAMS = "x-allUniqueParams";
+    static final String X_COLLECTION_FORMAT = "x-collectionFormat";
+    static final String X_DUPLICATE = "x-duplicate";
+    static final String X_HADDOCK_PATH = "x-haddockPath";
+    static final String X_HAS_BODY_OR_FORM_PARAM = "x-hasBodyOrFormParam";
+    static final String X_HAS_MIME_FORM_URL_ENCODED = "x-hasMimeFormUrlEncoded";
+    static final String X_HAS_NEW_TAG = "x-hasNewTag";
+    static final String X_HAS_OPTIONAL_PARAMS = "x-hasOptionalParams";
+    static final String X_HAS_UNKNOWN_MIME_TYPES = "x-hasUnknownMimeTypes";
+    static final String X_HAS_UNKNOWN_RETURN = "x-hasUnknownReturn";
+    static final String X_INLINE_CONTENT_TYPE = "x-inlineContentType";
+    static final String X_IS_BODY_OR_FORM_PARAM = "x-isBodyOrFormParam";
+    static final String X_MEDIA_DATA_TYPE = "x-mediaDataType";
+    static final String X_MEDIA_IS_JSON = "x-mediaIsJson";
+    static final String X_MIME_TYPES = "x-mimeTypes";
+    static final String X_OPERATION_TYPE = "x-operationType";
+    static final String X_PARAM_NAME_TYPE = "x-paramNameType";
+    static final String X_PATH = "x-path";
+    static final String X_RETURN_TYPE = "x-returnType";
+    static final String X_STRICT_FIELDS = "x-strictFields";
+    static final String X_UNKNOWN_MIME_TYPES = "x-unknownMimeTypes";
+    static final String X_USE_MONAD_LOGGER = "x-useMonadLogger";
 
 
     protected Map<String, CodegenParameter> uniqueParamsByName = new HashMap<String, CodegenParameter>();
@@ -183,79 +204,82 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         knownMimeDataTypes.put("*/*", "MimeAny");
 
         importMapping.clear();
-        importMapping.put("Map", "qualified Data.Map as Map");
 
         cliOptions.add(CliOption.newString(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
 
-        cliOptions.add(CliOption.newBoolean(ALLOW_FROMJSON_NULLS, "allow JSON Null during model decoding from JSON").defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(CliOption.newBoolean(ALLOW_TOJSON_NULLS, "allow emitting JSON Null during model encoding to JSON").defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(CliOption.newBoolean(GENERATE_LENSES, "Generate Lens optics for Models").defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(CliOption.newBoolean(GENERATE_MODEL_CONSTRUCTORS, "Generate smart constructors (only supply required fields) for models").defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(CliOption.newBoolean(GENERATE_FORM_URLENCODED_INSTANCES, "Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_ALLOW_FROMJSON_NULLS, "allow JSON Null during model decoding from JSON").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_ALLOW_TOJSON_NULLS, "allow emitting JSON Null during model encoding to JSON").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_GENERATE_LENSES, "Generate Lens optics for Models").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_GENERATE_MODEL_CONSTRUCTORS, "Generate smart constructors (only supply required fields) for models").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_GENERATE_FORM_URLENCODED_INSTANCES, "Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(PROP_INLINE_CONSUMES_CONTENT_TYPES, "Inline (hardcode) the content-type on operations that do not have multiple content-types (Consumes)").defaultValue(Boolean.FALSE.toString()));
 
-        cliOptions.add(CliOption.newString(MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
-        cliOptions.add(CliOption.newBoolean(STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.TRUE.toString())));
-        cliOptions.add(CliOption.newBoolean(USE_MONAD_LOGGER, "Use the monad-logger package to provide logging (if false, use the katip logging package)").defaultValue((Boolean.FALSE.toString())));
+        cliOptions.add(CliOption.newString(PROP_MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
+        cliOptions.add(CliOption.newBoolean(PROP_STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.TRUE.toString())));
+        cliOptions.add(CliOption.newBoolean(PROP_USE_MONAD_LOGGER, "Use the monad-logger package to provide logging (if false, use the katip logging package)").defaultValue((Boolean.FALSE.toString())));
 
-        cliOptions.add(CliOption.newString(DATETIME_FORMAT, "format string used to parse/render a datetime"));
-        cliOptions.add(CliOption.newString(DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
+        cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
+        cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "hides the timestamp when files were generated").defaultValue(Boolean.TRUE.toString()));
 
     }
 
     public void setAllowFromJsonNulls(Boolean value) {
-        additionalProperties.put(ALLOW_FROMJSON_NULLS, value);
+        additionalProperties.put(PROP_ALLOW_FROMJSON_NULLS, value);
     }
 
     public void setAllowToJsonNulls(Boolean value) {
-        additionalProperties.put(ALLOW_TOJSON_NULLS, value);
+        additionalProperties.put(PROP_ALLOW_TOJSON_NULLS, value);
     }
 
     public void setGenerateModelConstructors(Boolean value) {
-        additionalProperties.put(GENERATE_MODEL_CONSTRUCTORS, value);
+        additionalProperties.put(PROP_GENERATE_MODEL_CONSTRUCTORS, value);
     }
 
     public void setGenerateFormUrlEncodedInstances(Boolean value) {
-        additionalProperties.put(GENERATE_FORM_URLENCODED_INSTANCES, value);
+        additionalProperties.put(PROP_GENERATE_FORM_URLENCODED_INSTANCES, value);
+    }
+    public void setInlineConsumesContentTypes (Boolean value) {
+        additionalProperties.put(PROP_INLINE_CONSUMES_CONTENT_TYPES, value);
     }
 
     public void setGenerateLenses(Boolean value) {
-        additionalProperties.put(GENERATE_LENSES, value);
+        additionalProperties.put(PROP_GENERATE_LENSES, value);
     }
 
     public void setModelDeriving(String value) {
         if (StringUtils.isBlank(value)) {
-            additionalProperties.remove(MODEL_DERIVING);
+            additionalProperties.remove(PROP_MODEL_DERIVING);
         } else {
-            additionalProperties.put(MODEL_DERIVING, StringUtils.join(value.split(" "), ","));
+            additionalProperties.put(PROP_MODEL_DERIVING, StringUtils.join(value.split(" "), ","));
         }
     }
 
     public void setDateTimeFormat(String value) {
         if (StringUtils.isBlank(value)) {
-            additionalProperties.remove(DATETIME_FORMAT);
+            additionalProperties.remove(PROP_DATETIME_FORMAT);
         } else {
-            additionalProperties.put(DATETIME_FORMAT, value);
+            additionalProperties.put(PROP_DATETIME_FORMAT, value);
         }
 
     }
 
     public void setDateFormat(String value) {
         if (StringUtils.isBlank(value)) {
-            additionalProperties.remove(DATE_FORMAT);
+            additionalProperties.remove(PROP_DATE_FORMAT);
         } else {
-            additionalProperties.put(DATE_FORMAT, value);
+            additionalProperties.put(PROP_DATE_FORMAT, value);
         }
     }
 
     public void setStrictFields(Boolean value) {
-        additionalProperties.put("x-strictFields", value);
+        additionalProperties.put(X_STRICT_FIELDS, value);
     }
 
     public void setUseMonadLogger(Boolean value) {
-        additionalProperties.put("x-useMonadLogger", value);
+        additionalProperties.put(X_USE_MONAD_LOGGER, value);
         this.useMonadLogger = value;
     }
 
@@ -269,61 +293,67 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
         }
 
-        if (additionalProperties.containsKey(ALLOW_FROMJSON_NULLS)) {
-            setAllowFromJsonNulls(convertPropertyToBoolean(ALLOW_FROMJSON_NULLS));
+        if (additionalProperties.containsKey(PROP_ALLOW_FROMJSON_NULLS)) {
+            setAllowFromJsonNulls(convertPropertyToBoolean(PROP_ALLOW_FROMJSON_NULLS));
         } else {
             setAllowFromJsonNulls(true);
         }
 
-        if (additionalProperties.containsKey(ALLOW_TOJSON_NULLS)) {
-            setAllowToJsonNulls(convertPropertyToBoolean(ALLOW_TOJSON_NULLS));
+        if (additionalProperties.containsKey(PROP_ALLOW_TOJSON_NULLS)) {
+            setAllowToJsonNulls(convertPropertyToBoolean(PROP_ALLOW_TOJSON_NULLS));
         } else {
             setAllowToJsonNulls(false);
         }
 
-        if (additionalProperties.containsKey(GENERATE_MODEL_CONSTRUCTORS)) {
-            setGenerateModelConstructors(convertPropertyToBoolean(GENERATE_MODEL_CONSTRUCTORS));
+        if (additionalProperties.containsKey(PROP_GENERATE_MODEL_CONSTRUCTORS)) {
+            setGenerateModelConstructors(convertPropertyToBoolean(PROP_GENERATE_MODEL_CONSTRUCTORS));
         } else {
             setGenerateModelConstructors(true);
         }
 
-        if (additionalProperties.containsKey(GENERATE_FORM_URLENCODED_INSTANCES)) {
-            setGenerateFormUrlEncodedInstances(convertPropertyToBoolean(GENERATE_FORM_URLENCODED_INSTANCES));
+        if (additionalProperties.containsKey(PROP_GENERATE_FORM_URLENCODED_INSTANCES)) {
+            setGenerateFormUrlEncodedInstances(convertPropertyToBoolean(PROP_GENERATE_FORM_URLENCODED_INSTANCES));
         } else {
             setGenerateFormUrlEncodedInstances(true);
         }
 
-        if (additionalProperties.containsKey(GENERATE_LENSES)) {
-            setGenerateLenses(convertPropertyToBoolean(GENERATE_LENSES));
+        if (additionalProperties.containsKey(PROP_INLINE_CONSUMES_CONTENT_TYPES)) {
+            setInlineConsumesContentTypes(convertPropertyToBoolean(PROP_INLINE_CONSUMES_CONTENT_TYPES));
+        } else {
+            setInlineConsumesContentTypes(false);
+        }
+
+        if (additionalProperties.containsKey(PROP_GENERATE_LENSES)) {
+            setGenerateLenses(convertPropertyToBoolean(PROP_GENERATE_LENSES));
         } else {
             setGenerateLenses(true);
         }
 
-        if (additionalProperties.containsKey(MODEL_DERIVING)) {
-            setModelDeriving(additionalProperties.get(MODEL_DERIVING).toString());
+        if (additionalProperties.containsKey(PROP_MODEL_DERIVING)) {
+            setModelDeriving(additionalProperties.get(PROP_MODEL_DERIVING).toString());
         } else {
             setModelDeriving("");
         }
 
-        if (additionalProperties.containsKey(DATETIME_FORMAT)) {
-            setDateTimeFormat(additionalProperties.get(DATETIME_FORMAT).toString());
+        if (additionalProperties.containsKey(PROP_DATETIME_FORMAT)) {
+            setDateTimeFormat(additionalProperties.get(PROP_DATETIME_FORMAT).toString());
         } else {
             setDateTimeFormat(null); // default should be null
         }
 
-        if (additionalProperties.containsKey(DATE_FORMAT)) {
-            setDateFormat(additionalProperties.get(DATE_FORMAT).toString());
+        if (additionalProperties.containsKey(PROP_DATE_FORMAT)) {
+            setDateFormat(additionalProperties.get(PROP_DATE_FORMAT).toString());
         } else {
             setDateFormat(defaultDateFormat);
         }
 
-        if (additionalProperties.containsKey(STRICT_FIELDS)) {
-            setStrictFields(convertPropertyToBoolean(STRICT_FIELDS));
+        if (additionalProperties.containsKey(PROP_STRICT_FIELDS)) {
+            setStrictFields(convertPropertyToBoolean(PROP_STRICT_FIELDS));
         } else {
             setStrictFields(true);
         }
-        if (additionalProperties.containsKey(USE_MONAD_LOGGER)) {
-            setUseMonadLogger(convertPropertyToBoolean(USE_MONAD_LOGGER));
+        if (additionalProperties.containsKey(PROP_USE_MONAD_LOGGER)) {
+            setUseMonadLogger(convertPropertyToBoolean(PROP_USE_MONAD_LOGGER));
         } else {
             setUseMonadLogger(false);
         }
@@ -366,12 +396,14 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         // root
         supportingFiles.add(new SupportingFile("haskell-http-client.cabal.mustache", "", cabalName + ".cabal"));
+        supportingFiles.add(new SupportingFile("swagger.mustache", "", "swagger.yaml"));
 
         // lib
         supportingFiles.add(new SupportingFile("TopLevel.mustache", "lib/", apiName + ".hs"));
         supportingFiles.add(new SupportingFile("Client.mustache", "lib/" + apiName, "Client.hs"));
 
         supportingFiles.add(new SupportingFile("API.mustache", "lib/" + apiName, "API.hs"));
+        supportingFiles.add(new SupportingFile("Core.mustache", "lib/" + apiName, "Core.hs"));
         supportingFiles.add(new SupportingFile("Model.mustache", "lib/" + apiName, "Model.hs"));
         supportingFiles.add(new SupportingFile("MimeTypes.mustache", "lib/" + apiName, "MimeTypes.hs"));
 
@@ -382,8 +414,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // apiTemplateFiles.put("Model.mustache", ".hs");
 
         // lens
-        if ((boolean)additionalProperties.get(GENERATE_LENSES)) {
-            supportingFiles.add(new SupportingFile("Lens.mustache", "lib/" + apiName, "Lens.hs"));
+        if ((boolean)additionalProperties.get(PROP_GENERATE_LENSES)) {
+            supportingFiles.add(new SupportingFile("ModelLens.mustache", "lib/" + apiName, "ModelLens.hs"));
         }
 
         additionalProperties.put("title", apiName);
@@ -394,9 +426,20 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         additionalProperties.put("configType", apiName + "Config");
         additionalProperties.put("swaggerVersion", swagger.getSwagger());
 
-        WriteInputSwaggerToFile(swagger);
-
         super.preprocessSwagger(swagger);
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Swagger swagger = (Swagger)objs.get("swagger");
+        if(swagger != null) {
+            try {
+                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
+            } catch (JsonProcessingException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+        return super.postProcessSupportingFileData(objs);
     }
 
 
@@ -417,15 +460,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String getSwaggerType(Property p) {
         String swaggerType = super.getSwaggerType(p);
-        String type = null;
+
         if (typeMapping.containsKey(swaggerType)) {
             return typeMapping.get(swaggerType);
-        } else if (languageSpecificPrimitives.contains(type)) {
-            return type;
         } else if (swaggerType == "object") {
             return "A.Value";
-//        } else if (typeMapping.containsValue(swaggerType)) {
-//            return toModelName(swaggerType) + "_";
         } else {
             return toModelName(swaggerType);
         }
@@ -459,21 +498,21 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         op.vendorExtensions = new LinkedHashMap();
 
         String operationType = toTypeName("Op", op.operationId);
-        op.vendorExtensions.put("x-operationType", operationType);
+        op.vendorExtensions.put(X_OPERATION_TYPE, operationType);
         typeNames.add(operationType);
 
-        op.vendorExtensions.put("x-haddockPath", String.format("%s %s", op.httpMethod, op.path.replace("/", "\\/")));
-        op.vendorExtensions.put("x-hasBodyOrFormParam", op.getHasBodyParam() || op.getHasFormParams());
+        op.vendorExtensions.put(X_HADDOCK_PATH, String.format("%s %s", op.httpMethod, op.path.replace("/", "\\/")));
+        op.vendorExtensions.put(X_HAS_BODY_OR_FORM_PARAM, op.getHasBodyParam() || op.getHasFormParams());
 
         for (CodegenParameter param : op.allParams) {
             param.vendorExtensions = new LinkedHashMap(); // prevent aliasing/sharing
-            param.vendorExtensions.put("x-operationType", operationType);
-            param.vendorExtensions.put("x-isBodyOrFormParam", param.isBodyParam || param.isFormParam);
+            param.vendorExtensions.put(X_OPERATION_TYPE, operationType);
+            param.vendorExtensions.put(X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
-                param.vendorExtensions.put("x-collectionFormat", mapCollectionFormat(param.collectionFormat));
+                param.vendorExtensions.put(X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
             }
             if(!param.required) {
-                op.vendorExtensions.put("x-hasOptionalParams", true);
+                op.vendorExtensions.put(X_HAS_OPTIONAL_PARAMS, true);
             }
 
             deduplicateParameter(param);
@@ -508,10 +547,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         HashMap<String, Object> pathOps = (HashMap<String, Object>)ret.get("operations");
         ArrayList<CodegenOperation> ops = (ArrayList<CodegenOperation>)pathOps.get("operation");
         if(ops.size() > 0) {
-            ops.get(0).vendorExtensions.put("x-hasNewTag", true);
+            ops.get(0).vendorExtensions.put(X_HAS_NEW_TAG, true);
         }
 
-        additionalProperties.put("x-hasUnknownMimeTypes", !unknownMimeTypes.isEmpty());
+        additionalProperties.put(X_HAS_UNKNOWN_MIME_TYPES, !unknownMimeTypes.isEmpty());
 
         Collections.sort(unknownMimeTypes, new Comparator<Map<String, String>>() {
             @Override
@@ -519,19 +558,19 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 return o1.get(MEDIA_TYPE).compareTo(o2.get(MEDIA_TYPE));
             }
         });
-        additionalProperties.put("x-unknownMimeTypes", unknownMimeTypes);
+        additionalProperties.put(X_UNKNOWN_MIME_TYPES, unknownMimeTypes);
 
         ArrayList<CodegenParameter> params = new ArrayList<>(uniqueParamsByName.values());
         Collections.sort(params, new Comparator<CodegenParameter>() {
             @Override
             public int compare(CodegenParameter o1, CodegenParameter o2) {
                 return
-                        ((String) o1.vendorExtensions.get("x-paramNameType"))
+                        ((String) o1.vendorExtensions.get(X_PARAM_NAME_TYPE))
                                 .compareTo(
-                                        (String) o2.vendorExtensions.get("x-paramNameType"));
+                                        (String) o2.vendorExtensions.get(X_PARAM_NAME_TYPE));
             }
         });
-        additionalProperties.put("x-allUniqueParams", params);
+        additionalProperties.put(X_ALL_UNIQUE_PARAMS, params);
 
         return ret;
     }
@@ -543,8 +582,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             CodegenModel m = (CodegenModel) h.get("model");
             if (modelMimeTypes.containsKey(m.classname)) {
                 Set<String> mimeTypes = modelMimeTypes.get(m.classname);
-                m.vendorExtensions.put("x-mimeTypes", mimeTypes);
-                if ((boolean)additionalProperties.get(GENERATE_FORM_URLENCODED_INSTANCES) && mimeTypes.contains("MimeFormUrlEncoded")) {
+                m.vendorExtensions.put(X_MIME_TYPES, mimeTypes);
+                if ((boolean)additionalProperties.get(PROP_GENERATE_FORM_URLENCODED_INSTANCES) && mimeTypes.contains("MimeFormUrlEncoded")) {
                     Boolean hasMimeFormUrlEncoded = true;
                     for (CodegenProperty v : m.vars) {
                         if (!(v.isPrimitiveType || v.isString || v.isDate || v.isDateTime)) {
@@ -552,7 +591,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                         }
                     }
                     if (hasMimeFormUrlEncoded) {
-                        m.vendorExtensions.put("x-hasMimeFormUrlEncoded", true);
+                        m.vendorExtensions.put(X_HAS_MIME_FORM_URL_ENCODED, true);
                     }
                 }
             }
@@ -614,22 +653,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return dataType != null && dataType.equals("B.ByteString");
     }
 
-    //copy input swagger to output folder
-    private void WriteInputSwaggerToFile(Swagger swagger) {
-        try {
-            String swaggerJson = Json.pretty(swagger);
-            FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e.getCause());
-        }
-    }
-
     private void processReturnType(CodegenOperation op) {
         String returnType = op.returnType;
         if (returnType == null || returnType.equals("null")) {
             if(op.hasProduces) {
                 returnType = "res";
-                op.vendorExtensions.put("x-hasUnknownReturn", true);
+                op.vendorExtensions.put(X_HAS_UNKNOWN_RETURN, true);
             } else {
                 returnType = "NoContent";
             }
@@ -637,13 +666,15 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
         }
-        op.vendorExtensions.put("x-returnType", returnType);
+        op.vendorExtensions.put(X_RETURN_TYPE, returnType);
     }
 
     private void processProducesConsumes(CodegenOperation op) {
         if (op.hasConsumes) {
             for (Map<String, String> m : op.consumes) {
                 processMediaType(op,m);
+                processInlineConsumesContentType(op, m);
+
             }
             if (isMultipartOperation(op.consumes)) {
                 op.isMultipart = Boolean.TRUE;
@@ -652,6 +683,18 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (op.hasProduces) {
             for (Map<String, String> m : op.produces) {
                 processMediaType(op,m);
+            }
+        }
+    }
+
+    private void processInlineConsumesContentType(CodegenOperation op, Map<String, String> m) {
+        if ((boolean) additionalProperties.get(PROP_INLINE_CONSUMES_CONTENT_TYPES)
+                && op.consumes.size() == 1) {
+            op.vendorExtensions.put(X_INLINE_CONTENT_TYPE, m);
+            for (CodegenParameter param : op.allParams) {
+                if (param.isBodyParam && param.required) {
+                    param.vendorExtensions.put(X_INLINE_CONTENT_TYPE, m);
+                }
             }
         }
     }
@@ -687,7 +730,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 uniqueParamsByName.put(paramNameType, param);
             }
 
-            param.vendorExtensions.put("x-paramNameType", paramNameType);
+            param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType);
             typeNames.add(paramNameType);
         }
     }
@@ -695,7 +738,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public Boolean checkParamForDuplicates(String paramNameType, CodegenParameter param) {
         CodegenParameter lastParam = this.uniqueParamsByName.get(paramNameType);
         if (lastParam != null && lastParam.dataType != null && lastParam.dataType.equals(param.dataType)) {
-            param.vendorExtensions.put("x-duplicate", true);
+            param.vendorExtensions.put(X_DUPLICATE, true);
             return true;
         }
         return false;
@@ -714,7 +757,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             xPath = xPath.replaceAll("^\\[,", "[");
             xPath = xPath.replaceAll(",\\]$", "]");
         }
-        op.vendorExtensions.put("x-path", xPath);
+        op.vendorExtensions.put(X_PATH, xPath);
     }
 
 
@@ -725,9 +768,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         String mimeType = getMimeDataType(mediaType);
         typeNames.add(mimeType);
-        m.put(MEDIA_DATA_TYPE, mimeType);
+        m.put(X_MEDIA_DATA_TYPE, mimeType);
         if (isJsonMimeType(mediaType)) {
-            m.put(MEDIA_IS_JSON, "true");
+            m.put(X_MEDIA_IS_JSON, "true");
         }
 
         if (!knownMimeDataTypes.containsValue(mimeType) && !unknownMimeTypesContainsType(mimeType)) {
@@ -744,7 +787,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     private Boolean unknownMimeTypesContainsType(String mimeType) {
         for(Map<String,String> m : unknownMimeTypes) {
-            String mimeType0 = m.get(MEDIA_DATA_TYPE);
+            String mimeType0 = m.get(X_MEDIA_DATA_TYPE);
             if(mimeType0 != null && mimeType0.equals(mimeType)) {
                 return true;
             }
@@ -913,29 +956,48 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 else
                     return "True";
             }
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
         }
 
         return null;
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return "Enum'" + toTypeName("", property.name);
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        List<String> num = new ArrayList<>(Arrays.asList("integer","int","double","long","float"));
+        if (value.length() == 0) {
+            return "E'Empty";
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(value) != null) {
+            return "E'" + sanitizeName(getSymbolName(value));
+        }
+
+        // number
+        if (num.contains(datatype.toLowerCase())) {
+            String varName = "Num" + value;
+            varName = varName.replaceAll("-", "Minus_");
+            varName = varName.replaceAll("\\+", "Plus_");
+            varName = varName.replaceAll("\\.", "_Dot_");
+            return "E'" + sanitizeName(varName);
+        }
+
+        return "E'" + sanitizeName(value);
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        List<String> num = new ArrayList<>(Arrays.asList("integer","int","double","long","float"));
+        if(num.contains(datatype.toLowerCase())) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 
     // override with any special text escaping logic

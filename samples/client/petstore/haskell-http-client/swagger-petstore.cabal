@@ -25,7 +25,7 @@ cabal-version:  >= 1.10
 
 extra-source-files:
     README.md
-    swagger.json
+    swagger.yaml
 
 library
   hs-source-dirs:
@@ -61,10 +61,11 @@ library
       SwaggerPetstore
       SwaggerPetstore.API
       SwaggerPetstore.Client
-      SwaggerPetstore.Model
-      SwaggerPetstore.MimeTypes
-      SwaggerPetstore.Lens
+      SwaggerPetstore.Core
       SwaggerPetstore.Logging
+      SwaggerPetstore.MimeTypes
+      SwaggerPetstore.Model
+      SwaggerPetstore.ModelLens
   other-modules:
       Paths_swagger_petstore
   default-language: Haskell2010

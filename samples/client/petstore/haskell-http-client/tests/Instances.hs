@@ -2,10 +2,9 @@
 
 module Instances where
 
-import Control.Monad
-import Data.Char (isSpace)
-import Data.List (sort)
-import Test.QuickCheck
+import SwaggerPetstore.Model
+import SwaggerPetstore.Core
+
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.HashMap.Strict as HM
@@ -14,8 +13,12 @@ import qualified Data.Text as T
 import qualified Data.Time as TI
 import qualified Data.Vector as V
 
+import Control.Monad
+import Data.Char (isSpace)
+import Data.List (sort)
+import Test.QuickCheck
+
 import ApproxEq
-import SwaggerPetstore.Model
 
 instance Arbitrary T.Text where
   arbitrary = T.pack <$> arbitrary
@@ -102,6 +105,7 @@ instance Arbitrary Animal where
 
 instance Arbitrary AnimalFarm where
   arbitrary =
+    
     pure AnimalFarm
      
 
@@ -172,6 +176,7 @@ instance Arbitrary EnumArrays where
 
 instance Arbitrary EnumClass where
   arbitrary =
+    
     pure EnumClass
      
 
@@ -271,8 +276,7 @@ instance Arbitrary Order where
 
 instance Arbitrary OuterBoolean where
   arbitrary =
-    pure OuterBoolean
-     
+    OuterBoolean <$> arbitrary
 
 instance Arbitrary OuterComposite where
   arbitrary =
@@ -284,18 +288,17 @@ instance Arbitrary OuterComposite where
 
 instance Arbitrary OuterEnum where
   arbitrary =
+    
     pure OuterEnum
      
 
 instance Arbitrary OuterNumber where
   arbitrary =
-    pure OuterNumber
-     
+    OuterNumber <$> arbitrary
 
 instance Arbitrary OuterString where
   arbitrary =
-    pure OuterString
-     
+    OuterString <$> arbitrary
 
 instance Arbitrary Pet where
   arbitrary =

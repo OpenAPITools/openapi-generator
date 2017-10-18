@@ -9,7 +9,7 @@ Module : {{title}}.Lens
 {-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{title}}.Lens where
+module {{title}}.ModelLens where
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BL
@@ -24,11 +24,7 @@ import Prelude (($), (.),(<$>),(<*>),(=<<),Maybe(..),Bool(..),Char,Double,FilePa
 import qualified Prelude as P
 
 import {{title}}.Model
-
--- * Type Aliases
-
-type Lens_' s a = Lens_ s s a a
-type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
+import {{title}}.Core
 
 {{#models}}
 {{#model}}

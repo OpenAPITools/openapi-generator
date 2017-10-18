@@ -70,6 +70,7 @@ These options allow some customization of the code generation process.
 | generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | true |
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | true                  |
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | true       |
+| inlineConsumesContentTypes      | Inline (hardcode) the content-type on operations that do not have multiple content-types (Consumes)                           | false    | false      |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          |                    |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | true                  |
 | useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | false                |
@@ -109,10 +110,11 @@ This library is intended to be imported qualified.
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
 | SwaggerPetstore.Client    | use the "dispatch" functions to send requests       |
-| SwaggerPetstore.API       | construct requetss                                  |
-| SwaggerPetstore.Model     | describes models                                    |
+| SwaggerPetstore.Core      | core funcions, config and request types             |
+| SwaggerPetstore.API       | construct api requests                              |
+| SwaggerPetstore.Model     | describes api models                                |
 | SwaggerPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |
-| SwaggerPetstore.Lens      | lenses for model fields                             |
+| SwaggerPetstore.ModelLens | lenses for model fields                             |
 | SwaggerPetstore.Logging   | logging functions and utils                         |
 
 

@@ -70,6 +70,7 @@ These options allow some customization of the code generation process.
 | generateFormUrlEncodedInstances | Generate FromForm/ToForm instances for models used by x-www-form-urlencoded operations (model fields must be primitive types) | true     | {{{generateFormUrlEncodedInstances}}} |
 | generateLenses                  | Generate Lens optics for Models                                                                                               | true     | {{{generateLenses}}}                  |
 | generateModelConstructors       | Generate smart constructors (only supply required fields) for models                                                          | true     | {{{generateModelConstructors}}}       |
+| inlineConsumesContentTypes      | Inline (hardcode) the content-type on operations that do not have multiple content-types (Consumes)                           | false    | {{{inlineConsumesContentTypes}}}      |
 | modelDeriving                   | Additional classes to include in the deriving() clause of Models                                                              |          | {{{modelDeriving}}}                   |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | {{{x-strictFields}}}                  |
 | useMonadLogger                  | Use the monad-logger package to provide logging (if instead false, use the katip logging package)                             | false    | {{{x-useMonadLogger}}}                |
@@ -109,10 +110,11 @@ This library is intended to be imported qualified.
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
 | {{title}}.Client    | use the "dispatch" functions to send requests       |
-| {{title}}.API       | construct requetss                                  |
-| {{title}}.Model     | describes models                                    |
+| {{title}}.Core      | core funcions, config and request types             |
+| {{title}}.API       | construct api requests                              |
+| {{title}}.Model     | describes api models                                |
 | {{title}}.MimeTypes | encoding/decoding MIME types (content-types/accept) |
-| {{title}}.Lens      | lenses for model fields                             |
+| {{title}}.ModelLens | lenses for model fields                             |
 | {{title}}.Logging   | logging functions and utils                         |
 
 

@@ -23,6 +23,7 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
     public static final String GENERATE_FORM_URLENCODED_INSTANCES = "true";
     public static final String GENERATE_LENSES = "true";
     public static final String GENERATE_MODEL_CONSTRUCTORS = "true";
+    public static final String INLINE_CONSUMES_CONTENT_TYPES = "false";
     public static final String USE_MONAD_LOGGER = "false";
 
     @Override
@@ -40,16 +41,17 @@ public class HaskellHttpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, HIDE_GENERATION_TIMESTAMP)
 
-                .put(HaskellHttpClientCodegen.ALLOW_FROMJSON_NULLS, ALLOW_FROMJSON_NULLS)
-                .put(HaskellHttpClientCodegen.ALLOW_TOJSON_NULLS, ALLOW_TOJSON_NULLS)
-                .put(HaskellHttpClientCodegen.DATETIME_FORMAT, DATETIME_FORMAT)
-                .put(HaskellHttpClientCodegen.DATE_FORMAT, DATE_FORMAT)
-                .put(HaskellHttpClientCodegen.MODEL_DERIVING, MODEL_DERIVING)
-                .put(HaskellHttpClientCodegen.GENERATE_FORM_URLENCODED_INSTANCES, GENERATE_FORM_URLENCODED_INSTANCES)
-                .put(HaskellHttpClientCodegen.GENERATE_LENSES, GENERATE_LENSES)
-                .put(HaskellHttpClientCodegen.GENERATE_MODEL_CONSTRUCTORS, GENERATE_MODEL_CONSTRUCTORS)
-                .put(HaskellHttpClientCodegen.STRICT_FIELDS, STRICT_FIELDS)
-                .put(HaskellHttpClientCodegen.USE_MONAD_LOGGER, USE_MONAD_LOGGER)
+                .put(HaskellHttpClientCodegen.PROP_ALLOW_FROMJSON_NULLS, ALLOW_FROMJSON_NULLS)
+                .put(HaskellHttpClientCodegen.PROP_ALLOW_TOJSON_NULLS, ALLOW_TOJSON_NULLS)
+                .put(HaskellHttpClientCodegen.PROP_DATETIME_FORMAT, DATETIME_FORMAT)
+                .put(HaskellHttpClientCodegen.PROP_DATE_FORMAT, DATE_FORMAT)
+                .put(HaskellHttpClientCodegen.PROP_MODEL_DERIVING, MODEL_DERIVING)
+                .put(HaskellHttpClientCodegen.PROP_GENERATE_FORM_URLENCODED_INSTANCES, GENERATE_FORM_URLENCODED_INSTANCES)
+                .put(HaskellHttpClientCodegen.PROP_GENERATE_LENSES, GENERATE_LENSES)
+                .put(HaskellHttpClientCodegen.PROP_GENERATE_MODEL_CONSTRUCTORS, GENERATE_MODEL_CONSTRUCTORS)
+                .put(HaskellHttpClientCodegen.PROP_INLINE_CONSUMES_CONTENT_TYPES, INLINE_CONSUMES_CONTENT_TYPES)
+                .put(HaskellHttpClientCodegen.PROP_STRICT_FIELDS, STRICT_FIELDS)
+                .put(HaskellHttpClientCodegen.PROP_USE_MONAD_LOGGER, USE_MONAD_LOGGER)
 
                 .build();
     }

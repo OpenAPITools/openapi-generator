@@ -29,7 +29,7 @@ cabal-version:  >= 1.10
 
 extra-source-files:
     README.md
-    swagger.json
+    swagger.yaml
 
 library
   hs-source-dirs:
@@ -65,10 +65,11 @@ library
       {{title}}
       {{title}}.API
       {{title}}.Client
-      {{title}}.Model
-      {{title}}.MimeTypes
-      {{title}}.Lens
+      {{title}}.Core
       {{title}}.Logging
+      {{title}}.MimeTypes
+      {{title}}.Model
+      {{title}}.ModelLens
   other-modules:
       Paths_{{pathsName}}
   default-language: Haskell2010
