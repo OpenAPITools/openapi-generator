@@ -89,6 +89,10 @@ pub mod requests {
     lazy_static! {
         pub static ref TEST_CLIENT_MODEL: Mime = mime!(Application/Json);
     }
+   /// Create Mime objects for the request content types for TestInlineAdditionalProperties
+    lazy_static! {
+        pub static ref TEST_INLINE_ADDITIONAL_PROPERTIES: Mime = mime!(Application/Json);
+    }
    /// Create Mime objects for the request content types for TestClassname
     lazy_static! {
         pub static ref TEST_CLASSNAME: Mime = mime!(Application/Json);
