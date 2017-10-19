@@ -67,7 +67,7 @@
       {{#hasBodyParam}}
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
-        body <- `{{paramName}}`$toJSON()
+        body <- `{{paramName}}`$toJSONString()
       }
       {{/bodyParams}}
       {{/hasBodyParam}}
