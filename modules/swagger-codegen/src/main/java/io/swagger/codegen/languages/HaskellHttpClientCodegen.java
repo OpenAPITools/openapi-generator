@@ -1,18 +1,20 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.properties.*;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FileUtils;
 
-import io.swagger.models.auth.SecuritySchemeDefinition;
 import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
@@ -335,9 +337,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
         // From the title, compute a reasonable name for the package and the API
-        String title = swagger.getInfo().getTitle();
+        String title = openAPI.getInfo().getTitle();
 
         // Drop any API suffix
         if (title == null) {
@@ -396,66 +398,62 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         additionalProperties.put("pathsName", pathsName);
         additionalProperties.put("requestType", apiName + "Request");
         additionalProperties.put("configType", apiName + "Config");
-        additionalProperties.put("swaggerVersion", swagger.getSwagger());
+        additionalProperties.put("openApiVersion", openAPI.getOpenapi());
 
         //copy input swagger to output folder
         try {
-            String swaggerJson = Json.pretty(swagger);
+            String swaggerJson = Json.pretty(openAPI);
             FileUtils.writeStringToFile(new File(outputFolder + File.separator + "swagger.json"), swaggerJson);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e.getCause());
         }
 
-        super.preprocessSwagger(swagger);
+        super.preprocessOpenAPI(openAPI);
     }
 
-
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "(Map.Map String " + getTypeDeclaration(inner) + ")";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("[%s]", getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("(Map.Map String %s)", getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         } else if (languageSpecificPrimitives.contains(type)) {
             return type;
-        } else if (swaggerType == "object") {
+        } else if (schemaType == "object") {
             return "A.Value";
 //        } else if (typeMapping.containsValue(swaggerType)) {
 //            return toModelName(swaggerType) + "_";
         } else {
-            return toModelName(swaggerType);
+            return toModelName(schemaType);
         }
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            Property additionalProperties2 = ap.getAdditionalProperties();
+    public String toInstantiationType(Schema propertySchema) {
+        if (propertySchema instanceof MapSchema) {
+            Schema additionalProperties2 = propertySchema.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
-                        + "\tIn Property: " + p);
+                        + "\tIn Property: " + propertySchema);
             }
-            String inner = getSwaggerType(additionalProperties2);
+            String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (propertySchema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) propertySchema;
+            String inner = getSchemaType(arraySchema.getItems());
             return inner;
         } else {
             return null;
@@ -463,8 +461,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, schemas, openAPI);
 
         // prevent aliasing/sharing of operation.vendorExtensions reference
         op.vendorExtensions = new LinkedHashMap();
@@ -580,7 +578,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return op;
     }
     
-    public List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes) {
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
         List<CodegenSecurity> secs = super.fromSecurity(schemes);
         for(CodegenSecurity sec : secs) {
            String prefix = "";
@@ -635,8 +633,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model mod, Map<String, Model> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel model = super.fromModel(name, schema, allSchemas);
 
         while (typeNames.contains(model.classname)) {
             model.classname = generateNextName(model.classname);
@@ -648,13 +646,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix, prop.name);
         }
-
-        //String dataOrNewtype = "data";
-        // check if it's a ModelImpl before casting
-        if (!(mod instanceof ModelImpl)) {
-            return model;
-        }
-
         return model;
     }
 
@@ -858,42 +849,24 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "\"" + escapeText(dp.getDefault()) + "\"";
+    public String toDefaultValue(Schema propertySchema) {
+        if (propertySchema instanceof StringSchema) {
+            if (propertySchema.getDefault() != null) {
+                return String.format("\"%s\"", escapeText(propertySchema.getDefault().toString()));
             }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+        } else if (propertySchema instanceof BooleanSchema) {
+            if (propertySchema.getDefault() != null) {
+                if (propertySchema.getDefault().toString().equalsIgnoreCase("false")) {
                     return "False";
-                else
+                } else {
                     return "True";
+                }
             }
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (propertySchema.getDefault() != null) {
+            if (propertySchema.getDefault() != null) {
+                return propertySchema.getDefault().toString();
             }
         }
-
         return null;
     }
 

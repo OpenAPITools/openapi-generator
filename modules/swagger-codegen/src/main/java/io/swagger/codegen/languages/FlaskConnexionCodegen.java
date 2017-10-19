@@ -5,13 +5,27 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
-import io.swagger.codegen.*;
-import io.swagger.models.HttpMethod;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.parameters.Parameter;
 import io.swagger.util.Yaml;
 
 import java.io.File;
@@ -270,46 +284,40 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
-    @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-
-            return getSwaggerType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s[str, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            }
-        } else {
-            type = toModelName(swaggerType);
-        }
-        return type;
+            if (languageSpecificPrimitives.contains(type))
+                return toModelName(type);
+        } else
+            type = swaggerType;
+        return toModelName(type);
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
         // need vendor extensions for x-swagger-router-controller
-        Map<String, Path> paths = swagger.getPaths();
+        Map<String, PathItem> paths = openAPI.getPaths();
         if(paths != null) {
             for(String pathname : paths.keySet()) {
-                Path path = paths.get(pathname);
-                Map<HttpMethod, Operation> operationMap = path.getOperationMap();
+                PathItem path = paths.get(pathname);
+                Map<PathItem.HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if(operationMap != null) {
-                    for(HttpMethod method : operationMap.keySet()) {
+                    for(PathItem.HttpMethod method : operationMap.keySet()) {
                         Operation operation = operationMap.get(method);
                         String tag = "default";
                         if(operation.getTags() != null && operation.getTags().size() > 0) {
@@ -320,11 +328,8 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
                             operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         }
                         operation.setOperationId(toOperationId(operationId));
-                        if(operation.getVendorExtensions().get("x-swagger-router-controller") == null) {
-                            operation.getVendorExtensions().put(
-                                    "x-swagger-router-controller",
-                                    controllerPackage + "." + toApiFilename(tag)
-                            );
+                        if(operation.getExtensions() != null && operation.getExtensions().get("x-swagger-router-controller") == null) {
+                            operation.getExtensions().put("x-swagger-router-controller", controllerPackage + "." + toApiFilename(tag));
                         }
                         for (Parameter param: operation.getParameters()) {
                             // sanitize the param name but don't underscore it since it's used for request mapping
@@ -377,10 +382,10 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI) objs.get("swagger");
+        if(openAPI != null) {
             try {
-                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(swagger));
+                objs.put("swagger-yaml", Yaml.mapper().writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }
@@ -485,50 +490,30 @@ public class FlaskConnexionCodegen extends DefaultCodegen implements CodegenConf
     /**
      * Return the default value of the property
      *
-     * @param p Swagger property object
+     * @param propertySchema Swagger property object
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
-            StringProperty dp = (StringProperty) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+    public String toDefaultValue(Schema propertySchema) {
+        if (propertySchema instanceof StringSchema) {
+            if (propertySchema.getDefault() != null) {
+                return String.format("'%s'", propertySchema.getDefault());
             }
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty dp = (BooleanProperty) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+        } else if (propertySchema instanceof BooleanSchema) {
+            if (propertySchema.getDefault() != null) {
+                if (propertySchema.getDefault().toString().equalsIgnoreCase("false")) {
                     return "False";
-                else
+                } else {
                     return "True";
+                }
             }
-        } else if (p instanceof DateProperty) {
+        } else if (propertySchema instanceof DateSchema || propertySchema instanceof DateTimeSchema) {
             // TODO
-        } else if (p instanceof DateTimeProperty) {
-            // TODO
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else {
+            if (propertySchema.getDefault() != null) {
+                return propertySchema.getDefault().toString();
             }
         }
-
         return null;
     }
 

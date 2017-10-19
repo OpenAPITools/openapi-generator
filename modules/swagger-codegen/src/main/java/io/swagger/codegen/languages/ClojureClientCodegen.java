@@ -7,10 +7,10 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Contact;
-import io.swagger.models.Info;
-import io.swagger.models.License;
-import io.swagger.models.Swagger;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.info.Contact;
+import io.swagger.oas.models.info.Info;
+import io.swagger.oas.models.info.License;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -71,8 +71,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
             projectName = ((String) additionalProperties.get(PROJECT_NAME));
@@ -87,8 +87,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             baseNamespace = ((String) additionalProperties.get(BASE_NAMESPACE));
         }
 
-        if (swagger.getInfo() != null) {
-            Info info = swagger.getInfo();
+        if (openAPI.getInfo() != null) {
+            Info info = openAPI.getInfo();
             if (projectName == null &&  info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
                 projectName = dashize(info.getTitle());

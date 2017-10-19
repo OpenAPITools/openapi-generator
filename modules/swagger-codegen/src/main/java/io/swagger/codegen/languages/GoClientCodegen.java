@@ -1,14 +1,13 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
 
 import java.io.File;
 import java.util.*;
 
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
@@ -322,50 +321,50 @@ public class GoClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if(p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema propertySchema) {
+        if(propertySchema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) propertySchema;
+            Schema inner = arraySchema.getItems();
             return "[]" + getTypeDeclaration(inner);
         }
-        else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+        else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
 
-            return getSwaggerType(p) + "[string]" + getTypeDeclaration(inner);
+            return getSchemaType(propertySchema) + "[string]" + getTypeDeclaration(inner);
         }
         //return super.getTypeDeclaration(p);
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        String schemaType = getSchemaType(propertySchema);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if(typeMapping.containsValue(swaggerType)) {
-            return swaggerType;
+        if(typeMapping.containsValue(schemaType)) {
+            return schemaType;
         }
 
-        if(languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        if(languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
 
-        return toModelName(swaggerType);
+        return toModelName(schemaType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type = null;
-        if(typeMapping.containsKey(swaggerType)) {
+        if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
-            if(languageSpecificPrimitives.contains(type))
-                return (type);
-        }
-        else
+            if (languageSpecificPrimitives.contains(type)) {
+                return toModelName(type);
+            }
+        } else {
             type = swaggerType;
-        return type;
+        }
+        return toModelName(type);
     }
 
     @Override

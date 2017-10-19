@@ -1,12 +1,12 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.*;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.parameters.Parameter;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -192,9 +192,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
+    public void preprocessOpenAPI(OpenAPI openAPI) {
         // From the title, compute a reasonable name for the package and the API
-        String title = swagger.getInfo().getTitle();
+        String title = openAPI.getInfo().getTitle();
 
         // Drop any API suffix
         if(title == null) {
@@ -233,7 +233,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         additionalProperties.put("package", cabalName);
 
         // Due to the way servant resolves types, we need a high context stack limit
-        additionalProperties.put("contextStackLimit", swagger.getPaths().size() * 2 + 300);
+        additionalProperties.put("contextStackLimit", openAPI.getPaths().size() * 2 + 300);
 
         List<Map<String, Object>> replacements = new ArrayList<>();
         Object[] replacementChars = specialCharReplacements.keySet().toArray();
@@ -247,7 +247,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
         additionalProperties.put("specialCharReplacements", replacements);
 
-        super.preprocessSwagger(swagger);
+        super.preprocessOpenAPI(openAPI);
     }
 
 
@@ -258,17 +258,15 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return "[" + getTypeDeclaration(inner) + "]";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "Map.Map String " + getTypeDeclaration(inner);
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("[%s]", getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("Map.Map String ", getTypeDeclaration(inner));
         }
-        return fixModelChars(super.getTypeDeclaration(p));
+        return fixModelChars(super.getTypeDeclaration(propertySchema));
     }
 
     /**
@@ -276,11 +274,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
+     * @see io.swagger.oas.models.media.Schema
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -297,20 +295,19 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String toInstantiationType(Property p) {
-        if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            Property additionalProperties2 = ap.getAdditionalProperties();
+    public String toInstantiationType(Schema propertySchema) {
+        if (propertySchema instanceof MapSchema) {
+            Schema additionalProperties2 = propertySchema.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
-                        + "\tIn Property: " + p);
+                        + "\tIn Property: " + propertySchema);
             }
-            String inner = getSwaggerType(additionalProperties2);
+            String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (propertySchema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) propertySchema;
+            String inner = getSchemaType(arraySchema.getItems());
             // Return only the inner type; the wrapping with QueryList is done
             // somewhere else, where we have access to the collection format.
             return inner;
@@ -390,8 +387,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, schemas, openAPI);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
@@ -499,8 +496,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     // Override fromModel to create the appropriate model namings
     @Override
-    public CodegenModel fromModel(String name, Model mod, Map<String, Model> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel model = super.fromModel(name, schema, allSchemas);
 
         // Clean up the class name to remove invalid characters
         model.classname = fixModelChars(model.classname);
@@ -517,11 +514,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Create newtypes for things with non-object types
         String dataOrNewtype = "data";
         // check if it's a ModelImpl before casting
-        if (!(mod instanceof ModelImpl)) {
-            return model;
-        }
 
-        String modelType = ((ModelImpl)  mod).getType();
+        String modelType = schema.getType();
         if(modelType != "object" && typeMapping.containsKey(modelType)) {
             String newtype = typeMapping.get(modelType);
             model.vendorExtensions.put("x-customNewtype", newtype);

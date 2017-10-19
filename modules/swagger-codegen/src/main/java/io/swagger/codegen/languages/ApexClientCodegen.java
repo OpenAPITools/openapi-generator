@@ -1,12 +1,28 @@
 package io.swagger.codegen.languages;
 
 import io.swagger.codegen.*;
-import io.swagger.models.Info;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.*;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.info.Info;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.EmailSchema;
+import io.swagger.oas.models.media.FileSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.ObjectSchema;
+import io.swagger.oas.models.media.PasswordSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.UUIDSchema;
+import io.swagger.oas.models.parameters.Parameter;
+import io.swagger.oas.models.responses.ApiResponse;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,32 +160,32 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
+    public String toDefaultValue(Schema propertySchema) {
         String out = null;
-        if (p instanceof ArrayProperty) {
-            Property inner = ((ArrayProperty) p).getItems();
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
             out = String.format(
                 "new List<%s>()",
                 inner == null ? "Object" : getTypeDeclaration(inner)
             );
-        } else if (p instanceof BooleanProperty) {
+        } else if (propertySchema instanceof BooleanSchema) {
             // true => "true", false => "false", null => "null"
-            out = String.valueOf(((BooleanProperty) p).getDefault());
-        } else if (p instanceof LongProperty) {
-            Long def = ((LongProperty) p).getDefault();
+            out = String.valueOf(((BooleanSchema) propertySchema).getDefault());
+        } else if (propertySchema instanceof IntegerSchema && SchemaTypeUtil.INTEGER64_FORMAT.equals(propertySchema.getFormat())) {
+            Long def = propertySchema.getDefault() != null ? Long.valueOf(propertySchema.getDefault().toString()) : null;
             out = def == null ? out : def.toString() + "L";
-        } else if (p instanceof MapProperty) {
-            Property inner = ((MapProperty) p).getAdditionalProperties();
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format("new Map<String, %s>()", s);
-        } else if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            String def = sp.getDefault();
+        } else if (propertySchema instanceof StringSchema) {
+            StringSchema schema = (StringSchema) propertySchema;
+            String def = schema.getDefault();
             if (def != null) {
-                out = sp.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+                out = schema.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
             }
         } else {
-            out = super.toDefaultValue(p);
+            out = super.toDefaultValue(propertySchema);
         }
 
         // we'll skip over null defaults in the model template to avoid redundant initialization
@@ -199,8 +215,8 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel cm = super.fromModel(name, schema, allSchemas);
         if (cm.interfaces == null) {
             cm.interfaces = new ArrayList<String>();
         }
@@ -239,8 +255,8 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        Info info = swagger.getInfo();
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        Info info = openAPI.getInfo();
         String calloutLabel = info.getTitle();
         additionalProperties.put("calloutLabel", calloutLabel);
         String sanitized = sanitizeName(calloutLabel);
@@ -258,40 +274,18 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path,
-                                          String httpMethod,
-                                          Operation operation,
-                                          Map<String, Model> definitions,
-                                          Swagger swagger) {
-        Boolean hasFormParams = false;
-        for (Parameter p : operation.getParameters()) {
-            if ("formData".equals(p.getIn())) {
-                hasFormParams = true;
-                break;
-            }
-        }
-
-        // only support serialization into JSON and urlencoded forms for now
-        operation.setConsumes(
-            Collections.singletonList(hasFormParams
-                ? "application/x-www-form-urlencoded"
-                : "application/json"));
-
-        // only support deserialization from JSON for now
-        operation.setProduces(Collections.singletonList("application/json"));
-
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
         CodegenOperation op = super.fromOperation(
-            path, httpMethod, operation, definitions, swagger);
+            path, httpMethod, operation, definitions, openAPI);
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes
-            Property responseProperty = findMethodResponse(operation.getResponses()).getSchema();
-            String deserializedExample = toExampleValue(responseProperty);
+            ApiResponse responseProperty = findMethodResponse(operation.getResponses());
+            String deserializedExample = toExampleValue(getSchemaFromResponse(responseProperty));
             for (Map<String, String> example : op.examples) {
                 example.put("example", escapeText(example.get("example")));
                 example.put("deserializedExample", deserializedExample);
             }
         }
-
         return op;
     }
 
@@ -356,91 +350,88 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public String toExampleValue(Property p) {
-        if (p == null) {
-            return "";
+    public String toExampleValue(Schema propertySchema) {
+        if (propertySchema == null) {
+            return StringUtils.EMPTY;
         }
-        Object obj = p.getExample();
-        String example = obj == null ? "" : obj.toString();
-        if (p instanceof ArrayProperty) {
-            example = "new " + getTypeDeclaration(p) + "{" + toExampleValue(
-                ((ArrayProperty) p).getItems()) + "}";
-        } else if (p instanceof BooleanProperty) {
+        Object obj = propertySchema.getExample();
+        String example = obj == null ? StringUtils.EMPTY : obj.toString();
+        if (propertySchema instanceof ArraySchema) {
+            example = String.format("new %s {%s}", getTypeDeclaration(propertySchema),  toExampleValue(((ArraySchema) propertySchema).getItems()));
+        } else if (propertySchema instanceof BooleanSchema) {
             example = String.valueOf(!"false".equals(example));
-        } else if (p instanceof ByteArrayProperty) {
+        } else if (propertySchema instanceof ByteArraySchema) {
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
             }
-            ((ByteArrayProperty) p).setExample(example);
-            example = "EncodingUtil.base64Decode('" + example + "')";
-        } else if (p instanceof DateProperty) {
+            propertySchema.setExample(example);
+            example = String.format("EncodingUtil.base64Decode('%s')", example);
+        } else if (propertySchema instanceof DateSchema) {
             if (example.matches("^\\d{4}(-\\d{2}){2}")) {
                 example = example.substring(0, 10).replaceAll("-0?", ", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23";
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
+                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", propertySchema
                     .getName(), example));
                 example = "2000, 1, 23";
             }
-            example = "Date.newInstance(" + example + ")";
-        } else if (p instanceof DateTimeProperty) {
+            example = String.format("Date.newInstance(%s)", example);
+        } else if (propertySchema instanceof DateTimeSchema) {
             if (example.matches("^\\d{4}([-T:]\\d{2}){5}.+")) {
                 example = example.substring(0, 19).replaceAll("[-T:]0?", ", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23, 4, 56, 7";
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
+                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", propertySchema
                     .getName(), example));
                 example = "2000, 1, 23, 4, 56, 7";
             }
-            example = "Datetime.newInstanceGmt(" + example + ")";
-        } else if (p instanceof DecimalProperty) {
+            example = String.format("Datetime.newInstanceGmt(%s)", example);
+        } else if (propertySchema instanceof NumberSchema) {
             example = example.replaceAll("[^-0-9.]", "");
             example = example.isEmpty() ? "1.3579" : example;
-        } else if (p instanceof FileProperty) {
+        } else if (propertySchema instanceof FileSchema) {
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
-                ((FileProperty) p).setExample(example);
+                propertySchema.setExample(example);
             }
-            example = "EncodingUtil.base64Decode(" + example + ")";
-        } else if (p instanceof EmailProperty) {
+            example = String.format("EncodingUtil.base64Decode(%s)", example);
+        } else if (propertySchema instanceof EmailSchema) {
             if (example.isEmpty()) {
                 example = "example@example.com";
-                ((EmailProperty) p).setExample(example);
+                ((EmailSchema) propertySchema).setExample(example);
             }
             example = "'" + example + "'";
-        } else if (p instanceof LongProperty) {
+        } else if (propertySchema instanceof IntegerSchema && SchemaTypeUtil.INTEGER64_FORMAT.equals(propertySchema.getFormat())) {
             example = example.isEmpty() ? "123456789L" : example + "L";
-        } else if (p instanceof MapProperty) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(
-                ((MapProperty) p).getAdditionalProperties()) + "}";
-        } else if (p instanceof ObjectProperty) {
+        } else if (propertySchema instanceof MapSchema) {
+            example = String.format("new %s {'key'=>%s}", getTypeDeclaration(propertySchema), toExampleValue(propertySchema.getAdditionalProperties()));
+        } else if (propertySchema instanceof ObjectSchema) {
             example = example.isEmpty() ? "null" : example;
-        } else if (p instanceof PasswordProperty) {
+        } else if (propertySchema instanceof PasswordSchema) {
             example = example.isEmpty() ? "password123" : escapeText(example);
-            ((PasswordProperty) p).setExample(example);
-            example = "'" + example + "'";
-        } else if (p instanceof RefProperty) {
-            example = getTypeDeclaration(p) + ".getExample()";
-        } else if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            List<String> enums = sp.getEnum();
+            propertySchema.setExample(example);
+            example = String.format("'&s'", example);
+        } else if (StringUtils.isNotBlank(propertySchema.get$ref()) ) {
+            example = getTypeDeclaration(propertySchema) + ".getExample()";
+        } else if (propertySchema instanceof StringSchema) {
+            List<String> enums = propertySchema.getEnum();
             if (enums != null && example.isEmpty()) {
                 example = enums.get(0);
-                sp.setExample(example);
+                propertySchema.setExample(example);
             } else if (example.isEmpty()) {
                 example = "aeiou";
             } else {
                 example = escapeText(example);
-                sp.setExample(example);
+                propertySchema.setExample(example);
             }
             example = "'" + example + "'";
-        } else if (p instanceof UUIDProperty) {
+        } else if (propertySchema instanceof UUIDSchema) {
             example = example.isEmpty()
                 ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
-                : "'" + escapeText(example) + "'";
-        } else if (p instanceof BaseIntegerProperty) {
+                : String.format("'&s'", escapeText(example));
+        } else if (propertySchema instanceof IntegerSchema) {
             example = example.matches("^-?\\d+$") ? example : "123";
         }
 

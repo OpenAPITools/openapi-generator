@@ -60,6 +60,7 @@ import java.util.regex.Pattern;
 
 public class DefaultCodegen implements CodegenConfig {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
+    public static final String DEFAULT_CONTENT_TYPE = "application/json";
 
     protected String inputSpec;
     protected String outputFolder = "";
@@ -3450,7 +3451,7 @@ public class DefaultCodegen implements CodegenConfig {
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
 
-    private Schema getSchemaFromResponse(ApiResponse response) {
+    protected Schema getSchemaFromResponse(ApiResponse response) {
         if (response.getContent() == null || response.getContent().isEmpty()) {
             return null;
         }
@@ -3481,7 +3482,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private void addConsumesInfo(Operation operation, CodegenOperation codegenOperation) {
+    protected void addConsumesInfo(Operation operation, CodegenOperation codegenOperation) {
         if(operation.getRequestBody() == null || operation.getRequestBody().getContent() == null || operation.getRequestBody().getContent().isEmpty()) {
             return;
         }
@@ -3507,7 +3508,14 @@ public class DefaultCodegen implements CodegenConfig {
         codegenOperation.hasConsumes = true;
     }
 
-    private void addProducesInfo(ApiResponse response, CodegenOperation codegenOperation) {
+    protected Set<String> getConsumesInfo(Operation operation) {
+        if(operation.getRequestBody() == null || operation.getRequestBody().getContent() == null || operation.getRequestBody().getContent().isEmpty()) {
+            return null;
+        }
+        return operation.getRequestBody().getContent().keySet();
+    }
+
+    protected void addProducesInfo(ApiResponse response, CodegenOperation codegenOperation) {
         if(response == null || response.getContent() == null || response.getContent().isEmpty()) {
             return;
         }

@@ -10,15 +10,12 @@ import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.BodyParameter;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.parameters.SerializableParameter;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.Arrays;
@@ -361,20 +358,18 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
    * @return a string value used as the `dataType` field for model templates,
    *         `returnType` for api templates
    */
-  @Override
-  public String getTypeDeclaration(Property p) {
-    if(p instanceof ArrayProperty) {
-      ArrayProperty ap = (ArrayProperty) p;
-      Property inner = ap.getItems();
-      return getSwaggerType(p) + "[" + getTypeDeclaration(inner) + "]";
+
+    @Override
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s[%s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s[String, %s]", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        }
+        return super.getTypeDeclaration(propertySchema);
     }
-    else if (p instanceof MapProperty) {
-      MapProperty mp = (MapProperty) p;
-      Property inner = mp.getAdditionalProperties();
-      return getSwaggerType(p) + "[String, " + getTypeDeclaration(inner) + "]";
-    }
-    return super.getTypeDeclaration(p);
-  }
 
   /**
    * Optional - swagger type conversion. This is used to map swagger types in
@@ -382,11 +377,11 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
    * complex models if there is not a mapping.
    *
    * @return a string value of the type or complex model for this property
-   * @see io.swagger.models.properties.Property
+   * @see io.swagger.oas.models.media.Schema
    */
   @Override
-  public String getSwaggerType(Property p) {
-    String swaggerType = super.getSwaggerType(p);
+  public String getSchemaType(Schema propertySchema) {
+    String swaggerType = super.getSchemaType(propertySchema);
     String type = null;
     if(typeMapping.containsKey(swaggerType)) {
       type = typeMapping.get(swaggerType);
@@ -397,80 +392,6 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       type = swaggerType;
     }
     return toModelName(type);
-  }
-
-
-  /**
-   * Convert Swagger Parameter object to Codegen Parameter object
-   *
-   * @param param Swagger parameter object
-   * @param imports set of imports for library/package/module
-   * @return Codegen Parameter object
-   */
-  @Override
-  public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-
-    CodegenParameter p = super.fromParameter(param, imports);
-
-    if(param instanceof BodyParameter) {
-
-      Model model = ((BodyParameter)param).getSchema();
-
-    }
-    else if(param instanceof SerializableParameter) {
-
-      /**
-       * Currently it's not possible to specify in the codegen other collection
-       * formats than 'multi'
-       */
-      SerializableParameter sparam = (SerializableParameter)param;
-
-      if(     sparam.getCollectionFormat() != null
-          && !sparam.getCollectionFormat().isEmpty()) {
-
-        String collectionFormat = sparam.getCollectionFormat();
-
-        if(sparam.isExclusiveMaximum()!=null && sparam.isExclusiveMaximum()) {
-          p.vendorExtensions.put("x-codegen-collection-max-items",
-                                 sparam.getMaxItems());
-        }
-
-        if(sparam.isExclusiveMinimum()!=null && sparam.isExclusiveMinimum()) {
-          p.vendorExtensions.put("x-codegen-collection-min-items",
-                                 sparam.getMinItems());
-        }
-
-        if(    (collectionFormat.equals("multi"))
-            && (param.getIn().equals("query")) ) {
-
-          /**
-           * 'multi' is only supported for query parameters
-           */
-          p.vendorExtensions.put("x-codegen-collection-multi", true);
-
-        }
-        else if(collectionFormat.equals("csv")) {
-          p.vendorExtensions.put("x-codegen-collection-csv", true);
-        }
-        else if(collectionFormat.equals("ssv")) {
-          p.vendorExtensions.put("x-codegen-collection-ssv", true);
-        }
-        else if(collectionFormat.equals("tsv")) {
-          p.vendorExtensions.put("x-codegen-collection-tsv", true);
-        }
-        else if(collectionFormat.equals("pipes")) {
-          p.vendorExtensions.put("x-codegen-collection-pipes", true);
-        }
-        else {
-          /** Unsupported collection format */
-        }
-
-      }
-
-    }
-
-    return p;
-
   }
 
   /**
@@ -584,33 +505,25 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 
   @Override
-  public CodegenOperation fromOperation(String path, String httpMethod,
-                                        Operation operation,
-                                        Map<String, Model> definitions,
-                                        Swagger swagger) {
-
-      CodegenOperation op = super.fromOperation(path, httpMethod, operation,
-                                                definitions, swagger);
+  public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas, OpenAPI openAPI) {
+      CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
 
       /**
        * Check if the operation has a Bash codegen specific description
        * for help
        */
-      if(op.vendorExtensions.containsKey("x-bash-codegen-description")) {
-        String bash_description
-          = (String)op.vendorExtensions.get("x-bash-codegen-description");
-
-        op.vendorExtensions.put("x-bash-codegen-description",
-          escapeText(bash_description));
+      if(codegenOperation.vendorExtensions.containsKey("x-bash-codegen-description")) {
+        String bashDescription = (String) codegenOperation.vendorExtensions.get("x-bash-codegen-description");
+        codegenOperation.vendorExtensions.put("x-bash-codegen-description", escapeText(bashDescription));
       }
 
       /**
        * Check if operation has an 'x-code-samples' vendor extension with
        * Shell example
        */
-      if(op.vendorExtensions.containsKey("x-code-samples")) {
+      if(codegenOperation.vendorExtensions.containsKey("x-code-samples")) {
 
-        List codesamples = (List)op.vendorExtensions.get("x-code-samples");
+        List codesamples = (List)codegenOperation.vendorExtensions.get("x-code-samples");
 
         for (Object codesample : codesamples) {
             if(codesample instanceof ObjectNode) {
@@ -618,7 +531,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 if ((codesample_object.get("lang").asText()).equals("Shell")) {
 
-                    op.vendorExtensions.put("x-bash-codegen-sample",
+                    codegenOperation.vendorExtensions.put("x-bash-codegen-sample",
                             escapeUnsafeCharacters(
                                     codesample_object.get("source").asText()));
 
@@ -626,23 +539,21 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
       }
-
-      for (CodegenParameter p : op.bodyParams) {
-        if(p.dataType != null && definitions.get(p.dataType) != null) {
+      boolean containsContentType = containsContentType(getConsumesInfo(operation), DEFAULT_CONTENT_TYPE);
+      for (CodegenParameter p : codegenOperation.bodyParams) {
+        if(p.dataType != null && schemas.get(p.dataType) != null) {
           /**
            * If the operation produces Json and has nonempty example
            * try to reformat it.
            */
-          if(operation.getConsumes() != null
-            && operation.getConsumes().contains("application/json")
-            && definitions.get(p.dataType).getExample() != null) {
+          if(containsContentType && schemas.get(p.dataType).getExample() != null) {
 
               ObjectMapper mapper = new ObjectMapper();
               try {
                 p.vendorExtensions.put(
                   "x-codegen-body-example",
                   mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
-                    definitions.get(p.dataType).getExample()));
+                    schemas.get(p.dataType).getExample()));
               }
               catch(JsonProcessingException e) {
                 e.printStackTrace();
@@ -654,45 +565,30 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
              */
             p.vendorExtensions.put(
               "x-codegen-body-example",
-                definitions.get(p.dataType).getExample());
+                schemas.get(p.dataType).getExample());
           }
         }
       }
 
-      return op;
+      return codegenOperation;
 
   }
 
   /**
    * Preprocess original properties from the Swagger definition where necessary.
    *
-   * @param swagger [description]
+   * @param openAPI [description]
    */
   @Override
-  public void preprocessSwagger(Swagger swagger) {
-      super.preprocessSwagger(swagger);
-
-      if ("/".equals(swagger.getBasePath())) {
-          swagger.setBasePath("");
-      }
-
-      if(swagger.getInfo() != null
-         && swagger.getInfo().getVendorExtensions()!=null) {
-        String bash_codegen_app_description
-          = (String)swagger.getInfo().getVendorExtensions()
-                                            .get("x-bash-codegen-description");
-
-        if(bash_codegen_app_description != null) {
-
-          bash_codegen_app_description
-            = escapeText(bash_codegen_app_description);
-
-          additionalProperties.put("x-bash-codegen-app-description",
-            bash_codegen_app_description);
-
+  public void preprocessOpenAPI(OpenAPI openAPI) {
+      super.preprocessOpenAPI(openAPI);
+      if(openAPI.getInfo() != null && openAPI.getInfo().getExtensions() != null) {
+        String bashCodegenAppDescription = (String) openAPI.getInfo().getExtensions().get("x-bash-codegen-description");
+        if(bashCodegenAppDescription != null) {
+          bashCodegenAppDescription = escapeText(bashCodegenAppDescription);
+          additionalProperties.put("x-bash-codegen-app-description", bashCodegenAppDescription);
         }
       }
-
   }
 
   @Override
@@ -760,4 +656,15 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
       p.example = example;
   }
 
+  private boolean containsContentType(Set<String> mediaTypeKeys, String contentType){
+      if (mediaTypeKeys == null || mediaTypeKeys.isEmpty()) {
+          return Boolean.FALSE;
+      }
+      for (String mediaTypeKey : mediaTypeKeys) {
+          if(mediaTypeKey.equals(contentType)) {
+              return Boolean.TRUE;
+          }
+      }
+      return Boolean.FALSE;
+  }
 }

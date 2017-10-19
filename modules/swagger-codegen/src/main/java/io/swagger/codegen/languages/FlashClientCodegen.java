@@ -6,17 +6,15 @@ import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -198,16 +196,16 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty || p instanceof MapProperty) {
-            return getSwaggerType(p);
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema || propertySchema instanceof MapSchema) {
+            return getSchemaType(propertySchema);
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String swaggerType = super.getSchemaType(propertySchema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);
@@ -221,42 +219,28 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
+    public String toDefaultValue(Schema propertySchema) {
+        if (propertySchema instanceof StringSchema) {
             return "null";
-        } else if (p instanceof BooleanProperty) {
+        } else if (propertySchema instanceof BooleanSchema) {
             return "false";
-        } else if (p instanceof DateProperty) {
+        } else if (propertySchema instanceof DateSchema) {
             return "null";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (propertySchema instanceof DateTimeSchema) {
             return "null";
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (propertySchema instanceof NumberSchema) {
+            if (propertySchema.getDefault() != null) {
+                return propertySchema.getDefault().toString();
             }
             return "0.0";
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-            return "0.0";
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (propertySchema instanceof IntegerSchema) {
+            if (propertySchema.getDefault() != null) {
+                return propertySchema.getDefault().toString();
             }
             return "0";
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-            return "0";
-        } else if (p instanceof MapProperty) {
+        } else if (propertySchema instanceof MapSchema) {
             return "new Dictionary()";
-        } else if (p instanceof ArrayProperty) {
+        } else if (propertySchema instanceof ArraySchema) {
             return "new Array()";
         } else {
             return "NaN";
