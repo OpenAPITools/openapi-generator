@@ -54,7 +54,7 @@ Category <- R6::R6Class(
        sprintf(
         '{
            "id": %d,
-           "name": "%s"
+           "name": %s
         }',
         self$`id`,
         self$`name`

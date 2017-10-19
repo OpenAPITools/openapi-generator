@@ -63,7 +63,7 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- character()
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
       }
 
       urlPath <- "/user"
@@ -90,7 +90,7 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- character()
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
       }
 
       urlPath <- "/user/createWithArray"
@@ -117,7 +117,7 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- character()
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
       }
 
       urlPath <- "/user/createWithList"
@@ -256,7 +256,7 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- character()
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
       }
 
       urlPath <- "/user/{username}"
