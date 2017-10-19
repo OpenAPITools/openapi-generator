@@ -63,7 +63,7 @@ PetApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- character()
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
       }
 
       urlPath <- "/pet"
@@ -207,7 +207,7 @@ PetApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- character()
       if (!missing(`body`)) {
-        body <- `body`$toJSON()
+        body <- `body`$toJSONString()
       }
 
       urlPath <- "/pet"
