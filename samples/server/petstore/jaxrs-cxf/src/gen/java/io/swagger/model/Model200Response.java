@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ApiModel(description="Model for testing model name starting with number")
 public class Model200Response  {
@@ -24,6 +25,7 @@ public class Model200Response  {
    * Get name
    * @return name
   **/
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -41,6 +43,7 @@ public class Model200Response  {
    * Get propertyClass
    * @return propertyClass
   **/
+  @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }

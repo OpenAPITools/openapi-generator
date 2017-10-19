@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Capitalization  {
   
@@ -30,6 +31,7 @@ public class Capitalization  {
    * Get smallCamel
    * @return smallCamel
   **/
+  @JsonProperty("smallCamel")
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -47,6 +49,7 @@ public class Capitalization  {
    * Get capitalCamel
    * @return capitalCamel
   **/
+  @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -64,6 +67,7 @@ public class Capitalization  {
    * Get smallSnake
    * @return smallSnake
   **/
+  @JsonProperty("small_Snake")
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -81,6 +85,7 @@ public class Capitalization  {
    * Get capitalSnake
    * @return capitalSnake
   **/
+  @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -98,6 +103,7 @@ public class Capitalization  {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
+  @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -115,6 +121,7 @@ public class Capitalization  {
    * Name of the pet 
    * @return ATT_NAME
   **/
+  @JsonProperty("ATT_NAME")
   public String getATTNAME() {
     return ATT_NAME;
   }

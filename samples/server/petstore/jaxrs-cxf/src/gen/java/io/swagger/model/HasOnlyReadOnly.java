@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HasOnlyReadOnly  {
   
@@ -22,6 +23,7 @@ public class HasOnlyReadOnly  {
    * Get bar
    * @return bar
   **/
+  @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
@@ -31,6 +33,7 @@ public class HasOnlyReadOnly  {
    * Get foo
    * @return foo
   **/
+  @JsonProperty("foo")
   public String getFoo() {
     return foo;
   }

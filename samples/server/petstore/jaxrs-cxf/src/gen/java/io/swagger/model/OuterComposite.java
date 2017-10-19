@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OuterComposite  {
   
@@ -25,6 +26,7 @@ public class OuterComposite  {
    * Get myNumber
    * @return myNumber
   **/
+  @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -42,6 +44,7 @@ public class OuterComposite  {
    * Get myString
    * @return myString
   **/
+  @JsonProperty("my_string")
   public String getMyString() {
     return myString;
   }
@@ -59,6 +62,7 @@ public class OuterComposite  {
    * Get myBoolean
    * @return myBoolean
   **/
+  @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
   }
