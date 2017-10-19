@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Client  {
   
@@ -20,6 +21,7 @@ public class Client  {
    * Get client
    * @return client
   **/
+  @JsonProperty("client")
   public String getClient() {
     return client;
   }

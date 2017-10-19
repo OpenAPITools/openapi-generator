@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EnumArrays  {
   
@@ -90,6 +91,7 @@ public enum ArrayEnumEnum {
    * Get justSymbol
    * @return justSymbol
   **/
+  @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -107,6 +109,7 @@ public enum ArrayEnumEnum {
    * Get arrayEnum
    * @return arrayEnum
   **/
+  @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ApiModel(description="Model for testing model with \"_class\" property")
 public class ClassModel  {
@@ -22,6 +23,7 @@ public class ClassModel  {
    * Get propertyClass
    * @return propertyClass
   **/
+  @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
   }

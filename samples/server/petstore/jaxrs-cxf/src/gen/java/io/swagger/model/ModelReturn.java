@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ApiModel(description="Model for testing reserved words")
 public class ModelReturn  {
@@ -22,6 +23,7 @@ public class ModelReturn  {
    * Get _return
    * @return _return
   **/
+  @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }

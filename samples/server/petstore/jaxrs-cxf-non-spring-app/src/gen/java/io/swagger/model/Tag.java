@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @ApiModel(description="A tag for a pet")
 public class Tag  {
@@ -24,6 +25,7 @@ public class Tag  {
    * Get id
    * @return id
   **/
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -41,6 +43,7 @@ public class Tag  {
    * Get name
    * @return name
   **/
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
