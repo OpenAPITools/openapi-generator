@@ -3,11 +3,11 @@ package io.swagger.codegen.staticDocs;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.StaticDocCodegen;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
 
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,7 +16,7 @@ public class StaticOperationTest {
 
     @Test(description = "convert a string parameter")
     public void stringParameterTest() {
-        final StringProperty property = new StringProperty();
+        final StringSchema property = new StringSchema();
         final DefaultCodegen codegen = new StaticDocCodegen();
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
@@ -29,7 +29,7 @@ public class StaticOperationTest {
 
     @Test(description = "convert a boolean parameter")
     public void booleanParameterTest() {
-        final BooleanProperty property = new BooleanProperty();
+        final BooleanSchema property = new BooleanSchema();
         final DefaultCodegen codegen = new StaticDocCodegen();
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
@@ -44,7 +44,7 @@ public class StaticOperationTest {
 
     @Test(description = "convert a complex parameter")
     public void complexParameterTest() {
-        final RefProperty property = new RefProperty("Children");
+        final Schema property = new Schema().$ref("Children");
         final DefaultCodegen codegen = new StaticDocCodegen();
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
@@ -61,7 +61,7 @@ public class StaticOperationTest {
 
     @Test(description = "convert a complex list parameter")
     public void listParameterTest() {
-        final ArrayProperty property = new ArrayProperty().items(new RefProperty("Children"));
+        final ArraySchema property = new ArraySchema().items(new Schema().$ref("Children"));
         final DefaultCodegen codegen = new StaticDocCodegen();
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
