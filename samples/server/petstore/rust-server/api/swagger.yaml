@@ -10,7 +10,7 @@ info:
   contact:
     email: "apiteam@swagger.io"
   license:
-    name: "Apache 2.0"
+    name: "Apache-2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "petstore.swagger.io:80"
 basePath: "/v2"
@@ -54,7 +54,7 @@ paths:
         refName: "Pet"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "ADD_PET"
         consumesXml: true
       responses:
@@ -95,7 +95,7 @@ paths:
         refName: "Pet"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "UPDATE_PET"
         consumesXml: true
       responses:
@@ -450,7 +450,7 @@ paths:
         refName: "Order"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "PLACE_ORDER"
       responses:
         200:
@@ -568,7 +568,7 @@ paths:
         refName: "User"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "CREATE_USER"
       responses:
         default:
@@ -602,7 +602,7 @@ paths:
             $ref: "#/definitions/User"
         formatString: "{:?}"
         example: "&Vec::new()"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "CREATE_USERS_WITH_ARRAY_INPUT"
       responses:
         default:
@@ -635,7 +635,7 @@ paths:
             $ref: "#/definitions/User"
         formatString: "{:?}"
         example: "&Vec::new()"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "CREATE_USERS_WITH_LIST_INPUT"
       responses:
         default:
@@ -787,7 +787,7 @@ paths:
         refName: "User"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "UPDATE_USER"
       responses:
         400:
@@ -856,7 +856,7 @@ paths:
         refName: "Client"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "TEST_CLASSNAME"
       responses:
         200:
@@ -1169,7 +1169,7 @@ paths:
         refName: "Client"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "TEST_CLIENT_MODEL"
       responses:
         200:
@@ -1202,7 +1202,7 @@ paths:
         refName: "OuterNumber"
         formatString: "{:?}"
         example: "None"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_NUMBER_SERIALIZE"
       responses:
         200:
@@ -1234,7 +1234,7 @@ paths:
         refName: "OuterString"
         formatString: "{:?}"
         example: "None"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_STRING_SERIALIZE"
       responses:
         200:
@@ -1266,7 +1266,7 @@ paths:
         refName: "OuterBoolean"
         formatString: "{:?}"
         example: "None"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_BOOLEAN_SERIALIZE"
       responses:
         200:
@@ -1298,7 +1298,7 @@ paths:
         refName: "OuterComposite"
         formatString: "{:?}"
         example: "None"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "FAKE_OUTER_COMPOSITE_SERIALIZE"
       responses:
         200:
@@ -1365,7 +1365,6 @@ paths:
           uppercase_message: "SUCCESS"
           uppercase_data_type: "XMLOBJECT"
           producesXml: true
-          has_namespace: "true"
       operation_id: "get_xml_features"
       uppercase_operation_id: "GET_XML_FEATURES"
       path: "/fake/xmlFeatures"
@@ -1388,8 +1387,7 @@ paths:
         refName: "xmlObject"
         formatString: "{:?}"
         example: "???"
-        has_namespace: "true"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "POST_XML_FEATURES"
         consumesXml: true
       responses:
@@ -1400,6 +1398,41 @@ paths:
       operation_id: "post_xml_features"
       uppercase_operation_id: "POST_XML_FEATURES"
       path: "/fake/xmlFeatures"
+      HttpMethod: "Post"
+      httpmethod: "post"
+      noClientExample: true
+  /fake/inline-additionalProperties:
+    post:
+      tags:
+      - "fake"
+      summary: "test inline additionalProperties"
+      description: ""
+      operationId: "testInlineAdditionalProperties"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "param"
+        description: "request body"
+        required: true
+        schema:
+          type: "object"
+          additionalProperties:
+            type: "string"
+          upperCaseName: "PARAM"
+        refName: null
+        formatString: "{:?}"
+        example: "???"
+        model_key: "OuterBoolean"
+        uppercase_operation_id: "TEST_INLINE_ADDITIONAL_PROPERTIES"
+      responses:
+        200:
+          description: "successful operation"
+          uppercase_operation_id: "TEST_INLINE_ADDITIONAL_PROPERTIES"
+          uppercase_message: "SUCCESSFUL_OPERATION"
+      operation_id: "test_inline_additional_properties"
+      uppercase_operation_id: "TEST_INLINE_ADDITIONAL_PROPERTIES"
+      path: "/fake/inline-additionalProperties"
       HttpMethod: "Post"
       httpmethod: "post"
       noClientExample: true
@@ -1425,7 +1458,7 @@ paths:
         refName: "Client"
         formatString: "{:?}"
         example: "???"
-        model_key: "itemList"
+        model_key: "OuterBoolean"
         uppercase_operation_id: "TEST_SPECIAL_TAGS"
       responses:
         200:
@@ -1968,15 +2001,6 @@ definitions:
     - "approved"
     - "delivered"
     upperCaseName: "OUTERENUM"
-  OuterNumber:
-    type: "number"
-    upperCaseName: "OUTERNUMBER"
-  OuterString:
-    type: "string"
-    upperCaseName: "OUTERSTRING"
-  OuterBoolean:
-    type: "boolean"
-    upperCaseName: "OUTERBOOLEAN"
   OuterComposite:
     type: "object"
     properties:
@@ -1991,30 +2015,15 @@ definitions:
       my_number: {}
       my_boolean: {}
     upperCaseName: "OUTERCOMPOSITE"
-  xmlObject:
-    required:
-    - "itemList"
-    - "name"
-    properties:
-      name:
-        type: "string"
-        example: "myXmlObject"
-      itemList:
-        $ref: "#/definitions/itemList"
-        itemXmlName: "item"
-    xml:
-      name: "group"
-      namespace: "http://example.com/schema.xsd"
-    upperCaseName: "XMLOBJECT"
-  itemList:
-    type: "array"
-    items:
-      type: "string"
-      example: "my item"
-      xml:
-        name: "item"
-    upperCaseName: "ITEMLIST"
-    itemXmlName: "item"
+  OuterNumber:
+    type: "number"
+    upperCaseName: "OUTERNUMBER"
+  OuterString:
+    type: "string"
+    upperCaseName: "OUTERSTRING"
+  OuterBoolean:
+    type: "boolean"
+    upperCaseName: "OUTERBOOLEAN"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

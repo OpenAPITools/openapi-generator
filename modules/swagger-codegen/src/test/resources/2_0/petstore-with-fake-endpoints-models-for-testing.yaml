@@ -898,35 +898,6 @@ paths:
       responses:
         '200':
           description: successful operation
-  /fake/xmlFeatures:
-    get:
-      summary: Get some XML
-      operationId: getXmlFeatures
-      produces:
-        - application/xml
-      consumes:
-        - application/xml
-      responses:
-        200:
-          description: Success
-          schema:
-            $ref: '#/definitions/xmlObject'
-    post:
-      parameters:
-        - name: xmlObject
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/xmlObject'
-      summary: Post some xml
-      operationId: postXmlFeatures
-      produces:
-        - application/xml
-      consumes:
-        - application/xml
-      responses:
-        200:
-          description: Success
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -971,7 +942,6 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Client'
-
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -987,7 +957,7 @@ securityDefinitions:
   api_key_query:
     type: apiKey
     name: api_key_query
-    in: query
+    in: query 
   http_basic_test:
     type: basic
 definitions:
@@ -1010,7 +980,7 @@ definitions:
         type: string
         description: Order Status
         enum:
-          - placedtest
+          - placed
           - approved
           - delivered
       complete:

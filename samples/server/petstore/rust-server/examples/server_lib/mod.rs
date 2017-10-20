@@ -20,6 +20,7 @@ use petstore_api::{Api, ApiError, Context,
                       TestClientModelResponse,
                       TestEndpointParametersResponse,
                       TestEnumParametersResponse,
+                      TestInlineAdditionalPropertiesResponse,
                       TestJsonFormDataResponse,
                       TestClassnameResponse,
                       AddPetResponse,
@@ -118,6 +119,13 @@ impl Api for Server {
     fn test_enum_parameters(&self, enum_form_string_array: Option<&Vec<String>>, enum_form_string: Option<String>, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, context: &Context) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError> + Send> {
         let context = context.clone();
         println!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_form_string_array, enum_form_string, enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, context.x_span_id.unwrap_or(String::from("<none>")).clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+    /// test inline additionalProperties
+    fn test_inline_additional_properties(&self, param: object, context: &Context) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send> {
+        let context = context.clone();
+        println!("test_inline_additional_properties({:?}) - X-Span-ID: {:?}", param, context.x_span_id.unwrap_or(String::from("<none>")).clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

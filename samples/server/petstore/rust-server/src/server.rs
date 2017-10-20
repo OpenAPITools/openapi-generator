@@ -47,6 +47,7 @@ use {Api,
      TestClientModelResponse,
      TestEndpointParametersResponse,
      TestEnumParametersResponse,
+     TestInlineAdditionalPropertiesResponse,
      TestJsonFormDataResponse,
      TestClassnameResponse,
      AddPetResponse,
@@ -200,11 +201,7 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
                     Ok(rsp) => match rsp {
                         GetXmlFeaturesResponse::Success(body) => {
 
-
-                            let mut namespaces = BTreeMap::new();
-                            // An empty string is used to indicate a global namespace in xmltree.
-                            namespaces.insert("".to_string(), models::namespaces::XMLOBJECT.clone());
-                            let body_string = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                            let body_string = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
 
                             let mut response = Response::with((status::Status::from_u16(200), body_string));    
                             response.headers.set(ContentType(mimetypes::responses::GET_XML_FEATURES_SUCCESS.clone()));
@@ -780,6 +777,72 @@ fn add_routes<T>(router: &mut Router, api: T) where T: Api + Send + Sync + Clone
             })
         },
         "TestEnumParameters");
+
+    let api_clone = api.clone();
+    router.post(
+        "/v2/fake/inline-additionalProperties",
+        move |req: &mut Request| {
+            let mut context = Context::default();
+
+            // Helper function to provide a code block to use `?` in (to be replaced by the `catch` block when it exists).
+            fn handle_request<T>(req: &mut Request, api: &T, context: &mut Context) -> Result<Response, Response> where T: Api {
+
+                context.x_span_id = Some(req.headers.get::<XSpanId>().map(XSpanId::to_string).unwrap_or_else(|| self::uuid::Uuid::new_v4().to_string()));
+                context.auth_data = req.extensions.remove::<AuthData>();
+                context.authorization = req.extensions.remove::<Authorization>();
+
+
+
+
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+
+                let param_param_raw = req.get::<bodyparser::Raw>().map_err(|e| Response::with((status::BadRequest, format!("Couldn't parse body parameter param - not valid UTF-8: {}", e))))?;
+                let mut unused_elements = Vec::new();
+
+                let param_param = if let Some(param_param_raw) = param_param_raw { 
+                    let deserializer = &mut serde_json::Deserializer::from_str(&param_param_raw);
+
+                    let param_param: Option<object> = serde_ignored::deserialize(deserializer, |path| {
+                            warn!("Ignoring unknown field in body: {}", path);
+                            unused_elements.push(path.to_string());
+                        }).map_err(|e| Response::with((status::BadRequest, format!("Couldn't parse body parameter param - doesn't match schema: {}", e))))?;
+
+                    param_param
+                } else {
+                    None
+                };
+                let param_param = param_param.ok_or_else(|| Response::with((status::BadRequest, "Missing required body parameter param".to_string())))?;
+
+
+                match api.test_inline_additional_properties(param_param, context).wait() {
+                    Ok(rsp) => match rsp {
+                        TestInlineAdditionalPropertiesResponse::SuccessfulOperation => {
+
+
+                            let mut response = Response::with((status::Status::from_u16(200)));    
+                            context.x_span_id.as_ref().map(|header| response.headers.set(XSpanId(header.clone())));
+                            if !unused_elements.is_empty() {
+                                response.headers.set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                            }
+                            Ok(response)
+                        },
+                    },
+                    Err(_) => {
+                        // Application code returned an error. This should not happen, as the implementation should
+                        // return a valid response.
+                        Err(Response::with((status::InternalServerError, "An internal error occurred".to_string())))
+                    }
+                }
+            }
+
+            handle_request(req, &api_clone, &mut context).or_else(|mut response| {
+                context.x_span_id.as_ref().map(|header| response.headers.set(XSpanId(header.clone())));
+                Ok(response)
+            })
+        },
+        "TestInlineAdditionalProperties");
 
     let api_clone = api.clone();
     router.get(

@@ -86,6 +86,11 @@ pub enum TestEnumParametersResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum TestInlineAdditionalPropertiesResponse {
+    SuccessfulOperation ,
+}
+
+#[derive(Debug, PartialEq)]
 pub enum TestJsonFormDataResponse {
     SuccessfulOperation ,
 }
@@ -244,6 +249,9 @@ pub trait Api {
     /// To test enum parameters
     fn test_enum_parameters(&self, enum_form_string_array: Option<&Vec<String>>, enum_form_string: Option<String>, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, context: &Context) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>;
 
+    /// test inline additionalProperties
+    fn test_inline_additional_properties(&self, param: object, context: &Context) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>;
+
     /// test json serialization of form data
     fn test_json_form_data(&self, param: String, param2: String, context: &Context) -> Box<Future<Item=TestJsonFormDataResponse, Error=ApiError> + Send>;
 
@@ -344,6 +352,9 @@ pub trait ApiNoContext {
 
     /// To test enum parameters
     fn test_enum_parameters(&self, enum_form_string_array: Option<&Vec<String>>, enum_form_string: Option<String>, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError> + Send>;
+
+    /// test inline additionalProperties
+    fn test_inline_additional_properties(&self, param: object) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send>;
 
     /// test json serialization of form data
     fn test_json_form_data(&self, param: String, param2: String) -> Box<Future<Item=TestJsonFormDataResponse, Error=ApiError> + Send>;
@@ -475,6 +486,11 @@ impl<'a, T: Api> ApiNoContext for ContextWrapper<'a, T> {
     /// To test enum parameters
     fn test_enum_parameters(&self, enum_form_string_array: Option<&Vec<String>>, enum_form_string: Option<String>, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError> + Send> {
         self.api().test_enum_parameters(enum_form_string_array, enum_form_string, enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, &self.context())
+    }
+
+    /// test inline additionalProperties
+    fn test_inline_additional_properties(&self, param: object) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError> + Send> {
+        self.api().test_inline_additional_properties(param, &self.context())
     }
 
     /// test json serialization of form data
