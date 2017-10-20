@@ -3,9 +3,17 @@ package io.swagger.codegen.apex;
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.languages.ApexClientCodegen;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
+import io.swagger.oas.models.media.BinarySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.EmailSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.PasswordSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.UUIDSchema;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,33 +24,28 @@ public class ApexModelTest {
 
     @Test(description = "convert a simple apex model with provided examples")
     public void examplesProvidedTest() {
-        BaseIntegerProperty baseIntProp = new BaseIntegerProperty();
-        baseIntProp.setExample(5);
+        Schema integerSchema = new IntegerSchema().example(5);
+        Schema passwordSchema = new PasswordSchema().example("password");
+        Schema uuidSchema = new UUIDSchema().example("793574b2-3a8e-4f6c-bfa5-c6929dc29f8a");
 
-        PasswordProperty passwordProp = new PasswordProperty();
-        passwordProp.setExample("password");
-
-        UUIDProperty uuidProp = new UUIDProperty();
-        uuidProp.setExample("793574b2-3a8e-4f6c-bfa5-c6929dc29f8a");
-
-        final Model model = new ModelImpl()
-            .property("boolProp", new BooleanProperty().example(false))
-            .property("dateProp", new DateProperty().example("1985-04-12"))
-            .property("dateTimeProp", new DateTimeProperty().example("1985-04-12T23:20:50.52Z"))
-            .property("decimalProp", new DecimalProperty().example("19.99"))
-            .property("doubleProp", new DoubleProperty().example(2.95))
-            .property("emailProp", new EmailProperty().example("info@example.com"))
-            .property("floatProp", new FloatProperty().example(3.49f))
-            .property("intProp", new IntegerProperty().example(10))
-            .property("longProp", new LongProperty().example(100000L))
-            .property("stringProp", new StringProperty().example("foo"))
-            .property("baseIntProp", baseIntProp)
-            .property("passwordProp", passwordProp)
-            .property("uuidProp", uuidProp);
+        final Schema schema = new Schema()
+            .addProperties("boolProp", new BooleanSchema().example(false))
+            .addProperties("dateProp", new DateTimeSchema().example("1985-04-12"))
+            .addProperties("dateTimeProp", new DateTimeSchema().example("1985-04-12T23:20:50.52Z"))
+            .addProperties("decimalProp", new NumberSchema().example("19.99"))
+            .addProperties("doubleProp", new NumberSchema().example(2.95))
+            .addProperties("emailProp", new EmailSchema().example("info@example.com"))
+            .addProperties("floatProp", new NumberSchema().format("float").example(3.49f))
+            .addProperties("intProp", new IntegerSchema().example(10))
+            .addProperties("longProp", new IntegerSchema().example(100000L))
+            .addProperties("stringProp", new StringSchema().example("foo"))
+            .addProperties("baseIntProp", integerSchema)
+            .addProperties("passwordProp", passwordSchema)
+            .addProperties("uuidProp", uuidSchema);
 
         final ApexClientCodegen codegen = new ApexClientCodegen();
         codegen.setClassPrefix("Prefix");
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "PrefixSample");
@@ -206,26 +209,26 @@ public class ApexModelTest {
     
     @Test(description = "convert a simple apex model with default examples")
     public void defaultExamplesTest() {
-        final Model model = new ModelImpl()
-            .property("boolProp", new BooleanProperty())
-            .property("dateProp", new DateProperty())
-            .property("dateTimeProp", new DateTimeProperty())
-            .property("decimalProp", new DecimalProperty())
-            .property("doubleProp", new DoubleProperty())
-            .property("emailProp", new EmailProperty())
-            .property("floatProp", new FloatProperty())
-            .property("intProp", new IntegerProperty())
-            .property("longProp", new LongProperty())
-            .property("stringProp", new StringProperty())
-            .property("baseIntProp", new BaseIntegerProperty())
-            .property("passwordProp", new PasswordProperty())
-            .property("uuidProp", new UUIDProperty())
-            .property("byteArrProp", new ByteArrayProperty())
-            .property("binaryProp", new BinaryProperty());
+        final Schema schema = new Schema()
+            .addProperties("boolProp", new BooleanSchema())
+            .addProperties("dateProp", new DateTimeSchema())
+            .addProperties("dateTimeProp", new DateTimeSchema())
+            .addProperties("decimalProp", new NumberSchema())
+            .addProperties("doubleProp", new NumberSchema())
+            .addProperties("emailProp", new EmailSchema())
+            .addProperties("floatProp", new NumberSchema())
+            .addProperties("intProp", new IntegerSchema())
+            .addProperties("longProp", new IntegerSchema())
+            .addProperties("stringProp", new StringSchema())
+            .addProperties("baseIntProp", new IntegerSchema())
+            .addProperties("passwordProp", new PasswordSchema())
+            .addProperties("uuidProp", new UUIDSchema())
+            .addProperties("byteArrProp", new ByteArraySchema())
+            .addProperties("binaryProp", new BinarySchema());
 
         final ApexClientCodegen codegen = new ApexClientCodegen();
         codegen.setClassPrefix("Prefix");
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "PrefixSample");
