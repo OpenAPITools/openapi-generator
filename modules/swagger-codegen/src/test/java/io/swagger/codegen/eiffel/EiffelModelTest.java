@@ -1,4 +1,11 @@
 package io.swagger.codegen.eiffel;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -6,29 +13,21 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.EiffelClientCodegen;
-import io.swagger.codegen.languages.KotlinClientCodegen;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.StringProperty;
 
 @SuppressWarnings("static-method")
 public class EiffelModelTest {
 
     @Test(description = "convert a simple Eiffel model")
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .required("id")
-                .required("name");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new EiffelClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "SAMPLE");
@@ -72,14 +71,14 @@ public class EiffelModelTest {
     
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("urls", new ArrayProperty()
-                        .items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new EiffelClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "SAMPLE");
@@ -113,9 +112,9 @@ public class EiffelModelTest {
     
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Model model = getMapModel();
+        final Schema schema = getMapSchema();
         final DefaultCodegen codegen = new EiffelClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "SAMPLE");
@@ -133,12 +132,12 @@ public class EiffelModelTest {
         Assert.assertFalse(property1.isPrimitiveType);
     }
     
-    private Model getMapModel() {
-        return new ModelImpl()
+    private Schema getMapSchema() {
+        return new Schema()
                 .description("a sample model")
-                .property("mapping", new MapProperty()
-                        .additionalProperties(new StringProperty()))
-                .required("id");
+                .addProperties("mapping", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
     }
 
 }
