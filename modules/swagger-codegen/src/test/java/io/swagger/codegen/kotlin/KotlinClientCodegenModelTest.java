@@ -1,51 +1,57 @@
 package io.swagger.codegen.kotlin;
 
-import io.swagger.codegen.*;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.KotlinClientCodegen;
-import io.swagger.models.*;
-import io.swagger.models.properties.*;
-
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
 
-    private Model getArrayTestModel() {
-        return new ModelImpl()
+    private Schema getArrayTestModel() {
+        return new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("examples", new ArrayProperty().items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("examples", new ArraySchema().items(new StringSchema()))
+                .addRequiredItem("id");
     }
 
-    private Model getSimpleModel() {
-        return new ModelImpl()
+    private Schema getSimpleModel() {
+        return new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .required("id")
-                .required("name");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
     }
 
-    private Model getMapModel() {
-        return new ModelImpl()
+    private Schema getMapModel() {
+        return new Schema()
                 .description("a sample model")
-                .property("mapping", new MapProperty()
-                        .additionalProperties(new StringProperty()))
-                .required("id");
+                .addProperties("mapping", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
     }
 
-    private Model getComplexModel() {
-        return new ModelImpl()
+    private Schema getComplexModel() {
+        return new Schema()
                 .description("a sample model")
-                .property("child", new RefProperty("#/definitions/Child"));
+                .addProperties("child", new Schema().$ref("#/definitions/Child"));
     }
 
     @Test(description = "convert a simple model")
     public void simpleModelTest() {
-        final Model model = getSimpleModel();
+        final Schema model = getSimpleModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -90,7 +96,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with array property to default kotlin.Array")
     public void arrayPropertyTest() {
-        final Model model = getArrayTestModel();
+        final Schema model = getArrayTestModel();
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final CodegenModel generated = codegen.fromModel("sample", model);
@@ -114,7 +120,7 @@ public class KotlinClientCodegenModelTest {
     }
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Model model = getMapModel();
+        final Schema model = getMapModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -136,7 +142,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Model model = getComplexModel();
+        final Schema model = getComplexModel();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
