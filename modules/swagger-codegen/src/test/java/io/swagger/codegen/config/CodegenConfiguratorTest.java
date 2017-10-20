@@ -6,9 +6,10 @@ import io.swagger.codegen.CodegenConfigLoader;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.auth.AuthParser;
 import io.swagger.codegen.languages.JavaClientCodegen;
-import io.swagger.models.Swagger;
-import io.swagger.models.auth.AuthorizationValue;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.parser.models.AuthorizationValue;
+import io.swagger.parser.models.ParseOptions;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import mockit.Expectations;
 import mockit.FullVerifications;
 import mockit.Injectable;
@@ -30,13 +31,13 @@ import static org.testng.Assert.assertTrue;
 public class CodegenConfiguratorTest {
 
     @Mocked
-    SwaggerParser parser;
+    OpenAPIV3Parser parser;
 
     @Mocked
     AuthParser authParser;
 
     @Injectable
-    Swagger swagger;
+    OpenAPI openAPI;
 
     @Mocked
     CodegenConfigLoader codegenConfigLoader;
@@ -351,13 +352,16 @@ public class CodegenConfiguratorTest {
 
             AuthParser.parse(auth); times=1; result = authorizationValues;
 
-            new SwaggerParser();
+            parser = new OpenAPIV3Parser();
             times = 1;
             result = parser;
 
-            parser.read(spec, authorizationValues, true);
+            final ParseOptions parseOptions = new ParseOptions();
+            parseOptions.setResolve(true);
+
+            parser.read(spec, authorizationValues, parseOptions);
             times = 1;
-            result = swagger;
+            result = openAPI;
 
         }};
     }
