@@ -1,37 +1,39 @@
 package io.swagger.codegen.typescript.fetch;
 
 import com.google.common.collect.Sets;
-
-import io.swagger.models.properties.*;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.TypeScriptFetchClientCodegen;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.OpenAPIV3Parser;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.Arrays;
+import java.util.HashMap;
 
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
     @Test(description = "convert a simple TypeScript Angular model")
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .property("birthDate", new DateProperty())
-                .required("id")
-                .required("name");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("birthDate", new DateSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
+
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -83,11 +85,11 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("urls", new ArrayProperty().items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -118,9 +120,9 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a sample model")
-                .property("children", new RefProperty("#/definitions/Children"));
+                .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -141,10 +143,10 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a sample model")
-                .property("children", new ArrayProperty()
-                        .items(new RefProperty("#/definitions/Children")));
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -165,9 +167,9 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Model model = new ArrayModel()
-                .description("an array model")
-                .items(new RefProperty("#/definitions/Children"));
+        final Schema model = new ArraySchema()
+                .items(new Schema().$ref("#/definitions/Children"))
+                .description("an array model");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -179,9 +181,9 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final Model model = new ModelImpl()
+        final Schema model = new Schema()
                 .description("a map model")
-                .additionalProperties(new RefProperty("#/definitions/Children"));
+                .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -195,11 +197,12 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "test enum array model")
     public void enumArrayMdoelTest() {
-        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        // TODO: update yaml file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final Model definition = model.getDefinitions().get("EnumArrays");
+        final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
 
-        Property property =  definition.getProperties().get("array_enum");
+        Schema property = (Schema) schema.getProperties().get("array_enum");
         CodegenProperty prope = codegen.fromProperty("array_enum", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
@@ -229,11 +232,11 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final Model definition = model.getDefinitions().get("Enum_Test");
+        final Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
 
-        Property property =  definition.getProperties().get("enum_integer");
+        Schema property = (Schema) schema.getProperties().get("enum_integer");
         CodegenProperty prope = codegen.fromProperty("enum_integer", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
