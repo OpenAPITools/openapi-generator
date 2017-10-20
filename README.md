@@ -970,6 +970,7 @@ Here is a list of template creators:
    * Groovy: @victorgit
    * Go: @wing328
    * Go (rewritten in 2.3.0): @antihax
+   * Haskell (http-client): @jonschoning
    * Java (Feign): @davidkiss
    * Java (Retrofit): @0legg
    * Java (Retrofit2): @emilianobonassi
