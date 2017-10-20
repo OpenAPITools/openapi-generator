@@ -1,9 +1,11 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.Operation;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.Operation;
 import org.apache.commons.lang3.StringUtils;
-
 
 import java.io.File;
 import java.util.ArrayList;

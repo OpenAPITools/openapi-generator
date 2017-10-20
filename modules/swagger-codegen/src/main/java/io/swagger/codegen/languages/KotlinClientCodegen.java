@@ -1,9 +1,14 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -311,21 +316,20 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     /**
      * returns the swagger type for the property
      *
-     * @param p Swagger property object
+     * @param propertySchema Schema property object
      * @return string presentation of the type
      **/
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
-        String type;
-        // This maps, for example, long -> kotlin.Long based on hashes in this type's constructor
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
+        String type = null;
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return toModelName(type);
             }
         } else {
-            type = swaggerType;
+            type = schemaType;
         }
         return toModelName(type);
     }
@@ -333,23 +337,20 @@ public class KotlinClientCodegen extends DefaultCodegen implements CodegenConfig
     /**
      * Output the type declaration of the property
      *
-     * @param p Swagger Property object
+     * @param propertySchema Schema Property object
      * @return a string presentation of the property type
      */
-    @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
 
-            // Maps will be keyed only by primitive Kotlin string
-            return getSwaggerType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
+    @Override
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s<%s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s<kotlin.String, %s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(propertySchema);
     }
 
     /**

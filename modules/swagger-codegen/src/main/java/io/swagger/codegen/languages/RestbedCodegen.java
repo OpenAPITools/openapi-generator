@@ -16,22 +16,18 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Model;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BaseIntegerProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FileProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.FileSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 
 public class RestbedCodegen extends AbstractCppCodegen {
 
@@ -198,8 +194,8 @@ public class RestbedCodegen extends AbstractCppCodegen {
   }
 
   @Override
-  public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-      CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+  public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+      CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
 
       Set<String> oldImports = codegenModel.imports;
       codegenModel.imports = new HashSet<String>();
@@ -284,21 +280,19 @@ public class RestbedCodegen extends AbstractCppCodegen {
    *         `returnType` for api templates
    */
   @Override
-  public String getTypeDeclaration(Property p) {
-      String swaggerType = getSwaggerType(p);
+  public String getTypeDeclaration(Schema schema) {
+      String swaggerType = getSchemaType(schema);
 
-      if (p instanceof ArrayProperty) {
-          ArrayProperty ap = (ArrayProperty) p;
-          Property inner = ap.getItems();
-          return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
+      if (schema instanceof ArraySchema) {
+          ArraySchema arraySchema = (ArraySchema) schema;
+          Schema inner = arraySchema.getItems();
+          return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
       }
-      if (p instanceof MapProperty) {
-          MapProperty mp = (MapProperty) p;
-          Property inner = mp.getAdditionalProperties();
-          return getSwaggerType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
+      if (schema instanceof MapSchema) {
+          return getSchemaType(schema) + "<std::string, " + getTypeDeclaration(schema.getAdditionalProperties()) + ">";
       }
-      if (p instanceof StringProperty || p instanceof DateProperty
-              || p instanceof DateTimeProperty || p instanceof FileProperty
+      if (schema instanceof StringSchema || schema instanceof DateSchema
+              || schema instanceof DateTimeSchema || schema instanceof FileSchema
               || languageSpecificPrimitives.contains(swaggerType)) {
           return toModelName(swaggerType);
       }
@@ -307,39 +301,36 @@ public class RestbedCodegen extends AbstractCppCodegen {
   }
 
   @Override
-  public String toDefaultValue(Property p) {
-      if (p instanceof StringProperty) {
+  public String toDefaultValue(Schema schema) {
+      if (schema instanceof StringSchema) {
           return "\"\"";
-      } else if (p instanceof BooleanProperty) {
+      } else if (schema instanceof BooleanSchema) {
           return "false";
-      } else if (p instanceof DateProperty) {
+      } else if (schema instanceof DateSchema) {
           return "\"\"";
-      } else if (p instanceof DateTimeProperty) {
+      } else if (schema instanceof DateTimeSchema) {
           return "\"\"";
-      } else if (p instanceof DoubleProperty) {
+      } else if (schema instanceof NumberSchema) {
+          if(SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
+              return "0.0f";
+          }
           return "0.0";
-      } else if (p instanceof FloatProperty) {
-          return "0.0f";
-      } else if (p instanceof LongProperty) {
-          return "0L";
-      } else if (p instanceof IntegerProperty || p instanceof BaseIntegerProperty) {
+      } else if (schema instanceof IntegerSchema) {
+          if(SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+              return "0.0L";
+          }
           return "0";
-      } else if (p instanceof DecimalProperty) {
-          return "0.0";
-      } else if (p instanceof MapProperty) {
-          MapProperty ap = (MapProperty) p;
-          String inner = getSwaggerType(ap.getAdditionalProperties());
-          return "std::map<std::string, " + inner + ">()";
-      } else if (p instanceof ArrayProperty) {
-          ArrayProperty ap = (ArrayProperty) p;
-          String inner = getSwaggerType(ap.getItems());
+      } else if (schema instanceof MapSchema) {
+          return "std::map<std::string, " + schema.getAdditionalProperties() + ">()";
+      } else if (schema instanceof ArraySchema) {
+          ArraySchema arraySchema = (ArraySchema) schema;
+          String inner = getSchemaType(arraySchema.getItems());
           if (!languageSpecificPrimitives.contains(inner)) {
               inner = "std::shared_ptr<" + inner + ">";
           }
           return "std::vector<" + inner + ">()";
-      } else if (p instanceof RefProperty) {
-          RefProperty rp = (RefProperty) p;
-          return "new " + toModelName(rp.getSimpleRef()) + "()";
+      } else if (StringUtils.isNotBlank(schema.get$ref())) {
+          return "new " + toModelName(schema.get$ref()) + "()";
       }
       return "nullptr";
   }
@@ -363,11 +354,11 @@ public class RestbedCodegen extends AbstractCppCodegen {
    * into complex models if there is not a mapping.
    *
    * @return a string value of the type or complex model for this property
-   * @see io.swagger.models.properties.Property
+   * @see io.swagger.oas.models.media.Schema
    */
   @Override
-  public String getSwaggerType(Property p) {
-      String swaggerType = super.getSwaggerType(p);
+  public String getSchemaType(Schema schema) {
+      String swaggerType = super.getSchemaType(schema);
       String type = null;
       if (typeMapping.containsKey(swaggerType)) {
           type = typeMapping.get(swaggerType);

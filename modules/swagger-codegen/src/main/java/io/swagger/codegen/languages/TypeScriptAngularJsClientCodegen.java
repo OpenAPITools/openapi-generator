@@ -4,7 +4,7 @@ import java.io.File;
 
 import io.swagger.codegen.SupportingFile;
 import io.swagger.codegen.CodegenParameter;
-import io.swagger.models.properties.Property;
+import io.swagger.oas.models.media.Schema;
 
 public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -41,8 +41,8 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         if(isLanguagePrimitive(swaggerType) || isLanguageGenericType(swaggerType)) {
             return swaggerType;
         }

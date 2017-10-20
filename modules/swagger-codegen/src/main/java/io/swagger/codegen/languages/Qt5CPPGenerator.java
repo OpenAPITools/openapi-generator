@@ -1,20 +1,20 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.BooleanProperty;
-import io.swagger.models.properties.DateProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.DecimalProperty;
-import io.swagger.models.properties.DoubleProperty;
-import io.swagger.models.properties.FloatProperty;
-import io.swagger.models.properties.BaseIntegerProperty;
-import io.swagger.models.properties.IntegerProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.BooleanSchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -268,71 +268,62 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
-    public String getTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
-
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">*";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "<QString, " + getTypeDeclaration(inner) + ">*";
+    public String getTypeDeclaration(Schema propertySchema) {
+        String schematype = getSchemaType(propertySchema);
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s<%s>", schematype, getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("%s<QString, %s>", schematype, getTypeDeclaration(inner));
         }
-        if (foundationClasses.contains(swaggerType)) {
-            return swaggerType + "*";
-        } else if (languageSpecificPrimitives.contains(swaggerType)) {
-            return toModelName(swaggerType);
+        if (foundationClasses.contains(schematype)) {
+            return schematype + "*";
+        } else if (languageSpecificPrimitives.contains(schematype)) {
+            return toModelName(schematype);
         } else {
-            return swaggerType + "*";
+            return schematype + "*";
         }
     }
 
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof StringProperty) {
+    public String toDefaultValue(Schema schema) {
+        if (schema instanceof StringSchema) {
             return "new QString(\"\")";
-        } else if (p instanceof BooleanProperty) {
+        } else if (schema instanceof BooleanSchema) {
             return "false";
-        } else if (p instanceof DateProperty) {
+        } else if (schema instanceof DateSchema) {
             return "NULL";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (schema instanceof DateTimeSchema) {
             return "NULL";
-        } else if (p instanceof DoubleProperty) {
+        } else if (schema instanceof NumberSchema) {
+            if(SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
+                return "0.0f";
+            }
             return "0.0";
-        } else if (p instanceof FloatProperty) {
-            return "0.0f";
-        } else if (p instanceof IntegerProperty) {
+        } else if (schema instanceof IntegerSchema) {
+            if(SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+                return "0.0L";
+            }
             return "0";
-        } else if (p instanceof LongProperty) {
-            return "0L";
-        } else if (p instanceof BaseIntegerProperty) {
-            // catchall for any other format of the swagger specifiction
-            // integer type not explicitly handled above
-            return "0";
-        } else if (p instanceof DecimalProperty) {
-            return "0.0";
-        } else if (p instanceof MapProperty) {
-            MapProperty ap = (MapProperty) p;
-            String inner = getSwaggerType(ap.getAdditionalProperties());
+        } else if (schema instanceof MapSchema) {
+            String inner = getSchemaType(schema.getAdditionalProperties());
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner += "*";
             }
             return "new QMap<QString, " + inner + ">()";
-        } else if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            String inner = getSwaggerType(ap.getItems());
+        } else if (schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            String inner = getSchemaType(arraySchema.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner += "*";
             }
             return "new QList<" + inner + ">()";
         }
         // else
-        if (p instanceof RefProperty) {
-            RefProperty rp = (RefProperty) p;
-            return "new " + toModelName(rp.getSimpleRef()) + "()";
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            return "new " + toModelName(schema.get$ref()) + "()";
         }
         return "NULL";
     }
@@ -342,11 +333,11 @@ public class Qt5CPPGenerator extends AbstractCppCodegen implements CodegenConfig
      * either language specific types via `typeMapping` or into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Property
+     * @see io.swagger.oas.models.media.Schema
      */
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         String type = null;
         if (typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);

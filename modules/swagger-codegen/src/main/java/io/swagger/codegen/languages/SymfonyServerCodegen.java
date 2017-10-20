@@ -1,16 +1,31 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenResponse;
+import io.swagger.codegen.CodegenSecurity;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -387,38 +402,37 @@ public class SymfonyServerCodegen extends AbstractPhpCodegen implements CodegenC
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema schema) {
+        if (schema instanceof ArraySchema) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            Schema inner = arraySchema.getItems();
             return getTypeDeclaration(inner) + "[]";
         }
 
-        if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return getSwaggerType(p) + "array<string," + getTypeDeclaration(inner) + ">";
+        if (schema instanceof MapSchema) {
+            Schema inner = schema.getAdditionalProperties();
+            return getSchemaType(schema) + "array<string," + getTypeDeclaration(inner) + ">";
         }
         
-        if (p instanceof RefProperty) {
-            return getTypeDeclaration(getPropertyTypeDeclaration(p));
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            return getTypeDeclaration(getPropertyTypeDeclaration(schema));
         }
         
-        return getPropertyTypeDeclaration(p);
+        return getPropertyTypeDeclaration(schema);
     }
 
     /**
      * Output the type declaration of the property
      *
-     * @param p Swagger Property object
+     * @param schema Swagger Property object
      * @return a string presentation of the property type
      */
-    public String getPropertyTypeDeclaration(Property p) {
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+    public String getPropertyTypeDeclaration(Schema schema) {
+        String schemaType = getSchemaType(schema);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
-        return swaggerType;
+        return schemaType;
     }
 
     @Override

@@ -1,18 +1,20 @@
 package io.swagger.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.codegen.*;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
+import io.swagger.codegen.CodegenModel;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.OpenAPI;
 import io.swagger.util.Json;
-import io.swagger.util.Yaml;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UndertowCodegen extends AbstractJavaCodegen {
 
@@ -195,12 +197,12 @@ public class UndertowCodegen extends AbstractJavaCodegen {
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        System.out.println("swagger" + swagger.toString());
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        System.out.println("swagger" + openAPI.toString());
+        if(openAPI != null) {
             try {
                 //objs.put("swagger-json", Json.mapper().writeValueAsString(swagger));
-                objs.put("swagger-json", Json.pretty().writeValueAsString(swagger));
+                objs.put("swagger-json", Json.pretty().writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }

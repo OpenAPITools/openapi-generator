@@ -1,14 +1,22 @@
 package io.swagger.codegen.languages;
 
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
-import io.swagger.codegen.*;
-import io.swagger.models.properties.*;
-import io.swagger.models.Swagger;
 
 import java.util.TreeSet;
 import java.util.*;
 import java.io.File;
 
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -93,8 +101,8 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
         if (useEs6) {
             embeddedTemplateDir = templateDir = "Javascript-Closure-Angular/es6";
@@ -200,39 +208,35 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
-            return getSwaggerType(p) + "<!" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "Object<!string, "+ getTypeDeclaration(inner) + ">";
-        } else if (p instanceof FileProperty) {
+    public String getTypeDeclaration(Schema propertySchema) {
+        if (propertySchema instanceof ArraySchema) {
+            Schema inner = ((ArraySchema) propertySchema).getItems();
+            return String.format("%s<!%s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
+            Schema inner = propertySchema.getAdditionalProperties();
+            return String.format("Object<!string, %s>", getTypeDeclaration(inner));
+        } else if (propertySchema instanceof MapSchema) {
             return "Object";
         }
-        String type = super.getTypeDeclaration(p);
-        if (type.equals("boolean") ||
-                type.equals("Date") ||
-                type.equals("number") ||
-                type.equals("string")) {
+        String type = super.getTypeDeclaration(propertySchema);
+        if (type.equals("boolean") || type.equals("Date") || type.equals("number") || type.equals("string")) {
             return type;
-                }
-        return apiPackage + "." + type;
+        }
+        return String.format("%s.%s", apiPackage, type);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema propertySchema) {
+        String schemaType = super.getSchemaType(propertySchema);
         String type = null;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
-        } else
-            type = swaggerType;
+        } else {
+            type = schemaType;
+        }
         return type;
     }
 

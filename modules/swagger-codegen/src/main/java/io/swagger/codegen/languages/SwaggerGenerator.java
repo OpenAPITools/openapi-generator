@@ -2,6 +2,7 @@ package io.swagger.codegen.languages;
 
 import java.io.File;
 
+import io.swagger.oas.models.OpenAPI;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,6 @@ import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.Swagger;
 import io.swagger.util.Json;
 
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
@@ -41,8 +41,8 @@ public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public void processSwagger(Swagger swagger) {
-        String swaggerString = Json.pretty(swagger);
+    public void processOpenAPI(OpenAPI openAPI) {
+        String swaggerString = Json.pretty(openAPI);
 
         try {
             String outputFile = outputFolder + File.separator + "swagger.json";

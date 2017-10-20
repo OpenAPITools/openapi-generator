@@ -8,8 +8,20 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import io.swagger.codegen.*;
-import io.swagger.models.*;
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenParameter;
+import io.swagger.codegen.CodegenResponse;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.codegen.utils.URLPathUtil;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
+import io.swagger.oas.models.Paths;
+import io.swagger.oas.models.info.Info;
 import io.swagger.util.Yaml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +29,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
@@ -315,19 +334,20 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        String host = swagger.getHost();
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        URL url = URLPathUtil.getServerURL(openAPI);
+        String host = URLPathUtil.LOCAL_HOST;
         String port = "8080";
-        if (host != null) {
-            String[] parts = host.split(":");
-            if (parts.length > 1) {
-                port = parts[1];
-            }
+        String basePath = null;
+        if (url != null) {
+            port = String.valueOf(url.getPort());
+            host = url.getHost();
+            basePath = url.getPath();
         }
         this.additionalProperties.put("serverPort", port);
 
-        if (swagger.getInfo() != null) {
-            Info info = swagger.getInfo();
+        if (openAPI.getInfo() != null) {
+            Info info = openAPI.getInfo();
             if (info.getTitle() != null) {
                 // when info.title is defined, use it for projectName
                 // used in package.json
@@ -348,7 +368,6 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                 LOGGER.warn("Host " + host + " seems not matching with cloudfunctions.net URL.");
             }
             if (!additionalProperties.containsKey(EXPORTED_NAME)) {
-                String basePath = swagger.getBasePath();
                 if (basePath == null || basePath.equals("/")) {
                     LOGGER.warn("Cannot find the exported name properly. Using 'openapi' as the exported name");
                     basePath = "/openapi";
@@ -358,13 +377,13 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // need vendor extensions for x-swagger-router-controller
-        Map<String, Path> paths = swagger.getPaths();
+        Paths paths = openAPI.getPaths();
         if(paths != null) {
             for(String pathname : paths.keySet()) {
-                Path path = paths.get(pathname);
-                Map<HttpMethod, Operation> operationMap = path.getOperationMap();
+                PathItem path = paths.get(pathname);
+                Map<PathItem.HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if(operationMap != null) {
-                    for(HttpMethod method : operationMap.keySet()) {
+                    for(PathItem.HttpMethod method : operationMap.keySet()) {
                         Operation operation = operationMap.get(method);
                         String tag = "default";
                         if(operation.getTags() != null && operation.getTags().size() > 0) {
@@ -373,8 +392,8 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                         if(operation.getOperationId() == null) {
                             operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
                         }
-                        if(operation.getVendorExtensions().get("x-swagger-router-controller") == null) {
-                            operation.getVendorExtensions().put("x-swagger-router-controller", sanitizeTag(tag));
+                        if(operation.getExtensions() != null && operation.getExtensions().get("x-swagger-router-controller") == null) {
+                            operation.getExtensions().put("x-swagger-router-controller", sanitizeTag(tag));
                         }
                     }
                 }
@@ -384,8 +403,8 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        Swagger swagger = (Swagger)objs.get("swagger");
-        if(swagger != null) {
+        OpenAPI openAPI = (OpenAPI) objs.get("openapi");
+        if(openAPI != null) {
             try {
                 SimpleModule module = new SimpleModule();
                 module.addSerializer(Double.class, new JsonSerializer<Double>() {
@@ -395,7 +414,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                         jgen.writeNumber(new BigDecimal(val));
                     }
                 });
-                objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(swagger));
+                objs.put("swagger-yaml", Yaml.mapper().registerModule(module).writeValueAsString(openAPI));
             } catch (JsonProcessingException e) {
                 LOGGER.error(e.getMessage(), e);
             }

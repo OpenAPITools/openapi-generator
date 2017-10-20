@@ -1,18 +1,25 @@
 package io.swagger.codegen.languages;
 
-import io.swagger.codegen.*;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
-
-import java.io.File;
-import java.util.*;
-
+import io.swagger.codegen.CliOption;
+import io.swagger.codegen.CodegenConfig;
+import io.swagger.codegen.CodegenConstants;
+import io.swagger.codegen.CodegenOperation;
+import io.swagger.codegen.CodegenProperty;
+import io.swagger.codegen.CodegenType;
+import io.swagger.codegen.DefaultCodegen;
+import io.swagger.codegen.SupportingFile;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     static Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -273,41 +280,38 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema schema) {
+        if (schema instanceof ArraySchema) {
+            ArraySchema arraySchemap = (ArraySchema) schema;
+            Schema inner = arraySchemap.getItems();
             return "Vec<" + getTypeDeclaration(inner) + ">";
-        }
-        else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
-            return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
+        } else if (schema instanceof MapSchema) {
+            return "::std::collections::HashMap<String, " + getTypeDeclaration(schema.getAdditionalProperties()) + ">";
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String swaggerType = getSwaggerType(p);
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        String schemaType = getSchemaType(schema);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if (typeMapping.containsValue(swaggerType)) {
-            return swaggerType;
+        if (typeMapping.containsValue(schemaType)) {
+            return schemaType;
         }
 
-        if (languageSpecificPrimitives.contains(swaggerType)) {
-            return swaggerType;
+        if (languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType;
         }
 
         // return fully-qualified model name
         // ::models::{{classnameFile}}::{{classname}}
-        return "::models::" + toModelName(swaggerType);
+        return "::models::" + toModelName(schemaType);
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema schema) {
+        String swaggerType = super.getSchemaType(schema);
         String type = null;
         if(typeMapping.containsKey(swaggerType)) {
             type = typeMapping.get(swaggerType);

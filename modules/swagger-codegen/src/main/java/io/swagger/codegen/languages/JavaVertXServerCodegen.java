@@ -6,14 +6,15 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.CodegenType;
 import io.swagger.codegen.SupportingFile;
-import io.swagger.models.HttpMethod;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
+import io.swagger.codegen.utils.URLPathUtil;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.oas.models.PathItem;
+import io.swagger.oas.models.media.Schema;
 import io.swagger.util.Json;
 
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -172,17 +173,15 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-            Map<String, Model> definitions, Swagger swagger) {
-        CodegenOperation codegenOperation =
-                super.fromOperation(path, httpMethod, operation, definitions, swagger);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
         codegenOperation.imports.add("MainApiException");
         return codegenOperation;
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allSchemas) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allSchemas);
         codegenModel.imports.remove("ApiModel");
         codegenModel.imports.remove("ApiModelProperty");
         return codegenModel;
@@ -190,21 +189,26 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        super.preprocessSwagger(swagger);
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
 
         // add full swagger definition in a mustache parameter
-        String swaggerDef = Json.pretty(swagger);
+        String swaggerDef = Json.pretty(openAPI);
         this.additionalProperties.put("fullSwagger", swaggerDef);
 
         // add server port from the swagger file, 8080 by default
-        String host = swagger.getHost();
-        String port = extractPortFromHost(host);
+        String port = null;
+        final URL url = URLPathUtil.getServerURL(openAPI);
+        if(url != null) {
+            port = String.valueOf(url.getPort());
+        }  else {
+            port = "8080";
+        }
         this.additionalProperties.put("serverPort", port);
 
         // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default
-        if (swagger.getInfo() != null && swagger.getInfo().getVersion() != null) {
-            artifactVersion = apiVersion = swagger.getInfo().getVersion();
+        if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+            artifactVersion = apiVersion = openAPI.getInfo().getVersion();
         } else {
             artifactVersion = apiVersion;
         }
@@ -213,30 +217,29 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
          * manage operation & custom serviceId because operationId field is not
          * required and may be empty
          */
-        Map<String, Path> paths = swagger.getPaths();
+        Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
-            for (Entry<String, Path> entry : paths.entrySet()) {
+            for (Entry<String, PathItem> entry : paths.entrySet()) {
                 manageOperationNames(entry.getValue(), entry.getKey());
             }
         }
         this.additionalProperties.remove("gson");
     }
 
-    private void manageOperationNames(Path path, String pathname) {
+    private void manageOperationNames(PathItem path, String pathname) {
         String serviceIdTemp;
 
-        Map<HttpMethod, Operation> operationMap = path.getOperationMap();
+        Map<PathItem.HttpMethod, Operation> operationMap = path.readOperationsMap();
         if (operationMap != null) {
-            for (Entry<HttpMethod, Operation> entry : operationMap.entrySet()) {
+            for (Entry<PathItem.HttpMethod, Operation> entry : operationMap.entrySet()) {
                 serviceIdTemp = computeServiceId(pathname, entry);
-                entry.getValue().setVendorExtension("x-serviceid", serviceIdTemp);
-                entry.getValue().setVendorExtension("x-serviceid-varname",
-                        serviceIdTemp.toUpperCase() + "_SERVICE_ID");
+                entry.getValue().addExtension("x-serviceid", serviceIdTemp);
+                entry.getValue().addExtension("x-serviceid-varname", serviceIdTemp.toUpperCase() + "_SERVICE_ID");
             }
         }
     }
 
-    private String computeServiceId(String pathname, Entry<HttpMethod, Operation> entry) {
+    private String computeServiceId(String pathname, Entry<PathItem.HttpMethod, Operation> entry) {
         String operationId = entry.getValue().getOperationId();
         return (operationId != null) ? operationId
                 : entry.getKey().name()
