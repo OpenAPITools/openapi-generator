@@ -1,10 +1,10 @@
 package io.swagger.codegen;
 
 import io.swagger.codegen.languages.JavaClientCodegen;
-import io.swagger.models.ExternalDocs;
-import io.swagger.models.Swagger;
-import io.swagger.models.Tag;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.oas.models.ExternalDocumentation;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.tags.Tag;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.rules.TemporaryFolder;
@@ -51,14 +51,15 @@ public class DefaultGeneratorTest {
 
     @Test
     public void testSecurityWithoutGlobal() throws Exception {
-        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/petstore.json");
+        // TODO update json file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator gen = new DefaultGenerator();
         gen.opts(clientOptInput);
-        Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = gen.processPaths(openAPI.getPaths());
 
         CodegenSecurity cs, apiKey, petstoreAuth;
 
@@ -94,14 +95,15 @@ public class DefaultGeneratorTest {
 
     @Test
     public void testSecurityWithGlobal() throws Exception {
-        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/globalSecurity.json");
+        // TODO update json file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/globalSecurity.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator gen = new DefaultGenerator();
         gen.opts(clientOptInput);
-        Map<String, List<CodegenOperation>> paths = gen.processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = gen.processPaths(openAPI.getPaths());
 
         CodegenSecurity cs, apiKey, apiKey2, petstoreAuth;
 
@@ -169,12 +171,13 @@ public class DefaultGeneratorTest {
     public void testSkipOverwrite() throws Exception {
         final File output = folder.getRoot();
 
-        final Swagger swagger = new SwaggerParser().read("src/test/resources/petstore.json");
+        // TODO update json file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setLibrary("jersey1");
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         //generate content first time without skipOverwrite flag, so all generated files should be recorded
         new DefaultGenerator().opts(clientOptInput).generate();
@@ -220,12 +223,13 @@ public class DefaultGeneratorTest {
     public void testOverloadingTemplateFiles() throws Exception {
         final File output = folder.getRoot();
 
-        final Swagger swagger = new SwaggerParser().read("src/test/resources/petstore.json");
+        // TODO update json file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setLibrary("jersey2");
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
         //generate content first time without specifying an overloaded template file, so the default mustache files are used instead
         new DefaultGenerator().opts(clientOptInput).generate();
 
@@ -260,16 +264,17 @@ public class DefaultGeneratorTest {
     public void testGenerateUniqueOperationIds() {
         final File output = folder.getRoot();
 
-        final Swagger swagger = new SwaggerParser().read("src/test/resources/2_0/duplicateOperationIds.yaml");
+        // TODO update yaml file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/duplicateOperationIds.yaml");
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput);
 
-        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(openAPI.getPaths());
         Set<String> opIds = new HashSet<String>();
         for(String path : paths.keySet()) {
             List<CodegenOperation> ops = paths.get(path);
@@ -314,23 +319,23 @@ public class DefaultGeneratorTest {
                 "          description: OK";
 
         final List<Tag> expectedTags = new ArrayList<Tag>();
-        expectedTags.add(new Tag().name("pet").description("Everything about your Pets").externalDocs(new ExternalDocs().description("Find out more").url("http://swagger.io")));
+        expectedTags.add(new Tag().name("pet").description("Everything about your Pets").externalDocs(new ExternalDocumentation().description("Find out more").url("http://swagger.io")));
         expectedTags.add(new Tag().name("store").description("Access to Petstore orders"));
-        expectedTags.add(new Tag().name("user").description("Operations about user").externalDocs(new ExternalDocs()));
+        expectedTags.add(new Tag().name("user").description("Operations about user").externalDocs(new ExternalDocumentation()));
 
-        expectedTags.get(0).getVendorExtensions().put("x-vendor-ext", "tag");
-        expectedTags.get(2).getExternalDocs().getVendorExtensions().put("x-vendor-ext", "foo");
+        expectedTags.get(0).getExtensions().put("x-vendor-ext", "tag");
+        expectedTags.get(2).getExternalDocs().getExtensions().put("x-vendor-ext", "foo");
 
-        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        final OpenAPI openAPI = new OpenAPIV3Parser().readContents(spec, null, null).getOpenAPI();
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput);
 
-        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(openAPI.getPaths());
         assertEquals(3, paths.size());
 
         List<String> sanitizedTags = Arrays.asList("Pet", "Store", "User");
@@ -368,16 +373,16 @@ public class DefaultGeneratorTest {
         expectedTags.add(new Tag().name("store"));
         expectedTags.add(new Tag().name("user"));
 
-        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        final OpenAPI openAPI = new OpenAPIV3Parser().readContents(spec, null, null).getOpenAPI();
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput);
 
-        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(openAPI.getPaths());
         assertEquals(3, paths.size());
 
         List<String> sanitizedTags = Arrays.asList("Pet", "Store", "User");
@@ -409,16 +414,16 @@ public class DefaultGeneratorTest {
         final List<Tag> expectedTags = new ArrayList<Tag>();
         expectedTags.add(new Tag().name("default"));
 
-        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        final OpenAPI openAPI = new OpenAPIV3Parser().readContents(spec, null, null).getOpenAPI();
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput);
 
-        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(openAPI.getPaths());
         assertEquals(1, paths.size());
 
         List<String> sanitizedTags = Collections.singletonList("Default");
@@ -459,16 +464,16 @@ public class DefaultGeneratorTest {
         expectedTags.add(new Tag().name("store"));
         expectedTags.add(new Tag().name("user"));
 
-        final Swagger swagger = new SwaggerParser().readWithInfo(spec).getSwagger();
+        final OpenAPI openAPI = new OpenAPIV3Parser().readContents(spec, null, null).getOpenAPI();
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).swagger(swagger).config(codegenConfig);
+        ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput);
 
-        Map<String, List<CodegenOperation>> paths = generator.processPaths(swagger.getPaths());
+        Map<String, List<CodegenOperation>> paths = generator.processPaths(openAPI.getPaths());
         assertEquals(3, paths.size());
 
         List<String> sanitizedTags = Arrays.asList("Pet", "Store", "User");
@@ -500,12 +505,12 @@ public class DefaultGeneratorTest {
             }
 
             assertEquals(tag, foundTag);
-            if (!tag.getVendorExtensions().isEmpty()) {
-                assertEquals(tag.getVendorExtensions(), foundTag.getVendorExtensions());
+            if (!tag.getExtensions().isEmpty()) {
+                assertEquals(tag.getExtensions(), foundTag.getExtensions());
             }
 
-            if (tag.getExternalDocs() != null && !tag.getExternalDocs().getVendorExtensions().isEmpty()) {
-                assertEquals(tag.getExternalDocs().getVendorExtensions(), foundTag.getExternalDocs().getVendorExtensions());
+            if (tag.getExternalDocs() != null && !tag.getExternalDocs().getExtensions().isEmpty()) {
+                assertEquals(tag.getExternalDocs().getExtensions(), foundTag.getExternalDocs().getExtensions());
             }
         }
     }
