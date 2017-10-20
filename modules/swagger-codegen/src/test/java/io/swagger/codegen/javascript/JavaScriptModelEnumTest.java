@@ -4,18 +4,14 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.JavascriptClientCodegen;
-import io.swagger.models.ComposedModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.RefModel;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.StringProperty;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.media.ComposedSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,12 +20,12 @@ import java.util.Map;
 public class JavaScriptModelEnumTest {
     @Test(description = "convert a JavaScript model with an enum")
     public void converterTest() {
-        final StringProperty enumProperty = new StringProperty();
+        final StringSchema enumProperty = new StringSchema();
         enumProperty.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));
-        final ModelImpl model = new ModelImpl().property("name", enumProperty);
+        final Schema schema = new Schema().addProperties("name", enumProperty);
 
         final DefaultCodegen codegen = new JavascriptClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -45,40 +41,37 @@ public class JavaScriptModelEnumTest {
 
     @Test(description = "not override identical parent enums")
     public void overrideEnumTest() {
-        final StringProperty identicalEnumProperty = new StringProperty();
+        final StringSchema identicalEnumProperty = new StringSchema();
         identicalEnumProperty.setEnum(Arrays.asList("VALUE1", "VALUE2", "VALUE3"));
 
-        final StringProperty subEnumProperty = new StringProperty();
+        final StringSchema subEnumProperty = new StringSchema();
         subEnumProperty.setEnum(Arrays.asList("SUB1", "SUB2", "SUB3"));
 
         // Add one enum property to the parent
-        final Map<String, Property> parentProperties = new HashMap<String, Property>();
+        final Map<String, Schema> parentProperties = new HashMap<String, Schema>();
         parentProperties.put("sharedThing", identicalEnumProperty);
 
         // Add TWO enums to the subType model; one of which is identical to the one in parent class
-        final Map<String, Property> subProperties = new HashMap<String, Property>();
+        final Map<String, Schema> subProperties = new HashMap<String, Schema>();
         subProperties.put("sharedThing", identicalEnumProperty);
         subProperties.put("unsharedThing", identicalEnumProperty);
 
-        final ModelImpl parentModel = new ModelImpl();
+        final Schema parentModel = new Schema();
         parentModel.setProperties(parentProperties);
         parentModel.name("parentModel");
 
-        final ModelImpl subModel = new ModelImpl();
+        final Schema subModel = new Schema();
         subModel.setProperties(subProperties);
         subModel.name("subModel");
 
-        final ComposedModel model = new ComposedModel()
-                .parent(new RefModel(parentModel.getName()))
-                .child(subModel)
-                .interfaces(new ArrayList<RefModel>());
+        final ComposedSchema composedSchema = new ComposedSchema();
 
         final DefaultCodegen codegen = new JavascriptClientCodegen();
-        final Map<String, Model> allModels = new HashMap<String, Model>();
-        allModels.put(parentModel.getName(), parentModel);
-        allModels.put(subModel.getName(), subModel);
+        final Map<String, Schema> allSchemas = new HashMap<String, Schema>();
+        allSchemas.put(parentModel.getName(), parentModel);
+        allSchemas.put(subModel.getName(), subModel);
 
-        final CodegenModel cm = codegen.fromModel("sample", model, allModels);
+        final CodegenModel cm = codegen.fromModel("sample", composedSchema, allSchemas);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -96,11 +89,13 @@ public class JavaScriptModelEnumTest {
 
     @Test(description = "test enum array model")
     public void enumArrayModelTest() {
-        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        // TODO: update yaml spec
+        final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new JavascriptClientCodegen();
-        final Model definition = model.getDefinitions().get("EnumArrays");
+        final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
 
-        Property property =  definition.getProperties().get("array_enum");
+        Map<String, Schema> schemas = schema.getProperties();
+        Schema property =  schemas.get("array_enum");
         CodegenProperty prope = codegen.fromProperty("array_enum", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "[ArrayEnumEnum]");
@@ -127,11 +122,13 @@ public class JavaScriptModelEnumTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumModelValueTest() {
-        final Swagger model =  new SwaggerParser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        // TODO: update yaml spec
+        final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new JavascriptClientCodegen();
-        final Model definition = model.getDefinitions().get("Enum_Test");
+        final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
 
-        Property property =  definition.getProperties().get("enum_integer");
+        Map<String, Schema> schemas = schema.getProperties();
+        Schema property =  schemas.get("enum_integer");
         CodegenProperty prope = codegen.fromProperty("enum_integer", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
