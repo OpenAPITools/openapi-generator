@@ -4,17 +4,15 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.GoClientCodegen;
-import io.swagger.models.ArrayModel;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.DateTimeProperty;
-import io.swagger.models.properties.LongProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.RefProperty;
-import io.swagger.models.properties.StringProperty;
 
 import com.google.common.collect.Sets;
+import io.swagger.oas.models.media.ArraySchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.MapSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -24,15 +22,15 @@ public class GoModelTest {
 
     @Test(description = "convert a simple Go model")
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .required("id")
-                .required("name");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -76,14 +74,14 @@ public class GoModelTest {
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("urls", new ArrayProperty()
-                        .items(new StringProperty()))
-                .required("id");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("urls", new ArraySchema()
+                        .items(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -115,13 +113,13 @@ public class GoModelTest {
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("translations", new MapProperty()
-                        .additionalProperties(new StringProperty()))
-                .required("id");
+                .addProperties("translations", new MapSchema()
+                        .additionalProperties(new StringSchema()))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -141,11 +139,11 @@ public class GoModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new RefProperty("#/definitions/Children"));
+                .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -163,12 +161,12 @@ public class GoModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListProperty() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new ArrayProperty()
-                        .items(new RefProperty("#/definitions/Children")));
+                .addProperties("children", new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -187,12 +185,12 @@ public class GoModelTest {
 
     @Test(description = "convert a model with complex map property")
     public void complexMapProperty() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("children", new MapProperty()
-                        .additionalProperties(new RefProperty("#/definitions/Children")));
+                .addProperties("children", new MapSchema()
+                        .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -214,11 +212,12 @@ public class GoModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Model model = new ArrayModel()
-                .description("an array model")
-                .items(new RefProperty("#/definitions/Children"));
+        final Schema schema = new ArraySchema()
+                .items(new Schema().$ref("#/definitions/Children"))
+                .description("an array model");
+
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -229,11 +228,11 @@ public class GoModelTest {
 
     @Test(description = "convert an map model")
     public void mapModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new ArraySchema()
                 .description("a map model")
-                .additionalProperties(new RefProperty("#/definitions/Children"));
+                .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -258,9 +257,9 @@ public class GoModelTest {
 
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
-        final Model model = new ModelImpl();
+        final Schema schema = new Schema();
         final DefaultCodegen codegen = new GoClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, model);
+        final CodegenModel cm = codegen.fromModel(name, schema);
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
