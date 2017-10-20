@@ -27,25 +27,25 @@ import java.util.*;
 import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 
-public class Rust2Codegen extends DefaultCodegen implements CodegenConfig {
+public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Rust2Codegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
     private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "swagger-server";
-    protected String apiPath = "rust2";
+    protected String apiPath = "rust-server";
     protected String packageName;
     protected String packageVersion;
     protected String externCrateName;
 
-    public Rust2Codegen() {
+    public RustServerCodegen() {
         super();
 
         // set the output folder here
-        outputFolder = "generated-code/rust2";
+        outputFolder = "generated-code/rust-server";
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -66,7 +66,7 @@ public class Rust2Codegen extends DefaultCodegen implements CodegenConfig {
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "rust2";
+        embeddedTemplateDir = templateDir = "rust-server";
 
         /*
          * Reserved words.  Override this with reserved words specific to your language
@@ -232,7 +232,7 @@ public class Rust2Codegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String getName() {
-        return "rust2";
+        return "rust-server";
     }
 
     /**
@@ -243,7 +243,7 @@ public class Rust2Codegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String getHelp() {
-        return "Generates a Rust client/server library using the swagger-codegen project.";
+        return "Generates a Rust client/server library (beta) using the swagger-codegen project.";
     }
 
     @Override

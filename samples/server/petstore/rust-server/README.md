@@ -13,7 +13,7 @@ To see how to make this your own, look here:
 [README](https://github.com/swagger-api/swagger-codegen/blob/master/README.md)
 
 - API version: 1.0.0
-- Build date: 2017-09-26T16:36:55.563+01:00
+- Build date: 2017-10-19T17:45:37.995+08:00
 
 ## Examples
 
@@ -50,6 +50,7 @@ cargo run --example client FakeOuterStringSerialize
 cargo run --example client TestClientModel
 cargo run --example client TestEndpointParameters
 cargo run --example client TestEnumParameters
+cargo run --example client TestInlineAdditionalProperties
 cargo run --example client TestJsonFormData
 cargo run --example client TestClassname
 cargo run --example client AddPet
