@@ -4,9 +4,9 @@ import io.swagger.codegen.CodegenOperation;
 import io.swagger.codegen.CodegenParameter;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.BashClientCodegen;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
+import io.swagger.oas.models.OpenAPI;
+import io.swagger.oas.models.Operation;
+import io.swagger.parser.v3.OpenAPIV3Parser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,56 +15,25 @@ public class BashTest {
 
     @Test(description = "test basic petstore operation with Bash extensions")
     public void petstoreOperationTest() {
-
-        final Swagger swagger 
-            = new SwaggerParser()
-                .read("src/test/resources/2_0/petstore-bash.json");
+        // TODO: update test file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
-        final Operation findPetsByStatusOperation
-            = swagger.getPath("/pet/findByStatus").getGet();
-
-        final CodegenOperation op
-            = codegen.fromOperation(
-                "/pet/findByStatus",
-                "GET",
-                findPetsByStatusOperation,
-                swagger.getDefinitions(),
-                swagger);
-
-        Assert.assertTrue(
-            op.vendorExtensions.containsKey("x-code-samples"));
-
-        Assert.assertEquals(
-            op.vendorExtensions.get("x-bash-codegen-description"),
-            "Multiple status 'values' can be provided with comma separated strings");
-
+        final Operation findPetsByStatusOperation = openAPI.getPaths().get("/pet/findByStatus").getGet();
+        final CodegenOperation op = codegen.fromOperation("/pet/findByStatus", "GET", findPetsByStatusOperation, openAPI.getComponents().getSchemas(), openAPI);
+        Assert.assertTrue(op.vendorExtensions.containsKey("x-code-samples"));
+        Assert.assertEquals(op.vendorExtensions.get("x-bash-codegen-description"), "Multiple status 'values' can be provided with comma separated strings");
     }
 
     @Test(description = "test basic petstore operation with example body")
     public void petstoreParameterExampleTest() {
-
-        final Swagger swagger 
-            = new SwaggerParser()
-                .read("src/test/resources/2_0/petstore-bash.json");
+        // TODO: update test file.
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
-        final Operation addPetOperation
-            = swagger.getPath("/pet").getPost();
-
-        final CodegenOperation op
-            = codegen.fromOperation(
-                "/pet",
-                "POST",
-                addPetOperation,
-                swagger.getDefinitions(),
-                swagger);
-
+        final Operation addPetOperation = openAPI.getPaths().get("/pet").getPost();
+        final CodegenOperation op = codegen.fromOperation("/pet", "POST", addPetOperation, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertEquals(op.bodyParams.size(), 1);
-
         CodegenParameter pet = op.bodyParams.get(0);
-
-        Assert.assertTrue(pet.vendorExtensions
-                            .containsKey("x-codegen-body-example"));
-
+        Assert.assertTrue(pet.vendorExtensions.containsKey("x-codegen-body-example"));
     }
 
 
