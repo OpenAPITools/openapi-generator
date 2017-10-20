@@ -4,9 +4,16 @@ import io.swagger.codegen.CodegenModel;
 import io.swagger.codegen.CodegenProperty;
 import io.swagger.codegen.DefaultCodegen;
 import io.swagger.codegen.languages.Swift3Codegen;
-import io.swagger.models.Model;
-import io.swagger.models.ModelImpl;
-import io.swagger.models.properties.*;
+import io.swagger.oas.models.media.BinarySchema;
+import io.swagger.oas.models.media.ByteArraySchema;
+import io.swagger.oas.models.media.DateSchema;
+import io.swagger.oas.models.media.DateTimeSchema;
+import io.swagger.oas.models.media.Discriminator;
+import io.swagger.oas.models.media.IntegerSchema;
+import io.swagger.oas.models.media.Schema;
+import io.swagger.oas.models.media.StringSchema;
+import io.swagger.oas.models.media.UUIDSchema;
+import io.swagger.parser.v3.util.SchemaTypeUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,20 +22,21 @@ public class Swift3ModelTest {
 
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {
-        final Model model = new ModelImpl()
+        final Schema schema = new Schema()
                 .description("a sample model")
-                .property("id", new LongProperty())
-                .property("name", new StringProperty())
-                .property("createdAt", new DateTimeProperty())
-                .property("binary", new BinaryProperty())
-                .property("byte", new ByteArrayProperty())
-                .property("uuid", new UUIDProperty())
-                .property("dateOfBirth", new DateProperty())
-                .required("id")
-                .required("name")
-                .discriminator("test");
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("binary", new BinarySchema())
+                .addProperties("byte", new ByteArraySchema())
+                .addProperties("uuid", new UUIDSchema())
+                .addProperties("dateOfBirth", new DateSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name")
+                .discriminator(new Discriminator().mapping("test", ""));
+
         final DefaultCodegen codegen = new Swift3Codegen();
-        final CodegenModel cm = codegen.fromModel("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
