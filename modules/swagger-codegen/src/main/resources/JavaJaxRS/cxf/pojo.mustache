@@ -17,6 +17,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 {{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
 {{/withXml}}
 {{#description}}
+/**
+  * {{{description}}}
+ **/
 @ApiModel(description="{{{description}}}")
 {{/description}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
@@ -29,6 +32,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{#description}}
+ /**
+   * {{{description}}}  
+  **/
+{{/description}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
 
   {{#vars}}

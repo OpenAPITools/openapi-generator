@@ -20,10 +20,22 @@ import io.swagger.jaxrs.PATCH;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+ * Swagger Petstore
+ *
+ * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ *
+ */
 @Path("/")
 @Api(value = "/", description = "")
 public interface StoreApi  {
 
+    /**
+     * Delete purchase order by ID
+     *
+     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     *
+     */
     @DELETE
     @Path("/store/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
@@ -33,6 +45,12 @@ public interface StoreApi  {
         @ApiResponse(code = 404, message = "Order not found") })
     public void deleteOrder(@PathParam("order_id") String orderId);
 
+    /**
+     * Returns pet inventories by status
+     *
+     * Returns a map of status codes to quantities
+     *
+     */
     @GET
     @Path("/store/inventory")
     @Produces({ "application/json" })
@@ -41,6 +59,12 @@ public interface StoreApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     public Map<String, Integer> getInventory();
 
+    /**
+     * Find purchase order by ID
+     *
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     *
+     */
     @GET
     @Path("/store/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
@@ -51,6 +75,12 @@ public interface StoreApi  {
         @ApiResponse(code = 404, message = "Order not found") })
     public Order getOrderById(@PathParam("order_id") @Min(1) @Max(5) Long orderId);
 
+    /**
+     * Place an order for a pet
+     *
+     * 
+     *
+     */
     @POST
     @Path("/store/order")
     @Produces({ "application/xml", "application/json" })

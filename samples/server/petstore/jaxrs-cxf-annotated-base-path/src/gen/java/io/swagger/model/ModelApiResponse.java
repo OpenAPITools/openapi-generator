@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+  * Describes the result of uploading an image resource
+ **/
 @ApiModel(description="Describes the result of uploading an image resource")
 public class ModelApiResponse  {
   
