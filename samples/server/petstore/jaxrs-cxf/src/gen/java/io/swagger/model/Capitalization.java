@@ -25,6 +25,9 @@ public class Capitalization  {
   @ApiModelProperty(value = "")
   private String scAETHFlowPoints = null;
   @ApiModelProperty(value = "Name of the pet ")
+ /**
+   * Name of the pet   
+  **/
   private String ATT_NAME = null;
 
  /**

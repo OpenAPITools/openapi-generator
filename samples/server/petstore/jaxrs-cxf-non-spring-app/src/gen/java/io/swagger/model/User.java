@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+  * A User who is purchasing from the pet store
+ **/
 @ApiModel(description="A User who is purchasing from the pet store")
 public class User  {
   
@@ -31,6 +34,9 @@ public class User  {
   @ApiModelProperty(value = "")
   private String phone = null;
   @ApiModelProperty(value = "User Status")
+ /**
+   * User Status  
+  **/
   private Integer userStatus = null;
 
  /**
