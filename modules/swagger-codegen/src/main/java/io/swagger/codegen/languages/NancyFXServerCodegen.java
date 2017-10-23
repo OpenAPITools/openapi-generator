@@ -378,6 +378,10 @@ public class NancyFXServerCodegen extends AbstractCSharpCodegen {
             public boolean apply(Schema property) {
                 return property instanceof StringSchema && "time".equalsIgnoreCase(property.getFormat());
             }
+
+            public boolean test(Schema schema) {
+                return this.apply(schema);
+            }
         };
     }
 
