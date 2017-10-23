@@ -109,15 +109,19 @@ class Configuration(with_metaclass(TypeWithDefault, object)):
 
     @property
     def logger_file(self):
-        """
-        Gets the logger_file.
+        """The logger file.
+
+        If the logger_file is None, then add stream handler and remove file handler.
+        Otherwise, add file handler and remove stream handler.
+
+        :param value: The logger_file path.
+        :type: str
         """
         return self.__logger_file
 
     @logger_file.setter
     def logger_file(self, value):
-        """
-        Sets the logger_file.
+        """The logger file.
 
         If the logger_file is None, then add stream handler and remove file handler.
         Otherwise, add file handler and remove stream handler.
@@ -147,15 +151,16 @@ class Configuration(with_metaclass(TypeWithDefault, object)):
 
     @property
     def debug(self):
-        """
-        Gets the debug status.
+        """Debug status
+
+        :param value: The debug status, True or False.
+        :type: bool
         """
         return self.__debug
 
     @debug.setter
     def debug(self, value):
-        """
-        Sets the debug status.
+        """Debug status
 
         :param value: The debug status, True or False.
         :type: bool
@@ -177,15 +182,18 @@ class Configuration(with_metaclass(TypeWithDefault, object)):
 
     @property
     def logger_format(self):
-        """
-        Gets the logger_format.
+        """The logger format.
+
+        The logger_formatter will be updated when sets logger_format.
+
+        :param value: The format string.
+        :type: str
         """
         return self.__logger_format
 
     @logger_format.setter
     def logger_format(self, value):
-        """
-        Sets the logger_format.
+        """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
 
@@ -196,8 +204,7 @@ class Configuration(with_metaclass(TypeWithDefault, object)):
         self.logger_formatter = logging.Formatter(self.__logger_format)
 
     def get_api_key_with_prefix(self, identifier):
-        """
-        Gets API key (with prefix if set).
+        """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
         :return: The token for api key authentication.
@@ -208,8 +215,7 @@ class Configuration(with_metaclass(TypeWithDefault, object)):
             return self.api_key[identifier]
 
     def get_basic_auth_token(self):
-        """
-        Gets HTTP basic authentication header (string).
+        """Gets HTTP basic authentication header (string).
 
         :return: The token for basic HTTP authentication.
         """
@@ -217,8 +223,7 @@ class Configuration(with_metaclass(TypeWithDefault, object)):
                            .get('authorization')
 
     def auth_settings(self):
-        """
-        Gets Auth Settings dict for api client.
+        """Gets Auth Settings dict for api client.
 
         :return: The Auth Settings information dict.
         """
@@ -256,8 +261,7 @@ class Configuration(with_metaclass(TypeWithDefault, object)):
         }
 
     def to_debug_report(self):
-        """
-        Gets the essential information for debugging.
+        """Gets the essential information for debugging.
 
         :return: The report for debugging.
         """

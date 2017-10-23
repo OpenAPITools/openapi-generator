@@ -784,6 +784,100 @@ class FakeApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def test_inline_additional_properties(self, param, **kwargs):
+        """
+        test inline additionalProperties
+        
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.test_inline_additional_properties(param, async=True)
+        >>> result = thread.get()
+
+        :param async bool
+        :param object param: request body (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async'):
+            return self.test_inline_additional_properties_with_http_info(param, **kwargs)
+        else:
+            (data) = self.test_inline_additional_properties_with_http_info(param, **kwargs)
+            return data
+
+    def test_inline_additional_properties_with_http_info(self, param, **kwargs):
+        """
+        test inline additionalProperties
+        
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async=True
+        >>> thread = api.test_inline_additional_properties_with_http_info(param, async=True)
+        >>> result = thread.get()
+
+        :param async bool
+        :param object param: request body (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['param']
+        all_params.append('async')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_inline_additional_properties" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'param' is set
+        if ('param' not in params) or (params['param'] is None):
+            raise ValueError("Missing the required parameter `param` when calling `test_inline_additional_properties`")
+
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'param' in params:
+            body_params = params['param']
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['application/json'])
+
+        # Authentication setting
+        auth_settings = []
+
+        return self.api_client.call_api('/fake/inline-additionalProperties', 'POST',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type=None,
+                                        auth_settings=auth_settings,
+                                        async=params.get('async'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def test_json_form_data(self, param, param2, **kwargs):
         """
         test json serialization of form data
