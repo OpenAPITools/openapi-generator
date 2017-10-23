@@ -13,8 +13,8 @@ import java.util.List;
 public class URLPathUtil {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtil.class);
-
-    public static final String LOCAL_HOST = "http://localhost";
+    public static String DEFAULT_PATH = "/";
+    public static final String LOCAL_HOST = "http://localhost:8080/";
 
     public static URL getServerURL(OpenAPI openAPI) {
         final List<Server> servers = openAPI.getServers();
@@ -22,8 +22,12 @@ public class URLPathUtil {
             return null;
         }
         final Server server = servers.get(0);
+        String url = server.getUrl();
+        if(url.equals(DEFAULT_PATH)) {
+            url = LOCAL_HOST;
+        }
         try {
-            return new URL(server.getUrl());
+            return new URL(url);
         } catch (MalformedURLException e) {
             LOGGER.warn("Not valid URL: " + server.getUrl(), e);
             return null;
