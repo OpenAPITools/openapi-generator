@@ -205,11 +205,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-compat-spec-parser</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>swagger-core</artifactId>
             <version>${swagger-core-version}</version>
