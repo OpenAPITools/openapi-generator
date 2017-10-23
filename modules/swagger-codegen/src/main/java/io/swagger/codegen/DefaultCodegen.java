@@ -1636,8 +1636,12 @@ public class DefaultCodegen implements CodegenConfig {
             // handle inner property
             codegenProperty.maxItems = propertySchema.getMaxItems();
             codegenProperty.minItems = propertySchema.getMinItems();
-            String itemName = (String) propertySchema.getExtensions().get("x-item-name");
+            String itemName = null;
+            if (propertySchema.getExtensions() != null && propertySchema.getExtensions().get("x-item-name") != null) {
+                itemName = propertySchema.getExtensions().get("x-item-name").toString();
+            }
             if (itemName == null) {
+                System.out.println("THIS IS THE NAME: " + codegenProperty.name);
                 itemName = codegenProperty.name;
             }
             CodegenProperty cp = fromProperty(itemName, ((ArraySchema) propertySchema).getItems());
