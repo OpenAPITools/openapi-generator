@@ -1,9 +1,6 @@
 {
-    "name": "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}",
-    {{#artifactVersion}}
-    "version": "{{artifactVersion}}",
-    {{/artifactVersion}}
-    "description": "{{description}}",
+    "name": "swagger/server-bundle",
+    "description": "",
     "keywords": [
         "swagger",
         "php",
@@ -36,6 +33,6 @@
         "hoa/regex": "~1.0"
     },
     "autoload": {
-        "psr-4": { "{{escapedInvokerPackage}}\\" : "{{srcBasePath}}/" }
+        "psr-4": { "Swagger\\Server\\" : "./" }
     }
 }
