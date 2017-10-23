@@ -36,9 +36,12 @@ class ApiClient(object):
     Ref: https://github.com/swagger-api/swagger-codegen
     Do not edit the class manually.
 
-    :param host: The base path for the server to call.
+    :param configuration: .Configuration object for this client
     :param header_name: a header to pass when making calls to the API.
-    :param header_value: a header value to pass when making calls to the API.
+    :param header_value: a header value to pass when making calls to 
+        the API.
+    :param cookie: a cookie to include in the header when making calls 
+        to the API
     """
 
     PRIMITIVE_TYPES = (float, bool, bytes, text_type) + integer_types
@@ -73,16 +76,11 @@ class ApiClient(object):
 
     @property
     def user_agent(self):
-        """
-        Gets user agent.
-        """
+        """User agent for this API client"""
         return self.default_headers['User-Agent']
 
     @user_agent.setter
     def user_agent(self, value):
-        """
-        Sets user agent.
-        """
         self.default_headers['User-Agent'] = value
 
     def set_default_header(self, header_name, header_value):
