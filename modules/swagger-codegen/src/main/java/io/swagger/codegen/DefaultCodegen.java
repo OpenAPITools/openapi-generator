@@ -1641,7 +1641,6 @@ public class DefaultCodegen implements CodegenConfig {
                 itemName = propertySchema.getExtensions().get("x-item-name").toString();
             }
             if (itemName == null) {
-                System.out.println("THIS IS THE NAME: " + codegenProperty.name);
                 itemName = codegenProperty.name;
             }
             CodegenProperty cp = fromProperty(itemName, ((ArraySchema) propertySchema).getItems());
