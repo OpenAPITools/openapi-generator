@@ -1,0 +1,29 @@
+---
+openapi: 3.0.0
+info:
+  title: Swagger Petstore
+  version: 1.0.0
+tags:
+- name: pet
+  description: Everything about your Pets
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+  x-vendor-ext: tag
+- name: store
+  description: Access to Petstore orders
+- name: user
+  description: Operations about user
+  externalDocs:
+    x-vendor-ext: foo
+paths:
+  "/pet":
+    get:
+      tags:
+      - pet
+      - store
+      - user
+      responses:
+        '200':
+          description: OK
+components: {}

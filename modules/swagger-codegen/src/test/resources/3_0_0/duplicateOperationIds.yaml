@@ -1,0 +1,21 @@
+---
+openapi: 3.0.0
+info:
+  title: fun!
+  version: 1.0.1
+servers:
+- url: "/v1"
+paths:
+  "/one":
+    get:
+      operationId: duplicate
+      responses:
+        '200':
+          description: success
+  "/two":
+    get:
+      operationId: duplicate
+      responses:
+        '200':
+          description: success
+components: {}

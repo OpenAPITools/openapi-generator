@@ -33,6 +33,8 @@ import io.swagger.oas.models.info.Info;
 import io.swagger.oas.models.info.License;
 import io.swagger.oas.models.media.Schema;
 import io.swagger.oas.models.parameters.Parameter;
+import io.swagger.oas.models.security.OAuthFlow;
+import io.swagger.oas.models.security.SecurityRequirement;
 import io.swagger.oas.models.security.SecurityScheme;
 import io.swagger.oas.models.servers.Server;
 import io.swagger.oas.models.tags.Tag;
@@ -794,21 +796,34 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         for (Tag tag : tags) {
             try {
+                System.out.println(config);
+                System.out.println();
                 CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, openAPI.getComponents().getSchemas(), openAPI);
-                codegenOperation.tags = new ArrayList<Tag>(tags);
+                codegenOperation.tags = new ArrayList<>(tags);
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
-                Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents().getSecuritySchemes();
-                if (securitySchemeMap != null && !securitySchemeMap.isEmpty()) {
-                    codegenOperation.authMethods = config.fromSecurity(securitySchemeMap);
+
+                final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+                List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
+                List<SecurityRequirement> securities = operation.getSecurity();
+                if (securities != null && securities.isEmpty()) {
+                    continue;
+                }
+                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+                if (authMethods == null || authMethods.isEmpty()) {
+                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
+                }
+
+                if (authMethods != null && !authMethods.isEmpty()) {
+                    codegenOperation.authMethods = config.fromSecurity(authMethods);
                     codegenOperation.hasAuthMethods = true;
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 String msg = "Could not process operation:\n" //
                         + "  Tag: " + tag + "\n"//
                         + "  Operation: " + operation.getOperationId() + "\n" //
                         + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
-                        + "  Schemas: " + this.openAPI.getComponents().getSchemas() + "\n"  //
+                       // + "  Definitions: " + swagger.getDefinitions() + "\n"  //
                         + "  Exception: " + ex.getMessage();
                 throw new RuntimeException(msg, ex);
             }
@@ -922,5 +937,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         objs.put("imports", imports);
         config.postProcessModels(objs);
         return objs;
+    }
+
+    private Map<String, SecurityScheme> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+        if (securities == null || (securitySchemes == null || securitySchemes.isEmpty())) {
+            return null;
+        }
+        final Map<String, SecurityScheme> authMethods = new HashMap<>();
+        for (SecurityRequirement requirement : securities) {
+            for (String key : requirement.keySet()) {
+                SecurityScheme securityScheme = securitySchemes.get(key);
+                if (securityScheme != null) {
+                    authMethods.put(key, securityScheme);
+                }
+            }
+        }
+        return authMethods;
     }
 }

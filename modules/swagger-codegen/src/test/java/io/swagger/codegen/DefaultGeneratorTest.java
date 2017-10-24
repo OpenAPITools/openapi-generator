@@ -51,8 +51,7 @@ public class DefaultGeneratorTest {
 
     @Test
     public void testSecurityWithoutGlobal() throws Exception {
-        // TODO update json file.
-        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/petstore.json");
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/3_0_0/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
 
         ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
@@ -96,7 +95,7 @@ public class DefaultGeneratorTest {
     @Test
     public void testSecurityWithGlobal() throws Exception {
         // TODO update json file.
-        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/globalSecurity.json");
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/3_0_0/globalSecurity.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
 
         ClientOptInput clientOptInput = new ClientOptInput().opts(new ClientOpts()).openAPI(openAPI).config(codegenConfig);
@@ -171,8 +170,7 @@ public class DefaultGeneratorTest {
     public void testSkipOverwrite() throws Exception {
         final File output = folder.getRoot();
 
-        // TODO update json file.
-        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/petstore.json");
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/3_0_0/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setLibrary("jersey1");
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -223,8 +221,7 @@ public class DefaultGeneratorTest {
     public void testOverloadingTemplateFiles() throws Exception {
         final File output = folder.getRoot();
 
-        // TODO update json file.
-        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/petstore.json");
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/3_0_0/petstore.json");
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setLibrary("jersey2");
         codegenConfig.setOutputDir(output.getAbsolutePath());
@@ -264,8 +261,7 @@ public class DefaultGeneratorTest {
     public void testGenerateUniqueOperationIds() {
         final File output = folder.getRoot();
 
-        // TODO update yaml file.
-        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/duplicateOperationIds.yaml");
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/3_0_0/duplicateOperationIds.yaml");
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
@@ -289,44 +285,19 @@ public class DefaultGeneratorTest {
     public void testResolveTagsAgainstSwaggerTagsDefinition() {
         final File output = folder.getRoot();
 
-        String spec =
-                "swagger: '2.0'\n" +
-                "info:\n" +
-                "  version: 1.0.0\n" +
-                "  title: Swagger Petstore\n" +
-                "tags:\n" +
-                "  - name: pet\n" +
-                "    description: Everything about your Pets\n" +
-                "    externalDocs:\n" +
-                "      description: Find out more\n" +
-                "      url: 'http://swagger.io'\n" +
-                "    x-vendor-ext: 'tag'\n" +
-                "  - name: store\n" +
-                "    description: Access to Petstore orders\n" +
-                "  - name: user\n" +
-                "    description: Operations about user\n" +
-                "    externalDocs:\n" +
-                "      x-vendor-ext: 'foo'\n" +
-                "paths:\n" +
-                "  /pet:\n" +
-                "    get:\n" +
-                "      tags:\n" +
-                "        - pet\n" +
-                "        - store\n" +
-                "        - user\n" +
-                "      responses:\n" +
-                "        '200':\n" +
-                "          description: OK";
-
         final List<Tag> expectedTags = new ArrayList<Tag>();
         expectedTags.add(new Tag().name("pet").description("Everything about your Pets").externalDocs(new ExternalDocumentation().description("Find out more").url("http://swagger.io")));
         expectedTags.add(new Tag().name("store").description("Access to Petstore orders"));
         expectedTags.add(new Tag().name("user").description("Operations about user").externalDocs(new ExternalDocumentation()));
 
+        expectedTags.get(0).setExtensions(new HashMap<String, Object>());
+        expectedTags.get(2).getExternalDocs().setExtensions(new HashMap<String, Object>());
+
         expectedTags.get(0).getExtensions().put("x-vendor-ext", "tag");
         expectedTags.get(2).getExternalDocs().getExtensions().put("x-vendor-ext", "foo");
 
-        final OpenAPI openAPI = new OpenAPIV3Parser().readContents(spec, null, null).getOpenAPI();
+        final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/3_0_0/tags.yaml");
+
         CodegenConfig codegenConfig = new JavaClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
@@ -353,7 +324,7 @@ public class DefaultGeneratorTest {
         final File output = folder.getRoot();
 
         String spec =
-                "swagger: '2.0'\n" +
+                "openapi: '3.0.0'\n" +
                 "info:\n" +
                 "  version: 1.0.0\n" +
                 "  title: Swagger Petstore\n" +
@@ -366,7 +337,8 @@ public class DefaultGeneratorTest {
                 "        - user\n" +
                 "      responses:\n" +
                 "        '200':\n" +
-                "          description: OK";
+                "          description: OK\n" +
+                "components: {}";
 
         final List<Tag> expectedTags = new ArrayList<Tag>();
         expectedTags.add(new Tag().name("pet"));
@@ -400,7 +372,7 @@ public class DefaultGeneratorTest {
         final File output = folder.getRoot();
 
         String spec =
-                "swagger: '2.0'\n" +
+                "openapi: '3.0.0'\n" +
                 "info:\n" +
                 "  version: 1.0.0\n" +
                 "  title: Swagger Petstore\n" +
@@ -409,7 +381,8 @@ public class DefaultGeneratorTest {
                 "    get:\n" +
                 "      responses:\n" +
                 "        '200':\n" +
-                "          description: OK";
+                "          description: OK\n" +
+                "components: {}";
 
         final List<Tag> expectedTags = new ArrayList<Tag>();
         expectedTags.add(new Tag().name("default"));
@@ -441,7 +414,7 @@ public class DefaultGeneratorTest {
         final File output = folder.getRoot();
 
         String spec =
-                "swagger: '2.0'\n" +
+                "openapi: 3.0.0\n" +
                         "info:\n" +
                         "  version: 1.0.0\n" +
                         "  title: Swagger Petstore\n" +
@@ -457,7 +430,8 @@ public class DefaultGeneratorTest {
                         "        - user\n" +  // Not defined above
                         "      responses:\n" +
                         "        '200':\n" +
-                        "          description: OK";
+                        "          description: OK\n" +
+                        "components: {}";
 
         final List<Tag> expectedTags = new ArrayList<Tag>();
         expectedTags.add(new Tag().name("pet").description("Everything about your Pets"));
@@ -505,11 +479,11 @@ public class DefaultGeneratorTest {
             }
 
             assertEquals(tag, foundTag);
-            if (!tag.getExtensions().isEmpty()) {
+            if (tag.getExtensions() != null && !tag.getExtensions().isEmpty()) {
                 assertEquals(tag.getExtensions(), foundTag.getExtensions());
             }
 
-            if (tag.getExternalDocs() != null && !tag.getExternalDocs().getExtensions().isEmpty()) {
+            if (tag.getExternalDocs() != null && (tag.getExternalDocs().getExtensions() != null && !tag.getExternalDocs().getExtensions().isEmpty())) {
                 assertEquals(tag.getExternalDocs().getExtensions(), foundTag.getExternalDocs().getExtensions());
             }
         }
