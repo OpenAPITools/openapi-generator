@@ -111,10 +111,10 @@ Pet <- R6::R6Class(
         '{
            "id": %d,
            "category": %s,
-           "name": "%s",
-           "photoUrls": ["%s"],
+           "name": %s,
+           "photoUrls": [%s],
            "tags": [%s],
-           "status": "%s"
+           "status": %s
         }',
         self$`id`,
         self$`category`$toJSON(),
