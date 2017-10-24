@@ -141,6 +141,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if body param is allowed for the request method
+     *
+     * @return true request method is PUT, PATCH or POST; false otherwise
+     */
+    public boolean isBodyAllowed() {
+        return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase());
+    }
+
+    /**
      * Check if act as Restful destroy method
      *
      * @return true if act as Restful destroy method, false otherwise
