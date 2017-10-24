@@ -38,3 +38,11 @@ java $JAVA_OPTS -jar $executable $ags
 echo "Typescript Petstore API client (with interfaces generated)"
 ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-angular -o samples/client/petstore/typescript-angular-v2/with-interfaces -D withInterfaces=true --additional-properties ngVersion=2"
 java $JAVA_OPTS -jar $executable $ags
+
+echo "Typescript Petstore API client (v4 { Adding InjectionToken Over OpaqueToken })"
+ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-angular -c bin/typescript-petstore-npm.json -o samples/client/petstore/typescript-angular-v4/npm --additional-properties ngVersion=4"
+java $JAVA_OPTS -jar $executable $ags
+
+echo "Typescript Petstore API client (v4.3 { Adding HttpClientModule over HttpModule })"
+ags="$@ generate -i modules/swagger-codegen/src/test/resources/2_0/petstore.yaml -l typescript-angular -c bin/typescript-petstore-npm.json -o samples/client/petstore/typescript-angular-v4.3/npm --additional-properties ngVersion=4.3"
+java $JAVA_OPTS -jar $executable $ags
