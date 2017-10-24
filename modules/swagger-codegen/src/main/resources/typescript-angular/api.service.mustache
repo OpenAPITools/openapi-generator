@@ -263,17 +263,19 @@ export class {{classname}} {
 
 {{/hasFormParams}}
 {{#useHttpClient}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<any>{{/isResponseFile}}(`${this.basePath}{{{path}}}`, {{#bodyParam}}{{paramName}}, {{/bodyParam}}
-        {{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams, {{/hasFormParams}}{
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<any>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}}, {{/isBodyAllowed}}
+            {
 {{#hasQueryParams}}
-            params: queryParameters,
+                params: queryParameters,
 {{/hasQueryParams}}
-            headers: headers,
+                headers: headers,
 {{#isResponseFile}}
-            responseType: "blob",
+                responseType: "blob",
 {{/isResponseFile}}
-            withCredentials: this.configuration.withCredentials,
-        });
+                withCredentials: this.configuration.withCredentials,
+            }
+        );
 {{/useHttpClient}}
 {{^useHttpClient}}
         let requestOptions: RequestOptionsArgs = new RequestOptions({
