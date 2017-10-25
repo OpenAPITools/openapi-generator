@@ -117,6 +117,12 @@ public class FakeApiController implements FakeApi {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    public ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Object param,
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+        // do some magic!
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
     public ResponseEntity<Void> testJsonFormData(@ApiParam(value = "field1", required=true) @RequestPart(value="param", required=true)  String param,
         @ApiParam(value = "field2", required=true) @RequestPart(value="param2", required=true)  String param2,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {

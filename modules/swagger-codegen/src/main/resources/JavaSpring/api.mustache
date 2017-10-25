@@ -54,7 +54,9 @@ public interface {{classname}} {
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
     {{#implicitHeaders}}
     @ApiImplicitParams({
-    {{#headerParams}}{{>implicitHeader}}{{/headerParams}}
+    {{#headerParams}}
+    {{>implicitHeader}}
+    {{/headerParams}}
     })
     {{/implicitHeaders}}
     @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}

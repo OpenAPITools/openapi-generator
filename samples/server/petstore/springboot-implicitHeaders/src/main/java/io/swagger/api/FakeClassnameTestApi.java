@@ -33,7 +33,6 @@ public interface FakeClassnameTestApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
-    
     })
     @RequestMapping(value = "/fake_classname_test",
         produces = { "application/json" }, 

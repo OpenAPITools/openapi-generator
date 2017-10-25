@@ -76,6 +76,11 @@ public interface FakeApiDelegate {
         Double enumQueryDouble);
 
     /**
+     * @see FakeApi#testInlineAdditionalProperties
+     */
+    ResponseEntity<Void> testInlineAdditionalProperties(Object param);
+
+    /**
      * @see FakeApi#testJsonFormData
      */
     ResponseEntity<Void> testJsonFormData(String param,
