@@ -761,6 +761,7 @@ Here are some companies/projects using Swagger Codegen in production. To add you
 - [everystory.us](http://everystory.us)
 - [Expected Behavior](http://www.expectedbehavior.com/)
 - [Fastly](https://www.fastly.com/)
+- [FINRA](https://github.com/FINRAOS/herd/)
 - [Flat](https://flat.io)
 - [Finder](http://en.finder.pl/)
 - [Fitwell](https://fitwell.co/)
