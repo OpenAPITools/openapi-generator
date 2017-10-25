@@ -797,7 +797,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (null == swaggerType) {
-            LOGGER.error("No Type defined for Property " + schema);
+            if (schema.getName() != null) {
+                LOGGER.error("No Type defined for Property " + schema.getName());
+            } else {
+                LOGGER.error("No Type defined.", new Exception());
+            }
         }
         return toModelName(swaggerType);
     }
