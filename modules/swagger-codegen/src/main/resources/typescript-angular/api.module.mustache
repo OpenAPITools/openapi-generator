@@ -1,6 +1,11 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+{{#useHttpClient}}
+import { HttpClientModule } from '@angular/common/http';
+{{/useHttpClient}}
+{{^useHttpClient}}
 import { HttpModule } from '@angular/http';
+{{/useHttpClient}}
 import { Configuration } from './configuration';
 
 {{#apiInfo}}
@@ -10,7 +15,7 @@ import { {{classname}} } from './{{importPath}}';
 {{/apiInfo}}
 
 @NgModule({
-  imports:      [ CommonModule, HttpModule ],
+  imports:      [ CommonModule, {{#useHttpClient}}HttpClientModule{{/useHttpClient}}{{^useHttpClient}}HttpModule{{/useHttpClient}} ],
   declarations: [],
   exports:      [],
   providers:    [ {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}}, {{/hasMore}}{{/apis}}{{/apiInfo}} ]
