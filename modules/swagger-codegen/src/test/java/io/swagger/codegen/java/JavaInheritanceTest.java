@@ -19,13 +19,20 @@ public class JavaInheritanceTest {
 
     @SuppressWarnings("static-method")
     @Test(description = "convert a composed model with parent")
-    // TODO verify inheritance with new oas3 structure
     public void javaInheritanceTest() {
+        final Schema parentModel = new Schema().name("Base");
+
         final Schema schema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Base"))
-                .addAllOfItem(new Schema().additionalProperties(new StringSchema()));
+                .addAllOfItem(new Schema().additionalProperties(new StringSchema()))
+                .name("composed");
+
+        final Map<String, Schema> allSchemas = new HashMap<>();
+        allSchemas.put(parentModel.getName(), parentModel);
+        allSchemas.put(schema.getName(), schema);
+
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, allSchemas);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -35,9 +42,8 @@ public class JavaInheritanceTest {
 
     @SuppressWarnings("static-method")
     @Test(description = "convert a composed model with discriminator")
-    // TODO verify inheritance with new oas3 structure
     public void javaInheritanceWithDiscriminatorTest() {
-        Schema base = new Schema();
+        final Schema base = new Schema().name("Base");
         base.setDiscriminator(new Discriminator().mapping("name", StringUtils.EMPTY));
 
         final Schema schema = new ComposedSchema()

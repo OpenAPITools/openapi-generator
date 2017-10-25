@@ -1281,23 +1281,28 @@ public class DefaultCodegen implements CodegenConfig {
                 allRequired = null;
             }
             // parent model
-            // TODO: RefModel parent = (RefModel) composed.getParent();
+            final Schema parent = detectParent(composed, allDefinitions);
 
             List<Schema> interfaces = getInterfaces(composed);
 
             // interfaces (intermediate models)
             if (interfaces != null) {
-                if (codegenModel.interfaces == null)
+                if (codegenModel.interfaces == null) {
                     codegenModel.interfaces = new ArrayList<String>();
+                }
                 for (Schema interfaceSchema : interfaces) {
-                    Schema refSchema = null;
-                    if (allDefinitions != null) {
-                        refSchema = allDefinitions.get(interfaceSchema.get$ref());
+                    if (StringUtils.isBlank(interfaceSchema.get$ref())) {
+                        continue;
                     }
-                    final String interfaceRef = toModelName(interfaceSchema.get$ref());
-                    codegenModel.interfaces.add(interfaceRef);
-                    addImport(codegenModel, interfaceRef);
+                    Schema refSchema = null;
+                    String ref = getSimpleRef(interfaceSchema.get$ref());
                     if (allDefinitions != null) {
+                        refSchema = allDefinitions.get(ref);
+                    }
+                    final String modelName = toModelName(ref);
+                    codegenModel.interfaces.add(modelName);
+                    addImport(codegenModel, modelName);
+                    if (allDefinitions != null && refSchema != null) {
                         if (!supportsMixins) {
                             addProperties(properties, required, refSchema, allDefinitions);
                         }
@@ -1308,23 +1313,20 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            /** TODO (there is not parent/child concept
+            // TODO (there is not parent/child concept
             if (parent != null) {
-                final String parentRef = parent.getSimpleRef();
-                codegenModel.parentSchema = parentRef;
-                codegenModel.parent = toModelName(parent.getSimpleRef());
+                codegenModel.parentSchema = parent.getName();
+                codegenModel.parent = StringUtils.capitalize(modelNamePrefix + parent.getName() + modelNameSuffix);
                 addImport(codegenModel, codegenModel.parent);
                 if (allDefinitions != null) {
-                    final Model parentModel = allDefinitions.get(codegenModel.parentSchema);
                     if (supportsInheritance) {
-                        addProperties(allProperties, allRequired, parentModel, allDefinitions);
+                        addProperties(allProperties, allRequired, parent, allDefinitions);
                     } else {
-                        addProperties(properties, required, parentModel, allDefinitions);
+                        addProperties(properties, required, parent, allDefinitions);
                     }
                 }
             }
-
-
+            /**
             // child model (properties owned by the model itself)
             Model child = composed.getChild();
             if (child != null && child instanceof RefModel && allDefinitions != null) {
@@ -1338,6 +1340,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
              */
+            addProperties(properties, required, composed, allDefinitions);
             addVars(codegenModel, properties, required, allProperties, allRequired);
         } else {
             codegenModel.dataType = getSchemaType(schema);
@@ -1399,7 +1402,7 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if(StringUtils.isNotBlank(schema.get$ref())) {
-            Schema interfaceSchema = allSchemas.get(schema.get$ref());
+            Schema interfaceSchema = allSchemas.get(getSimpleRef(schema.get$ref()));
             addProperties(properties, required, interfaceSchema, allSchemas);
             return;
         }
@@ -3544,6 +3547,26 @@ public class DefaultCodegen implements CodegenConfig {
             codegenOperation.produces.add(mediaType);
             codegenOperation.hasProduces = Boolean.TRUE;
         }
+    }
+
+    protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
+            Schema schema = composedSchema.getAllOf().get(0);
+            String ref = schema.get$ref();
+            if (StringUtils.isBlank(ref)) {
+                return null;
+            }
+            ref = getSimpleRef(ref);
+            return allSchemas.get(ref);
+        }
+        return null;
+    }
+
+    protected String getSimpleRef(String ref) {
+        if (ref.startsWith("#/components/schemas/")) {
+            ref = ref.substring(ref.lastIndexOf("/") + 1);
+        }
+        return ref;
     }
 
     public CodegenType getTag() {
