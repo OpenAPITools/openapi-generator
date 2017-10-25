@@ -9,6 +9,7 @@
 -spec child_spec( ID :: any(), #{
     ip            => inet:ip_address(),
     port          => inet:port_number(),
+    logic_handler => module(),
     net_opts      => []
 }) -> supervisor:child_spec().
 
