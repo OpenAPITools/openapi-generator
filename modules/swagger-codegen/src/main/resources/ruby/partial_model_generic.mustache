@@ -56,11 +56,16 @@
 
       {{#vars}}
       if attributes.has_key?(:'{{{baseName}}}')
-        {{#isContainer}}
+        {{#isListContainer}}
         if (value = attributes[:'{{{baseName}}}']).is_a?(Array)
           self.{{{name}}} = value
         end
-        {{/isContainer}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        if (value = attributes[:'{{{baseName}}}']).is_a?(Hash)
+          self.{{{name}}} = value
+        end
+        {{/isMapContainer}}
         {{^isContainer}}
         self.{{{name}}} = attributes[:'{{{baseName}}}']
         {{/isContainer}}
