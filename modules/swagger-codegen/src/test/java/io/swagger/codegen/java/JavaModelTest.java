@@ -345,7 +345,7 @@ public class JavaModelTest {
     public void mapModelTest() {
         final Schema schema = new Schema()
                 .description("an map model")
-                .additionalProperties(new Schema().$ref("#/definitions/Children"));
+                .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 

@@ -811,6 +811,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "byte[]");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("BigDecimal", "BigDecimal");
 
 
         instantiationTypes = new HashMap<String, String>();
@@ -956,15 +957,14 @@ public class DefaultCodegen implements CodegenConfig {
      * @return string presentation of the instantiation type of the property
      */
     public String toInstantiationType(Schema property) {
-        if (property instanceof MapSchema) {
-            MapSchema mapSchema = (MapSchema) property;
-            Schema additionalProperties2 = mapSchema.getAdditionalProperties();
-            String type = additionalProperties2.getType();
+        if (property instanceof MapSchema || property.getAdditionalProperties() != null) {
+            Schema additionalProperties = property.getAdditionalProperties();
+            String type = additionalProperties.getType();
             if (null == type) {
-                LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
+                LOGGER.error("No Type defined for Additional Property " + additionalProperties + "\n" //
                         + "\tIn Property: " + property);
             }
-            String inner = getSchemaType(additionalProperties2);
+            String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (property instanceof ArraySchema) {
             ArraySchema arraySchema = (ArraySchema) property;
@@ -1651,7 +1651,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema items = ((ArraySchema) propertySchema).getItems();
             CodegenProperty innerCodegenProperty = fromProperty(itemName, items);
             updatePropertyForArray(codegenProperty, innerCodegenProperty);
-        } else if (propertySchema instanceof MapSchema) {
+        } else if (propertySchema instanceof MapSchema || propertySchema.getAdditionalProperties() != null) {
 
             codegenProperty.isContainer = true;
             codegenProperty.isMapContainer = true;

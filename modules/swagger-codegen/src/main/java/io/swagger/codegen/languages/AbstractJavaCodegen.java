@@ -621,7 +621,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return String.format("%s<%s>", getSchemaType(propertySchema), getTypeDeclaration(inner));
             // return getSwaggerType(propertySchema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (propertySchema instanceof MapSchema) {
+        } else if (propertySchema instanceof MapSchema || propertySchema.getAdditionalProperties() != null) {
             Schema inner = propertySchema.getAdditionalProperties();
             if (inner == null) {
                 LOGGER.warn(propertySchema.getName() + "(map property) does not have a proper inner type defined");
