@@ -66,13 +66,13 @@ module Petstore
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
       if attributes.has_key?(:'map_map_of_string')
-        if (value = attributes[:'map_map_of_string']).is_a?(Array)
+        if (value = attributes[:'map_map_of_string']).is_a?(Hash)
           self.map_map_of_string = value
         end
       end
 
       if attributes.has_key?(:'map_of_enum_string')
-        if (value = attributes[:'map_of_enum_string']).is_a?(Array)
+        if (value = attributes[:'map_of_enum_string']).is_a?(Hash)
           self.map_of_enum_string = value
         end
       end
