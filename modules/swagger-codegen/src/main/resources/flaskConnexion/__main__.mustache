@@ -9,8 +9,12 @@ import connexion
 from .encoder import JSONEncoder
 
 
-if __name__ == '__main__':
+def main():
     app = connexion.App(__name__, specification_dir='./swagger/')
     app.app.json_encoder = JSONEncoder
     app.add_api('swagger.yaml', arguments={'title': '{{appDescription}}'})
     app.run(port={{serverPort}})
+
+
+if __name__ == '__main__':
+    main()
