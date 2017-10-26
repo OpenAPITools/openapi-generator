@@ -342,7 +342,7 @@ public class InlineModelResolver {
                             refProperty.setRequired(op.getRequired());
                             mp.setAdditionalProperties(refProperty);
                         } else {
-                            RefProperty refProperty = new RefProperty(existing);
+                            RefProperty refProperty = new RefProperty(modelName);
                             refProperty.setRequired(op.getRequired());
                             mp.setAdditionalProperties(refProperty);
                             addGenerated(modelName, innerModel);
