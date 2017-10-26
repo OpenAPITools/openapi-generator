@@ -13,6 +13,7 @@ import io.swagger.oas.models.media.DateTimeSchema;
 import io.swagger.oas.models.media.IntegerSchema;
 import io.swagger.oas.models.media.MapSchema;
 import io.swagger.oas.models.media.NumberSchema;
+import io.swagger.oas.models.media.ObjectSchema;
 import io.swagger.oas.models.media.Schema;
 import io.swagger.oas.models.media.StringSchema;
 import io.swagger.oas.models.media.XML;
@@ -23,7 +24,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class JavaModelTest {
@@ -199,7 +202,7 @@ public class JavaModelTest {
     public void complexPropertiesTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+                .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -225,7 +228,7 @@ public class JavaModelTest {
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/definitions/Children")));
+                        .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -253,7 +256,7 @@ public class JavaModelTest {
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
-                        .additionalProperties(new Schema().$ref("#/definitions/Children")));
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -281,12 +284,15 @@ public class JavaModelTest {
 
     @Test(description = "convert a model with an array property with item name")
     public void arrayModelWithItemNameTest() {
+        final Schema propertySchema = new ArraySchema()
+                .items(new Schema().$ref("#/components/schemas/Child"))
+                .description("an array property");
+        propertySchema.addExtension("x-item-name", "child");
         final Schema schema = new Schema()
+            .type("object")
             .description("a sample model")
-            .addProperties("children", new ArraySchema()
-                    .items(new Schema().$ref("#/definitions/Child"))
-                    .description("an array property"));
-        schema.addExtension("x-item-name", "child");
+            .addProperties("children", propertySchema);
+
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -295,6 +301,7 @@ public class JavaModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
+        System.out.println(cm.imports);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("List", "Child")).size(), 2);
 
         final CodegenProperty property = cm.vars.get(0);
@@ -319,7 +326,8 @@ public class JavaModelTest {
     @Test(description = "convert an array model")
     public void arrayModelTest() {
         final Schema schema = new ArraySchema()
-                .items(new Schema().$ref("#/definitions/Children"))
+                .items(new Schema().name("elobjeto").$ref("#/components/schemas/Children"))
+                .name("arraySchema")
                 .description("an array model");
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema);

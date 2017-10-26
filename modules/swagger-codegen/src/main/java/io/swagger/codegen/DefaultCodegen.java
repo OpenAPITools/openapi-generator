@@ -1032,12 +1032,14 @@ public class DefaultCodegen implements CodegenConfig {
                 datatype = property.get$ref();
                 if (datatype.indexOf("#/components/schemas/") == 0) {
                     datatype = datatype.substring("#/components/schemas/".length());
+                    return datatype;
                 }
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype from ref:" + property + ". Datatype default to Object");
                 datatype = "Object";
                 LOGGER.error(e.getMessage(), e);
             }
+            return datatype;
         }
 
         if (property instanceof StringSchema && "number".equals(property.getFormat())) {
@@ -1646,8 +1648,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = codegenProperty.name;
             }
-            CodegenProperty cp = fromProperty(itemName, ((ArraySchema) propertySchema).getItems());
-            updatePropertyForArray(codegenProperty, cp);
+            Schema items = ((ArraySchema) propertySchema).getItems();
+            CodegenProperty innerCodegenProperty = fromProperty(itemName, items);
+            updatePropertyForArray(codegenProperty, innerCodegenProperty);
         } else if (propertySchema instanceof MapSchema) {
 
             codegenProperty.isContainer = true;
@@ -1661,6 +1664,9 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty cp = fromProperty("inner", propertySchema.getAdditionalProperties());
             updatePropertyForMap(codegenProperty, cp);
         } else {
+            if (StringUtils.isNotBlank(propertySchema.get$ref())) {
+                codegenProperty.baseType = getSimpleRef(propertySchema.get$ref());
+            }
             setNonArrayMapProperty(codegenProperty, type);
         }
         return codegenProperty;
@@ -2809,12 +2815,12 @@ public class DefaultCodegen implements CodegenConfig {
             Map.Entry<String, Schema> entry = propertyList.get(i);
 
             final String key = entry.getKey();
-            final Schema prop = entry.getValue();
+            final Schema propertySchema = entry.getValue();
 
-            if (prop == null) {
+            if (propertySchema == null) {
                 LOGGER.warn("null property for " + key);
             } else {
-                final CodegenProperty cp = fromProperty(key, prop);
+                final CodegenProperty cp = fromProperty(key, propertySchema);
                 cp.required = mandatory.contains(key);
                 codegenModel.hasRequired = codegenModel.hasRequired || cp.required;
                 codegenModel.hasOptional = codegenModel.hasOptional || !cp.required;
