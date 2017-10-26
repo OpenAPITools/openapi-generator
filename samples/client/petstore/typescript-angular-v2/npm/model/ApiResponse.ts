@@ -19,5 +19,3 @@ export interface ApiResponse {
     type?: string;
     message?: string;
 }
-
-

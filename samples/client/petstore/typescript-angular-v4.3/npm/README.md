@@ -40,36 +40,77 @@ In your project:
 npm link @swagger/angular2-typescript-petstore@0.0.1
 ```
 
-In your angular2 project:
+In your Angular project:
+
 
 ```
-import { DefaultApi } from '@swagger/angular2-typescript-petstore/api/api';
+// without configuring providers
+import { ApiModule } from '@swagger/angular2-typescript-petstore';
+
 @NgModule({
-    imports: [],
-    declarations: [],
-    exports: [],
-    providers: [AppModule]
+    imports: [ ApiModule ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
 })
-export class CoreModule {}
+export class AppModule {}
 ```
+
 ```
-import { DefaultApi } from '@swagger/angular2-typescript-petstore/api/api';
+// configuring providers
+import { ApiModule, Configuration, ConfigurationParameters } from '@swagger/angular2-typescript-petstore';
+
+export function apiConfigFactory (): Configuration => {
+  const params: ConfigurationParameters = {
+    // set configuration parameters here.
+  }
+  return new Configuration(params);
+}
+
+@NgModule({
+    imports: [ ApiModule.forRoot(apiConfigFactory) ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+
+```
+import { DefaultApi } from '@swagger/angular2-typescript-petstore';
 
 export class AppComponent {
 	 constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
+Note: The ApiModule is restricted to being instantiated once app wide.
+This is to ensure that all services are treated as singletons.
+
 ### Set service base path
 If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
 
 ```
-import { BASE_PATH } from './path-to-swagger-gen-service/index';
+import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
 ]);
 ```
+or
+
+```
+import { BASE_PATH } from '@swagger/angular2-typescript-petstore';
+
+@NgModule({
+    imports: [],
+    declarations: [ AppComponent ],
+    providers: [ provide: BASE_PATH, useValue: 'https://your-web-service.com' ],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
+
 
 #### Using @angular/cli
 First extend your `src/environments/*.ts` files by adding the corresponding base path:
@@ -88,11 +129,11 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [ ],
-  providers: [{ provide: BASE_PATH, useValue: useValue: environment.API_BASE_PATH }],
-  bootstrap: [AppComponent]
+  providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
 ```  
