@@ -2,13 +2,33 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-
-import io.swagger.annotations.*;{{#jdk8}}
-import org.springframework.http.HttpStatus;{{/jdk8}}
+{{#jdk8}}
+import com.fasterxml.jackson.databind.ObjectMapper;
+{{/jdk8}}
+import io.swagger.annotations.*;
+{{#jdk8}}
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+{{/jdk8}}
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+{{#jdk8}}
+import java.io.IOException;
+{{/jdk8}}
 
+{{#jdk8}}
+import javax.servlet.http.HttpServletRequest;
+{{/jdk8}}
 import java.util.List;
+{{#jdk8}}
+import java.util.Optional;
+{{/jdk8}}
+{{^jdk8}}
+    {{#useOptional}}
+import java.util.Optional;
+    {{/useOptional}}
+{{/jdk8}}
 {{#async}}
 import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
 {{/async}}
@@ -16,11 +36,26 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#operations}}
 /**
  * A delegate to be called by the {@link {{classname}}Controller}}.
- * Should be implemented as a controller but without the {@link org.springframework.stereotype.Controller} annotation.
- * Instead, use spring to autowire this class into the {@link {{classname}}Controller}.
+ * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 {{>generatedAnnotation}}
 public interface {{classname}}Delegate {
+{{#jdk8}}
+
+    Logger log = LoggerFactory.getLogger({{classname}}.class);
+
+    default Optional<ObjectMapper> getObjectMapper() {
+        return Optional.empty();
+    }
+
+    default Optional<HttpServletRequest> getRequest() {
+        return Optional.empty();
+    }
+
+    default Optional<String> getAcceptHeader() {
+        return getRequest().map(r -> r.getHeader("Accept"));
+    }
+{{/jdk8}}
 
 {{#operation}}
     /**
@@ -28,8 +63,21 @@ public interface {{classname}}Delegate {
      */
     {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}MultipartFile{{/isFile}} {{paramName}}{{#hasMore}},
         {{/hasMore}}{{/allParams}}){{^jdk8}};{{/jdk8}}{{#jdk8}} {
-    // do some magic!
-    return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK){{#async}}){{/async}};
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+        {{#examples}}
+            if (getAcceptHeader().get().contains("{{{contentType}}}")) {
+                try {
+                    return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>(getObjectMapper().get().readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.NOT_IMPLEMENTED){{#async}}){{/async}};
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type {{{contentType}}}", e);
+                    return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR){{#async}}){{/async}};
+                }
+            }
+        {{/examples}}
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default {{classname}} interface so no example is generated");
+        }
+        return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED){{#async}}){{/async}};
     }{{/jdk8}}
 
 {{/operation}}

@@ -1,17 +1,31 @@
 package io.swagger.api;
 
-import org.springframework.stereotype.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import org.springframework.stereotype.Controller;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Controller
 public class AnotherFakeApiController implements AnotherFakeApi {
+
     private final ObjectMapper objectMapper;
 
-    public AnotherFakeApiController(ObjectMapper objectMapper) {
+    private final HttpServletRequest request;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public AnotherFakeApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
+        this.request = request;
+    }
+
+    @Override
+    public Optional<ObjectMapper> getObjectMapper() {
+        return Optional.ofNullable(objectMapper);
+    }
+
+    @Override
+    public Optional<HttpServletRequest> getRequest() {
+        return Optional.ofNullable(request);
     }
 
 }
