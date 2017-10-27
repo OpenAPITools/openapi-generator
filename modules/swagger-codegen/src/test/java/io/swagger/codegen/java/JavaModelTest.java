@@ -301,7 +301,6 @@ public class JavaModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        System.out.println(cm.imports);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("List", "Child")).size(), 2);
 
         final CodegenProperty property = cm.vars.get(0);
