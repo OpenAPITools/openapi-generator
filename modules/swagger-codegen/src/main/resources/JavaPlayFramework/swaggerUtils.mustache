@@ -9,6 +9,13 @@ import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+{{#useBeanValidation}}
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+{{/useBeanValidation}}
+
 public class SwaggerUtils {
 
 {{#wrapCalls}}
@@ -18,6 +25,24 @@ public class SwaggerUtils {
     public @interface ApiAction {
     }
 {{/wrapCalls}}
+
+{{#useBeanValidation}}
+    public static <T> void validate(T obj) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<T>> constraintViolations = validator.validate(obj);
+        if (constraintViolations.size() > 0) {
+            StringBuilder errors = new StringBuilder();
+            for (ConstraintViolation<T> contraintes : constraintViolations) {
+                errors.append(String.format("%s.%s %s\n",
+                contraintes.getRootBeanClass().getSimpleName(),
+                contraintes.getPropertyPath(),
+                contraintes.getMessage()));
+            }
+            throw new RuntimeException("Bean validation : " + errors);
+        }
+    }
+{{/useBeanValidation}}
 
     public static List<String> parametersToList(String collectionFormat, String[] values){
         List<String> params = new ArrayList<>();

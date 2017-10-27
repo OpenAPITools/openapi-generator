@@ -16,6 +16,7 @@ import swagger.SwaggerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
+import play.Configuration;
 
 import swagger.SwaggerUtils.ApiAction;
 
@@ -24,11 +25,13 @@ public class FakeClassnameTags123ApiController extends Controller {
 
     private final FakeClassnameTags123ApiControllerImpInterface imp;
     private final ObjectMapper mapper;
+    private final Configuration configuration;
 
     @Inject
-    private FakeClassnameTags123ApiController(FakeClassnameTags123ApiControllerImpInterface imp) {
+    private FakeClassnameTags123ApiController(Configuration configuration, FakeClassnameTags123ApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
+        this.configuration = configuration;
     }
 
 
@@ -38,12 +41,16 @@ public class FakeClassnameTags123ApiController extends Controller {
         Client body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Client.class);
-            body.validate();
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                SwaggerUtils.validate(body);
+            }
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
         Client obj = imp.testClassname(body);
-        obj.validate();
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            SwaggerUtils.validate(obj);
+        }
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
