@@ -1,10 +1,13 @@
 package io.swagger.codegen.languages;
 
+import static java.util.Collections.sort;
+
 import com.google.common.collect.LinkedListMultimap;
 import io.swagger.codegen.*;
 import io.swagger.codegen.languages.features.BeanValidationFeatures;
 import io.swagger.codegen.languages.features.GzipFeatures;
 import io.swagger.codegen.languages.features.PerformBeanValidationFeatures;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -48,6 +51,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean performBeanValidation = false;
     protected boolean useGzipFeature = false;
     protected boolean useRuntimeException = false;
+
 
     public JavaClientCodegen() {
         super();
@@ -316,10 +320,34 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     if (operation.returnType == null) {
                         operation.returnType = "Void";
                     }
-                    if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/"))
+                    if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")){
                         operation.path = operation.path.substring(1);
+                    }
+
+                    // sorting operation parameters to make sure path params are parsed before query params
+                    if (operation.allParams != null) {
+                        sort(operation.allParams, new Comparator<CodegenParameter>() {
+                            @Override
+                            public int compare(CodegenParameter one, CodegenParameter another) {
+                                if (one.isPathParam && another.isQueryParam) {
+                                    return -1;
+                                }
+                                if (one.isQueryParam && another.isPathParam){
+                                    return 1;
+                                }
+
+                                return 0;
+                            }
+                        });
+                        Iterator<CodegenParameter> iterator = operation.allParams.iterator();
+                        while (iterator.hasNext()){
+                            CodegenParameter param = iterator.next();
+                            param.hasMore = iterator.hasNext();
+                        }
+                    }
                 }
             }
+
         }
 
         // camelize path variables for Feign client
